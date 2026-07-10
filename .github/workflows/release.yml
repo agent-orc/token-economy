@@ -46,9 +46,6 @@ jobs:
             --no-restore -c Release \
             -p:Version=${{ steps.ver.outputs.version }} \
             -o artifacts
-            --no-restore -c Release \
-            -p:Version=${{ steps.ver.outputs.version }} \
-            -o artifacts
 
       - name: Authenticate to nuget.org (Trusted Publishing / OIDC)
         id: login

@@ -1,9 +1,23 @@
 <Project Sdk="Microsoft.NET.Sdk">
+
   <PropertyGroup>
     <TargetFramework>net10.0</TargetFramework>
+    <RootNamespace>TokenEconomy</RootNamespace>
+    <AssemblyName>TokenEconomy</AssemblyName>
+
+    <IsPackable>true</IsPackable>
     <PackageId>TokenEconomy</PackageId>
     <Description>Token economics for LLM coding agents: model pricing with history, run-cost computation, and token-efficiency model selection.</Description>
     <PackageTags>llm;tokens;pricing;cost;coding-agent</PackageTags>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
   </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="..\..\README.md" Pack="true" PackagePath="\" />
+  </ItemGroup>
+
 </Project>
