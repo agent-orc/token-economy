@@ -1,0 +1,89 @@
+name: release
+
+# Publishes both packages (TokenEconomy + TokenEconomy.Rendering) to
+# nuget.org when a version tag is pushed (e.g. v0.1.0), then creates a GitHub
+# Release for the tag. The version is derived from the tag.
+#
+# Auth uses nuget.org **Trusted Publishing** (OIDC): there is NO API key to store.
+# GitHub Actions mints a short-lived OIDC token; the NuGet/login action exchanges
+# it for a temporary key, validated against the Trusted Publishing policy on
+# nuget.org (package owner RobertMischke2, repo RobertMischke/coding-agent-runner,
+# workflow release.yml).
+#
+# To cut a release: `scripts/release.sh 0.1.0` (or push a `v0.1.0` tag manually).
+on:
+  push:
+    tags: [ 'v*.*.*' ]
+
+jobs:
+  publish:
+    name: pack & publish to nuget.org
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write   # required to request the OIDC token for Trusted Publishing
+      contents: write   # required to create the GitHub Release for the tag
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '10.0.x'
+
+      - name: Derive version from tag
+        id: ver
+        run: echo "version=${GITHUB_REF_NAME#v}" >> "$GITHUB_OUTPUT"
+
+      - name: Restore
+        run: dotnet restore
+
+      - name: Test
+        run: dotnet test --no-restore -c Release
+
+      - name: Pack
+        run: |
+          dotnet pack src/TokenEconomy/TokenEconomy.csproj \
+            --no-restore -c Release \
+            -p:Version=${{ steps.ver.outputs.version }} \
+            -o artifacts
+          dotnet pack src/TokenEconomy.Rendering/TokenEconomy.Rendering.csproj \
+            --no-restore -c Release \
+            -p:Version=${{ steps.ver.outputs.version }} \
+            -o artifacts
+
+      - name: Authenticate to nuget.org (Trusted Publishing / OIDC)
+        id: login
+        uses: NuGet/login@v1
+        with:
+          user: RobertMischke2
+
+      - name: Push to nuget.org
+        run: >
+          dotnet nuget push "artifacts/*.nupkg"
+          --api-key "${{ steps.login.outputs.NUGET_API_KEY }}"
+          --source https://api.nuget.org/v3/index.json
+          --skip-duplicate
+
+      # A pushed tag alone does not appear on the GitHub Releases page. Create a
+      # Release for the tag that points at the published packages on nuget.org
+      # and carries the .nupkg files as downloadable assets.
+      - name: Create GitHub Release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          VERSION: ${{ steps.ver.outputs.version }}
+        run: |
+          cat > release-notes.md <<EOF
+          Published to nuget.org:
+
+          - [TokenEconomy ${VERSION}](https://www.nuget.org/packages/TokenEconomy/${VERSION})
+          - [TokenEconomy.Rendering ${VERSION}](https://www.nuget.org/packages/TokenEconomy.Rendering/${VERSION})
+
+          \`\`\`
+          dotnet add package TokenEconomy --version ${VERSION}
+          \`\`\`
+          EOF
+          gh release create "${GITHUB_REF_NAME}" artifacts/*.nupkg \
+            --title "v${VERSION}" \
+            --notes-file release-notes.md \
+            --generate-notes \
+            --verify-tag
