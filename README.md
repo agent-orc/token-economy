@@ -8,6 +8,11 @@ Part of the coding-agent family
 ([coding-agent-runner](https://github.com/RobertMischke/coding-agent-runner),
 [coding-agent-chat](https://github.com/RobertMischke/coding-agent-chat)).
 
+**Docs & website:** <https://agent-orchestrator.dev/token-economy/> — a static
+site built from [`website/`](website/) and deployed by
+[`deploy-website.yml`](.github/workflows/deploy-website.yml) (see
+[`website/DEPLOY.md`](website/DEPLOY.md)).
+
 ## What it does
 
 - **Pricing catalog with history** — per-model price entries keyed by

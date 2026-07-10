@@ -1,0 +1,494 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Token Economy — token economics for LLM coding agents</title>
+  <meta name="description" content="Token Economy is a dependency-free .NET library: one tested source for model pricing (with history), run-cost computation, and token-efficiency model selection for LLM coding agents.">
+  <link rel="canonical" href="https://agent-orchestrator.dev/token-economy/">
+
+  <!-- Open Graph / social -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Token Economy — token economics for LLM coding agents">
+  <meta property="og:description" content="One tested source for model pricing (with history), run-cost computation, and token-efficiency model selection. .NET, dependency-free core.">
+  <meta property="og:url" content="https://agent-orchestrator.dev/token-economy/">
+
+  <!-- Self-contained inline SVG favicon (data URI) so the page has no external requests. -->
+  <link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2064%2064'%3E%3Crect%20width='64'%20height='64'%20rx='14'%20fill='%232f6df0'/%3E%3Ctext%20x='50%25'%20y='52%25'%20font-size='38'%20font-family='monospace'%20font-weight='700'%20fill='white'%20text-anchor='middle'%20dominant-baseline='middle'%3E%C2%A2%3C/text%3E%3C/svg%3E">
+
+  <style>
+    :root {
+      --bg: #ffffff;
+      --bg-alt: #f5f7fb;
+      --panel: #ffffff;
+      --border: #e2e8f0;
+      --text: #1a2233;
+      --muted: #5a6577;
+      --accent: #2f6df0;
+      --accent-soft: #eaf1ff;
+      --code-bg: #f6f8fc;
+      --code-text: #24324a;
+      --ok: #167a4a;
+      --warn: #9a6b00;
+      --mono: ui-monospace, "SF Mono", "Cascadia Code", "JetBrains Mono", Menlo, Consolas, monospace;
+      --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #0f1420;
+        --bg-alt: #131a29;
+        --panel: #161d2c;
+        --border: #26314a;
+        --text: #e6ebf5;
+        --muted: #98a3ba;
+        --accent: #6ea0ff;
+        --accent-soft: #16233f;
+        --code-bg: #0c111b;
+        --code-text: #d3ddef;
+        --ok: #4cc38a;
+        --warn: #e0b341;
+      }
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: var(--sans);
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    code, pre, kbd { font-family: var(--mono); }
+
+    .wrap { max-width: 940px; margin: 0 auto; padding: 0 20px; }
+
+    /* ---- top bar ---- */
+    header.top {
+      position: sticky; top: 0; z-index: 10;
+      background: color-mix(in srgb, var(--bg) 88%, transparent);
+      backdrop-filter: saturate(140%) blur(8px);
+      border-bottom: 1px solid var(--border);
+    }
+    header.top .wrap {
+      display: flex; align-items: center; gap: 16px;
+      height: 58px;
+    }
+    .brand { font-weight: 700; letter-spacing: -0.02em; font-size: 1.05rem; display: flex; align-items: center; gap: 9px; }
+    .brand .mark {
+      width: 22px; height: 22px; border-radius: 6px; background: var(--accent);
+      color: #fff; display: inline-grid; place-items: center; font-family: var(--mono);
+      font-weight: 700; font-size: 0.85rem;
+    }
+    header.top nav { margin-left: auto; display: flex; gap: 18px; font-size: 0.92rem; }
+    header.top nav a { color: var(--muted); }
+    header.top nav a:hover { color: var(--text); text-decoration: none; }
+    .nav-collapse { display: inline; }
+    @media (max-width: 640px) { .nav-collapse { display: none; } }
+
+    /* ---- hero ---- */
+    .hero { padding: 70px 0 40px; }
+    .eyebrow {
+      display: inline-block; font-size: 0.78rem; font-weight: 600; letter-spacing: 0.08em;
+      text-transform: uppercase; color: var(--accent);
+      background: var(--accent-soft); padding: 4px 11px; border-radius: 999px; margin-bottom: 18px;
+    }
+    .hero h1 { font-size: clamp(2.1rem, 6vw, 3.2rem); line-height: 1.08; letter-spacing: -0.03em; margin: 0 0 14px; }
+    .hero .tagline { font-size: clamp(1.1rem, 3vw, 1.4rem); color: var(--muted); margin: 0 0 8px; }
+    .hero p.lead { font-size: 1.06rem; color: var(--muted); max-width: 640px; margin: 14px 0 28px; }
+    .cta { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; }
+    .btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 10px 18px; border-radius: 9px; font-weight: 600; font-size: 0.96rem;
+      border: 1px solid var(--accent); background: var(--accent); color: #fff;
+    }
+    .btn:hover { text-decoration: none; filter: brightness(1.06); }
+    .btn.secondary { background: transparent; color: var(--accent); }
+    .install {
+      display: inline-flex; align-items: center; gap: 10px;
+      font-family: var(--mono); font-size: 0.95rem;
+      background: var(--code-bg); border: 1px solid var(--border); color: var(--code-text);
+      padding: 10px 14px; border-radius: 9px;
+    }
+    .install .prompt { color: var(--muted); user-select: none; }
+
+    /* ---- sections ---- */
+    section { padding: 46px 0; border-top: 1px solid var(--border); }
+    section h2 { font-size: 1.6rem; letter-spacing: -0.02em; margin: 0 0 6px; }
+    section .sub { color: var(--muted); margin: 0 0 26px; max-width: 680px; }
+    h3 { font-size: 1.12rem; margin: 26px 0 8px; letter-spacing: -0.01em; }
+
+    /* pillars */
+    .pillars { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+    @media (max-width: 760px) { .pillars { grid-template-columns: 1fr; } }
+    .pillar {
+      background: var(--panel); border: 1px solid var(--border); border-radius: 12px; padding: 20px;
+    }
+    .pillar h3 { margin-top: 0; }
+    .pillar .ico { font-family: var(--mono); font-weight: 700; color: var(--accent); font-size: 1.1rem; margin-bottom: 6px; }
+    .pillar p { color: var(--muted); font-size: 0.96rem; margin: 6px 0 0; }
+
+    /* code */
+    pre {
+      background: var(--code-bg); border: 1px solid var(--border); border-radius: 11px;
+      padding: 16px 18px; overflow-x: auto; font-size: 0.88rem; line-height: 1.55; color: var(--code-text);
+      margin: 14px 0;
+    }
+    pre code { color: inherit; }
+    :not(pre) > code {
+      background: var(--code-bg); border: 1px solid var(--border);
+      padding: 1px 6px; border-radius: 6px; font-size: 0.86em; color: var(--code-text);
+    }
+    .cmt { color: var(--muted); }
+    .comment-note { font-size: 0.9rem; color: var(--muted); }
+
+    /* table */
+    .table-scroll { overflow-x: auto; margin: 16px 0; }
+    table { border-collapse: collapse; width: 100%; font-size: 0.92rem; min-width: 520px; }
+    th, td { text-align: left; padding: 10px 13px; border-bottom: 1px solid var(--border); }
+    th { color: var(--muted); font-weight: 600; font-size: 0.82rem; text-transform: uppercase; letter-spacing: 0.03em; }
+    td.num, th.num { text-align: right; font-family: var(--mono); }
+    tbody tr:last-child td { border-bottom: none; }
+
+    /* callout */
+    .callout {
+      border-left: 3px solid var(--accent); background: var(--accent-soft);
+      padding: 14px 18px; border-radius: 0 10px 10px 0; margin: 18px 0; font-size: 0.96rem;
+    }
+    .callout strong { color: var(--text); }
+
+    /* family cards */
+    .family { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+    @media (max-width: 760px) { .family { grid-template-columns: 1fr; } }
+    .fcard {
+      display: block; background: var(--panel); border: 1px solid var(--border); border-radius: 12px;
+      padding: 18px; color: inherit;
+    }
+    .fcard:hover { border-color: var(--accent); text-decoration: none; }
+    .fcard .name { font-weight: 700; margin-bottom: 4px; }
+    .fcard .desc { color: var(--muted); font-size: 0.92rem; }
+    .fcard.self { border-style: dashed; }
+
+    ul.tight { margin: 10px 0; padding-left: 20px; }
+    ul.tight li { margin: 5px 0; color: var(--muted); }
+    ul.tight li code { color: var(--code-text); }
+
+    /* footer */
+    footer {
+      border-top: 1px solid var(--border); padding: 34px 0 60px; color: var(--muted); font-size: 0.9rem;
+    }
+    footer .frow { display: flex; flex-wrap: wrap; gap: 8px 20px; align-items: center; }
+    footer .sep { color: var(--border); }
+    .pill { font-size: 0.78rem; color: var(--muted); border: 1px solid var(--border); border-radius: 999px; padding: 2px 9px; }
+  </style>
+</head>
+<body>
+
+  <header class="top">
+    <div class="wrap">
+      <span class="brand"><span class="mark">¢</span> Token Economy</span>
+      <nav>
+        <a href="#why">Why</a>
+        <a href="#pricing-history">Pricing&nbsp;history</a>
+        <a href="#cost-api">Cost&nbsp;API</a>
+        <a href="#suggest">SuggestModel</a>
+        <a href="#install">Install</a>
+        <a class="nav-collapse" href="https://github.com/RobertMischke/coding-agent-token-economy">GitHub</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <!-- ================= HERO ================= -->
+    <div class="hero">
+      <div class="wrap">
+        <span class="eyebrow">.NET · dependency-free core</span>
+        <h1>Token Economy</h1>
+        <p class="tagline">Token economics for LLM coding agents.</p>
+        <p class="lead">
+          One tested source of truth for model <strong>pricing (with history)</strong>,
+          run-<strong>cost computation</strong>, and token-efficiency
+          <strong>model selection</strong> — so a coding agent knows what a run costs and
+          which model buys the most for its tokens.
+        </p>
+        <div class="cta">
+          <a class="btn" href="#install">Get started</a>
+          <a class="btn secondary" href="https://github.com/RobertMischke/coding-agent-token-economy">View on GitHub</a>
+          <span class="install"><span class="prompt">$</span> dotnet add package TokenEconomy</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ================= WHY ================= -->
+    <section id="why">
+      <div class="wrap">
+        <h2>What it does &amp; why</h2>
+        <p class="sub">
+          Coding-agent orchestrators need to answer two money questions precisely: <em>what did that
+          run cost?</em> and <em>which model should run this next?</em> Hardcoded, half-null price
+          tables scattered across services answer both badly. Token Economy replaces them with one
+          deterministic, unit-tested library.
+        </p>
+        <div class="pillars">
+          <div class="pillar">
+            <div class="ico">01</div>
+            <h3>Pricing catalog with history</h3>
+            <p>Per-model price entries keyed by <code>ValidFrom</code>. A run is costed with the
+            price valid <em>at the run's UTC timestamp</em>. Historic entries are kept, never
+            overwritten.</p>
+          </div>
+          <div class="pillar">
+            <div class="ico">02</div>
+            <h3>Cost API</h3>
+            <p><code>ComputeCost(model, usage, atUtc)</code> → a deterministic per-component
+            breakdown and total. An unknown or unpriced model returns an <em>explicit</em> unknown —
+            never a silent&nbsp;$0.</p>
+          </div>
+          <div class="pillar">
+            <div class="ico">03</div>
+            <h3>Token-efficiency matrix</h3>
+            <p><code>SuggestModel(…)</code> ranks the models available right now for a task under
+            budget pressure, each with a one-line rationale. Cost class is <em>derived</em> from the
+            catalog, never restated.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= PRICING HISTORY ================= -->
+    <section id="pricing-history">
+      <div class="wrap">
+        <h2>Prices have history</h2>
+        <p class="sub">
+          Each model carries a list of <code>ModelPrice</code> entries, each effective from a
+          <code>ValidFrom</code> instant (inclusive, UTC). Resolution picks the entry with the
+          greatest <code>ValidFrom</code> that is not after the run's timestamp — so a run last month
+          is costed at last month's rate, even after a price change. A change <em>adds</em> a new
+          entry; it never edits the old one.
+        </p>
+
+        <p>The seeded catalog captures a real, dated change: <strong>Claude Sonnet 5</strong> runs on
+        an introductory rate now and switches to standard pricing on <code>2026-09-01 (UTC)</code>.
+        The <em>same run, same model</em> is priced differently on either side of that boundary:</p>
+
+        <div class="table-scroll">
+          <table>
+            <thead>
+              <tr>
+                <th>Run timestamp (UTC)</th>
+                <th>Price entry in effect</th>
+                <th class="num">Input /MTok</th>
+                <th class="num">Output /MTok</th>
+                <th class="num">Cost of 1M in + 200K out</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>2026-07-10</td>
+                <td>Introductory</td>
+                <td class="num">$2.00</td>
+                <td class="num">$10.00</td>
+                <td class="num">$4.00</td>
+              </tr>
+              <tr>
+                <td>2026-10-01</td>
+                <td>Standard</td>
+                <td class="num">$3.00</td>
+                <td class="num">$15.00</td>
+                <td class="num">$6.00</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <pre><code>using TokenEconomy;
+
+var catalog = ModelPriceCatalog.Default;
+var usage   = new TokenUsage(Input: 1_000_000, Output: 200_000);
+
+var intro    = new DateTime(2026, 7, 10, 0, 0, 0, DateTimeKind.Utc);
+var standard = new DateTime(2026, 10, 1, 0, 0, 0, DateTimeKind.Utc);
+
+catalog.ComputeCost("claude-sonnet-5", usage, intro).Total;    <span class="cmt">// 4.00 (introductory rate)</span>
+catalog.ComputeCost("claude-sonnet-5", usage, standard).Total; <span class="cmt">// 6.00 (standard rate, from 2026-09-01)</span></code></pre>
+
+        <p class="comment-note">Model ids and aliases resolve case- and dot/dash-insensitively, so
+        <code>claude-opus-4.8</code>, <code>gpt-5-6</code>, and dated snapshots all match their
+        canonical listing.</p>
+      </div>
+    </section>
+
+    <!-- ================= COST API ================= -->
+    <section id="cost-api">
+      <div class="wrap">
+        <h2>Cost API</h2>
+        <p class="sub">
+          Feed a <code>TokenUsage</code> and a UTC instant to <code>ComputeCost</code>; get back a
+          <code>CostBreakdown</code> with per-component costs and a nullable <code>Total</code>.
+          Cache tokens are priced with Anthropic's documented economics — cache-read at 0.1&times;
+          input, cache-write at 1.25&times; input (5-minute TTL).
+        </p>
+
+        <pre><code>using TokenEconomy;
+
+var breakdown = ModelPriceCatalog.Default.ComputeCost(
+    "claude-opus-4-8",
+    new TokenUsage(Input: 250_000, Output: 12_000, CacheRead: 40_000),
+    DateTime.UtcNow);
+
+if (breakdown.HasPrice)
+    Console.WriteLine($"{breakdown.Total} {breakdown.Currency}");  <span class="cmt">// ≈ 1.57 USD</span>
+else
+    Console.WriteLine(breakdown.Status);  <span class="cmt">// UnknownModel or NoPriceForDate — never a silent $0</span></code></pre>
+
+        <div class="callout">
+          <strong>Missing prices are explicit, never zero.</strong> An unknown id resolves to
+          <code>PriceStatus.UnknownModel</code>; a known-but-unpriced model to
+          <code>PriceStatus.NoPriceForDate</code>. In both cases <code>CostBreakdown.Total</code> is
+          <code>null</code> — a missing price can never masquerade as a free run.
+        </div>
+
+        <h3>The breakdown</h3>
+        <ul class="tight">
+          <li><code>InputCost</code> / <code>OutputCost</code> / <code>CacheReadCost</code> /
+            <code>CacheWriteCost</code> — per-component decimals.</li>
+          <li><code>Total</code> — the sum, or <code>null</code> when no price applied.</li>
+          <li><code>HasPrice</code> — true only when a concrete price was used.</li>
+          <li><code>Unconfirmed</code> — true when the applied rate is a not-yet-confirmed
+            placeholder, so callers can surface the caveat instead of trusting it silently.</li>
+        </ul>
+        <p class="comment-note">Need only the rate, not a cost? <code>ResolvePrice(model, atUtc)</code>
+        returns the <code>ModelPrice</code> in effect (or the reason none applied) without any token
+        counts.</p>
+      </div>
+    </section>
+
+    <!-- ================= SUGGEST MODEL ================= -->
+    <section id="suggest">
+      <div class="wrap">
+        <h2>Picking a model — <code>SuggestModel</code></h2>
+        <p class="sub">
+          The <em>selection</em> axis: given a task class, the current budget pressure, and the CLIs
+          that have quota right now, rank the models you could actually launch — best first — each
+          with a score, a suggested reasoning effort, and an auditable rationale string.
+        </p>
+
+        <pre><code>using TokenEconomy;
+
+<span class="cmt">// A plain feature, budget getting tight, only the Claude CLI has quota right now.</span>
+var ranked = ModelEfficiencyMatrix.Default.SuggestModel(
+    TaskClass.Feature,
+    BudgetPressure.Tight,
+    availableClis: [Cli.Claude],
+    atUtc: DateTime.UtcNow);
+
+var best = ranked[0];  <span class="cmt">// empty list ⇒ nothing available: wait, don't launch</span>
+Console.WriteLine($"{best.ModelId} @ {best.SuggestedEffort} — {best.Rationale}");
+<span class="cmt">// claude-sonnet-5 @ Medium — claude-sonnet-5: balanced tier, an ideal match for</span>
+<span class="cmt">// feature work; standard cost — moderate spend under tight pressure. Suggested effort: medium.</span></code></pre>
+
+        <div class="callout">
+          <strong>Capability fit leads; budget pressure tips the balance</strong> toward cheaper
+          models (a downshift) — but never lets an underpowered model outrank a capable one.
+          Restricted (private-project) and deprecated models are never suggested, and a CLI that
+          isn't in your available set drops out with no launch attempt. An <strong>empty result means
+          "wait"</strong>, not "launch something bad".
+        </div>
+
+        <h3>How it decides</h3>
+        <ul class="tight">
+          <li><strong>Task class</strong> — <code>HeavyDesign</code>, <code>Feature</code>,
+            <code>MechanicalChore</code>, <code>DocEdit</code>, <code>Research</code>.</li>
+          <li><strong>Capability tier</strong> — <code>Light</code> / <code>Balanced</code> /
+            <code>Frontier</code>, rated against the task into a <code>Suitability</code>.</li>
+          <li><strong>Cost class</strong> — <code>Economy</code> / <code>Standard</code> /
+            <code>Premium</code>, <em>derived</em> by costing a fixed reference workload through the
+            pricing catalog. An unpriced model is <code>Unknown</code>, never a guessed band — and
+            because the derivation runs through price history, cost class tracks changes over time.</li>
+          <li><strong>Rationale</strong> — a one-line English string meant to travel verbatim into
+            the orchestrator's decision event and transparency view.</li>
+        </ul>
+        <p class="comment-note"><code>Describe(atUtc)</code> renders the whole matrix as inspectable
+        rows — tier, cost class, effort levels, and suitability for every task class. The matrix is
+        data + pure functions; the <em>policy</em> of when to downshift, throttle, or wait stays in
+        the caller's admission algorithm, by design.</p>
+      </div>
+    </section>
+
+    <!-- ================= INSTALL ================= -->
+    <section id="install">
+      <div class="wrap">
+        <h2>Install</h2>
+        <p class="sub">Dependency-free, targets <code>net10.0</code>, ships XML docs and a symbol
+        package. Apache-2.0.</p>
+        <pre><code><span class="cmt"># package reference</span>
+dotnet add package TokenEconomy
+
+<span class="cmt"># or pin a version</span>
+dotnet add package TokenEconomy --version 0.2.0</code></pre>
+        <pre><code>using TokenEconomy;
+
+<span class="cmt">// The seeded catalog: known Claude 4.x/5 and OpenAI gpt-5.x models.</span>
+var catalog = ModelPriceCatalog.Default;
+var matrix  = ModelEfficiencyMatrix.Default;  <span class="cmt">// cost is derived from the same catalog</span></code></pre>
+        <p class="comment-note">Building your own set? Construct a <code>ModelPriceCatalog</code> from
+        your own <code>ModelListing</code>s and a <code>ModelEfficiencyMatrix</code> from your own
+        profiles over it.</p>
+      </div>
+    </section>
+
+    <!-- ================= FAMILY ================= -->
+    <section id="family">
+      <div class="wrap">
+        <h2>Part of the coding-agent family</h2>
+        <p class="sub">Token Economy's pricing catalog + cost API were extracted from
+        <code>CodingAgentRunner.Pricing</code> into this standalone, reusable package.</p>
+        <div class="family">
+          <a class="fcard" href="https://github.com/RobertMischke/coding-agent-runner">
+            <div class="name">coding-agent-runner ↗</div>
+            <div class="desc">Runs coding-agent CLIs as managed jobs — the orchestrator this pricing
+            logic was extracted from.</div>
+          </a>
+          <a class="fcard" href="https://github.com/RobertMischke/coding-agent-chat">
+            <div class="name">coding-agent-chat ↗</div>
+            <div class="desc">The chat surface of the coding-agent family.</div>
+          </a>
+          <a class="fcard self" href="https://github.com/RobertMischke/coding-agent-token-economy">
+            <div class="name">coding-agent-token-economy ↗</div>
+            <div class="desc">This library. Source, changelog, and publishing docs on GitHub.</div>
+          </a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ================= FOOTER ================= -->
+  <footer>
+    <div class="wrap">
+      <div class="frow">
+        <span class="brand"><span class="mark">¢</span> Token Economy</span>
+        <span class="pill">net10.0</span>
+        <span class="pill">Apache-2.0</span>
+        <span class="pill">dependency-free</span>
+      </div>
+      <p style="margin-top:16px">
+        <a href="https://www.nuget.org/packages/TokenEconomy">nuget.org</a>
+        <span class="sep">·</span>
+        <a href="https://github.com/RobertMischke/coding-agent-token-economy">GitHub</a>
+        <span class="sep">·</span>
+        <a href="https://github.com/RobertMischke/coding-agent-token-economy/blob/main/CHANGELOG.md">Changelog</a>
+        <span class="sep">·</span>
+        <a href="https://github.com/RobertMischke/coding-agent-token-economy/blob/main/docs/PUBLISHING.md">Publishing</a>
+      </p>
+      <p style="margin-top:10px; color:var(--muted)">
+        Token economics for LLM coding agents. © 2026 Robert Mischke. Prices in the seeded catalog are
+        maintained estimates — confirm against each provider's pricing page before billing on them.
+      </p>
+    </div>
+  </footer>
+
+</body>
+</html>

@@ -1,0 +1,86 @@
+name: deploy-website
+
+# Publishes the static website in website/ to the agent-orchestrator.dev family
+# VM (Hetzner), following the runner-website pattern: the site is served by Caddy
+# from /srv/sites/<slug>/, and each family site is one subdirectory there. This
+# job mirrors website/ into /srv/sites/token-economy/ over SSH with rsync.
+#
+# The site is plain static HTML with NO build step, so there is nothing to compile
+# — the deploy just syncs the files. Caddy needs no reload for a content change.
+#
+# One-time hosting setup (Caddy route + sites.json entry in the PRIVATE hosting
+# meta-repo agent-orchestrator-website) and the required GitHub secrets are
+# documented in website/DEPLOY.md. Nothing here contains credentials.
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - 'website/**'
+      - '.github/workflows/deploy-website.yml'
+  workflow_dispatch: {}   # allow a manual redeploy from the Actions tab
+
+# Never let two deploys race onto the same remote directory.
+concurrency:
+  group: deploy-website
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    name: rsync website → VM (/srv/sites/token-economy)
+    runs-on: ubuntu-latest
+    # Bind to an environment so the deploy secrets and any protection rules live
+    # in one place (GitHub → Settings → Environments → production).
+    environment: production
+    env:
+      # The served subdirectory on the VM. Matches the Caddy /srv/sites pattern and
+      # the public path agent-orchestrator.dev/token-economy/.
+      REMOTE_DIR: /srv/sites/token-economy
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Sanity-check the site
+        # Fail early and loudly if the entrypoint is missing, rather than syncing
+        # an empty or broken directory over a working site.
+        run: test -f website/index.html || { echo "::error::website/index.html is missing"; exit 1; }
+
+      - name: Configure SSH (key + pinned host key)
+        # Host-key pinning via DEPLOY_KNOWN_HOSTS avoids trust-on-first-use / MITM.
+        # All three values are GitHub secrets — see website/DEPLOY.md.
+        env:
+          DEPLOY_SSH_KEY: ${{ secrets.DEPLOY_SSH_KEY }}
+          DEPLOY_KNOWN_HOSTS: ${{ secrets.DEPLOY_KNOWN_HOSTS }}
+        run: |
+          set -euo pipefail
+          test -n "$DEPLOY_SSH_KEY"     || { echo "::error::secret DEPLOY_SSH_KEY is not set";     exit 1; }
+          test -n "$DEPLOY_KNOWN_HOSTS" || { echo "::error::secret DEPLOY_KNOWN_HOSTS is not set"; exit 1; }
+          mkdir -p ~/.ssh
+          chmod 700 ~/.ssh
+          printf '%s\n' "$DEPLOY_SSH_KEY" > ~/.ssh/deploy_key
+          chmod 600 ~/.ssh/deploy_key
+          printf '%s\n' "$DEPLOY_KNOWN_HOSTS" > ~/.ssh/known_hosts
+          chmod 644 ~/.ssh/known_hosts
+
+      - name: Deploy with rsync
+        env:
+          DEPLOY_HOST: ${{ secrets.DEPLOY_HOST }}
+          DEPLOY_USER: ${{ secrets.DEPLOY_USER }}
+        run: |
+          set -euo pipefail
+          test -n "$DEPLOY_HOST" || { echo "::error::secret DEPLOY_HOST is not set"; exit 1; }
+          test -n "$DEPLOY_USER" || { echo "::error::secret DEPLOY_USER is not set"; exit 1; }
+          # Trailing slash on the source mirrors the CONTENTS of website/ into
+          # REMOTE_DIR. --delete removes files on the VM that no longer exist here,
+          # so the deployed site is an exact mirror of website/. --chmod makes the
+          # files group/other readable so Caddy can serve them. The internal repo
+          # docs (README.md, DEPLOY.md) are excluded so only the site is published.
+          rsync -az --delete \
+            --exclude='README.md' --exclude='DEPLOY.md' \
+            --chmod=D755,F644 \
+            -e "ssh -i ~/.ssh/deploy_key -o IdentitiesOnly=yes" \
+            website/ "${DEPLOY_USER}@${DEPLOY_HOST}:${REMOTE_DIR}/"
+
+      - name: Summary
+        run: |
+          echo "Deployed website/ → ${REMOTE_DIR} on the VM." >> "$GITHUB_STEP_SUMMARY"
+          echo "Live at https://agent-orchestrator.dev/token-economy/" >> "$GITHUB_STEP_SUMMARY"
