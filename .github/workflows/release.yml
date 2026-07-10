@@ -1,13 +1,13 @@
 name: release
 
-# Publishes both packages (TokenEconomy + TokenEconomy.Rendering) to
+# Publishes the TokenEconomy package to
 # nuget.org when a version tag is pushed (e.g. v0.1.0), then creates a GitHub
 # Release for the tag. The version is derived from the tag.
 #
 # Auth uses nuget.org **Trusted Publishing** (OIDC): there is NO API key to store.
 # GitHub Actions mints a short-lived OIDC token; the NuGet/login action exchanges
 # it for a temporary key, validated against the Trusted Publishing policy on
-# nuget.org (package owner RobertMischke2, repo RobertMischke/coding-agent-runner,
+# nuget.org (package owner RobertMischke2, repo RobertMischke/coding-agent-token-economy,
 # workflow release.yml).
 #
 # To cut a release: `scripts/release.sh 0.1.0` (or push a `v0.1.0` tag manually).
@@ -46,7 +46,6 @@ jobs:
             --no-restore -c Release \
             -p:Version=${{ steps.ver.outputs.version }} \
             -o artifacts
-          dotnet pack src/TokenEconomy.Rendering/TokenEconomy.Rendering.csproj \
             --no-restore -c Release \
             -p:Version=${{ steps.ver.outputs.version }} \
             -o artifacts
@@ -76,7 +75,6 @@ jobs:
           Published to nuget.org:
 
           - [TokenEconomy ${VERSION}](https://www.nuget.org/packages/TokenEconomy/${VERSION})
-          - [TokenEconomy.Rendering ${VERSION}](https://www.nuget.org/packages/TokenEconomy.Rendering/${VERSION})
 
           \`\`\`
           dotnet add package TokenEconomy --version ${VERSION}
