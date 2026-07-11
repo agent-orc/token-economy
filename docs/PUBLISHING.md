@@ -38,12 +38,12 @@ The Trusted Publishing policy must match what the workflow presents. From
 | Policy field                | Value                                        | Source in `release.yml`        |
 | --------------------------- | -------------------------------------------- | ------------------------------ |
 | nuget.org account (owner)   | `RobertMischke2`                             | `NuGet/login@v1` → `user:`     |
-| GitHub repository owner     | `RobertMischke`                              | `RepositoryUrl` / repo slug    |
-| GitHub repository name      | `coding-agent-token-economy`                 | repo slug                      |
+| GitHub repository owner     | `agent-orc`                              | `RepositoryUrl` / repo slug    |
+| GitHub repository name      | `token-economy`                 | repo slug                      |
 | Workflow file               | `release.yml`                                | this workflow's filename       |
 | Package id / glob           | `TokenEconomy`                               | `PackageId`                    |
 
-(The nuget.org account `RobertMischke2` and the GitHub owner `RobertMischke` are
+(The nuget.org account `RobertMischke2` and the GitHub owner `agent-orc` are
 deliberately different accounts on different systems — enter each as shown.)
 
 ### Option A — configure Trusted Publishing first (preferred, no key ever)

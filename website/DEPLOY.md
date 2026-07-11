@@ -70,7 +70,7 @@ meta-repo's real schema**:
   "title": "Token Economy",
   "path": "/token-economy/",
   "root": "/srv/sites/token-economy",
-  "repo": "RobertMischke/coding-agent-token-economy",
+  "repo": "agent-orc/token-economy",
   "source": "website/"
 }
 ```

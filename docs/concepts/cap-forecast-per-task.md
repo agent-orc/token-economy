@@ -97,9 +97,9 @@ capture that is being added by a parallel Studio card.
 | Task/run configuration | Yes | selected model, thinking level, task metadata | Build model/effort/task cohorts. |
 | Correlated quota at run start and end | **Missing here** | two raw snapshots tied to the same run and window identity, with settle probes | Required for defensible calibration pairs; supplied by the parallel Studio card. |
 
-Primary Studio anchors: [`AgentMessageBusBridge`](https://github.com/RobertMischke/agent-studio/blob/main/backend/Features/Bus/AgentMessageBusBridge.cs),
-[`OrchestratorTokenUsage`](https://github.com/RobertMischke/agent-studio/blob/main/backend/Shared/Runner/OrchestratorTokenUsage.cs),
-and [`QuotaModels`](https://github.com/RobertMischke/agent-studio/blob/main/backend/Shared/Models/QuotaModels.cs).
+Primary Studio anchors: [`AgentMessageBusBridge`](https://github.com/agent-orc/agent-studio/blob/main/backend/Features/Bus/AgentMessageBusBridge.cs),
+[`OrchestratorTokenUsage`](https://github.com/agent-orc/agent-studio/blob/main/backend/Shared/Runner/OrchestratorTokenUsage.cs),
+and [`QuotaModels`](https://github.com/agent-orc/agent-studio/blob/main/backend/Shared/Models/QuotaModels.cs).
 
 Run duration helps establish whether a reset, expiry, overlap, or probe lag is
 plausible. Duration does not reveal quota capacity by itself.
@@ -340,7 +340,7 @@ Token Economy already provides the dated [pricing catalog](../../src/TokenEconom
 matrix (TE-2). The forecast is a separate quantitative signal; it complements,
 but does not silently change, that ordinal ranking. Studio's control loop remains
 the policy owner, as described by
-[`token-budget-load-management.md`](https://github.com/RobertMischke/agent-studio/blob/main/docs/concepts/token-budget-load-management.md)
+[`token-budget-load-management.md`](https://github.com/agent-orc/agent-studio/blob/main/docs/concepts/token-budget-load-management.md)
 and AGT-2055.
 
 The first TokenEconomy NuGet publish is still an operator policy step. Studio

@@ -7,6 +7,6 @@
     <Version>0.2.0</Version>
     <Authors>Robert Mischke</Authors>
     <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
-    <RepositoryUrl>https://github.com/RobertMischke/coding-agent-token-economy</RepositoryUrl>
+    <RepositoryUrl>https://github.com/agent-orc/token-economy</RepositoryUrl>
   </PropertyGroup>
 </Project>

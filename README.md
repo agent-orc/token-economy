@@ -5,8 +5,8 @@ pricing (with history), run-cost computation, and token-efficiency model
 selection. .NET, dependency-free core.
 
 Part of the coding-agent family
-([coding-agent-runner](https://github.com/RobertMischke/coding-agent-runner),
-[coding-agent-chat](https://github.com/RobertMischke/coding-agent-chat)).
+([coding-agent-runner](https://github.com/agent-orc/runner),
+[coding-agent-chat](https://github.com/agent-orc/chat)).
 
 **Docs & website:** <https://agent-orchestrator.dev/token-economy/> — a static
 site built from [`website/`](website/) and deployed by
