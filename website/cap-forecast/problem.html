@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>What “% of cap” means — Cap forecast plan</title>
+  <meta name="description" content="Why a five-hour quota forecast is harder than task tokens divided by a published limit.">
+  <link rel="canonical" href="https://agent-orchestrator.dev/token-economy/cap-forecast/problem.html">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2064%2064'%3E%3Crect%20width='64'%20height='64'%20rx='14'%20fill='%232f6df0'/%3E%3Ctext%20x='50%25'%20y='52%25'%20font-size='38'%20font-family='monospace'%20font-weight='700'%20fill='white'%20text-anchor='middle'%20dominant-baseline='middle'%3E%C2%A2%3C/text%3E%3C/svg%3E">
+  <style>
+    :root { --bg:#fff; --alt:#f5f7fb; --panel:#fff; --border:#e2e8f0; --text:#1a2233; --muted:#5a6577; --accent:#2f6df0; --soft:#eaf1ff; --warn:#9a6b00; --mono:ui-monospace,"Cascadia Code",Consolas,monospace; --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif; }
+    @media (prefers-color-scheme:dark) { :root { --bg:#0f1420; --alt:#131a29; --panel:#161d2c; --border:#26314a; --text:#e6ebf5; --muted:#98a3ba; --accent:#6ea0ff; --soft:#16233f; --warn:#e0b341; } }
+    * { box-sizing:border-box; } body { margin:0; color:var(--text); background:var(--bg); font:16px/1.62 var(--sans); } a { color:var(--accent); text-decoration:none; } a:hover { text-decoration:underline; } code { font-family:var(--mono); font-size:.9em; } .wrap { max-width:940px; margin:auto; padding:0 20px; }
+    header { position:sticky; top:0; z-index:5; border-bottom:1px solid var(--border); background:color-mix(in srgb,var(--bg) 90%,transparent); backdrop-filter:blur(8px); } header .wrap { height:58px; display:flex; align-items:center; gap:18px; } .brand { display:flex; align-items:center; gap:9px; color:var(--text); font-weight:750; white-space:nowrap; } .mark { width:22px; height:22px; display:grid; place-items:center; color:#fff; background:var(--accent); border-radius:6px; font:700 .85rem var(--mono); } nav { margin-left:auto; min-width:0; display:flex; gap:16px; overflow-x:auto; overflow-y:hidden; white-space:nowrap; font-size:.9rem; scrollbar-width:none; } nav a { color:var(--muted); } nav::-webkit-scrollbar { display:none; }
+    .hero { padding:58px 0 35px; } .eyebrow { color:var(--accent); font-size:.78rem; font-weight:700; letter-spacing:.08em; text-transform:uppercase; } h1 { max-width:800px; margin:12px 0; font-size:clamp(2rem,6vw,3.2rem); line-height:1.08; letter-spacing:-.03em; } .lead,.sub,.muted { color:var(--muted); } .lead { max-width:760px; font-size:1.12rem; }
+    section { padding:41px 0; border-top:1px solid var(--border); } h2 { margin:0 0 8px; font-size:1.6rem; } h3 { margin:0 0 6px; font-size:1.08rem; } .sub { max-width:730px; margin:0 0 22px; }
+    .definition,.callout { padding:17px 19px; border:1px solid var(--border); border-radius:11px; background:var(--soft); } .definition { font-size:1.08rem; } .grid { display:grid; grid-template-columns:repeat(2,1fr); gap:15px; } .card { padding:19px; border:1px solid var(--border); border-radius:12px; background:var(--panel); } .card p { margin:5px 0 0; color:var(--muted); } .num { color:var(--accent); font:700 .8rem var(--mono); }
+    .window { display:grid; grid-template-columns:1fr 1fr; gap:15px; } .track { margin:14px 0 5px; height:12px; overflow:hidden; border:1px solid var(--border); border-radius:999px; background:var(--alt); } .fill { width:62%; height:100%; background:var(--accent); } .rolling .fill { width:44%; margin-left:24%; }
+    ul { padding-left:20px; } li { margin:8px 0; } .compare { display:grid; grid-template-columns:1fr 1fr; gap:15px; } .compare .bad { color:var(--warn); }
+    .next { display:flex; justify-content:space-between; gap:16px; padding:29px 0 48px; border-top:1px solid var(--border); } footer { padding:28px 0 45px; border-top:1px solid var(--border); color:var(--muted); font-size:.9rem; }
+    @media (max-width:700px) { .grid,.window,.compare { grid-template-columns:1fr; } .hero { padding-top:43px; } .hide-small { display:none; } }
+  </style>
+</head>
+<body>
+  <header><div class="wrap"><a class="brand" href="index.html"><span class="mark">¢</span> Cap forecast</a><nav aria-label="Cap forecast pages"><a href="index.html">Overview</a><a href="data-plan.html">Data</a><a href="forecast-v1.html">Forecast v1</a><a href="architecture.html">Boundaries</a><a href="slices.html">Slices</a></nav></div></header>
+  <main>
+    <div class="hero"><div class="wrap"><div class="eyebrow">01 · Problem framing</div><h1>The percentage is observable. The denominator is not.</h1><p class="lead">A five-hour quota snapshot reports a rounded state at an instant. It does not publish an absolute token budget, explain internal weights, or tell us how many tokens the next run attempt will consume.</p><div class="callout" style="margin-top:20px"><strong>Research plan only:</strong> no cap forecast or product behavior exists until the operator gives explicit GO.</div></div></div>
+
+    <section><div class="wrap">
+      <h2>The proposed definition</h2>
+      <div class="definition"><strong>“X% of the 5h cap”</strong> is the next attempt's median token-equivalent forecast divided by one full <em>effective</em> five-hour window for a named CLI/account-plan/model/thinking scope. It is expressed in percentage points of full-window capacity.</div>
+      <div class="compare" style="margin-top:15px">
+        <div class="card"><h3>It answers</h3><p>How large is this task relative to one empirically observed full window on each candidate?</p></div>
+        <div class="card"><h3 class="bad">It does not answer</h3><p>What the API costs, what the provider's official token limit is, or whether current headroom guarantees completion.</p></div>
+      </div>
+    </div></section>
+
+    <section><div class="wrap">
+      <h2>Two unknowns, not one</h2>
+      <div class="grid">
+        <div class="card"><div class="num">UNKNOWN A</div><h3>Effective window capacity</h3><p>The meter may weight models, cache, reasoning, or other work differently. Percent snapshots identify a relationship to observed usage, not a literal provider token allowance.</p></div>
+        <div class="card"><div class="num">UNKNOWN B</div><h3>Attempt token demand</h3><p>Prompt size is only the starting point. Agent turns, context replay, tools, failure/cancellation outcomes, and model behavior determine one attempt's consumption.</p></div>
+      </div>
+      <div class="callout" style="margin-top:15px"><strong>Why the naive formula fails:</strong> <code>task tokens / limit</code> requires both a known task total and a known, compatible limit. At decision time we have neither.</div>
+    </div></section>
+
+    <section><div class="wrap">
+      <h2>“Five hours” does not imply fixed clock buckets</h2>
+      <p class="sub">The topology must be established per provider meter. A reset timestamp is useful evidence, not proof.</p>
+      <div class="window">
+        <div class="card"><div class="num">USAGE-ANCHORED</div><h3>First use can start the clock</h3><div class="track"><div class="fill"></div></div><p>A start/end pair is comparable only inside the same logical window. Crossing a reset splits realized consumption across two windows.</p></div>
+        <div class="card rolling"><div class="num">SLIDING / ROLLING</div><h3>Old use can expire while new use arrives</h3><div class="track"><div class="fill"></div></div><p>Endpoint delta = new use − expired use. It can be small or negative even when the measured task consumed quota.</p></div>
+      </div>
+      <div class="callout" style="margin-top:15px"><strong>Scientific consequence:</strong> arbitrary paired snapshots cannot identify consumption in a truly rolling window. Use a fresh/quiet controlled interval or reconstruct expirations; otherwise exclude the pair.</div>
+    </div></section>
+
+    <section><div class="wrap">
+      <h2>UI rules that protect meaning</h2>
+      <ul>
+        <li>Say “estimated percentage of one full effective window,” with plan/model scope, range, confidence, and as-of time.</li>
+        <li>Show current headroom and reset separately. “4% of full window” is not “4% of the remaining 20%.”</li>
+        <li>Do not clamp values above 100%; they reveal likely non-fit.</li>
+        <li>Keep weekly and other provider limits visible as independent admission constraints.</li>
+        <li>Return an explicit uncalibrated row when evidence is missing. Unknown is never free.</li>
+      </ul>
+    </div></section>
+
+    <div class="wrap next"><a href="index.html">← Overview</a><a href="data-plan.html">Next: observations and calibration →</a></div>
+  </main>
+  <footer><div class="wrap">Research plan only · implementation requires operator GO · <a href="https://github.com/RobertMischke/coding-agent-token-economy/blob/main/docs/concepts/cap-forecast-per-task.md">canonical Markdown plan ↗</a></div></footer>
+</body>
+</html>

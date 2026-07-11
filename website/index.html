@@ -201,6 +201,7 @@
         <a href="#pricing-history">Pricing&nbsp;history</a>
         <a href="#cost-api">Cost&nbsp;API</a>
         <a href="#suggest">SuggestModel</a>
+        <a class="nav-collapse" href="cap-forecast/index.html">Cap&nbsp;forecast</a>
         <a href="#install">Install</a>
         <a class="nav-collapse" href="https://github.com/RobertMischke/coding-agent-token-economy">GitHub</a>
       </nav>
@@ -424,6 +425,27 @@ Console.WriteLine($"{best.ModelId} @ {best.SuggestedEffort} — {best.Rationale}
       </div>
     </section>
 
+    <!-- ================= CAP FORECAST PLAN ================= -->
+    <section id="forecast-plan">
+      <div class="wrap">
+        <h2>Forecast each task against the five-hour cap</h2>
+        <p class="sub">
+          A research plan for estimating every candidate model's share of one effective five-hour
+          quota window — with a prediction range, confidence, calibration age, and current headroom
+          shown separately. It tackles the hard parts: opaque provider limits, rolling windows,
+          parser glitches, and unknown task demand.
+        </p>
+        <div class="callout">
+          <strong>Plan only — operator GO required.</strong> The concept and proposed slices are
+          documented for review; no estimator, card metric, or admission behavior is implemented.
+        </div>
+        <div class="cta">
+          <a class="btn secondary" href="cap-forecast/index.html">Explore the visual plan</a>
+          <a href="https://github.com/RobertMischke/coding-agent-token-economy/blob/main/docs/concepts/cap-forecast-per-task.md">Read the canonical Markdown ↗</a>
+        </div>
+      </div>
+    </section>
+
     <!-- ================= INSTALL ================= -->
     <section id="install">
       <div class="wrap">
@@ -486,6 +508,8 @@ var matrix  = ModelEfficiencyMatrix.Default;  <span class="cmt">// cost is deriv
         <a href="https://github.com/RobertMischke/coding-agent-token-economy">GitHub</a>
         <span class="sep">·</span>
         <a href="https://github.com/RobertMischke/coding-agent-token-economy/blob/main/CHANGELOG.md">Changelog</a>
+        <span class="sep">·</span>
+        <a href="cap-forecast/index.html">Cap forecast plan</a>
         <span class="sep">·</span>
         <a href="https://github.com/RobertMischke/coding-agent-token-economy/blob/main/docs/PUBLISHING.md">Publishing</a>
       </p>

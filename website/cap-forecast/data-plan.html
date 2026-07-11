@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Observations and calibration — Cap forecast plan</title>
+  <meta name="description" content="A data and calibration plan for estimating an effective five-hour quota window from token events and percentage snapshots.">
+  <link rel="canonical" href="https://agent-orchestrator.dev/token-economy/cap-forecast/data-plan.html">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2064%2064'%3E%3Crect%20width='64'%20height='64'%20rx='14'%20fill='%232f6df0'/%3E%3Ctext%20x='50%25'%20y='52%25'%20font-size='38'%20font-family='monospace'%20font-weight='700'%20fill='white'%20text-anchor='middle'%20dominant-baseline='middle'%3E%C2%A2%3C/text%3E%3C/svg%3E">
+  <style>
+    :root { --bg:#fff; --alt:#f5f7fb; --panel:#fff; --border:#e2e8f0; --text:#1a2233; --muted:#5a6577; --accent:#2f6df0; --soft:#eaf1ff; --ok:#167a4a; --warn:#9a6b00; --bad:#b43b3b; --mono:ui-monospace,"Cascadia Code",Consolas,monospace; --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif; }
+    @media (prefers-color-scheme:dark) { :root { --bg:#0f1420; --alt:#131a29; --panel:#161d2c; --border:#26314a; --text:#e6ebf5; --muted:#98a3ba; --accent:#6ea0ff; --soft:#16233f; --ok:#4cc38a; --warn:#e0b341; --bad:#ff8a8a; } }
+    * { box-sizing:border-box; } body { margin:0; color:var(--text); background:var(--bg); font:16px/1.62 var(--sans); } a { color:var(--accent); text-decoration:none; } a:hover { text-decoration:underline; } code,.formula { font-family:var(--mono); } .wrap { max-width:980px; margin:auto; padding:0 20px; }
+    header { position:sticky; top:0; z-index:5; border-bottom:1px solid var(--border); background:color-mix(in srgb,var(--bg) 90%,transparent); backdrop-filter:blur(8px); } header .wrap { height:58px; display:flex; align-items:center; gap:18px; } .brand { display:flex; align-items:center; gap:9px; color:var(--text); font-weight:750; white-space:nowrap; } .mark { width:22px; height:22px; display:grid; place-items:center; color:#fff; background:var(--accent); border-radius:6px; font:700 .85rem var(--mono); } nav { margin-left:auto; min-width:0; display:flex; gap:16px; overflow-x:auto; overflow-y:hidden; white-space:nowrap; font-size:.9rem; scrollbar-width:none; } nav a { color:var(--muted); } nav::-webkit-scrollbar { display:none; }
+    .hero { padding:58px 0 35px; } .eyebrow { color:var(--accent); font-size:.78rem; font-weight:700; letter-spacing:.08em; text-transform:uppercase; } h1 { max-width:830px; margin:12px 0; font-size:clamp(2rem,6vw,3.2rem); line-height:1.08; letter-spacing:-.03em; } .lead,.sub,.muted { color:var(--muted); } .lead { max-width:780px; font-size:1.12rem; }
+    section { padding:41px 0; border-top:1px solid var(--border); } h2 { margin:0 0 8px; font-size:1.6rem; } h3 { margin:0 0 6px; font-size:1.06rem; } .sub { max-width:750px; margin:0 0 22px; }
+    .callout { padding:16px 19px; border:1px solid var(--border); border-radius:11px; background:var(--soft); } .table-scroll { overflow-x:auto; border:1px solid var(--border); border-radius:12px; } table { width:100%; min-width:760px; border-collapse:collapse; font-size:.9rem; } th,td { padding:11px 13px; border-bottom:1px solid var(--border); vertical-align:top; text-align:left; } th { color:var(--muted); font-size:.75rem; letter-spacing:.05em; text-transform:uppercase; } tbody tr:last-child td { border:0; } .yes { color:var(--ok); font-weight:700; } .missing { color:var(--bad); font-weight:700; }
+    .pipeline { display:grid; grid-template-columns:repeat(4,1fr); gap:12px; } .card { padding:17px; border:1px solid var(--border); border-radius:11px; background:var(--panel); } .card p { margin:4px 0 0; color:var(--muted); font-size:.91rem; } .num { color:var(--accent); font:700 .78rem var(--mono); }
+    .formula { margin:18px 0; padding:18px; overflow:auto; border:1px solid var(--border); border-radius:11px; background:var(--alt); line-height:1.8; }
+    .grid { display:grid; grid-template-columns:1fr 1fr; gap:15px; } ul,ol { padding-left:21px; } li { margin:7px 0; } .tag { display:inline-block; margin:2px 4px 2px 0; padding:2px 8px; border:1px solid var(--border); border-radius:999px; color:var(--muted); font-size:.78rem; }
+    .next { display:flex; justify-content:space-between; gap:16px; padding:29px 0 48px; border-top:1px solid var(--border); } footer { padding:28px 0 45px; border-top:1px solid var(--border); color:var(--muted); font-size:.9rem; }
+    @media (max-width:760px) { .pipeline,.grid { grid-template-columns:1fr; } .hero { padding-top:43px; } }
+  </style>
+</head>
+<body>
+  <header><div class="wrap"><a class="brand" href="index.html"><span class="mark">¢</span> Cap forecast</a><nav aria-label="Cap forecast pages"><a href="index.html">Overview</a><a href="problem.html">Problem</a><a href="forecast-v1.html">Forecast v1</a><a href="architecture.html">Boundaries</a><a href="slices.html">Slices</a></nav></div></header>
+  <main>
+    <div class="hero"><div class="wrap"><div class="eyebrow">02 · Data plan</div><h1>Pair task tokens with meter movement—only when the pair is identifiable.</h1><p class="lead">Agent Studio already sees token turns, quota percentages, run timing, model, and thinking level. The missing bridge is a trusted quota snapshot at both ends of the same run, tied to one window identity.</p><div class="callout" style="margin-top:20px"><strong>Research plan only:</strong> the paired capture is a parallel dependency; calibration implementation still requires explicit operator GO.</div></div></div>
+
+    <section><div class="wrap">
+      <h2>Observation inventory</h2>
+      <p class="sub">The plan reuses current Studio signals. It does not ask TokenEconomy to probe a CLI or parse provider output.</p>
+      <div class="table-scroll" role="region" aria-label="Agent Studio observation inventory" tabindex="0"><table>
+        <thead><tr><th>Observation</th><th>Status</th><th>Fields used</th><th>Forecast role</th></tr></thead>
+        <tbody>
+          <tr><td>Per-turn bus token events</td><td class="yes">Exists</td><td>model; input/output; cache read/write; run correlation; optional timing</td><td>Build model-specific observed attempt consumption without losing components.</td></tr>
+          <tr><td>Quota snapshots</td><td class="yes">Exists</td><td>CLI/plan; fetched time; used %; reset; raw/source; error/suspicious</td><td>Observe the provider meter and screen parser quality.</td></tr>
+          <tr><td>Run lifecycle</td><td class="yes">Exists</td><td>start/finish; duration; terminal outcome</td><td>Bracket events and detect reset crossing, overlap, and censoring.</td></tr>
+          <tr><td>Run configuration</td><td class="yes">Exists</td><td>exact model; thinking level; task metadata</td><td>Define calibration and task-history cohorts.</td></tr>
+          <tr><td>Quota at run start/end</td><td class="missing">Parallel card</td><td>raw start + settled end, same run/window ID</td><td>The required correlated pair; not implemented by this plan.</td></tr>
+        </tbody>
+      </table></div>
+      <p class="muted"><small>Source anchors: Studio's <a href="https://github.com/RobertMischke/agent-studio/blob/main/backend/Features/Bus/AgentMessageBusBridge.cs">bus bridge ↗</a>, <a href="https://github.com/RobertMischke/agent-studio/blob/main/backend/Shared/Runner/OrchestratorTokenUsage.cs">token usage contract ↗</a>, and <a href="https://github.com/RobertMischke/agent-studio/blob/main/backend/Shared/Models/QuotaModels.cs">quota snapshot contract ↗</a>.</small></p>
+    </div></section>
+
+    <section><div class="wrap">
+      <h2>From raw events to one calibration observation</h2>
+      <div class="pipeline">
+        <div class="card"><div class="num">01 CAPTURE</div><h3>Bracket</h3><p>Raw start snapshot, all run token events, terminal outcome, and an end snapshot after a defined settle policy.</p></div>
+        <div class="card"><div class="num">02 IDENTIFY</div><h3>Match scope</h3><p>CLI, opaque account/plan, window kind, reset identity, exact model, and thinking level.</p></div>
+        <div class="card"><div class="num">03 VALIDATE</div><h3>Exclude confounding</h3><p>No reset/expiry, unknown account use, overlap, missing tokens, parser suspicion, or saturated meter endpoint.</p></div>
+        <div class="card"><div class="num">04 VERSION</div><h3>Keep evidence</h3><p>Append-only raw record, normalized record, parser/calibration version, and explicit exclusion reasons.</p></div>
+      </div>
+      <div class="callout" style="margin-top:16px"><strong>Token semantics matter:</strong> preserve input/output/cache components and have the Studio adapter produce one documented observed-token unit without double-counting cached input. V1 fits a total; richer component weights are an upgrade path.</div>
+    </div></section>
+
+    <section><div class="wrap">
+      <h2>Estimate the slope, explain the equivalent capacity</h2>
+      <p class="sub">The directly observed quantity is how many percentage points the meter moves per canonical observed token.</p>
+      <div class="formula">deltaPctᵢ = usedPct<sub>end</sub> − usedPct<sub>start</sub><br>deltaPctᵢ = beta<sub>scope</sub> × tokensᵢ + errorᵢ<br>effectiveWindowTokens<sub>scope</sub> = 100 / beta<sub>scope</sub></div>
+      <div class="grid">
+        <div class="card"><h3>Fit directly</h3><p>Use a weighted robust slope through the origin. Per-pair <code>100 × tokens / deltaPct</code> ratios become unstable near a rounded zero.</p></div>
+        <div class="card"><h3>Name honestly</h3><p>The inverted result is an effective token-equivalent window under observed conditions—not an official provider token budget.</p></div>
+      </div>
+      <div class="callout" style="margin-top:16px"><strong>V1 transfer assumption:</strong> meter response is locally stable and approximately linear over observed support. Diagnose an intercept, curvature, and residual bias by task/token mix; downgrade extrapolation or changed component mixes.</div>
+      <p class="muted">For a shared provider meter, model-specific equivalents describe all-one-model workloads against the same window. They are not separate model quotas.</p>
+    </div></section>
+
+    <section><div class="wrap">
+      <h2>Eligibility is stricter than “two timestamps”</h2>
+      <div class="grid">
+        <div class="card"><h3>A usable pair requires</h3><ol><li>Same CLI/account-plan/window kind and compatible reset identity.</li><li>No reset crossing and no unmodelled rolling-window expiry.</li><li>No unknown concurrent account usage.</li><li>Complete, non-duplicated tokens and known model/effort.</li><li>A known terminal outcome and a settled, trusted, unsaturated end snapshot.</li></ol></div>
+        <div class="card"><h3>Calibration campaign</h3><p>Combine controlled, serial spans in fresh/quiet windows with opportunistic production spans that pass the same gates. Vary model, thinking, and task size, and collect evidence across multiple distinct windows.</p><span class="tag">controlled</span><span class="tag">same-window</span><span class="tag">serial</span><span class="tag">multi-window</span></div>
+      </div>
+      <div class="callout" style="margin-top:16px"><strong>Outcome is not a calibration gate:</strong> a failed or cancelled run can calibrate the meter when its closed interval and tokens are complete. A quota-wall endpoint is usually floor/ceiling-censored and needs interval treatment or exclusion from the simple slope.</div>
+    </div></section>
+
+    <section><div class="wrap">
+      <h2>Rounding, parser glitches, and confidence</h2>
+      <div class="grid">
+        <div class="card"><h3>Quarantine before robust fitting</h3><ul><li>Impossible values or sign/direction errors</li><li>Unexplained downward jumps or reset changes</li><li>Parser-suspicious or stale snapshots</li><li>Incomplete tokens, overlaps, or unknown background use</li></ul><p>Never silently winsorize a known parser fault; retain the raw record and reason.</p></div>
+        <div class="card"><h3>Rounded zero and saturation are censored</h3><p>An integer meter can remain at 17% after small real use; a floor/ceiling can clip a large delta. Treat these as interval bounds. Aggregate eligible spans or use interval-aware fitting; never divide by zero or call a clipped endpoint exact.</p></div>
+        <div class="card"><h3>Bootstrap distinct windows</h3><p>Pairs from the same window are correlated. Resample complete window instances, diagnose a free intercept for background use, and validate on later time periods.</p></div>
+        <div class="card"><h3>Confidence has several inputs</h3><p>Distinct windows, cumulative movement vs quantization, recency, residuals, parser/completeness quality, hold-out bias, error, and interval coverage. Sparse/stale means low confidence or uncalibrated.</p></div>
+      </div>
+    </div></section>
+
+    <div class="wrap next"><a href="problem.html">← Problem framing</a><a href="forecast-v1.html">Next: forecast model v1 →</a></div>
+  </main>
+  <footer><div class="wrap">Research plan only · the correlated start/end capture is a parallel Studio dependency · implementation requires operator GO</div></footer>
+</body>
+</html>

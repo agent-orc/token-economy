@@ -13,6 +13,11 @@ site built from [`website/`](website/) and deployed by
 [`deploy-website.yml`](.github/workflows/deploy-website.yml) (see
 [`website/DEPLOY.md`](website/DEPLOY.md)).
 
+**Research plan:** [Forecast each task as a percentage of a five-hour cap](docs/concepts/cap-forecast-per-task.md)
+defines the proposed measurement, uncertainty, repository boundaries, and
+GO-blocked delivery slices. Its [visual explainers](website/cap-forecast/index.html)
+are part of the static site. No forecast implementation is authorised yet.
+
 ## What it does
 
 - **Pricing catalog with history** — per-model price entries keyed by

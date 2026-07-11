@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Architecture boundaries — Cap forecast plan</title>
+  <meta name="description" content="The planned split between pure TokenEconomy estimation, Agent Studio data and decisions, and the public website.">
+  <link rel="canonical" href="https://agent-orchestrator.dev/token-economy/cap-forecast/architecture.html">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2064%2064'%3E%3Crect%20width='64'%20height='64'%20rx='14'%20fill='%232f6df0'/%3E%3Ctext%20x='50%25'%20y='52%25'%20font-size='38'%20font-family='monospace'%20font-weight='700'%20fill='white'%20text-anchor='middle'%20dominant-baseline='middle'%3E%C2%A2%3C/text%3E%3C/svg%3E">
+  <style>
+    :root { --bg:#fff; --alt:#f5f7fb; --panel:#fff; --border:#e2e8f0; --text:#1a2233; --muted:#5a6577; --accent:#2f6df0; --soft:#eaf1ff; --warn:#9a6b00; --mono:ui-monospace,"Cascadia Code",Consolas,monospace; --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif; }
+    @media (prefers-color-scheme:dark) { :root { --bg:#0f1420; --alt:#131a29; --panel:#161d2c; --border:#26314a; --text:#e6ebf5; --muted:#98a3ba; --accent:#6ea0ff; --soft:#16233f; --warn:#e0b341; } }
+    * { box-sizing:border-box; } body { margin:0; color:var(--text); background:var(--bg); font:16px/1.62 var(--sans); } a { color:var(--accent); text-decoration:none; } a:hover { text-decoration:underline; } code { font-family:var(--mono); font-size:.9em; } .wrap { max-width:1000px; margin:auto; padding:0 20px; }
+    header { position:sticky; top:0; z-index:5; border-bottom:1px solid var(--border); background:color-mix(in srgb,var(--bg) 90%,transparent); backdrop-filter:blur(8px); } header .wrap { height:58px; display:flex; align-items:center; gap:18px; } .brand { display:flex; align-items:center; gap:9px; color:var(--text); font-weight:750; white-space:nowrap; } .mark { width:22px; height:22px; display:grid; place-items:center; color:#fff; background:var(--accent); border-radius:6px; font:700 .85rem var(--mono); } nav { margin-left:auto; min-width:0; display:flex; gap:16px; overflow-x:auto; overflow-y:hidden; white-space:nowrap; font-size:.9rem; scrollbar-width:none; } nav a { color:var(--muted); } nav::-webkit-scrollbar { display:none; }
+    .hero { padding:58px 0 35px; } .eyebrow { color:var(--accent); font-size:.78rem; font-weight:700; letter-spacing:.08em; text-transform:uppercase; } h1 { max-width:850px; margin:12px 0; font-size:clamp(2rem,6vw,3.2rem); line-height:1.08; letter-spacing:-.03em; } .lead,.sub,.muted { color:var(--muted); } .lead { max-width:790px; font-size:1.12rem; }
+    section { padding:41px 0; border-top:1px solid var(--border); } h2 { margin:0 0 8px; font-size:1.6rem; } h3 { margin:0 0 6px; font-size:1.06rem; } .sub { max-width:760px; margin:0 0 22px; }
+    .owners { display:grid; grid-template-columns:repeat(3,1fr); gap:15px; } .owner,.card { padding:19px; border:1px solid var(--border); border-radius:12px; background:var(--panel); } .owner .tag { color:var(--accent); font:700 .78rem var(--mono); } .owner ul { padding-left:19px; } .owner li { margin:6px 0; color:var(--muted); font-size:.92rem; }
+    .handoff { display:grid; grid-template-columns:1fr auto 1fr auto 1fr; gap:10px; align-items:center; } .box { min-height:116px; display:grid; place-items:center; padding:17px; border:1px solid var(--border); border-radius:11px; background:var(--alt); text-align:center; } .arrow { color:var(--accent); font-size:1.4rem; }
+    .callout { padding:16px 19px; border:1px solid var(--border); border-radius:11px; background:var(--soft); } .grid { display:grid; grid-template-columns:1fr 1fr; gap:15px; } .card p { margin:5px 0 0; color:var(--muted); } .warning { color:var(--warn); }
+    .table-scroll { overflow-x:auto; border:1px solid var(--border); border-radius:12px; } table { width:100%; min-width:760px; border-collapse:collapse; font-size:.9rem; } th,td { padding:11px 13px; border-bottom:1px solid var(--border); vertical-align:top; text-align:left; } th { color:var(--muted); font-size:.75rem; letter-spacing:.05em; text-transform:uppercase; } tbody tr:last-child td { border:0; }
+    .next { display:flex; justify-content:space-between; gap:16px; padding:29px 0 48px; border-top:1px solid var(--border); } footer { padding:28px 0 45px; border-top:1px solid var(--border); color:var(--muted); font-size:.9rem; }
+    @media (max-width:800px) { .owners,.grid { grid-template-columns:1fr; } .handoff { grid-template-columns:1fr; } .arrow { transform:rotate(90deg); justify-self:center; } .hero { padding-top:43px; } }
+  </style>
+</head>
+<body>
+  <header><div class="wrap"><a class="brand" href="index.html"><span class="mark">¢</span> Cap forecast</a><nav aria-label="Cap forecast pages"><a href="index.html">Overview</a><a href="problem.html">Problem</a><a href="data-plan.html">Data</a><a href="forecast-v1.html">Forecast v1</a><a href="slices.html">Slices</a></nav></div></header>
+  <main>
+    <div class="hero"><div class="wrap"><div class="eyebrow">04 · Architecture split</div><h1>One pure forecasting core. One operational owner. One public explanation.</h1><p class="lead">TokenEconomy should own deterministic estimation. Agent Studio should own observations, UI, and decisions. The website should explain the method and publish only scoped, timestamped aggregates.</p><div class="callout" style="margin-top:20px"><strong>Research plan only:</strong> every implementation boundary below still requires explicit operator GO.</div></div></div>
+
+    <section><div class="wrap">
+      <h2>Three ownership boundaries</h2>
+      <div class="owners">
+        <div class="owner"><div class="tag">TOKENECONOMY LIBRARY</div><h3>Math and contracts</h3><ul><li>Normalized observation and scope contracts</li><li>Structural/statistical validity and estimability</li><li>Robust effective-capacity estimate + interval</li><li>Forecast v1 result for every candidate</li><li>Confidence/status/reason codes</li><li>Pure deterministic tests and fixtures</li></ul></div>
+        <div class="owner"><div class="tag">AGENT STUDIO</div><h3>Evidence and decisions</h3><ul><li>Quota probes, parsers, start/end capture</li><li>Bus/run/config joins and persistence</li><li>Contextual parser/window/overlap/attribution gates</li><li>Calibration cohorts and scheduling</li><li>Card UI, headroom, reset, audit events</li><li>Shadow validation and AGT-2055 advisory input</li></ul></div>
+        <div class="owner"><div class="tag">WEBSITE</div><h3>Method and aggregates</h3><ul><li>Public, human-readable method</li><li>Generated aggregate snapshot after validation</li><li>Scope, range, confidence, sample, as-of labels</li><li>Privacy-reviewed, no raw tasks/accounts</li><li>Self-contained publish-time HTML</li><li>No provider-official language</li></ul></div>
+      </div>
+    </div></section>
+
+    <section><div class="wrap">
+      <h2>The handoff</h2>
+      <p class="sub">Operational data moves inward as normalized contracts; decisions and publication stay with their owning applications.</p>
+      <div class="handoff">
+        <div class="box"><strong>Studio observations</strong><br><span class="muted">tokens + snapshots + run facts</span></div><div class="arrow">→</div>
+        <div class="box"><strong>TokenEconomy</strong><br><span class="muted">calibrate + forecast + explain status</span></div><div class="arrow">→</div>
+        <div class="box"><strong>Studio / website</strong><br><span class="muted">decide locally · explain publicly</span></div>
+      </div>
+      <div class="callout" style="margin-top:16px"><strong>No I/O in the library:</strong> no quota probe, parser, persistence, current clock, account lookup, event bus read, UI, log side effect, or launch/wait policy.</div>
+    </div></section>
+
+    <section><div class="wrap">
+      <h2>How this fits TE-1 and TE-2</h2>
+      <div class="grid">
+        <div class="card"><h3><a href="https://github.com/RobertMischke/coding-agent-token-economy/blob/main/src/TokenEconomy/ModelPriceCatalog.cs">TE-1 · Pricing catalog ↗</a></h3><p>Computes dollar cost from dated price data. Dollar price cannot supply the subscription quota denominator and must never proxy it.</p></div>
+        <div class="card"><h3><a href="https://github.com/RobertMischke/coding-agent-token-economy/blob/main/src/TokenEconomy/ModelEfficiencyMatrix.cs">TE-2 · SuggestModel ↗</a></h3><p>Ranks capability/cost fit and leaves downshift/throttle/wait policy to Studio. The forecast adds a separate quantitative signal; it does not silently rewrite that ranking.</p></div>
+      </div>
+      <p class="muted">The policy boundary follows Studio's <a href="https://github.com/RobertMischke/agent-studio/blob/main/docs/concepts/token-budget-load-management.md">token-budget load-management concept ↗</a> and future AGT-2055 admission integration.</p>
+    </div></section>
+
+    <section><div class="wrap">
+      <h2>Boundary failures to prevent</h2>
+      <div class="table-scroll" role="region" aria-label="Architecture boundary failures and rules" tabindex="0"><table>
+        <thead><tr><th>Failure</th><th>Why it is wrong</th><th>Boundary rule</th></tr></thead>
+        <tbody>
+          <tr><td>Studio reimplements the estimator</td><td>Two formulas drift and forecasts become unauditable.</td><td>Studio constructs contracts; TokenEconomy computes.</td></tr>
+          <tr><td>Library reaches into Studio storage</td><td>Pure tests and reuse disappear; runtime concerns leak inward.</td><td>All data arrives as explicit immutable inputs.</td></tr>
+          <tr><td>Forecast mutates <code>SuggestModel</code></td><td>Ordinal fit and quantitative quota evidence become inseparable.</td><td>Return a distinct signal; Studio composes the decision.</td></tr>
+          <tr><td>Website calls operational storage live</td><td>Leaks data and breaks the self-contained static-site contract.</td><td>Publish privacy-reviewed aggregates generated and inlined at release time.</td></tr>
+          <tr><td>Uncalibrated becomes zero</td><td>Missing evidence looks like free capacity.</td><td>Typed unknown status propagates to UI and admission.</td></tr>
+        </tbody>
+      </table></div>
+    </div></section>
+
+    <section><div class="wrap">
+      <h2 class="warning">A second operator gate still exists</h2>
+      <div class="callout"><strong>First NuGet publish is pending.</strong> Even after an implementation GO, Studio cannot consume a released TokenEconomy package until the operator completes the one-time <a href="https://github.com/RobertMischke/coding-agent-token-economy/blob/main/docs/PUBLISHING.md">publishing policy step ↗</a>. This plan does not perform it.</div>
+    </div></section>
+
+    <div class="wrap next"><a href="forecast-v1.html">← Forecast v1</a><a href="slices.html">Next: proposed slices →</a></div>
+  </main>
+  <footer><div class="wrap">Research plan only · no library, Studio, website-data, or package implementation is authorised</div></footer>
+</body>
+</html>

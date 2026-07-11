@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Proposed slices — Cap forecast plan</title>
+  <meta name="description" content="Six small, GO-blocked implementation card proposals across TokenEconomy, Agent Studio, and the website.">
+  <link rel="canonical" href="https://agent-orchestrator.dev/token-economy/cap-forecast/slices.html">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2064%2064'%3E%3Crect%20width='64'%20height='64'%20rx='14'%20fill='%232f6df0'/%3E%3Ctext%20x='50%25'%20y='52%25'%20font-size='38'%20font-family='monospace'%20font-weight='700'%20fill='white'%20text-anchor='middle'%20dominant-baseline='middle'%3E%C2%A2%3C/text%3E%3C/svg%3E">
+  <style>
+    :root { --bg:#fff; --alt:#f5f7fb; --panel:#fff; --border:#e2e8f0; --text:#1a2233; --muted:#5a6577; --accent:#2f6df0; --soft:#eaf1ff; --ok:#167a4a; --warn:#9a6b00; --bad:#b43b3b; --mono:ui-monospace,"Cascadia Code",Consolas,monospace; --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif; }
+    @media (prefers-color-scheme:dark) { :root { --bg:#0f1420; --alt:#131a29; --panel:#161d2c; --border:#26314a; --text:#e6ebf5; --muted:#98a3ba; --accent:#6ea0ff; --soft:#16233f; --ok:#4cc38a; --warn:#e0b341; --bad:#ff8a8a; } }
+    * { box-sizing:border-box; } body { margin:0; color:var(--text); background:var(--bg); font:16px/1.62 var(--sans); } a { color:var(--accent); text-decoration:none; } a:hover { text-decoration:underline; } code { font-family:var(--mono); font-size:.9em; } .wrap { max-width:1040px; margin:auto; padding:0 20px; }
+    header { position:sticky; top:0; z-index:5; border-bottom:1px solid var(--border); background:color-mix(in srgb,var(--bg) 90%,transparent); backdrop-filter:blur(8px); } header .wrap { height:58px; display:flex; align-items:center; gap:18px; } .brand { display:flex; align-items:center; gap:9px; color:var(--text); font-weight:750; white-space:nowrap; } .mark { width:22px; height:22px; display:grid; place-items:center; color:#fff; background:var(--accent); border-radius:6px; font:700 .85rem var(--mono); } nav { margin-left:auto; min-width:0; display:flex; gap:16px; overflow-x:auto; overflow-y:hidden; white-space:nowrap; font-size:.9rem; scrollbar-width:none; } nav a { color:var(--muted); } nav::-webkit-scrollbar { display:none; }
+    .hero { padding:58px 0 35px; } .eyebrow { color:var(--accent); font-size:.78rem; font-weight:700; letter-spacing:.08em; text-transform:uppercase; } h1 { max-width:850px; margin:12px 0; font-size:clamp(2rem,6vw,3.2rem); line-height:1.08; letter-spacing:-.03em; } .lead,.sub,.muted { color:var(--muted); } .lead { max-width:800px; font-size:1.12rem; }
+    section { padding:41px 0; border-top:1px solid var(--border); } h2 { margin:0 0 8px; font-size:1.6rem; } h3 { margin:0 0 6px; font-size:1.06rem; } .sub { max-width:770px; margin:0 0 22px; }
+    .gate,.callout { padding:16px 19px; border:1px solid var(--border); border-radius:11px; background:var(--soft); } .gate strong { color:var(--bad); }
+    .table-scroll { overflow-x:auto; border:1px solid var(--border); border-radius:12px; } table { width:100%; min-width:970px; border-collapse:collapse; font-size:.87rem; } th,td { padding:11px 12px; border-bottom:1px solid var(--border); vertical-align:top; text-align:left; } th { color:var(--muted); font-size:.73rem; letter-spacing:.05em; text-transform:uppercase; } tbody tr:last-child td { border:0; } .id { color:var(--accent); font:700 .82rem var(--mono); } .blocked { color:var(--bad); font-weight:700; white-space:nowrap; }
+    .sequence { display:grid; grid-template-columns:repeat(4,1fr); gap:12px; } .card { padding:17px; border:1px solid var(--border); border-radius:11px; background:var(--panel); } .card p { margin:5px 0 0; color:var(--muted); font-size:.92rem; } .num { color:var(--accent); font:700 .78rem var(--mono); } ul { padding-left:21px; } li { margin:7px 0; }
+    .grid { display:grid; grid-template-columns:1fr 1fr; gap:15px; } .status { display:inline-block; padding:2px 8px; border:1px solid var(--border); border-radius:999px; color:var(--warn); font-size:.78rem; }
+    .next { display:flex; justify-content:space-between; gap:16px; padding:29px 0 48px; border-top:1px solid var(--border); } footer { padding:28px 0 45px; border-top:1px solid var(--border); color:var(--muted); font-size:.9rem; }
+    @media (max-width:800px) { .sequence,.grid { grid-template-columns:1fr; } .hero { padding-top:43px; } }
+  </style>
+</head>
+<body>
+  <header><div class="wrap"><a class="brand" href="index.html"><span class="mark">¢</span> Cap forecast</a><nav aria-label="Cap forecast pages"><a href="index.html">Overview</a><a href="problem.html">Problem</a><a href="data-plan.html">Data</a><a href="forecast-v1.html">Forecast v1</a><a href="architecture.html">Boundaries</a></nav></div></header>
+  <main>
+    <div class="hero"><div class="wrap"><div class="eyebrow">05 · Slice proposal</div><h1>Six small cards, ordered to learn before deciding.</h1><p class="lead">Build the estimator and evidence adapter, then forecast, shadow-test, expose the card, and only later let the signal influence admission. Publish aggregate numbers last.</p><div class="gate" style="margin-top:20px"><strong>BLOCKED — OPERATOR GO REQUIRED.</strong> These are proposed inputs and outputs, not active cards. The parallel Studio start/end-capture card is an external dependency and is not re-authorised here.</div></div></div>
+
+    <section><div class="wrap">
+      <h2>Card-sized proposals</h2>
+      <p class="sub">Identifiers are planning labels, not allocated tracker IDs. Every implementation row stays blocked until the operator explicitly authorises it.</p>
+      <div class="table-scroll" role="region" aria-label="Six proposed implementation slices" tabindex="0"><table>
+        <thead><tr><th>Card / owner</th><th>Inputs</th><th>Outputs</th><th>Dependencies</th><th>Gate</th></tr></thead>
+        <tbody>
+          <tr><td><span class="id">1 · TE-F1</span><br><strong>Calibration contracts + estimator</strong><br>TokenEconomy</td><td>Context-cleared normalized spans, scope, token components, meter resolution</td><td>Structural/statistical validation; slope, effective capacity, interval, confidence, diagnostics; tests</td><td>Agreed normalized contract</td><td class="blocked">GO required</td></tr>
+          <tr><td><span class="id">2 · AGT-F1</span><br><strong>Observation adapter + store</strong><br>Agent Studio</td><td>Parallel capture snapshots, bus tokens, lifecycle/config metadata</td><td>Versioned spans; contextual parser/window/overlap/attribution gates and quarantine reasons; TE input</td><td>Capture card; TE-F1 contract</td><td class="blocked">GO required</td></tr>
+          <tr><td><span class="id">3 · TE-F2</span><br><strong>Forecast v1 API</strong><br>TokenEconomy</td><td>Task features/attempt history, all candidates, calibration result</td><td>Median attempt tokens and cap %, prediction range, confidence/status/reasons; tests</td><td>TE-F1</td><td class="blocked">GO required</td></tr>
+          <tr><td><span class="id">4 · AGT-F2</span><br><strong>Replay + shadow forecast</strong><br>Agent Studio</td><td>Eligible historical cohorts, TE-F2, later meter outcomes</td><td>Temporal MAE/bias/coverage report; stale/change alerts; evidence-gate recommendation</td><td>AGT-F1; TE-F2</td><td class="blocked">GO required</td></tr>
+          <tr><td><span class="id">5 · AGT-F3</span><br><strong>Card + AGT-2055 advisory input</strong><br>Agent Studio</td><td>All candidate rows, current 5h/weekly state, reset, SuggestModel rationale</td><td>Human comparison and auditable advisory field/event; no admission behavior change</td><td>AGT-F2 passes; NuGet publish; AGT-2055</td><td class="blocked">GO required</td></tr>
+          <tr><td><span class="id">6 · WEB-F1</span><br><strong>Promote plan + aggregate snapshot</strong><br>Website</td><td>Delivered explainer pages and privacy-reviewed generated aggregate</td><td>Extended self-contained docs; timestamped “live-ish” figures with scope/sample/range/confidence</td><td>Validated export; privacy review</td><td class="blocked">GO required</td></tr>
+        </tbody>
+      </table></div>
+    </div></section>
+
+    <section><div class="wrap">
+      <h2>Suggested sequence after GO</h2>
+      <div class="sequence">
+        <div class="card"><div class="num">PHASE 1</div><h3>Calibrate</h3><p>Design TE-F1 and the Studio adapter contract together. Keep probes and storage on the Studio side.</p></div>
+        <div class="card"><div class="num">PHASE 2</div><h3>Forecast</h3><p>Implement TE-F2 against deterministic fixtures and explicit uncalibrated outcomes.</p></div>
+        <div class="card"><div class="num">PHASE 3</div><h3>Shadow</h3><p>Replay history and observe future tasks without changing routing. Establish error and coverage.</p></div>
+        <div class="card"><div class="num">PHASE 4</div><h3>Expose advisory evidence</h3><p>Show the UI and attach an audit signal to AGT-2055. Any admission influence is a separate later card and operator authorization.</p></div>
+      </div>
+    </div></section>
+
+    <section><div class="wrap">
+      <h2>Evidence gate before admission</h2>
+      <p class="sub">Do not invent numeric pass thresholds in the plan. The operator should set them after seeing the first shadow distribution and its trade-offs.</p>
+      <div class="grid">
+        <div class="card"><h3>Shadow report must show</h3><ul><li>Temporal hold-out percentage-point MAE and signed bias</li><li>Empirical coverage of the advertised 80% prediction range</li><li>Breakdown by plan/model/thinking/task type</li><li>Terminal-outcome mix and quota-truncated/still-running censoring rate</li><li>Sparse/uncalibrated rate and error outside calibrated support</li><li>Parser, overlap, reset, rolling-expiry, and stale exclusions</li></ul></div>
+        <div class="card"><h3>Decision review must show</h3><ul><li>Examples where the upper range would change launch/wait</li><li>False-wait vs quota-wall trade-off</li><li>Interaction with weekly windows and SuggestModel</li><li>Stable audit reason codes</li><li>Explicit operator enable decision</li></ul></div>
+      </div>
+      <div class="callout" style="margin-top:16px"><strong>Until this gate passes:</strong> the metric is advisory. It cannot launch, downshift, throttle, wait, or otherwise change AGT-2055 behavior.</div>
+      <p class="muted">Any future admission-enforcement change remains outside AGT-F3 and requires its own explicit operator authorization.</p>
+    </div></section>
+
+    <section><div class="wrap">
+      <h2>Dependencies that GO does not erase</h2>
+      <div class="grid">
+        <div class="card"><span class="status">Parallel Studio work</span><h3>Correlated quota capture</h3><p>The missing start/end capture must supply raw, same-run, same-window observations plus a documented settle policy. This plan consumes its output.</p></div>
+        <div class="card"><span class="status">Operator policy</span><h3>First TokenEconomy NuGet publish</h3><p>Studio package consumption remains blocked until the operator completes the one-time publishing step—even if implementation work receives GO.</p></div>
+      </div>
+    </div></section>
+
+    <div class="wrap next"><a href="architecture.html">← Architecture boundaries</a><a href="index.html">Back to overview →</a></div>
+  </main>
+  <footer><div class="wrap">End of TE-4 plan · no implementation follows without explicit operator GO</div></footer>
+</body>
+</html>

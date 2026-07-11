@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Cap forecast per task — Token Economy research plan</title>
+  <meta name="description" content="A research plan for forecasting each coding task as a percentage of a five-hour model quota window, with uncertainty.">
+  <link rel="canonical" href="https://agent-orchestrator.dev/token-economy/cap-forecast/">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2064%2064'%3E%3Crect%20width='64'%20height='64'%20rx='14'%20fill='%232f6df0'/%3E%3Ctext%20x='50%25'%20y='52%25'%20font-size='38'%20font-family='monospace'%20font-weight='700'%20fill='white'%20text-anchor='middle'%20dominant-baseline='middle'%3E%C2%A2%3C/text%3E%3C/svg%3E">
+  <style>
+    :root { --bg:#fff; --alt:#f5f7fb; --panel:#fff; --border:#e2e8f0; --text:#1a2233; --muted:#5a6577; --accent:#2f6df0; --soft:#eaf1ff; --ok:#167a4a; --warn:#9a6b00; --mono:ui-monospace,"Cascadia Code",Consolas,monospace; --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif; }
+    @media (prefers-color-scheme:dark) { :root { --bg:#0f1420; --alt:#131a29; --panel:#161d2c; --border:#26314a; --text:#e6ebf5; --muted:#98a3ba; --accent:#6ea0ff; --soft:#16233f; --ok:#4cc38a; --warn:#e0b341; } }
+    * { box-sizing:border-box; } html { scroll-behavior:smooth; } body { margin:0; color:var(--text); background:var(--bg); font:16px/1.6 var(--sans); -webkit-font-smoothing:antialiased; } a { color:var(--accent); text-decoration:none; } a:hover { text-decoration:underline; } code { font-family:var(--mono); font-size:.9em; }
+    .wrap { max-width:980px; margin:auto; padding:0 20px; }
+    header { position:sticky; top:0; z-index:5; border-bottom:1px solid var(--border); background:color-mix(in srgb,var(--bg) 90%,transparent); backdrop-filter:blur(8px); }
+    header .wrap { height:58px; display:flex; align-items:center; gap:18px; }
+    .brand { display:flex; align-items:center; gap:9px; color:var(--text); font-weight:750; white-space:nowrap; }
+    .mark { width:22px; height:22px; display:grid; place-items:center; color:#fff; background:var(--accent); border-radius:6px; font:700 .85rem var(--mono); }
+    nav { margin-left:auto; min-width:0; display:flex; gap:17px; overflow-x:auto; overflow-y:hidden; white-space:nowrap; font-size:.9rem; scrollbar-width:none; } nav a { color:var(--muted); } nav::-webkit-scrollbar { display:none; }
+    .hero { padding:66px 0 42px; } .eyebrow { display:inline-block; padding:4px 11px; border-radius:999px; color:var(--accent); background:var(--soft); font-size:.76rem; font-weight:700; letter-spacing:.08em; text-transform:uppercase; }
+    h1 { max-width:820px; margin:17px 0 14px; font-size:clamp(2.15rem,6vw,3.55rem); line-height:1.07; letter-spacing:-.035em; } .lead { max-width:760px; color:var(--muted); font-size:1.15rem; }
+    .notice { margin:25px 0 0; padding:15px 18px; border:1px solid var(--border); border-radius:11px; background:var(--soft); }
+    section { padding:44px 0; border-top:1px solid var(--border); } h2 { margin:0 0 8px; font-size:1.65rem; letter-spacing:-.02em; } h3 { margin:0 0 7px; font-size:1.08rem; } .sub { max-width:730px; margin:0 0 24px; color:var(--muted); }
+    .flow,.cards { display:grid; grid-template-columns:repeat(3,1fr); gap:15px; } .card { padding:19px; border:1px solid var(--border); border-radius:12px; background:var(--panel); } .card p { margin:5px 0 0; color:var(--muted); font-size:.94rem; } .num { color:var(--accent); font:700 .82rem var(--mono); }
+    .arrow { display:none; } .formula { margin-top:16px; padding:15px 18px; border:1px solid var(--border); border-radius:11px; background:var(--alt); text-align:center; font-family:var(--mono); }
+    .table-scroll { overflow-x:auto; border:1px solid var(--border); border-radius:12px; } table { width:100%; min-width:1080px; border-collapse:collapse; font-size:.91rem; } th,td { padding:11px 13px; border-bottom:1px solid var(--border); text-align:left; } th { color:var(--muted); font-size:.76rem; letter-spacing:.05em; text-transform:uppercase; } tbody tr:last-child td { border-bottom:0; } td.metric { color:var(--accent); font:700 .95rem var(--mono); } .muted { color:var(--muted); } .good { color:var(--ok); } .caution { color:var(--warn); }
+    .links .card { display:block; color:inherit; } .links .card:hover { border-color:var(--accent); text-decoration:none; } .links .card span { color:var(--accent); }
+    footer { padding:32px 0 55px; border-top:1px solid var(--border); color:var(--muted); font-size:.9rem; } footer .wrap { display:flex; flex-wrap:wrap; gap:8px 18px; }
+    @media (max-width:760px) { .flow,.cards { grid-template-columns:1fr; } .hero { padding-top:48px; } .hide-small { display:none; } }
+  </style>
+</head>
+<body>
+  <header><div class="wrap">
+    <a class="brand" href="../index.html"><span class="mark">¢</span> Token Economy</a>
+    <nav aria-label="Cap forecast pages">
+      <a href="problem.html">Problem</a><a href="data-plan.html">Data</a><a href="forecast-v1.html">Forecast v1</a><a href="architecture.html">Boundaries</a><a href="slices.html">Slices</a>
+    </nav>
+  </div></header>
+
+  <main>
+    <div class="hero"><div class="wrap">
+      <span class="eyebrow">Research plan · no implementation</span>
+      <h1>Forecast every task as a share of the five-hour cap.</h1>
+      <p class="lead">Before launch, compare every selectable candidate model: median next-attempt demand, estimated percentage of one full five-hour quota window, uncertainty, and current headroom. Pick a model—or wait—with evidence.</p>
+      <div class="notice"><strong>Operator gate:</strong> this is the TE-4 concept deliverable. Every proposed implementation slice remains blocked until an explicit GO. Example values below are illustrative, not measured provider data.</div>
+    </div></div>
+
+    <section><div class="wrap">
+      <h2>One metric, two estimates</h2>
+      <p class="sub">The provider does not publish the denominator, and a prompt does not reveal the next attempt's token consumption. Both sides must be learned—and both carry uncertainty.</p>
+      <div class="flow">
+        <div class="card"><div class="num">01 · ATTEMPT</div><h3>Demand by candidate</h3><p>Prompt size + task type + similar closed attempts on this exact model and thinking level produce a median token estimate and range.</p></div>
+        <div class="card"><div class="num">02 · METER</div><h3>Effective window</h3><p>Clean same-window token/percentage observations estimate an empirical percentage-points-per-token slope for this plan and model.</p></div>
+        <div class="card"><div class="num">03 · FORECAST</div><h3>Combine distributions</h3><p>Multiply attempt demand by the calibrated slope. Report a median estimate, an 80% prediction range, confidence, and evidence age.</p></div>
+      </div>
+      <div class="formula">cap % draws = slope draws × attempt-token draws · show median and 10th–90th percentiles</div>
+    </div></section>
+
+    <section><div class="wrap">
+      <h2>What the operator would see</h2>
+      <p class="sub">Every selectable, nonrestricted candidate gets a row before current availability is attached. Current quota stays separate from the full-window forecast, and missing evidence stays visible.</p>
+      <div class="table-scroll" role="region" aria-label="Illustrative candidate forecast comparison" tabindex="0"><table>
+        <thead><tr><th>Candidate</th><th>Five-hour forecast</th><th>80% range</th><th>Calibration</th><th>Confidence</th><th>Current state</th></tr></thead>
+        <tbody>
+          <tr><td>CLI A · balanced · medium</td><td class="metric">4.2%</td><td>2.7–6.8%</td><td>Example Pro · cal-v3 · 2026-07-10 UTC</td><td class="caution">Medium · quantized meter</td><td>31% left · 2026-07-11 14:20 UTC</td></tr>
+          <tr><td>CLI B · economy · medium</td><td class="metric">2.1%</td><td>1.2–4.4%</td><td>Example Plus · cal-v2 · 2026-07-09 UTC</td><td class="caution">Low · wide residuals</td><td>64% left · 2026-07-11 16:05 UTC</td></tr>
+          <tr><td>CLI A · new · high</td><td class="muted">—</td><td class="muted">—</td><td>No compatible calibration</td><td class="muted">Uncalibrated · no safe transfer</td><td>Available · reset separate</td></tr>
+        </tbody>
+      </table></div>
+      <p class="muted"><small>Illustrative UI copy only. A value above 100% is not clamped. Weekly and other provider limits remain separate admission inputs.</small></p>
+    </div></section>
+
+    <section><div class="wrap">
+      <h2>The plan in five focused pages</h2>
+      <p class="sub">Start with the semantic trap, then follow the evidence into a deliberately simple forecast and clear repository boundaries.</p>
+      <div class="cards links">
+        <a class="card" href="problem.html"><div class="num">PROBLEM</div><h3>What “% of cap” means <span>→</span></h3><p>Usage-anchored and rolling windows, opaque limits, and the two unknowns.</p></a>
+        <a class="card" href="data-plan.html"><div class="num">DATA</div><h3>Calibration without pretending <span>→</span></h3><p>Existing Studio observations, the missing capture, pair eligibility, glitches, and confidence.</p></a>
+        <a class="card" href="forecast-v1.html"><div class="num">MODEL</div><h3>Forecast v1 <span>→</span></h3><p>A next-attempt cohort heuristic using prompt size, task type, model-specific history, and prediction ranges.</p></a>
+        <a class="card" href="architecture.html"><div class="num">BOUNDARIES</div><h3>Who owns what <span>→</span></h3><p>Pure TokenEconomy math, Studio data and decisions, public website method.</p></a>
+        <a class="card" href="slices.html"><div class="num">DELIVERY</div><h3>Six small cards <span>→</span></h3><p>Inputs, outputs, dependencies, validation order, and the operator GO gate.</p></a>
+        <a class="card" href="https://github.com/RobertMischke/coding-agent-token-economy/blob/main/docs/concepts/cap-forecast-per-task.md"><div class="num">CANONICAL</div><h3>Full Markdown plan <span>↗</span></h3><p>The reviewable source of truth in the public repository.</p></a>
+      </div>
+    </div></section>
+
+    <section><div class="wrap">
+      <h2>Language matters</h2>
+      <div class="cards">
+        <div class="card"><h3>Say</h3><p>“Estimated 4.2% of one full effective 5h window; 80% range 2.7–6.8%; plan/model calibration as of …”</p></div>
+        <div class="card"><h3>Do not say</h3><p>“The provider gives this model N tokens every five hours.” The snapshots cannot establish that literal claim.</p></div>
+        <div class="card"><h3>When evidence is weak</h3><p>Show low confidence or uncalibrated. Unknown is safer and more useful than false precision.</p></div>
+      </div>
+    </div></section>
+  </main>
+
+  <footer><div class="wrap"><span>Token Economy · cap-forecast research plan</span><span>Plan dated 2026-07-11</span><span>Implementation requires operator GO</span></div></footer>
+</body>
+</html>
