@@ -77,17 +77,23 @@
       display: flex; align-items: center; gap: 16px;
       height: 58px;
     }
-    .brand { font-weight: 700; letter-spacing: -0.02em; font-size: 1.05rem; display: flex; align-items: center; gap: 9px; }
+    .brand { font-weight: 700; letter-spacing: -0.02em; font-size: 1.05rem; display: flex; align-items: center; gap: 9px; white-space: nowrap; flex-shrink: 0; }
     .brand .mark {
       width: 22px; height: 22px; border-radius: 6px; background: var(--accent);
       color: #fff; display: inline-grid; place-items: center; font-family: var(--mono);
       font-weight: 700; font-size: 0.85rem;
     }
-    header.top nav { margin-left: auto; display: flex; gap: 18px; font-size: 0.92rem; }
+    /* min-width:0 lets the nav shrink and scroll its own overflow instead of
+       pushing the page body wider than the viewport on narrow screens. */
+    header.top nav {
+      margin-left: auto; display: flex; gap: 18px; font-size: 0.92rem;
+      min-width: 0; overflow-x: auto; white-space: nowrap; scrollbar-width: none;
+    }
+    header.top nav::-webkit-scrollbar { display: none; }
     header.top nav a { color: var(--muted); }
     header.top nav a:hover { color: var(--text); text-decoration: none; }
     .nav-collapse { display: inline; }
-    @media (max-width: 640px) { .nav-collapse { display: none; } }
+    @media (max-width: 640px) { .nav-collapse { display: none; } header.top nav { gap: 15px; } }
 
     /* ---- hero ---- */
     .hero { padding: 70px 0 40px; }
