@@ -111,9 +111,12 @@ At minimum it needs:
 
 - observation/run/window IDs; CLI/provider, opaque account/plan scope, quota
   window kind and label;
-- start/end sample times, used percentage, reset timestamp/label, raw sample,
-  source, parser version, and quality/suspicion flags;
+- start/end sample times, raw meter direction (`used` or `remaining`), displayed
+  resolution/rounding semantics, normalized used percentage, reset
+  timestamp/label, raw sample, source, parser version, and quality/suspicion
+  flags;
 - exact model and thinking level; task type, repository identifier, prompt size,
+  prompt-measure definition, routing/timeout policy version,
   start/finish/outcome, and duration;
 - token components with parser semantics preserved, plus one canonical observed
   token total that does not double-count cached input;
@@ -125,7 +128,9 @@ normalization/calibration version.
 
 ## 3. Estimating an effective window
 
-For one clean observation span, normalize the quota change to percentage points:
+For one clean observation span, first normalize the provider's meter direction.
+Convert a raw remaining percentage into an increasing `usedPct`, while retaining
+the original reading, direction, and display resolution. Then calculate:
 
 ```text
 deltaPct_i = usedPct_end - usedPct_start
@@ -143,7 +148,8 @@ effectiveWindowTokens_s = 100 / beta_s
 `beta_s`—percentage points per observed token—is the identified quantity. The
 inverted capacity is an explanatory equivalent. Fitting `beta` directly is more
 stable than averaging `100 * tokens / deltaPct`, which explodes when a rounded
-percentage barely changes.
+percentage barely changes. `effectiveWindowTokens` exists only when `beta` is
+positive and estimable; otherwise the scope is `Uncalibrated`.
 
 V1 assumes the meter is locally stable and approximately linear over the token
 and percentage range represented by the calibration data. It must test a free
@@ -162,7 +168,9 @@ independent model quotas.
 A pair is usable only when all of these are true:
 
 1. Start and end have the same CLI, account/plan scope, quota-window kind, and
-   compatible reset/window identity.
+   compatible reset/window identity. If the measured run's first use creates a
+   usage-anchored window, a trusted pre-use/zero observation and the newly
+   established reset anchor must identify that transition explicitly.
 2. No reset is crossed and no older usage can expire during the interval. A
    truly sliding window therefore needs a fresh/quiet controlled interval or a
    reconstructed expiry ledger; two arbitrary snapshots are insufficient.
@@ -193,9 +201,14 @@ Multiple distinct window instances matter more than many pairs from one window.
 ### Rounding, glitches, and outliers
 
 - Preserve the quota display resolution. A zero delta on an integer percentage
-  meter is **interval-censored**, not evidence of zero consumption. Do not
-  divide by it or discard all zeros; aggregate eligible consecutive spans until
-  movement materially exceeds quantization, or use an interval-aware fit.
+  meter is **interval-censored**, not evidence of zero consumption. V1 uses an
+  interval-aware fit: each displayed endpoint becomes an interval derived from
+  documented rounding semantics (or a conservative one-resolution envelope
+  when the capture contract can defend that bound), and each true delta is the
+  difference of those intervals. If no defensible display-error bound exists,
+  the scope is `Uncalibrated`. Eligible consecutive spans may be aggregated for
+  conditioning and diagnostics, but a rounded zero never becomes an exact zero
+  or disappears.
 - Treat observations at the meter floor or ceiling as potentially saturated.
   Quarantine them from the simple point fit or retain them explicitly as
   one-sided interval bounds; never pretend the displayed endpoint is an exact
@@ -203,13 +216,18 @@ Multiple distinct window instances matter more than many pairs from one window.
 - Hard-quarantine impossible values, unexplained downward jumps, reset changes,
   incomplete tokens, known parser failures, and direction/sign mistakes. Store
   the raw record and a machine-readable exclusion reason.
-- After hard validation, fit a weighted robust slope through the origin (Huber
-  loss is sufficient for v1). Fit a free intercept as a diagnostic: a material
-  intercept suggests background usage, lag, or a broken zero assumption.
+- After hard validation, fit a positive, interval-aware weighted robust slope
+  through the origin (a Huber penalty on distance outside each feasible delta
+  interval is sufficient for v1). If quantization leaves the slope
+  unidentified, return `Uncalibrated`. Fit a free intercept only as a
+  diagnostic: a material intercept suggests background usage, lag, or a broken
+  zero assumption.
 - Bootstrap by **distinct window**, not by pair, to avoid pretending correlated
   samples are independent.
-- Version by scope and parser, weight recent windows, and detect material
-  changes. Providers can alter meter semantics or plan caps without notice.
+- Version by scope and parser and detect material changes. A detected provider
+  or plan change closes the old calibration regime; do not let recency weights
+  blur two regimes into one slope. Recency weighting is allowed only within a
+  stable regime.
 
 ### Calibration confidence
 
@@ -249,28 +267,40 @@ when censoring is material. A future censoring-aware model may use them directly
 
 For the pending task:
 
-- initial `promptSize` (a stable measure such as UTF-8 bytes, recorded with its
-  definition);
+- initial `promptSize` at the actual forecast boundary (a stable measure such as
+  UTF-8 bytes, with an explicit/versioned rule for templates, attachments, and
+  other wrapper text);
 - `taskType`, mapped to Token Economy's existing `TaskClass` where possible;
 - every selectable candidate's exact model, CLI, and proposed thinking/effort
   level, before filtering on current availability; and
 - terminal historical attempts with the same features and calibrated quota
   scope, including successful, failed, and cancelled outcomes with complete
-  observed tokens.
+  observed tokens and the routing/timeout/cancellation policy version that
+  shaped those outcomes.
+
+Historical routing is not random: harder tasks may have been sent to stronger
+models. V1 therefore produces an **observational conditional forecast** for
+each model's own historical cohort, not a causal answer to “what would this
+identical task have cost on every model?” Every non-`Uncalibrated` candidate
+forecast requires temporal replay validation; controlled crossover or matched
+evidence is a later upgrade.
 
 ### Attempt-demand heuristic
 
 For each candidate separately:
 
-1. Select closed attempts from the same task type, exact model, and thinking
-   level. Include successful, failed, and cancelled terminal outcomes when their
-   consumed tokens are exact; track quota-truncated/still-running lower bounds
-   separately.
+1. Select closed attempts from the same task type, exact model, thinking level,
+   and compatible routing/timeout/cancellation policy version. Include
+   successful, failed, and cancelled terminal outcomes when their consumed
+   tokens are exact; track quota-truncated/still-running lower bounds separately.
 2. Prefer runs in the nearest prompt-size band. Prompt size is only an initial
    complexity proxy; multi-turn context and tools may dominate.
 3. Use the cohort median as the central attempt-token estimate and empirical
    quantiles as the attempt-demand range. Disclose effective sample size,
-   terminal-outcome mix, and censored rate.
+   terminal-outcome mix, and censored rate. Repeated attempts/reissues from one
+   task family are dependent: cluster demand resampling and effective sample
+   size by originating task/attempt family, and by repository when its
+   dependence is material, rather than treating raw rows as independent.
 4. Apply a documented fallback hierarchy only when it has passed replay
    validation. Otherwise return `Uncalibrated`. Never reuse one model's token
    demand as if it were valid for every model.
@@ -302,24 +332,31 @@ Every candidate receives a result row containing:
 | Attempt tokens | median attempt estimate and empirical range |
 | Five-hour forecast | central percentage and prediction range; may exceed 100% |
 | Calibration | plan/window scope, version, as-of time, distinct-window count |
+| Demand evidence | effective sample size, terminal-outcome mix, censored rate, policy version |
 | Confidence | high/medium/low/uncalibrated plus reason codes |
 | Availability | current CLI/headroom/reset, supplied separately by Studio |
 
 Illustrative card copy (not measured data):
 
-| Candidate | Forecast | 80% range | Calibration | Confidence | Current state |
-|---|---:|---:|---|---|---|
-| CLI A · balanced model · medium | 4.2% of 5h | 2.7–6.8% | Example Pro · 5h · cal-v3 · as of 2026-07-10 UTC | Medium — 7 windows, quantized meter | 31% left · resets 2026-07-11 14:20 UTC |
-| CLI B · economy model · medium | 2.1% of 5h | 1.2–4.4% | Example Plus · 5h · cal-v2 · as of 2026-07-09 UTC | Low — 3 windows, wide residuals | 64% left · resets 2026-07-11 16:05 UTC |
-| CLI A · new model · high | — | — | No compatible calibration | Uncalibrated — no safe transfer | Available; reset shown separately |
+| Candidate | Forecast | 80% range | Calibration | Demand evidence | Confidence | Current state |
+|---|---:|---:|---|---|---|---|
+| CLI A · balanced model · medium | 4.2% of 5h | 2.7–6.8% | Example Pro · 5h · cal-v3 · as of 2026-07-10 UTC | effective n=42 · mixed outcomes · 5% censored · policy-v4 | Medium — 7 windows, quantized meter | 31% left · resets 2026-07-11 14:20 UTC |
+| CLI B · economy model · medium | 2.1% of 5h | 1.2–4.4% | Example Plus · 5h · cal-v2 · as of 2026-07-09 UTC | effective n=19 · mixed outcomes · 16% censored · policy-v4 | Low — 3 windows, wide residuals | 64% left · resets 2026-07-11 16:05 UTC |
+| CLI A · new model · high | — | — | No compatible calibration | No compatible cohort | Uncalibrated — no safe transfer | Available; reset shown separately |
 
 The current state is not part of the forecast. Admission may later compare the
 upper range with current headroom, alongside weekly quota and other policy.
+Nor is low forecast consumption the same as good model utility: a model that
+fails quickly can look cheap per attempt. Studio must present outcome mix and
+`SuggestModel` suitability beside this signal and must never rank candidates by
+lowest cap percentage alone.
 
 ### Named upgrade paths
 
 - **V2 per-repository/per-task-type regression:** prompt size, repo, task type,
   model, thinking, and interactions; temporally evaluated and regularized.
+- Matched or controlled crossover evidence to measure model-routing bias and
+  support stronger same-task comparisons.
 - Hierarchical pooling for sparse models/plans, but only with measured transfer
   error and visibly wider intervals.
 - Separate input/output/cache/reasoning coefficients when observations can
@@ -356,7 +393,7 @@ These are card-sized proposals, not active work. **Every row is GO-blocked.**
 | 1 | **TE-F1 — Calibration contracts and estimator** / TokenEconomy | Context-cleared normalized spans, scope, token components, percent resolution | Structural/statistical validation; `beta`, effective capacity, interval, confidence, diagnostics; deterministic tests | Operator GO | **Blocked: GO** |
 | 2 | **AGT-F1 — Observation adapter and calibration store** / Studio | Parallel card's correlated start/end snapshots; bus token events; run/config metadata | Versioned raw + normalized spans; contextual parser/window/overlap/attribution quarantine reasons; TE estimator input | Capture card, TE-F1, operator GO | **Blocked: GO** |
 | 3 | **TE-F2 — Forecast v1 API** / TokenEconomy | Task features/attempt history, candidate model+effort, calibration result | Per-candidate median attempt tokens, cap %, prediction range, confidence/status/reasons; tests | TE-F1, operator GO | **Blocked: GO** |
-| 4 | **AGT-F2 — Offline replay and shadow forecast** / Studio | Historical eligible cohorts, TE-F2 outputs, later realized meter deltas | Temporal hold-out report: percentage-point MAE/bias, interval coverage, stale/change alerts, minimum-evidence recommendation | AGT-F1, TE-F2, operator GO | **Blocked: GO** |
+| 4 | **AGT-F2 — Offline replay and shadow forecast** / Studio | Historical eligible cohorts, TE-F2 outputs, later realized meter deltas | Temporal hold-out report: percentage-point MAE/bias, interval coverage, direct-delta baseline comparison, stale/change alerts, frozen evidence gates plus later untouched confirmation | AGT-F1, TE-F2, operator GO | **Blocked: GO** |
 | 5 | **AGT-F3 — Card metric and AGT-2055 advisory input** / Studio | All candidate forecast rows, live headroom/reset, weekly windows, `SuggestModel` rationale | Human card table and an auditable advisory field/event for AGT-2055; **no admission behavior change** | AGT-F2 passes, NuGet publish, AGT-2055, operator GO | **Blocked: GO** |
 | 6 | **WEB-F1 — Promote plan pages with aggregate snapshot** / website | The delivered explainer pages plus a privacy-reviewed, generated calibration aggregate | Extended self-contained docs and timestamped “live-ish” numbers with confidence/sample labels | Validated data export, privacy review, operator GO | **Blocked: GO** |
 
@@ -368,10 +405,17 @@ same validation and privacy gates.
 ### Acceptance gates before admission use
 
 The operator should set numeric thresholds after the first shadow report rather
-than invent them now. At minimum the report must show:
+than invent them now. That report is threshold-design evidence, not a pass: once
+thresholds are frozen, they must be confirmed on a later untouched temporal
+hold-out. At minimum the reports must show:
 
 - temporal hold-out MAE and signed bias in percentage points;
 - empirical coverage of the advertised 80% prediction range;
+- comparison with a direct empirical cap-delta cohort baseline, to show whether
+  the token-demand × slope decomposition adds calibration value;
+- scoring against later clean, eligible, temporally held-out start/end meter
+  deltas with quantization bounds preserved, never against the circular proxy
+  `beta * realizedTokens`; the direct-delta baseline uses those same pairs;
 - results by plan/model/thinking/task type, including sparse/uncalibrated rates;
 - terminal-outcome mix, quota-truncated/still-running censoring rate, and error
   inside versus outside calibration support;

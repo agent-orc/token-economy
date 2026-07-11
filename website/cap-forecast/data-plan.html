@@ -31,13 +31,13 @@
       <h2>Observation inventory</h2>
       <p class="sub">The plan reuses current Studio signals. It does not ask TokenEconomy to probe a CLI or parse provider output.</p>
       <div class="table-scroll" role="region" aria-label="Agent Studio observation inventory" tabindex="0"><table>
-        <thead><tr><th>Observation</th><th>Status</th><th>Fields used</th><th>Forecast role</th></tr></thead>
+        <thead><tr><th scope="col">Observation</th><th scope="col">Status</th><th scope="col">Fields used</th><th scope="col">Forecast role</th></tr></thead>
         <tbody>
           <tr><td>Per-turn bus token events</td><td class="yes">Exists</td><td>model; input/output; cache read/write; run correlation; optional timing</td><td>Build model-specific observed attempt consumption without losing components.</td></tr>
-          <tr><td>Quota snapshots</td><td class="yes">Exists</td><td>CLI/plan; fetched time; used %; reset; raw/source; error/suspicious</td><td>Observe the provider meter and screen parser quality.</td></tr>
+          <tr><td>Quota snapshots</td><td class="yes">Exists</td><td>CLI/plan; fetched time; normalized used %; reset; raw/source; error/suspicious</td><td>Observe the provider meter and screen parser quality.</td></tr>
           <tr><td>Run lifecycle</td><td class="yes">Exists</td><td>start/finish; duration; terminal outcome</td><td>Bracket events and detect reset crossing, overlap, and censoring.</td></tr>
           <tr><td>Run configuration</td><td class="yes">Exists</td><td>exact model; thinking level; task metadata</td><td>Define calibration and task-history cohorts.</td></tr>
-          <tr><td>Quota at run start/end</td><td class="missing">Parallel card</td><td>raw start + settled end, same run/window ID</td><td>The required correlated pair; not implemented by this plan.</td></tr>
+          <tr><td>Quota at run start/end</td><td class="missing">Parallel card</td><td>raw used/remaining semantics + resolution; settled end; same run/window ID</td><td>The required correlated pair; not implemented by this plan.</td></tr>
         </tbody>
       </table></div>
       <p class="muted"><small>Source anchors: Studio's <a href="https://github.com/agent-orc/agent-studio/blob/main/backend/Features/Bus/AgentMessageBusBridge.cs">bus bridge ↗</a>, <a href="https://github.com/agent-orc/agent-studio/blob/main/backend/Shared/Runner/OrchestratorTokenUsage.cs">token usage contract ↗</a>, and <a href="https://github.com/agent-orc/agent-studio/blob/main/backend/Shared/Models/QuotaModels.cs">quota snapshot contract ↗</a>.</small></p>
@@ -46,7 +46,7 @@
     <section><div class="wrap">
       <h2>From raw events to one calibration observation</h2>
       <div class="pipeline">
-        <div class="card"><div class="num">01 CAPTURE</div><h3>Bracket</h3><p>Raw start snapshot, all run token events, terminal outcome, and an end snapshot after a defined settle policy.</p></div>
+        <div class="card"><div class="num">01 CAPTURE</div><h3>Bracket</h3><p>Raw start snapshot with meter direction and resolution, all run token events, terminal outcome, and an end snapshot after a defined settle policy.</p></div>
         <div class="card"><div class="num">02 IDENTIFY</div><h3>Match scope</h3><p>CLI, opaque account/plan, window kind, reset identity, exact model, and thinking level.</p></div>
         <div class="card"><div class="num">03 VALIDATE</div><h3>Exclude confounding</h3><p>No reset/expiry, unknown account use, overlap, missing tokens, parser suspicion, or saturated meter endpoint.</p></div>
         <div class="card"><div class="num">04 VERSION</div><h3>Keep evidence</h3><p>Append-only raw record, normalized record, parser/calibration version, and explicit exclusion reasons.</p></div>
@@ -56,10 +56,10 @@
 
     <section><div class="wrap">
       <h2>Estimate the slope, explain the equivalent capacity</h2>
-      <p class="sub">The directly observed quantity is how many percentage points the meter moves per canonical observed token.</p>
+      <p class="sub">First convert used/remaining provider readings into one increasing <code>usedPct</code>, while preserving the raw direction and resolution. Estimate percentage points per canonical observed token from those endpoint and token observations.</p>
       <div class="formula">deltaPctᵢ = usedPct<sub>end</sub> − usedPct<sub>start</sub><br>deltaPctᵢ = beta<sub>scope</sub> × tokensᵢ + errorᵢ<br>effectiveWindowTokens<sub>scope</sub> = 100 / beta<sub>scope</sub></div>
       <div class="grid">
-        <div class="card"><h3>Fit directly</h3><p>Use a weighted robust slope through the origin. Per-pair <code>100 × tokens / deltaPct</code> ratios become unstable near a rounded zero.</p></div>
+        <div class="card"><h3>Fit directly</h3><p>Use a positive, interval-aware weighted robust slope through the origin. Per-pair <code>100 × tokens / deltaPct</code> ratios become unstable near a rounded zero; an unidentified slope returns uncalibrated.</p></div>
         <div class="card"><h3>Name honestly</h3><p>The inverted result is an effective token-equivalent window under observed conditions—not an official provider token budget.</p></div>
       </div>
       <div class="callout" style="margin-top:16px"><strong>V1 transfer assumption:</strong> meter response is locally stable and approximately linear over observed support. Diagnose an intercept, curvature, and residual bias by task/token mix; downgrade extrapolation or changed component mixes.</div>
@@ -69,7 +69,7 @@
     <section><div class="wrap">
       <h2>Eligibility is stricter than “two timestamps”</h2>
       <div class="grid">
-        <div class="card"><h3>A usable pair requires</h3><ol><li>Same CLI/account-plan/window kind and compatible reset identity.</li><li>No reset crossing and no unmodelled rolling-window expiry.</li><li>No unknown concurrent account usage.</li><li>Complete, non-duplicated tokens and known model/effort.</li><li>A known terminal outcome and a settled, trusted, unsaturated end snapshot.</li></ol></div>
+        <div class="card"><h3>A usable pair requires</h3><ol><li>Same CLI/account-plan/window kind and compatible reset identity; a first-use anchored window needs a trusted pre-use state and explicit new anchor.</li><li>No reset crossing and no unmodelled rolling-window expiry.</li><li>No unknown concurrent account usage.</li><li>Complete, non-duplicated tokens and known model/effort.</li><li>A known outcome and settled, trusted end; saturation must be explicitly bound-coded for an interval-aware estimator.</li></ol></div>
         <div class="card"><h3>Calibration campaign</h3><p>Combine controlled, serial spans in fresh/quiet windows with opportunistic production spans that pass the same gates. Vary model, thinking, and task size, and collect evidence across multiple distinct windows.</p><span class="tag">controlled</span><span class="tag">same-window</span><span class="tag">serial</span><span class="tag">multi-window</span></div>
       </div>
       <div class="callout" style="margin-top:16px"><strong>Outcome is not a calibration gate:</strong> a failed or cancelled run can calibrate the meter when its closed interval and tokens are complete. A quota-wall endpoint is usually floor/ceiling-censored and needs interval treatment or exclusion from the simple slope.</div>
@@ -79,9 +79,9 @@
       <h2>Rounding, parser glitches, and confidence</h2>
       <div class="grid">
         <div class="card"><h3>Quarantine before robust fitting</h3><ul><li>Impossible values or sign/direction errors</li><li>Unexplained downward jumps or reset changes</li><li>Parser-suspicious or stale snapshots</li><li>Incomplete tokens, overlaps, or unknown background use</li></ul><p>Never silently winsorize a known parser fault; retain the raw record and reason.</p></div>
-        <div class="card"><h3>Rounded zero and saturation are censored</h3><p>An integer meter can remain at 17% after small real use; a floor/ceiling can clip a large delta. Treat these as interval bounds. Aggregate eligible spans or use interval-aware fitting; never divide by zero or call a clipped endpoint exact.</p></div>
+        <div class="card"><h3>Rounded zero and saturation are censored</h3><p>An integer meter can remain at 17% after small real use; a floor/ceiling can clip a large delta. V1 derives endpoint intervals from known rounding—or a one-resolution error bound only when the capture contract can defend it—and fits against feasible delta intervals. Otherwise return uncalibrated.</p></div>
         <div class="card"><h3>Bootstrap distinct windows</h3><p>Pairs from the same window are correlated. Resample complete window instances, diagnose a free intercept for background use, and validate on later time periods.</p></div>
-        <div class="card"><h3>Confidence has several inputs</h3><p>Distinct windows, cumulative movement vs quantization, recency, residuals, parser/completeness quality, hold-out bias, error, and interval coverage. Sparse/stale means low confidence or uncalibrated.</p></div>
+        <div class="card"><h3>Confidence has several inputs</h3><p>Distinct windows, movement vs quantization, recency, residuals, evidence quality, hold-out error, and coverage. Sparse or stale means low confidence or uncalibrated; a detected regime change closes the old calibration instead of blending it with new data.</p></div>
       </div>
     </div></section>
 

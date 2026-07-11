@@ -17,7 +17,7 @@
     .callout { padding:16px 19px; border:1px solid var(--border); border-radius:11px; background:var(--soft); } .grid { display:grid; grid-template-columns:repeat(3,1fr); gap:15px; } .card { padding:18px; border:1px solid var(--border); border-radius:11px; background:var(--panel); } .card p { margin:5px 0 0; color:var(--muted); font-size:.93rem; } .num { color:var(--accent); font:700 .78rem var(--mono); }
     .steps { counter-reset:step; display:grid; gap:10px; } .step { position:relative; padding:15px 17px 15px 58px; border:1px solid var(--border); border-radius:11px; } .step:before { counter-increment:step; content:counter(step); position:absolute; left:16px; top:14px; width:27px; height:27px; display:grid; place-items:center; border-radius:8px; background:var(--soft); color:var(--accent); font:700 .8rem var(--mono); } .step strong { display:block; }
     .formula { margin:18px 0; padding:17px; overflow:auto; border:1px solid var(--border); border-radius:11px; background:var(--alt); text-align:center; }
-    .table-scroll { overflow-x:auto; border:1px solid var(--border); border-radius:12px; } table { width:100%; min-width:1080px; border-collapse:collapse; font-size:.9rem; } th,td { padding:11px 13px; border-bottom:1px solid var(--border); text-align:left; } th { color:var(--muted); font-size:.75rem; letter-spacing:.05em; text-transform:uppercase; } tbody tr:last-child td { border:0; } .metric { color:var(--accent); font:700 .95rem var(--mono); } .warn { color:var(--warn); } ul { padding-left:21px; } li { margin:7px 0; }
+    .table-scroll { overflow-x:auto; border:1px solid var(--border); border-radius:12px; } table { width:100%; min-width:1280px; border-collapse:collapse; font-size:.9rem; } th,td { padding:11px 13px; border-bottom:1px solid var(--border); text-align:left; } th { color:var(--muted); font-size:.75rem; letter-spacing:.05em; text-transform:uppercase; } tbody tr:last-child td { border:0; } .metric { color:var(--accent); font:700 .95rem var(--mono); } .warn { color:var(--warn); } ul { padding-left:21px; } li { margin:7px 0; }
     .next { display:flex; justify-content:space-between; gap:16px; padding:29px 0 48px; border-top:1px solid var(--border); } footer { padding:28px 0 45px; border-top:1px solid var(--border); color:var(--muted); font-size:.9rem; }
     @media (max-width:760px) { .grid { grid-template-columns:1fr; } .hero { padding-top:43px; } }
   </style>
@@ -30,9 +30,9 @@
     <section><div class="wrap">
       <h2>Three inputs per candidate</h2>
       <div class="grid">
-        <div class="card"><div class="num">TASK</div><h3>Prompt size</h3><p>A stable, recorded measure such as UTF-8 bytes. It is a cheap proximity feature—not a model tokenizer promise.</p></div>
+        <div class="card"><div class="num">TASK</div><h3>Prompt size</h3><p>A stable measure at the forecast boundary, such as UTF-8 bytes, with versioned rules for wrappers and attachments. It is a cheap proximity feature—not a tokenizer promise.</p></div>
         <div class="card"><div class="num">CLASS</div><h3>Task type</h3><p>Map Studio task metadata onto TokenEconomy's existing task classes where possible: design, feature, chore, doc edit, research.</p></div>
-        <div class="card"><div class="num">HISTORY</div><h3>Similar closed attempts</h3><p>Exact model + thinking level + task type, preferring the nearest prompt-size band. Keep outcome, censoring, repository, and timestamps.</p></div>
+        <div class="card"><div class="num">HISTORY</div><h3>Similar closed attempts</h3><p>Exact model + thinking level + task type + compatible run-policy version, preferring the nearest prompt-size band. Keep outcome, censoring, repository, and timestamps.</p></div>
       </div>
     </div></section>
 
@@ -50,23 +50,24 @@
       <p class="sub">Repeat the same deterministic procedure for every selectable, nonrestricted model and proposed effort before attaching current CLI availability. Do not estimate one universal attempt total and reuse it across models.</p>
       <div class="steps">
         <div class="step"><strong>Screen closed history.</strong> Include complete successful, failed, and cancelled terminal attempts. Keep quota-truncated/still-running lower bounds out of the simple point cohort, report their rate, and exclude token-incomplete/incompatible records.</div>
-        <div class="step"><strong>Build the exact cohort.</strong> Same task type, exact model, and thinking level; then prefer the closest prompt-size band.</div>
-        <div class="step"><strong>Estimate demand robustly.</strong> Cohort median for central attempt tokens; empirical quantiles for the range; disclose effective sample size, terminal-outcome mix, and censored rate.</div>
+        <div class="step"><strong>Build the exact cohort.</strong> Same task type, exact model, thinking level, and compatible routing/timeout/cancellation policy; then prefer the closest prompt-size band.</div>
+        <div class="step"><strong>Estimate demand robustly.</strong> Cohort median for central attempt tokens; empirical quantiles for the range. Cluster repeated attempts/reissues by task family (and repository when material), then disclose effective sample size, outcome mix, and censored rate.</div>
         <div class="step"><strong>Apply only validated fallbacks.</strong> A broader model/family cohort may be used only if replay tests establish transfer error and widen the range. Otherwise return <code>Uncalibrated</code>.</div>
         <div class="step"><strong>Combine both uncertainties.</strong> Multiply paired attempt-demand and calibration-slope draws; report the product median and 10th–90th percentiles. Preserve dependence when evidence overlaps.</div>
       </div>
       <div class="formula">capPctDraw<sub>j</sub> = betaDraw<sub>j</sub> × attemptTokensDraw<sub>j</sub><br>central = median(draws) · range80 = [q10(draws), q90(draws)]</div>
+      <div class="callout"><strong>Observational, not causal:</strong> historical routing may send harder tasks to stronger models. Each row forecasts from that model's own conditional history; it does not prove what the identical task would consume under every model. Temporal replay is mandatory, with matched or controlled crossover evidence left as an upgrade.</div>
     </div></section>
 
     <section><div class="wrap">
       <h2>Result contract: every candidate gets a row</h2>
       <p class="sub">The result is more than a number. Scope, age, uncertainty, evidence, and failure status travel with it.</p>
       <div class="table-scroll" role="region" aria-label="Illustrative forecast result contract" tabindex="0"><table>
-        <thead><tr><th>Candidate</th><th>Median attempt tokens</th><th>5h forecast</th><th>80% range</th><th>Calibration</th><th>Confidence</th><th>Current quota</th></tr></thead>
+        <thead><tr><th scope="col">Candidate</th><th scope="col">5h forecast</th><th scope="col">80% range</th><th scope="col">Confidence</th><th scope="col">Current quota</th><th scope="col">Median attempt tokens</th><th scope="col">Calibration</th><th scope="col">Demand evidence</th></tr></thead>
         <tbody>
-          <tr><td>CLI A · balanced · medium</td><td>186k</td><td class="metric">4.2%</td><td>2.7–6.8%</td><td>Example Pro · cal-v3 · 2026-07-10 UTC</td><td class="warn">Medium · quantized meter</td><td>31% left · 2026-07-11 14:20 UTC</td></tr>
-          <tr><td>CLI B · economy · medium</td><td>214k</td><td class="metric">2.1%</td><td>1.2–4.4%</td><td>Example Plus · cal-v2 · 2026-07-09 UTC</td><td class="warn">Low · wide residuals</td><td>64% left · 2026-07-11 16:05 UTC</td></tr>
-          <tr><td>CLI A · new · high</td><td>—</td><td>—</td><td>—</td><td>No compatible calibration</td><td>Uncalibrated · no safe transfer</td><td>Available</td></tr>
+          <tr><td>CLI A · balanced · medium</td><td class="metric">4.2%</td><td>2.7–6.8%</td><td class="warn">Medium · 7 windows · quantized meter</td><td>31% left · resets 2026-07-11 14:20 UTC</td><td>186k</td><td>Example Pro · 5h · cal-v3 · as of 2026-07-10 UTC</td><td>effective n=42 · mixed outcomes · 5% censored · policy-v4</td></tr>
+          <tr><td>CLI B · economy · medium</td><td class="metric">2.1%</td><td>1.2–4.4%</td><td class="warn">Low · 3 windows · wide residuals</td><td>64% left · resets 2026-07-11 16:05 UTC</td><td>214k</td><td>Example Plus · 5h · cal-v2 · as of 2026-07-09 UTC</td><td>effective n=19 · mixed outcomes · 16% censored · policy-v4</td></tr>
+          <tr><td>CLI A · new · high</td><td>—</td><td>—</td><td>Uncalibrated · no safe transfer</td><td>Available · reset separate</td><td>—</td><td>No compatible calibration</td><td>No compatible cohort</td></tr>
         </tbody>
       </table></div>
       <p class="muted"><small>Illustrative values only. The current quota column is supplied separately by Studio and is not folded into the full-window forecast.</small></p>
@@ -79,12 +80,14 @@
         <div class="card"><h3>No false decimals</h3><p>Retain precision in the API; normally show at most one decimal and respect the source meter's quantization. Include scope and as-of time.</p></div>
         <div class="card"><h3>Do not clamp</h3><p>Forecasts may exceed 100%. Unknown stays unknown. Neither case becomes zero or silently disappears from model comparison.</p></div>
       </div>
+      <div class="callout" style="margin-top:16px"><strong>Cheap is not capable:</strong> a model that fails quickly can look inexpensive per attempt. Keep terminal-outcome mix and TokenEconomy's <code>SuggestModel</code> suitability beside this metric; never rank candidates by lowest cap percentage alone.</div>
     </div></section>
 
     <section><div class="wrap">
       <h2>Named upgrade paths</h2>
       <ul>
         <li><strong>V2 per-repository/per-task-type regression:</strong> prompt size, repository, model, thinking, task type, and interactions, evaluated on future time periods.</li>
+        <li>Matched or controlled crossover evidence to measure historical model-routing bias.</li>
         <li>Backtested hierarchical pooling for sparse plans/models, with transfer error reflected in wider ranges.</li>
         <li>Separate input/output/cache/reasoning slopes when the data can identify them.</li>
         <li>Censoring/survival treatment for interrupted work and richer features such as changed-file scope, gates, or tool intensity.</li>
