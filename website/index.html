@@ -153,10 +153,10 @@
     td.num, th.num { text-align: right; font-family: var(--mono); }
     tbody tr:last-child td { border-bottom: none; }
 
-    /* callout */
+    /* callout — full symmetric border only; no coloured left accent bar (style hard rule) */
     .callout {
-      border-left: 3px solid var(--accent); background: var(--accent-soft);
-      padding: 14px 18px; border-radius: 0 10px 10px 0; margin: 18px 0; font-size: 0.96rem;
+      border: 1px solid var(--border); background: var(--accent-soft);
+      padding: 14px 18px; border-radius: 10px; margin: 18px 0; font-size: 0.96rem;
     }
     .callout strong { color: var(--text); }
 
