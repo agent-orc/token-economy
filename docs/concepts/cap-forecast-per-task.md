@@ -2,9 +2,13 @@
 
 **Status:** research plan only, 2026-07-11. **No implementation is authorised.**
 Every implementation slice below is blocked until the operator gives an explicit
-GO. The separate Agent Studio card that captures quota at run start and run end
-is an input to this plan; this document does not expand or re-authorise that
-card.
+GO. The separate Agent Studio boundary-observation card is an input to this plan;
+this document does not expand or re-authorise that card.
+
+**Handoff update, 2026-07-12:** Studio now emits the cached quota state and its
+age at run start and end. Those boundary events do not force a fresh probe and
+do not preserve every raw meter semantic needed below. The
+**calibration-grade fresh/settled start/end pair is therefore still missing**.
 
 The operator-facing goal is simple to say:
 
@@ -86,20 +90,26 @@ provider token limit.
 
 ## 2. What Agent Studio can observe
 
-The plan uses signals already present in Agent Studio and one missing correlated
-capture that is being added by a parallel Studio card.
+The plan uses signals already present in Agent Studio, including the newly
+landed cached boundary events, and one still-missing calibration-grade capture
+contract.
 
 | Signal | Exists today | Relevant fields | Use here |
 |---|---:|---|---|
-| Per-turn token events on the bus | Yes | model, input, output, cache read/write, run correlation, optional latency/context | Reconstruct observed attempt consumption by run and candidate model. |
+| Per-turn token events on the bus | Yes | model, input, output, cache read/write, reliable run correlation on the rich event path, optional latency/context | Reconstruct observed attempt consumption by run and candidate model. Legacy events without an unambiguous run join are ineligible. |
 | Quota snapshots | Yes | CLI, plan, fetched time, used %, reset time/label, source/raw sample, error/suspicious state | Observe the provider meter and identify a quota scope/window. |
 | Run lifecycle | Yes | run start, run finish, duration, terminal outcome | Bracket tokens, detect overlap/reset crossing, and distinguish exact from censored attempt demand. |
 | Task/run configuration | Yes | selected model, thinking level, task metadata | Build model/effort/task cohorts. |
-| Correlated quota at run start and end | **Missing here** | two raw snapshots tied to the same run and window identity, with settle probes | Required for defensible calibration pairs; supplied by the parallel Studio card. |
+| Calibration-grade quota at run start and end | **Partial: fresh/settled pair missing** | cached boundary events now carry run/phase and snapshot age; calibration still needs fresh raw snapshots tied to the same run/window, meter direction/resolution, and settle probes | Cached events are useful audit evidence but are not, alone, defensible calibration pairs; completion remains with the parallel Studio card. |
 
 Primary Studio anchors: [`AgentMessageBusBridge`](https://github.com/agent-orc/agent-studio/blob/main/backend/Features/Bus/AgentMessageBusBridge.cs),
 [`OrchestratorTokenUsage`](https://github.com/agent-orc/agent-studio/blob/main/backend/Shared/Runner/OrchestratorTokenUsage.cs),
 and [`QuotaModels`](https://github.com/agent-orc/agent-studio/blob/main/backend/Shared/Models/QuotaModels.cs).
+
+Only token events that can be joined to the measured run without ambiguity are
+eligible. A legacy event without a dependable run ID may be used only when the
+Studio adapter can prove an equivalent unique join; timestamp proximity alone
+is not enough.
 
 Run duration helps establish whether a reset, expiry, overlap, or probe lag is
 plausible. Duration does not reveal quota capacity by itself.
@@ -222,6 +232,11 @@ Multiple distinct window instances matter more than many pairs from one window.
   unidentified, return `Uncalibrated`. Fit a free intercept only as a
   diagnostic: a material intercept suggests background usage, lag, or a broken
   zero assumption.
+- Before replay, TE-F1 must freeze the weighting rule, Huber tuning, minimum
+  evidence and estimability rules, and the diagnostic thresholds that map to
+  high/medium/low confidence. A later change creates a new estimator version
+  and needs a new untouched temporal hold-out; known parser faults remain
+  quarantined regardless of robust-fit settings.
 - Bootstrap by **distinct window**, not by pair, to avoid pretending correlated
   samples are independent.
 - Version by scope and parser and detect material changes. A detected provider
@@ -301,9 +316,11 @@ For each candidate separately:
    task family are dependent: cluster demand resampling and effective sample
    size by originating task/attempt family, and by repository when its
    dependence is material, rather than treating raw rows as independent.
-4. Apply a documented fallback hierarchy only when it has passed replay
-   validation. Otherwise return `Uncalibrated`. Never reuse one model's token
-   demand as if it were valid for every model.
+4. V1 has no cross-model, model-family, task-type, or repository fallback. If
+   the exact cohort is insufficient, return `Uncalibrated`. A later fallback
+   hierarchy may be introduced only after replay validates and freezes its
+   transfer rules and interval widening. Never reuse one model's token demand
+   as if it were valid for every model.
 
 Then compute:
 
@@ -390,8 +407,8 @@ These are card-sized proposals, not active work. **Every row is GO-blocked.**
 
 | # | Proposed card / owner | Inputs | Outputs | Dependencies | Gate |
 |---:|---|---|---|---|---|
-| 1 | **TE-F1 — Calibration contracts and estimator** / TokenEconomy | Context-cleared normalized spans, scope, token components, percent resolution | Structural/statistical validation; `beta`, effective capacity, interval, confidence, diagnostics; deterministic tests | Operator GO | **Blocked: GO** |
-| 2 | **AGT-F1 — Observation adapter and calibration store** / Studio | Parallel card's correlated start/end snapshots; bus token events; run/config metadata | Versioned raw + normalized spans; contextual parser/window/overlap/attribution quarantine reasons; TE estimator input | Capture card, TE-F1, operator GO | **Blocked: GO** |
+| 1 | **TE-F1 — Calibration contracts and estimator** / TokenEconomy | Context-cleared normalized spans, scope, token components, percent resolution | Structural/statistical validation; `beta`, effective capacity, interval, confidence, diagnostics; deterministic tests | Agreed normalized contract, operator GO | **Blocked: GO** |
+| 2 | **AGT-F1 — Observation adapter and calibration store** / Studio | Parallel card's cached boundary events plus calibration-grade fresh/settled start/end snapshots; reliably run-correlated bus token events; run/config metadata | Versioned raw + normalized spans; contextual parser/window/overlap/attribution quarantine reasons; TE estimator input | Calibration-grade capture completion, TE-F1, operator GO | **Blocked: GO** |
 | 3 | **TE-F2 — Forecast v1 API** / TokenEconomy | Task features/attempt history, candidate model+effort, calibration result | Per-candidate median attempt tokens, cap %, prediction range, confidence/status/reasons; tests | TE-F1, operator GO | **Blocked: GO** |
 | 4 | **AGT-F2 — Offline replay and shadow forecast** / Studio | Historical eligible cohorts, TE-F2 outputs, later realized meter deltas | Temporal hold-out report: percentage-point MAE/bias, interval coverage, direct-delta baseline comparison, stale/change alerts, frozen evidence gates plus later untouched confirmation | AGT-F1, TE-F2, operator GO | **Blocked: GO** |
 | 5 | **AGT-F3 — Card metric and AGT-2055 advisory input** / Studio | All candidate forecast rows, live headroom/reset, weekly windows, `SuggestModel` rationale | Human card table and an auditable advisory field/event for AGT-2055; **no admission behavior change** | AGT-F2 passes, NuGet publish, AGT-2055, operator GO | **Blocked: GO** |

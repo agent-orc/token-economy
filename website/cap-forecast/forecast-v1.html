@@ -52,7 +52,7 @@
         <div class="step"><strong>Screen closed history.</strong> Include complete successful, failed, and cancelled terminal attempts. Keep quota-truncated/still-running lower bounds out of the simple point cohort, report their rate, and exclude token-incomplete/incompatible records.</div>
         <div class="step"><strong>Build the exact cohort.</strong> Same task type, exact model, thinking level, and compatible routing/timeout/cancellation policy; then prefer the closest prompt-size band.</div>
         <div class="step"><strong>Estimate demand robustly.</strong> Cohort median for central attempt tokens; empirical quantiles for the range. Cluster repeated attempts/reissues by task family (and repository when material), then disclose effective sample size, outcome mix, and censored rate.</div>
-        <div class="step"><strong>Apply only validated fallbacks.</strong> A broader model/family cohort may be used only if replay tests establish transfer error and widen the range. Otherwise return <code>Uncalibrated</code>.</div>
+        <div class="step"><strong>Use no cross-cohort fallback in v1.</strong> Insufficient exact history returns <code>Uncalibrated</code>. A later fallback hierarchy requires replay-validated, frozen transfer rules and explicit interval widening.</div>
         <div class="step"><strong>Combine both uncertainties.</strong> Multiply paired attempt-demand and calibration-slope draws; report the product median and 10th–90th percentiles. Preserve dependence when evidence overlaps.</div>
       </div>
       <div class="formula">capPctDraw<sub>j</sub> = betaDraw<sub>j</sub> × attemptTokensDraw<sub>j</sub><br>central = median(draws) · range80 = [q10(draws), q90(draws)]</div>

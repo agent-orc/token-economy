@@ -25,7 +25,7 @@
 <body>
   <header><div class="wrap"><a class="brand" href="index.html"><span class="mark">¢</span> Cap forecast</a><nav aria-label="Cap forecast pages"><a href="index.html">Overview</a><a href="problem.html">Problem</a><a href="forecast-v1.html">Forecast v1</a><a href="architecture.html">Boundaries</a><a href="slices.html">Slices</a></nav></div></header>
   <main>
-    <div class="hero"><div class="wrap"><div class="eyebrow">02 · Data plan</div><h1>Pair task tokens with meter movement—only when the pair is identifiable.</h1><p class="lead">Agent Studio already sees token turns, quota percentages, run timing, model, and thinking level. The missing bridge is a trusted quota snapshot at both ends of the same run, tied to one window identity.</p><div class="callout" style="margin-top:20px"><strong>Research plan only:</strong> the paired capture is a parallel dependency; calibration implementation still requires explicit operator GO.</div></div></div>
+    <div class="hero"><div class="wrap"><div class="eyebrow">02 · Data plan</div><h1>Pair task tokens with meter movement—only when the pair is identifiable.</h1><p class="lead">Agent Studio sees token turns, quota percentages, run timing, model, and thinking level, and now emits cached quota state at run boundaries. The missing bridge is a calibration-grade fresh and settled raw pair tied to the same run and window identity.</p><div class="callout" style="margin-top:20px"><strong>Research plan only:</strong> completing that capture contract is a parallel dependency; calibration implementation still requires explicit operator GO.</div></div></div>
 
     <section><div class="wrap">
       <h2>Observation inventory</h2>
@@ -33,13 +33,14 @@
       <div class="table-scroll" role="region" aria-label="Agent Studio observation inventory" tabindex="0"><table>
         <thead><tr><th scope="col">Observation</th><th scope="col">Status</th><th scope="col">Fields used</th><th scope="col">Forecast role</th></tr></thead>
         <tbody>
-          <tr><td>Per-turn bus token events</td><td class="yes">Exists</td><td>model; input/output; cache read/write; run correlation; optional timing</td><td>Build model-specific observed attempt consumption without losing components.</td></tr>
+          <tr><td>Per-turn bus token events</td><td class="yes">Exists</td><td>model; input/output; cache read/write; reliable run correlation on the rich path; optional timing</td><td>Build model-specific observed attempt consumption. Legacy events without an unambiguous run join are ineligible.</td></tr>
           <tr><td>Quota snapshots</td><td class="yes">Exists</td><td>CLI/plan; fetched time; normalized used %; reset; raw/source; error/suspicious</td><td>Observe the provider meter and screen parser quality.</td></tr>
           <tr><td>Run lifecycle</td><td class="yes">Exists</td><td>start/finish; duration; terminal outcome</td><td>Bracket events and detect reset crossing, overlap, and censoring.</td></tr>
           <tr><td>Run configuration</td><td class="yes">Exists</td><td>exact model; thinking level; task metadata</td><td>Define calibration and task-history cohorts.</td></tr>
-          <tr><td>Quota at run start/end</td><td class="missing">Parallel card</td><td>raw used/remaining semantics + resolution; settled end; same run/window ID</td><td>The required correlated pair; not implemented by this plan.</td></tr>
+          <tr><td>Calibration-grade quota at run start/end</td><td class="missing">Partial · fresh/settled pair missing</td><td>cached boundary state + age exists; still needs fresh raw used/remaining semantics, resolution, settled end, and same run/window ID</td><td>Cached boundary events are audit evidence, not sufficient calibration pairs; completion stays with the parallel card.</td></tr>
         </tbody>
       </table></div>
+      <div class="callout" style="margin-top:16px"><strong>Handoff update · 2026-07-12:</strong> current boundary events mirror cached quota and expose its age; they do not force a fresh probe. Only token events with a provably unique run join qualify—timestamp proximity is not enough.</div>
       <p class="muted"><small>Source anchors: Studio's <a href="https://github.com/agent-orc/agent-studio/blob/main/backend/Features/Bus/AgentMessageBusBridge.cs">bus bridge ↗</a>, <a href="https://github.com/agent-orc/agent-studio/blob/main/backend/Shared/Runner/OrchestratorTokenUsage.cs">token usage contract ↗</a>, and <a href="https://github.com/agent-orc/agent-studio/blob/main/backend/Shared/Models/QuotaModels.cs">quota snapshot contract ↗</a>.</small></p>
     </div></section>
 
@@ -83,10 +84,11 @@
         <div class="card"><h3>Bootstrap distinct windows</h3><p>Pairs from the same window are correlated. Resample complete window instances, diagnose a free intercept for background use, and validate on later time periods.</p></div>
         <div class="card"><h3>Confidence has several inputs</h3><p>Distinct windows, movement vs quantization, recency, residuals, evidence quality, hold-out error, and coverage. Sparse or stale means low confidence or uncalibrated; a detected regime change closes the old calibration instead of blending it with new data.</p></div>
       </div>
+      <div class="callout" style="margin-top:16px"><strong>Freeze the estimator before replay:</strong> TE-F1 must version its weights, Huber tuning, minimum-evidence/estimability rules, and confidence-label thresholds. Changing them after seeing hold-out results requires a new untouched time period.</div>
     </div></section>
 
     <div class="wrap next"><a href="problem.html">← Problem framing</a><a href="forecast-v1.html">Next: forecast model v1 →</a></div>
   </main>
-  <footer><div class="wrap">Research plan only · the correlated start/end capture is a parallel Studio dependency · implementation requires operator GO</div></footer>
+  <footer><div class="wrap">Research plan only · calibration-grade start/end capture remains a parallel Studio dependency · implementation requires operator GO</div></footer>
 </body>
 </html>

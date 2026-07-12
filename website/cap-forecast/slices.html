@@ -34,7 +34,7 @@
         <thead><tr><th scope="col">Card / owner</th><th scope="col">Inputs</th><th scope="col">Outputs</th><th scope="col">Dependencies</th><th scope="col">Gate</th></tr></thead>
         <tbody>
           <tr><td><span class="id">1 · TE-F1</span><br><strong>Calibration contracts + estimator</strong><br>TokenEconomy</td><td>Context-cleared normalized spans, scope, token components, meter resolution</td><td>Structural/statistical validation; slope, effective capacity, interval, confidence, diagnostics; tests</td><td>Agreed normalized contract</td><td class="blocked">GO required</td></tr>
-          <tr><td><span class="id">2 · AGT-F1</span><br><strong>Observation adapter + store</strong><br>Agent Studio</td><td>Parallel capture snapshots, bus tokens, lifecycle/config metadata</td><td>Versioned spans; contextual parser/window/overlap/attribution gates and quarantine reasons; TE input</td><td>Capture card; TE-F1 contract</td><td class="blocked">GO required</td></tr>
+          <tr><td><span class="id">2 · AGT-F1</span><br><strong>Observation adapter + store</strong><br>Agent Studio</td><td>Cached boundary events plus calibration-grade fresh/settled snapshots, reliably run-correlated bus tokens, lifecycle/config metadata</td><td>Versioned spans; contextual parser/window/overlap/attribution gates and quarantine reasons; TE input</td><td>Capture completion; TE-F1 contract</td><td class="blocked">GO required</td></tr>
           <tr><td><span class="id">3 · TE-F2</span><br><strong>Forecast v1 API</strong><br>TokenEconomy</td><td>Task features/attempt history, all candidates, calibration result</td><td>Median attempt tokens and cap %, prediction range, confidence/status/reasons; tests</td><td>TE-F1</td><td class="blocked">GO required</td></tr>
           <tr><td><span class="id">4 · AGT-F2</span><br><strong>Replay + shadow forecast</strong><br>Agent Studio</td><td>Eligible historical cohorts, TE-F2, later meter outcomes</td><td>Temporal MAE/bias/coverage and direct-delta baseline; frozen gates plus later untouched confirmation</td><td>AGT-F1; TE-F2</td><td class="blocked">GO required</td></tr>
           <tr><td><span class="id">5 · AGT-F3</span><br><strong>Card + AGT-2055 advisory input</strong><br>Agent Studio</td><td>All candidate rows, current 5h/weekly state, reset, SuggestModel rationale</td><td>Human comparison and auditable advisory field/event; no admission behavior change</td><td>AGT-F2 passes; NuGet publish; AGT-2055</td><td class="blocked">GO required</td></tr>
@@ -67,7 +67,7 @@
     <section><div class="wrap">
       <h2>Dependencies that GO does not erase</h2>
       <div class="grid">
-        <div class="card"><span class="status">Parallel Studio work</span><h3>Correlated quota capture</h3><p>The missing start/end capture must supply raw, same-run, same-window observations plus a documented settle policy. This plan consumes its output.</p></div>
+        <div class="card"><span class="status">Parallel Studio work</span><h3>Calibration-grade quota capture</h3><p>Cached boundary events now exist, but they must be upgraded or supplemented with fresh raw, same-run, same-window observations plus a documented settle policy. This plan consumes that completed contract.</p></div>
         <div class="card"><span class="status">Operator policy</span><h3>First TokenEconomy NuGet publish</h3><p>Studio package consumption remains blocked until the operator completes the one-time publishing step—even if implementation work receives GO.</p></div>
       </div>
     </div></section>
