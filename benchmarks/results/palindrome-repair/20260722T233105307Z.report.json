@@ -1,0 +1,30 @@
+{
+  "setupId": "palindrome-repair",
+  "runId": "20260722T233105307Z",
+  "winner": "sol-medium",
+  "winnerReason": "Highest success rate; ties break on average tokens, duration, then variant id.",
+  "variants": [
+    {
+      "variantId": "sol-medium",
+      "runs": 1,
+      "successes": 1,
+      "successRate": 1,
+      "totalTokens": 13550,
+      "averageTokens": 13550,
+      "totalCostUsd": null,
+      "averageDurationMs": 18538
+    },
+    {
+      "variantId": "terra-medium",
+      "runs": 1,
+      "successes": 1,
+      "successRate": 1,
+      "totalTokens": 13668,
+      "averageTokens": 13668,
+      "totalCostUsd": null,
+      "averageDurationMs": 16004
+    }
+  ],
+  "costDeltaUsd": null,
+  "qualityDelta": 0
+}

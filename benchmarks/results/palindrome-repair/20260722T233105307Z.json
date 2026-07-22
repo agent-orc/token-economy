@@ -1,0 +1,45 @@
+{
+  "schemaVersion": 1,
+  "setupId": "palindrome-repair",
+  "runId": "20260722T233105307Z",
+  "startedAtUtc": "2026-07-22T23:31:05.3072904Z",
+  "completedAtUtc": "2026-07-22T23:31:40.002624Z",
+  "cases": [
+    {
+      "variantId": "terra-medium",
+      "model": "gpt-5.6-terra",
+      "thinkingLevel": "medium",
+      "repetition": 1,
+      "succeeded": true,
+      "invocationExitCode": 0,
+      "evaluationExitCode": 0,
+      "usage": {
+        "input": 3035,
+        "output": 137,
+        "cacheRead": 10496,
+        "cacheWrite": 0
+      },
+      "costUsd": null,
+      "durationMs": 16004,
+      "failureReason": null
+    },
+    {
+      "variantId": "sol-medium",
+      "model": "gpt-5.6-sol",
+      "thinkingLevel": "medium",
+      "repetition": 1,
+      "succeeded": true,
+      "invocationExitCode": 0,
+      "evaluationExitCode": 0,
+      "usage": {
+        "input": 3339,
+        "output": 227,
+        "cacheRead": 9984,
+        "cacheWrite": 0
+      },
+      "costUsd": null,
+      "durationMs": 18538,
+      "failureReason": null
+    }
+  ]
+}

@@ -37,6 +37,11 @@ are part of the static site. No forecast implementation is authorised yet.
   consumption/outcome views. The filesystem contract is intentionally used over
   the task-server API so reporting jobs do not require a running server.
 
+- **Controlled A/B benchmarks** — versioned repository definitions execute the
+  same task against model/effort variants in isolated workspaces, retain raw
+  append-only measurements, and derive deterministic comparison reports. See
+  [the benchmark guide](docs/benchmarks.md).
+
 ## Install
 
 ```

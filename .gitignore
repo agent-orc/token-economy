@@ -82,3 +82,5 @@ secrets.json
 
 # task-run evidence (board workflow) does not belong in the library repo
 results/
+!benchmarks/results/
+!benchmarks/results/**

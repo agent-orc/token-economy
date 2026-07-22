@@ -1,0 +1,22 @@
+{
+  "schemaVersion": 1,
+  "id": "palindrome-repair",
+  "task": {
+    "prompt": "Return only the complete C# source for StringTools.cs implementing StringTools.IsPalindrome. Ignore punctuation, whitespace, and letter case. An empty or punctuation-only string is a palindrome. Do not use tools, Markdown fences, or explanations.",
+    "seedWorkspace": "benchmarks/fixtures/palindrome-repair",
+    "responseFile": "StringTools.cs"
+  },
+  "variants": [
+    { "id": "terra-medium", "model": "gpt-5.6-terra", "thinkingLevel": "medium" },
+    { "id": "sol-medium", "model": "gpt-5.6-sol", "thinkingLevel": "medium" }
+  ],
+  "repetitions": 1,
+  "invocationTimeoutSeconds": 90,
+  "successCriteria": {
+    "command": "dotnet",
+    "arguments": ["run", "--project", "PalindromeTask.csproj"],
+    "expectedExitCode": 0,
+    "timeoutSeconds": 120
+  },
+  "costCaps": { "maxTotalTokensPerInvocation": 50000 }
+}
