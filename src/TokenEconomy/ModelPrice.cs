@@ -9,7 +9,7 @@ public static class Currencies
 
 /// <summary>
 /// One historical price point for a model, in a single currency, effective from
-/// <see cref="ValidFrom"/> (inclusive) until superseded by a later entry. Rates are quoted
+/// <see cref="ValidFrom"/> (inclusive) through <see cref="ValidTo"/> (inclusive, when set). Rates are quoted
 /// per one million tokens (per-MTok). The cost of a run is always computed with the entry that
 /// was valid at the run's UTC timestamp, so historic entries are never deleted — a price change
 /// adds a new entry with a later <see cref="ValidFrom"/> and leaves the old one in place.
@@ -47,6 +47,13 @@ public sealed record ModelPrice
     /// </summary>
     public DateTime ValidFrom { get; init; }
 
+    /// <summary>
+    /// UTC instant at which this price period ends, inclusive. Null means the period has no known
+    /// end yet. Price changes should close the previous period and append a new entry rather than
+    /// overwrite historical data.
+    /// </summary>
+    public DateTime? ValidTo { get; init; }
+
     /// <summary>Where the number came from (pricing page, release note, catalog import, …). Free text.</summary>
     public string? Source { get; init; }
 
@@ -59,6 +66,9 @@ public sealed record ModelPrice
     /// so a caller can surface the caveat instead of trusting the figure silently.
     /// </summary>
     public bool Unconfirmed { get; init; }
+
+    /// <summary>The required consumer-facing caveat for catalog-derived list-price estimates.</summary>
+    public const string EstimatedListPricesCaveat = "estimated - list prices";
 }
 
 /// <summary>

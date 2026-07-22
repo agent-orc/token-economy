@@ -32,6 +32,7 @@ internal static class ModelPriceSeed
 
     /// <summary>The introductory Sonnet-5 rates end 2026-08-31 (UTC); standard pricing applies from this instant.</summary>
     private static readonly DateTime Sonnet5StandardFrom = new(2026, 9, 1, 0, 0, 0, DateTimeKind.Utc);
+    private static readonly DateTime Sonnet5IntroductoryUntil = Sonnet5StandardFrom.AddTicks(-1);
 
     /// <summary>The seeded listings. Called once by <see cref="ModelPriceCatalog.Default"/>.</summary>
     public static IReadOnlyList<ModelListing> Listings() =>
@@ -57,7 +58,7 @@ internal static class ModelPriceSeed
             // A real price change: introductory rates now, standard rates from 2026-09-01 (UTC).
             History =
             [
-                AnthropicPrice(2.00m, 10.00m, SinceForever, note: "Introductory pricing, in effect through 2026-08-31 (UTC)."),
+                AnthropicPrice(2.00m, 10.00m, SinceForever, validTo: Sonnet5IntroductoryUntil, note: "Introductory pricing, in effect through 2026-08-31 (UTC)."),
                 AnthropicPrice(3.00m, 15.00m, Sonnet5StandardFrom, note: "Standard pricing (introductory period ended 2026-08-31)."),
             ],
         },
@@ -151,7 +152,7 @@ internal static class ModelPriceSeed
     ];
 
     /// <summary>An Anthropic price point with cache rates derived from the documented multipliers.</summary>
-    private static ModelPrice AnthropicPrice(decimal input, decimal output, DateTime validFrom, string? note = null, bool unconfirmed = false) => new()
+    private static ModelPrice AnthropicPrice(decimal input, decimal output, DateTime validFrom, DateTime? validTo = null, string? note = null, bool unconfirmed = false) => new()
     {
         InputPerMTok = input,
         OutputPerMTok = output,
@@ -159,6 +160,7 @@ internal static class ModelPriceSeed
         CacheWritePerMTok = input * 1.25m,  // documented 5-minute-TTL cache-write rate
         Currency = Currencies.Usd,
         ValidFrom = validFrom,
+        ValidTo = validTo,
         Source = SourceAnthropic,
         Note = note,
         Unconfirmed = unconfirmed,

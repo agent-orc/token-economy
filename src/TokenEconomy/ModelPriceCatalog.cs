@@ -30,6 +30,7 @@ public sealed class ModelPriceCatalog
             Index(listing.ModelId, listing);
             foreach (var alias in listing.Aliases)
                 Index(alias, listing);
+            ValidatePeriods(listing);
         }
     }
 
@@ -54,6 +55,13 @@ public sealed class ModelPriceCatalog
         if (string.IsNullOrWhiteSpace(model)) return null;
         return _byKey.TryGetValue(Normalize(model), out var listing) ? listing : null;
     }
+
+    /// <summary>
+    /// Returns the complete dated price development for a model, ordered by period start. An
+    /// unknown model returns an empty sequence; consumers can render this directly as a price-over-time view.
+    /// </summary>
+    public IReadOnlyList<ModelPrice> PriceDevelopment(string? model)
+        => Find(model)?.History.OrderBy(price => price.ValidFrom).ToArray() ?? [];
 
     /// <summary>
     /// Resolve the price in effect for <paramref name="model"/> at <paramref name="atUtc"/> (a UTC instant).
@@ -95,6 +103,7 @@ public sealed class ModelPriceCatalog
             Status = PriceStatus.Resolved,
             ModelId = resolution.ModelId,
             Price = price,
+            Caveat = ModelPrice.EstimatedListPricesCaveat,
             Currency = price.Currency,
             InputCost = input,
             OutputCost = output,
@@ -104,17 +113,25 @@ public sealed class ModelPriceCatalog
         };
     }
 
+    /// <summary>
+    /// Convenience cost API for callers that report only input and output tokens. The execution
+    /// timestamp is mandatory because list prices are resolved from their dated validity period.
+    /// </summary>
+    public CostBreakdown Cost(string? model, long tokensIn, long tokensOut, DateTime executedAt)
+        => ComputeCost(model, new TokenUsage(tokensIn, tokensOut), executedAt);
+
     /// <summary>Cost of a token count at a per-MTok rate. Non-positive counts cost nothing.</summary>
     private static decimal CostOf(long tokens, decimal ratePerMTok)
         => tokens <= 0 ? 0m : tokens / 1_000_000m * ratePerMTok;
 
-    /// <summary>The entry with the latest <see cref="ModelPrice.ValidFrom"/> that is not after <paramref name="atUtc"/>, or null.</summary>
+    /// <summary>The entry whose explicit validity period contains <paramref name="atUtc"/>, or null.</summary>
     private static ModelPrice? SelectValid(IReadOnlyList<ModelPrice> history, DateTime atUtc)
     {
         ModelPrice? best = null;
         foreach (var entry in history)
         {
-            if (entry.ValidFrom <= atUtc && (best is null || entry.ValidFrom > best.ValidFrom))
+            if (entry.ValidFrom <= atUtc && (entry.ValidTo is null || atUtc <= entry.ValidTo) &&
+                (best is null || entry.ValidFrom > best.ValidFrom))
                 best = entry;
         }
         return best;
@@ -123,4 +140,21 @@ public sealed class ModelPriceCatalog
     /// <summary>Canonicalize a lookup key: trim, lowercase, and fold <c>.</c> to <c>-</c> so <c>gpt-5.6</c> and <c>gpt-5-6</c> match.</summary>
     private static string Normalize(string key)
         => key.Trim().ToLowerInvariant().Replace('.', '-');
+
+    private static void ValidatePeriods(ModelListing listing)
+    {
+        foreach (var price in listing.History)
+        {
+            if (price.ValidTo is { } validTo && validTo < price.ValidFrom)
+                throw new ArgumentException($"Model '{listing.ModelId}' has a price period ending before it starts.", nameof(listing));
+        }
+
+        var ordered = listing.History.OrderBy(price => price.ValidFrom).ToArray();
+        for (var index = 1; index < ordered.Length; index++)
+        {
+            var previous = ordered[index - 1];
+            if (previous.ValidTo is null || previous.ValidTo >= ordered[index].ValidFrom)
+                throw new ArgumentException($"Model '{listing.ModelId}' has overlapping price periods.", nameof(listing));
+        }
+    }
 }
