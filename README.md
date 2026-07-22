@@ -30,6 +30,12 @@ are part of the static site. No forecast implementation is authorised yet.
   availableClis, atUtc)`: which model buys the most for these tokens, ranked
   with a rationale string for audit trails. Cost class is *derived* from the
   pricing catalog, never restated.
+- **Agent Studio ingest** — reads each card's durable `task.json` directly and
+  upserts model-run metrics by task key + run. It maps model/provider, usage,
+  price-at-run-time, final-lane outcome signal, timestamps, project, task type,
+  CLI and thinking level; `ModelRunViews` provides daily per-model and project
+  consumption/outcome views. The filesystem contract is intentionally used over
+  the task-server API so reporting jobs do not require a running server.
 
 ## Install
 
