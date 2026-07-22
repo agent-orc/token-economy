@@ -16,7 +16,7 @@ public class ModelPriceCatalogTests
             Vendor = "test",
             History =
             [
-                new ModelPrice { InputPerMTok = 1.00m, OutputPerMTok = 2.00m, CacheReadPerMTok = 0.10m, CacheWritePerMTok = 1.25m, ValidFrom = DateTime.MinValue },
+                new ModelPrice { InputPerMTok = 1.00m, OutputPerMTok = 2.00m, CacheReadPerMTok = 0.10m, CacheWritePerMTok = 1.25m, ValidFrom = DateTime.MinValue, ValidTo = new DateTime(2026, 5, 31, 23, 59, 59, DateTimeKind.Utc).AddTicks(9_999_999) },
                 new ModelPrice { InputPerMTok = 4.00m, OutputPerMTok = 8.00m, CacheReadPerMTok = 0.40m, CacheWritePerMTok = 5.00m, ValidFrom = new DateTime(2026, 6, 1, 0, 0, 0, DateTimeKind.Utc) },
             ],
         },
@@ -154,6 +154,31 @@ public class ModelPriceCatalogTests
         var current = catalog.ComputeCost("test-model", new TokenUsage(250_000, 0), Now);
         Assert.Equal(0.25m, old.Total);
         Assert.Equal(1.00m, current.Total);
+    }
+
+    [Fact]
+    public void Cost_ExposesListPriceCaveatAndDateBoundedDevelopment()
+    {
+        var catalog = Custom();
+        var cost = catalog.Cost("test-model", 1_000_000, 0, Now);
+        var development = catalog.PriceDevelopment("test-model");
+
+        Assert.Equal(4.00m, cost.Total);
+        Assert.Equal(ModelPrice.EstimatedListPricesCaveat, cost.Caveat);
+        Assert.True(cost.IsEstimatedListPrice);
+        Assert.Equal(2, development.Count);
+        Assert.NotNull(development[0].ValidTo);
+    }
+
+    [Fact]
+    public void DateAfterExplicitValidityPeriod_IsNoPriceForDate()
+    {
+        var catalog = new ModelPriceCatalog([
+            new ModelListing { ModelId = "expired", History = [new ModelPrice { InputPerMTok = 1m, OutputPerMTok = 1m, ValidFrom = new DateTime(2026, 1, 1, 0, 0, 0, DateTimeKind.Utc), ValidTo = new DateTime(2026, 1, 31, 0, 0, 0, DateTimeKind.Utc) }] }
+        ]);
+        var result = catalog.Cost("expired", 1_000_000, 0, new DateTime(2026, 2, 1, 0, 0, 0, DateTimeKind.Utc));
+        Assert.Equal(PriceStatus.NoPriceForDate, result.Status);
+        Assert.Null(result.Total);
     }
 
     [Fact]

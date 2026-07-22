@@ -53,6 +53,15 @@ public sealed record CostBreakdown
     /// <summary>The price entry used, or null when none applied.</summary>
     public ModelPrice? Price { get; init; }
 
+    /// <summary>
+    /// Consumer-facing caveat for a computed catalog price. It is present whenever a price was
+    /// resolved so UI consumers can show that this is an estimate based on published list prices.
+    /// </summary>
+    public string? Caveat { get; init; }
+
+    /// <summary>True when <see cref="Caveat"/> is the catalog list-price estimate caveat.</summary>
+    public bool IsEstimatedListPrice => Caveat == ModelPrice.EstimatedListPricesCaveat;
+
     /// <summary>The currency the costs are quoted in, or null when no price applied.</summary>
     public string? Currency { get; init; }
 
