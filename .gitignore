@@ -79,3 +79,6 @@ secrets.json
 # The shared, committed config (if any) lives in .claude/settings.json.
 .claude/settings.local.json
 
+
+# task-run evidence (board workflow) does not belong in the library repo
+results/
