@@ -41,6 +41,10 @@ are part of the static site. No forecast implementation is authorised yet.
   same task against model/effort variants in isolated workspaces, retain raw
   append-only measurements, and derive deterministic comparison reports. See
   [the benchmark guide](docs/benchmarks.md).
+- **Upfront task complexity** — card/repository signals plus measured historical
+  neighbours produce a versioned routing score, confidence, token/reissue
+  forecast, and audit evidence. A host-supplied mini-model rubric is optional.
+  See the [design and backtest contract](docs/concepts/upfront-task-complexity.md).
 
 ## Install
 

@@ -14,7 +14,7 @@ public sealed record AgentStudioImportEvent(string Name, IReadOnlyDictionary<str
 /// Imports Agent Studio's on-disk task storage. The contract is a <c>task.json</c> per card, read
 /// directly (not through task-server): this remains available to batch/reporting jobs when no server
 /// is running. Fields read are task key, run/attempt, model, thinkingLevel, cliType, tokenSummary,
-/// lastUsage, taskType, final lane, project, and timestamps. Unknown fields are ignored for forwards compatibility.
+/// lastUsage, taskType, prompt/card features, final lane, project, and timestamps. Unknown fields are ignored for forwards compatibility.
 /// </summary>
 public sealed class AgentStudioTaskStorageImporter
 {
@@ -72,7 +72,12 @@ public sealed class AgentStudioTaskStorageImporter
         {
             TaskKey = taskKey, Run = Number(task, "run", "attempt", "runNumber"), Project = Text(task, "project", "projectId"),
             Provider = listing?.Vendor ?? ProviderFromCli(Text(task, "cliType")), Model = cost.ModelId ?? model,
-            ThinkingLevel = Text(task, "thinkingLevel"), CliType = Text(task, "cliType"), TaskType = Text(task, "taskType"), FinalLane = lane,
+            ThinkingLevel = Text(task, "thinkingLevel"), CliType = Text(task, "cliType"), TaskType = Text(task, "taskType"),
+            TaskPrompt = Text(task, "prompt", "description"), Area = Text(task, "area", "component"),
+            EpicContext = Text(task, "epicContext", "epic"), AcceptanceCriteria = Strings(task, "acceptanceCriteria", "criteria"),
+            ReferencedFiles = Strings(task, "referencedFiles", "files"), ReferencedSubsystems = Strings(task, "referencedSubsystems", "subsystems"),
+            DependencyFanOut = NullableNumber(task, "dependencyFanOut"), RepositoryFileCount = NullableNumber(task, "repositoryFileCount"),
+            FinalLane = lane,
             Usage = usage, ExecutedAtUtc = executedAt, CostEstimate = cost.Total, Currency = cost.Currency, CostStatus = cost.Status, CostCaveat = cost.Caveat, Outcome = Outcome(lane),
             StartedAtUtc = Date(task, "startedAt", "createdAt"), ObservedAtUtc = observedAt,
         };
@@ -92,6 +97,19 @@ public sealed class AgentStudioTaskStorageImporter
     }
     private static int Number(JsonElement value, params string[] names)
         => int.TryParse(Text(value, names), out var number) ? number : 0;
+    private static int? NullableNumber(JsonElement value, params string[] names)
+        => int.TryParse(Text(value, names), out var number) ? Math.Max(0, number) : null;
+    private static IReadOnlyList<string> Strings(JsonElement value, params string[] names)
+    {
+        foreach (var name in names)
+        {
+            if (Property(value, name) is not { } item) continue;
+            if (item.ValueKind == JsonValueKind.Array)
+                return item.EnumerateArray().Where(v => v.ValueKind is JsonValueKind.String or JsonValueKind.Number).Select(v => v.ToString()).ToArray();
+            if (item.ValueKind == JsonValueKind.String) return [item.GetString()!];
+        }
+        return [];
+    }
     private static DateTime? Date(JsonElement value, params string[] names)
         => DateTime.TryParse(Text(value, names), null, System.Globalization.DateTimeStyles.RoundtripKind, out var date) ? date.ToUniversalTime() : null;
     private static long Tokens(JsonElement? usage, params string[] names)
