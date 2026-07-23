@@ -59,7 +59,10 @@ public sealed class AgentStudioTaskStorageImporter
         var task = Object(root, "task") ?? root;
         var model = Text(task, "model") ?? throw new InvalidDataException("Agent Studio task.json has no model.");
         var taskKey = Text(task, "taskKey", "key", "id") ?? throw new InvalidDataException("Agent Studio task.json has no task key.");
-        var observed = Date(task, "completedAt", "updatedAt", "finishedAt", "createdAt") ?? DateTime.UtcNow;
+        // Import time is deliberately not a fallback: it would make a timestamp-less card
+        // change on every idempotent re-import. UnixEpoch is an explicit, stable "unknown"
+        // timestamp and also prevents us from applying today's price to an undated run.
+        var observed = Date(task, "completedAt", "updatedAt", "finishedAt", "createdAt") ?? DateTime.UnixEpoch;
         var usage = Usage(Object(task, "tokenSummary") ?? Object(task, "lastUsage"));
         var cost = _prices.ComputeCost(model, usage, observed);
         var lane = Text(task, "finalLane", "lane", "column");

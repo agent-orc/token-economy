@@ -49,6 +49,21 @@ public class AgentStudioTaskStorageImporterTests
     }
 
     [Fact]
+    public void Parse_UsesStableUnknownTimestampWhenTaskHasNoTimestamp()
+    {
+        using var json = System.Text.Json.JsonDocument.Parse("""
+            { "id":"card-8", "model":"unpriced-model", "lastUsage": { "promptTokens":12 } }
+            """);
+
+        var importer = new AgentStudioTaskStorageImporter();
+        var first = importer.Parse(json.RootElement);
+        var second = importer.Parse(json.RootElement);
+
+        Assert.Equal(DateTime.UnixEpoch, first.ObservedAtUtc);
+        Assert.Equal(first, second);
+    }
+
+    [Fact]
     public void ImportDirectory_EmitsStructuredFailureEventForUnreadableTask()
     {
         var directory = Path.Combine(Path.GetTempPath(), $"token-economy-{Guid.NewGuid():N}");
