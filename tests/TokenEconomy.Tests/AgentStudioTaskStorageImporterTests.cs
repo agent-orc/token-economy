@@ -69,4 +69,18 @@ public class AgentStudioTaskStorageImporterTests
         }
         finally { Directory.Delete(directory, true); }
     }
+
+    [Fact]
+    public void Parse_RetainsExecutionDateUsedForHistoricalCost()
+    {
+        using var json = System.Text.Json.JsonDocument.Parse("""
+            { "id":"card-8", "model":"claude-sonnet-5", "completedAt":"2026-08-31T23:59:59Z",
+              "updatedAt":"2026-09-02T12:00:00Z", "tokenSummary": { "inputTokens":1000000 } }
+            """);
+
+        var record = new AgentStudioTaskStorageImporter().Parse(json.RootElement);
+
+        Assert.Equal(new DateTime(2026, 8, 31, 23, 59, 59, DateTimeKind.Utc), record.ExecutedAtUtc);
+        Assert.Equal(2.00m, record.CostEstimate); // introductory rate at execution, not the later update's $3 rate
+    }
 }

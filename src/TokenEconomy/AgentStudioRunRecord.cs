@@ -19,6 +19,12 @@ public sealed record AgentStudioRunRecord
     public string? TaskType { get; init; }
     public string? FinalLane { get; init; }
     public required TokenUsage Usage { get; init; }
+    /// <summary>
+    /// UTC instant used to resolve <see cref="CostEstimate"/> from the dated pricing catalog.
+    /// This is normally the run completion timestamp; it remains distinct from
+    /// <see cref="ObservedAtUtc"/> so a later card update cannot reprice a historical run.
+    /// </summary>
+    public required DateTime ExecutedAtUtc { get; init; }
     public decimal? CostEstimate { get; init; }
     public string? Currency { get; init; }
     public required PriceStatus CostStatus { get; init; }
