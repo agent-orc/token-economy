@@ -32,8 +32,19 @@ public sealed class AgentStudioTaskStorageImporter
         foreach (var path in Directory.EnumerateFiles(storageDirectory, "task.json", SearchOption.AllDirectories))
         {
             files++;
-            using var document = JsonDocument.Parse(File.ReadAllText(path));
-            destination.Upsert(Parse(document.RootElement)); upserted++;
+            try
+            {
+                using var document = JsonDocument.Parse(File.ReadAllText(path));
+                destination.Upsert(Parse(document.RootElement)); upserted++;
+            }
+            catch (Exception error) when (error is IOException or JsonException or InvalidDataException)
+            {
+                EventOccurred?.Invoke(new("agent_studio.task_storage.import_failed", new Dictionary<string, object?>
+                {
+                    ["path"] = path, ["errorType"] = error.GetType().Name, ["elapsedMs"] = timer.ElapsedMilliseconds,
+                }));
+                throw;
+            }
         }
         timer.Stop();
         var result = new AgentStudioImportResult(files, upserted, timer.Elapsed);

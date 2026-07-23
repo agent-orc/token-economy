@@ -47,4 +47,26 @@ public class AgentStudioTaskStorageImporterTests
         Assert.Null(record.CostCaveat); Assert.False(record.IsEstimatedListPrice);
         Assert.Equal(OutcomeQualitySignal.NeedsReview, record.Outcome);
     }
+
+    [Fact]
+    public void ImportDirectory_EmitsStructuredFailureEventForUnreadableTask()
+    {
+        var directory = Path.Combine(Path.GetTempPath(), $"token-economy-{Guid.NewGuid():N}");
+        Directory.CreateDirectory(Path.Combine(directory, "card-1"));
+        try
+        {
+            File.WriteAllText(Path.Combine(directory, "card-1", "task.json"), "not json");
+            AgentStudioImportEvent? observed = null;
+            var importer = new AgentStudioTaskStorageImporter();
+            importer.EventOccurred += importEvent => observed = importEvent;
+
+            Assert.ThrowsAny<System.Text.Json.JsonException>(() => importer.ImportDirectory(directory, new InMemoryAgentStudioRunStore()));
+
+            Assert.NotNull(observed);
+            Assert.Equal("agent_studio.task_storage.import_failed", observed!.Name);
+            Assert.Equal("JsonReaderException", observed.Context["errorType"]);
+            Assert.Equal(Path.Combine(directory, "card-1", "task.json"), observed.Context["path"]);
+        }
+        finally { Directory.Delete(directory, true); }
+    }
 }
