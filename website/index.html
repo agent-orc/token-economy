@@ -198,6 +198,9 @@
       <span class="brand"><span class="mark">¢</span> Token Economy</span>
       <nav>
         <a href="#why">Why</a>
+        <a href="#concepts">Concepts</a>
+        <a href="#benchmarks">Benchmarks</a>
+        <a href="#status">Status</a>
         <a href="#pricing-history">Pricing&nbsp;history</a>
         <a href="#cost-api">Cost&nbsp;API</a>
         <a href="#suggest">SuggestModel</a>
@@ -262,6 +265,50 @@
             catalog, never restated.</p>
           </div>
         </div>
+      </div>
+    </section>
+
+    <!-- ================= CONCEPTS ================= -->
+    <section id="concepts">
+      <div class="wrap">
+        <h2>From task to evidence</h2>
+        <p class="sub">Token Economy separates a routing recommendation from an observed result. That distinction keeps a cheap-looking model from being treated as a good choice without evidence.</p>
+        <div class="pillars">
+          <div class="pillar"><div class="ico">INPUT</div><h3>Describe the task</h3><p>Callers classify work such as feature, research, or mechanical change and state the budget pressure and available CLIs.</p></div>
+          <div class="pillar"><div class="ico">ROUTE</div><h3>Choose transparently</h3><p><code>SuggestModel</code> combines task fit, derived cost class, and availability into ranked choices with an auditable rationale.</p></div>
+          <div class="pillar"><div class="ico">OBSERVE</div><h3>Measure and revise</h3><p>Controlled A/B setups record success, token use, duration, and authoritative cost when available. Results can validate or challenge future routing rules.</p></div>
+        </div>
+        <div class="callout"><strong>The learning loop is deliberately closed but not automatic:</strong> task features &rarr; model choice &rarr; observed outcome &rarr; reclassification or updated policy. The library provides deterministic inputs and measurements; an orchestrator remains responsible for launch policy.</div>
+      </div>
+    </section>
+
+    <!-- ================= BENCHMARKS ================= -->
+    <section id="benchmarks">
+      <div class="wrap">
+        <h2>Benchmarks</h2>
+        <p class="sub">Published runs are controlled local comparisons: each variant receives the same prompt and a fresh fixture, then a deterministic command evaluates the response. They are not provider-wide capability claims.</p>
+        <h3>Published setup: palindrome repair</h3>
+        <p>This setup asks for a C# <code>IsPalindrome</code> implementation. The success criterion runs the fixture's <code>dotnet</code> test command. Run <code>2026-07-22T23:31:05Z</code> compared medium-thinking variants once each.</p>
+        <div class="table-scroll"><table><thead><tr><th>Variant</th><th>Model</th><th class="num">Success</th><th class="num">Tokens</th><th class="num">Duration</th><th>Cost</th></tr></thead><tbody>
+          <tr><td>sol-medium</td><td><code>gpt-5.6-sol</code></td><td class="num">1 / 1</td><td class="num">13,550</td><td class="num">18.5 s</td><td>Not supplied</td></tr>
+          <tr><td>terra-medium</td><td><code>gpt-5.6-terra</code></td><td class="num">1 / 1</td><td class="num">13,668</td><td class="num">16.0 s</td><td>Not supplied</td></tr>
+        </tbody></table></div>
+        <div class="callout"><strong>Current result:</strong> both variants passed. Under this harness's documented tie-breaker, <code>sol-medium</code> is the winner because it used 118 fewer total tokens. This is a single-repeat result, so it does not establish a general performance difference. USD cost is unavailable in the raw run and is intentionally not estimated.</div>
+        <p class="comment-note">The raw run and derived report are append-only JSON. To add a study, commit a setup in <code>benchmarks/setups/</code>, its minimal fixture, and generated raw + report files in <code>benchmarks/results/</code>; then add a short, dated summary here. See <a href="https://github.com/agent-orc/token-economy/blob/main/docs/benchmarks.md">the benchmark protocol on GitHub</a>.</p>
+      </div>
+    </section>
+
+    <!-- ================= STATUS ================= -->
+    <section id="status">
+      <div class="wrap">
+        <h2>Project status</h2>
+        <p class="sub">A precise snapshot of what this repository currently contains. Status is intentionally narrower than a product roadmap.</p>
+        <div class="pillars">
+          <div class="pillar"><div class="ico">AVAILABLE</div><h3>Library primitives</h3><p>Dated model pricing, cost breakdowns, and deterministic, availability-aware model suggestions are implemented and tested.</p></div>
+          <div class="pillar"><div class="ico">AVAILABLE</div><h3>Benchmark harness</h3><p>Versioned setups, isolated workspaces, deterministic evaluation, append-only JSON results, and structured lifecycle events are implemented. One example result is published above.</p></div>
+          <div class="pillar"><div class="ico">PLANNED</div><h3>Quota-cap forecasting</h3><p>The five-hour-cap estimator and admission integration are a reviewed plan only. They require operator approval and validated, privacy-reviewed calibration data.</p></div>
+        </div>
+        <p class="comment-note">Benchmark results measure the specified setup at the recorded time. They do not silently alter <code>SuggestModel</code>, publish raw operational data, or claim provider limits.</p>
       </div>
     </section>
 
