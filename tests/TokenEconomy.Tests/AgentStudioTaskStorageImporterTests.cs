@@ -96,6 +96,7 @@ public class AgentStudioTaskStorageImporterTests
         var record = new AgentStudioTaskStorageImporter().Parse(json.RootElement);
 
         Assert.Equal(new DateTime(2026, 8, 31, 23, 59, 59, DateTimeKind.Utc), record.ExecutedAtUtc);
+        Assert.Equal(new DateTime(2026, 9, 2, 12, 0, 0, DateTimeKind.Utc), record.ObservedAtUtc);
         Assert.Equal(2.00m, record.CostEstimate); // introductory rate at execution, not the later update's $3 rate
     }
 }

@@ -59,12 +59,13 @@ public sealed class AgentStudioTaskStorageImporter
         var task = Object(root, "task") ?? root;
         var model = Text(task, "model") ?? throw new InvalidDataException("Agent Studio task.json has no model.");
         var taskKey = Text(task, "taskKey", "key", "id") ?? throw new InvalidDataException("Agent Studio task.json has no task key.");
-        // Import time is deliberately not a fallback: it would make a timestamp-less card
-        // change on every idempotent re-import. UnixEpoch is an explicit, stable "unknown"
-        // timestamp and also prevents us from applying today's price to an undated run.
-        var observed = Date(task, "completedAt", "updatedAt", "finishedAt", "createdAt") ?? DateTime.UnixEpoch;
+        // Price at execution, not at a later card update. Keep the update timestamp separately so
+        // consumers can track when this record was observed without changing its historic cost.
+        // UnixEpoch remains the stable "unknown" timestamp so undated cards stay idempotent.
+        var executedAt = Date(task, "completedAt", "finishedAt", "updatedAt", "createdAt") ?? DateTime.UnixEpoch;
+        var observedAt = Date(task, "updatedAt", "completedAt", "finishedAt", "createdAt") ?? executedAt;
         var usage = Usage(Object(task, "tokenSummary") ?? Object(task, "lastUsage"));
-        var cost = _prices.ComputeCost(model, usage, observed);
+        var cost = _prices.ComputeCost(model, usage, executedAt);
         var lane = Text(task, "finalLane", "lane", "column");
         var listing = _prices.Find(model);
         return new AgentStudioRunRecord
@@ -72,8 +73,8 @@ public sealed class AgentStudioTaskStorageImporter
             TaskKey = taskKey, Run = Number(task, "run", "attempt", "runNumber"), Project = Text(task, "project", "projectId"),
             Provider = listing?.Vendor ?? ProviderFromCli(Text(task, "cliType")), Model = cost.ModelId ?? model,
             ThinkingLevel = Text(task, "thinkingLevel"), CliType = Text(task, "cliType"), TaskType = Text(task, "taskType"), FinalLane = lane,
-            Usage = usage, ExecutedAtUtc = observed, CostEstimate = cost.Total, Currency = cost.Currency, CostStatus = cost.Status, CostCaveat = cost.Caveat, Outcome = Outcome(lane),
-            StartedAtUtc = Date(task, "startedAt", "createdAt"), ObservedAtUtc = observed,
+            Usage = usage, ExecutedAtUtc = executedAt, CostEstimate = cost.Total, Currency = cost.Currency, CostStatus = cost.Status, CostCaveat = cost.Caveat, Outcome = Outcome(lane),
+            StartedAtUtc = Date(task, "startedAt", "createdAt"), ObservedAtUtc = observedAt,
         };
     }
 
