@@ -245,4 +245,20 @@ public class ModelPriceCatalogTests
             new ModelListing { ModelId = "dup" },
             new ModelListing { ModelId = "DUP" },   // collides after normalization
         ]));
+
+    [Fact]
+    public void Constructor_RejectsOverlapHiddenByAnIntermediateShortPeriod()
+        => Assert.Throws<ArgumentException>(() => new ModelPriceCatalog(
+        [
+            new ModelListing
+            {
+                ModelId = "overlapping-history",
+                History =
+                [
+                    new ModelPrice { InputPerMTok = 1m, OutputPerMTok = 1m, ValidFrom = new DateTime(2026, 1, 1, 0, 0, 0, DateTimeKind.Utc), ValidTo = new DateTime(2026, 12, 31, 0, 0, 0, DateTimeKind.Utc) },
+                    new ModelPrice { InputPerMTok = 2m, OutputPerMTok = 2m, ValidFrom = new DateTime(2026, 2, 1, 0, 0, 0, DateTimeKind.Utc), ValidTo = new DateTime(2026, 2, 2, 0, 0, 0, DateTimeKind.Utc) },
+                    new ModelPrice { InputPerMTok = 3m, OutputPerMTok = 3m, ValidFrom = new DateTime(2026, 3, 1, 0, 0, 0, DateTimeKind.Utc) },
+                ],
+            },
+        ]));
 }

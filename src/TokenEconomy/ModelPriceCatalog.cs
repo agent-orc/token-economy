@@ -150,11 +150,18 @@ public sealed class ModelPriceCatalog
         }
 
         var ordered = listing.History.OrderBy(price => price.ValidFrom).ToArray();
-        for (var index = 1; index < ordered.Length; index++)
+        var hasPreviousPeriod = false;
+        DateTime? latestEnd = null;
+        foreach (var price in ordered)
         {
-            var previous = ordered[index - 1];
-            if (previous.ValidTo is null || previous.ValidTo >= ordered[index].ValidFrom)
+            // Compare with the furthest end seen so far, not just the immediately preceding
+            // entry: a short period nested in a long one must not hide a later overlap.
+            if (hasPreviousPeriod && (latestEnd is null || price.ValidFrom <= latestEnd))
                 throw new ArgumentException($"Model '{listing.ModelId}' has overlapping price periods.", nameof(listing));
+
+            if (!hasPreviousPeriod || latestEnd is null || price.ValidTo is null || price.ValidTo > latestEnd)
+                latestEnd = price.ValidTo;
+            hasPreviousPeriod = true;
         }
     }
 }
