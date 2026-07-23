@@ -17,6 +17,15 @@ public sealed record AgentStudioRunRecord
     public string? ThinkingLevel { get; init; }
     public string? CliType { get; init; }
     public string? TaskType { get; init; }
+    /// <summary>Original pre-run card text retained for complexity calibration.</summary>
+    public string? TaskPrompt { get; init; }
+    public string? Area { get; init; }
+    public string? EpicContext { get; init; }
+    public IReadOnlyList<string> AcceptanceCriteria { get; init; } = [];
+    public IReadOnlyList<string> ReferencedFiles { get; init; } = [];
+    public IReadOnlyList<string> ReferencedSubsystems { get; init; } = [];
+    public int? DependencyFanOut { get; init; }
+    public int? RepositoryFileCount { get; init; }
     public string? FinalLane { get; init; }
     public required TokenUsage Usage { get; init; }
     /// <summary>
@@ -39,6 +48,33 @@ public sealed record AgentStudioRunRecord
     public required OutcomeQualitySignal Outcome { get; init; }
     public DateTime? StartedAtUtc { get; init; }
     public required DateTime ObservedAtUtc { get; init; }
+}
+
+/// <summary>Converts enriched imported runs into estimator calibration samples.</summary>
+public static class ComplexityHistory
+{
+    /// <remarks>Cards without an imported prompt cannot be used for upfront similarity and are omitted.</remarks>
+    public static IReadOnlyList<ComplexityHistorySample> FromRunRecords(IEnumerable<AgentStudioRunRecord> records)
+    {
+        ArgumentNullException.ThrowIfNull(records);
+        return records
+            .Where(record => !string.IsNullOrWhiteSpace(record.TaskPrompt))
+            .Select(record => new ComplexityHistorySample
+            {
+                Card = new ComplexityCard
+                {
+                    TaskKey = record.TaskKey, Prompt = record.TaskPrompt!, Project = record.Project,
+                    Area = record.Area, TaskType = record.TaskType, EpicContext = record.EpicContext,
+                    AcceptanceCriteria = record.AcceptanceCriteria, ReferencedFiles = record.ReferencedFiles,
+                    ReferencedSubsystems = record.ReferencedSubsystems, DependencyFanOut = record.DependencyFanOut,
+                    RepositoryFileCount = record.RepositoryFileCount,
+                },
+                ActualTokens = record.Usage.Input + record.Usage.Output + record.Usage.CacheRead + record.Usage.CacheWrite,
+                ActualDuration = record.StartedAtUtc is { } started && record.ExecutedAtUtc >= started
+                    ? record.ExecutedAtUtc - started : TimeSpan.Zero,
+                ReissueCount = Math.Max(0, record.Run - 1),
+            }).ToArray();
+    }
 }
 
 /// <summary>Writes imported records. Implementations must replace the record with the same task key and run rather than append it.</summary>
