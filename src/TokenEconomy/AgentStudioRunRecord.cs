@@ -22,6 +22,14 @@ public sealed record AgentStudioRunRecord
     public decimal? CostEstimate { get; init; }
     public string? Currency { get; init; }
     public required PriceStatus CostStatus { get; init; }
+    /// <summary>
+    /// Consumer-facing qualification for <see cref="CostEstimate"/>. Catalog-derived
+    /// estimates carry <see cref="ModelPrice.EstimatedListPricesCaveat"/> so a UI can
+    /// render the list-price disclaimer alongside the number.
+    /// </summary>
+    public string? CostCaveat { get; init; }
+    /// <summary>True when <see cref="CostEstimate"/> is based on published list prices rather than an invoice.</summary>
+    public bool IsEstimatedListPrice => CostCaveat == ModelPrice.EstimatedListPricesCaveat;
     public required OutcomeQualitySignal Outcome { get; init; }
     public DateTime? StartedAtUtc { get; init; }
     public required DateTime ObservedAtUtc { get; init; }

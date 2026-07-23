@@ -26,6 +26,8 @@ public class AgentStudioTaskStorageImporterTests
             Assert.Equal("TE-5", record.TaskKey); Assert.Equal(2, record.Run);
             Assert.Equal("anthropic", record.Provider); Assert.Equal(100000, record.Usage.Input);
             Assert.Equal(OutcomeQualitySignal.Successful, record.Outcome); Assert.NotNull(record.CostEstimate);
+            Assert.Equal(ModelPrice.EstimatedListPricesCaveat, record.CostCaveat);
+            Assert.True(record.IsEstimatedListPrice);
             var view = Assert.Single(ModelRunViews.ByModelOverTime(store.Records));
             Assert.Equal(1, view.Runs); Assert.Equal(1, view.SuccessfulRuns); Assert.Equal("Token-Economy", view.Project);
         }
@@ -42,6 +44,7 @@ public class AgentStudioTaskStorageImporterTests
         var record = new AgentStudioTaskStorageImporter().Parse(json.RootElement);
         Assert.Equal(12, record.Usage.Input); Assert.Equal(3, record.Usage.Output);
         Assert.Equal(PriceStatus.UnknownModel, record.CostStatus); Assert.Null(record.CostEstimate);
+        Assert.Null(record.CostCaveat); Assert.False(record.IsEstimatedListPrice);
         Assert.Equal(OutcomeQualitySignal.NeedsReview, record.Outcome);
     }
 }

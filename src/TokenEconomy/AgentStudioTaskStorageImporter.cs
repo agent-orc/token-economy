@@ -58,7 +58,7 @@ public sealed class AgentStudioTaskStorageImporter
             TaskKey = taskKey, Run = Number(task, "run", "attempt", "runNumber"), Project = Text(task, "project", "projectId"),
             Provider = listing?.Vendor ?? ProviderFromCli(Text(task, "cliType")), Model = cost.ModelId ?? model,
             ThinkingLevel = Text(task, "thinkingLevel"), CliType = Text(task, "cliType"), TaskType = Text(task, "taskType"), FinalLane = lane,
-            Usage = usage, CostEstimate = cost.Total, Currency = cost.Currency, CostStatus = cost.Status, Outcome = Outcome(lane),
+            Usage = usage, CostEstimate = cost.Total, Currency = cost.Currency, CostStatus = cost.Status, CostCaveat = cost.Caveat, Outcome = Outcome(lane),
             StartedAtUtc = Date(task, "startedAt", "createdAt"), ObservedAtUtc = observed,
         };
     }
