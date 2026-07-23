@@ -98,6 +98,35 @@ public class TaskComplexityEstimatorTests
         Assert.Equal(TimeSpan.FromMinutes(30), sample.ActualDuration);
     }
 
+    [Fact]
+    public void ImportedRunsAggregateAttemptsIntoOneCardWithoutDoubleCountingDuplicates()
+    {
+        var first = Run("TE-7", 1, 40_000, DateTime.Parse("2026-07-23T20:00:00Z"));
+        var staleDuplicate = first with
+        {
+            Usage = new TokenUsage(999_000, 0),
+            ObservedAtUtc = first.ObservedAtUtc.AddMinutes(-1),
+        };
+        var second = Run("TE-7", 2, 60_000, DateTime.Parse("2026-07-23T21:00:00Z")) with
+        {
+            TaskPrompt = null,
+        };
+
+        var sample = Assert.Single(ComplexityHistory.FromRunRecords([staleDuplicate, first, second]));
+
+        Assert.Equal(100_000, sample.ActualTokens);
+        Assert.Equal(TimeSpan.FromMinutes(20), sample.ActualDuration);
+        Assert.Equal(1, sample.ReissueCount);
+    }
+
+    [Fact]
+    public void Backtest_RejectsMultipleSamplesForTheSameCard()
+    {
+        var samples = new[] { Sample(Card("same"), 10_000, 0), Sample(Card("same"), 20_000, 1) };
+        var error = Assert.Throws<ArgumentException>(() => ComplexityBacktester.Run(samples));
+        Assert.Contains("one aggregated sample per task key", error.Message);
+    }
+
     private static ComplexityCard Card(string key) => new()
     {
         TaskKey = key, Project = "Token-Economy", Area = "routing", TaskType = "feature",
@@ -110,5 +139,13 @@ public class TaskComplexityEstimatorTests
     private static ComplexityHistorySample Sample(ComplexityCard card, long tokens, int reissues) => new()
     {
         Card = card, ActualTokens = tokens, ReissueCount = reissues, ActualDuration = TimeSpan.FromMinutes(tokens / 10_000d),
+    };
+
+    private static AgentStudioRunRecord Run(string taskKey, int run, long tokens, DateTime observedAt) => new()
+    {
+        TaskKey = taskKey, Run = run, Project = "Token-Economy", Model = "gpt-5-mini",
+        TaskPrompt = "Implement the estimator", Usage = new TokenUsage(tokens, 0),
+        StartedAtUtc = observedAt.AddMinutes(-10), ExecutedAtUtc = observedAt,
+        ObservedAtUtc = observedAt, CostStatus = PriceStatus.Resolved, Outcome = OutcomeQualitySignal.Successful,
     };
 }

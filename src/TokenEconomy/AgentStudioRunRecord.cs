@@ -58,22 +58,43 @@ public static class ComplexityHistory
     {
         ArgumentNullException.ThrowIfNull(records);
         return records
-            .Where(record => !string.IsNullOrWhiteSpace(record.TaskPrompt))
-            .Select(record => new ComplexityHistorySample
+            .GroupBy(record => record.TaskKey, StringComparer.Ordinal)
+            .Where(group => group.Any(record => !string.IsNullOrWhiteSpace(record.TaskPrompt)))
+            .Select(group =>
             {
-                Card = new ComplexityCard
+                // A store normally deduplicates task key + run. Keep this conversion safe for
+                // callers passing raw imported records as well, otherwise retries inflate cost.
+                var attempts = group
+                    .GroupBy(record => record.Run)
+                    .Select(run => run.OrderByDescending(record => record.ObservedAtUtc).First())
+                    .OrderBy(record => record.Run)
+                    .ToArray();
+                var cardRecord = attempts
+                    .Where(record => !string.IsNullOrWhiteSpace(record.TaskPrompt))
+                    .OrderByDescending(record => record.ObservedAtUtc)
+                    .First();
+                return new ComplexityHistorySample
                 {
-                    TaskKey = record.TaskKey, Prompt = record.TaskPrompt!, Project = record.Project,
-                    Area = record.Area, TaskType = record.TaskType, EpicContext = record.EpicContext,
-                    AcceptanceCriteria = record.AcceptanceCriteria, ReferencedFiles = record.ReferencedFiles,
-                    ReferencedSubsystems = record.ReferencedSubsystems, DependencyFanOut = record.DependencyFanOut,
-                    RepositoryFileCount = record.RepositoryFileCount,
-                },
-                ActualTokens = record.Usage.Input + record.Usage.Output + record.Usage.CacheRead + record.Usage.CacheWrite,
-                ActualDuration = record.StartedAtUtc is { } started && record.ExecutedAtUtc >= started
-                    ? record.ExecutedAtUtc - started : TimeSpan.Zero,
-                ReissueCount = Math.Max(0, record.Run - 1),
-            }).ToArray();
+                    Card = new ComplexityCard
+                    {
+                        TaskKey = cardRecord.TaskKey, Prompt = cardRecord.TaskPrompt!, Project = cardRecord.Project,
+                        Area = cardRecord.Area, TaskType = cardRecord.TaskType, EpicContext = cardRecord.EpicContext,
+                        AcceptanceCriteria = cardRecord.AcceptanceCriteria, ReferencedFiles = cardRecord.ReferencedFiles,
+                        ReferencedSubsystems = cardRecord.ReferencedSubsystems, DependencyFanOut = cardRecord.DependencyFanOut,
+                        RepositoryFileCount = cardRecord.RepositoryFileCount,
+                    },
+                    ActualTokens = attempts.Sum(record =>
+                        record.Usage.Input + record.Usage.Output + record.Usage.CacheRead + record.Usage.CacheWrite),
+                    ActualDuration = TimeSpan.FromTicks(attempts.Sum(record =>
+                        record.StartedAtUtc is { } started && record.ExecutedAtUtc >= started
+                            ? (record.ExecutedAtUtc - started).Ticks : 0)),
+                    // Run numbers preserve known prior attempts even when task storage only retains
+                    // the latest run; distinct records provide the same fact when all attempts exist.
+                    ReissueCount = Math.Max(attempts.Length - 1, Math.Max(0, attempts.Max(record => record.Run) - 1)),
+                };
+            })
+            .OrderBy(sample => sample.Card.TaskKey, StringComparer.Ordinal)
+            .ToArray();
     }
 }
 

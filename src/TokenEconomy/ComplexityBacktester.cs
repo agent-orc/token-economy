@@ -17,6 +17,8 @@ public static class ComplexityBacktester
     {
         ArgumentNullException.ThrowIfNull(samples);
         if (samples.Count < 2) throw new ArgumentException("Backtesting requires at least two historical cards.", nameof(samples));
+        if (samples.Select(sample => sample.Card.TaskKey).Distinct(StringComparer.Ordinal).Count() != samples.Count)
+            throw new ArgumentException("Backtesting requires one aggregated sample per task key.", nameof(samples));
         estimator ??= new TaskComplexityEstimator();
         var rows = samples.Select((sample, index) =>
         {

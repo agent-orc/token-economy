@@ -31,10 +31,12 @@ out-of-sample token/reissue error improves.
 ## Calibration and 30-card backtest
 
 `AgentStudioTaskStorageImporter` retains prompt/card features.
-`ComplexityHistory.FromRunRecords` maps enriched runs to measured samples, and
+`ComplexityHistory.FromRunRecords` aggregates all attempts into one measured
+sample per card (total tokens/duration plus reissue count), and
 `ComplexityBacktester.Run` performs leave-one-out evaluation. It reports band
 accuracy, token median absolute percentage error, reissue mean absolute error,
-and token-cost Spearman rank correlation.
+and token-cost Spearman rank correlation. Duplicate card keys are rejected so
+another attempt of the held-out card cannot leak into its historical neighbours.
 
 The automated suite applies this pipeline to exactly 30 controlled fixture
 cards. These validate the method; they are **not production evidence**. The
