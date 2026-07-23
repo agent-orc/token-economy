@@ -7,9 +7,9 @@ The static marketing + documentation site for **Token Economy**, served at
   CSS, a data-URI favicon, and no external requests, so it works offline and
   under the `/token-economy/` subpath without any asset-path juggling.
 - **English**, light/dark theme-aware, responsive.
-- Content: what/why, a closed learning-loop explainer, published benchmark
-  summaries rendered from the append-only JSON evidence in `benchmarks/results/`,
-  an honest implementation/plan status snapshot, the pricing-history explainer, the cost API, a
+- Content: what/why, a complexity-estimation and closed learning-loop explainer,
+  published benchmark summaries rendered from the append-only JSON evidence in
+  `benchmarks/results/`, an honest implementation/plan status snapshot, the pricing-history explainer, the cost API, a
   `SuggestModel` preview, install, and family links — all describing the real
   `TokenEconomy` API — plus the clearly labelled, plan-only cap-forecast
 explainers under [`cap-forecast/`](cap-forecast/index.html).

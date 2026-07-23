@@ -274,11 +274,14 @@
         <h2>From task to evidence</h2>
         <p class="sub">Token Economy separates a routing recommendation from an observed result. That distinction keeps a cheap-looking model from being treated as a good choice without evidence.</p>
         <div class="pillars">
-          <div class="pillar"><div class="ico">INPUT</div><h3>Describe the task</h3><p>Callers classify work such as feature, research, or mechanical change and state the budget pressure and available CLIs.</p></div>
-          <div class="pillar"><div class="ico">ROUTE</div><h3>Choose transparently</h3><p><code>SuggestModel</code> combines task fit, derived cost class, and availability into ranked choices with an auditable rationale.</p></div>
-          <div class="pillar"><div class="ico">OBSERVE</div><h3>Measure and revise</h3><p>Controlled A/B setups record success, token use, duration, and authoritative cost when available. Results can validate or challenge future routing rules.</p></div>
+          <div class="pillar"><div class="ico">01 / ESTIMATE</div><h3>Describe the work before launch</h3><p><code>TaskComplexityEstimator</code> turns observable card and repository signals into a versioned complexity band, confidence, predicted tokens, duration, reissues, and inspectable evidence. It estimates expected work, not business importance.</p></div>
+          <div class="pillar"><div class="ico">02 / ROUTE</div><h3>Choose transparently</h3><p><code>SuggestModel</code> combines task fit, derived cost class, and availability into ranked choices with an auditable rationale. An orchestrator decides whether and how to act on that recommendation.</p></div>
+          <div class="pillar"><div class="ico">03 / OBSERVE</div><h3>Measure the outcome</h3><p>Controlled A/B setups record success, token use, duration, and authoritative cost when available. Operational history can retain the same outcome signals for later calibration.</p></div>
         </div>
-        <div class="callout"><strong>The learning loop is deliberately closed but not automatic:</strong> task features &rarr; model choice &rarr; observed outcome &rarr; reclassification or updated policy. The library provides deterministic inputs and measurements; an orchestrator remains responsible for launch policy.</div>
+        <h3>What informs a complexity estimate</h3>
+        <p>Its evidence is deliberately pre-launch: touched surface and dependency fan-out, novelty, constraint density, specification ambiguity, required reading, and verification cost. Actual changed files, tool calls, and review feedback are outcomes for later calibration, not inputs that would leak the answer into the estimate.</p>
+        <div class="callout"><strong>The learning loop is deliberately closed but not automatic:</strong> task features &rarr; complexity estimate and model choice &rarr; observed tokens, duration, reissues, and outcome &rarr; reclassification or updated policy. Historical neighbours can inform a new estimate; the optional host-supplied mini-model assessment is capped and the library never calls a provider itself.</div>
+        <p class="comment-note">The included 30-card backtest fixtures validate the pipeline, not a production claim. A real calibration report needs prompt-enriched operational history and an out-of-sample evaluation. See the <a href="https://github.com/agent-orc/token-economy/blob/main/docs/concepts/upfront-task-complexity.md">complexity design and backtest contract</a>.</p>
       </div>
     </section>
 
@@ -305,6 +308,7 @@
         <p class="sub">A precise snapshot of what this repository currently contains. Status is intentionally narrower than a product roadmap.</p>
         <div class="pillars">
           <div class="pillar"><div class="ico">AVAILABLE</div><h3>Library primitives</h3><p>Dated model pricing, cost breakdowns, and deterministic, availability-aware model suggestions are implemented and tested.</p></div>
+          <div class="pillar"><div class="ico">AVAILABLE</div><h3>Complexity estimation</h3><p>Versioned pre-launch estimates, historical-neighbour input, an optional host-supplied assessment, and a fixture-based backtest contract are implemented. Production calibration results are not yet published.</p></div>
           <div class="pillar"><div class="ico">AVAILABLE</div><h3>Benchmark harness</h3><p>Versioned setups, isolated workspaces, deterministic evaluation, append-only JSON results, and structured lifecycle events are implemented. One example result is published above.</p></div>
           <div class="pillar"><div class="ico">PLANNED</div><h3>Quota-cap forecasting</h3><p>The five-hour-cap estimator and admission integration are a reviewed plan only. They require operator approval and validated, privacy-reviewed calibration data.</p></div>
         </div>
