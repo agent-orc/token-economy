@@ -46,6 +46,11 @@ are part of the static site. No forecast implementation is authorised yet.
   forecast, and audit evidence. A host-supplied mini-model rubric is optional.
   See the [design and backtest contract](docs/concepts/upfront-task-complexity.md).
 
+- **Model trust ledger** — records model capability assertions separately from
+  durable observed-run, benchmark, or audit evidence. Trust is derived from
+  independently verifiable successful artifacts; self-reported claims never
+  raise it, and open high-severity incidents restrict the model.
+
 ## Install
 
 ```
