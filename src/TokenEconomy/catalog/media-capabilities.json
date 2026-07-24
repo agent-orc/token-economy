@@ -1,0 +1,467 @@
+{
+  "schemaVersion": 1,
+  "asOfDate": "2026-07-24",
+  "records": [
+    {
+      "cliId": "codex",
+      "modelId": "*",
+      "capability": "imageGeneration",
+      "supported": true,
+      "invocationPath": "Invoke $imagegen explicitly or ask in natural language; Codex selects its built-in image generation tool.",
+      "costFactor": {
+        "status": "unverifiedClaim",
+        "relativeTo": "normal Codex turn",
+        "minimum": 3,
+        "maximum": 5,
+        "note": "Reported range only. The 2026-07-24 N=4 run exposed neither image-tool tokens nor credits, so the range was not empirically reproduced."
+      },
+      "evidence": [
+        {
+          "source": "localCapabilityInventory",
+          "observedAtUtc": "2026-07-24T00:00:00Z",
+          "reference": "codex://skills/imagegen",
+          "note": "Installed system skill routes ordinary image generation to the built-in image tool without requiring OPENAI_API_KEY."
+        },
+        {
+          "source": "controlledBenchmark",
+          "observedAtUtc": "2026-07-24T21:32:56Z",
+          "reference": "benchmarks/results/media/20260724-codex-built-in/results.json",
+          "note": "Four of four catalog prompts produced retained PNG artifacts."
+        }
+      ]
+    },
+    {
+      "cliId": "codex",
+      "modelId": "*",
+      "capability": "imageEdit",
+      "supported": true,
+      "invocationPath": "Invoke $imagegen or ask naturally with an attached/visible edit target; Codex selects built-in edit mode.",
+      "costFactor": {
+        "status": "unverifiedClaim",
+        "relativeTo": "normal Codex turn",
+        "minimum": 3,
+        "maximum": 5,
+        "note": "Image-operation range reported by the operator; no comparable edit credit meter was available in this run."
+      },
+      "evidence": [
+        {
+          "source": "localCapabilityInventory",
+          "observedAtUtc": "2026-07-24T00:00:00Z",
+          "reference": "codex://skills/imagegen",
+          "note": "Installed imagegen system skill documents built-in editing of attached, visible, or locally inspected images."
+        }
+      ]
+    },
+    {
+      "cliId": "codex",
+      "modelId": "*",
+      "capability": "referenceImages",
+      "supported": true,
+      "invocationPath": "Attach one or more images with -i/--image or in the conversation and describe each image's reference role; invoke $imagegen or ask naturally.",
+      "costFactor": {
+        "status": "unverifiedClaim",
+        "relativeTo": "normal Codex turn",
+        "minimum": 3,
+        "maximum": 5,
+        "note": "Image-operation range reported by the operator; no comparable reference-image credit meter was available."
+      },
+      "evidence": [
+        {
+          "source": "officialDocumentation",
+          "observedAtUtc": "2026-07-24T00:00:00Z",
+          "reference": "https://learn.chatgpt.com/docs/developer-commands?surface=cli",
+          "note": "The Codex CLI documents repeatable -i/--image attachments."
+        },
+        {
+          "source": "localCapabilityInventory",
+          "observedAtUtc": "2026-07-24T00:00:00Z",
+          "reference": "codex://skills/imagegen",
+          "note": "The installed skill distinguishes reference, edit-target, and compositing image roles."
+        }
+      ]
+    },
+    {
+      "cliId": "codex",
+      "modelId": "*",
+      "capability": "imageUnderstanding",
+      "supported": true,
+      "invocationPath": "Attach one or more images with -i/--image and ask a natural-language question.",
+      "costFactor": {
+        "status": "unknown",
+        "note": "No stable multiplier is published or exposed by the local subscription meter."
+      },
+      "evidence": [
+        {
+          "source": "officialDocumentation",
+          "observedAtUtc": "2026-07-24T00:00:00Z",
+          "reference": "https://learn.chatgpt.com/docs/developer-commands?surface=cli",
+          "note": "The Codex CLI documents attaching one or more images to the initial prompt."
+        }
+      ]
+    },
+    {
+      "cliId": "codex",
+      "modelId": "*",
+      "capability": "video",
+      "supported": false,
+      "invocationPath": "Not available as a native Codex CLI output; external video APIs are out of scope.",
+      "costFactor": { "status": "notApplicable" },
+      "evidence": [
+        {
+          "source": "officialDocumentation",
+          "observedAtUtc": "2026-07-24T00:00:00Z",
+          "reference": "https://learn.chatgpt.com/docs/developer-commands?surface=cli",
+          "note": "Current CLI command/tool inventory documents image input but no native video-generation path."
+        }
+      ]
+    },
+    {
+      "cliId": "codex",
+      "modelId": "*",
+      "capability": "music",
+      "supported": false,
+      "invocationPath": "Not available as a native Codex CLI output; external music APIs are out of scope.",
+      "costFactor": { "status": "notApplicable" },
+      "evidence": [
+        {
+          "source": "officialDocumentation",
+          "observedAtUtc": "2026-07-24T00:00:00Z",
+          "reference": "https://learn.chatgpt.com/docs/developer-commands?surface=cli",
+          "note": "Current CLI command/tool inventory has no native music-generation path."
+        }
+      ]
+    },
+    {
+      "cliId": "codex",
+      "modelId": "*",
+      "capability": "tts",
+      "supported": false,
+      "invocationPath": "Not available as a native Codex CLI output; external speech APIs are out of scope.",
+      "costFactor": { "status": "notApplicable" },
+      "evidence": [
+        {
+          "source": "officialDocumentation",
+          "observedAtUtc": "2026-07-24T00:00:00Z",
+          "reference": "https://learn.chatgpt.com/docs/developer-commands?surface=cli",
+          "note": "Current CLI command/tool inventory has no native text-to-speech output path."
+        }
+      ]
+    },
+    {
+      "cliId": "codex",
+      "modelId": "*",
+      "capability": "voiceDictation",
+      "supported": false,
+      "invocationPath": "Not available in the Codex CLI; ChatGPT desktop-app dictation is a different surface.",
+      "costFactor": { "status": "notApplicable" },
+      "evidence": [
+        {
+          "source": "officialDocumentation",
+          "observedAtUtc": "2026-07-24T00:00:00Z",
+          "reference": "https://learn.chatgpt.com/docs/developer-commands?surface=cli",
+          "note": "The current CLI reference contains no voice-dictation command or shortcut."
+        }
+      ]
+    },
+
+    {
+      "cliId": "antigravity",
+      "modelId": "*",
+      "capability": "imageGeneration",
+      "supported": true,
+      "invocationPath": "Ask naturally for an image or project asset; Antigravity CLI invokes its built-in image generation capability.",
+      "costFactor": {
+        "status": "unknown",
+        "note": "No comparable CLI-turn multiplier was found in current official documentation, and agy could not run without an interactive Google sign-in."
+      },
+      "evidence": [
+        {
+          "source": "officialDocumentation",
+          "observedAtUtc": "2026-07-24T00:00:00Z",
+          "reference": "https://codelabs.developers.google.com/companion-adk-beginner/instructions",
+          "note": "Google's codelab states that Antigravity CLI has image generation out of the box and demonstrates generated project assets."
+        }
+      ]
+    },
+    {
+      "cliId": "antigravity",
+      "modelId": "*",
+      "capability": "imageEdit",
+      "supported": true,
+      "invocationPath": "Provide a local image and an edit instruction in natural language; the built-in image tool uses the Gemini image model.",
+      "costFactor": {
+        "status": "unknown",
+        "note": "No comparable CLI-turn multiplier was found; agy required an unavailable interactive Google sign-in."
+      },
+      "evidence": [
+        {
+          "source": "officialDocumentation",
+          "observedAtUtc": "2026-07-24T00:00:00Z",
+          "reference": "https://ai.google.dev/gemini-api/docs/image-generation",
+          "note": "The Gemini image model behind the tool documents natural-language image editing."
+        },
+        {
+          "source": "officialDocumentation",
+          "observedAtUtc": "2026-07-24T00:00:00Z",
+          "reference": "https://codelabs.developers.google.com/companion-adk-beginner/instructions",
+          "note": "Antigravity CLI is documented with an out-of-box image tool rather than only generated image-model code."
+        }
+      ]
+    },
+    {
+      "cliId": "antigravity",
+      "modelId": "*",
+      "capability": "referenceImages",
+      "supported": true,
+      "invocationPath": "Place or attach local images, identify their intended role in the prompt, and ask the built-in image tool for the derived asset.",
+      "costFactor": {
+        "status": "unknown",
+        "note": "No comparable CLI-turn multiplier was found; agy required an unavailable interactive Google sign-in."
+      },
+      "evidence": [
+        {
+          "source": "officialDocumentation",
+          "observedAtUtc": "2026-07-24T00:00:00Z",
+          "reference": "https://ai.google.dev/gemini-api/docs/image-generation",
+          "note": "The underlying Gemini image model documents using multiple input images for composition and consistency."
+        },
+        {
+          "source": "officialDocumentation",
+          "observedAtUtc": "2026-07-24T00:00:00Z",
+          "reference": "https://codelabs.developers.google.com/antigravity-cli-hands-on",
+          "note": "Antigravity CLI is documented reading local image files multimodally."
+        }
+      ]
+    },
+    {
+      "cliId": "antigravity",
+      "modelId": "*",
+      "capability": "imageUnderstanding",
+      "supported": true,
+      "invocationPath": "Refer to local image files in a natural-language prompt and request extraction, analysis, or implementation guidance.",
+      "costFactor": {
+        "status": "unknown",
+        "note": "No stable multiplier is published; agy required an unavailable interactive Google sign-in."
+      },
+      "evidence": [
+        {
+          "source": "officialDocumentation",
+          "observedAtUtc": "2026-07-24T00:00:00Z",
+          "reference": "https://codelabs.developers.google.com/antigravity-cli-hands-on",
+          "note": "Google demonstrates Antigravity CLI extracting structured fields from local invoice images."
+        }
+      ]
+    },
+    {
+      "cliId": "antigravity",
+      "modelId": "*",
+      "capability": "video",
+      "supported": false,
+      "invocationPath": "Not available as a native Antigravity CLI output; Veo through an external API does not count.",
+      "costFactor": { "status": "notApplicable" },
+      "evidence": [
+        {
+          "source": "officialDocumentation",
+          "observedAtUtc": "2026-07-24T00:00:00Z",
+          "reference": "https://codelabs.developers.google.com/antigravity-cli-hands-on",
+          "note": "Current CLI capability examples include processing video files but no native video-generation tool."
+        }
+      ]
+    },
+    {
+      "cliId": "antigravity",
+      "modelId": "*",
+      "capability": "music",
+      "supported": false,
+      "invocationPath": "Not available as a native Antigravity CLI output; Lyria through an external API does not count.",
+      "costFactor": { "status": "notApplicable" },
+      "evidence": [
+        {
+          "source": "officialDocumentation",
+          "observedAtUtc": "2026-07-24T00:00:00Z",
+          "reference": "https://codelabs.developers.google.com/antigravity-cli-hands-on",
+          "note": "Current CLI inventory and examples expose no native music-generation tool."
+        }
+      ]
+    },
+    {
+      "cliId": "antigravity",
+      "modelId": "*",
+      "capability": "tts",
+      "supported": false,
+      "invocationPath": "Not available as a native Antigravity CLI output; external speech APIs do not count.",
+      "costFactor": { "status": "notApplicable" },
+      "evidence": [
+        {
+          "source": "officialDocumentation",
+          "observedAtUtc": "2026-07-24T00:00:00Z",
+          "reference": "https://codelabs.developers.google.com/antigravity-cli-hands-on",
+          "note": "Current CLI inventory and examples expose no native text-to-speech output tool."
+        }
+      ]
+    },
+    {
+      "cliId": "antigravity",
+      "modelId": "*",
+      "capability": "voiceDictation",
+      "supported": false,
+      "invocationPath": "Not available as a native Antigravity CLI prompt-input mode.",
+      "costFactor": { "status": "notApplicable" },
+      "evidence": [
+        {
+          "source": "officialDocumentation",
+          "observedAtUtc": "2026-07-24T00:00:00Z",
+          "reference": "https://codelabs.developers.google.com/antigravity-cli-hands-on",
+          "note": "Current CLI command and settings inventory exposes no voice-dictation input mode."
+        }
+      ]
+    },
+
+    {
+      "cliId": "claude-code",
+      "modelId": "*",
+      "capability": "imageGeneration",
+      "supported": false,
+      "invocationPath": "No native raster-image model; Claude Code can generate SVG, Mermaid, or HTML as code, which does not count.",
+      "costFactor": { "status": "notApplicable" },
+      "evidence": [
+        {
+          "source": "officialDocumentation",
+          "observedAtUtc": "2026-07-24T00:00:00Z",
+          "reference": "https://code.claude.com/docs/en/common-workflows#work-with-images",
+          "note": "Official image workflow documents analysis and code suggestions, not raster-image output."
+        }
+      ]
+    },
+    {
+      "cliId": "claude-code",
+      "modelId": "*",
+      "capability": "imageEdit",
+      "supported": false,
+      "invocationPath": "No native raster-image edit model; file/code transformations are not counted as model-backed image editing.",
+      "costFactor": { "status": "notApplicable" },
+      "evidence": [
+        {
+          "source": "officialDocumentation",
+          "observedAtUtc": "2026-07-24T00:00:00Z",
+          "reference": "https://code.claude.com/docs/en/common-workflows#work-with-images",
+          "note": "Official workflow covers image input and implementation suggestions but no raster edit output."
+        }
+      ]
+    },
+    {
+      "cliId": "claude-code",
+      "modelId": "*",
+      "capability": "referenceImages",
+      "supported": false,
+      "invocationPath": "Images can be supplied as understanding context, but not as references to a native raster-image generator.",
+      "costFactor": { "status": "notApplicable" },
+      "evidence": [
+        {
+          "source": "officialDocumentation",
+          "observedAtUtc": "2026-07-24T00:00:00Z",
+          "reference": "https://code.claude.com/docs/en/common-workflows#work-with-images",
+          "note": "Multiple image inputs are supported for analysis; no native image-output reference workflow is documented."
+        }
+      ]
+    },
+    {
+      "cliId": "claude-code",
+      "modelId": "*",
+      "capability": "imageUnderstanding",
+      "supported": true,
+      "invocationPath": "Drag/drop, paste with Ctrl+V (terminal-dependent), provide a path, or attach a screenshot/image/PDF and ask naturally.",
+      "costFactor": {
+        "status": "unknown",
+        "note": "Image input is part of the model turn; no stable cross-turn multiplier is published."
+      },
+      "evidence": [
+        {
+          "source": "officialDocumentation",
+          "observedAtUtc": "2026-07-24T00:00:00Z",
+          "reference": "https://code.claude.com/docs/en/common-workflows#work-with-images",
+          "note": "Claude Code documents image paths, drag/drop, clipboard input, image analysis, diagrams, screenshots, and mockups."
+        },
+        {
+          "source": "officialDocumentation",
+          "observedAtUtc": "2026-07-24T00:00:00Z",
+          "reference": "https://code.claude.com/docs/en/tools-reference#read-tool-behavior",
+          "note": "The CLI Read tool returns images as visual content and reads PDFs whole or in page ranges."
+        }
+      ]
+    },
+    {
+      "cliId": "claude-code",
+      "modelId": "*",
+      "capability": "video",
+      "supported": false,
+      "invocationPath": "Not available as a native Claude Code output.",
+      "costFactor": { "status": "notApplicable" },
+      "evidence": [
+        {
+          "source": "officialDocumentation",
+          "observedAtUtc": "2026-07-24T00:00:00Z",
+          "reference": "https://code.claude.com/docs/en/interactive-mode",
+          "note": "Current interactive CLI feature inventory exposes no video-generation output."
+        }
+      ]
+    },
+    {
+      "cliId": "claude-code",
+      "modelId": "*",
+      "capability": "music",
+      "supported": false,
+      "invocationPath": "Not available as a native Claude Code output.",
+      "costFactor": { "status": "notApplicable" },
+      "evidence": [
+        {
+          "source": "officialDocumentation",
+          "observedAtUtc": "2026-07-24T00:00:00Z",
+          "reference": "https://code.claude.com/docs/en/interactive-mode",
+          "note": "Current interactive CLI feature inventory exposes no music-generation output."
+        }
+      ]
+    },
+    {
+      "cliId": "claude-code",
+      "modelId": "*",
+      "capability": "tts",
+      "supported": false,
+      "invocationPath": "Not available as a native Claude Code output; dictation is speech-to-text, not text-to-speech.",
+      "costFactor": { "status": "notApplicable" },
+      "evidence": [
+        {
+          "source": "officialDocumentation",
+          "observedAtUtc": "2026-07-24T00:00:00Z",
+          "reference": "https://code.claude.com/docs/en/voice-dictation",
+          "note": "The documented voice feature transcribes microphone audio into prompt text; it does not synthesize spoken output."
+        }
+      ]
+    },
+    {
+      "cliId": "claude-code",
+      "modelId": "*",
+      "capability": "voiceDictation",
+      "supported": true,
+      "invocationPath": "Run /voice, then hold Space to record; /voice tap enables tap-to-record.",
+      "costFactor": {
+        "status": "unknown",
+        "note": "Official docs state transcription does not consume Claude messages or tokens; this environment had no microphone path for an independent run."
+      },
+      "evidence": [
+        {
+          "source": "officialDocumentation",
+          "observedAtUtc": "2026-07-24T00:00:00Z",
+          "reference": "https://code.claude.com/docs/en/voice-dictation",
+          "note": "Claude Code v2.1.69+ supports /voice and hold-to-record; tap mode requires v2.1.116+. Claude.ai authentication and a local microphone are required."
+        },
+        {
+          "source": "localCapabilityInventory",
+          "observedAtUtc": "2026-07-24T00:00:00Z",
+          "reference": "local-cli://claude/2.1.202",
+          "note": "Installed Claude Code version 2.1.202 satisfies the documented minimum, but microphone dictation was not exercised in the headless runner."
+        }
+      ]
+    }
+  ]
+}

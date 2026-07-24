@@ -56,6 +56,12 @@ are part of the static site. No forecast implementation is authorised yet.
   independently verifiable successful artifacts; self-reported claims never
   raise it, and open high-severity incidents restrict the model.
 
+- **Native media capability catalog** — evidence-dated image, video, music,
+  speech, and dictation rows for Codex, Antigravity, and Claude Code are pulled
+  from the same embedded catalog convention as pricing. Includes the retained
+  N=4 Codex image benchmark and explicit unknown/unverified cost factors. See
+  [the capability matrix](docs/media-capabilities.md).
+
 ## Install
 
 ```

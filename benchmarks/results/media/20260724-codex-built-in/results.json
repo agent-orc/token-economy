@@ -1,0 +1,163 @@
+{
+  "schemaVersion": 1,
+  "runId": "20260724-codex-built-in",
+  "catalogId": "media-image-generation-v1",
+  "executedAtUtc": "2026-07-24T21:28:17.659Z",
+  "environment": {
+    "codexVersion": "codex-cli 0.144.1",
+    "claudeCodeVersion": "2.1.202",
+    "antigravityVersion": "1.1.6 (isolated temporary download; SHA-512 verified against the official manifest)",
+    "antigravityAvailability": "not-run: agy models requires an interactive Google sign-in",
+    "authentication": "Codex built-in tool through the active ChatGPT-authenticated session; no OPENAI_API_KEY used",
+    "imageTool": "Codex built-in image generation tool",
+    "imageModel": "not disclosed by the tool result"
+  },
+  "sampleSize": {
+    "definition": "N is the number of independent generation attempts.",
+    "requestedCasesPerCapableCli": 4,
+    "codex": {
+      "attempts": 4,
+      "nPerCase": 1,
+      "succeeded": 4
+    },
+    "antigravity": {
+      "attempts": 0,
+      "nPerCase": 0,
+      "succeeded": 0,
+      "status": "not-run",
+      "reason": "The official agy 1.1.6 binary was downloaded and checksum-verified, but agy models returned 'Please sign in'; no authenticated Antigravity account was available."
+    }
+  },
+  "results": [
+    {
+      "cliId": "codex",
+      "caseId": "icon",
+      "attempt": 1,
+      "startedAtUtc": "2026-07-24T21:28:17.659Z",
+      "completedAtUtc": "2026-07-24T21:28:46.609Z",
+      "durationMs": 28950,
+      "succeeded": true,
+      "checksPassed": 3,
+      "checksAttempted": 3,
+      "review": "Coin and spark are centered and distinct; no text or watermark is present.",
+      "artifact": {
+        "path": "images/icon.png",
+        "sha256": "8862dfb0d36af88a40273840f4a25815fb14f213b4b4762b3e41df184e38adc1",
+        "bytes": 899776,
+        "width": 1254,
+        "height": 1254,
+        "format": "png"
+      },
+      "reportedUsage": {
+        "tokens": null,
+        "credits": null,
+        "usd": null
+      }
+    },
+    {
+      "cliId": "codex",
+      "caseId": "ui-mockup",
+      "attempt": 1,
+      "startedAtUtc": "2026-07-24T21:28:49.852Z",
+      "completedAtUtc": "2026-07-24T21:29:54.640Z",
+      "durationMs": 64788,
+      "succeeded": true,
+      "checksPassed": 4,
+      "checksAttempted": 4,
+      "review": "The navigation, summary cards, comparison table, chart, and all five requested labels are legible; no watermark is present.",
+      "artifact": {
+        "path": "images/ui-mockup.png",
+        "sha256": "d3cbde37514402113baf516febbb8dc91e1c2ed18ce93c40ec9446923c6bb959",
+        "bytes": 1183326,
+        "width": 1586,
+        "height": 992,
+        "format": "png"
+      },
+      "reportedUsage": {
+        "tokens": null,
+        "credits": null,
+        "usd": null
+      }
+    },
+    {
+      "cliId": "codex",
+      "caseId": "architecture-diagram",
+      "attempt": 1,
+      "startedAtUtc": "2026-07-24T21:29:57.806Z",
+      "completedAtUtc": "2026-07-24T21:30:50.561Z",
+      "durationMs": 52755,
+      "succeeded": true,
+      "checksPassed": 4,
+      "checksAttempted": 4,
+      "review": "One catalog, two consumers, input evidence, required labels, and both pull arrows are clear; no watermark is present.",
+      "artifact": {
+        "path": "images/architecture-diagram.png",
+        "sha256": "ea23b2b69b17c49f2925e0d3299025702b094ab1cb1e687a1e609f08e235a298",
+        "bytes": 1061612,
+        "width": 1568,
+        "height": 1003,
+        "format": "png"
+      },
+      "reportedUsage": {
+        "tokens": null,
+        "credits": null,
+        "usd": null
+      }
+    },
+    {
+      "cliId": "codex",
+      "caseId": "photo-style",
+      "attempt": 1,
+      "startedAtUtc": "2026-07-24T21:30:56.133Z",
+      "completedAtUtc": "2026-07-24T21:32:56.092Z",
+      "durationMs": 119959,
+      "succeeded": true,
+      "checksPassed": 4,
+      "checksAttempted": 4,
+      "review": "The requested editorial scene, subject, desk, laptop, sketches, daylight, and realistic textures are present; no readable logo or watermark is present.",
+      "artifact": {
+        "path": "images/photo-style.png",
+        "sha256": "2a4574735231066df1f703722851a288179febb2a36efc50a37548a915de6e1d",
+        "bytes": 2033205,
+        "width": 1536,
+        "height": 1024,
+        "format": "png"
+      },
+      "reportedUsage": {
+        "tokens": null,
+        "credits": null,
+        "usd": null
+      }
+    }
+  ],
+  "normalTurnControl": {
+    "cliId": "codex",
+    "prompt": "Reply exactly BASELINE_OK and use no tools.",
+    "result": "BASELINE_OK",
+    "durationMs": 11910,
+    "usage": {
+      "inputTokens": 14533,
+      "cachedInputTokens": 0,
+      "outputTokens": 7,
+      "reasoningOutputTokens": 0
+    }
+  },
+  "costFactorAssessment": {
+    "reportedRange": {
+      "minimum": 3,
+      "maximum": 5,
+      "relativeTo": "normal Codex turn"
+    },
+    "status": "not-empirically-verified",
+    "reason": "The normal turn reported tokens, but the built-in image tool reported neither tokens nor subscription credits. Durations are not prices and cannot validate a cost multiplier.",
+    "durationObservationOnly": {
+      "normalTurnMs": 11910,
+      "imageGenerationMs": {
+        "minimum": 28950,
+        "median": 58771.5,
+        "maximum": 119959
+      },
+      "warning": "Do not use these latency ratios as cost factors."
+    }
+  }
+}
