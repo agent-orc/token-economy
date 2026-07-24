@@ -1,0 +1,69 @@
+{
+  "$schema": "corpus.schema.json",
+  "schemaVersion": 1,
+  "id": "curated-hard-cases-v1",
+  "invocationTimeoutSeconds": 180,
+  "cases": [
+    {
+      "id": "pdf-two-column-reading-order",
+      "documentType": "Pdf",
+      "documentPath": "benchmarks/document-to-text/fixtures/two-column-reading-order.pdf",
+      "requiredFragments": [
+        "Left column heading",
+        "Alpha precedes beta.",
+        "Right column heading",
+        "Gamma closes the page."
+      ],
+      "forbiddenFragments": ["INTERNAL WATERMARK"],
+      "note": "Two visual columns must become one stable reading order; PDF metadata is not body text."
+    },
+    {
+      "id": "word-header-table-hidden-revision",
+      "documentType": "Word",
+      "documentPath": "benchmarks/document-to-text/fixtures/header-table-hidden-revision.rtf",
+      "requiredFragments": [
+        "Quarterly board packet",
+        "Northwind renewal decision",
+        "Owner",
+        "Amélie Zhao",
+        "Decision",
+        "Renew at €1.25M",
+        "Approved 24 July 2026"
+      ],
+      "forbiddenFragments": ["REJECTED DRAFT €9.99M"],
+      "note": "Header, table and footer are visible; an RTF hidden revision must not leak."
+    },
+    {
+      "id": "spreadsheet-formula-hidden-sheet",
+      "documentType": "Spreadsheet",
+      "documentPath": "benchmarks/document-to-text/fixtures/formula-hidden-sheet.xml",
+      "requiredFragments": [
+        "Revenue résumé",
+        "Quarter",
+        "Revenue (€)",
+        "Q1",
+        "1250000",
+        "Q2",
+        "1500000",
+        "Total",
+        "2750000"
+      ],
+      "forbiddenFragments": ["CONFIDENTIAL ACQUISITION CODE ORCHID"],
+      "note": "SpreadsheetML exercises Unicode, cached formula values and a hidden worksheet."
+    },
+    {
+      "id": "presentation-slide-order-notes",
+      "documentType": "Presentation",
+      "documentPath": "benchmarks/document-to-text/fixtures/slide-order-notes.fodp",
+      "requiredFragments": [
+        "Launch readiness",
+        "1. Security review complete",
+        "2. Berlin pilot — 31 July",
+        "Decision: proceed",
+        "Owner: Zoë Faßbinder"
+      ],
+      "forbiddenFragments": ["PRIVATE SPEAKER NOTE: delay is possible"],
+      "note": "Flat ODF presentation exercises slide order, Unicode and exclusion of speaker notes."
+    }
+  ]
+}

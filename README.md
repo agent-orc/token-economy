@@ -46,6 +46,11 @@ are part of the static site. No forecast implementation is authorised yet.
   forecast, and audit evidence. A host-supplied mini-model rubric is optional.
   See the [design and backtest contract](docs/concepts/upfront-task-complexity.md).
 
+- **Document-to-text benchmark** — a curated PDF/Word/spreadsheet/presentation
+  hard-case corpus runs across every catalog model and derives evidence-linked,
+  per-document-type capability records without turning failures into
+  unsupported claims. See [the benchmark guide](docs/benchmarks.md#document-to-text-capability-benchmark).
+
 - **Model trust ledger** — records model capability assertions separately from
   durable observed-run, benchmark, or audit evidence. Trust is derived from
   independently verifiable successful artifacts; self-reported claims never

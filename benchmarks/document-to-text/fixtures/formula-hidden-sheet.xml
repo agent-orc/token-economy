@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<?mso-application progid="Excel.Sheet"?>
+<Workbook xmlns="urn:schemas-microsoft-com:office:spreadsheet"
+          xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet">
+  <Worksheet ss:Name="Revenue résumé">
+    <Table>
+      <Row><Cell><Data ss:Type="String">Quarter</Data></Cell><Cell><Data ss:Type="String">Revenue (€)</Data></Cell></Row>
+      <Row><Cell><Data ss:Type="String">Q1</Data></Cell><Cell><Data ss:Type="Number">1250000</Data></Cell></Row>
+      <Row><Cell><Data ss:Type="String">Q2</Data></Cell><Cell><Data ss:Type="Number">1500000</Data></Cell></Row>
+      <Row><Cell><Data ss:Type="String">Total</Data></Cell><Cell ss:Formula="=SUM(R2C2:R3C2)"><Data ss:Type="Number">2750000</Data></Cell></Row>
+    </Table>
+  </Worksheet>
+  <Worksheet ss:Name="Hidden assumptions">
+    <WorksheetOptions xmlns="urn:schemas-microsoft-com:office:excel"><Visible>SheetHidden</Visible></WorksheetOptions>
+    <Table><Row><Cell><Data ss:Type="String">CONFIDENTIAL ACQUISITION CODE ORCHID</Data></Cell></Row></Table>
+  </Worksheet>
+</Workbook>

@@ -34,3 +34,39 @@ Each raw case records the selected model and effort, repetition, invocation and 
 Lifecycle events are `benchmark.run.started`, `benchmark.case.completed`, and `benchmark.run.completed`. Hosts can subscribe to `EventOccurred`; the CLI emits them as structured JSON on stderr.
 
 To add a metric, add it to `BenchmarkCaseResult`, populate it in the runner or invoker, aggregate it in `Compare`, extend the setup schema if input changes, and cover raw and aggregate behavior in `BenchmarkRunnerTests`. Keep raw data sufficient to regenerate every report.
+
+## Document-to-text capability benchmark
+
+The document vertical is separate from code-editing A/B setups. It runs every
+canonical model in `ModelPriceCatalog` against every case in the versioned
+`benchmarks/document-to-text/curated-hard-cases.json` corpus:
+
+```powershell
+dotnet run --project src/TokenEconomy.Benchmarks -- document-to-text benchmarks/document-to-text/curated-hard-cases.json
+```
+
+The v1 corpus has four deliberately awkward, deterministic cases: PDF
+two-column reading order versus metadata, Word/RTF headers, tables and hidden
+revisions, SpreadsheetML formula values versus a hidden worksheet, and flat ODF
+slide order versus speaker notes. Oracles are ordered visible-text fragments
+plus forbidden hidden fragments. Matching is Unicode-normalized,
+case-insensitive and whitespace-insensitive.
+
+The CLI selects Claude Code for `claude-*` models and Codex for other catalog
+models. Both CLIs must be installed and authenticated to complete an all-model
+run. A missing or gated model is retained as a failed attempt, not silently
+removed from the matrix.
+
+Each run writes immutable raw evidence to
+`benchmarks/results/document-to-text/<corpus>/<run>.json` and an adjacent
+`<run>.capabilities.json`. The latter contains one record per model and document
+type with attempted/passed counts, success rate, and a reference to the raw
+artifact. Raw evidence retains the extracted text, oracle misses, token usage,
+duration and errors. Each invocation has the corpus's explicit timeout. Levels
+are deliberately conservative: all cases passed is
+`Demonstrated`, some is `Partial`, and none is `NotDemonstrated`. The benchmark
+never infers universal "unsupported" from this finite corpus.
+
+Library hosts can provide another transport through `IDocumentTextExtractor`.
+Events use the stable `document_text_benchmark.*` prefix and include corpus,
+run, model, case, document type, duration and failure context.

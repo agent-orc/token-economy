@@ -5,6 +5,13 @@ SemVer; pre-1.0 the public API may still shift).
 
 ## [Unreleased]
 
+### Added
+
+- An all-model document-to-text benchmark vertical with a versioned PDF,
+  Word/RTF, SpreadsheetML and flat-ODF presentation hard-case corpus,
+  deterministic visible/hidden-content oracles, append-only raw extraction
+  evidence, and conservative per-model/per-document-type capability records.
+
 ## [0.2.0] - 2026-07-10
 
 ### Added
