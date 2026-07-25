@@ -37,6 +37,10 @@ are part of the static site. No forecast implementation is authorised yet.
   consumption/outcome views. The filesystem contract is intentionally used over
   the task-server API so reporting jobs do not require a running server.
 
+- **Provider quota dashboard** — derives trailing tokens/hour, capability-tier
+  share, quota-mark projection, and ok/warning/critical state from imported
+  runs. See the [rendered dashboard view](website/provider-quota-dashboard/index.html).
+
 - **Controlled A/B benchmarks** — versioned repository definitions execute the
   same task against model/effort variants in isolated workspaces, retain raw
   append-only measurements, and derive deterministic comparison reports. See

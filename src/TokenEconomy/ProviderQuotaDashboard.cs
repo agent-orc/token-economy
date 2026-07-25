@@ -45,8 +45,8 @@ public sealed record ProviderQuotaDashboardOptions(
     }
 }
 
-/// <summary>Token share for a model tier within one provider's active quota window.</summary>
-public sealed record ModelTierShare(string Model, long Tokens, decimal Percent);
+/// <summary>Token share for a capability tier within one provider's active quota window.</summary>
+public sealed record ModelTierShare(string Tier, long Tokens, decimal Percent);
 
 /// <summary>Dashboard row for one provider, including rate, tier shares, and projected quota exhaustion.</summary>
 public sealed record ProviderQuotaDashboardRow(
@@ -88,11 +88,11 @@ public sealed class ProviderQuotaDashboardBuilder
             var rate = trailing * 1m / (decimal)options.TrailingWindow.TotalHours;
             var remaining = Math.Max(0, mark.Tokens - quotaTokens);
             DateTime? projected = rate > 0 && remaining > 0 ? options.AsOfUtc.AddHours((double)(remaining / rate)) : null;
-            var shares = quotaRecords.GroupBy(r => r.Model, StringComparer.OrdinalIgnoreCase).Select(g =>
+            var shares = quotaRecords.GroupBy(r => ResolveTier(r.Model), StringComparer.OrdinalIgnoreCase).Select(g =>
             {
                 var tokens = g.Sum(TokenTotal);
                 return new ModelTierShare(g.Key, tokens, quotaTokens == 0 ? 0 : tokens * 100m / quotaTokens);
-            }).OrderByDescending(s => s.Tokens).ThenBy(s => s.Model, StringComparer.OrdinalIgnoreCase).ToList();
+            }).OrderByDescending(s => s.Tokens).ThenBy(s => s.Tier, StringComparer.OrdinalIgnoreCase).ToList();
             return new ProviderQuotaDashboardRow(mark.Provider, trailing, rate, quotaTokens, mark.Tokens, percent, remaining, projected, state, shares);
         }).ToList();
         timer.Stop();
@@ -102,4 +102,8 @@ public sealed class ProviderQuotaDashboardBuilder
     }
 
     private static long TokenTotal(AgentStudioRunRecord record) => checked(record.Usage.Input + record.Usage.Output + record.Usage.CacheRead + record.Usage.CacheWrite);
+
+    // Imported ids can be aliases. The matrix resolves those aliases and keeps the dashboard's
+    // capability vocabulary aligned with model routing. Unprofiled imports remain visible.
+    private static string ResolveTier(string model) => ModelEfficiencyMatrix.Default.Find(model)?.Tier.ToString() ?? "Unknown";
 }

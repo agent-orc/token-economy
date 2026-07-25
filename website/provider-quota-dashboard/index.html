@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Provider quota dashboard</title>
+  <style>
+    :root { color-scheme: dark; font: 16px/1.45 system-ui, sans-serif; background:#101827; color:#eef4ff; }
+    body { margin:0; padding:3rem max(1.25rem, calc((100% - 1100px)/2)); } h1 { margin:0; font-size:2rem; }
+    .lede { color:#a9bad3; max-width:60rem; } .grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:1rem; }
+    .card { border:1px solid #33445e; border-top:5px solid #4a9eff; border-radius:10px; padding:1.1rem; background:#172338; }
+    .card.warning { border-top-color:#f0b429; } .card.critical { border-top-color:#f05d5e; } .top { display:flex; justify-content:space-between; align-items:center; }
+    h2 { margin:0; font-size:1.25rem; } .state { border-radius:999px; padding:.2rem .6rem; font-size:.78rem; font-weight:700; text-transform:uppercase; }
+    .ok .state { background:#164e3a; color:#9af0c5; } .warning .state { background:#6b4d10; color:#ffe19a; } .critical .state { background:#6b252b; color:#ffb5b6; }
+    .rate { font-size:2rem; font-weight:700; margin:.7rem 0 0; } .muted { color:#a9bad3; margin:.1rem 0 1rem; } .meter { height:.65rem; background:#29384e; border-radius:999px; overflow:hidden; }
+    .meter > span { display:block; height:100%; background:#4a9eff; } .warning .meter > span { background:#f0b429; } .critical .meter > span { background:#f05d5e; }
+    dl { display:grid; grid-template-columns:1fr auto; gap:.45rem .8rem; margin:1rem 0; } dt { color:#a9bad3; } dd { margin:0; font-weight:600; }
+    .tiers { border-top:1px solid #33445e; padding-top:.7rem; } .tier { display:grid; grid-template-columns:100px 1fr 46px; gap:.5rem; align-items:center; margin:.35rem 0; font-size:.9rem; }
+    .tier i { height:.45rem; background:#7268ff; border-radius:999px; } .spike { margin-top:2rem; border:1px solid #33445e; border-radius:10px; padding:1rem; background:#172338; }
+    .bars { height:88px; display:flex; align-items:end; gap:6px; } .bars span { flex:1; background:#3a5275; min-width:10px; } .bars span:nth-last-child(-n+2) { background:#f05d5e; } .legend { color:#a9bad3; font-size:.9rem; }
+  </style>
+</head>
+<body>
+  <h1>Provider quota dashboard</h1>
+  <p class="lede">Trailing consumption, active-window tier share, and the estimated time to each configured quota mark. This historical snapshot deliberately makes the OpenAI spike visible.</p>
+  <main class="grid" aria-label="Provider quota status">
+    <article class="card critical">
+      <div class="top"><h2>OpenAI</h2><span class="state">Critical</span></div>
+      <p class="rate">900 tokens/hour</p><p class="muted">Trailing 1-hour window</p>
+      <div class="meter" aria-label="85 percent of quota mark used"><span style="width:85%"></span></div>
+      <dl><dt>Quota mark</dt><dd>1,700 / 2,000 tokens · 85%</dd><dt>Until mark</dt><dd>300 tokens</dd><dt>Projected mark</dt><dd>12:20 UTC</dd></dl>
+      <div class="tiers"><strong>Active-window tier share</strong><div class="tier"><span>Balanced</span><i style="width:82%"></i><b>82%</b></div><div class="tier"><span>Unknown</span><i style="width:18%"></i><b>18%</b></div></div>
+    </article>
+    <article class="card warning">
+      <div class="top"><h2>Anthropic</h2><span class="state">Warning</span></div>
+      <p class="rate">600 tokens/hour</p><p class="muted">Trailing 1-hour window</p>
+      <div class="meter" aria-label="76 percent of quota mark used"><span style="width:76%"></span></div>
+      <dl><dt>Quota mark</dt><dd>760 / 1,000 tokens · 76%</dd><dt>Until mark</dt><dd>240 tokens</dd><dt>Projected mark</dt><dd>12:24 UTC</dd></dl>
+      <div class="tiers"><strong>Active-window tier share</strong><div class="tier"><span>Balanced</span><i style="width:100%"></i><b>100%</b></div></div>
+    </article>
+    <article class="card ok">
+      <div class="top"><h2>Google</h2><span class="state">OK</span></div>
+      <p class="rate">0 tokens/hour</p><p class="muted">Trailing 1-hour window</p>
+      <div class="meter" aria-label="20 percent of quota mark used"><span style="width:20%"></span></div>
+      <dl><dt>Quota mark</dt><dd>200 / 1,000 tokens · 20%</dd><dt>Until mark</dt><dd>800 tokens</dd><dt>Projected mark</dt><dd>No recent rate</dd></dl>
+      <div class="tiers"><strong>Active-window tier share</strong><div class="tier"><span>Unknown</span><i style="width:100%"></i><b>100%</b></div></div>
+    </article>
+  </main>
+  <section class="spike" aria-label="OpenAI historical consumption spike"><strong>OpenAI historical consumption</strong><div class="bars" aria-hidden="true"><span style="height:12%"></span><span style="height:14%"></span><span style="height:15%"></span><span style="height:13%"></span><span style="height:18%"></span><span style="height:20%"></span><span style="height:65%"></span><span style="height:100%"></span></div><p class="legend">Previous intervals → current trailing window. The final two red bars reproduce the spike that drives the critical projection.</p></section>
+</body>
+</html>

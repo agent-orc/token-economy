@@ -30,7 +30,7 @@ public class ProviderQuotaDashboardTests
         Assert.Equal(85m, openAi.QuotaMarkPercent);
         Assert.Equal(QuotaVisualState.Critical, openAi.State);
         Assert.Equal(asOf.AddMinutes(20), openAi.ProjectedMarkAtUtc);
-        Assert.Equal(new[] { "gpt-5", "gpt-5-mini" }, openAi.ModelShares.Select(s => s.Model));
+        Assert.Equal(new[] { "Balanced", "Unknown" }, openAi.ModelShares.Select(s => s.Tier));
         Assert.Equal(1400, openAi.ModelShares[0].Tokens);
         Assert.Equal(82.352941176470588235294117647m, openAi.ModelShares[0].Percent);
         Assert.Equal("provider_quota.dashboard.built", observed?.Name);
@@ -48,6 +48,35 @@ public class ProviderQuotaDashboardTests
         Assert.Equal(0, row.TokensPerHour);
         Assert.Null(row.ProjectedMarkAtUtc);
         Assert.Equal(QuotaVisualState.Ok, row.State);
+    }
+
+    [Fact]
+    public void Render_ContainsVisibleStateProjectionAndTierShare()
+    {
+        var row = new ProviderQuotaDashboardRow("openai", 900, 900, 1700, 2000, 85, 300,
+            new DateTime(2026, 7, 23, 12, 20, 0, DateTimeKind.Utc), QuotaVisualState.Critical,
+            [new("Balanced", 1400, 82.35m), new("Unknown", 300, 17.65m)]);
+
+        var html = ProviderQuotaDashboardHtmlRenderer.Render([row]);
+
+        Assert.Contains("tokens/hour", html);
+        Assert.Contains("2026-07-23 12:20 UTC", html);
+        Assert.Contains("Balanced: 82.35%", html);
+        Assert.Contains("quota-critical", html);
+    }
+
+    [Fact]
+    public void Build_GroupsDifferentModelsIntoTheirCapabilityTier()
+    {
+        var asOf = new DateTime(2026, 7, 23, 12, 0, 0, DateTimeKind.Utc);
+        var row = Assert.Single(new ProviderQuotaDashboardBuilder().Build(
+            [Run("openai", "gpt-5", asOf.AddMinutes(-10), 400), Run("openai", "gpt-5.5", asOf.AddMinutes(-5), 600)],
+            new(asOf, TimeSpan.FromHours(1), TimeSpan.FromHours(5), [new ProviderQuotaMark("openai", 2_000)])));
+
+        var share = Assert.Single(row.ModelShares);
+        Assert.Equal("Balanced", share.Tier);
+        Assert.Equal(1_000, share.Tokens);
+        Assert.Equal(100m, share.Percent);
     }
 
     private static AgentStudioRunRecord Run(string provider, string model, DateTime observedAt, long input) => new()
