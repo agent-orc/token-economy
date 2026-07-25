@@ -86,5 +86,7 @@ results/
 results/*
 !results/complexity-backtest/
 !results/complexity-backtest/**
+!results/provider-quota-dashboard/
+!results/provider-quota-dashboard/**
 !benchmarks/results/
 !benchmarks/results/**

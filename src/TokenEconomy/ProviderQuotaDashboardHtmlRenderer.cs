@@ -24,6 +24,8 @@ public static class ProviderQuotaDashboardHtmlRenderer
                 .Append("</dd></dl><section class=\"tier-shares\"><h3>Active-window tier share</h3><ul>");
             foreach (var share in row.ModelShares)
                 html.Append("<li><span>").Append(Escape(share.Tier)).Append("</span><span class=\"tier-bar\"><i style=\"width:").Append(Number(share.Percent)).Append("%\"></i></span><b>").Append(Number(share.Percent)).Append("%</b></li>");
+            if (!row.ModelShares.Any())
+                html.Append("<li class=\"no-tier-consumption\">No active-window consumption</li>");
             html.Append("</ul></section></article>");
         }
         return html.Append("</div></section>").ToString();

@@ -22,30 +22,30 @@
 </head>
 <body>
   <h1>Provider quota dashboard</h1>
-  <p class="lede">Trailing consumption, active-window tier share, and the estimated time to each configured quota mark. This historical snapshot deliberately makes the OpenAI spike visible.</p>
+  <p class="lede">Trailing consumption, active-window capability-tier share, and the estimated time to each configured quota mark. This rendered historical snapshot deliberately makes the OpenAI spike visible.</p>
   <main class="grid" aria-label="Provider quota status">
     <article class="card critical">
       <div class="top"><h2>OpenAI</h2><span class="state">Critical</span></div>
       <p class="rate">900 tokens/hour</p><p class="muted">Trailing 1-hour window</p>
       <div class="meter" aria-label="85 percent of quota mark used"><span style="width:85%"></span></div>
-      <dl><dt>Quota mark</dt><dd>1,700 / 2,000 tokens · 85%</dd><dt>Until mark</dt><dd>300 tokens</dd><dt>Projected mark</dt><dd>12:20 UTC</dd></dl>
-      <div class="tiers"><strong>Active-window tier share</strong><div class="tier"><span>Balanced</span><i style="width:82%"></i><b>82%</b></div><div class="tier"><span>Unknown</span><i style="width:18%"></i><b>18%</b></div></div>
+      <dl><dt>Quota mark</dt><dd>1,700 / 2,000 tokens &middot; 85%</dd><dt>Until mark</dt><dd>300 tokens</dd><dt>Projected mark</dt><dd>12:20 UTC</dd></dl>
+      <div class="tiers"><strong>Active-window capability-tier share</strong><div class="tier"><span>Balanced</span><i style="width:82%"></i><b>82%</b></div><div class="tier"><span>Unknown</span><i style="width:18%"></i><b>18%</b></div></div>
     </article>
-    <article class="card warning">
-      <div class="top"><h2>Anthropic</h2><span class="state">Warning</span></div>
-      <p class="rate">600 tokens/hour</p><p class="muted">Trailing 1-hour window</p>
-      <div class="meter" aria-label="76 percent of quota mark used"><span style="width:76%"></span></div>
-      <dl><dt>Quota mark</dt><dd>760 / 1,000 tokens · 76%</dd><dt>Until mark</dt><dd>240 tokens</dd><dt>Projected mark</dt><dd>12:24 UTC</dd></dl>
-      <div class="tiers"><strong>Active-window tier share</strong><div class="tier"><span>Balanced</span><i style="width:100%"></i><b>100%</b></div></div>
+    <article class="card ok">
+      <div class="top"><h2>Anthropic</h2><span class="state">OK</span></div>
+      <p class="rate">100 tokens/hour</p><p class="muted">Trailing 1-hour window</p>
+      <div class="meter" aria-label="10 percent of quota mark used"><span style="width:10%"></span></div>
+      <dl><dt>Quota mark</dt><dd>100 / 1,000 tokens &middot; 10%</dd><dt>Until mark</dt><dd>900 tokens</dd><dt>Projected mark</dt><dd>21:00 UTC</dd></dl>
+      <div class="tiers"><strong>Active-window capability-tier share</strong><div class="tier"><span>Unknown</span><i style="width:100%"></i><b>100%</b></div></div>
     </article>
     <article class="card ok">
       <div class="top"><h2>Google</h2><span class="state">OK</span></div>
       <p class="rate">0 tokens/hour</p><p class="muted">Trailing 1-hour window</p>
-      <div class="meter" aria-label="20 percent of quota mark used"><span style="width:20%"></span></div>
-      <dl><dt>Quota mark</dt><dd>200 / 1,000 tokens · 20%</dd><dt>Until mark</dt><dd>800 tokens</dd><dt>Projected mark</dt><dd>No recent rate</dd></dl>
-      <div class="tiers"><strong>Active-window tier share</strong><div class="tier"><span>Unknown</span><i style="width:100%"></i><b>100%</b></div></div>
+      <div class="meter" aria-label="0 percent of quota mark used"><span style="width:0%"></span></div>
+      <dl><dt>Quota mark</dt><dd>0 / 1,000 tokens &middot; 0%</dd><dt>Until mark</dt><dd>1,000 tokens</dd><dt>Projected mark</dt><dd>No recent rate</dd></dl>
+      <div class="tiers"><strong>Active-window capability-tier share</strong><p class="muted">No active-window consumption</p></div>
     </article>
   </main>
-  <section class="spike" aria-label="OpenAI historical consumption spike"><strong>OpenAI historical consumption</strong><div class="bars" aria-hidden="true"><span style="height:12%"></span><span style="height:14%"></span><span style="height:15%"></span><span style="height:13%"></span><span style="height:18%"></span><span style="height:20%"></span><span style="height:65%"></span><span style="height:100%"></span></div><p class="legend">Previous intervals → current trailing window. The final two red bars reproduce the spike that drives the critical projection.</p></section>
+  <section class="spike" aria-label="OpenAI historical consumption spike"><strong>OpenAI historical consumption</strong><div class="bars" aria-hidden="true"><span style="height:12%"></span><span style="height:14%"></span><span style="height:15%"></span><span style="height:13%"></span><span style="height:18%"></span><span style="height:20%"></span><span style="height:65%"></span><span style="height:100%"></span></div><p class="legend">Previous intervals &rarr; current trailing window. The final two red bars reproduce the spike that drives the critical projection. Reproducible input and derived report are in <code>results/provider-quota-dashboard/</code>.</p></section>
 </body>
 </html>

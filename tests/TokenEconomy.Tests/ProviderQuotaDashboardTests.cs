@@ -69,6 +69,19 @@ public class ProviderQuotaDashboardTests
     }
 
     [Fact]
+    public void Render_MakesAnIdleProviderVisibleWithoutInventingATierShare()
+    {
+        var row = new ProviderQuotaDashboardRow("google", 0, 0, 0, 1_000, 0, 1_000,
+            null, QuotaVisualState.Ok, []);
+
+        var html = ProviderQuotaDashboardHtmlRenderer.Render([row]);
+
+        Assert.Contains("quota-card quota-ok", html);
+        Assert.Contains("No recent rate", html);
+        Assert.Contains("No active-window consumption", html);
+    }
+
+    [Fact]
     public void Build_GroupsDifferentModelsIntoTheirCapabilityTier()
     {
         var asOf = new DateTime(2026, 7, 23, 12, 0, 0, DateTimeKind.Utc);
