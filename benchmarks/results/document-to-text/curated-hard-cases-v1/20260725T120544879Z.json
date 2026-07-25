@@ -1,0 +1,1297 @@
+{
+  "schemaVersion": 1,
+  "corpusId": "curated-hard-cases-v1",
+  "runId": "20260725T120544879Z",
+  "startedAtUtc": "2026-07-25T12:05:44.879647Z",
+  "completedAtUtc": "2026-07-25T12:32:35.9127773Z",
+  "models": [
+    "claude-fable-5",
+    "claude-mythos-5",
+    "claude-sonnet-5",
+    "claude-opus-4-8",
+    "claude-opus-4-7",
+    "claude-opus-4-6",
+    "claude-opus-4-5",
+    "claude-opus-4-1",
+    "claude-sonnet-4-6",
+    "claude-sonnet-4-5",
+    "claude-haiku-4-5",
+    "gpt-5.6",
+    "gpt-5.5",
+    "gpt-5",
+    "gpt-5-codex"
+  ],
+  "cases": [
+    {
+      "model": "claude-fable-5",
+      "caseId": "pdf-two-column-reading-order",
+      "documentType": "Pdf",
+      "succeeded": true,
+      "exitCode": 0,
+      "usage": {
+        "input": 3223,
+        "output": 288,
+        "cacheRead": 54939,
+        "cacheWrite": 30986
+      },
+      "extractedText": "Left column heading\nAlpha precedes beta.\nRight column heading\nGamma closes the page.",
+      "costUsd": null,
+      "durationMs": 38533,
+      "missingFragments": [],
+      "unexpectedFragments": [],
+      "failureReason": null
+    },
+    {
+      "model": "claude-fable-5",
+      "caseId": "word-header-table-hidden-revision",
+      "documentType": "Word",
+      "succeeded": true,
+      "exitCode": 0,
+      "usage": {
+        "input": 3223,
+        "output": 464,
+        "cacheRead": 76648,
+        "cacheWrite": 7799
+      },
+      "extractedText": "Quarterly board packet\n\nNorthwind renewal decision\n\nOwner\tAm\u00E9lie Zhao\nDecision\tRenew at \u20AC1.25M\n\nApproved 24 July 2026",
+      "costUsd": null,
+      "durationMs": 26582,
+      "missingFragments": [],
+      "unexpectedFragments": [],
+      "failureReason": null
+    },
+    {
+      "model": "claude-fable-5",
+      "caseId": "spreadsheet-formula-hidden-sheet",
+      "documentType": "Spreadsheet",
+      "succeeded": true,
+      "exitCode": 0,
+      "usage": {
+        "input": 4035,
+        "output": 339,
+        "cacheRead": 76675,
+        "cacheWrite": 8170
+      },
+      "extractedText": "Revenue r\u00E9sum\u00E9\n\nQuarter\tRevenue (\u20AC)\nQ1\t1250000\nQ2\t1500000\nTotal\t2750000",
+      "costUsd": null,
+      "durationMs": 20252,
+      "missingFragments": [],
+      "unexpectedFragments": [],
+      "failureReason": null
+    },
+    {
+      "model": "claude-fable-5",
+      "caseId": "presentation-slide-order-notes",
+      "documentType": "Presentation",
+      "succeeded": true,
+      "exitCode": 0,
+      "usage": {
+        "input": 3223,
+        "output": 305,
+        "cacheRead": 76644,
+        "cacheWrite": 8054
+      },
+      "extractedText": "Launch readiness\n1. Security review complete\n2. Berlin pilot \u2014 31 July\n\nDecision: proceed\nOwner: Zo\u00EB Fa\u00DFbinder",
+      "costUsd": null,
+      "durationMs": 19733,
+      "missingFragments": [],
+      "unexpectedFragments": [],
+      "failureReason": null
+    },
+    {
+      "model": "claude-mythos-5",
+      "caseId": "pdf-two-column-reading-order",
+      "documentType": "Pdf",
+      "succeeded": false,
+      "exitCode": 1,
+      "usage": {
+        "input": 0,
+        "output": 0,
+        "cacheRead": 0,
+        "cacheWrite": 0
+      },
+      "extractedText": "There\u0027s an issue with the selected model (claude-mythos-5). It may not exist or you may not have access to it.",
+      "costUsd": null,
+      "durationMs": 15874,
+      "missingFragments": [
+        "Left column heading",
+        "Alpha precedes beta.",
+        "Right column heading",
+        "Gamma closes the page."
+      ],
+      "unexpectedFragments": [],
+      "failureReason": ""
+    },
+    {
+      "model": "claude-mythos-5",
+      "caseId": "word-header-table-hidden-revision",
+      "documentType": "Word",
+      "succeeded": false,
+      "exitCode": 1,
+      "usage": {
+        "input": 0,
+        "output": 0,
+        "cacheRead": 0,
+        "cacheWrite": 0
+      },
+      "extractedText": "There\u0027s an issue with the selected model (claude-mythos-5). It may not exist or you may not have access to it.",
+      "costUsd": null,
+      "durationMs": 13594,
+      "missingFragments": [
+        "Quarterly board packet",
+        "Northwind renewal decision",
+        "Owner",
+        "Am\u00E9lie Zhao",
+        "Decision",
+        "Renew at \u20AC1.25M",
+        "Approved 24 July 2026"
+      ],
+      "unexpectedFragments": [],
+      "failureReason": ""
+    },
+    {
+      "model": "claude-mythos-5",
+      "caseId": "spreadsheet-formula-hidden-sheet",
+      "documentType": "Spreadsheet",
+      "succeeded": false,
+      "exitCode": 1,
+      "usage": {
+        "input": 0,
+        "output": 0,
+        "cacheRead": 0,
+        "cacheWrite": 0
+      },
+      "extractedText": "There\u0027s an issue with the selected model (claude-mythos-5). It may not exist or you may not have access to it.",
+      "costUsd": null,
+      "durationMs": 13047,
+      "missingFragments": [
+        "Revenue r\u00E9sum\u00E9",
+        "Quarter",
+        "Revenue (\u20AC)",
+        "Q1",
+        "1250000",
+        "Q2",
+        "1500000",
+        "Total",
+        "2750000"
+      ],
+      "unexpectedFragments": [],
+      "failureReason": ""
+    },
+    {
+      "model": "claude-mythos-5",
+      "caseId": "presentation-slide-order-notes",
+      "documentType": "Presentation",
+      "succeeded": false,
+      "exitCode": 1,
+      "usage": {
+        "input": 0,
+        "output": 0,
+        "cacheRead": 0,
+        "cacheWrite": 0
+      },
+      "extractedText": "There\u0027s an issue with the selected model (claude-mythos-5). It may not exist or you may not have access to it.",
+      "costUsd": null,
+      "durationMs": 24512,
+      "missingFragments": [
+        "Launch readiness",
+        "1. Security review complete",
+        "2. Berlin pilot \u2014 31 July",
+        "Decision: proceed",
+        "Owner: Zo\u00EB Fa\u00DFbinder"
+      ],
+      "unexpectedFragments": [],
+      "failureReason": ""
+    },
+    {
+      "model": "claude-sonnet-5",
+      "caseId": "pdf-two-column-reading-order",
+      "documentType": "Pdf",
+      "succeeded": true,
+      "exitCode": 0,
+      "usage": {
+        "input": 6,
+        "output": 248,
+        "cacheRead": 79868,
+        "cacheWrite": 42655
+      },
+      "extractedText": "Left column heading\nAlpha precedes beta.\nRight column heading\nGamma closes the page.",
+      "costUsd": null,
+      "durationMs": 18892,
+      "missingFragments": [],
+      "unexpectedFragments": [],
+      "failureReason": null
+    },
+    {
+      "model": "claude-sonnet-5",
+      "caseId": "word-header-table-hidden-revision",
+      "documentType": "Word",
+      "succeeded": true,
+      "exitCode": 0,
+      "usage": {
+        "input": 4,
+        "output": 369,
+        "cacheRead": 69723,
+        "cacheWrite": 10155
+      },
+      "extractedText": "Quarterly board packet\n\nNorthwind renewal decision\n\nOwner | Am\u00E9lie Zhao\nDecision | Renew at \u20AC1.25M\n\nApproved 24 July 2026",
+      "costUsd": null,
+      "durationMs": 18998,
+      "missingFragments": [],
+      "unexpectedFragments": [],
+      "failureReason": null
+    },
+    {
+      "model": "claude-sonnet-5",
+      "caseId": "spreadsheet-formula-hidden-sheet",
+      "documentType": "Spreadsheet",
+      "succeeded": true,
+      "exitCode": 0,
+      "usage": {
+        "input": 6,
+        "output": 251,
+        "cacheRead": 109540,
+        "cacheWrite": 11398
+      },
+      "extractedText": "Revenue r\u00E9sum\u00E9\n\nQuarter | Revenue (\u20AC)\nQ1 | 1250000\nQ2 | 1500000\nTotal | 2750000",
+      "costUsd": null,
+      "durationMs": 22333,
+      "missingFragments": [],
+      "unexpectedFragments": [],
+      "failureReason": null
+    },
+    {
+      "model": "claude-sonnet-5",
+      "caseId": "presentation-slide-order-notes",
+      "documentType": "Presentation",
+      "succeeded": true,
+      "exitCode": 0,
+      "usage": {
+        "input": 8,
+        "output": 435,
+        "cacheRead": 150410,
+        "cacheWrite": 11518
+      },
+      "extractedText": "Slide 1\nLaunch readiness\n1. Security review complete\n2. Berlin pilot \u2014 31 July\n\nSlide 2\nDecision: proceed\nOwner: Zo\u00EB Fa\u00DFbinder",
+      "costUsd": null,
+      "durationMs": 42470,
+      "missingFragments": [],
+      "unexpectedFragments": [],
+      "failureReason": null
+    },
+    {
+      "model": "claude-opus-4-8",
+      "caseId": "pdf-two-column-reading-order",
+      "documentType": "Pdf",
+      "succeeded": true,
+      "exitCode": 0,
+      "usage": {
+        "input": 4035,
+        "output": 338,
+        "cacheRead": 74347,
+        "cacheWrite": 8235
+      },
+      "extractedText": "Left column heading\nAlpha precedes beta.\nRight column heading\nGamma closes the page.",
+      "costUsd": null,
+      "durationMs": 22343,
+      "missingFragments": [],
+      "unexpectedFragments": [],
+      "failureReason": null
+    },
+    {
+      "model": "claude-opus-4-8",
+      "caseId": "word-header-table-hidden-revision",
+      "documentType": "Word",
+      "succeeded": true,
+      "exitCode": 0,
+      "usage": {
+        "input": 3383,
+        "output": 392,
+        "cacheRead": 46217,
+        "cacheWrite": 6547
+      },
+      "extractedText": "Quarterly board packet\n\nNorthwind renewal decision\n\nOwner\tAm\u00E9lie Zhao\nDecision\tRenew at \u20AC1.25M\n\nApproved 24 July 2026",
+      "costUsd": null,
+      "durationMs": 18024,
+      "missingFragments": [],
+      "unexpectedFragments": [],
+      "failureReason": null
+    },
+    {
+      "model": "claude-opus-4-8",
+      "caseId": "spreadsheet-formula-hidden-sheet",
+      "documentType": "Spreadsheet",
+      "succeeded": true,
+      "exitCode": 0,
+      "usage": {
+        "input": 3221,
+        "output": 246,
+        "cacheRead": 46221,
+        "cacheWrite": 6728
+      },
+      "extractedText": "Revenue r\u00E9sum\u00E9\n\nQuarter\tRevenue (\u20AC)\nQ1\t1250000\nQ2\t1500000\nTotal\t2750000",
+      "costUsd": null,
+      "durationMs": 16742,
+      "missingFragments": [],
+      "unexpectedFragments": [],
+      "failureReason": null
+    },
+    {
+      "model": "claude-opus-4-8",
+      "caseId": "presentation-slide-order-notes",
+      "documentType": "Presentation",
+      "succeeded": true,
+      "exitCode": 0,
+      "usage": {
+        "input": 4035,
+        "output": 395,
+        "cacheRead": 74394,
+        "cacheWrite": 7103
+      },
+      "extractedText": "Launch readiness\n1. Security review complete\n2. Berlin pilot \u2014 31 July\n\nDecision: proceed\nOwner: Zo\u00EB Fa\u00DFbinder",
+      "costUsd": null,
+      "durationMs": 29715,
+      "missingFragments": [],
+      "unexpectedFragments": [],
+      "failureReason": null
+    },
+    {
+      "model": "claude-opus-4-7",
+      "caseId": "pdf-two-column-reading-order",
+      "documentType": "Pdf",
+      "succeeded": true,
+      "exitCode": 0,
+      "usage": {
+        "input": 13,
+        "output": 369,
+        "cacheRead": 80343,
+        "cacheWrite": 42984
+      },
+      "extractedText": "Left column heading\nAlpha precedes beta.\n\nRight column heading\nGamma closes the page.",
+      "costUsd": null,
+      "durationMs": 27640,
+      "missingFragments": [],
+      "unexpectedFragments": [],
+      "failureReason": null
+    },
+    {
+      "model": "claude-opus-4-7",
+      "caseId": "word-header-table-hidden-revision",
+      "documentType": "Word",
+      "succeeded": true,
+      "exitCode": 0,
+      "usage": {
+        "input": 8,
+        "output": 371,
+        "cacheRead": 110245,
+        "cacheWrite": 11542
+      },
+      "extractedText": "Quarterly board packet\n\nNorthwind renewal decision\n\nOwner | Am\u00E9lie Zhao\nDecision | Renew at \u20AC1.25M\n\nApproved 24 July 2026",
+      "costUsd": null,
+      "durationMs": 55982,
+      "missingFragments": [],
+      "unexpectedFragments": [],
+      "failureReason": null
+    },
+    {
+      "model": "claude-opus-4-7",
+      "caseId": "spreadsheet-formula-hidden-sheet",
+      "documentType": "Spreadsheet",
+      "succeeded": true,
+      "exitCode": 0,
+      "usage": {
+        "input": 8,
+        "output": 340,
+        "cacheRead": 110272,
+        "cacheWrite": 11082
+      },
+      "extractedText": "Revenue r\u00E9sum\u00E9\nQuarter\tRevenue (\u20AC)\nQ1\t1250000\nQ2\t1500000\nTotal\t2750000",
+      "costUsd": null,
+      "durationMs": 22784,
+      "missingFragments": [],
+      "unexpectedFragments": [],
+      "failureReason": null
+    },
+    {
+      "model": "claude-opus-4-7",
+      "caseId": "presentation-slide-order-notes",
+      "documentType": "Presentation",
+      "succeeded": true,
+      "exitCode": 0,
+      "usage": {
+        "input": 8,
+        "output": 344,
+        "cacheRead": 110260,
+        "cacheWrite": 10986
+      },
+      "extractedText": "Launch readiness\n1. Security review complete\n2. Berlin pilot \u2014 31 July\n\nDecision: proceed\nOwner: Zo\u00EB Fa\u00DFbinder",
+      "costUsd": null,
+      "durationMs": 23792,
+      "missingFragments": [],
+      "unexpectedFragments": [],
+      "failureReason": null
+    },
+    {
+      "model": "claude-opus-4-6",
+      "caseId": "pdf-two-column-reading-order",
+      "documentType": "Pdf",
+      "succeeded": true,
+      "exitCode": 0,
+      "usage": {
+        "input": 6,
+        "output": 199,
+        "cacheRead": 29648,
+        "cacheWrite": 31501
+      },
+      "extractedText": "Left column heading\nAlpha precedes beta.\nRight column heading\nGamma closes the page.",
+      "costUsd": null,
+      "durationMs": 16850,
+      "missingFragments": [],
+      "unexpectedFragments": [],
+      "failureReason": null
+    },
+    {
+      "model": "claude-opus-4-6",
+      "caseId": "word-header-table-hidden-revision",
+      "documentType": "Word",
+      "succeeded": true,
+      "exitCode": 0,
+      "usage": {
+        "input": 4,
+        "output": 381,
+        "cacheRead": 52085,
+        "cacheWrite": 7825
+      },
+      "extractedText": "Quarterly board packet\n\nNorthwind renewal decision\n\nOwner\tAm\u00E9lie Zhao\nDecision\tRenew at \u20AC1.25M\n\nApproved 24 July 2026",
+      "costUsd": null,
+      "durationMs": 23614,
+      "missingFragments": [],
+      "unexpectedFragments": [],
+      "failureReason": null
+    },
+    {
+      "model": "claude-opus-4-6",
+      "caseId": "spreadsheet-formula-hidden-sheet",
+      "documentType": "Spreadsheet",
+      "succeeded": true,
+      "exitCode": 0,
+      "usage": {
+        "input": 4,
+        "output": 219,
+        "cacheRead": 51968,
+        "cacheWrite": 7880
+      },
+      "extractedText": "The file is an Excel XML spreadsheet with two worksheets: \u0022Revenue r\u00E9sum\u00E9\u0022 (visible) and \u0022Hidden assumptions\u0022 (hidden via \u0060SheetHidden\u0060). I\u0027ll extract only the visible sheet content.\n\nRevenue r\u00E9sum\u00E9\n\nQuarter\tRevenue (\u20AC)\nQ1\t1250000\nQ2\t1500000\nTotal\t2750000",
+      "costUsd": null,
+      "durationMs": 17858,
+      "missingFragments": [],
+      "unexpectedFragments": [],
+      "failureReason": null
+    },
+    {
+      "model": "claude-opus-4-6",
+      "caseId": "presentation-slide-order-notes",
+      "documentType": "Presentation",
+      "succeeded": true,
+      "exitCode": 0,
+      "usage": {
+        "input": 4,
+        "output": 223,
+        "cacheRead": 51969,
+        "cacheWrite": 7954
+      },
+      "extractedText": "Launch readiness\n1. Security review complete\n2. Berlin pilot \u2014 31 July\n\nDecision: proceed\nOwner: Zo\u00EB Fa\u00DFbinder",
+      "costUsd": null,
+      "durationMs": 22192,
+      "missingFragments": [],
+      "unexpectedFragments": [],
+      "failureReason": null
+    },
+    {
+      "model": "claude-opus-4-5",
+      "caseId": "pdf-two-column-reading-order",
+      "documentType": "Pdf",
+      "succeeded": true,
+      "exitCode": 0,
+      "usage": {
+        "input": 20,
+        "output": 405,
+        "cacheRead": 29817,
+        "cacheWrite": 31607
+      },
+      "extractedText": "Left column heading\nAlpha precedes beta.\nRight column heading\nGamma closes the page.",
+      "costUsd": null,
+      "durationMs": 24320,
+      "missingFragments": [],
+      "unexpectedFragments": [],
+      "failureReason": null
+    },
+    {
+      "model": "claude-opus-4-5",
+      "caseId": "word-header-table-hidden-revision",
+      "documentType": "Word",
+      "succeeded": true,
+      "exitCode": 0,
+      "usage": {
+        "input": 11,
+        "output": 189,
+        "cacheRead": 49146,
+        "cacheWrite": 10667
+      },
+      "extractedText": "Quarterly board packet\n\nNorthwind renewal decision\n\nOwner\tAm\u00E9lie Zhao\nDecision\tRenew at \u20AC1.25M\n\nApproved 24 July 2026",
+      "costUsd": null,
+      "durationMs": 19313,
+      "missingFragments": [],
+      "unexpectedFragments": [],
+      "failureReason": null
+    },
+    {
+      "model": "claude-opus-4-5",
+      "caseId": "spreadsheet-formula-hidden-sheet",
+      "documentType": "Spreadsheet",
+      "succeeded": true,
+      "exitCode": 0,
+      "usage": {
+        "input": 11,
+        "output": 178,
+        "cacheRead": 49144,
+        "cacheWrite": 10844
+      },
+      "extractedText": "Revenue r\u00E9sum\u00E9\n\nQuarter\tRevenue (\u20AC)\nQ1\t1250000\nQ2\t1500000\nTotal\t2750000",
+      "costUsd": null,
+      "durationMs": 29221,
+      "missingFragments": [],
+      "unexpectedFragments": [],
+      "failureReason": null
+    },
+    {
+      "model": "claude-opus-4-5",
+      "caseId": "presentation-slide-order-notes",
+      "documentType": "Presentation",
+      "succeeded": true,
+      "exitCode": 0,
+      "usage": {
+        "input": 11,
+        "output": 273,
+        "cacheRead": 49149,
+        "cacheWrite": 10877
+      },
+      "extractedText": "Launch readiness\n1. Security review complete\n2. Berlin pilot \u2014 31 July\n\nDecision: proceed\nOwner: Zo\u00EB Fa\u00DFbinder",
+      "costUsd": null,
+      "durationMs": 33009,
+      "missingFragments": [],
+      "unexpectedFragments": [],
+      "failureReason": null
+    },
+    {
+      "model": "claude-opus-4-1",
+      "caseId": "pdf-two-column-reading-order",
+      "documentType": "Pdf",
+      "succeeded": true,
+      "exitCode": 0,
+      "usage": {
+        "input": 3223,
+        "output": 415,
+        "cacheRead": 74350,
+        "cacheWrite": 8274
+      },
+      "extractedText": "Left column heading\nAlpha precedes beta.\nRight column heading\nGamma closes the page.",
+      "costUsd": null,
+      "durationMs": 45237,
+      "missingFragments": [],
+      "unexpectedFragments": [],
+      "failureReason": null
+    },
+    {
+      "model": "claude-opus-4-1",
+      "caseId": "word-header-table-hidden-revision",
+      "documentType": "Word",
+      "succeeded": true,
+      "exitCode": 0,
+      "usage": {
+        "input": 3221,
+        "output": 377,
+        "cacheRead": 46221,
+        "cacheWrite": 6389
+      },
+      "extractedText": "Quarterly board packet\n\nNorthwind renewal decision\n\nOwner\tAm\u00E9lie Zhao\nDecision\tRenew at \u20AC1.25M\n\nApproved 24 July 2026",
+      "costUsd": null,
+      "durationMs": 23342,
+      "missingFragments": [],
+      "unexpectedFragments": [],
+      "failureReason": null
+    },
+    {
+      "model": "claude-opus-4-1",
+      "caseId": "spreadsheet-formula-hidden-sheet",
+      "documentType": "Spreadsheet",
+      "succeeded": true,
+      "exitCode": 0,
+      "usage": {
+        "input": 3221,
+        "output": 256,
+        "cacheRead": 46218,
+        "cacheWrite": 6725
+      },
+      "extractedText": "Revenue r\u00E9sum\u00E9\n\nQuarter\tRevenue (\u20AC)\nQ1\t1250000\nQ2\t1500000\nTotal\t2750000",
+      "costUsd": null,
+      "durationMs": 17593,
+      "missingFragments": [],
+      "unexpectedFragments": [],
+      "failureReason": null
+    },
+    {
+      "model": "claude-opus-4-1",
+      "caseId": "presentation-slide-order-notes",
+      "documentType": "Presentation",
+      "succeeded": true,
+      "exitCode": 0,
+      "usage": {
+        "input": 4035,
+        "output": 342,
+        "cacheRead": 74110,
+        "cacheWrite": 6851
+      },
+      "extractedText": "Launch readiness\n1. Security review complete\n2. Berlin pilot \u2014 31 July\nDecision: proceed\nOwner: Zo\u00EB Fa\u00DFbinder",
+      "costUsd": null,
+      "durationMs": 29424,
+      "missingFragments": [],
+      "unexpectedFragments": [],
+      "failureReason": null
+    },
+    {
+      "model": "claude-sonnet-4-6",
+      "caseId": "pdf-two-column-reading-order",
+      "documentType": "Pdf",
+      "succeeded": true,
+      "exitCode": 0,
+      "usage": {
+        "input": 7,
+        "output": 247,
+        "cacheRead": 58154,
+        "cacheWrite": 31487
+      },
+      "extractedText": "Left column heading\nAlpha precedes beta.\nRight column heading\nGamma closes the page.",
+      "costUsd": null,
+      "durationMs": 18784,
+      "missingFragments": [],
+      "unexpectedFragments": [],
+      "failureReason": null
+    },
+    {
+      "model": "claude-sonnet-4-6",
+      "caseId": "word-header-table-hidden-revision",
+      "documentType": "Word",
+      "succeeded": true,
+      "exitCode": 0,
+      "usage": {
+        "input": 4,
+        "output": 206,
+        "cacheRead": 50472,
+        "cacheWrite": 7722
+      },
+      "extractedText": "Quarterly board packet\n\nNorthwind renewal decision\n\nOwner | Am\u00E9lie Zhao\nDecision | Renew at \u20AC1.25M\n\nApproved 24 July 2026",
+      "costUsd": null,
+      "durationMs": 18096,
+      "missingFragments": [],
+      "unexpectedFragments": [],
+      "failureReason": null
+    },
+    {
+      "model": "claude-sonnet-4-6",
+      "caseId": "spreadsheet-formula-hidden-sheet",
+      "documentType": "Spreadsheet",
+      "succeeded": false,
+      "exitCode": 0,
+      "usage": {
+        "input": 4,
+        "output": 188,
+        "cacheRead": 50470,
+        "cacheWrite": 7904
+      },
+      "extractedText": "Quarter\tRevenue (\u20AC)\nQ1\t1250000\nQ2\t1500000\nTotal\t2750000",
+      "costUsd": null,
+      "durationMs": 12471,
+      "missingFragments": [
+        "Revenue r\u00E9sum\u00E9"
+      ],
+      "unexpectedFragments": [],
+      "failureReason": "Extraction oracle failed: 1 required fragment(s) missing, 0 forbidden fragment(s) present."
+    },
+    {
+      "model": "claude-sonnet-4-6",
+      "caseId": "presentation-slide-order-notes",
+      "documentType": "Presentation",
+      "succeeded": true,
+      "exitCode": 0,
+      "usage": {
+        "input": 5,
+        "output": 373,
+        "cacheRead": 79650,
+        "cacheWrite": 8710
+      },
+      "extractedText": "Launch readiness\n1. Security review complete\n2. Berlin pilot \u2014 31 July\nDecision: proceed\nOwner: Zo\u00EB Fa\u00DFbinder",
+      "costUsd": null,
+      "durationMs": 24985,
+      "missingFragments": [],
+      "unexpectedFragments": [],
+      "failureReason": null
+    },
+    {
+      "model": "claude-sonnet-4-5",
+      "caseId": "pdf-two-column-reading-order",
+      "documentType": "Pdf",
+      "succeeded": false,
+      "exitCode": -1,
+      "usage": {
+        "input": 0,
+        "output": 0,
+        "cacheRead": 0,
+        "cacheWrite": 0
+      },
+      "extractedText": null,
+      "costUsd": null,
+      "durationMs": 180147,
+      "missingFragments": [
+        "Left column heading",
+        "Alpha precedes beta.",
+        "Right column heading",
+        "Gamma closes the page."
+      ],
+      "unexpectedFragments": [],
+      "failureReason": "Extraction timed out after 180 seconds."
+    },
+    {
+      "model": "claude-sonnet-4-5",
+      "caseId": "word-header-table-hidden-revision",
+      "documentType": "Word",
+      "succeeded": true,
+      "exitCode": 0,
+      "usage": {
+        "input": 16,
+        "output": 275,
+        "cacheRead": 49149,
+        "cacheWrite": 10661
+      },
+      "extractedText": "Quarterly board packet\n\nNorthwind renewal decision\n\nOwner\tAm\u00E9lie Zhao\nDecision\tRenew at \u20AC1.25M\n\nApproved 24 July 2026",
+      "costUsd": null,
+      "durationMs": 35572,
+      "missingFragments": [],
+      "unexpectedFragments": [],
+      "failureReason": null
+    },
+    {
+      "model": "claude-sonnet-4-5",
+      "caseId": "spreadsheet-formula-hidden-sheet",
+      "documentType": "Spreadsheet",
+      "succeeded": false,
+      "exitCode": 0,
+      "usage": {
+        "input": 16,
+        "output": 249,
+        "cacheRead": 49154,
+        "cacheWrite": 10845
+      },
+      "extractedText": "Quarter\tRevenue (\u20AC)\nQ1\t1250000\nQ2\t1500000\nTotal\t2750000",
+      "costUsd": null,
+      "durationMs": 20718,
+      "missingFragments": [
+        "Revenue r\u00E9sum\u00E9"
+      ],
+      "unexpectedFragments": [],
+      "failureReason": "Extraction oracle failed: 1 required fragment(s) missing, 0 forbidden fragment(s) present."
+    },
+    {
+      "model": "claude-sonnet-4-5",
+      "caseId": "presentation-slide-order-notes",
+      "documentType": "Presentation",
+      "succeeded": true,
+      "exitCode": 0,
+      "usage": {
+        "input": 16,
+        "output": 358,
+        "cacheRead": 49153,
+        "cacheWrite": 10886
+      },
+      "extractedText": "Launch readiness\n1. Security review complete\n2. Berlin pilot \u2014 31 July\n\nDecision: proceed\nOwner: Zo\u00EB Fa\u00DFbinder",
+      "costUsd": null,
+      "durationMs": 39846,
+      "missingFragments": [],
+      "unexpectedFragments": [],
+      "failureReason": null
+    },
+    {
+      "model": "claude-haiku-4-5",
+      "caseId": "pdf-two-column-reading-order",
+      "documentType": "Pdf",
+      "succeeded": false,
+      "exitCode": 0,
+      "usage": {
+        "input": 27,
+        "output": 455,
+        "cacheRead": 109504,
+        "cacheWrite": 11332
+      },
+      "extractedText": "Left column heading   Right column heading\nAlpha precedes beta.  Gamma closes the page.",
+      "costUsd": null,
+      "durationMs": 35168,
+      "missingFragments": [
+        "Right column heading"
+      ],
+      "unexpectedFragments": [],
+      "failureReason": "Extraction oracle failed: 1 required fragment(s) missing, 0 forbidden fragment(s) present."
+    },
+    {
+      "model": "claude-haiku-4-5",
+      "caseId": "word-header-table-hidden-revision",
+      "documentType": "Word",
+      "succeeded": false,
+      "exitCode": 0,
+      "usage": {
+        "input": 16,
+        "output": 358,
+        "cacheRead": 49150,
+        "cacheWrite": 10674
+      },
+      "extractedText": "Quarterly board packet\n\nNorthwind renewal decision\n\nOwner\tAm\u00E9lie Zhao\nDecision\tRenew at \u00A31.25M\n\nApproved 24 July 2026",
+      "costUsd": null,
+      "durationMs": 18735,
+      "missingFragments": [
+        "Renew at \u20AC1.25M"
+      ],
+      "unexpectedFragments": [],
+      "failureReason": "Extraction oracle failed: 1 required fragment(s) missing, 0 forbidden fragment(s) present."
+    },
+    {
+      "model": "claude-haiku-4-5",
+      "caseId": "spreadsheet-formula-hidden-sheet",
+      "documentType": "Spreadsheet",
+      "succeeded": false,
+      "exitCode": 0,
+      "usage": {
+        "input": 16,
+        "output": 311,
+        "cacheRead": 49150,
+        "cacheWrite": 10858
+      },
+      "extractedText": "Quarter\tRevenue (\u20AC)\nQ1\t1250000\nQ2\t1500000\nTotal\t2750000",
+      "costUsd": null,
+      "durationMs": 18125,
+      "missingFragments": [
+        "Revenue r\u00E9sum\u00E9"
+      ],
+      "unexpectedFragments": [],
+      "failureReason": "Extraction oracle failed: 1 required fragment(s) missing, 0 forbidden fragment(s) present."
+    },
+    {
+      "model": "claude-haiku-4-5",
+      "caseId": "presentation-slide-order-notes",
+      "documentType": "Presentation",
+      "succeeded": true,
+      "exitCode": 0,
+      "usage": {
+        "input": 39,
+        "output": 960,
+        "cacheRead": 171752,
+        "cacheWrite": 12469
+      },
+      "extractedText": "Now I\u0027ll extract the visible content, excluding speaker notes and metadata:\n\nLaunch readiness\n1. Security review complete\n2. Berlin pilot \u2014 31 July\n\nDecision: proceed\nOwner: Zo\u00EB Fa\u00DFbinder",
+      "costUsd": null,
+      "durationMs": 49176,
+      "missingFragments": [],
+      "unexpectedFragments": [],
+      "failureReason": null
+    },
+    {
+      "model": "gpt-5.6",
+      "caseId": "pdf-two-column-reading-order",
+      "documentType": "Pdf",
+      "succeeded": false,
+      "exitCode": 1,
+      "usage": {
+        "input": 0,
+        "output": 0,
+        "cacheRead": 0,
+        "cacheWrite": 0
+      },
+      "extractedText": null,
+      "costUsd": null,
+      "durationMs": 5114,
+      "missingFragments": [
+        "Left column heading",
+        "Alpha precedes beta.",
+        "Right column heading",
+        "Gamma closes the page."
+      ],
+      "unexpectedFragments": [],
+      "failureReason": "WARNING: proceeding, even though we could not create PATH aliases: Refusing to create helper binaries under temporary dir \u0022C:\\\\Users\\\\rmisc\\\\AppData\\\\Local\\\\Temp\\\\\u0022 (codex_home: AbsolutePathBuf(\u0022C:\\\\Users\\\\rmisc\\\\AppData\\\\Local\\\\Temp\\\\atp-clean-context\\\\codex-ebbbe1d5e0e74ca4909ad675fec2b0e9\u0022))\nReading additional input from stdin...\n"
+    },
+    {
+      "model": "gpt-5.6",
+      "caseId": "word-header-table-hidden-revision",
+      "documentType": "Word",
+      "succeeded": false,
+      "exitCode": 1,
+      "usage": {
+        "input": 0,
+        "output": 0,
+        "cacheRead": 0,
+        "cacheWrite": 0
+      },
+      "extractedText": null,
+      "costUsd": null,
+      "durationMs": 6376,
+      "missingFragments": [
+        "Quarterly board packet",
+        "Northwind renewal decision",
+        "Owner",
+        "Am\u00E9lie Zhao",
+        "Decision",
+        "Renew at \u20AC1.25M",
+        "Approved 24 July 2026"
+      ],
+      "unexpectedFragments": [],
+      "failureReason": "WARNING: proceeding, even though we could not create PATH aliases: Refusing to create helper binaries under temporary dir \u0022C:\\\\Users\\\\rmisc\\\\AppData\\\\Local\\\\Temp\\\\\u0022 (codex_home: AbsolutePathBuf(\u0022C:\\\\Users\\\\rmisc\\\\AppData\\\\Local\\\\Temp\\\\atp-clean-context\\\\codex-ebbbe1d5e0e74ca4909ad675fec2b0e9\u0022))\nReading additional input from stdin...\n"
+    },
+    {
+      "model": "gpt-5.6",
+      "caseId": "spreadsheet-formula-hidden-sheet",
+      "documentType": "Spreadsheet",
+      "succeeded": false,
+      "exitCode": 1,
+      "usage": {
+        "input": 0,
+        "output": 0,
+        "cacheRead": 0,
+        "cacheWrite": 0
+      },
+      "extractedText": null,
+      "costUsd": null,
+      "durationMs": 5119,
+      "missingFragments": [
+        "Revenue r\u00E9sum\u00E9",
+        "Quarter",
+        "Revenue (\u20AC)",
+        "Q1",
+        "1250000",
+        "Q2",
+        "1500000",
+        "Total",
+        "2750000"
+      ],
+      "unexpectedFragments": [],
+      "failureReason": "WARNING: proceeding, even though we could not create PATH aliases: Refusing to create helper binaries under temporary dir \u0022C:\\\\Users\\\\rmisc\\\\AppData\\\\Local\\\\Temp\\\\\u0022 (codex_home: AbsolutePathBuf(\u0022C:\\\\Users\\\\rmisc\\\\AppData\\\\Local\\\\Temp\\\\atp-clean-context\\\\codex-ebbbe1d5e0e74ca4909ad675fec2b0e9\u0022))\nReading additional input from stdin...\n"
+    },
+    {
+      "model": "gpt-5.6",
+      "caseId": "presentation-slide-order-notes",
+      "documentType": "Presentation",
+      "succeeded": false,
+      "exitCode": 1,
+      "usage": {
+        "input": 0,
+        "output": 0,
+        "cacheRead": 0,
+        "cacheWrite": 0
+      },
+      "extractedText": null,
+      "costUsd": null,
+      "durationMs": 5584,
+      "missingFragments": [
+        "Launch readiness",
+        "1. Security review complete",
+        "2. Berlin pilot \u2014 31 July",
+        "Decision: proceed",
+        "Owner: Zo\u00EB Fa\u00DFbinder"
+      ],
+      "unexpectedFragments": [],
+      "failureReason": "WARNING: proceeding, even though we could not create PATH aliases: Refusing to create helper binaries under temporary dir \u0022C:\\\\Users\\\\rmisc\\\\AppData\\\\Local\\\\Temp\\\\\u0022 (codex_home: AbsolutePathBuf(\u0022C:\\\\Users\\\\rmisc\\\\AppData\\\\Local\\\\Temp\\\\atp-clean-context\\\\codex-ebbbe1d5e0e74ca4909ad675fec2b0e9\u0022))\nReading additional input from stdin...\n"
+    },
+    {
+      "model": "gpt-5.5",
+      "caseId": "pdf-two-column-reading-order",
+      "documentType": "Pdf",
+      "succeeded": true,
+      "exitCode": 0,
+      "usage": {
+        "input": 26712,
+        "output": 872,
+        "cacheRead": 40832,
+        "cacheWrite": 0
+      },
+      "extractedText": "Left column heading\nAlpha precedes beta.\nRight column heading\nGamma closes the page.",
+      "costUsd": null,
+      "durationMs": 152880,
+      "missingFragments": [],
+      "unexpectedFragments": [],
+      "failureReason": null
+    },
+    {
+      "model": "gpt-5.5",
+      "caseId": "word-header-table-hidden-revision",
+      "documentType": "Word",
+      "succeeded": true,
+      "exitCode": 0,
+      "usage": {
+        "input": 4411,
+        "output": 554,
+        "cacheRead": 21248,
+        "cacheWrite": 0
+      },
+      "extractedText": "Quarterly board packet\nNorthwind renewal decision\nOwner\tAm\u00E9lie Zhao\nDecision\tRenew at \u20AC1.25M\nApproved 24 July 2026",
+      "costUsd": null,
+      "durationMs": 24889,
+      "missingFragments": [],
+      "unexpectedFragments": [],
+      "failureReason": null
+    },
+    {
+      "model": "gpt-5.5",
+      "caseId": "spreadsheet-formula-hidden-sheet",
+      "documentType": "Spreadsheet",
+      "succeeded": true,
+      "exitCode": 0,
+      "usage": {
+        "input": 15267,
+        "output": 1170,
+        "cacheRead": 38400,
+        "cacheWrite": 0
+      },
+      "extractedText": "Revenue r\u00E9sum\u00E9\nQuarter\tRevenue (\u20AC)\nQ1\t1250000\nQ2\t1500000\nTotal\t2750000",
+      "costUsd": null,
+      "durationMs": 53076,
+      "missingFragments": [],
+      "unexpectedFragments": [],
+      "failureReason": null
+    },
+    {
+      "model": "gpt-5.5",
+      "caseId": "presentation-slide-order-notes",
+      "documentType": "Presentation",
+      "succeeded": true,
+      "exitCode": 0,
+      "usage": {
+        "input": 19465,
+        "output": 1451,
+        "cacheRead": 53120,
+        "cacheWrite": 0
+      },
+      "extractedText": "Launch readiness\n1. Security review complete\n2. Berlin pilot \u2014 31 July\n\nDecision: proceed\nOwner: Zo\u00EB Fa\u00DFbinder",
+      "costUsd": null,
+      "durationMs": 51488,
+      "missingFragments": [],
+      "unexpectedFragments": [],
+      "failureReason": null
+    },
+    {
+      "model": "gpt-5",
+      "caseId": "pdf-two-column-reading-order",
+      "documentType": "Pdf",
+      "succeeded": false,
+      "exitCode": 1,
+      "usage": {
+        "input": 0,
+        "output": 0,
+        "cacheRead": 0,
+        "cacheWrite": 0
+      },
+      "extractedText": null,
+      "costUsd": null,
+      "durationMs": 3839,
+      "missingFragments": [
+        "Left column heading",
+        "Alpha precedes beta.",
+        "Right column heading",
+        "Gamma closes the page."
+      ],
+      "unexpectedFragments": [],
+      "failureReason": "WARNING: proceeding, even though we could not create PATH aliases: Refusing to create helper binaries under temporary dir \u0022C:\\\\Users\\\\rmisc\\\\AppData\\\\Local\\\\Temp\\\\\u0022 (codex_home: AbsolutePathBuf(\u0022C:\\\\Users\\\\rmisc\\\\AppData\\\\Local\\\\Temp\\\\atp-clean-context\\\\codex-ebbbe1d5e0e74ca4909ad675fec2b0e9\u0022))\nReading additional input from stdin...\n"
+    },
+    {
+      "model": "gpt-5",
+      "caseId": "word-header-table-hidden-revision",
+      "documentType": "Word",
+      "succeeded": false,
+      "exitCode": 1,
+      "usage": {
+        "input": 0,
+        "output": 0,
+        "cacheRead": 0,
+        "cacheWrite": 0
+      },
+      "extractedText": null,
+      "costUsd": null,
+      "durationMs": 4253,
+      "missingFragments": [
+        "Quarterly board packet",
+        "Northwind renewal decision",
+        "Owner",
+        "Am\u00E9lie Zhao",
+        "Decision",
+        "Renew at \u20AC1.25M",
+        "Approved 24 July 2026"
+      ],
+      "unexpectedFragments": [],
+      "failureReason": "WARNING: proceeding, even though we could not create PATH aliases: Refusing to create helper binaries under temporary dir \u0022C:\\\\Users\\\\rmisc\\\\AppData\\\\Local\\\\Temp\\\\\u0022 (codex_home: AbsolutePathBuf(\u0022C:\\\\Users\\\\rmisc\\\\AppData\\\\Local\\\\Temp\\\\atp-clean-context\\\\codex-ebbbe1d5e0e74ca4909ad675fec2b0e9\u0022))\nReading additional input from stdin...\n"
+    },
+    {
+      "model": "gpt-5",
+      "caseId": "spreadsheet-formula-hidden-sheet",
+      "documentType": "Spreadsheet",
+      "succeeded": false,
+      "exitCode": 1,
+      "usage": {
+        "input": 0,
+        "output": 0,
+        "cacheRead": 0,
+        "cacheWrite": 0
+      },
+      "extractedText": null,
+      "costUsd": null,
+      "durationMs": 7184,
+      "missingFragments": [
+        "Revenue r\u00E9sum\u00E9",
+        "Quarter",
+        "Revenue (\u20AC)",
+        "Q1",
+        "1250000",
+        "Q2",
+        "1500000",
+        "Total",
+        "2750000"
+      ],
+      "unexpectedFragments": [],
+      "failureReason": "WARNING: proceeding, even though we could not create PATH aliases: Refusing to create helper binaries under temporary dir \u0022C:\\\\Users\\\\rmisc\\\\AppData\\\\Local\\\\Temp\\\\\u0022 (codex_home: AbsolutePathBuf(\u0022C:\\\\Users\\\\rmisc\\\\AppData\\\\Local\\\\Temp\\\\atp-clean-context\\\\codex-ebbbe1d5e0e74ca4909ad675fec2b0e9\u0022))\nReading additional input from stdin...\n"
+    },
+    {
+      "model": "gpt-5",
+      "caseId": "presentation-slide-order-notes",
+      "documentType": "Presentation",
+      "succeeded": false,
+      "exitCode": 1,
+      "usage": {
+        "input": 0,
+        "output": 0,
+        "cacheRead": 0,
+        "cacheWrite": 0
+      },
+      "extractedText": null,
+      "costUsd": null,
+      "durationMs": 4784,
+      "missingFragments": [
+        "Launch readiness",
+        "1. Security review complete",
+        "2. Berlin pilot \u2014 31 July",
+        "Decision: proceed",
+        "Owner: Zo\u00EB Fa\u00DFbinder"
+      ],
+      "unexpectedFragments": [],
+      "failureReason": "WARNING: proceeding, even though we could not create PATH aliases: Refusing to create helper binaries under temporary dir \u0022C:\\\\Users\\\\rmisc\\\\AppData\\\\Local\\\\Temp\\\\\u0022 (codex_home: AbsolutePathBuf(\u0022C:\\\\Users\\\\rmisc\\\\AppData\\\\Local\\\\Temp\\\\atp-clean-context\\\\codex-ebbbe1d5e0e74ca4909ad675fec2b0e9\u0022))\nReading additional input from stdin...\n"
+    },
+    {
+      "model": "gpt-5-codex",
+      "caseId": "pdf-two-column-reading-order",
+      "documentType": "Pdf",
+      "succeeded": false,
+      "exitCode": 1,
+      "usage": {
+        "input": 0,
+        "output": 0,
+        "cacheRead": 0,
+        "cacheWrite": 0
+      },
+      "extractedText": null,
+      "costUsd": null,
+      "durationMs": 6085,
+      "missingFragments": [
+        "Left column heading",
+        "Alpha precedes beta.",
+        "Right column heading",
+        "Gamma closes the page."
+      ],
+      "unexpectedFragments": [],
+      "failureReason": "WARNING: proceeding, even though we could not create PATH aliases: Refusing to create helper binaries under temporary dir \u0022C:\\\\Users\\\\rmisc\\\\AppData\\\\Local\\\\Temp\\\\\u0022 (codex_home: AbsolutePathBuf(\u0022C:\\\\Users\\\\rmisc\\\\AppData\\\\Local\\\\Temp\\\\atp-clean-context\\\\codex-ebbbe1d5e0e74ca4909ad675fec2b0e9\u0022))\nReading additional input from stdin...\n"
+    },
+    {
+      "model": "gpt-5-codex",
+      "caseId": "word-header-table-hidden-revision",
+      "documentType": "Word",
+      "succeeded": false,
+      "exitCode": 1,
+      "usage": {
+        "input": 0,
+        "output": 0,
+        "cacheRead": 0,
+        "cacheWrite": 0
+      },
+      "extractedText": null,
+      "costUsd": null,
+      "durationMs": 3469,
+      "missingFragments": [
+        "Quarterly board packet",
+        "Northwind renewal decision",
+        "Owner",
+        "Am\u00E9lie Zhao",
+        "Decision",
+        "Renew at \u20AC1.25M",
+        "Approved 24 July 2026"
+      ],
+      "unexpectedFragments": [],
+      "failureReason": "WARNING: proceeding, even though we could not create PATH aliases: Refusing to create helper binaries under temporary dir \u0022C:\\\\Users\\\\rmisc\\\\AppData\\\\Local\\\\Temp\\\\\u0022 (codex_home: AbsolutePathBuf(\u0022C:\\\\Users\\\\rmisc\\\\AppData\\\\Local\\\\Temp\\\\atp-clean-context\\\\codex-ebbbe1d5e0e74ca4909ad675fec2b0e9\u0022))\nReading additional input from stdin...\n"
+    },
+    {
+      "model": "gpt-5-codex",
+      "caseId": "spreadsheet-formula-hidden-sheet",
+      "documentType": "Spreadsheet",
+      "succeeded": false,
+      "exitCode": 1,
+      "usage": {
+        "input": 0,
+        "output": 0,
+        "cacheRead": 0,
+        "cacheWrite": 0
+      },
+      "extractedText": null,
+      "costUsd": null,
+      "durationMs": 5449,
+      "missingFragments": [
+        "Revenue r\u00E9sum\u00E9",
+        "Quarter",
+        "Revenue (\u20AC)",
+        "Q1",
+        "1250000",
+        "Q2",
+        "1500000",
+        "Total",
+        "2750000"
+      ],
+      "unexpectedFragments": [],
+      "failureReason": "WARNING: proceeding, even though we could not create PATH aliases: Refusing to create helper binaries under temporary dir \u0022C:\\\\Users\\\\rmisc\\\\AppData\\\\Local\\\\Temp\\\\\u0022 (codex_home: AbsolutePathBuf(\u0022C:\\\\Users\\\\rmisc\\\\AppData\\\\Local\\\\Temp\\\\atp-clean-context\\\\codex-ebbbe1d5e0e74ca4909ad675fec2b0e9\u0022))\nReading additional input from stdin...\n"
+    },
+    {
+      "model": "gpt-5-codex",
+      "caseId": "presentation-slide-order-notes",
+      "documentType": "Presentation",
+      "succeeded": false,
+      "exitCode": 1,
+      "usage": {
+        "input": 0,
+        "output": 0,
+        "cacheRead": 0,
+        "cacheWrite": 0
+      },
+      "extractedText": null,
+      "costUsd": null,
+      "durationMs": 5656,
+      "missingFragments": [
+        "Launch readiness",
+        "1. Security review complete",
+        "2. Berlin pilot \u2014 31 July",
+        "Decision: proceed",
+        "Owner: Zo\u00EB Fa\u00DFbinder"
+      ],
+      "unexpectedFragments": [],
+      "failureReason": "WARNING: proceeding, even though we could not create PATH aliases: Refusing to create helper binaries under temporary dir \u0022C:\\\\Users\\\\rmisc\\\\AppData\\\\Local\\\\Temp\\\\\u0022 (codex_home: AbsolutePathBuf(\u0022C:\\\\Users\\\\rmisc\\\\AppData\\\\Local\\\\Temp\\\\atp-clean-context\\\\codex-ebbbe1d5e0e74ca4909ad675fec2b0e9\u0022))\nReading additional input from stdin...\n"
+    }
+  ]
+}

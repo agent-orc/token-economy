@@ -1,0 +1,547 @@
+{
+  "schemaVersion": 1,
+  "corpusId": "curated-hard-cases-v1",
+  "runId": "20260725T120544879Z",
+  "capabilities": [
+    {
+      "model": "claude-fable-5",
+      "documentType": "Pdf",
+      "level": "Demonstrated",
+      "casesAttempted": 1,
+      "casesPassed": 1,
+      "successRate": 1,
+      "evidenceReference": "benchmarks/results/document-to-text/curated-hard-cases-v1/20260725T120544879Z.json"
+    },
+    {
+      "model": "claude-fable-5",
+      "documentType": "Word",
+      "level": "Demonstrated",
+      "casesAttempted": 1,
+      "casesPassed": 1,
+      "successRate": 1,
+      "evidenceReference": "benchmarks/results/document-to-text/curated-hard-cases-v1/20260725T120544879Z.json"
+    },
+    {
+      "model": "claude-fable-5",
+      "documentType": "Spreadsheet",
+      "level": "Demonstrated",
+      "casesAttempted": 1,
+      "casesPassed": 1,
+      "successRate": 1,
+      "evidenceReference": "benchmarks/results/document-to-text/curated-hard-cases-v1/20260725T120544879Z.json"
+    },
+    {
+      "model": "claude-fable-5",
+      "documentType": "Presentation",
+      "level": "Demonstrated",
+      "casesAttempted": 1,
+      "casesPassed": 1,
+      "successRate": 1,
+      "evidenceReference": "benchmarks/results/document-to-text/curated-hard-cases-v1/20260725T120544879Z.json"
+    },
+    {
+      "model": "claude-haiku-4-5",
+      "documentType": "Pdf",
+      "level": "NotDemonstrated",
+      "casesAttempted": 1,
+      "casesPassed": 0,
+      "successRate": 0,
+      "evidenceReference": "benchmarks/results/document-to-text/curated-hard-cases-v1/20260725T120544879Z.json"
+    },
+    {
+      "model": "claude-haiku-4-5",
+      "documentType": "Word",
+      "level": "NotDemonstrated",
+      "casesAttempted": 1,
+      "casesPassed": 0,
+      "successRate": 0,
+      "evidenceReference": "benchmarks/results/document-to-text/curated-hard-cases-v1/20260725T120544879Z.json"
+    },
+    {
+      "model": "claude-haiku-4-5",
+      "documentType": "Spreadsheet",
+      "level": "NotDemonstrated",
+      "casesAttempted": 1,
+      "casesPassed": 0,
+      "successRate": 0,
+      "evidenceReference": "benchmarks/results/document-to-text/curated-hard-cases-v1/20260725T120544879Z.json"
+    },
+    {
+      "model": "claude-haiku-4-5",
+      "documentType": "Presentation",
+      "level": "Demonstrated",
+      "casesAttempted": 1,
+      "casesPassed": 1,
+      "successRate": 1,
+      "evidenceReference": "benchmarks/results/document-to-text/curated-hard-cases-v1/20260725T120544879Z.json"
+    },
+    {
+      "model": "claude-mythos-5",
+      "documentType": "Pdf",
+      "level": "NotDemonstrated",
+      "casesAttempted": 1,
+      "casesPassed": 0,
+      "successRate": 0,
+      "evidenceReference": "benchmarks/results/document-to-text/curated-hard-cases-v1/20260725T120544879Z.json"
+    },
+    {
+      "model": "claude-mythos-5",
+      "documentType": "Word",
+      "level": "NotDemonstrated",
+      "casesAttempted": 1,
+      "casesPassed": 0,
+      "successRate": 0,
+      "evidenceReference": "benchmarks/results/document-to-text/curated-hard-cases-v1/20260725T120544879Z.json"
+    },
+    {
+      "model": "claude-mythos-5",
+      "documentType": "Spreadsheet",
+      "level": "NotDemonstrated",
+      "casesAttempted": 1,
+      "casesPassed": 0,
+      "successRate": 0,
+      "evidenceReference": "benchmarks/results/document-to-text/curated-hard-cases-v1/20260725T120544879Z.json"
+    },
+    {
+      "model": "claude-mythos-5",
+      "documentType": "Presentation",
+      "level": "NotDemonstrated",
+      "casesAttempted": 1,
+      "casesPassed": 0,
+      "successRate": 0,
+      "evidenceReference": "benchmarks/results/document-to-text/curated-hard-cases-v1/20260725T120544879Z.json"
+    },
+    {
+      "model": "claude-opus-4-1",
+      "documentType": "Pdf",
+      "level": "Demonstrated",
+      "casesAttempted": 1,
+      "casesPassed": 1,
+      "successRate": 1,
+      "evidenceReference": "benchmarks/results/document-to-text/curated-hard-cases-v1/20260725T120544879Z.json"
+    },
+    {
+      "model": "claude-opus-4-1",
+      "documentType": "Word",
+      "level": "Demonstrated",
+      "casesAttempted": 1,
+      "casesPassed": 1,
+      "successRate": 1,
+      "evidenceReference": "benchmarks/results/document-to-text/curated-hard-cases-v1/20260725T120544879Z.json"
+    },
+    {
+      "model": "claude-opus-4-1",
+      "documentType": "Spreadsheet",
+      "level": "Demonstrated",
+      "casesAttempted": 1,
+      "casesPassed": 1,
+      "successRate": 1,
+      "evidenceReference": "benchmarks/results/document-to-text/curated-hard-cases-v1/20260725T120544879Z.json"
+    },
+    {
+      "model": "claude-opus-4-1",
+      "documentType": "Presentation",
+      "level": "Demonstrated",
+      "casesAttempted": 1,
+      "casesPassed": 1,
+      "successRate": 1,
+      "evidenceReference": "benchmarks/results/document-to-text/curated-hard-cases-v1/20260725T120544879Z.json"
+    },
+    {
+      "model": "claude-opus-4-5",
+      "documentType": "Pdf",
+      "level": "Demonstrated",
+      "casesAttempted": 1,
+      "casesPassed": 1,
+      "successRate": 1,
+      "evidenceReference": "benchmarks/results/document-to-text/curated-hard-cases-v1/20260725T120544879Z.json"
+    },
+    {
+      "model": "claude-opus-4-5",
+      "documentType": "Word",
+      "level": "Demonstrated",
+      "casesAttempted": 1,
+      "casesPassed": 1,
+      "successRate": 1,
+      "evidenceReference": "benchmarks/results/document-to-text/curated-hard-cases-v1/20260725T120544879Z.json"
+    },
+    {
+      "model": "claude-opus-4-5",
+      "documentType": "Spreadsheet",
+      "level": "Demonstrated",
+      "casesAttempted": 1,
+      "casesPassed": 1,
+      "successRate": 1,
+      "evidenceReference": "benchmarks/results/document-to-text/curated-hard-cases-v1/20260725T120544879Z.json"
+    },
+    {
+      "model": "claude-opus-4-5",
+      "documentType": "Presentation",
+      "level": "Demonstrated",
+      "casesAttempted": 1,
+      "casesPassed": 1,
+      "successRate": 1,
+      "evidenceReference": "benchmarks/results/document-to-text/curated-hard-cases-v1/20260725T120544879Z.json"
+    },
+    {
+      "model": "claude-opus-4-6",
+      "documentType": "Pdf",
+      "level": "Demonstrated",
+      "casesAttempted": 1,
+      "casesPassed": 1,
+      "successRate": 1,
+      "evidenceReference": "benchmarks/results/document-to-text/curated-hard-cases-v1/20260725T120544879Z.json"
+    },
+    {
+      "model": "claude-opus-4-6",
+      "documentType": "Word",
+      "level": "Demonstrated",
+      "casesAttempted": 1,
+      "casesPassed": 1,
+      "successRate": 1,
+      "evidenceReference": "benchmarks/results/document-to-text/curated-hard-cases-v1/20260725T120544879Z.json"
+    },
+    {
+      "model": "claude-opus-4-6",
+      "documentType": "Spreadsheet",
+      "level": "Demonstrated",
+      "casesAttempted": 1,
+      "casesPassed": 1,
+      "successRate": 1,
+      "evidenceReference": "benchmarks/results/document-to-text/curated-hard-cases-v1/20260725T120544879Z.json"
+    },
+    {
+      "model": "claude-opus-4-6",
+      "documentType": "Presentation",
+      "level": "Demonstrated",
+      "casesAttempted": 1,
+      "casesPassed": 1,
+      "successRate": 1,
+      "evidenceReference": "benchmarks/results/document-to-text/curated-hard-cases-v1/20260725T120544879Z.json"
+    },
+    {
+      "model": "claude-opus-4-7",
+      "documentType": "Pdf",
+      "level": "Demonstrated",
+      "casesAttempted": 1,
+      "casesPassed": 1,
+      "successRate": 1,
+      "evidenceReference": "benchmarks/results/document-to-text/curated-hard-cases-v1/20260725T120544879Z.json"
+    },
+    {
+      "model": "claude-opus-4-7",
+      "documentType": "Word",
+      "level": "Demonstrated",
+      "casesAttempted": 1,
+      "casesPassed": 1,
+      "successRate": 1,
+      "evidenceReference": "benchmarks/results/document-to-text/curated-hard-cases-v1/20260725T120544879Z.json"
+    },
+    {
+      "model": "claude-opus-4-7",
+      "documentType": "Spreadsheet",
+      "level": "Demonstrated",
+      "casesAttempted": 1,
+      "casesPassed": 1,
+      "successRate": 1,
+      "evidenceReference": "benchmarks/results/document-to-text/curated-hard-cases-v1/20260725T120544879Z.json"
+    },
+    {
+      "model": "claude-opus-4-7",
+      "documentType": "Presentation",
+      "level": "Demonstrated",
+      "casesAttempted": 1,
+      "casesPassed": 1,
+      "successRate": 1,
+      "evidenceReference": "benchmarks/results/document-to-text/curated-hard-cases-v1/20260725T120544879Z.json"
+    },
+    {
+      "model": "claude-opus-4-8",
+      "documentType": "Pdf",
+      "level": "Demonstrated",
+      "casesAttempted": 1,
+      "casesPassed": 1,
+      "successRate": 1,
+      "evidenceReference": "benchmarks/results/document-to-text/curated-hard-cases-v1/20260725T120544879Z.json"
+    },
+    {
+      "model": "claude-opus-4-8",
+      "documentType": "Word",
+      "level": "Demonstrated",
+      "casesAttempted": 1,
+      "casesPassed": 1,
+      "successRate": 1,
+      "evidenceReference": "benchmarks/results/document-to-text/curated-hard-cases-v1/20260725T120544879Z.json"
+    },
+    {
+      "model": "claude-opus-4-8",
+      "documentType": "Spreadsheet",
+      "level": "Demonstrated",
+      "casesAttempted": 1,
+      "casesPassed": 1,
+      "successRate": 1,
+      "evidenceReference": "benchmarks/results/document-to-text/curated-hard-cases-v1/20260725T120544879Z.json"
+    },
+    {
+      "model": "claude-opus-4-8",
+      "documentType": "Presentation",
+      "level": "Demonstrated",
+      "casesAttempted": 1,
+      "casesPassed": 1,
+      "successRate": 1,
+      "evidenceReference": "benchmarks/results/document-to-text/curated-hard-cases-v1/20260725T120544879Z.json"
+    },
+    {
+      "model": "claude-sonnet-4-5",
+      "documentType": "Pdf",
+      "level": "NotDemonstrated",
+      "casesAttempted": 1,
+      "casesPassed": 0,
+      "successRate": 0,
+      "evidenceReference": "benchmarks/results/document-to-text/curated-hard-cases-v1/20260725T120544879Z.json"
+    },
+    {
+      "model": "claude-sonnet-4-5",
+      "documentType": "Word",
+      "level": "Demonstrated",
+      "casesAttempted": 1,
+      "casesPassed": 1,
+      "successRate": 1,
+      "evidenceReference": "benchmarks/results/document-to-text/curated-hard-cases-v1/20260725T120544879Z.json"
+    },
+    {
+      "model": "claude-sonnet-4-5",
+      "documentType": "Spreadsheet",
+      "level": "NotDemonstrated",
+      "casesAttempted": 1,
+      "casesPassed": 0,
+      "successRate": 0,
+      "evidenceReference": "benchmarks/results/document-to-text/curated-hard-cases-v1/20260725T120544879Z.json"
+    },
+    {
+      "model": "claude-sonnet-4-5",
+      "documentType": "Presentation",
+      "level": "Demonstrated",
+      "casesAttempted": 1,
+      "casesPassed": 1,
+      "successRate": 1,
+      "evidenceReference": "benchmarks/results/document-to-text/curated-hard-cases-v1/20260725T120544879Z.json"
+    },
+    {
+      "model": "claude-sonnet-4-6",
+      "documentType": "Pdf",
+      "level": "Demonstrated",
+      "casesAttempted": 1,
+      "casesPassed": 1,
+      "successRate": 1,
+      "evidenceReference": "benchmarks/results/document-to-text/curated-hard-cases-v1/20260725T120544879Z.json"
+    },
+    {
+      "model": "claude-sonnet-4-6",
+      "documentType": "Word",
+      "level": "Demonstrated",
+      "casesAttempted": 1,
+      "casesPassed": 1,
+      "successRate": 1,
+      "evidenceReference": "benchmarks/results/document-to-text/curated-hard-cases-v1/20260725T120544879Z.json"
+    },
+    {
+      "model": "claude-sonnet-4-6",
+      "documentType": "Spreadsheet",
+      "level": "NotDemonstrated",
+      "casesAttempted": 1,
+      "casesPassed": 0,
+      "successRate": 0,
+      "evidenceReference": "benchmarks/results/document-to-text/curated-hard-cases-v1/20260725T120544879Z.json"
+    },
+    {
+      "model": "claude-sonnet-4-6",
+      "documentType": "Presentation",
+      "level": "Demonstrated",
+      "casesAttempted": 1,
+      "casesPassed": 1,
+      "successRate": 1,
+      "evidenceReference": "benchmarks/results/document-to-text/curated-hard-cases-v1/20260725T120544879Z.json"
+    },
+    {
+      "model": "claude-sonnet-5",
+      "documentType": "Pdf",
+      "level": "Demonstrated",
+      "casesAttempted": 1,
+      "casesPassed": 1,
+      "successRate": 1,
+      "evidenceReference": "benchmarks/results/document-to-text/curated-hard-cases-v1/20260725T120544879Z.json"
+    },
+    {
+      "model": "claude-sonnet-5",
+      "documentType": "Word",
+      "level": "Demonstrated",
+      "casesAttempted": 1,
+      "casesPassed": 1,
+      "successRate": 1,
+      "evidenceReference": "benchmarks/results/document-to-text/curated-hard-cases-v1/20260725T120544879Z.json"
+    },
+    {
+      "model": "claude-sonnet-5",
+      "documentType": "Spreadsheet",
+      "level": "Demonstrated",
+      "casesAttempted": 1,
+      "casesPassed": 1,
+      "successRate": 1,
+      "evidenceReference": "benchmarks/results/document-to-text/curated-hard-cases-v1/20260725T120544879Z.json"
+    },
+    {
+      "model": "claude-sonnet-5",
+      "documentType": "Presentation",
+      "level": "Demonstrated",
+      "casesAttempted": 1,
+      "casesPassed": 1,
+      "successRate": 1,
+      "evidenceReference": "benchmarks/results/document-to-text/curated-hard-cases-v1/20260725T120544879Z.json"
+    },
+    {
+      "model": "gpt-5",
+      "documentType": "Pdf",
+      "level": "NotDemonstrated",
+      "casesAttempted": 1,
+      "casesPassed": 0,
+      "successRate": 0,
+      "evidenceReference": "benchmarks/results/document-to-text/curated-hard-cases-v1/20260725T120544879Z.json"
+    },
+    {
+      "model": "gpt-5",
+      "documentType": "Word",
+      "level": "NotDemonstrated",
+      "casesAttempted": 1,
+      "casesPassed": 0,
+      "successRate": 0,
+      "evidenceReference": "benchmarks/results/document-to-text/curated-hard-cases-v1/20260725T120544879Z.json"
+    },
+    {
+      "model": "gpt-5",
+      "documentType": "Spreadsheet",
+      "level": "NotDemonstrated",
+      "casesAttempted": 1,
+      "casesPassed": 0,
+      "successRate": 0,
+      "evidenceReference": "benchmarks/results/document-to-text/curated-hard-cases-v1/20260725T120544879Z.json"
+    },
+    {
+      "model": "gpt-5",
+      "documentType": "Presentation",
+      "level": "NotDemonstrated",
+      "casesAttempted": 1,
+      "casesPassed": 0,
+      "successRate": 0,
+      "evidenceReference": "benchmarks/results/document-to-text/curated-hard-cases-v1/20260725T120544879Z.json"
+    },
+    {
+      "model": "gpt-5-codex",
+      "documentType": "Pdf",
+      "level": "NotDemonstrated",
+      "casesAttempted": 1,
+      "casesPassed": 0,
+      "successRate": 0,
+      "evidenceReference": "benchmarks/results/document-to-text/curated-hard-cases-v1/20260725T120544879Z.json"
+    },
+    {
+      "model": "gpt-5-codex",
+      "documentType": "Word",
+      "level": "NotDemonstrated",
+      "casesAttempted": 1,
+      "casesPassed": 0,
+      "successRate": 0,
+      "evidenceReference": "benchmarks/results/document-to-text/curated-hard-cases-v1/20260725T120544879Z.json"
+    },
+    {
+      "model": "gpt-5-codex",
+      "documentType": "Spreadsheet",
+      "level": "NotDemonstrated",
+      "casesAttempted": 1,
+      "casesPassed": 0,
+      "successRate": 0,
+      "evidenceReference": "benchmarks/results/document-to-text/curated-hard-cases-v1/20260725T120544879Z.json"
+    },
+    {
+      "model": "gpt-5-codex",
+      "documentType": "Presentation",
+      "level": "NotDemonstrated",
+      "casesAttempted": 1,
+      "casesPassed": 0,
+      "successRate": 0,
+      "evidenceReference": "benchmarks/results/document-to-text/curated-hard-cases-v1/20260725T120544879Z.json"
+    },
+    {
+      "model": "gpt-5.5",
+      "documentType": "Pdf",
+      "level": "Demonstrated",
+      "casesAttempted": 1,
+      "casesPassed": 1,
+      "successRate": 1,
+      "evidenceReference": "benchmarks/results/document-to-text/curated-hard-cases-v1/20260725T120544879Z.json"
+    },
+    {
+      "model": "gpt-5.5",
+      "documentType": "Word",
+      "level": "Demonstrated",
+      "casesAttempted": 1,
+      "casesPassed": 1,
+      "successRate": 1,
+      "evidenceReference": "benchmarks/results/document-to-text/curated-hard-cases-v1/20260725T120544879Z.json"
+    },
+    {
+      "model": "gpt-5.5",
+      "documentType": "Spreadsheet",
+      "level": "Demonstrated",
+      "casesAttempted": 1,
+      "casesPassed": 1,
+      "successRate": 1,
+      "evidenceReference": "benchmarks/results/document-to-text/curated-hard-cases-v1/20260725T120544879Z.json"
+    },
+    {
+      "model": "gpt-5.5",
+      "documentType": "Presentation",
+      "level": "Demonstrated",
+      "casesAttempted": 1,
+      "casesPassed": 1,
+      "successRate": 1,
+      "evidenceReference": "benchmarks/results/document-to-text/curated-hard-cases-v1/20260725T120544879Z.json"
+    },
+    {
+      "model": "gpt-5.6",
+      "documentType": "Pdf",
+      "level": "NotDemonstrated",
+      "casesAttempted": 1,
+      "casesPassed": 0,
+      "successRate": 0,
+      "evidenceReference": "benchmarks/results/document-to-text/curated-hard-cases-v1/20260725T120544879Z.json"
+    },
+    {
+      "model": "gpt-5.6",
+      "documentType": "Word",
+      "level": "NotDemonstrated",
+      "casesAttempted": 1,
+      "casesPassed": 0,
+      "successRate": 0,
+      "evidenceReference": "benchmarks/results/document-to-text/curated-hard-cases-v1/20260725T120544879Z.json"
+    },
+    {
+      "model": "gpt-5.6",
+      "documentType": "Spreadsheet",
+      "level": "NotDemonstrated",
+      "casesAttempted": 1,
+      "casesPassed": 0,
+      "successRate": 0,
+      "evidenceReference": "benchmarks/results/document-to-text/curated-hard-cases-v1/20260725T120544879Z.json"
+    },
+    {
+      "model": "gpt-5.6",
+      "documentType": "Presentation",
+      "level": "NotDemonstrated",
+      "casesAttempted": 1,
+      "casesPassed": 0,
+      "successRate": 0,
+      "evidenceReference": "benchmarks/results/document-to-text/curated-hard-cases-v1/20260725T120544879Z.json"
+    }
+  ]
+}
