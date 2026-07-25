@@ -32,10 +32,11 @@ when the expected remaining calls repay compaction; start a short session when
 the topic changes or retained history is mostly irrelevant.
 
 This is the cost layer adjacent to **AIP-13, Topic Switching / Long Context**
-(in preparation in the AI Patterns repository). AIP-13 owns the quality side:
-topic coherence, warmth, repair density, and the risk of carrying irrelevant
-state. This document does not duplicate that pattern. Cost and quality are
-orthogonal signals.
+(in preparation in the
+[AI Patterns repository](https://github.com/agent-orc/ai-patterns)). AIP-13
+owns the quality side: topic coherence, warmth, repair density, and the risk of
+carrying irrelevant state. This document does not duplicate that pattern. Cost
+and quality are orthogonal signals.
 
 ## 1. Accounting Contract
 
@@ -61,17 +62,23 @@ Anthropic confirms that total input is the sum of its fresh, cache-read, and
 cache-creation fields in its
 [prompt-caching usage contract](https://platform.claude.com/docs/en/build-with-claude/prompt-caching#tracking-cache-performance).
 
-Provider schemas are not interchangeable. OpenAI's `input_tokens` includes the
-cached subset reported as `cached_tokens`. The local Codex benchmark adapter
-therefore stores fresh input as `input_tokens - cached_input_tokens`; see
+Provider schemas are not interchangeable. OpenAI's total input
+(`input_tokens` or `prompt_tokens`) includes the subsets reported as
+`cached_tokens` and, on GPT-5.6 and later, `cache_write_tokens`. A fully
+componentized API record therefore uses
+`U = max(0, totalInput - cachedTokens - cacheWriteTokens)`. The current Codex
+CLI stream exposes cached input but not a cache-write field, so the local
+benchmark adapter stores fresh input as
+`input_tokens - cached_input_tokens`; see
 [`Program.cs`](../../src/TokenEconomy.Benchmarks/Program.cs). Agent Studio's
 current
 [`CodexUsageParser`](https://github.com/agent-orc/agent-studio/blob/main/backend/Features/Cli/OutputParsing/Usage/CliUsageParser.cs)
 maps total input and cached input into two fields, while its aggregate view adds
 them. Consequently, the live Agent Studio Codex `totalTokens` figures and the
 30-card report overcount cached Codex input. This analysis uses the component
-fields and normalizes Codex fresh input as `max(0, input - cacheRead)` whenever
-it discusses cost. Raw aggregate totals remain labelled as raw.
+fields and normalizes Codex fresh input as
+`max(0, input - cacheRead - cacheWrite)` whenever it discusses cost. Raw
+aggregate totals remain labelled as raw.
 
 ## 2. Context Growth
 
@@ -157,20 +164,29 @@ input, and a hit is 0.1 times fresh input.
 
 ### Cache-aware break-even
 
-Let `p_H` be the effective price of reading retained long-session history and
-`p_R` the effective price of reconstructing a short session. If a
+Let `p_H` be the effective price of processing retained long-session history,
+`p_R` the effective price of reconstructing a short session, and `p_M` the
+price applied on a long-history cache miss. A plain miss uses `p_M = p_u`;
+automatic cache creation or re-creation can instead use `p_M = p_w`. If a
 token-weighted fraction `q` of long history hits cache:
 
 ```text
-p_H = q*p_c + (1 - q)*p_u
+p_H = q*p_c + (1 - q)*p_M, where p_M is p_u or p_w
 ```
 
-Ignoring equal output/current-turn costs and one-time cache writes, the
-price-aware break-even is:
+After accounting for cache-write tokens through `p_M`, and ignoring equal
+output and current-turn costs, the continuous price-aware equality is:
 
 ```text
 n_BE = 2 * (p_R / p_H) * (R / h)
+
+retained-history size at equality:
+H_BE = (n_BE - 1)h = 2 * (p_R / p_H)R - h
 ```
+
+For integer calls, the first call at which long-session retained-history cost
+is greater is `max(2, floor(n_BE) + 1)`. The effective input size at the
+continuous crossing is `P + x + H_BE`.
 
 All priced models in the current catalog have the same cache ratios, so the
 reduced break-even multiplier is the same for every priced tier:
@@ -180,7 +196,9 @@ reduced break-even multiplier is the same for every priced tier:
 | Both reconstruction and retained history are fresh | 1 | `2R/h` |
 | Both are cache reads | 1 | `2R/h` |
 | Long history hits, short task reconstruction is fresh | 10 | `20R/h` |
+| Long history is re-cached at 1.25x, reconstruction is fresh | 0.8 | `1.6R/h` |
 | Long history misses, reusable short prefix hits | 0.1 | `0.2R/h` |
+| Long history is re-cached at 1.25x, reusable short prefix hits | 0.08 | `0.16R/h` |
 
 Absolute dollar cost still scales by model tier. Output differences, cache
 writes, and repairs can also move the actual crossing. The full calculation
