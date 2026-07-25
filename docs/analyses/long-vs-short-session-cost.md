@@ -293,6 +293,15 @@ warm cache read.
 
 ## 5. Empirical Evidence
 
+The requested telemetry sources do not have equal reproducibility. The
+orchestrator and `support:adhoc` cohorts below were queried from the live Agent
+Studio bus; their endpoint, filter, observation time, and bounded result count
+are reported, but the raw responses are not checked into this repository. The
+Codex one-shots and 30-card aggregate are checked-in artifacts. No
+`.quality/usage` artifact exists in this Token Economy checkout, so it is not
+silently treated as evidence. Reproducing the live cohorts requires a new
+snapshot and may produce different rows as the bounded bus window advances.
+
 ### 5.1 Long-lived orchestrator session
 
 Read-only Agent Studio telemetry was queried at
@@ -448,6 +457,10 @@ For every session strategy candidate:
 - The available Agent Studio surfaces expose terminal token events, not every
   internal model sampling iteration of the coding run. They cannot reconstruct
   `h_i` for the long Codex run or detect client-side compaction reliably.
+- The raw live-bus responses used for the orchestrator and ad-hoc cohorts are
+  not checked in, and this checkout contains no `.quality/usage` artifact.
+  Their query contracts are documented, but only the Codex one-shots and
+  30-card aggregate are replayable from repository artifacts.
 - The 30-card artifact is recent, observational, route-confounded, and uses a
   raw total that double-counts cached Codex input.
 - The dollar figures are estimated API list prices. Agent Studio uses CLI
