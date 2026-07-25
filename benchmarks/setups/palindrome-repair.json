@@ -4,27 +4,40 @@
   "formatAttribution": {
     "sources": [
       {
-        "suite": "SWE-bench",
-        "reference": "https://www.swebench.com/original.html",
+        "suite": "SWE-bench Original dataset",
+        "reference": "https://www.swebench.com/SWE-bench/guides/datasets/",
         "borrowed": [
-          "A task starts from an isolated repository snapshot and a natural-language problem statement.",
-          "Success is decided by executable tests, not a model self-assessment.",
+          "A task identifies a repository base commit and a natural-language problem statement.",
+          "The fixture and success gate are versioned inputs analogous to the dataset's base_commit, FAIL_TO_PASS, and PASS_TO_PASS fields."
+        ]
+      },
+      {
+        "suite": "SWE-bench evaluation protocol",
+        "reference": "https://www.swebench.com/SWE-bench/guides/evaluation/",
+        "borrowed": [
+          "A candidate change is applied to a repository workspace and verified by executable tests.",
           "The primary quality unit is whether the complete task instance is resolved."
         ]
       },
       {
-        "suite": "Aider polyglot",
+        "suite": "Aider polyglot harness",
         "reference": "https://github.com/Aider-AI/aider/blob/main/benchmark/README.md",
         "borrowed": [
-          "A compact implementation exercise is evaluated with its language-native test command.",
           "Models receive the same exercise while model and thinking configuration vary.",
           "Results retain success, token, duration, and cost measurements for comparison."
+        ]
+      },
+      {
+        "suite": "Aider polyglot Exercism-derived corpus",
+        "reference": "https://github.com/Aider-AI/polyglot-benchmark",
+        "borrowed": [
+          "A compact implementation exercise is evaluated with its language-native test command."
         ]
       }
     ],
     "deviations": [
       {
-        "difference": "The fixture is a private-style synthetic C# exercise rather than a public GitHub issue/PR or an Exercism task.",
+        "difference": "The setup uses a versioned synthetic C# fixture tree rather than SWE-bench's public issue/PR plus base_commit or an Aider Exercism task.",
         "reason": "The first setup must be self-contained, redistributable, fast, and representative of evaluation against a private repository."
       },
       {
@@ -34,6 +47,10 @@
       {
         "difference": "One deterministic project command covers both the repaired behavior and existing examples instead of separate SWE-bench FAIL_TO_PASS and PASS_TO_PASS test lists.",
         "reason": "The tiny fixture has no stable named-test inventory; an exit-code gate preserves the same resolved/not-resolved semantics without pretending the subsets exist."
+      },
+      {
+        "difference": "Cases use fresh temporary workspace copies but generated code is not executed inside Aider's Docker isolation boundary.",
+        "reason": "This setup evaluates a trusted checked-in fixture and command; any future setup that evaluates untrusted code must provide an external sandbox."
       }
     ]
   },
