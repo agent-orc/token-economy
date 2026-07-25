@@ -82,5 +82,9 @@ secrets.json
 
 # task-run evidence (board workflow) does not belong in the library repo
 results/
+!results/
+results/*
+!results/complexity-backtest/
+!results/complexity-backtest/**
 !benchmarks/results/
 !benchmarks/results/**

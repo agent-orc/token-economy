@@ -38,10 +38,14 @@ accuracy, token median absolute percentage error, reissue mean absolute error,
 and token-cost Spearman rank correlation. Duplicate card keys are rejected so
 another attempt of the held-out card cannot leak into its historical neighbours.
 
-The automated suite applies this pipeline to exactly 30 controlled fixture
-cards. These validate the method; they are **not production evidence**. The
-requested historical report must be generated from 30 real, prompt-enriched
-Agent Studio cards after ingestion. Invented production metrics are not reported.
+The automated suite also applies this pipeline to exactly 30 controlled fixture
+cards. Those fixtures validate the method; they are **not production evidence**.
+The real-card calibration snapshot and its machine-readable companion are
+published under [`results/complexity-backtest`](../../results/complexity-backtest/).
+Run `dotnet run --project tools/ComplexityBacktestReport` while the local Agent
+Studio API is available to refresh both artifacts. The report records its cohort
+selection, measurement definitions, and limitations rather than presenting
+observational history as a causal model comparison.
 
 ## Optional mini-model assessment and break-even
 
