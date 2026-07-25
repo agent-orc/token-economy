@@ -284,7 +284,7 @@
         <h3>What informs a complexity estimate</h3>
         <p>Its evidence is deliberately pre-launch: touched surface and dependency fan-out, novelty, constraint density, specification ambiguity, required reading, and verification cost. Actual changed files, tool calls, and review feedback are outcomes for later calibration, not inputs that would leak the answer into the estimate.</p>
         <div class="callout"><strong>The learning loop is deliberately closed but not automatic:</strong> task features &rarr; complexity estimate and model choice &rarr; observed tokens, duration, reissues, and outcome &rarr; reclassification or updated policy. Historical neighbours can inform a new estimate; the optional host-supplied mini-model assessment is capped and the library never calls a provider itself.</div>
-        <p class="comment-note">The included 30-card backtest fixtures validate the pipeline, not a production claim. A real calibration report needs prompt-enriched operational history and an out-of-sample evaluation. See the <a href="https://github.com/agent-orc/token-economy/blob/main/docs/concepts/upfront-task-complexity.md">complexity design and backtest contract</a>.</p>
+        <p class="comment-note">The included 30-card fixtures validate the pipeline, while the repository's <code>results/complexity-backtest</code> snapshot reports a real-card observational replay. Its cohort and measurement limitations—and weak current accuracy—make it calibration evidence, not a routing-readiness or causal model-comparison claim. See the <a href="https://github.com/agent-orc/token-economy/blob/main/docs/concepts/upfront-task-complexity.md">complexity design and backtest contract</a>.</p>
       </div>
     </section>
 

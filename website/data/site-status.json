@@ -3,7 +3,7 @@
   "asOf": "2026-07-25",
   "items": [
     {"state": "available", "title": "Library primitives", "detail": "Dated model pricing, cost breakdowns, and deterministic, availability-aware model suggestions are implemented and tested."},
-    {"state": "available", "title": "Complexity estimation", "detail": "Versioned pre-launch estimates, historical-neighbour input, an optional host-supplied assessment, and a fixture-based backtest contract are implemented. Production calibration results are not yet published."},
+    {"state": "available", "title": "Complexity estimation", "detail": "Versioned pre-launch estimates, historical-neighbour input, an optional host-supplied assessment, and leave-one-out backtesting are implemented. A reproducible 30-card Agent Studio calibration snapshot is published under results/complexity-backtest; its weak accuracy is evidence for further calibration, not routing-readiness proof."},
     {"state": "available", "title": "Benchmark harness", "detail": "Versioned setups, isolated workspaces, deterministic evaluation, append-only JSON results, and structured lifecycle events are implemented."},
     {"state": "planned", "title": "Quota-cap forecasting", "detail": "The five-hour-cap estimator and admission integration are a reviewed plan only. They require operator approval and validated, privacy-reviewed calibration data."},
     {"state": "pending", "title": "First package publish", "detail": "The package is tag-ready; the first NuGet publication remains an operator-controlled publishing step."}
