@@ -83,4 +83,43 @@ public class ModelTrustLedgerTests
 
         Assert.Throws<ArgumentException>(() => ledger.RecordEvidence(entry));
     }
+
+    [Fact]
+    public void ViolationRate_UsesRetainedRunsAndWarnsForSmallSamples()
+    {
+        var ledger = new ModelTrustLedger();
+        ledger.RecordRun(new() { RunId = "run-1", ModelId = "model-a", Cli = Cli.Codex, ObservedAtUtc = Now, ArtifactReference = "runs/run-1.json" });
+        ledger.RecordRun(new() { RunId = "run-2", ModelId = "model-a", Cli = Cli.Codex, ObservedAtUtc = Now, ArtifactReference = "runs/run-2.json" });
+        ledger.RecordIncident(new()
+        {
+            IncidentId = "incident-1", ModelId = "model-a", Cli = Cli.Codex, Kind = "agent-git-violation",
+            Severity = IncidentSeverity.Medium, Status = IncidentStatus.Resolved, OccurredAtUtc = Now,
+            ArtifactReference = "incidents/incident-1.json",
+        });
+
+        var rate = ledger.AssessViolationRate("model-a", Cli.Codex);
+        var assessment = ledger.Assess("model-a");
+
+        Assert.Equal(2, rate.ObservedRuns);
+        Assert.Equal(1, rate.ViolationsObserved);
+        Assert.Equal(0.5m, rate.Rate);
+        Assert.Contains("Small sample", rate.Caveat);
+        Assert.Equal(rate.Rate, assessment.ViolationRate);
+        Assert.Contains("runs/run-1.json", assessment.Sources);
+    }
+
+    [Fact]
+    public void RateWithoutRunDenominator_IsUnavailableRatherThanZero()
+    {
+        var ledger = new ModelTrustLedger();
+        HistoricalModelTrustEvidence.RecordInto(ledger);
+
+        var rate = ledger.AssessViolationRate(HistoricalModelTrustEvidence.UnattributedModelId);
+
+        Assert.Equal(3, rate.ViolationsObserved);
+        Assert.Equal(0, rate.ObservedRuns);
+        Assert.Null(rate.Rate);
+        Assert.Contains("unavailable", rate.Caveat, StringComparison.OrdinalIgnoreCase);
+        Assert.Equal(3, HistoricalModelTrustEvidence.Incidents.Count);
+    }
 }

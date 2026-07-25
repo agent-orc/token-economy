@@ -60,6 +60,20 @@ are part of the static site. No forecast implementation is authorised yet.
   independently verifiable successful artifacts; self-reported claims never
   raise it, and open high-severity incidents restrict the model.
 
+The trust ledger also keeps an explicit observed-run denominator, violations,
+and source references, so a per-model/CLI violation rate is `null` rather than
+a misleading `0%` when no denominator is retained. See [historical evidence
+and rate limits](docs/model-trust-evidence.md).
+
+### Future orchestrator sampling (concept only)
+
+An orchestrator may later use the derived trust level to choose *sampling
+frequency*: unverified or provisional model/CLI pairs receive denser audit
+sampling, while verified pairs may be sampled less often; any open material
+incident restores dense sampling. This is only a measurement concept. It must
+not change model selection or override the routing-policy correctness floors,
+and a small or missing denominator must never be treated as evidence of safety.
+
 ## Install
 
 ```

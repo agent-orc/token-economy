@@ -124,8 +124,50 @@ public sealed record ModelTrustIncident
     public required IncidentStatus Status { get; init; }
     /// <summary>When the incident occurred, in UTC.</summary>
     public required DateTime OccurredAtUtc { get; init; }
+    /// <summary>CLI that launched the affected run, when the incident record identifies one.</summary>
+    public Cli? Cli { get; init; }
+    /// <summary>Run identifier, when the incident can be tied to one observed run.</summary>
+    public string? RunId { get; init; }
     /// <summary>Durable incident report or supporting evidence location.</summary>
     public required string ArtifactReference { get; init; }
+}
+
+/// <summary>A counted model run used as the denominator for an operational violation rate.</summary>
+/// <remarks>
+/// A run is retained even when it provides no successful capability proof. This keeps the rate's
+/// denominator separate from the evidence used to establish a trust level.
+/// </remarks>
+public sealed record ModelTrustRun
+{
+    /// <summary>Stable, deduplicatable run identifier.</summary>
+    public required string RunId { get; init; }
+    /// <summary>The model that performed the run.</summary>
+    public required string ModelId { get; init; }
+    /// <summary>CLI that launched the run, if recorded.</summary>
+    public Cli? Cli { get; init; }
+    /// <summary>When the run was observed, in UTC.</summary>
+    public required DateTime ObservedAtUtc { get; init; }
+    /// <summary>Durable run record used to count this denominator.</summary>
+    public required string ArtifactReference { get; init; }
+}
+
+/// <summary>Evidence-backed operational violation rate for one model, optionally scoped to a CLI.</summary>
+public sealed record ModelViolationRate
+{
+    /// <summary>The model evaluated.</summary>
+    public required string ModelId { get; init; }
+    /// <summary>Optional CLI scope. A null value means all CLIs.</summary>
+    public Cli? Cli { get; init; }
+    /// <summary>Counted observed runs. A zero denominator means the rate is not calculable.</summary>
+    public required int ObservedRuns { get; init; }
+    /// <summary>Non-rejected recorded violations in scope.</summary>
+    public required int ViolationsObserved { get; init; }
+    /// <summary>Violations divided by observed runs, or null when no run denominator is retained.</summary>
+    public decimal? Rate { get; init; }
+    /// <summary>Artifact references supporting the numerator and denominator.</summary>
+    public required IReadOnlyList<string> Sources { get; init; }
+    /// <summary>Plain-language caveat, including small-sample warnings.</summary>
+    public required string Caveat { get; init; }
 }
 
 /// <summary>A transparent, derived trust result for one model.</summary>
@@ -139,6 +181,14 @@ public sealed record ModelTrustAssessment
     public required int CapabilityClaimCount { get; init; }
     /// <summary>Number of distinct independently verifiable successful artifacts.</summary>
     public required int IndependentProofCount { get; init; }
+    /// <summary>Number of counted observed runs for this model.</summary>
+    public required int ObservedRunCount { get; init; }
+    /// <summary>Number of non-rejected recorded violations for this model.</summary>
+    public required int ViolationsObserved { get; init; }
+    /// <summary>Violation rate across observed runs, or null when no denominator is retained.</summary>
+    public decimal? ViolationRate { get; init; }
+    /// <summary>Artifact references that support the model's trust and operational counts.</summary>
+    public required IReadOnlyList<string> Sources { get; init; }
     /// <summary>Open incidents, newest first, which explain a restriction or downgrade.</summary>
     public required IReadOnlyList<ModelTrustIncident> OpenIncidents { get; init; }
     /// <summary>Short explanation suitable for an audit event or operator view.</summary>
@@ -157,6 +207,7 @@ public sealed class ModelTrustLedger
     private readonly List<ModelCapabilityRecord> _capabilities = [];
     private readonly List<TrustEvidence> _evidence = [];
     private readonly List<ModelTrustIncident> _incidents = [];
+    private readonly List<ModelTrustRun> _runs = [];
     private readonly HashSet<string> _entryIds = new(StringComparer.Ordinal);
 
     /// <summary>Records a capability assertion. Assertions never count as proof in <see cref="Assess"/>.</summary>
@@ -193,6 +244,17 @@ public sealed class ModelTrustLedger
         _incidents.Add(incident);
     }
 
+    /// <summary>Appends a uniquely identified observed run for transparent violation-rate denominators.</summary>
+    public void RecordRun(ModelTrustRun run)
+    {
+        ArgumentNullException.ThrowIfNull(run);
+        Require(run.RunId, nameof(run.RunId));
+        Require(run.ModelId, nameof(run.ModelId));
+        Require(run.ArtifactReference, nameof(run.ArtifactReference));
+        AddId(run.RunId);
+        _runs.Add(run);
+    }
+
     /// <summary>Derives the current trust level for a model from retained proof and open incidents.</summary>
     public ModelTrustAssessment Assess(string modelId)
     {
@@ -213,10 +275,41 @@ public sealed class ModelTrustLedger
             : proofs < VerifiedProofThreshold ? $"{proofs} independent proof(s); {VerifiedProofThreshold - proofs} more required for verified trust."
             : $"{proofs} independent successful proof(s) meet the verified-trust threshold.";
 
+        var operationalRate = AssessViolationRate(modelId);
+        var sources = _evidence.Where(evidence => SameModel(evidence.ModelId, modelId)).Select(evidence => evidence.ArtifactReference)
+            .Concat(operationalRate.Sources).Distinct(StringComparer.Ordinal).OrderBy(reference => reference, StringComparer.Ordinal).ToArray();
         return new ModelTrustAssessment
         {
             ModelId = modelId, Level = level, CapabilityClaimCount = claims,
-            IndependentProofCount = proofs, OpenIncidents = open, Rationale = rationale,
+            IndependentProofCount = proofs, ObservedRunCount = operationalRate.ObservedRuns,
+            ViolationsObserved = operationalRate.ViolationsObserved, ViolationRate = operationalRate.Rate,
+            Sources = sources, OpenIncidents = open, Rationale = rationale,
+        };
+    }
+
+    /// <summary>
+    /// Calculates the observed violation rate for a model and, optionally, one CLI. A rate is never
+    /// fabricated: it is null until a durable run denominator has been recorded.
+    /// </summary>
+    public ModelViolationRate AssessViolationRate(string modelId, Cli? cli = null)
+    {
+        Require(modelId, nameof(modelId));
+        var runs = _runs.Where(run => SameModel(run.ModelId, modelId) && (cli is null || run.Cli == cli)).ToArray();
+        var incidents = _incidents.Where(incident => SameModel(incident.ModelId, modelId)
+            && incident.Status != IncidentStatus.Rejected && (cli is null || incident.Cli == cli)).ToArray();
+        decimal? rate = runs.Length == 0 ? null : (decimal)incidents.Length / runs.Length;
+        var caveat = runs.Length == 0
+            ? "Rate unavailable: no retained observed-run denominator."
+            : runs.Length < 30
+                ? $"Small sample (N={runs.Length}); do not generalize this rate."
+                : $"Observed rate from N={runs.Length} retained run(s).";
+        var sources = runs.Select(run => run.ArtifactReference).Concat(incidents.Select(incident => incident.ArtifactReference))
+            .Distinct(StringComparer.Ordinal).OrderBy(reference => reference, StringComparer.Ordinal).ToArray();
+
+        return new ModelViolationRate
+        {
+            ModelId = modelId, Cli = cli, ObservedRuns = runs.Length, ViolationsObserved = incidents.Length,
+            Rate = rate, Sources = sources, Caveat = caveat,
         };
     }
 
