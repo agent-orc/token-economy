@@ -313,22 +313,28 @@ warm cache read.
 
 The requested telemetry sources do not have equal reproducibility. The
 orchestrator and `support:adhoc` cohorts below were queried from the live Agent
-Studio bus; their endpoint, filter, observation time, and bounded result count
-are reported, but the raw responses are not checked into this repository. The
-Codex one-shots and 30-card aggregate are checked-in artifacts. No
-`.quality/usage` artifact exists in this Token Economy checkout, so it is not
-silently treated as evidence. Reproducing the live cohorts requires a new
-snapshot and may produce different rows as the bounded bus window advances.
+Studio bus. Their endpoint, filter, observation time, bounded result count, and
+stable event anchors are reported, but the raw responses are not checked into
+this repository. The Codex one-shots and 30-card aggregate are checked-in
+artifacts. No `.quality/usage` artifact exists in this Token Economy checkout,
+so it is not silently treated as evidence. Reproducing the live cohorts
+requires a new snapshot and may produce different rows as the bounded bus
+window advances. The queries and all derived totals were re-run successfully
+at **2026-07-25 14:25:07 UTC**.
 
 ### 5.1 Long-lived orchestrator session
 
 Read-only Agent Studio telemetry was queried at
 `GET /api/bus/Agent%20Studio/messages?participantId=orchestrator%3AAgent%20Studio&kind=token-usage&limit=1000`
 and
-`GET /api/runner/Agent%20Studio/orchestrator-session` on 2026-07-25. The
-selected session is a real `claude-haiku-4-5` project orchestrator session with
-one boot and two later steering turns. The read contract is implemented by
-Agent Studio's
+`GET /api/runner/Agent%20Studio/orchestrator-session`. The bus returned 20
+events. The selected session is the real `claude-haiku-4-5` session
+`18b22f45-7e98-4ce2-b8f5-7d6c1bbb7bf5`; filtering by its reported
+`bootedAt..lastUsedAt` interval selected one boot and two later steering turns.
+Their stable event IDs are `019f4ee0eb5d79bab1a6253a765af56f`,
+`019f50f134ba7da0a4f504615b78e053`, and
+`019f52bb412d73b8af4a22a71b4dd518`. The read contract is implemented by Agent
+Studio's
 [`BusEndpoints`](https://github.com/agent-orc/agent-studio/blob/main/backend/Features/Bus/BusEndpoints.cs).
 
 | Turn | Completed UTC | Gap | Fresh input | Cache read | Cache write | Output | List-price cost |
@@ -362,7 +368,9 @@ The same read-only bus returned the latest 5,000 workspace ad-hoc events from
 `GET /api/bus/_workspace/messages?participantId=support%3Aadhoc&kind=token-usage&limit=5000`.
 Filtering that bounded slice by `topic=summary-generation` produced 713
 independent calls, fired after card runs, all on `claude-haiku-4-5`, from
-2026-06-23 through 2026-07-25.
+2026-06-23 through 2026-07-25. The first and last selected event IDs in
+timestamp order are `019ef6a8c0df7d3d9217338bb22ffe51` and
+`019f9961b01470c4934cd31dbe87b483`.
 
 | Cohort | Calls | Fresh input | Cache read | Cache write | Output | List-price total | Mean / call |
 |---|---:|---:|---:|---:|---:|---:|---:|
