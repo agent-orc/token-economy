@@ -61,7 +61,10 @@ public class ProviderQuotaDashboardTests
 
         Assert.Contains("tokens/hour", html);
         Assert.Contains("2026-07-23 12:20 UTC", html);
-        Assert.Contains("Balanced: 82.35%", html);
+        Assert.Contains("quota-card quota-critical", html);
+        Assert.Contains("Active-window tier share", html);
+        Assert.Contains("Balanced</span><span class=\"tier-bar\"", html);
+        Assert.Contains("aria-valuenow=\"85\"", html);
         Assert.Contains("quota-critical", html);
     }
 

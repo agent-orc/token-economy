@@ -1,0 +1,20 @@
+{
+  "schemaVersion": 1,
+  "kind": "provider-quota-dashboard-report",
+  "source": "benchmarks/results/provider-quota-dashboard/20260725T140500Z.json",
+  "derivedBy": "ProviderQuotaDashboardBuilder",
+  "openai": {
+    "trailingTokens": 900,
+    "tokensPerHour": 900,
+    "quotaWindowTokens": 1700,
+    "quotaMarkTokens": 2000,
+    "quotaMarkPercent": 85,
+    "state": "Critical",
+    "projectedMarkAtUtc": "2026-07-23T12:20:00Z",
+    "tierShares": [
+      { "tier": "Balanced", "tokens": 1400, "percent": 82.35294117647059 },
+      { "tier": "Unknown", "tokens": 300, "percent": 17.64705882352941 }
+    ]
+  },
+  "assertion": "The final 50 minutes consume 900 tokens, producing a critical 85% quota-mark state and a 20-minute projected exhaustion from the as-of time."
+}

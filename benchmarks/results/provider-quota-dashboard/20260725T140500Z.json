@@ -1,0 +1,16 @@
+{
+  "schemaVersion": 1,
+  "kind": "provider-quota-dashboard-input",
+  "recordedAtUtc": "2026-07-25T14:05:00Z",
+  "purpose": "Historical imported-run fixture that makes the OpenAI quota-consumption spike reproducible.",
+  "asOfUtc": "2026-07-23T12:00:00Z",
+  "trailingWindow": "01:00:00",
+  "quotaWindow": "05:00:00",
+  "quotaMarks": { "openai": 2000, "anthropic": 1000, "google": 1000 },
+  "runs": [
+    { "provider": "openai", "model": "gpt-5", "observedAtUtc": "2026-07-23T09:40:00Z", "inputTokens": 800 },
+    { "provider": "openai", "model": "gpt-5", "observedAtUtc": "2026-07-23T11:40:00Z", "inputTokens": 600 },
+    { "provider": "openai", "model": "gpt-5-mini", "observedAtUtc": "2026-07-23T11:50:00Z", "inputTokens": 300 },
+    { "provider": "anthropic", "model": "claude-sonnet", "observedAtUtc": "2026-07-23T11:50:00Z", "inputTokens": 100 }
+  ]
+}
