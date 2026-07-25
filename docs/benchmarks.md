@@ -16,9 +16,28 @@ Raw output is written once to `benchmarks/results/palindrome-repair/<UTC-run-id>
 
 Each raw case records the selected model and effort, repetition, invocation and evaluation exits, success, token counts, duration, optional USD cost, and failure reason. A report aggregates success rate (quality), tokens, duration, and cost when the invoker can supply one. The winner has the highest success rate; ties use average tokens, duration, then stable variant id. `qualityDelta` and `costDeltaUsd` compare the first two ranked variants. Cost remains `null` when no authoritative price is available—it is never guessed.
 
+## Established-suite anchors
+
+The setup format deliberately adapts established coding benchmarks rather than defining a new notion of correctness:
+
+- **SWE-bench:** an instance couples a natural-language GitHub issue with a repository at a fixed base commit. Its evaluator applies the candidate patch and uses `FAIL_TO_PASS` tests for the requested repair plus `PASS_TO_PASS` tests for regressions; the headline metric is instance resolution rate. Token Economy borrows the isolated repository snapshot, issue-like task statement, executable pass/fail gate, and resolved-instance quality unit. See the [SWE-bench overview](https://www.swebench.com/original.html) and [dataset fields](https://www.swebench.com/SWE-bench/guides/datasets/).
+- **Aider polyglot:** each instance is a compact Exercism implementation exercise, run in a disposable benchmark checkout and scored by whether its language-native tests pass. Published comparisons report percent correct alongside token/cost information across model and edit-format configurations. Token Economy borrows small deterministic exercises, native test commands, identical tasks across model configurations, and joint quality/resource reporting. See Aider's [benchmark runner documentation](https://github.com/Aider-AI/aider/blob/main/benchmark/README.md) and [leaderboard methodology](https://aider.chat/docs/leaderboards/).
+
+Those concepts map to this schema as follows: repository/checkout becomes `task.seedWorkspace`; issue or exercise instructions become `task.prompt`; a submitted patch is either model tool edits or the file named by `task.responseFile`; test execution becomes `successCriteria`; model/edit configurations become `variants`; repeated attempts become `repetitions`; and resolution rate, tokens, duration, and cost are derived from raw cases. Every setup must record the exact sources and borrowed elements in `formatAttribution.sources`, then state each deliberate difference and rationale in `formatAttribution.deviations`. This keeps provenance reviewable beside the executable definition instead of relying on this general survey alone.
+
+### Attribution for `palindrome-repair`
+
+The checked-in example borrows SWE-bench's fixed broken workspace, natural-language repair request, externally executed correctness gate, and binary resolved-instance outcome. From Aider polyglot it borrows a small implementation target, a language-native test command, the same exercise across configurations, and resource measurements alongside pass/fail quality.
+
+It deliberately differs in three ways, also recorded in the setup JSON:
+
+1. It uses a self-contained synthetic C# fixture rather than a public issue/PR or Exercism item, so it is redistributable, fast, and transferable to private-codebase benchmarking.
+2. It requests one replacement file in a single turn rather than an agentic patch or test-feedback retry loop, so the first evidence run isolates model/thinking choice from tool orchestration. Agentic setups can omit `task.responseFile`.
+3. Its small executable checks all examples with one exit code rather than exposing named `FAIL_TO_PASS` and `PASS_TO_PASS` lists. This preserves deterministic resolved/not-resolved scoring without claiming a test partition the fixture does not have.
+
 ## Define the next setup
 
-1. Copy a setup under `benchmarks/setups/` and give it a stable `id`. Definitions use `benchmarks/schema/setup.schema.json` (schema version 1).
+1. Copy a setup under `benchmarks/setups/` and give it a stable `id`. Definitions use `benchmarks/schema/setup.schema.json` (schema version 1). Fill in `formatAttribution`: cite each established suite or task subset, list the transferred format/metric choices, and document every intentional deviation with its reason.
 2. Put only the minimal starting files under `benchmarks/fixtures/<id>/`. The path in `task.seedWorkspace` must stay repository-relative.
 3. Write one task prompt shared by every variant. Do not put variant-specific hints in it. For a response-artifact task, set `task.responseFile` to a safe path below the copied workspace and ask for only that file's content; omit it when the model should edit through its tools.
 4. Add at least two variants. A variant combines a stable result label, model id, and optional thinking level.

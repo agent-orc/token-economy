@@ -130,6 +130,16 @@ public sealed class BenchmarkRunner
     {
         if (value.SchemaVersion != 1) throw new InvalidDataException($"Unsupported benchmark schema version {value.SchemaVersion}.");
         if (string.IsNullOrWhiteSpace(value.Id) || value.Id.IndexOfAny(Path.GetInvalidFileNameChars()) >= 0) throw new InvalidDataException("Setup id must be a valid file name.");
+        if (value.FormatAttribution.Sources.Count < 1) throw new InvalidDataException("Format attribution requires at least one source suite.");
+        if (value.FormatAttribution.Sources.Any(source =>
+                string.IsNullOrWhiteSpace(source.Suite) ||
+                !Uri.TryCreate(source.Reference, UriKind.Absolute, out _) ||
+                source.Borrowed.Count < 1 ||
+                source.Borrowed.Any(string.IsNullOrWhiteSpace)))
+            throw new InvalidDataException("Each format source requires a suite, absolute reference, and at least one borrowed element.");
+        if (value.FormatAttribution.Deviations.Any(deviation =>
+                string.IsNullOrWhiteSpace(deviation.Difference) || string.IsNullOrWhiteSpace(deviation.Reason)))
+            throw new InvalidDataException("Each format deviation requires both the difference and its reason.");
         if (value.Variants.Count < 2) throw new InvalidDataException("A benchmark requires at least two variants.");
         if (value.Repetitions < 1) throw new InvalidDataException("Repetitions must be at least one.");
         if (value.InvocationTimeoutSeconds < 1) throw new InvalidDataException("Invocation timeout must be at least one second.");

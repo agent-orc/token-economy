@@ -4,10 +4,43 @@
   "title": "Token Economy benchmark setup",
   "type": "object",
   "additionalProperties": false,
-  "required": ["schemaVersion", "id", "task", "variants", "successCriteria"],
+  "required": ["schemaVersion", "id", "formatAttribution", "task", "variants", "successCriteria"],
   "properties": {
     "schemaVersion": { "const": 1 },
     "id": { "type": "string", "minLength": 1 },
+    "formatAttribution": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["sources", "deviations"],
+      "properties": {
+        "sources": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["suite", "reference", "borrowed"],
+            "properties": {
+              "suite": { "type": "string", "minLength": 1 },
+              "reference": { "type": "string", "format": "uri" },
+              "borrowed": { "type": "array", "minItems": 1, "items": { "type": "string", "minLength": 1 } }
+            }
+          }
+        },
+        "deviations": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["difference", "reason"],
+            "properties": {
+              "difference": { "type": "string", "minLength": 1 },
+              "reason": { "type": "string", "minLength": 1 }
+            }
+          }
+        }
+      }
+    },
     "task": { "type": "object", "additionalProperties": false, "required": ["prompt", "seedWorkspace"], "properties": { "prompt": { "type": "string", "minLength": 1 }, "seedWorkspace": { "type": "string", "minLength": 1 }, "responseFile": { "type": "string", "minLength": 1 } } },
     "variants": { "type": "array", "minItems": 2, "items": { "type": "object", "additionalProperties": false, "required": ["id", "model"], "properties": { "id": { "type": "string", "minLength": 1 }, "model": { "type": "string", "minLength": 1 }, "thinkingLevel": { "type": "string" } } } },
     "repetitions": { "type": "integer", "minimum": 1, "default": 1 },

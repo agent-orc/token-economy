@@ -1,6 +1,42 @@
 {
   "schemaVersion": 1,
   "id": "palindrome-repair",
+  "formatAttribution": {
+    "sources": [
+      {
+        "suite": "SWE-bench",
+        "reference": "https://www.swebench.com/original.html",
+        "borrowed": [
+          "A task starts from an isolated repository snapshot and a natural-language problem statement.",
+          "Success is decided by executable tests, not a model self-assessment.",
+          "The primary quality unit is whether the complete task instance is resolved."
+        ]
+      },
+      {
+        "suite": "Aider polyglot",
+        "reference": "https://github.com/Aider-AI/aider/blob/main/benchmark/README.md",
+        "borrowed": [
+          "A compact implementation exercise is evaluated with its language-native test command.",
+          "Models receive the same exercise while model and thinking configuration vary.",
+          "Results retain success, token, duration, and cost measurements for comparison."
+        ]
+      }
+    ],
+    "deviations": [
+      {
+        "difference": "The fixture is a private-style synthetic C# exercise rather than a public GitHub issue/PR or an Exercism task.",
+        "reason": "The first setup must be self-contained, redistributable, fast, and representative of evaluation against a private repository."
+      },
+      {
+        "difference": "The model returns one replacement file in a single turn instead of producing an agentic repository patch or receiving Aider test-feedback retries.",
+        "reason": "This setup isolates model and thinking-level differences from tool orchestration; future setups may omit responseFile to measure agentic editing."
+      },
+      {
+        "difference": "One deterministic project command covers both the repaired behavior and existing examples instead of separate SWE-bench FAIL_TO_PASS and PASS_TO_PASS test lists.",
+        "reason": "The tiny fixture has no stable named-test inventory; an exit-code gate preserves the same resolved/not-resolved semantics without pretending the subsets exist."
+      }
+    ]
+  },
   "task": {
     "prompt": "Return only the complete C# source for StringTools.cs implementing StringTools.IsPalindrome. Ignore punctuation, whitespace, and letter case. An empty or punctuation-only string is a palindrome. Do not use tools, Markdown fences, or explanations.",
     "seedWorkspace": "benchmarks/fixtures/palindrome-repair",

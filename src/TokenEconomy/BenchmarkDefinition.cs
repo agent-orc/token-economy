@@ -8,12 +8,32 @@ public sealed record BenchmarkDefinition
 {
     public required int SchemaVersion { get; init; }
     public required string Id { get; init; }
+    public required BenchmarkFormatAttribution FormatAttribution { get; init; }
     public required BenchmarkTask Task { get; init; }
     public required IReadOnlyList<BenchmarkVariant> Variants { get; init; }
     public int Repetitions { get; init; } = 1;
     public int InvocationTimeoutSeconds { get; init; } = 300;
     public required BenchmarkSuccessCriteria SuccessCriteria { get; init; }
     public BenchmarkCostCaps? CostCaps { get; init; }
+}
+
+public sealed record BenchmarkFormatAttribution
+{
+    public required IReadOnlyList<BenchmarkFormatSource> Sources { get; init; }
+    public required IReadOnlyList<BenchmarkFormatDeviation> Deviations { get; init; }
+}
+
+public sealed record BenchmarkFormatSource
+{
+    public required string Suite { get; init; }
+    public required string Reference { get; init; }
+    public required IReadOnlyList<string> Borrowed { get; init; }
+}
+
+public sealed record BenchmarkFormatDeviation
+{
+    public required string Difference { get; init; }
+    public required string Reason { get; init; }
 }
 
 public sealed record BenchmarkTask

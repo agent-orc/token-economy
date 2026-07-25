@@ -40,7 +40,13 @@ public sealed class BenchmarkRunnerTests
 
     private static BenchmarkDefinition Definition() => new()
     {
-        SchemaVersion = 1, Id = "test", Task = new() { Prompt = "do it", SeedWorkspace = "seed" }, Repetitions = 2,
+        SchemaVersion = 1, Id = "test",
+        FormatAttribution = new()
+        {
+            Sources = [new() { Suite = "example", Reference = "https://example.test/benchmark", Borrowed = ["test-based success"] }],
+            Deviations = []
+        },
+        Task = new() { Prompt = "do it", SeedWorkspace = "seed" }, Repetitions = 2,
         Variants = [new() { Id = "a", Model = "model-a" }, new() { Id = "b", Model = "model-b" }],
         SuccessCriteria = new() { Command = "dotnet", Arguments = ["--version"] }
     };
