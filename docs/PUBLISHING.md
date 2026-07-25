@@ -3,101 +3,92 @@
 This package publishes through GitHub Actions
 ([`.github/workflows/release.yml`](../.github/workflows/release.yml)) using
 nuget.org **Trusted Publishing** (OIDC): there is **no API key** stored in the
-repo. Pushing a version tag builds, tests, packs, and pushes the package, then
-creates a GitHub Release for the tag.
+repository. Pushing a version tag builds, tests, packs, and pushes the package,
+then creates a GitHub Release for the tag.
 
-```
-scripts/release.sh 0.1.0     # runs tests on main, tags v0.1.0, pushes the tag
+```bash
+scripts/release.sh <version>
 ```
 
 The tag push triggers `release.yml`, which:
 
-1. derives the version from the tag (`v0.1.0` → `0.1.0`),
-2. restores, tests, and `dotnet pack`s `src/TokenEconomy/TokenEconomy.csproj`,
-3. mints a short-lived key via `NuGet/login@v1` (OIDC → Trusted Publishing),
-4. `dotnet nuget push`es the `.nupkg`/`.snupkg` to nuget.org, and
-5. creates a GitHub Release carrying the packages as assets.
+1. derives the package version from the tag,
+2. restores, tests, and packs `src/TokenEconomy/TokenEconomy.csproj`,
+3. obtains a short-lived key via `NuGet/login@v1`,
+4. pushes the `.nupkg` and its symbols to nuget.org, and
+5. creates a GitHub Release carrying the package artifacts.
 
----
+## First publish of a new package id: one-time setup
 
-## ⚠️ First publish of a NEW package id — one-time setup
+Before the first release, the nuget.org owner must create a Trusted Publishing
+policy. If `TokenEconomy` is still unclaimed and the first OIDC publish is not
+accepted, claim it once through nuget.org's manual upload page, then use the
+keyless workflow for all later releases.
 
-`TokenEconomy` has never been pushed to nuget.org, so the id is unclaimed and no
-Trusted Publishing policy exists for it yet. Exactly like npm's first
-`npm publish` of a new scope, the **first** publish needs a one-time manual
-step; every release after that is fully automated by the workflow above.
+These steps follow Microsoft's
+[Trusted Publishing](https://learn.microsoft.com/nuget/nuget-org/trusted-publishing)
+and
+[package publishing](https://learn.microsoft.com/nuget/nuget-org/publish-a-package)
+guides. The policy values below come directly from `release.yml`.
 
-> nuget.org's Trusted Publishing UI wording changes over time. The **values** to
-> enter below are exact and come from `release.yml`; confirm the current menu
-> paths against the official docs before clicking:
-> <https://learn.microsoft.com/nuget/nuget-org/trusted-publishing>
+| Policy field | Value |
+| --- | --- |
+| nuget.org policy owner | individual account `RobertMischke2` |
+| Repository Owner | `agent-orc` |
+| Repository | `token-economy` |
+| Workflow File | `release.yml` |
+| Environment | leave empty |
 
-The Trusted Publishing policy must match what the workflow presents. From
-`release.yml` those values are:
+The nuget.org account `RobertMischke2` and GitHub owner `agent-orc` are
+different accounts on different systems; enter each as shown. The official
+Trusted Publishing policy is owner-scoped and does not ask for a package-id
+glob. Enter only `release.yml`, not `.github/workflows/release.yml`. Leave
+Environment empty because the workflow does not declare a GitHub environment.
 
-| Policy field                | Value                                        | Source in `release.yml`        |
-| --------------------------- | -------------------------------------------- | ------------------------------ |
-| nuget.org account (owner)   | `RobertMischke2`                             | `NuGet/login@v1` → `user:`     |
-| GitHub repository owner     | `agent-orc`                              | `RepositoryUrl` / repo slug    |
-| GitHub repository name      | `token-economy`                 | repo slug                      |
-| Workflow file               | `release.yml`                                | this workflow's filename       |
-| Package id / glob           | `TokenEconomy`                               | `PackageId`                    |
-
-(The nuget.org account `RobertMischke2` and the GitHub owner `agent-orc` are
-deliberately different accounts on different systems — enter each as shown.)
-
-### Option A — configure Trusted Publishing first (preferred, no key ever)
+### Preferred path: configure Trusted Publishing first
 
 1. Sign in to nuget.org as **`RobertMischke2`**.
-2. Go to **Account settings → Trusted Publishing** and **Add** a policy with the
-   values in the table above.
-3. If the form asks whether the policy may publish a package id that **does not
-   exist yet** (create-on-first-push), **enable it** for `TokenEconomy`. Some
-   nuget.org revisions only allow a policy for an *existing* id — if so, use
-   Option B for the very first push, then this policy covers every later release.
-4. Cut the release: `scripts/release.sh 0.1.0`. The workflow publishes with no
-   key. Confirm the package appears at
-   <https://www.nuget.org/packages/TokenEconomy/0.1.0>.
+2. Open the account menu, choose **Trusted Publishing**, and add a GitHub
+   Actions policy owned by the individual account.
+3. Enter the four GitHub fields from the table and save the policy.
+4. From a clean `main`, run `scripts/release.sh <version>`. The tag-triggered
+   workflow obtains a short-lived NuGet key through OIDC and publishes.
+5. Confirm the package version appears at
+   `https://www.nuget.org/packages/TokenEconomy/<version>`. New packages can
+   take several minutes to validate and index.
 
-### Option B — manual first push to claim the id, then automate
+For some repositories a new policy is shown as temporarily active for seven
+days until the first successful publish supplies immutable GitHub owner and
+repository IDs. Publish within that window; if it expires, restart the window
+in nuget.org and rerun the failed workflow.
 
-Use this if nuget.org won't create a Trusted Publishing policy for a
-not-yet-existing id. It claims the id and establishes `RobertMischke2` as owner;
-after that, add the Option A policy and never touch a key again.
+### Fallback: manually claim an unowned id once
 
-1. Create a **short-lived** API key at
-   <https://www.nuget.org/account/apikeys> — scope: **Push new packages and
-   package versions**, glob **`TokenEconomy`** (or `*`), shortest expiry offered.
-   Do **not** commit it; the repo `.gitignore` already blocks `*.apikey` /
-   `nuget*.key` files, but treat it as a secret regardless.
-2. Pack and push locally (from a clean `main`):
-   ```bash
-   scripts/pack.sh 0.1.0
-   dotnet nuget push "artifacts/TokenEconomy.0.1.0.nupkg" \
-     --api-key "$NUGET_KEY" \
-     --source https://api.nuget.org/v3/index.json
-   # symbols (optional; push succeeds even if this is skipped):
-   dotnet nuget push "artifacts/TokenEconomy.0.1.0.snupkg" \
-     --api-key "$NUGET_KEY" \
-     --source https://api.nuget.org/v3/index.json
-   ```
-   (Set `NUGET_KEY` in the shell only; never on the command line history if
-   avoidable — e.g. `read -rs NUGET_KEY`.)
-3. Verify at <https://www.nuget.org/packages/TokenEconomy>.
-4. **Revoke / delete the temporary API key** on nuget.org.
-5. Add the Trusted Publishing policy (Option A, steps 1–3) so future tags publish
-   keylessly. Tag the *next* version via `scripts/release.sh` — the workflow now
-   works end-to-end.
+Use this only if the policy was created correctly but nuget.org rejects the
+first OIDC publish because the new `TokenEconomy` id has no owner.
 
-### After the first publish
+1. From clean `main`, run `scripts/pack.sh <version>`.
+2. Sign in to nuget.org as `RobertMischke2`, select **Upload**, and choose
+   `artifacts/TokenEconomy.<version>.nupkg`.
+3. On the Verify page, confirm package id `TokenEconomy`, the intended version,
+   README, license, and repository link, then select **Submit**. This makes the
+   signed-in account the package owner without creating an API key.
+4. Confirm the version at
+   `https://www.nuget.org/packages/TokenEconomy/<version>`.
+5. Create or re-enable the Trusted Publishing policy above, then rerun the
+   release workflow for the same tag if the GitHub Release still needs to be
+   created. Its package push uses `--skip-duplicate`, so the manual package
+   upload is not overwritten.
 
-Nothing manual is needed. Every subsequent release is just:
+## After the first publish
 
-```
+Every subsequent release is:
+
+```bash
 scripts/release.sh <version>
 ```
 
 Trusted Publishing mints a fresh short-lived key per run; there is no stored
-secret to rotate. If a release run fails auth, re-check the policy fields in the
-table above against `release.yml` — a renamed workflow file or a different
-`user:` will break the OIDC match.
+secret to rotate. If a release run fails authentication, re-check the policy
+fields against `release.yml`. A renamed workflow, different `user:`, or added
+GitHub environment requires the corresponding nuget.org policy update.

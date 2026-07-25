@@ -133,9 +133,10 @@ stays in the caller's admission algorithm.
 
 The pricing catalog + cost API were extracted from `CodingAgentRunner.Pricing`
 (v0.5.0) into this standalone package (0.1.0); **0.2.0** adds the
-token-efficiency matrix + `SuggestModel`. Tag-ready; the first nuget.org publish
-is pending — see [docs/PUBLISHING.md](docs/PUBLISHING.md). Package id:
-**`TokenEconomy`** (nuget.org).
+token-efficiency matrix + `SuggestModel`. **`TokenEconomy` 0.2.0 is published
+on [nuget.org](https://www.nuget.org/packages/TokenEconomy/0.2.0)**; release
+operations and the one-time setup fallback are documented in
+[docs/PUBLISHING.md](docs/PUBLISHING.md).
 
 ## License
 
