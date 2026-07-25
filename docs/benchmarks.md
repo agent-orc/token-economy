@@ -61,8 +61,13 @@ Each run writes immutable raw evidence to
 `benchmarks/results/document-to-text/<corpus>/<run>.json` and an adjacent
 `<run>.capabilities.json`. The latter contains one record per model and document
 type with attempted/passed counts, success rate, and a reference to the raw
-artifact. Raw evidence retains the extracted text, oracle misses, token usage,
-duration and errors. Each invocation has the corpus's explicit timeout. Levels
+artifact. It also reports estimated total/average API cost and priced/unpriced
+case counts for that model and document type. Cost is resolved independently
+for each run from the dated model-price catalog and the measured token usage.
+The raw case marks list-price estimates and unconfirmed rates explicitly;
+unpriced models remain `null` and are never presented as free. Raw evidence
+retains the extracted text, oracle misses, token usage, duration and errors.
+Each invocation has the corpus's explicit timeout. Levels
 are deliberately conservative: all cases passed is
 `Demonstrated`, some is `Partial`, and none is `NotDemonstrated`. The benchmark
 never infers universal "unsupported" from this finite corpus.

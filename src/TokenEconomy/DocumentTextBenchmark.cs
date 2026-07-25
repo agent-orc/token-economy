@@ -71,6 +71,10 @@ public sealed record DocumentTextCaseResult
     public required TokenUsage Usage { get; init; }
     public string? ExtractedText { get; init; }
     public decimal? CostUsd { get; init; }
+    public required PriceStatus PriceStatus { get; init; }
+    public required bool CostIsApiListPriceEstimate { get; init; }
+    public required bool CostUnconfirmed { get; init; }
+    public string? CostCaveat { get; init; }
     public required long DurationMs { get; init; }
     public IReadOnlyList<string> MissingFragments { get; init; } = [];
     public IReadOnlyList<string> UnexpectedFragments { get; init; } = [];
@@ -102,6 +106,13 @@ public sealed record DocumentTextCapabilityRecord
     public required int CasesAttempted { get; init; }
     public required int CasesPassed { get; init; }
     public required decimal SuccessRate { get; init; }
+    public required int CasesPriced { get; init; }
+    public required int CasesUnpriced { get; init; }
+    public required decimal CostCoverage { get; init; }
+    public decimal? EstimatedCostUsd { get; init; }
+    public decimal? AverageEstimatedCostUsd { get; init; }
+    public required bool HasUnconfirmedCost { get; init; }
+    public string? CostCaveat { get; init; }
     public required string EvidenceReference { get; init; }
 }
 
@@ -214,6 +225,8 @@ public sealed class DocumentTextBenchmarkRunner
                         ? response.Error ?? $"Extractor exited {response.ExitCode}."
                         : grade.FailureReason;
                     timer.Stop();
+                    var catalogCost = _models.ComputeCost(model, response.Usage, started);
+                    var costUsd = response.CostUsd ?? catalogCost.Total;
                     var result = new DocumentTextCaseResult
                     {
                         Model = model,
@@ -223,7 +236,11 @@ public sealed class DocumentTextBenchmarkRunner
                         ExitCode = response.ExitCode,
                         Usage = response.Usage,
                         ExtractedText = response.ExtractedText,
-                        CostUsd = response.CostUsd,
+                        CostUsd = costUsd,
+                        PriceStatus = response.CostUsd is not null ? PriceStatus.Resolved : catalogCost.Status,
+                        CostIsApiListPriceEstimate = response.CostUsd is null && catalogCost.Total is not null,
+                        CostUnconfirmed = response.CostUsd is null && catalogCost.Unconfirmed,
+                        CostCaveat = response.CostUsd is null ? catalogCost.Caveat : null,
                         DurationMs = timer.ElapsedMilliseconds,
                         MissingFragments = grade.Missing,
                         UnexpectedFragments = grade.Unexpected,
@@ -279,6 +296,8 @@ public sealed class DocumentTextBenchmarkRunner
             {
                 var passed = group.Count(item => item.Succeeded);
                 var attempted = group.Count();
+                var priced = group.Where(item => item.CostUsd is not null).ToArray();
+                var estimatedCost = priced.Length == 0 ? (decimal?)null : priced.Sum(item => item.CostUsd!.Value);
                 return new DocumentTextCapabilityRecord
                 {
                     Model = group.Key.Model,
@@ -289,6 +308,15 @@ public sealed class DocumentTextBenchmarkRunner
                     CasesAttempted = attempted,
                     CasesPassed = passed,
                     SuccessRate = (decimal)passed / attempted,
+                    CasesPriced = priced.Length,
+                    CasesUnpriced = attempted - priced.Length,
+                    CostCoverage = (decimal)priced.Length / attempted,
+                    EstimatedCostUsd = estimatedCost,
+                    AverageEstimatedCostUsd = priced.Length == 0 ? null : estimatedCost / priced.Length,
+                    HasUnconfirmedCost = priced.Any(item => item.CostUnconfirmed),
+                    CostCaveat = priced.Any(item => item.CostIsApiListPriceEstimate)
+                        ? ModelPrice.EstimatedListPricesCaveat
+                        : null,
                     EvidenceReference = evidenceReference,
                 };
             })

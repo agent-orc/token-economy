@@ -33,8 +33,8 @@ public sealed class DocumentTextBenchmarkTests
         {
             var catalog = new ModelPriceCatalog(
             [
-                new() { ModelId = "model-b" },
-                new() { ModelId = "model-a" },
+                Priced("model-b"),
+                Priced("model-a"),
             ]);
             var extractor = new FakeExtractor();
             var runner = new DocumentTextBenchmarkRunner(extractor, catalog);
@@ -51,6 +51,16 @@ public sealed class DocumentTextBenchmarkTests
             Assert.Equal(2, report.Capabilities.Count);
             Assert.Equal(DocumentTextCapabilityLevel.Demonstrated, report.Capabilities.Single(item => item.Model == "model-a").Level);
             Assert.Equal(DocumentTextCapabilityLevel.NotDemonstrated, report.Capabilities.Single(item => item.Model == "model-b").Level);
+            Assert.All(result.Cases, item => Assert.Equal(0.00002m, item.CostUsd));
+            Assert.All(result.Cases, item => Assert.True(item.CostIsApiListPriceEstimate));
+            Assert.All(report.Capabilities, item =>
+            {
+                Assert.Equal(1, item.CasesPriced);
+                Assert.Equal(0, item.CasesUnpriced);
+                Assert.Equal(1m, item.CostCoverage);
+                Assert.Equal(0.00002m, item.EstimatedCostUsd);
+                Assert.Equal(ModelPrice.EstimatedListPricesCaveat, item.CostCaveat);
+            });
             Assert.Equal(" LEFT   column\nRight column ", result.Cases.Single(item => item.Model == "model-a").ExtractedText);
             Assert.All(report.Capabilities, item => Assert.Equal("benchmarks/results/document-to-text/hard-cases/run-1.json", item.EvidenceReference));
             Assert.Contains("document_text_benchmark.run.started", events);
@@ -148,7 +158,24 @@ public sealed class DocumentTextBenchmarkTests
         Succeeded = succeeded,
         ExitCode = 0,
         Usage = default,
+        PriceStatus = PriceStatus.NoPriceForDate,
+        CostIsApiListPriceEstimate = false,
+        CostUnconfirmed = false,
         DurationMs = 1,
+    };
+
+    private static ModelListing Priced(string model) => new()
+    {
+        ModelId = model,
+        History =
+        [
+            new ModelPrice
+            {
+                InputPerMTok = 1m,
+                OutputPerMTok = 2m,
+                ValidFrom = DateTime.MinValue,
+            },
+        ],
     };
 
     private static string FindRepositoryRoot()
