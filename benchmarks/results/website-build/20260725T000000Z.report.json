@@ -6,5 +6,5 @@
   "inputs": ["benchmarks/results/**/*.json", "website/data/site-status.json"],
   "output": "website/data/benchmarks.json",
   "result": "passed",
-  "purpose": "Evidence that the deployable benchmark view is derived from append-only raw and report JSON rather than hand-authored result rows."
+  "purpose": "Evidence that the deployable benchmark view is derived from append-only A/B raw/report JSON and document capability JSON rather than hand-authored result rows."
 }

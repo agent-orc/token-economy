@@ -14,9 +14,10 @@ The static marketing + documentation site for **Token Economy**, served at
   `TokenEconomy` API — plus the clearly labelled, plan-only cap-forecast
 explainers under [`cap-forecast/`](cap-forecast/index.html).
 
-When adding a benchmark result, add its setup, fixture, raw JSON, and derived
-report first, then run `python scripts/generate-website-data.py`. The browser
-renders the resulting table; do not add result rows to `index.html` by hand.
+When adding a benchmark result, add its setup or corpus, fixture, raw JSON, and
+derived report or capability record first, then run `python
+scripts/generate-website-data.py`. The browser renders the resulting table; do
+not add result rows to `index.html` by hand.
 Update `website/data/site-status.json` for an honest status change.
 
 Editing: change the relevant HTML page and push to `main`; CI deploys the whole

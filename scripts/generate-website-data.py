@@ -25,23 +25,36 @@ def load(path: Path) -> dict:
 
 def create_payload() -> dict:
     studies = []
-    for raw_path in sorted(RESULTS.glob("*/*.json")):
-        if raw_path.name.endswith(".report.json"):
+    capability_studies = []
+    for raw_path in sorted(RESULTS.rglob("*.json")):
+        if raw_path.name.endswith((".report.json", ".capabilities.json")):
             continue
+        raw = load(raw_path)
         report_path = raw_path.with_name(raw_path.stem + ".report.json")
-        if not report_path.exists():
-            raise ValueError(f"Missing derived report for {raw_path.relative_to(ROOT)}")
-        raw, report = load(raw_path), load(report_path)
-        if raw["setupId"] != report["setupId"] or raw["runId"] != report["runId"]:
-            raise ValueError(f"Raw/report identity mismatch for {raw_path.relative_to(ROOT)}")
-        studies.append({
-            "setupId": raw["setupId"], "runId": raw["runId"],
-            "startedAtUtc": raw["startedAtUtc"], "completedAtUtc": raw["completedAtUtc"],
-            "winner": report["winner"], "winnerReason": report["winnerReason"],
-            "qualityDelta": report["qualityDelta"], "costDeltaUsd": report["costDeltaUsd"],
-            "variants": report["variants"],
-        })
-    return {"schemaVersion": 1, "generatedAtUtc": datetime.now(timezone.utc).isoformat(), "studies": studies}
+        capabilities_path = raw_path.with_name(raw_path.stem + ".capabilities.json")
+        if report_path.exists():
+            report = load(report_path)
+            if raw["setupId"] != report["setupId"] or raw["runId"] != report["runId"]:
+                raise ValueError(f"Raw/report identity mismatch for {raw_path.relative_to(ROOT)}")
+            studies.append({
+                "setupId": raw["setupId"], "runId": raw["runId"],
+                "startedAtUtc": raw["startedAtUtc"], "completedAtUtc": raw["completedAtUtc"],
+                "winner": report["winner"], "winnerReason": report["winnerReason"],
+                "qualityDelta": report["qualityDelta"], "costDeltaUsd": report["costDeltaUsd"],
+                "variants": report["variants"],
+            })
+        elif capabilities_path.exists():
+            capabilities = load(capabilities_path)
+            if raw["runId"] != capabilities["runId"] or raw["corpusId"] != capabilities["corpusId"]:
+                raise ValueError(f"Raw/capability identity mismatch for {raw_path.relative_to(ROOT)}")
+            capability_studies.append({
+                "corpusId": raw["corpusId"], "runId": raw["runId"],
+                "startedAtUtc": raw["startedAtUtc"], "completedAtUtc": raw["completedAtUtc"],
+                "capabilities": capabilities["capabilities"],
+            })
+        else:
+            raise ValueError(f"Missing derived result for {raw_path.relative_to(ROOT)}")
+    return {"schemaVersion": 1, "generatedAtUtc": datetime.now(timezone.utc).isoformat(), "studies": studies, "capabilityStudies": capability_studies}
 
 
 def canonical(value: dict) -> str:
