@@ -28,7 +28,7 @@
         "reason": "The first setup must be self-contained, redistributable, fast, and representative of evaluation against a private repository."
       },
       {
-        "difference": "The model returns one replacement file in a single turn instead of producing an agentic repository patch or receiving Aider test-feedback retries.",
+        "difference": "The model returns one replacement file in a single turn instead of producing a SWE-bench-style repository patch or using Aider edit formats and test-feedback retries.",
         "reason": "This setup isolates model and thinking-level differences from tool orchestration; future setups may omit responseFile to measure agentic editing."
       },
       {
