@@ -1,0 +1,10 @@
+{
+  "schemaVersion": 1,
+  "kind": "website-data-build",
+  "recordedAtUtc": "2026-07-25T00:00:00Z",
+  "command": "python scripts/generate-website-data.py --check",
+  "inputs": ["benchmarks/results/**/*.json", "website/data/site-status.json"],
+  "output": "website/data/benchmarks.json",
+  "result": "passed",
+  "purpose": "Evidence that the deployable benchmark view is derived from append-only raw and report JSON rather than hand-authored result rows."
+}

@@ -39,10 +39,12 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Sanity-check the site
+      - name: Build and sanity-check the site data
         # Fail early and loudly if the entrypoint is missing, rather than syncing
         # an empty or broken directory over a working site.
-        run: test -f website/index.html || { echo "::error::website/index.html is missing"; exit 1; }
+        run: |
+          test -f website/index.html || { echo "::error::website/index.html is missing"; exit 1; }
+          python3 scripts/generate-website-data.py --check
 
       - name: Configure SSH (key + pinned host key)
         # Host-key pinning via DEPLOY_KNOWN_HOSTS avoids trust-on-first-use / MITM.

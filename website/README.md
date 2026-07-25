@@ -3,9 +3,9 @@
 The static marketing + documentation site for **Token Economy**, served at
 <https://agent-orchestrator.dev/token-economy/>.
 
-- **Plain static HTML, no build step.** `index.html` is self-contained: inline
-  CSS, a data-URI favicon, and no external requests, so it works offline and
-  under the `/token-economy/` subpath without any asset-path juggling.
+- **Plain static HTML with a checked data step.** `index.html` has inline CSS
+  and a data-URI favicon. `scripts/generate-website-data.py` copies published
+  benchmark JSON into `website/data/benchmarks.json`; CI rejects stale data.
 - **English**, light/dark theme-aware, responsive.
 - Content: what/why, a complexity-estimation and closed learning-loop explainer,
   published benchmark summaries rendered from the append-only JSON evidence in
@@ -15,9 +15,9 @@ The static marketing + documentation site for **Token Economy**, served at
 explainers under [`cap-forecast/`](cap-forecast/index.html).
 
 When adding a benchmark result, add its setup, fixture, raw JSON, and derived
-report first; then add a dated summary table and caveat to the **Benchmarks**
-section of `index.html`. This keeps the site readable while preserving the JSON
-as source evidence.
+report first, then run `python scripts/generate-website-data.py`. The browser
+renders the resulting table; do not add result rows to `index.html` by hand.
+Update `website/data/site-status.json` for an honest status change.
 
 Editing: change the relevant HTML page and push to `main`; CI deploys the whole
 directory recursively (see [`DEPLOY.md`](DEPLOY.md)). Every page remains

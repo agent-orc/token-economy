@@ -1,0 +1,38 @@
+{
+  "schemaVersion": 1,
+  "generatedAtUtc": "2026-07-25T00:00:00+00:00",
+  "studies": [
+    {
+      "setupId": "palindrome-repair",
+      "runId": "20260722T233105307Z",
+      "startedAtUtc": "2026-07-22T23:31:05.3072904Z",
+      "completedAtUtc": "2026-07-22T23:31:40.002624Z",
+      "winner": "sol-medium",
+      "winnerReason": "Highest success rate; ties break on average tokens, duration, then variant id.",
+      "qualityDelta": 0,
+      "costDeltaUsd": null,
+      "variants": [
+        {
+          "variantId": "sol-medium",
+          "runs": 1,
+          "successes": 1,
+          "successRate": 1,
+          "totalTokens": 13550,
+          "averageTokens": 13550,
+          "totalCostUsd": null,
+          "averageDurationMs": 18538
+        },
+        {
+          "variantId": "terra-medium",
+          "runs": 1,
+          "successes": 1,
+          "successRate": 1,
+          "totalTokens": 13668,
+          "averageTokens": 13668,
+          "totalCostUsd": null,
+          "averageDurationMs": 16004
+        }
+      ]
+    }
+  ]
+}
