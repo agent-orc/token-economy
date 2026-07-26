@@ -1,6 +1,6 @@
 {
-  "schemaVersion": 1,
-  "generatedAtUtc": "2026-07-25T12:38:31.951Z",
+  "schemaVersion": 2,
+  "generatedAtUtc": "2026-07-26T15:09:13.295644+00:00",
   "studies": [
     {
       "setupId": "palindrome-repair",
@@ -20,7 +20,14 @@
           "totalTokens": 13550,
           "averageTokens": 13550,
           "totalCostUsd": null,
-          "averageDurationMs": 18538
+          "averageDurationMs": 18538,
+          "model": "gpt-5.6-sol",
+          "usage": {
+            "input": 3339,
+            "output": 227,
+            "cacheRead": 9984,
+            "cacheWrite": 0
+          }
         },
         {
           "variantId": "terra-medium",
@@ -30,7 +37,14 @@
           "totalTokens": 13668,
           "averageTokens": 13668,
           "totalCostUsd": null,
-          "averageDurationMs": 16004
+          "averageDurationMs": 16004,
+          "model": "gpt-5.6-terra",
+          "usage": {
+            "input": 3035,
+            "output": 137,
+            "cacheRead": 10496,
+            "cacheWrite": 0
+          }
         }
       ]
     }

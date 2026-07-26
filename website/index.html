@@ -30,6 +30,10 @@
       --code-text: #24324a;
       --ok: #167a4a;
       --warn: #9a6b00;
+      --chart-input: #2f6df0;
+      --chart-output: #7c55c7;
+      --chart-cache-read: #26a377;
+      --chart-cache-write: #d18b20;
       --mono: ui-monospace, "SF Mono", "Cascadia Code", "JetBrains Mono", Menlo, Consolas, monospace;
       --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
     }
@@ -47,6 +51,10 @@
         --code-text: #d3ddef;
         --ok: #4cc38a;
         --warn: #e0b341;
+        --chart-input: #6ea0ff;
+        --chart-output: #b993f2;
+        --chart-cache-read: #55c99a;
+        --chart-cache-write: #e4ae55;
       }
     }
 
@@ -192,6 +200,36 @@
     .state { font-family: var(--mono); font-size: .78rem; font-weight: 700; letter-spacing: .04em; color: var(--ok); }
     .state.planned, .state.pending { color: var(--warn); }
     .data-note { color: var(--muted); font-size: .88rem; margin-top: 14px; }
+
+    /* usage charts */
+    .chart-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+    .chart-card { background: var(--panel); border: 1px solid var(--border); border-radius: 12px; padding: 20px; min-width: 0; }
+    .chart-card h3 { margin: 0 0 4px; }
+    .chart-card .chart-kicker { color: var(--muted); font-size: .84rem; margin: 0 0 20px; }
+    .chart-row { margin-top: 17px; }
+    .chart-label { display: flex; justify-content: space-between; gap: 12px; align-items: baseline; margin-bottom: 6px; font-size: .9rem; }
+    .chart-label strong { font-family: var(--mono); font-size: .84rem; white-space: nowrap; }
+    .bar-track { height: 12px; border-radius: 999px; background: var(--bg-alt); overflow: hidden; }
+    .bar-fill { height: 100%; border-radius: inherit; background: var(--accent); min-width: 2px; }
+    .stack { display: flex; height: 14px; border-radius: 999px; background: var(--bg-alt); overflow: hidden; }
+    .stack > span { min-width: 1px; }
+    .stack .input { background: var(--chart-input); }
+    .stack .output { background: var(--chart-output); }
+    .stack .cache-read { background: var(--chart-cache-read); }
+    .stack .cache-write { background: var(--chart-cache-write); }
+    .legend { display: flex; flex-wrap: wrap; gap: 8px 14px; margin-top: 18px; color: var(--muted); font-size: .8rem; }
+    .legend span { display: inline-flex; align-items: center; gap: 6px; }
+    .legend i { width: 9px; height: 9px; border-radius: 2px; display: inline-block; }
+    .coverage-list { display: grid; gap: 12px; }
+    .coverage-item { border-top: 1px solid var(--border); padding-top: 12px; }
+    .coverage-item:first-child { border-top: 0; padding-top: 0; }
+    .coverage-item strong { display: block; font-size: .92rem; }
+    .coverage-item span { color: var(--muted); font-size: .86rem; }
+    .chart-summary { display: flex; flex-wrap: wrap; gap: 10px; margin: 0 0 16px; }
+    .metric { border: 1px solid var(--border); border-radius: 9px; padding: 9px 12px; min-width: 130px; }
+    .metric strong { display: block; font-family: var(--mono); font-size: 1.15rem; }
+    .metric span { color: var(--muted); font-size: .78rem; }
+    @media (max-width: 720px) { .chart-grid { grid-template-columns: 1fr; } }
   </style>
 </head>
 <body>
@@ -202,6 +240,7 @@
       <nav>
         <a href="#why">Why</a>
         <a href="#concepts">Concepts</a>
+        <a href="#usage">Usage</a>
         <a href="#benchmarks">Benchmarks</a>
         <a href="#status">Status</a>
         <a href="#pricing-history">Pricing&nbsp;history</a>
@@ -285,6 +324,18 @@
         <p>Its evidence is deliberately pre-launch: touched surface and dependency fan-out, novelty, constraint density, specification ambiguity, required reading, and verification cost. Actual changed files, tool calls, and review feedback are outcomes for later calibration, not inputs that would leak the answer into the estimate.</p>
         <div class="callout"><strong>The learning loop is deliberately closed but not automatic:</strong> task features &rarr; complexity estimate and model choice &rarr; observed tokens, duration, reissues, and outcome &rarr; reclassification or updated policy. Historical neighbours can inform a new estimate; the optional host-supplied mini-model assessment is capped and the library never calls a provider itself.</div>
         <p class="comment-note">The included 30-card fixtures validate the pipeline, while the repository's <code>results/complexity-backtest</code> snapshot reports a real-card observational replay. Its cohort and measurement limitations—and weak current accuracy—make it calibration evidence, not a routing-readiness or causal model-comparison claim. See the <a href="https://github.com/agent-orc/token-economy/blob/main/docs/concepts/upfront-task-complexity.md">complexity design and backtest contract</a>.</p>
+      </div>
+    </section>
+
+    <!-- ================= TOKEN USAGE ================= -->
+    <section id="usage">
+      <div class="wrap">
+        <h2>Token usage, made visible</h2>
+        <p class="sub">A compact view of the token components recorded by this repository's published benchmark runs. Values come from versioned evidence, not estimates.</p>
+        <div id="usage-charts" aria-live="polite">
+          <p class="comment-note">Loading published token evidence&hellip;</p>
+        </div>
+        <p class="comment-note">Source: the raw, append-only cases under <code>benchmarks/results/</code>, projected into <code>website/data/benchmarks.json</code> by the checked site-data build. Cache-read tokens are shown as reported and are not added to input a second time.</p>
       </div>
     </section>
 
@@ -572,10 +623,35 @@ var matrix  = ModelEfficiencyMatrix.Default;  <span class="cmt">// cost is deriv
       const number = value => new Intl.NumberFormat('en-US').format(value);
       const seconds = value => `${(value / 1000).toFixed(1)} s`;
       const benchmarkHost = document.getElementById('benchmark-results');
+      const usageHost = document.getElementById('usage-charts');
       const statusHost = document.getElementById('project-status');
 
       fetch('data/benchmarks.json').then(response => response.ok ? response.json() : Promise.reject(response.status)).then(data => {
         if (!data.studies.length) { benchmarkHost.textContent = 'No published benchmark results yet.'; return; }
+        const variantsWithUsage = data.studies.flatMap(study => study.variants
+          .filter(variant => variant.usage)
+          .map(variant => ({ ...variant, setupId: study.setupId, startedAtUtc: study.startedAtUtc })));
+        if (variantsWithUsage.length) {
+          const total = usage => usage.input + usage.output + usage.cacheRead + usage.cacheWrite;
+          const maxTokens = Math.max(...variantsWithUsage.map(variant => total(variant.usage)));
+          const allTokens = variantsWithUsage.reduce((sum, variant) => sum + total(variant.usage), 0);
+          const componentNames = { input: 'Input', output: 'Output', cacheRead: 'Cache read', cacheWrite: 'Cache write' };
+          const componentClasses = { input: 'input', output: 'output', cacheRead: 'cache-read', cacheWrite: 'cache-write' };
+          const modelBars = variantsWithUsage.map(variant => {
+            const tokens = total(variant.usage);
+            return `<div class="chart-row"><div class="chart-label"><span>${escape(variant.model)}</span><strong>${number(tokens)}</strong></div><div class="bar-track" role="img" aria-label="${escape(variant.model)}: ${number(tokens)} total tokens"><div class="bar-fill" style="width:${(tokens / maxTokens * 100).toFixed(2)}%"></div></div></div>`;
+          }).join('');
+          const compositionBars = variantsWithUsage.map(variant => {
+            const tokens = total(variant.usage);
+            const segments = Object.keys(componentNames).map(component => `<span class="${componentClasses[component]}" style="width:${(variant.usage[component] / tokens * 100).toFixed(2)}%" title="${componentNames[component]}: ${number(variant.usage[component])}"></span>`).join('');
+            return `<div class="chart-row"><div class="chart-label"><span>${escape(variant.model)}</span><strong>${number(tokens)}</strong></div><div class="stack" role="img" aria-label="${escape(variant.model)}: ${Object.keys(componentNames).map(component => `${componentNames[component]} ${number(variant.usage[component])}`).join(', ')}">${segments}</div></div>`;
+          }).join('');
+          const legend = Object.keys(componentNames).map(component => `<span><i class="${componentClasses[component]}" style="background:var(--chart-${component.replace(/[A-Z]/g, letter => '-' + letter.toLowerCase())})"></i>${componentNames[component]}</span>`).join('');
+          const dates = [...new Set(variantsWithUsage.map(variant => variant.startedAtUtc.slice(0, 10)))];
+          usageHost.innerHTML = `<div class="chart-summary"><div class="metric"><strong>${number(allTokens)}</strong><span>observed tokens</span></div><div class="metric"><strong>${variantsWithUsage.length}</strong><span>model runs</span></div><div class="metric"><strong>${data.studies.length}</strong><span>published A/B study</span></div></div><div class="chart-grid"><article class="chart-card"><h3>Tokens by model</h3><p class="chart-kicker">Total observed tokens; longer means more.</p>${modelBars}</article><article class="chart-card"><h3>Token composition</h3><p class="chart-kicker">Share of each run by reported component.</p>${compositionBars}<div class="legend">${legend}</div></article><article class="chart-card"><h3>Coverage &amp; gaps</h3><p class="chart-kicker">What the current evidence can—and cannot—support.</p><div class="coverage-list"><div class="coverage-item"><strong>Model comparison · available</strong><span>${variantsWithUsage.length} successful runs in ${data.studies.length} controlled setup.</span></div><div class="coverage-item"><strong>Task class and retries · not recorded</strong><span>No coding/test/review labels or retry chain exist in the published schema.</span></div><div class="coverage-item"><strong>Cost · not supplied</strong><span>The authoritative cost fields for these runs are null, so no cost chart is shown.</span></div><div class="coverage-item"><strong>Trend · not enough observations</strong><span>${dates.length} distinct run date${dates.length === 1 ? '' : 's'} cannot establish a time series.</span></div></div></article><article class="chart-card"><h3>Reading this snapshot</h3><p class="chart-kicker">Scope matters more than a dramatic percentage.</p><p>These bars describe one small repository-repair benchmark, not production traffic. Both models solved the same fixture once. Use the chart to inspect measured token shape; use more append-only runs before inferring a durable model advantage.</p><p class="data-note">Latest evidence: <code>${escape(dates.sort().at(-1))}</code> · setup <code>${escape(variantsWithUsage.at(-1).setupId)}</code></p></article></div>`;
+        } else {
+          usageHost.textContent = 'Published benchmark runs do not contain token-component evidence yet.';
+        }
         benchmarkHost.innerHTML = data.studies.map(study => {
           const variants = study.variants.map(variant => `<tr><td>${escape(variant.variantId)}${variant.variantId === study.winner ? ' <span class="state">WINNER</span>' : ''}</td><td class="num">${variant.successes} / ${variant.runs}</td><td class="num">${number(variant.averageTokens)}</td><td class="num">${seconds(variant.averageDurationMs)}</td><td>${variant.totalCostUsd === null ? 'Not supplied' : '$' + (variant.totalCostUsd / variant.runs).toFixed(4)}</td></tr>`).join('');
           const date = new Date(study.startedAtUtc).toISOString().replace('.000', '').replace(/:\d\d\.\d+Z$/, 'Z');
@@ -585,7 +661,10 @@ var matrix  = ModelEfficiencyMatrix.Default;  <span class="cmt">// cost is deriv
           const date = new Date(study.startedAtUtc).toISOString().replace('.000', '').replace(/:\d\d\.\d+Z$/, 'Z');
           return `<h3>Published capability corpus: ${escape(study.corpusId)}</h3><p>Run <code>${escape(date)}</code>. Each row is one model/document-type attempt; “Not demonstrated” is limited to this corpus and does not mean unsupported.</p><div class="table-scroll"><table><thead><tr><th>Model</th><th>Document type</th><th class="num">Passed</th><th>Observed level</th></tr></thead><tbody>${rows}</tbody></table></div>`;
         }).join('') + `<p class="data-note">Generated from ${data.studies.length} A/B study/studies and ${(data.capabilityStudies || []).length} capability corpus/corpora.</p>`;
-      }).catch(() => { benchmarkHost.textContent = 'Published benchmark data could not be loaded.'; });
+      }).catch(() => {
+        benchmarkHost.textContent = 'Published benchmark data could not be loaded.';
+        usageHost.textContent = 'Published token evidence could not be loaded.';
+      });
 
       fetch('data/site-status.json').then(response => response.ok ? response.json() : Promise.reject(response.status)).then(data => {
         statusHost.innerHTML = data.items.map(item => `<div class="pillar"><div class="state ${escape(item.state)}">${escape(item.state.toUpperCase())}</div><h3>${escape(item.title)}</h3><p>${escape(item.detail)}</p></div>`).join('') + `<p class="data-note">Status record as of ${escape(data.asOf)}.</p>`;

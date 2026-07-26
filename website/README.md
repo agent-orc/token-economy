@@ -8,7 +8,7 @@ The static marketing + documentation site for **Token Economy**, served at
   benchmark JSON into `website/data/benchmarks.json`; CI rejects stale data.
 - **English**, light/dark theme-aware, responsive.
 - Content: what/why, a complexity-estimation and closed learning-loop explainer,
-  published benchmark summaries rendered from the append-only JSON evidence in
+  token-usage charts and published benchmark summaries rendered from the append-only JSON evidence in
   `benchmarks/results/`, an honest implementation/plan status snapshot, the pricing-history explainer, the cost API, a
   `SuggestModel` preview, install, and family links — all describing the real
   `TokenEconomy` API — plus the clearly labelled, plan-only cap-forecast

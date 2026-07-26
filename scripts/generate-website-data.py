@@ -30,18 +30,47 @@ def create_payload() -> dict:
         if raw_path.name.endswith((".report.json", ".capabilities.json")):
             continue
         raw = load(raw_path)
+        # Other append-only evidence can live beside benchmark runs (for
+        # example dashboard fixtures). It is intentionally outside this
+        # public benchmark projection.
+        if "setupId" not in raw and "corpusId" not in raw:
+            continue
         report_path = raw_path.with_name(raw_path.stem + ".report.json")
         capabilities_path = raw_path.with_name(raw_path.stem + ".capabilities.json")
         if report_path.exists():
             report = load(report_path)
             if raw["setupId"] != report["setupId"] or raw["runId"] != report["runId"]:
                 raise ValueError(f"Raw/report identity mismatch for {raw_path.relative_to(ROOT)}")
+            raw_cases_by_variant = {}
+            for case in raw["cases"]:
+                usage = case["usage"]
+                aggregate = raw_cases_by_variant.setdefault(case["variantId"], {
+                    "model": case["model"],
+                    "input": 0,
+                    "output": 0,
+                    "cacheRead": 0,
+                    "cacheWrite": 0,
+                })
+                if aggregate["model"] != case["model"]:
+                    raise ValueError(f"Variant maps to multiple models in {raw_path.relative_to(ROOT)}")
+                for component in ("input", "output", "cacheRead", "cacheWrite"):
+                    aggregate[component] += usage[component]
+
+            variants = []
+            for variant in report["variants"]:
+                raw_variant = raw_cases_by_variant.get(variant["variantId"])
+                if raw_variant is None:
+                    raise ValueError(f"Report variant missing raw cases in {raw_path.relative_to(ROOT)}")
+                projected = dict(variant)
+                projected["model"] = raw_variant.pop("model")
+                projected["usage"] = raw_variant
+                variants.append(projected)
             studies.append({
                 "setupId": raw["setupId"], "runId": raw["runId"],
                 "startedAtUtc": raw["startedAtUtc"], "completedAtUtc": raw["completedAtUtc"],
                 "winner": report["winner"], "winnerReason": report["winnerReason"],
                 "qualityDelta": report["qualityDelta"], "costDeltaUsd": report["costDeltaUsd"],
-                "variants": report["variants"],
+                "variants": variants,
             })
         elif capabilities_path.exists():
             capabilities = load(capabilities_path)
@@ -54,7 +83,7 @@ def create_payload() -> dict:
             })
         else:
             raise ValueError(f"Missing derived result for {raw_path.relative_to(ROOT)}")
-    return {"schemaVersion": 1, "generatedAtUtc": datetime.now(timezone.utc).isoformat(), "studies": studies, "capabilityStudies": capability_studies}
+    return {"schemaVersion": 2, "generatedAtUtc": datetime.now(timezone.utc).isoformat(), "studies": studies, "capabilityStudies": capability_studies}
 
 
 def canonical(value: dict) -> str:
@@ -75,7 +104,8 @@ def main() -> None:
         print("Website benchmark data is current.")
         return
     OUTPUT.parent.mkdir(parents=True, exist_ok=True)
-    OUTPUT.write_text(json.dumps(payload, indent=2) + "\n", encoding="utf-8")
+    # Keep the generated artifact byte-stable across Windows and Unix runners.
+    OUTPUT.write_bytes((json.dumps(payload, indent=2) + "\n").encode("utf-8"))
     print(f"Wrote {OUTPUT.relative_to(ROOT)} with {len(payload['studies'])} study/studies.")
 
 
