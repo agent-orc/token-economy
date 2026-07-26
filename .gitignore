@@ -84,6 +84,7 @@ secrets.json
 results/
 !results/
 results/*
+!results/TE-1-nuget-first-publish.md
 !results/complexity-backtest/
 !results/complexity-backtest/**
 !results/provider-quota-dashboard/

@@ -136,7 +136,9 @@ The pricing catalog + cost API were extracted from `CodingAgentRunner.Pricing`
 token-efficiency matrix + `SuggestModel`. **`TokenEconomy` 0.2.0 is published
 on [nuget.org](https://www.nuget.org/packages/TokenEconomy/0.2.0)**; release
 operations and the one-time setup fallback are documented in
-[docs/PUBLISHING.md](docs/PUBLISHING.md).
+[docs/PUBLISHING.md](docs/PUBLISHING.md), with the verified TE-1 operator
+handoff retained in
+[results/TE-1-nuget-first-publish.md](results/TE-1-nuget-first-publish.md).
 
 ## License
 

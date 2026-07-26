@@ -6,6 +6,10 @@ nuget.org **Trusted Publishing** (OIDC): there is **no API key** stored in the
 repository. Pushing a version tag builds, tests, packs, and pushes the package,
 then creates a GitHub Release for the tag.
 
+The TE-1 operator record, including the verified current package state and
+one-time manual-upload fallback, is retained in
+[`results/TE-1-nuget-first-publish.md`](../results/TE-1-nuget-first-publish.md).
+
 ```bash
 scripts/release.sh <version>
 ```
