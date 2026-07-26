@@ -30,11 +30,25 @@ public class ModelEfficiencySeedTests
     [Fact]
     public void OpusFamily_IsFrontier_AndPremiumCost()
     {
-        foreach (var id in new[] { "claude-opus-4-8", "claude-opus-4-7", "claude-opus-4-6", "claude-opus-4-5" })
+        foreach (var id in new[] { "claude-opus-5", "claude-opus-4-8", "claude-opus-4-7", "claude-opus-4-6", "claude-opus-4-5" })
         {
             Assert.Equal(CapabilityTier.Frontier, Matrix.Find(id)!.Tier);
             Assert.Equal(CostClass.Premium, Matrix.CostClassOf(id, Now));
         }
+    }
+
+    [Fact]
+    public void Opus5_IsOnboarded_OnTheSameLadderAsTheRestOfTheOpusFamily()
+    {
+        var opus5 = Matrix.Find("claude-opus-5");
+        Assert.NotNull(opus5);
+        Assert.Equal(CapabilityTier.Frontier, opus5!.Tier);
+        Assert.Equal(Cli.Claude, Matrix.CliOf("claude-opus-5"));
+        Assert.Equal(CostClass.Premium, Matrix.CostClassOf("claude-opus-5", Now));
+        Assert.False(opus5.Restricted);
+        Assert.False(opus5.Deprecated);
+        // Same reasoning-effort ladder as the Opus generation it supersedes — nothing bespoke.
+        Assert.Equal(Matrix.Find("claude-opus-4-8")!.EffortLevels, opus5.EffortLevels);
     }
 
     [Fact]

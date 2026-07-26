@@ -8,8 +8,8 @@ namespace TokenEconomy;
 /// </summary>
 /// <remarks>
 /// Declaration order doubles as the curator's tiebreak preference when two candidates score equally, so
-/// the strongest default for coding leads each tier (Opus before Fable, newest Sonnet first, gpt-5.6
-/// before the coding-specialised gpt-5-codex).
+/// the strongest default for coding leads each tier (newest Opus first, Opus before Fable, newest
+/// Sonnet first, gpt-5.6 before the coding-specialised gpt-5-codex).
 /// </remarks>
 internal static class ModelEfficiencySeed
 {
@@ -20,6 +20,7 @@ internal static class ModelEfficiencySeed
     public static IReadOnlyList<ModelEfficiencyProfile> Profiles() =>
     [
         // ---- Frontier (Anthropic) — architecture / hardest problems ----
+        new() { ModelId = "claude-opus-5", Tier = CapabilityTier.Frontier, EffortLevels = FullEffort },
         new() { ModelId = "claude-opus-4-8", Tier = CapabilityTier.Frontier, EffortLevels = FullEffort },
         new() { ModelId = "claude-opus-4-7", Tier = CapabilityTier.Frontier, EffortLevels = FullEffort },
         new() { ModelId = "claude-opus-4-6", Tier = CapabilityTier.Frontier, EffortLevels = FullEffort },

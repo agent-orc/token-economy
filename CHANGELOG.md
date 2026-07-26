@@ -7,6 +7,14 @@ SemVer; pre-1.0 the public API may still shift).
 
 ### Added
 
+- **`claude-opus-5` onboarded** into the seeded pricing catalog and the
+  efficiency matrix (TE-19). Priced at the confirmed Opus rate card
+  ($5.00 / $25.00 per MTok, cache-read $0.50, 5-minute cache-write $6.25),
+  profiled `Frontier` with the same `Low`/`Medium`/`High` effort ladder as the
+  rest of the Opus family, and declared first in that tier so it is now the
+  strongest coding default for heavy design. Consumers that read
+  `ModelPriceCatalog.Default` / `ModelEfficiencyMatrix.Default` pick it up with
+  no change of their own; cost class stays derived from the catalog.
 - An all-model document-to-text benchmark vertical with a versioned PDF,
   Word/RTF, SpreadsheetML and flat-ODF presentation hard-case corpus,
   deterministic visible/hidden-content oracles, append-only raw extraction

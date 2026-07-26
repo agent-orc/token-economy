@@ -28,10 +28,19 @@ public class SuggestModelTests
     public void HeavyDesign_Comfortable_PicksAFrontierModel()
     {
         var top = Suggest(TaskClass.HeavyDesign, BudgetPressure.Comfortable, Claude)[0];
-        Assert.Equal("claude-opus-4-8", top.ModelId);          // strongest coding default (declaration order)
+        Assert.Equal("claude-opus-5", top.ModelId);            // strongest coding default (declaration order)
         Assert.Equal(CapabilityTier.Frontier, top.Tier);
         Assert.Equal(Suitability.Ideal, top.Suitability);
         Assert.Equal(EffortLevel.High, top.SuggestedEffort);
+    }
+
+    [Fact]
+    public void Opus5_LeadsTheOlderOpusModels_ForHeavyDesign()
+    {
+        var ranked = Suggest(TaskClass.HeavyDesign, BudgetPressure.Comfortable, Claude);
+        Assert.True(RankOf(ranked, "claude-opus-5") < RankOf(ranked, "claude-opus-4-8"));
+        // It inherits the frontier effort ladder, so heavy design gets High without clamping.
+        Assert.Equal(EffortLevel.High, ranked.Single(r => r.ModelId == "claude-opus-5").SuggestedEffort);
     }
 
     [Fact]
@@ -78,7 +87,7 @@ public class SuggestModelTests
         var ranked = Suggest(TaskClass.HeavyDesign, BudgetPressure.Critical, Claude);
 
         // The ideal frontier model still leads (capability fit is the first tiebreak)...
-        Assert.Equal("claude-opus-4-8", ranked[0].ModelId);
+        Assert.Equal("claude-opus-5", ranked[0].ModelId);
         Assert.Equal(Suitability.Ideal, ranked[0].Suitability);
 
         // ...but a balanced, standard-cost model has caught up on score — the downshift is now on the

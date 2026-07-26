@@ -8,6 +8,10 @@
     "history": [{ "inputPerMTok": 10.00, "outputPerMTok": 50.00, "cacheReadPerMTok": 1.00, "cacheWritePerMTok": 12.50, "currency": "USD", "validFrom": "0001-01-01T00:00:00Z", "source": "Anthropic published pricing (cache-read = 0.1x input, cache-write = 5-min-TTL 1.25x input)" }]
   },
   {
+    "modelId": "claude-opus-5", "vendor": "anthropic",
+    "history": [{ "inputPerMTok": 5.00, "outputPerMTok": 25.00, "cacheReadPerMTok": 0.50, "cacheWritePerMTok": 6.25, "currency": "USD", "validFrom": "0001-01-01T00:00:00Z", "source": "Anthropic published pricing (cache-read = 0.1x input, cache-write = 5-min-TTL 1.25x input)" }]
+  },
+  {
     "modelId": "claude-sonnet-5", "vendor": "anthropic",
     "history": [
       { "inputPerMTok": 2.00, "outputPerMTok": 10.00, "cacheReadPerMTok": 0.20, "cacheWritePerMTok": 2.50, "currency": "USD", "validFrom": "0001-01-01T00:00:00Z", "validTo": "2026-08-31T23:59:59.9999999Z", "source": "Anthropic published pricing (cache-read = 0.1x input, cache-write = 5-min-TTL 1.25x input)", "note": "Introductory pricing, in effect through 2026-08-31 (UTC)." },

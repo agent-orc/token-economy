@@ -39,6 +39,7 @@ public class ModelPriceSeedTests
 
     [Theory]
     [InlineData("claude-fable-5", 10.00, 50.00)]
+    [InlineData("claude-opus-5", 5.00, 25.00)]
     [InlineData("claude-opus-4-8", 5.00, 25.00)]
     [InlineData("claude-opus-4-7", 5.00, 25.00)]
     [InlineData("claude-opus-4-6", 5.00, 25.00)]
