@@ -846,7 +846,7 @@ var matrix  = ModelEfficiencyMatrix.Default;  <span class="cmt">// cost is deriv
           + `<div class="coverage-item"><strong>Not production traffic</strong><span>The model, class and cost charts are one ${run.cases}-case corpus run of ${compact(run.tokens)} tokens on ${escape(run.startedAtUtc.slice(0, 10))}. One attempt per model and class cannot rank models.</span></div>`
           + `<div class="coverage-item"><strong>No coding / test / review split</strong><span>No source in this repository labels tokens by that kind of activity. The published task classes are document class and card task type, so those are what the charts show.</span></div>`
           + `<div class="coverage-item"><strong>Per-attempt tokens are not recorded</strong><span>Reissue counts are measurable; which attempt burned which tokens is not. The retry chart therefore compares whole cards, not first tries against repairs.</span></div>`
-          + `<div class="coverage-item"><strong>Unpriced stays unpriced</strong><span>${run.pricedModels} of the ${withUsage.length} models with recorded tokens have a catalog rate; the OpenAI family has no published rate here. Their tokens are charted, their dollars are not.</span></div>`
+          + `<div class="coverage-item"><strong>Unpriced stays unpriced</strong><span>${run.pricedModels} of the ${withUsage.length} models with recorded tokens have a catalog rate. ${unpriced.length ? `${unpriced.map(model => `<code>${escape(model.model)}</code>`).join(', ')} ${unpriced.length === 1 ? 'does' : 'do'} not, at this run's date` : 'Every one of them is priced'} — those tokens are charted, their dollars are not.</span></div>`
           + `<div class="coverage-item"><strong>The session trace is not checked in</strong><span>Its turn table lives in <code>${escape(session.source.evidencePath)}</code> with the query, the session id <code>${escape(session.source.sessionId)}</code> and stable event ids; the raw bus responses are not part of this repository.</span></div>`
           + `</div></article>`;
 
@@ -855,7 +855,7 @@ var matrix  = ModelEfficiencyMatrix.Default;  <span class="cmt">// cost is deriv
             data.byModel.models.map(model => [model.model, { n: `${model.casesPassed} / ${model.cases}` },
               { n: number(model.usage.input) }, { n: number(model.usage.cacheRead) }, { n: number(model.usage.cacheWrite) },
               { n: number(model.usage.output) }, { n: number(model.tokens) },
-              { n: model.cost.status === 'Resolved' && model.tokens > 0 ? usd(model.cost.totalUsd) : model.tokens === 0 ? 'no tokens recorded' : escape(model.cost.status) }]))
+              { n: model.cost.status === 'Resolved' && model.tokens > 0 ? usd(model.cost.totalUsd) : model.tokens === 0 ? 'no tokens recorded' : `unknown · ${escape(model.cost.status)}` }]))
           + table('Tokens by document class', ['Class', '#Cases passed', '#Fresh input', '#Cache read', '#Cache write', '#Output', '#Tokens'],
             documentTypes.map(type => [type.documentType, { n: `${type.casesPassed} / ${type.cases}` },
               { n: number(type.usage.input) }, { n: number(type.usage.cacheRead) }, { n: number(type.usage.cacheWrite) },
