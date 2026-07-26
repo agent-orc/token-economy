@@ -1,0 +1,10 @@
+{
+  "relatedTasks": [
+    {
+      "key": "TE-16",
+      "title": "Research: token cost dynamics - long session vs short sessions (caching, context growth, compaction, break-even)",
+      "linkedAt": "2026-07-25T13:39:50.7015697Z",
+      "source": "auto"
+    }
+  ]
+}
