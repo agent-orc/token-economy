@@ -1,0 +1,579 @@
+{
+  "schemaVersion": 1,
+  "generatedAtUtc": "2026-07-26T20:27:02.651722+00:00",
+  "priceCatalogPath": "src/TokenEconomy/catalog/model-prices.json",
+  "byModel": {
+    "source": {
+      "corpusId": "curated-hard-cases-v1",
+      "runId": "20260725T120544879Z",
+      "startedAtUtc": "2026-07-25T12:05:44.879647Z",
+      "completedAtUtc": "2026-07-25T12:32:35.9127773Z",
+      "evidencePath": "benchmarks/results/document-to-text/curated-hard-cases-v1/20260725T120544879Z.json",
+      "pricedAtUtc": "2026-07-25T12:05:44.879647Z",
+      "cases": 60,
+      "casesPassed": 38,
+      "casesWithUsage": 43,
+      "casesWithoutUsage": 17,
+      "usage": {
+        "input": 108231,
+        "output": 16978,
+        "cacheRead": 2869929,
+        "cacheWrite": 516884
+      },
+      "tokens": 3512022,
+      "failedCasesWithUsage": 5,
+      "failedCaseTokens": 360681,
+      "pricedModels": 9
+    },
+    "models": [
+      {
+        "model": "claude-opus-4-7",
+        "cases": 4,
+        "casesPassed": 4,
+        "casesWithUsage": 4,
+        "usage": {
+          "input": 37,
+          "output": 1424,
+          "cacheRead": 411120,
+          "cacheWrite": 76594
+        },
+        "tokens": 489175,
+        "cost": {
+          "status": "Resolved",
+          "currency": "USD",
+          "unconfirmed": false,
+          "totalUsd": 0.720058,
+          "components": {
+            "input": 0.000185,
+            "output": 0.0356,
+            "cacheRead": 0.20556,
+            "cacheWrite": 0.478712
+          }
+        }
+      },
+      {
+        "model": "claude-sonnet-5",
+        "cases": 4,
+        "casesPassed": 4,
+        "casesWithUsage": 4,
+        "usage": {
+          "input": 24,
+          "output": 1303,
+          "cacheRead": 409541,
+          "cacheWrite": 75726
+        },
+        "tokens": 486594,
+        "cost": {
+          "status": "Resolved",
+          "currency": "USD",
+          "unconfirmed": false,
+          "totalUsd": 0.284301,
+          "components": {
+            "input": 4.8e-05,
+            "output": 0.01303,
+            "cacheRead": 0.081908,
+            "cacheWrite": 0.189315
+          }
+        }
+      },
+      {
+        "model": "claude-haiku-4-5",
+        "cases": 4,
+        "casesPassed": 1,
+        "casesWithUsage": 4,
+        "usage": {
+          "input": 98,
+          "output": 2084,
+          "cacheRead": 379556,
+          "cacheWrite": 45333
+        },
+        "tokens": 427071,
+        "cost": {
+          "status": "Resolved",
+          "currency": "USD",
+          "unconfirmed": false,
+          "totalUsd": 0.10514,
+          "components": {
+            "input": 9.8e-05,
+            "output": 0.01042,
+            "cacheRead": 0.037956,
+            "cacheWrite": 0.056666
+          }
+        }
+      },
+      {
+        "model": "claude-fable-5",
+        "cases": 4,
+        "casesPassed": 4,
+        "casesWithUsage": 4,
+        "usage": {
+          "input": 13704,
+          "output": 1396,
+          "cacheRead": 284906,
+          "cacheWrite": 55009
+        },
+        "tokens": 355015,
+        "cost": {
+          "status": "Resolved",
+          "currency": "USD",
+          "unconfirmed": false,
+          "totalUsd": 1.179358,
+          "components": {
+            "input": 0.13704,
+            "output": 0.0698,
+            "cacheRead": 0.284906,
+            "cacheWrite": 0.687612
+          }
+        }
+      },
+      {
+        "model": "claude-sonnet-4-6",
+        "cases": 4,
+        "casesPassed": 3,
+        "casesWithUsage": 4,
+        "usage": {
+          "input": 20,
+          "output": 1014,
+          "cacheRead": 238746,
+          "cacheWrite": 55823
+        },
+        "tokens": 295603,
+        "cost": {
+          "status": "Resolved",
+          "currency": "USD",
+          "unconfirmed": false,
+          "totalUsd": 0.29623,
+          "components": {
+            "input": 6e-05,
+            "output": 0.01521,
+            "cacheRead": 0.071624,
+            "cacheWrite": 0.209336
+          }
+        }
+      },
+      {
+        "model": "claude-opus-4-8",
+        "cases": 4,
+        "casesPassed": 4,
+        "casesWithUsage": 4,
+        "usage": {
+          "input": 14674,
+          "output": 1371,
+          "cacheRead": 241179,
+          "cacheWrite": 28613
+        },
+        "tokens": 285837,
+        "cost": {
+          "status": "Resolved",
+          "currency": "USD",
+          "unconfirmed": false,
+          "totalUsd": 0.407066,
+          "components": {
+            "input": 0.07337,
+            "output": 0.034275,
+            "cacheRead": 0.12059,
+            "cacheWrite": 0.178831
+          }
+        }
+      },
+      {
+        "model": "claude-opus-4-1",
+        "cases": 4,
+        "casesPassed": 4,
+        "casesWithUsage": 4,
+        "usage": {
+          "input": 13700,
+          "output": 1390,
+          "cacheRead": 240899,
+          "cacheWrite": 28239
+        },
+        "tokens": 284228,
+        "cost": {
+          "status": "NoPriceForDate",
+          "totalUsd": null
+        }
+      },
+      {
+        "model": "claude-opus-4-5",
+        "cases": 4,
+        "casesPassed": 4,
+        "casesWithUsage": 4,
+        "usage": {
+          "input": 53,
+          "output": 1045,
+          "cacheRead": 177256,
+          "cacheWrite": 63995
+        },
+        "tokens": 242349,
+        "cost": {
+          "status": "Resolved",
+          "currency": "USD",
+          "unconfirmed": true,
+          "totalUsd": 0.514987,
+          "components": {
+            "input": 0.000265,
+            "output": 0.026125,
+            "cacheRead": 0.088628,
+            "cacheWrite": 0.399969
+          }
+        }
+      },
+      {
+        "model": "claude-opus-4-6",
+        "cases": 4,
+        "casesPassed": 4,
+        "casesWithUsage": 4,
+        "usage": {
+          "input": 18,
+          "output": 1022,
+          "cacheRead": 185670,
+          "cacheWrite": 55160
+        },
+        "tokens": 241870,
+        "cost": {
+          "status": "Resolved",
+          "currency": "USD",
+          "unconfirmed": false,
+          "totalUsd": 0.463225,
+          "components": {
+            "input": 9e-05,
+            "output": 0.02555,
+            "cacheRead": 0.092835,
+            "cacheWrite": 0.34475
+          }
+        }
+      },
+      {
+        "model": "gpt-5.5",
+        "cases": 4,
+        "casesPassed": 4,
+        "casesWithUsage": 4,
+        "usage": {
+          "input": 65855,
+          "output": 4047,
+          "cacheRead": 153600,
+          "cacheWrite": 0
+        },
+        "tokens": 223502,
+        "cost": {
+          "status": "NoPriceForDate",
+          "totalUsd": null
+        }
+      },
+      {
+        "model": "claude-sonnet-4-5",
+        "cases": 4,
+        "casesPassed": 2,
+        "casesWithUsage": 3,
+        "usage": {
+          "input": 48,
+          "output": 882,
+          "cacheRead": 147456,
+          "cacheWrite": 32392
+        },
+        "tokens": 180778,
+        "cost": {
+          "status": "Resolved",
+          "currency": "USD",
+          "unconfirmed": true,
+          "totalUsd": 0.179081,
+          "components": {
+            "input": 0.000144,
+            "output": 0.01323,
+            "cacheRead": 0.044237,
+            "cacheWrite": 0.12147
+          }
+        }
+      },
+      {
+        "model": "claude-mythos-5",
+        "cases": 4,
+        "casesPassed": 0,
+        "casesWithUsage": 0,
+        "usage": {
+          "input": 0,
+          "output": 0,
+          "cacheRead": 0,
+          "cacheWrite": 0
+        },
+        "tokens": 0,
+        "cost": {
+          "status": "Resolved",
+          "currency": "USD",
+          "unconfirmed": false,
+          "totalUsd": 0.0,
+          "components": {
+            "input": 0.0,
+            "output": 0.0,
+            "cacheRead": 0.0,
+            "cacheWrite": 0.0
+          }
+        }
+      },
+      {
+        "model": "gpt-5",
+        "cases": 4,
+        "casesPassed": 0,
+        "casesWithUsage": 0,
+        "usage": {
+          "input": 0,
+          "output": 0,
+          "cacheRead": 0,
+          "cacheWrite": 0
+        },
+        "tokens": 0,
+        "cost": {
+          "status": "NoPriceForDate",
+          "totalUsd": null
+        }
+      },
+      {
+        "model": "gpt-5-codex",
+        "cases": 4,
+        "casesPassed": 0,
+        "casesWithUsage": 0,
+        "usage": {
+          "input": 0,
+          "output": 0,
+          "cacheRead": 0,
+          "cacheWrite": 0
+        },
+        "tokens": 0,
+        "cost": {
+          "status": "NoPriceForDate",
+          "totalUsd": null
+        }
+      },
+      {
+        "model": "gpt-5.6",
+        "cases": 4,
+        "casesPassed": 0,
+        "casesWithUsage": 0,
+        "usage": {
+          "input": 0,
+          "output": 0,
+          "cacheRead": 0,
+          "cacheWrite": 0
+        },
+        "tokens": 0,
+        "cost": {
+          "status": "NoPriceForDate",
+          "totalUsd": null
+        }
+      }
+    ]
+  },
+  "byDocumentType": {
+    "source": {
+      "corpusId": "curated-hard-cases-v1",
+      "runId": "20260725T120544879Z",
+      "startedAtUtc": "2026-07-25T12:05:44.879647Z",
+      "completedAtUtc": "2026-07-25T12:32:35.9127773Z",
+      "evidencePath": "benchmarks/results/document-to-text/curated-hard-cases-v1/20260725T120544879Z.json",
+      "pricedAtUtc": "2026-07-25T12:05:44.879647Z",
+      "cases": 60,
+      "casesPassed": 38,
+      "casesWithUsage": 43,
+      "casesWithoutUsage": 17,
+      "usage": {
+        "input": 108231,
+        "output": 16978,
+        "cacheRead": 2869929,
+        "cacheWrite": 516884
+      },
+      "tokens": 3512022,
+      "failedCasesWithUsage": 5,
+      "failedCaseTokens": 360681,
+      "pricedModels": 9
+    },
+    "documentTypes": [
+      {
+        "documentType": "Pdf",
+        "cases": 15,
+        "casesPassed": 9,
+        "casesWithUsage": 10,
+        "usage": {
+          "input": 37272,
+          "output": 3836,
+          "cacheRead": 631802,
+          "cacheWrite": 239061
+        },
+        "tokens": 911971
+      },
+      {
+        "documentType": "Word",
+        "cases": 15,
+        "casesPassed": 10,
+        "casesWithUsage": 11,
+        "usage": {
+          "input": 14301,
+          "output": 3936,
+          "cacheRead": 620304,
+          "cacheWrite": 89981
+        },
+        "tokens": 728522
+      },
+      {
+        "documentType": "Spreadsheet",
+        "cases": 15,
+        "casesPassed": 8,
+        "casesWithUsage": 11,
+        "usage": {
+          "input": 25809,
+          "output": 3747,
+          "cacheRead": 677212,
+          "cacheWrite": 92434
+        },
+        "tokens": 799202
+      },
+      {
+        "documentType": "Presentation",
+        "cases": 15,
+        "casesPassed": 11,
+        "casesWithUsage": 11,
+        "usage": {
+          "input": 30849,
+          "output": 5459,
+          "cacheRead": 940611,
+          "cacheWrite": 95408
+        },
+        "tokens": 1072327
+      }
+    ]
+  },
+  "byCard": {
+    "source": {
+      "evidencePath": "results/complexity-backtest/agent-studio-30-card-backtest.json",
+      "generatedAtUtc": "2026-07-25T12:36:06.1763233+00:00",
+      "selection": "30 newest non-fixture live or archived cards with prompt text and at least one token entry, ordered by task last activity",
+      "reissueMeasurement": "measured entry count minus one",
+      "cards": 30,
+      "tokens": 300740433,
+      "reissuedCards": 23,
+      "reissuedTokens": 287251693
+    },
+    "taskTypes": [
+      {
+        "taskType": "feature",
+        "cards": 26,
+        "tokens": 162275750,
+        "medianTokens": 3980432,
+        "reissues": 53
+      },
+      {
+        "taskType": "bug",
+        "cards": 3,
+        "tokens": 121377218,
+        "medianTokens": 26460121,
+        "reissues": 12
+      },
+      {
+        "taskType": "chore",
+        "cards": 1,
+        "tokens": 17087465,
+        "medianTokens": 17087465,
+        "reissues": 3
+      }
+    ],
+    "reissueBuckets": [
+      {
+        "reissues": "0",
+        "cards": 7,
+        "tokens": 13488740
+      },
+      {
+        "reissues": "1",
+        "cards": 7,
+        "tokens": 44873918
+      },
+      {
+        "reissues": "2",
+        "cards": 6,
+        "tokens": 61678871
+      },
+      {
+        "reissues": "3+",
+        "cards": 10,
+        "tokens": 180698904
+      }
+    ]
+  },
+  "session": {
+    "source": {
+      "evidencePath": "docs/analyses/long-vs-short-session-cost.md",
+      "title": "Long-lived orchestrator session",
+      "model": "claude-haiku-4-5",
+      "sessionId": "18b22f45-7e98-4ce2-b8f5-7d6c1bbb7bf5",
+      "reproducibility": "Read-only Agent Studio bus query; the raw responses are not checked in."
+    },
+    "turns": [
+      {
+        "turn": 1,
+        "completedAtUtc": "2026-07-11T01:53:11Z",
+        "usage": {
+          "input": 9,
+          "output": 418,
+          "cacheRead": 23015,
+          "cacheWrite": 10526
+        },
+        "tokens": 33968,
+        "costUsd": 0.017558,
+        "costComponents": {
+          "input": 9e-06,
+          "output": 0.00209,
+          "cacheRead": 0.002302,
+          "cacheWrite": 0.013158
+        }
+      },
+      {
+        "turn": 2,
+        "completedAtUtc": "2026-07-11T11:30:12Z",
+        "usage": {
+          "input": 10,
+          "output": 531,
+          "cacheRead": 23015,
+          "cacheWrite": 11362
+        },
+        "tokens": 34918,
+        "costUsd": 0.019169,
+        "costComponents": {
+          "input": 1e-05,
+          "output": 0.002655,
+          "cacheRead": 0.002302,
+          "cacheWrite": 0.014202
+        }
+      },
+      {
+        "turn": 3,
+        "completedAtUtc": "2026-07-11T19:50:31Z",
+        "usage": {
+          "input": 10,
+          "output": 190,
+          "cacheRead": 23015,
+          "cacheWrite": 12175
+        },
+        "tokens": 35390,
+        "costUsd": 0.01848,
+        "costComponents": {
+          "input": 1e-05,
+          "output": 0.00095,
+          "cacheRead": 0.002302,
+          "cacheWrite": 0.015219
+        }
+      }
+    ],
+    "totals": {
+      "usage": {
+        "input": 29,
+        "output": 1139,
+        "cacheRead": 69045,
+        "cacheWrite": 34063
+      },
+      "tokens": 104276,
+      "costUsd": 0.055207,
+      "cacheWriteCostUsd": 0.042579,
+      "cacheWriteCostShare": 0.7713,
+      "spanHours": 17.96
+    }
+  }
+}

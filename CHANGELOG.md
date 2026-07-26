@@ -15,6 +15,13 @@ SemVer; pre-1.0 the public API may still shift).
   strongest coding default for heavy design. Consumers that read
   `ModelPriceCatalog.Default` / `ModelEfficiencyMatrix.Default` pick it up with
   no change of their own; cost class stays derived from the catalog.
+- Token-usage charts on the website, rendered from a new generated
+  `website/data/token-usage.json`: tokens per model, per document class, per card
+  task class, per measured reissue count, and one measured session over time.
+  Dollar figures are list prices resolved from the dated catalog at each run's own
+  timestamp, and `WebsiteTokenUsageDataTests` re-costs the committed artifact
+  through `ModelPriceCatalog.ComputeCost` so the site cannot drift from the
+  library (TE-20).
 - An all-model document-to-text benchmark vertical with a versioned PDF,
   Word/RTF, SpreadsheetML and flat-ODF presentation hard-case corpus,
   deterministic visible/hidden-content oracles, append-only raw extraction

@@ -30,10 +30,14 @@
       --code-text: #24324a;
       --ok: #167a4a;
       --warn: #9a6b00;
-      --chart-input: #2f6df0;
-      --chart-output: #7c55c7;
-      --chart-cache-read: #26a377;
-      --chart-cache-write: #d18b20;
+      /* Chart series: the four token components, in stack order. Validated
+         categorical slots (blue → orange → aqua → yellow); each adjacent pair
+         clears the colour-vision-deficiency and normal-vision separation
+         floors, so a stacked bar stays readable without relying on hue alone. */
+      --series-input: #2a78d6;
+      --series-cache-read: #eb6834;
+      --series-cache-write: #1baf7a;
+      --series-output: #eda100;
       --mono: ui-monospace, "SF Mono", "Cascadia Code", "JetBrains Mono", Menlo, Consolas, monospace;
       --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
     }
@@ -51,10 +55,12 @@
         --code-text: #d3ddef;
         --ok: #4cc38a;
         --warn: #e0b341;
-        --chart-input: #6ea0ff;
-        --chart-output: #b993f2;
-        --chart-cache-read: #55c99a;
-        --chart-cache-write: #e4ae55;
+        /* Re-stepped for the dark panel — the same four hues, chosen for the
+           dark surface rather than an automatic lightening of the light set. */
+        --series-input: #3987e5;
+        --series-cache-read: #d95926;
+        --series-cache-write: #199e70;
+        --series-output: #c98500;
       }
     }
 
@@ -201,34 +207,81 @@
     .state.planned, .state.pending { color: var(--warn); }
     .data-note { color: var(--muted); font-size: .88rem; margin-top: 14px; }
 
-    /* usage charts */
+    /* ---- token-usage charts ----
+       Thin marks, no gridlines, values labelled directly on every row, and a
+       table view underneath: in light mode two of the four series sit below 3:1
+       against the panel, so the numbers — never the fill alone — carry the data. */
     .chart-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
     .chart-card { background: var(--panel); border: 1px solid var(--border); border-radius: 12px; padding: 20px; min-width: 0; }
-    .chart-card h3 { margin: 0 0 4px; }
-    .chart-card .chart-kicker { color: var(--muted); font-size: .84rem; margin: 0 0 20px; }
-    .chart-row { margin-top: 17px; }
-    .chart-label { display: flex; justify-content: space-between; gap: 12px; align-items: baseline; margin-bottom: 6px; font-size: .9rem; }
-    .chart-label strong { font-family: var(--mono); font-size: .84rem; white-space: nowrap; }
-    .bar-track { height: 12px; border-radius: 999px; background: var(--bg-alt); overflow: hidden; }
-    .bar-fill { height: 100%; border-radius: inherit; background: var(--accent); min-width: 2px; }
-    .stack { display: flex; height: 14px; border-radius: 999px; background: var(--bg-alt); overflow: hidden; }
-    .stack > span { min-width: 1px; }
-    .stack .input { background: var(--chart-input); }
-    .stack .output { background: var(--chart-output); }
-    .stack .cache-read { background: var(--chart-cache-read); }
-    .stack .cache-write { background: var(--chart-cache-write); }
+    .chart-card.wide { grid-column: 1 / -1; }
+    .chart-card h3 { margin: 0 0 4px; font-size: 1.05rem; }
+    .chart-card .chart-kicker { color: var(--muted); font-size: .84rem; margin: 0 0 18px; }
+    .chart-note { color: var(--muted); font-size: .82rem; margin: 16px 0 0; }
+    .chart-note code { font-size: .95em; }
+
+    .bar-row { margin-top: 14px; }
+    .bar-row:first-child { margin-top: 0; }
+    .bar-head { display: flex; justify-content: space-between; gap: 12px; align-items: baseline; margin-bottom: 5px; font-size: .88rem; }
+    .bar-head span { overflow-wrap: anywhere; }
+    .bar-head strong { font-family: var(--mono); font-size: .82rem; font-variant-numeric: tabular-nums; white-space: nowrap; }
+    /* 2px of surface between segments does the separating — no strokes. */
+    .bar { display: flex; gap: 2px; height: 12px; }
+    .bar > i { display: block; min-width: 2px; }
+    .bar > i:last-child { border-radius: 0 4px 4px 0; }
+    .bar.single > i { border-radius: 0 4px 4px 0; }
+    i.s-input { background: var(--series-input); }
+    i.s-cache-read { background: var(--series-cache-read); }
+    i.s-cache-write { background: var(--series-cache-write); }
+    i.s-output { background: var(--series-output); }
+    i.s-single { background: var(--series-input); }
+
+    /* Columns over time: one measure (tokens) on one axis; the cost of the same
+       session is stated as a figure instead of a second, arbitrary y-scale. */
+    .column-chart { max-width: 560px; }
+    .columns { display: flex; align-items: flex-end; gap: 14px; border-bottom: 1px solid var(--border); }
+    .column { flex: 1 1 0; min-width: 0; }
+    /* A fixed plot height so each column's percentage height is exact — a flex
+       box would shrink the tallest column most and distort the encoding. */
+    .column .plot { height: 148px; display: flex; align-items: flex-end; }
+    /* Cap the column, don't fill the slot: the band's leftover space is air. */
+    .column .stack { display: flex; flex-direction: column-reverse; gap: 2px; width: 100%; max-width: 24px; margin: 0 auto; }
+    .column .stack > i { display: block; width: 100%; min-height: 2px; }
+    .column .stack > i:last-child { border-radius: 4px 4px 0 0; }
+    .column .cap { font-family: var(--mono); font-size: .74rem; font-variant-numeric: tabular-nums; text-align: center; margin-bottom: 5px; white-space: nowrap; }
+    .column-axis { display: flex; gap: 14px; margin-top: 8px; }
+    .column-axis div { flex: 1 1 0; min-width: 0; text-align: center; color: var(--muted); font-size: .76rem; }
+    .column-axis div strong { display: block; color: var(--text); font-weight: 600; }
+
     .legend { display: flex; flex-wrap: wrap; gap: 8px 14px; margin-top: 18px; color: var(--muted); font-size: .8rem; }
     .legend span { display: inline-flex; align-items: center; gap: 6px; }
     .legend i { width: 9px; height: 9px; border-radius: 2px; display: inline-block; }
+
     .coverage-list { display: grid; gap: 12px; }
     .coverage-item { border-top: 1px solid var(--border); padding-top: 12px; }
     .coverage-item:first-child { border-top: 0; padding-top: 0; }
     .coverage-item strong { display: block; font-size: .92rem; }
     .coverage-item span { color: var(--muted); font-size: .86rem; }
-    .chart-summary { display: flex; flex-wrap: wrap; gap: 10px; margin: 0 0 16px; }
-    .metric { border: 1px solid var(--border); border-radius: 9px; padding: 9px 12px; min-width: 130px; }
-    .metric strong { display: block; font-family: var(--mono); font-size: 1.15rem; }
-    .metric span { color: var(--muted); font-size: .78rem; }
+
+    .chart-summary { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; margin: 0 0 16px; }
+    @media (max-width: 720px) { .chart-summary { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+    .metric { border: 1px solid var(--border); border-radius: 9px; padding: 10px 13px; min-width: 0; }
+    .metric strong { display: block; font-size: 1.2rem; font-weight: 600; letter-spacing: -0.01em; }
+    .metric span { display: block; color: var(--muted); font-size: .78rem; }
+
+    details.table-view { margin-top: 16px; border: 1px solid var(--border); border-radius: 10px; padding: 12px 16px; }
+    details.table-view summary { cursor: pointer; font-size: .9rem; color: var(--accent); }
+    details.table-view h4 { margin: 18px 0 0; font-size: .92rem; }
+    details.table-view table { min-width: 460px; }
+
+    .chart-tip {
+      position: fixed; z-index: 40; pointer-events: none; opacity: 0;
+      transform: translate(-50%, -100%); transition: opacity .08s linear;
+      background: var(--panel); color: var(--text); border: 1px solid var(--border);
+      border-radius: 8px; padding: 6px 10px; font-size: .8rem; line-height: 1.45;
+      box-shadow: 0 6px 18px rgb(0 0 0 / 18%); max-width: 240px; white-space: pre-line;
+    }
+    .chart-tip.on { opacity: 1; }
+    @media (prefers-reduced-motion: reduce) { .chart-tip { transition: none; } }
     @media (max-width: 720px) { .chart-grid { grid-template-columns: 1fr; } }
   </style>
 </head>
@@ -331,11 +384,21 @@
     <section id="usage">
       <div class="wrap">
         <h2>Token usage, made visible</h2>
-        <p class="sub">A compact view of the token components recorded by this repository's published benchmark runs. Values come from versioned evidence, not estimates.</p>
+        <p class="sub">Where the tokens actually went: per model, per task class, per retry, and across one
+        measured session. Every bar is computed from checked-in evidence in this repository — measured runs,
+        real card history, and list prices resolved from the dated catalog. Nothing here is illustrative,
+        and an unpriced model stays unpriced.</p>
         <div id="usage-charts" aria-live="polite">
           <p class="comment-note">Loading published token evidence&hellip;</p>
         </div>
-        <p class="comment-note">Source: the raw, append-only cases under <code>benchmarks/results/</code>, projected into <code>website/data/benchmarks.json</code> by the checked site-data build. Cache-read tokens are shown as reported and are not added to input a second time.</p>
+        <p class="comment-note">Source: <code>website/data/token-usage.json</code>, generated by
+        <code>scripts/generate-website-data.py</code> from the append-only cases under
+        <code>benchmarks/results/</code>, the card backtest snapshot in <code>results/</code>, and the
+        session analysis in <code>docs/analyses/</code>. Dollar figures are list prices from
+        <code>src/TokenEconomy/catalog/model-prices.json</code> resolved at each run's own timestamp; a
+        unit test re-costs the published file through <code>ComputeCost</code> so the site cannot drift
+        from the library. The four token components are mutually exclusive — cache reads are never added
+        to input a second time.</p>
       </div>
     </section>
 
@@ -628,30 +691,6 @@ var matrix  = ModelEfficiencyMatrix.Default;  <span class="cmt">// cost is deriv
 
       fetch('data/benchmarks.json').then(response => response.ok ? response.json() : Promise.reject(response.status)).then(data => {
         if (!data.studies.length) { benchmarkHost.textContent = 'No published benchmark results yet.'; return; }
-        const variantsWithUsage = data.studies.flatMap(study => study.variants
-          .filter(variant => variant.usage)
-          .map(variant => ({ ...variant, setupId: study.setupId, startedAtUtc: study.startedAtUtc })));
-        if (variantsWithUsage.length) {
-          const total = usage => usage.input + usage.output + usage.cacheRead + usage.cacheWrite;
-          const maxTokens = Math.max(...variantsWithUsage.map(variant => total(variant.usage)));
-          const allTokens = variantsWithUsage.reduce((sum, variant) => sum + total(variant.usage), 0);
-          const componentNames = { input: 'Input', output: 'Output', cacheRead: 'Cache read', cacheWrite: 'Cache write' };
-          const componentClasses = { input: 'input', output: 'output', cacheRead: 'cache-read', cacheWrite: 'cache-write' };
-          const modelBars = variantsWithUsage.map(variant => {
-            const tokens = total(variant.usage);
-            return `<div class="chart-row"><div class="chart-label"><span>${escape(variant.model)}</span><strong>${number(tokens)}</strong></div><div class="bar-track" role="img" aria-label="${escape(variant.model)}: ${number(tokens)} total tokens"><div class="bar-fill" style="width:${(tokens / maxTokens * 100).toFixed(2)}%"></div></div></div>`;
-          }).join('');
-          const compositionBars = variantsWithUsage.map(variant => {
-            const tokens = total(variant.usage);
-            const segments = Object.keys(componentNames).map(component => `<span class="${componentClasses[component]}" style="width:${(variant.usage[component] / tokens * 100).toFixed(2)}%" title="${componentNames[component]}: ${number(variant.usage[component])}"></span>`).join('');
-            return `<div class="chart-row"><div class="chart-label"><span>${escape(variant.model)}</span><strong>${number(tokens)}</strong></div><div class="stack" role="img" aria-label="${escape(variant.model)}: ${Object.keys(componentNames).map(component => `${componentNames[component]} ${number(variant.usage[component])}`).join(', ')}">${segments}</div></div>`;
-          }).join('');
-          const legend = Object.keys(componentNames).map(component => `<span><i class="${componentClasses[component]}" style="background:var(--chart-${component.replace(/[A-Z]/g, letter => '-' + letter.toLowerCase())})"></i>${componentNames[component]}</span>`).join('');
-          const dates = [...new Set(variantsWithUsage.map(variant => variant.startedAtUtc.slice(0, 10)))];
-          usageHost.innerHTML = `<div class="chart-summary"><div class="metric"><strong>${number(allTokens)}</strong><span>observed tokens</span></div><div class="metric"><strong>${variantsWithUsage.length}</strong><span>model runs</span></div><div class="metric"><strong>${data.studies.length}</strong><span>published A/B study</span></div></div><div class="chart-grid"><article class="chart-card"><h3>Tokens by model</h3><p class="chart-kicker">Total observed tokens; longer means more.</p>${modelBars}</article><article class="chart-card"><h3>Token composition</h3><p class="chart-kicker">Share of each run by reported component.</p>${compositionBars}<div class="legend">${legend}</div></article><article class="chart-card"><h3>Coverage &amp; gaps</h3><p class="chart-kicker">What the current evidence can—and cannot—support.</p><div class="coverage-list"><div class="coverage-item"><strong>Model comparison · available</strong><span>${variantsWithUsage.length} successful runs in ${data.studies.length} controlled setup.</span></div><div class="coverage-item"><strong>Task class and retries · not recorded</strong><span>No coding/test/review labels or retry chain exist in the published schema.</span></div><div class="coverage-item"><strong>Cost · not supplied</strong><span>The authoritative cost fields for these runs are null, so no cost chart is shown.</span></div><div class="coverage-item"><strong>Trend · not enough observations</strong><span>${dates.length} distinct run date${dates.length === 1 ? '' : 's'} cannot establish a time series.</span></div></div></article><article class="chart-card"><h3>Reading this snapshot</h3><p class="chart-kicker">Scope matters more than a dramatic percentage.</p><p>These bars describe one small repository-repair benchmark, not production traffic. Both models solved the same fixture once. Use the chart to inspect measured token shape; use more append-only runs before inferring a durable model advantage.</p><p class="data-note">Latest evidence: <code>${escape(dates.sort().at(-1))}</code> · setup <code>${escape(variantsWithUsage.at(-1).setupId)}</code></p></article></div>`;
-        } else {
-          usageHost.textContent = 'Published benchmark runs do not contain token-component evidence yet.';
-        }
         benchmarkHost.innerHTML = data.studies.map(study => {
           const variants = study.variants.map(variant => `<tr><td>${escape(variant.variantId)}${variant.variantId === study.winner ? ' <span class="state">WINNER</span>' : ''}</td><td class="num">${variant.successes} / ${variant.runs}</td><td class="num">${number(variant.averageTokens)}</td><td class="num">${seconds(variant.averageDurationMs)}</td><td>${variant.totalCostUsd === null ? 'Not supplied' : '$' + (variant.totalCostUsd / variant.runs).toFixed(4)}</td></tr>`).join('');
           const date = new Date(study.startedAtUtc).toISOString().replace('.000', '').replace(/:\d\d\.\d+Z$/, 'Z');
@@ -661,10 +700,181 @@ var matrix  = ModelEfficiencyMatrix.Default;  <span class="cmt">// cost is deriv
           const date = new Date(study.startedAtUtc).toISOString().replace('.000', '').replace(/:\d\d\.\d+Z$/, 'Z');
           return `<h3>Published capability corpus: ${escape(study.corpusId)}</h3><p>Run <code>${escape(date)}</code>. Each row is one model/document-type attempt; “Not demonstrated” is limited to this corpus and does not mean unsupported.</p><div class="table-scroll"><table><thead><tr><th>Model</th><th>Document type</th><th class="num">Passed</th><th>Observed level</th></tr></thead><tbody>${rows}</tbody></table></div>`;
         }).join('') + `<p class="data-note">Generated from ${data.studies.length} A/B study/studies and ${(data.capabilityStudies || []).length} capability corpus/corpora.</p>`;
-      }).catch(() => {
-        benchmarkHost.textContent = 'Published benchmark data could not be loaded.';
-        usageHost.textContent = 'Published token evidence could not be loaded.';
+      }).catch(() => { benchmarkHost.textContent = 'Published benchmark data could not be loaded.'; });
+
+      // ---- token-usage charts -------------------------------------------------
+      // One shared tooltip element, delegated: every mark carries its numbers in
+      // data-tip as plain text, so nothing here can inject markup.
+      const tip = document.createElement('div');
+      tip.className = 'chart-tip';
+      document.body.appendChild(tip);
+      // Keep the tooltip inside the viewport: it is centred on the pointer, so a
+      // mark near either edge would otherwise push it off screen.
+      const moveTip = event => {
+        const half = tip.offsetWidth / 2 + 8;
+        tip.style.left = `${Math.min(Math.max(event.clientX, half), window.innerWidth - half)}px`;
+        tip.style.top = `${Math.max(event.clientY - 12, tip.offsetHeight + 8)}px`;
+      };
+      document.addEventListener('pointerover', event => {
+        const mark = event.target.closest('[data-tip]');
+        if (!mark) return;
+        tip.textContent = mark.dataset.tip;
+        tip.classList.add('on');
+        moveTip(event);
       });
+      document.addEventListener('pointermove', event => { if (tip.classList.contains('on')) moveTip(event); });
+      document.addEventListener('pointerout', event => {
+        if (event.target.closest('[data-tip]')) tip.classList.remove('on');
+      });
+
+      const COMPONENTS = [
+        { key: 'input', label: 'Fresh input', cls: 's-input' },
+        { key: 'cacheRead', label: 'Cache read', cls: 's-cache-read' },
+        { key: 'cacheWrite', label: 'Cache write', cls: 's-cache-write' },
+        { key: 'output', label: 'Output', cls: 's-output' },
+      ];
+      const compact = value => value >= 1e6 ? `${(value / 1e6).toFixed(2)}M`
+        : value >= 1e4 ? `${Math.round(value / 1e3)}K` : number(value);
+      const usd = (value, digits = 4) => `$${value.toFixed(digits)}`;
+      const percent = value => `${(value * 100).toFixed(1)} %`;
+      const share = (part, whole) => whole > 0 ? percent(part / whole) : '—';
+      const width = (value, max) => `${max > 0 ? (value / max * 100).toFixed(3) : 0}%`;
+      // Two or more series always get a legend; identity never rests on hue alone.
+      const legend = `<div class="legend">${COMPONENTS
+        .map(component => `<span><i class="${component.cls}"></i>${component.label}</span>`).join('')}</div>`;
+      const metric = (value, label) => `<div class="metric"><strong>${value}</strong><span>${label}</span></div>`;
+      const clock = stamp => stamp.replace('T', ' ').replace('Z', ' UTC');
+      const cards = count => `${count} card${count === 1 ? '' : 's'}`;
+      const reissueLabel = bucket => `${bucket.reissues} reissue${bucket.reissues === '1' ? '' : 's'}`;
+
+      // A stacked magnitude bar: length is the total, segments are the components.
+      const stackedBar = (name, usage, tokens, max, note) => {
+        const segments = COMPONENTS.filter(component => usage[component.key] > 0).map(component =>
+          `<i class="${component.cls}" style="width:${width(usage[component.key], max)}" data-tip="${escape(name)} · ${component.label}\n${number(usage[component.key])} tokens · ${share(usage[component.key], tokens)} of this row"></i>`).join('');
+        const aria = `${name}: ${number(tokens)} tokens — ` + COMPONENTS
+          .map(component => `${component.label} ${number(usage[component.key])}`).join(', ');
+        return `<div class="bar-row"><div class="bar-head"><span>${escape(name)}${note ? ` <span style="color:var(--muted)">${escape(note)}</span>` : ''}</span><strong>${number(tokens)}</strong></div>`
+          + `<div class="bar" role="img" aria-label="${escape(aria)}">${segments}</div></div>`;
+      };
+
+      // One measure, one colour: no value-ramp across categories.
+      const singleBar = (name, value, max, valueLabel, tipText, note) =>
+        `<div class="bar-row"><div class="bar-head"><span>${escape(name)}${note ? ` <span style="color:var(--muted)">${escape(note)}</span>` : ''}</span><strong>${valueLabel}</strong></div>`
+        + `<div class="bar single" role="img" aria-label="${escape(`${name}: ${valueLabel}`)}">`
+        + `<i class="s-single" style="width:${width(value, max)}" data-tip="${escape(tipText)}"></i></div></div>`;
+
+      const table = (caption, head, rows) => `<h4>${caption}</h4><div class="table-scroll"><table>`
+        + `<thead><tr>${head.map(cell => `<th${cell.startsWith('#') ? ' class="num"' : ''}>${cell.replace(/^#/, '')}</th>`).join('')}</tr></thead>`
+        + `<tbody>${rows.map(row => `<tr>${row.map(cell => `<td${typeof cell === 'object' ? ' class="num"' : ''}>${typeof cell === 'object' ? cell.n : escape(cell)}</td>`).join('')}</tr>`).join('')}</tbody></table></div>`;
+
+      fetch('data/token-usage.json').then(response => response.ok ? response.json() : Promise.reject(response.status)).then(data => {
+        const run = data.byModel.source;
+        const withUsage = data.byModel.models.filter(model => model.tokens > 0);
+        const withoutUsage = data.byModel.models.filter(model => model.tokens === 0);
+        const priced = withUsage.filter(model => model.cost.status === 'Resolved')
+          .slice().sort((left, right) => right.cost.totalUsd - left.cost.totalUsd);
+        const unpriced = withUsage.filter(model => model.cost.status !== 'Resolved');
+        const pricedTotal = priced.reduce((sum, model) => sum + model.cost.totalUsd, 0);
+        const maxModelTokens = Math.max(...withUsage.map(model => model.tokens));
+        const maxCost = Math.max(...priced.map(model => model.cost.totalUsd));
+
+        const documentTypes = data.byDocumentType.documentTypes;
+        const maxTypeTokens = Math.max(...documentTypes.map(type => type.tokens));
+
+        const card = data.byCard;
+        const maxTaskTokens = Math.max(...card.taskTypes.map(type => type.tokens));
+        const maxBucketTokens = Math.max(...card.reissueBuckets.map(bucket => bucket.tokens));
+
+        const session = data.session;
+        const maxTurnTokens = Math.max(...session.turns.map(turn => turn.tokens));
+
+        const modelChart = `<article class="chart-card wide"><h3>Tokens by model</h3>`
+          + `<p class="chart-kicker">One capability run, ${run.cases} cases: every model met the same four documents once. Bar length is total tokens; the segments are the four billed components.</p>`
+          + withUsage.map(model => stackedBar(model.model, model.usage, model.tokens, maxModelTokens,
+            `· ${model.casesPassed}/${model.cases} passed`)).join('')
+          + legend
+          + `<p class="chart-note">Cache traffic is ${share(run.usage.cacheRead + run.usage.cacheWrite, run.tokens)} of every token measured here; fresh input is ${share(run.usage.input, run.tokens)} and output ${share(run.usage.output, run.tokens)}. `
+          + (withoutUsage.length ? `A further ${withoutUsage.length} models — ${withoutUsage.map(model => `<code>${escape(model.model)}</code>`).join(', ')} — recorded no tokens at all because their CLI never reported usage. That is a missing measurement, not a frugal model, so they get no bar.` : '')
+          + `</p></article>`;
+
+        const costChart = `<article class="chart-card"><h3>List-price cost by model</h3>`
+          + `<p class="chart-kicker">The same tokens costed at the rate valid on ${escape(run.pricedAtUtc.slice(0, 10))} — the run's own date — through the dated catalog.</p>`
+          + priced.map(model => singleBar(model.model, model.cost.totalUsd, maxCost, usd(model.cost.totalUsd),
+            `${model.model}\n${usd(model.cost.totalUsd)} at list price\ncache write ${usd(model.cost.components.cacheWrite)} · cache read ${usd(model.cost.components.cacheRead)}\noutput ${usd(model.cost.components.output)} · fresh input ${usd(model.cost.components.input)}`,
+            model.cost.unconfirmed ? '· unconfirmed rate' : '')).join('')
+          + `<p class="chart-note">Same corpus, ${(Math.max(...priced.map(model => model.cost.totalUsd)) / Math.min(...priced.map(model => model.cost.totalUsd))).toFixed(0)}× spread in price: tier, not token count, decides the bill. `
+          + (unpriced.length ? `${unpriced.map(model => `<code>${escape(model.model)}</code>`).join(', ')} recorded tokens but ${unpriced.length === 1 ? 'has' : 'have'} no published rate in the catalog, so ${unpriced.length === 1 ? 'its' : 'their'} cost stays <em>unknown</em> — never a silent&nbsp;$0.` : '')
+          + `</p></article>`;
+
+        const classChart = `<article class="chart-card"><h3>Tokens by document class</h3>`
+          + `<p class="chart-kicker">The task class this run records: the same ${run.cases} attempts split by document class instead of by model, ${documentTypes[0].cases} per class.</p>`
+          + documentTypes.map(type => stackedBar(type.documentType, type.usage, type.tokens, maxTypeTokens,
+            `· ${type.casesPassed}/${type.cases} passed`)).join('')
+          + legend
+          + `<p class="chart-note">Class shape differs mostly in cache write: ${escape(documentTypes.slice().sort((left, right) => right.usage.cacheWrite - left.usage.cacheWrite)[0].documentType)} re-primes the most context per attempt.</p></article>`;
+
+        const taskChart = `<article class="chart-card"><h3>Tokens by card task class</h3>`
+          + `<p class="chart-kicker">${card.source.cards} real orchestrator cards, grouped by their recorded task type. Raw reported totals, in tokens only.</p>`
+          + card.taskTypes.map(type => singleBar(type.taskType, type.tokens, maxTaskTokens, compact(type.tokens),
+            `${type.taskType}\n${cards(type.cards)} · ${number(type.tokens)} tokens\nmedian ${number(type.medianTokens)} per card · ${type.reissues} reissues`,
+            `· ${cards(type.cards)}`)).join('')
+          + `<p class="chart-note">This cohort has no coding/test/review split — the card type above is the only task label the source records. Its raw totals over-count cached Codex input, so they stay in tokens and are never converted to dollars.</p></article>`;
+
+        const reissueChart = `<article class="chart-card"><h3>Tokens by measured reissue count</h3>`
+          + `<p class="chart-kicker">${share(card.source.reissuedTokens, card.source.tokens)} of all card tokens sat on the ${card.source.reissuedCards} of ${card.source.cards} cards that needed at least one reissue.</p>`
+          + card.reissueBuckets.map(bucket => singleBar(reissueLabel(bucket), bucket.tokens, maxBucketTokens, compact(bucket.tokens),
+            `${reissueLabel(bucket)}\n${cards(bucket.cards)} · ${number(bucket.tokens)} tokens\n${share(bucket.tokens, card.source.tokens)} of the cohort`,
+            `· ${cards(bucket.cards)}`)).join('')
+          + `<p class="chart-note">A reissue here is <em>${escape(card.source.reissueMeasurement)}</em> — a measurable attempt proxy, not a semantic retry classification, and the token split between attempts is not recorded.</p></article>`;
+
+        const columns = session.turns.map(turn => {
+          const segments = COMPONENTS.filter(component => turn.usage[component.key] > 0).map(component =>
+            `<i class="${component.cls}" style="height:${width(turn.usage[component.key], turn.tokens)}" data-tip="Turn ${turn.turn} · ${component.label}\n${number(turn.usage[component.key])} tokens · ${share(turn.usage[component.key], turn.tokens)} of the turn"></i>`).join('');
+          const aria = `Turn ${turn.turn}, ${clock(turn.completedAtUtc)}: ${number(turn.tokens)} tokens, ${usd(turn.costUsd, 6)} at list price`;
+          return `<div class="column"><div class="cap">${number(turn.tokens)}</div><div class="plot">`
+            + `<div class="stack" style="height:${width(turn.tokens, maxTurnTokens)}" role="img" aria-label="${escape(aria)}">${segments}</div></div></div>`;
+        }).join('');
+        const sessionChart = `<article class="chart-card wide"><h3>One session over time</h3>`
+          + `<p class="chart-kicker">The repository's one measured multi-turn session: <code>${escape(session.source.model)}</code>, ${session.turns.length} turns across ${session.totals.spanHours} hours. Tokens per turn; the cost of the same turns is stated below rather than drawn on a second axis.</p>`
+          + `<div class="column-chart"><div class="columns">${columns}</div>`
+          + `<div class="column-axis">${session.turns.map(turn => `<div><strong>Turn ${turn.turn}</strong>${escape(clock(turn.completedAtUtc).slice(0, 16))}<br>${usd(turn.costUsd, 6)}</div>`).join('')}</div></div>`
+          + legend
+          + `<p class="chart-note">A stable ${number(session.turns[0].usage.cacheRead)}-token prefix was read from cache on every turn while cache creation grew from ${number(session.turns[0].usage.cacheWrite)} to ${number(session.turns.at(-1).usage.cacheWrite)} tokens: continuity is preserved, but state accumulates. Cache writes were ${percent(session.totals.cacheWriteCostShare)} of the session's ${usd(session.totals.costUsd, 6)} list price — treating “cached” as simply “cheap” would miss most of the bill. Three turns show the mechanism, not a fitted curve.</p></article>`;
+
+        const coverage = `<article class="chart-card wide"><h3>What these charts cannot tell you</h3>`
+          + `<p class="chart-kicker">The gaps are part of the evidence.</p><div class="coverage-list">`
+          + `<div class="coverage-item"><strong>Not production traffic</strong><span>The model, class and cost charts are one ${run.cases}-case corpus run of ${compact(run.tokens)} tokens on ${escape(run.startedAtUtc.slice(0, 10))}. One attempt per model and class cannot rank models.</span></div>`
+          + `<div class="coverage-item"><strong>No coding / test / review split</strong><span>No source in this repository labels tokens by that kind of activity. The published task classes are document class and card task type, so those are what the charts show.</span></div>`
+          + `<div class="coverage-item"><strong>Per-attempt tokens are not recorded</strong><span>Reissue counts are measurable; which attempt burned which tokens is not. The retry chart therefore compares whole cards, not first tries against repairs.</span></div>`
+          + `<div class="coverage-item"><strong>Unpriced stays unpriced</strong><span>${run.pricedModels} of the ${withUsage.length} models with recorded tokens have a catalog rate; the OpenAI family has no published rate here. Their tokens are charted, their dollars are not.</span></div>`
+          + `<div class="coverage-item"><strong>The session trace is not checked in</strong><span>Its turn table lives in <code>${escape(session.source.evidencePath)}</code> with the query, the session id <code>${escape(session.source.sessionId)}</code> and stable event ids; the raw bus responses are not part of this repository.</span></div>`
+          + `</div></article>`;
+
+        const tables = `<details class="table-view"><summary>Show every number as a table</summary>`
+          + table('Tokens and list price by model', ['Model', '#Cases passed', '#Fresh input', '#Cache read', '#Cache write', '#Output', '#Tokens', '#List price'],
+            data.byModel.models.map(model => [model.model, { n: `${model.casesPassed} / ${model.cases}` },
+              { n: number(model.usage.input) }, { n: number(model.usage.cacheRead) }, { n: number(model.usage.cacheWrite) },
+              { n: number(model.usage.output) }, { n: number(model.tokens) },
+              { n: model.cost.status === 'Resolved' && model.tokens > 0 ? usd(model.cost.totalUsd) : model.tokens === 0 ? 'no tokens recorded' : escape(model.cost.status) }]))
+          + table('Tokens by document class', ['Class', '#Cases passed', '#Fresh input', '#Cache read', '#Cache write', '#Output', '#Tokens'],
+            documentTypes.map(type => [type.documentType, { n: `${type.casesPassed} / ${type.cases}` },
+              { n: number(type.usage.input) }, { n: number(type.usage.cacheRead) }, { n: number(type.usage.cacheWrite) },
+              { n: number(type.usage.output) }, { n: number(type.tokens) }]))
+          + table('Cards by task class and reissue count', ['Group', '#Cards', '#Tokens', '#Median per card'],
+            card.taskTypes.map(type => [type.taskType, { n: number(type.cards) }, { n: number(type.tokens) }, { n: number(type.medianTokens) }])
+              .concat(card.reissueBuckets.map(bucket => [reissueLabel(bucket), { n: number(bucket.cards) }, { n: number(bucket.tokens) }, { n: '—' }])))
+          + table('Session turns', ['Completed (UTC)', '#Fresh input', '#Cache read', '#Cache write', '#Output', '#Tokens', '#List price'],
+            session.turns.map(turn => [clock(turn.completedAtUtc), { n: number(turn.usage.input) }, { n: number(turn.usage.cacheRead) },
+              { n: number(turn.usage.cacheWrite) }, { n: number(turn.usage.output) }, { n: number(turn.tokens) }, { n: usd(turn.costUsd, 6) }]))
+          + `</details>`;
+
+        usageHost.innerHTML = `<div class="chart-summary">`
+          + metric(compact(run.tokens), `measured tokens · ${run.casesWithUsage} of ${run.cases} cases reported usage`)
+          + metric(withUsage.length, `models with recorded tokens · ${run.pricedModels} of them priced`)
+          + metric(usd(pricedTotal, 2), `list price of the ${run.pricedModels} priced models' tokens, at the run date`)
+          + metric(share(run.failedCaseTokens, run.tokens), `of those tokens went to the ${run.failedCasesWithUsage} failed attempts`)
+          + `</div><div class="chart-grid">${modelChart}${costChart}${classChart}${taskChart}${reissueChart}${sessionChart}${coverage}</div>${tables}`;
+      }).catch(() => { usageHost.textContent = 'Published token evidence could not be loaded.'; });
 
       fetch('data/site-status.json').then(response => response.ok ? response.json() : Promise.reject(response.status)).then(data => {
         statusHost.innerHTML = data.items.map(item => `<div class="pillar"><div class="state ${escape(item.state)}">${escape(item.state.toUpperCase())}</div><h3>${escape(item.title)}</h3><p>${escape(item.detail)}</p></div>`).join('') + `<p class="data-note">Status record as of ${escape(data.asOf)}.</p>`;

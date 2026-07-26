@@ -4,8 +4,10 @@ The static marketing + documentation site for **Token Economy**, served at
 <https://agent-orchestrator.dev/token-economy/>.
 
 - **Plain static HTML with a checked data step.** `index.html` has inline CSS
-  and a data-URI favicon. `scripts/generate-website-data.py` copies published
-  benchmark JSON into `website/data/benchmarks.json`; CI rejects stale data.
+  and a data-URI favicon. `scripts/generate-website-data.py` writes two
+  artifacts — `website/data/benchmarks.json` (published studies) and
+  `website/data/token-usage.json` (the chart aggregates) — and CI rejects stale
+  data for both.
 - **English**, light/dark theme-aware, responsive.
 - Content: what/why, a complexity-estimation and closed learning-loop explainer,
   token-usage charts and published benchmark summaries rendered from the append-only JSON evidence in
@@ -13,6 +15,17 @@ The static marketing + documentation site for **Token Economy**, served at
   `SuggestModel` preview, install, and family links — all describing the real
   `TokenEconomy` API — plus the clearly labelled, plan-only cap-forecast
 explainers under [`cap-forecast/`](cap-forecast/index.html).
+
+The token-usage charts (per model, per task class, per measured reissue count,
+and one measured session over time) read `token-usage.json` only. That file is
+derived from the capability run under `benchmarks/results/`, the card backtest
+snapshot in `results/complexity-backtest/`, the session table in
+`docs/analyses/long-vs-short-session-cost.md`, and list prices resolved from
+`src/TokenEconomy/catalog/model-prices.json` at each run's own timestamp.
+`WebsiteTokenUsageDataTests` re-costs the committed file through
+`ModelPriceCatalog.ComputeCost`, so the generator's arithmetic cannot drift from
+the library, and a model without a published rate stays explicitly unpriced —
+never a silent $0.
 
 When adding a benchmark result, add its setup or corpus, fixture, raw JSON, and
 derived report or capability record first, then run `python
