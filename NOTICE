@@ -1,4 +1,4 @@
-CodingAgentRunner
+TokenEconomy
 Copyright 2026 Robert Mischke
 
 Licensed under the Apache License, Version 2.0 (the "License");
@@ -13,5 +13,6 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 
-This product was extracted from the Agent Studio orchestrator and
+This product was extracted from the pricing module of CodingAgentRunner
+(agent-orc/runner), itself part of the Agent Studio orchestrator, and
 generalized into a standalone, reusable library.
