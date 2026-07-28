@@ -34,6 +34,11 @@ defines the proposed measurement, uncertainty, repository boundaries, and
 GO-blocked delivery slices. Its [visual explainers](website/cap-forecast/index.html)
 are part of the static site. No forecast implementation is authorised yet.
 
+**Delegation economy:** [the pattern guide](docs/concepts/delegation-economy.md)
+explains how orchestrators assign bounded work to cheaper model tiers and when
+to escalate. Prompts and task cards can include the
+[standardized context block](contexts/delegation-economy.md) verbatim.
+
 ## What it does
 
 - **Pricing catalog with history** — per-model price entries keyed by
@@ -172,6 +177,7 @@ handoff retained in
 | `tests/TokenEconomy.Tests/` | xUnit suite; also the guard that the website data cannot drift from the library. |
 | `benchmarks/` | Benchmark setups, fixtures and corpora, plus append-only raw results under `benchmarks/results/`. |
 | `docs/` | Concepts, benchmark guide, publishing and repository metadata. |
+| `contexts/` | Short, reusable policy blocks for agent and task-card prompts. |
 | `results/` | Retained operator and backtest records. |
 | `scripts/` | Release, pack, and website-data generation. |
 | `tools/` | The complexity-backtest report generator. |
