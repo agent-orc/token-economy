@@ -38,6 +38,12 @@ are part of the static site. No forecast implementation is authorised yet.
 explains how orchestrators assign bounded work to cheaper model tiers and when
 to escalate. Prompts and task cards can include the
 [standardized context block](contexts/delegation-economy.md) verbatim.
+**Task-cutting guide:**
+[Dynamic workflows as a task-cutting strategy](docs/analyses/dynamic-workflows-task-cutting.md)
+compares one Claude workflow-sized card with small `dependsOn` cards using
+Agent Studio token, review, retry, and gate evidence. It includes the current
+Claude-only workflow constraint, Codex integration gap, TE-8 routing hook, and
+a reusable AI-pattern candidate.
 
 ## What it does
 
