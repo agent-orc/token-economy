@@ -45,6 +45,13 @@ Agent Studio token, review, retry, and gate evidence. It includes the current
 Claude-only workflow constraint, Codex integration gap, TE-8 routing hook, and
 a reusable AI-pattern candidate.
 
+**Prompt-enrichment analysis:**
+[Prompt enrichment before an agent run](docs/analyses/prompt-enrichment-preprocessing.md)
+quantifies rule, embedding, classifier, and hybrid preprocessing against the
+Agent Studio retry baseline. It specifies the auditable
+`enrichment-report.json` contract, a Task Server integration boundary, a
+selection rubric, and a standalone `ai-patterns` handoff.
+
 ## What it does
 
 - **Pricing catalog with history** — per-model price entries keyed by
