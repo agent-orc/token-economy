@@ -22,6 +22,12 @@ SemVer; pre-1.0 the public API may still shift).
   timestamp, and `WebsiteTokenUsageDataTests` re-costs the committed artifact
   through `ModelPriceCatalog.ComputeCost` so the site cannot drift from the
   library (TE-20).
+- The embedded, schema-versioned native media capability catalog for Codex,
+  Antigravity, and Claude Code, with exact-model then CLI-host pull lookup.
+- The English media capability matrix, dated official evidence, and retained
+  Codex image-generation benchmark (N=4). The reported 3–5× Codex cost factor is
+  preserved as an unverified claim because the image tool exposed no comparable
+  token or credit meter.
 - An all-model document-to-text benchmark vertical with a versioned PDF,
   Word/RTF, SpreadsheetML and flat-ODF presentation hard-case corpus,
   deterministic visible/hidden-content oracles, append-only raw extraction

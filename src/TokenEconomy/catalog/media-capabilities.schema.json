@@ -1,0 +1,87 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://agent-orchestrator.dev/token-economy/media-capabilities.schema.json",
+  "title": "Token Economy native media capability catalog",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "asOfDate", "records"],
+  "properties": {
+    "schemaVersion": { "const": 1 },
+    "asOfDate": { "type": "string", "format": "date" },
+    "records": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/$defs/record" }
+    }
+  },
+  "$defs": {
+    "record": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "cliId",
+        "modelId",
+        "capability",
+        "supported",
+        "invocationPath",
+        "costFactor",
+        "evidence"
+      ],
+      "properties": {
+        "cliId": { "type": "string", "minLength": 1 },
+        "modelId": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Exact selected model id, or * for a CLI-hosted tool independent of selected model."
+        },
+        "capability": {
+          "enum": [
+            "imageGeneration",
+            "imageEdit",
+            "referenceImages",
+            "imageUnderstanding",
+            "video",
+            "music",
+            "tts",
+            "voiceDictation"
+          ]
+        },
+        "supported": { "type": "boolean" },
+        "invocationPath": { "type": "string", "minLength": 1 },
+        "costFactor": { "$ref": "#/$defs/costFactor" },
+        "evidence": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "$ref": "#/$defs/evidence" }
+        }
+      }
+    },
+    "costFactor": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status"],
+      "properties": {
+        "status": {
+          "enum": ["notApplicable", "unknown", "unverifiedClaim", "measured"]
+        },
+        "relativeTo": { "type": "string", "minLength": 1 },
+        "minimum": { "type": "number", "minimum": 0 },
+        "maximum": { "type": "number", "minimum": 0 },
+        "note": { "type": "string", "minLength": 1 }
+      }
+    },
+    "evidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["source", "observedAtUtc", "reference", "note"],
+      "properties": {
+        "source": {
+          "enum": ["officialDocumentation", "localCapabilityInventory", "controlledBenchmark"]
+        },
+        "observedAtUtc": { "type": "string", "format": "date-time" },
+        "reference": { "type": "string", "minLength": 1 },
+        "note": { "type": "string", "minLength": 1 }
+      }
+    }
+  }
+}

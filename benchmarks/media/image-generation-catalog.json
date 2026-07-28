@@ -1,0 +1,50 @@
+{
+  "schemaVersion": 1,
+  "id": "media-image-generation-v1",
+  "nPerCliPerCase": 1,
+  "cases": [
+    {
+      "id": "icon",
+      "useCase": "logo-brand",
+      "prompt": "Use case: logo-brand\nAsset type: benchmark app icon\nPrimary request: Create a simple square icon for an open-source token-economy toolkit: one abstract coin combined with a small spark, centered.\nStyle/medium: crisp flat vector-like raster illustration\nComposition/framing: centered symbol, generous padding, readable at 64 px\nColor palette: navy, cyan, and warm gold on an off-white background\nConstraints: no text, no letters, no logos, no watermark, no mockup frame",
+      "checks": [
+        "raster image returned",
+        "coin and spark are visible",
+        "no text or watermark"
+      ]
+    },
+    {
+      "id": "ui-mockup",
+      "useCase": "ui-mockup",
+      "prompt": "Use case: ui-mockup\nAsset type: desktop web dashboard benchmark mockup\nPrimary request: Create a polished desktop dashboard for tracking AI model token economics.\nScene/backdrop: full browser-page canvas, no device frame\nStyle/medium: high-fidelity modern SaaS UI mockup\nComposition/framing: 16:10 landscape; left navigation, top summary cards, central model-comparison table, compact usage trend chart\nColor palette: warm off-white canvas, navy text, cyan accents, restrained gold highlights\nText (verbatim): \"Token Economy\", \"Models\", \"Usage\", \"Cost\", \"Evidence\"\nConstraints: clear information hierarchy, plausible values, accessible contrast, no external brand logos, no watermark",
+      "checks": [
+        "raster image returned",
+        "dashboard hierarchy and requested regions are visible",
+        "five required labels are legible",
+        "no watermark"
+      ]
+    },
+    {
+      "id": "architecture-diagram",
+      "useCase": "infographic-diagram",
+      "prompt": "Use case: infographic-diagram\nAsset type: architecture diagram benchmark\nPrimary request: Create a clean architecture diagram showing a repository-owned capability catalog pulled by two consumers.\nStyle/medium: polished technical infographic, flat 2D\nComposition/framing: 16:10 landscape; left-to-right flow with three tiers\nText (verbatim): \"Evidence Sources\", \"Media Capability Catalog\", \"Agent Studio\", \"Reporting Job\", \"embedded JSON\", \"pull\"\nColor palette: off-white background, navy components, cyan connectors, gold evidence markers\nConstraints: exactly one central catalog, arrows from evidence sources into catalog, arrows labeled \"pull\" from catalog to both consumers, highly legible labels, no vendor logos, no watermark",
+      "checks": [
+        "raster image returned",
+        "one central catalog and two consumers are visible",
+        "required labels and pull arrows are legible",
+        "no watermark"
+      ]
+    },
+    {
+      "id": "photo-style",
+      "useCase": "photorealistic-natural",
+      "prompt": "Use case: photorealistic-natural\nAsset type: photo-style benchmark image\nPrimary request: A candid editorial photograph of a software engineer at a wooden desk reviewing colorful architecture sketches beside a laptop.\nScene/backdrop: quiet daylight studio with a softly blurred bookshelf\nStyle/medium: natural photorealistic editorial photography\nComposition/framing: horizontal waist-up scene, 35 mm lens, subject slightly left of center, sketches visible in foreground\nLighting/mood: soft window light, calm focused mood, realistic skin and paper textures\nColor palette: warm wood, off-white paper, subtle cyan and gold sketch accents\nConstraints: natural hands, physically plausible workspace, no readable brand logos, no watermark, no on-image text",
+      "checks": [
+        "raster image returned",
+        "engineer, laptop, and architecture sketches are visible",
+        "photo-style lighting and textures are plausible",
+        "no readable logo or watermark"
+      ]
+    }
+  ]
+}
