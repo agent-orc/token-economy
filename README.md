@@ -1,12 +1,28 @@
 # Token Economy
 
-**Token economics for LLM coding agents** — one tested source for model
-pricing (with history), run-cost computation, and token-efficiency model
-selection. .NET, dependency-free core.
+> **Token economics for LLM coding agents** — one tested source for model
+> pricing (with history), run-cost computation, and token-efficiency model
+> selection. .NET, dependency-free core.
 
-Part of the coding-agent family
-([coding-agent-runner](https://github.com/agent-orc/runner),
-[coding-agent-chat](https://github.com/agent-orc/chat)).
+[![NuGet](https://img.shields.io/nuget/v/TokenEconomy.svg?label=NuGet)](https://www.nuget.org/packages/TokenEconomy)
+[![NuGet downloads](https://img.shields.io/nuget/dt/TokenEconomy.svg?label=downloads)](https://www.nuget.org/packages/TokenEconomy)
+[![CI](https://github.com/agent-orc/token-economy/actions/workflows/ci.yml/badge.svg)](https://github.com/agent-orc/token-economy/actions/workflows/ci.yml)
+[![License: Apache 2.0](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](LICENSE)
+
+```bash
+dotnet add package TokenEconomy
+```
+
+Package page: [TokenEconomy](https://www.nuget.org/packages/TokenEconomy) ·
+[GitHub releases](https://github.com/agent-orc/token-economy/releases)
+
+An agent run bills for input, output, and cache tokens at a rate that changes
+over time, per model. Getting that wrong is not a rounding error: a hard-coded
+price silently costs the wrong amount for every historic run, and a missing
+price that defaults to `0` reports a budget as healthy while it drains.
+TokenEconomy keeps the prices — with their validity dates — and answers two
+questions from that one source: *what did this run cost?* and *which model buys
+the most for the tokens I have left?* Unknown is always returned as unknown.
 
 **Docs & website:** <https://agent-orchestrator.dev/token-economy/> — a static
 site built from [`website/`](website/) and deployed by
@@ -82,11 +98,12 @@ and a small or missing denominator must never be treated as evidence of safety.
 
 ## Install
 
-```
-dotnet add package TokenEconomy
+```bash
+dotnet add package TokenEconomy --version 0.2.0
 ```
 
-Dependency-free, targets `net10.0`.
+Dependency-free, targets `net10.0`. The API is pre-1.0 and may still shift —
+pin a version and watch releases.
 
 ## Usage
 
@@ -124,7 +141,7 @@ var ranked = ModelEfficiencyMatrix.Default.SuggestModel(
 
 var best = ranked[0];   // empty list ⇒ nothing available; wait, don't launch
 Console.WriteLine($"{best.ModelId} @ {best.SuggestedEffort} — {best.Rationale}");
-// e.g. claude-sonnet-5 @ medium — claude-sonnet-5: balanced tier, an ideal
+// e.g. claude-sonnet-5 @ Medium — claude-sonnet-5: balanced tier, an ideal
 // match for feature work; standard cost — moderate spend under tight pressure.
 // Suggested effort: medium.
 ```
@@ -146,6 +163,55 @@ operations and the one-time setup fallback are documented in
 handoff retained in
 [results/TE-1-nuget-first-publish.md](results/TE-1-nuget-first-publish.md).
 
+## Repository layout
+
+| Path | What it holds |
+| --- | --- |
+| `src/TokenEconomy/` | The published library. `catalog/` holds the embedded price and media-capability JSON. |
+| `src/TokenEconomy.Benchmarks/` | CLI that executes the A/B and document-to-text benchmark runs. |
+| `tests/TokenEconomy.Tests/` | xUnit suite; also the guard that the website data cannot drift from the library. |
+| `benchmarks/` | Benchmark setups, fixtures and corpora, plus append-only raw results under `benchmarks/results/`. |
+| `docs/` | Concepts, benchmark guide, publishing and repository metadata. |
+| `results/` | Retained operator and backtest records. |
+| `scripts/` | Release, pack, and website-data generation. |
+| `tools/` | The complexity-backtest report generator. |
+| `website/` | The repository's own static site. |
+
+**`website/` is a real part of this repository, not a mirror.** It is the
+public documentation surface at
+<https://agent-orchestrator.dev/token-economy/> — plain static HTML with a
+checked data step: `scripts/generate-website-data.py` regenerates
+`website/data/*.json` from the committed evidence, and CI rejects stale data,
+so the published charts and benchmark tables cannot drift from the library.
+Preview it locally on <http://localhost:4340> with:
+
+```bash
+python -m http.server 4340 --directory website
+```
+
+See [`website/README.md`](website/README.md) for the content rules and
+[`website/DEPLOY.md`](website/DEPLOY.md) for deployment.
+
+## Contributing
+
+See [CONTRIBUTING.md](CONTRIBUTING.md) for build and test steps and the
+project's invariants. Issues and pull requests are welcome. Report security
+issues through the private process in [SECURITY.md](SECURITY.md).
+
+## Agent Orchestrator ecosystem
+
+TokenEconomy is the token-economics layer of the Agent Orchestrator family. It
+answers what a run costs and which model to spend the next tokens on;
+[Agent Studio](https://github.com/agent-orc/agent-studio) is the orchestrator
+that turns tasks into agent runs and is the source of the run metrics imported
+here; [CodingAgentRunner](https://github.com/agent-orc/runner) is the process
+and protocol layer that actually launches the coding-agent CLIs and reports the
+token usage this library prices; and
+[Agent Chat](https://github.com/agent-orc/chat) is the conversation UI for
+those runs. See the other projects on the
+[Agent Orchestrator website](https://agent-orchestrator.dev/) and in the
+[agent-orc GitHub organization](https://github.com/agent-orc).
+
 ## License
 
-Apache-2.0 — see [LICENSE](LICENSE).
+[Apache-2.0](LICENSE) © 2026 Robert Mischke. See [NOTICE](NOTICE).
