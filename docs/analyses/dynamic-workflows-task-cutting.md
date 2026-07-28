@@ -51,8 +51,9 @@ scripted workflow. Model choice is a separate cost decision from task cutting.
 Important headless qualification:
 
 - Workflows are available through non-interactive `claude -p`, but the literal
-  `ultracode` keyword no longer triggers from a `-p` prompt. Use an explicit or
-  saved workflow path instead.
+  `ultracode` keyword no longer triggers from a `-p` prompt. CAR should invoke
+  a saved or bundled workflow command, or another activation path it has
+  smoke-tested, rather than relying on the keyword.
 - A workflow launched from `claude -p` starts without the interactive workflow
   approval prompt.
 - Workflow child agents always run in `acceptEdits` mode and inherit the tool
@@ -98,6 +99,19 @@ Therefore this analysis does not claim that native Codex subagents fail under
 Until a CAR smoke test proves spawn, permission, token attribution, and terminal
 result behavior, Codex work that needs task orchestration must be cut into
 small `dependsOn` cards.
+
+### Headless verification matrix
+
+| Open item | Documentation result | Agent Studio decision |
+|---|---|---|
+| Do Claude workflow children inherit a headless parent's yolo mode cleanly? | **No.** The workflow launch itself skips approval under `claude -p`, but workflow children always use `acceptEdits` and inherit the tool allowlist. With no interactive user, unallowlisted tools follow configured permission rules and cannot obtain a fresh approval. | Require a project-specific CAR allowlist smoke test before routing a workflow-sized card to Claude. |
+| Do Codex subagents work under CAR's non-interactive `codex exec` spawn mode? | **Not established.** The subagent page discusses failure of approval-requiring actions in non-interactive flows, but its CLI trigger instructions name an interactive session. The `codex exec` page does not define subagent spawn events, lifecycle, attribution, or final-result behavior. | Treat the CAR integration as unverified, not unsupported. Use `dependsOn` cards until a recorded smoke test closes the gap. |
+
+These are documentation-verification results as of the analysis date, not
+claims from absence alone: both conclusions name what the current vendor pages
+do and do not guarantee. A CAR smoke test can supersede the conservative Codex
+policy without changing the distinction between Codex subagent parallelism and
+Claude script-owned workflows.
 
 ## 2. Evidence and Cost Model
 
