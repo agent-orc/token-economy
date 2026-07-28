@@ -33,12 +33,14 @@ SemVer; pre-1.0 the public API may still shift).
   deterministic visible/hidden-content oracles, append-only raw extraction
   evidence, and conservative per-model/per-document-type capability records.
 
-## [0.2.0] - 2026-07-10
+## [0.2.0] - 2026-07-21
+
+First release published to nuget.org.
 
 ### Added
 
 - **Token-efficiency matrix + `SuggestModel` API** — the Selection axis of
-  token-budget load management ("was kriege ich für meine Tokens?"), beside the
+  token-budget load management ("what do I get for my tokens?"), beside the
   pricing catalog and built on it (TE-2).
   - `ModelEfficiencyMatrix.Default` profiles **every** model in
     `ModelPriceCatalog.Default`: capability tier (`Frontier` / `Balanced` /
@@ -64,7 +66,10 @@ SemVer; pre-1.0 the public API may still shift).
     suggested effort) — the *knowledge*; the *policy* of when to downshift /
     throttle / wait stays in the admission algorithm, by design.
 
-## [0.1.0] - 2026-07-10
+## 0.1.0 - 2026-07-10
+
+The extraction milestone. Never published to nuget.org — 0.2.0 was the first
+public release.
 
 ### Added
 
@@ -94,3 +99,6 @@ SemVer; pre-1.0 the public API may still shift).
   models with no published rate yet). Unconfirmed numbers are flagged
   `Unconfirmed` or left unpriced rather than invented.
 - Dependency-free core targeting `net10.0`; ships XML docs and a symbol package.
+
+[Unreleased]: https://github.com/agent-orc/token-economy/compare/v0.2.0...HEAD
+[0.2.0]: https://github.com/agent-orc/token-economy/releases/tag/v0.2.0
