@@ -52,11 +52,18 @@ public class ModelEfficiencySeedTests
     }
 
     [Fact]
-    public void SonnetFamily_IsBalanced_AndStandardCost()
+    public void Sonnet5_IsEquivalentFallback_WhileOlderSonnetModelsRemainUnsupported()
     {
-        foreach (var id in new[] { "claude-sonnet-5", "claude-sonnet-4-6", "claude-sonnet-4-5" })
+        var sonnet5 = Matrix.Find("claude-sonnet-5")!;
+        Assert.Equal(CapabilityTier.Frontier, sonnet5.Tier);
+        Assert.Equal(ModelRoutingStatus.FallbackOnly, sonnet5.RoutingStatus);
+        Assert.Equal(PolicyEvidenceStatus.Provisional, sonnet5.EvidenceStatus);
+        Assert.Equal(CostClass.Standard, Matrix.CostClassOf("claude-sonnet-5", Now));
+
+        foreach (var id in new[] { "claude-sonnet-4-6", "claude-sonnet-4-5" })
         {
             Assert.Equal(CapabilityTier.Balanced, Matrix.Find(id)!.Tier);
+            Assert.Equal(ModelRoutingStatus.Unsupported, Matrix.Find(id)!.RoutingStatus);
             Assert.Equal(CostClass.Standard, Matrix.CostClassOf(id, Now));
         }
     }
@@ -73,7 +80,7 @@ public class ModelEfficiencySeedTests
     [Fact]
     public void GptFamily_RunsOnCodex_AndIsUnpricedHenceUnknownCost()
     {
-        foreach (var id in new[] { "gpt-5.6", "gpt-5.5", "gpt-5", "gpt-5-codex" })
+        foreach (var id in new[] { "gpt-5.6-luna", "gpt-5.6-terra", "gpt-5.6-sol", "gpt-5.4-mini", "gpt-5.5", "gpt-5", "gpt-5-codex" })
         {
             Assert.Equal(Cli.Codex, Matrix.CliOf(id));
             Assert.Equal(CostClass.Unknown, Matrix.CostClassOf(id, Now));
@@ -85,5 +92,18 @@ public class ModelEfficiencySeedTests
     {
         Assert.True(Matrix.Find("claude-mythos-5")!.Restricted);
         Assert.True(Matrix.Find("claude-opus-4-1")!.Deprecated);
+    }
+
+    [Fact]
+    public void Profiles_AreAProjectionOfTheRoutingKnowledgeBase()
+    {
+        foreach (var model in ModelRoutingKnowledgeBase.Default.Models)
+        {
+            var profile = Matrix.Find(model.CanonicalId)!;
+            Assert.Equal(model.CapabilityTier, profile.Tier);
+            Assert.Equal(model.RoutingStatus, profile.RoutingStatus);
+            Assert.Equal(model.EvidenceStatus, profile.EvidenceStatus);
+            Assert.Equal(model.Provisional, profile.Provisional);
+        }
     }
 }

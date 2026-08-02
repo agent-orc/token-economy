@@ -6,9 +6,9 @@ namespace TokenEconomy;
 /// deterministic and side-effect free.
 /// </summary>
 /// <remarks>
-/// This is the Selection axis's <i>knowledge</i>, not its <i>policy</i>: it answers "how well does this
-/// tier fit this task, and how does cost weigh under this pressure?" The decision of when to actually
-/// downshift / throttle / wait on a ranking stays in the admission algorithm, by design.
+/// This is the legacy efficiency ranking used after a correctness route exists: it answers "how well
+/// does this tier fit this coarse task class, and how does cost weigh under this pressure?" It cannot
+/// establish or lower the score tiers and hard floors in <see cref="ModelRoutingPolicy"/>.
 /// </remarks>
 public static class EfficiencyPolicy
 {

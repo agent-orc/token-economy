@@ -87,9 +87,9 @@ public class ModelPriceCatalogTests
     public void Find_ResolvesAliases()
     {
         Assert.Equal("claude-haiku-4-5", ModelPriceCatalog.Default.Find("claude-haiku-4-5-20251001")?.ModelId);
-        // gpt-5.6-sol is an alias of gpt-5.6, and dot/dash folding makes gpt-5-6 resolve too.
-        Assert.Equal("gpt-5.6", ModelPriceCatalog.Default.Find("gpt-5.6-sol")?.ModelId);
-        Assert.Equal("gpt-5.6", ModelPriceCatalog.Default.Find("gpt-5-6")?.ModelId);
+        // gpt-5.6 is a compatibility alias of gpt-5.6-sol, and dot/dash folding makes gpt-5-6 resolve too.
+        Assert.Equal("gpt-5.6-sol", ModelPriceCatalog.Default.Find("gpt-5.6-sol")?.ModelId);
+        Assert.Equal("gpt-5.6-sol", ModelPriceCatalog.Default.Find("gpt-5-6")?.ModelId);
     }
 
     [Theory]
@@ -115,7 +115,7 @@ public class ModelPriceCatalogTests
     {
         var breakdown = ModelPriceCatalog.Default.ComputeCost("gpt-5.6", new TokenUsage(1_000, 1_000), Now);
         Assert.Equal(PriceStatus.NoPriceForDate, breakdown.Status);
-        Assert.Equal("gpt-5.6", breakdown.ModelId);   // model WAS found, just not priced
+        Assert.Equal("gpt-5.6-sol", breakdown.ModelId);   // alias resolved; model WAS found, just not priced
         Assert.False(breakdown.HasPrice);
         Assert.Null(breakdown.Total);
     }

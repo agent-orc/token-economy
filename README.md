@@ -60,10 +60,18 @@ selection rubric, and a standalone `ai-patterns` handoff.
 - **Cost API** — `ComputeCost(model, usage, atUtc)` → deterministic
   breakdown + total; unknown models return an explicit unknown, never a
   silent zero.
-- **Token-efficiency matrix** — `SuggestModel(taskClass, budgetPressure,
-  availableClis, atUtc)`: which model buys the most for these tokens, ranked
-  with a rationale string for audit trails. Cost class is *derived* from the
-  pricing catalog, never restated.
+- **Versioned model-routing policy** — one embedded, schema-backed knowledge
+  base resolves model aliases, providers/CLIs, reasoning levels, score tiers,
+  correctness floors, workflow exceptions, restrictions, deprecations,
+  reissues, and evidence status. The exact synchronized Agent Studio policy is
+  authoritative; pricing and quota cannot lower its correctness floors. See
+  the [generated knowledge view](docs/model-routing-knowledge.md) and
+  [authoritative policy](docs/system/domains/model-routing-policy.md).
+- **Token-efficiency compatibility matrix** — `SuggestModel(taskClass,
+  budgetPressure, availableClis, atUtc)` ranks only policy-selectable core
+  models. Use `ModelRoutingPolicy` for correctness decisions and
+  `ModelRoutingKnowledgeBase.FallbacksFor(routeId)` for evidence-scoped provider
+  fallbacks. Cost class is derived from the pricing catalog, never restated.
 - **Agent Studio ingest** — reads each card's durable `task.json` directly and
   upserts model-run metrics by task key + run. It maps model/provider, usage,
   price-at-run-time, final-lane outcome signal, timestamps, project, task type,
@@ -144,31 +152,42 @@ else
 is always explicit. Prices carry history, so a run at an earlier timestamp is
 costed with the rate that was valid then.
 
-### Picking a model for a task under budget pressure
+### Selecting the correctness route
 
 ```csharp
 using TokenEconomy;
 
-// Which model should run a plain feature when the budget is getting tight and
-// only the Claude CLI has quota right now?
-var ranked = ModelEfficiencyMatrix.Default.SuggestModel(
-    TaskClass.Feature,
-    BudgetPressure.Tight,
-    availableClis: [Cli.Claude],
-    atUtc: DateTime.UtcNow);
+var decision = ModelRoutingPolicy.Default.RecommendCore(new()
+{
+    Scorecard = new()
+    {
+        CorrectnessRisk = 24,
+        ExpectedScope = 14,
+        ContextDemand = 14,
+        TaskTypeAndUncertainty = 6,
+        EmpiricalConfidence = 6,
+        QuotaAndCostHeadroom = 0,
+    },
+    CorrectnessTriggers = ["persistentStateMigration"],
+});
 
-var best = ranked[0];   // empty list ⇒ nothing available; wait, don't launch
-Console.WriteLine($"{best.ModelId} @ {best.SuggestedEffort} — {best.Rationale}");
-// e.g. claude-sonnet-5 @ Medium — claude-sonnet-5: balanced tier, an ideal
-// match for feature work; standard cost — moderate spend under tight pressure.
-// Suggested effort: medium.
+Console.WriteLine($"{decision.Route.ModelId} @ {decision.Route.ThinkingLevel}");
+// gpt-5.6-sol @ medium — the score and migration floor both require Sol/medium.
 ```
 
-Capability fit leads the ranking; budget pressure tips the balance toward
-cheaper models (a downshift). Cost class is *derived* from the pricing catalog,
-so it never restates a price and tracks price history over time. The matrix is
-data + pure functions — the *policy* of when to downshift / throttle / wait
-stays in the caller's admission algorithm.
+The evaluator accepts no price catalog, cost class, or quota snapshot. Quota and
+cost headroom contribute only the policy's declared 0-5 intake points; hard
+floors are applied afterward. Provider availability may select an explicitly
+equivalent fallback, wait, or require an operator override, but never silently
+spend correctness margin.
+
+The machine source is
+[`src/TokenEconomy/catalog/model-routing-policy.json`](src/TokenEconomy/catalog/model-routing-policy.json)
+and is validated against its JSON schema, every price-catalog model, the media
+catalog's CLI scopes, trust-evidence unknowns, the authoritative Markdown hash,
+and the deterministic generated public view. Unknown models or levels,
+unsupported combinations, restrictions, deprecations, and provisional evidence
+are returned explicitly by `ModelRoutingKnowledgeBase.Resolve`.
 
 ## Status
 

@@ -1,7 +1,7 @@
 namespace TokenEconomy;
 
 /// <summary>
-/// One ranked candidate from <see cref="ModelEfficiencyMatrix.SuggestModel"/>: the model, the signals
+/// One compatibility candidate from <see cref="ModelEfficiencyMatrix.SuggestModel"/>: the model, the signals
 /// that placed it, a suggested reasoning effort, an integer <see cref="Score"/> (higher is better), and
 /// a human <see cref="Rationale"/>. The rationale is meant to travel verbatim into the orchestrator's
 /// decision event and the Lastverteilung view, so an operator can audit <i>why</i> a model was chosen.
@@ -26,7 +26,7 @@ public sealed record ModelSuggestion
     /// <summary>The reasoning effort to request, from the task class and budget pressure, clamped to what the model supports.</summary>
     public required EffortLevel SuggestedEffort { get; init; }
 
-    /// <summary>The ranking score; higher is a better pick under the given task class and budget pressure. Ordinal only — not a cost.</summary>
+    /// <summary>The compatibility ranking score. It is ordinal, not a policy score or cost, and cannot lower a correctness floor.</summary>
     public required int Score { get; init; }
 
     /// <summary>A one-line English explanation of the placement, for the decision event / transparency view.</summary>
@@ -34,6 +34,12 @@ public sealed record ModelSuggestion
 
     /// <summary>True when the price used to derive <see cref="CostClass"/> is a not-yet-confirmed placeholder (mirrors <see cref="ModelPrice.Unconfirmed"/>).</summary>
     public bool CostUnconfirmed { get; init; }
+
+    /// <summary>Evidence strength for this model route.</summary>
+    public PolicyEvidenceStatus EvidenceStatus { get; init; }
+
+    /// <summary>True when this suggestion is an explicitly provisional policy fact.</summary>
+    public bool Provisional { get; init; }
 }
 
 /// <summary>
@@ -73,6 +79,15 @@ public sealed record ModelEfficiencyRow
 
     /// <summary>True when the price behind <see cref="CostClass"/> is an unconfirmed placeholder.</summary>
     public bool CostUnconfirmed { get; init; }
+
+    /// <summary>The model's explicit status in the routing policy.</summary>
+    public ModelRoutingStatus RoutingStatus { get; init; }
+
+    /// <summary>Evidence strength for the model's routing facts.</summary>
+    public PolicyEvidenceStatus EvidenceStatus { get; init; }
+
+    /// <summary>True when the routing facts are not yet validated.</summary>
+    public bool Provisional { get; init; }
 
     /// <summary>Optional human note from the profile.</summary>
     public string? Note { get; init; }

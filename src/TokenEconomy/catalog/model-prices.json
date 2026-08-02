@@ -47,7 +47,10 @@
     "modelId": "claude-haiku-4-5", "vendor": "anthropic", "aliases": ["claude-haiku-4-5-20251001"],
     "history": [{ "inputPerMTok": 1.00, "outputPerMTok": 5.00, "cacheReadPerMTok": 0.10, "cacheWritePerMTok": 1.25, "currency": "USD", "validFrom": "0001-01-01T00:00:00Z", "source": "Anthropic published pricing (cache-read = 0.1x input, cache-write = 5-min-TTL 1.25x input)" }]
   },
-  { "modelId": "gpt-5.6", "vendor": "openai", "aliases": ["gpt-5.6-sol"], "note": "Pricing not yet published in this catalog; resolves to NoPriceForDate rather than a guessed rate." },
+  { "modelId": "gpt-5.6-luna", "vendor": "openai", "aliases": ["luna"], "note": "Pricing not yet published in this catalog; resolves to NoPriceForDate rather than a guessed rate." },
+  { "modelId": "gpt-5.6-terra", "vendor": "openai", "aliases": ["terra"], "note": "Pricing not yet published in this catalog; resolves to NoPriceForDate rather than a guessed rate." },
+  { "modelId": "gpt-5.6-sol", "vendor": "openai", "aliases": ["gpt-5.6", "sol"], "note": "Pricing not yet published in this catalog; resolves to NoPriceForDate rather than a guessed rate." },
+  { "modelId": "gpt-5.4-mini", "vendor": "openai", "aliases": ["mini"], "note": "Pricing not yet published in this catalog; resolves to NoPriceForDate rather than a guessed rate." },
   { "modelId": "gpt-5.5", "vendor": "openai", "note": "Pricing not yet published in this catalog; resolves to NoPriceForDate rather than a guessed rate." },
   { "modelId": "gpt-5", "vendor": "openai", "note": "Pricing not yet published in this catalog; resolves to NoPriceForDate rather than a guessed rate." },
   { "modelId": "gpt-5-codex", "vendor": "openai", "note": "Pricing not yet published in this catalog; resolves to NoPriceForDate rather than a guessed rate." }
