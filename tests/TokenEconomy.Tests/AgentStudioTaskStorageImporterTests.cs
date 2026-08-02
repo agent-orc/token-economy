@@ -114,4 +114,36 @@ public class AgentStudioTaskStorageImporterTests
         Assert.Equal(new DateTime(2026, 9, 2, 12, 0, 0, DateTimeKind.Utc), record.ObservedAtUtc);
         Assert.Equal(2.00m, record.CostEstimate); // introductory rate at execution, not the later update's $3 rate
     }
+
+    [Fact]
+    public void Parse_MapsOnlyUpfrontExpectedScopeAndRoutingFeatures()
+    {
+        using var json = System.Text.Json.JsonDocument.Parse("""
+            {
+              "id":"TE-27", "prompt":"Implement routing policy", "taskType":"feature",
+              "expectedFiles":["src/Expected.cs"], "expectedSubsystems":["routing","storage"],
+              "changedFiles":["src/Eventual.cs","src/Leak.cs"], "diffStats":{"changedLines":9999},
+              "routingFeatures": {
+                "correctnessRisk":24, "expectedScope":8, "contextDemand":14,
+                "taskUncertainty":6, "quotaAndCostHeadroom":3, "expectedChangedLines":180,
+                "hardFloorTriggers":["public-protocol","persistent_state_migration"]
+              }
+            }
+            """);
+
+        var record = new AgentStudioTaskStorageImporter().Parse(json.RootElement);
+        var card = Assert.Single(ComplexityHistory.FromRunRecords([record])).Card;
+
+        Assert.Equal(["src/Expected.cs"], card.ReferencedFiles);
+        Assert.DoesNotContain("src/Eventual.cs", card.ReferencedFiles);
+        Assert.Equal(180, card.ExpectedChangedLines);
+        Assert.Equal(24, card.RoutingSignals.CorrectnessRisk);
+        Assert.Equal(8, card.RoutingSignals.ExpectedScope);
+        Assert.Equal(14, card.RoutingSignals.ContextDemand);
+        Assert.Equal(6, card.RoutingSignals.TaskUncertainty);
+        Assert.Equal(3, card.RoutingSignals.QuotaAndCostHeadroom);
+        Assert.Equal(
+            [ComplexityHardFloorTrigger.PublicProtocol, ComplexityHardFloorTrigger.PersistentStateMigration],
+            card.HardFloorTriggers);
+    }
 }

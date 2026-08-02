@@ -105,6 +105,10 @@ public sealed class AgentStudioTaskStorageImporter
         AgentStudioRouteGranularity requestedGranularity,
         int fallbackRun = 0)
     {
+        // These are card-authored intake facts. Do not map post-run changedFiles/diffStats here:
+        // eventual implementation scope would leak an outcome into an upfront estimate.
+        var routing = Object(task, "routingFeatures") ?? Object(task, "upfrontComplexity")
+            ?? Object(task, "complexityRoutingSignals") ?? Object(task, "complexity");
         var model = Text(route, "model", "modelId") ?? Text(measurement, "model", "modelId");
         if (requestedGranularity == AgentStudioRouteGranularity.Card)
             model ??= Text(task, "model", "modelId");
@@ -136,8 +140,19 @@ public sealed class AgentStudioTaskStorageImporter
             Capability = Text(task, "capability", "requiredCapability"),
             TaskPrompt = Text(task, "prompt", "description"), Area = Text(task, "area", "component"),
             EpicContext = Text(task, "epicContext", "epic"), AcceptanceCriteria = Strings(task, "acceptanceCriteria", "criteria"),
-            ReferencedFiles = Strings(task, "referencedFiles", "files"), ReferencedSubsystems = Strings(task, "referencedSubsystems", "subsystems"),
+            ReferencedFiles = Strings(routing, task, "referencedFiles", "expectedFiles"),
+            ReferencedSubsystems = Strings(routing, task, "referencedSubsystems", "expectedSubsystems"),
+            ExpectedChangedLines = NullableNumber(routing, task, "expectedChangedLines", "expectedLineCount"),
             DependencyFanOut = NullableNumber(task, "dependencyFanOut"), RepositoryFileCount = NullableNumber(task, "repositoryFileCount"),
+            RoutingSignals = new ComplexityRoutingSignals
+            {
+                CorrectnessRisk = NullableDouble(routing, task, "correctnessRisk", "correctnessRiskScore"),
+                ExpectedScope = NullableDouble(routing, task, "expectedScope", "expectedScopeScore"),
+                ContextDemand = NullableDouble(routing, task, "contextDemand", "contextDemandScore"),
+                TaskUncertainty = NullableDouble(routing, task, "taskUncertainty", "taskTypeAndUncertainty", "taskUncertaintyScore"),
+                QuotaAndCostHeadroom = NullableDouble(routing, task, "quotaAndCostHeadroom", "quotaHeadroom", "quotaAndCostHeadroomScore"),
+            },
+            HardFloorTriggers = HardFloorTriggers(routing, task),
             FinalLane = lane,
             Usage = usage, TokenUsageAvailable = usageElement is not null, ExecutedAtUtc = executedAt,
             CostEstimate = usageElement is null ? null : cost.Total, Currency = usageElement is null ? null : cost.Currency,
@@ -187,6 +202,13 @@ public sealed class AgentStudioTaskStorageImporter
         => int.TryParse(Text(value, names), out var number) ? number : fallback;
     private static int? NullableNumber(JsonElement value, params string[] names)
         => int.TryParse(Text(value, names), out var number) ? Math.Max(0, number) : null;
+    private static int? NullableNumber(JsonElement? preferred, JsonElement fallback, params string[] names)
+        => preferred is { } value && NullableNumber(value, names) is { } number ? number : NullableNumber(fallback, names);
+    private static double? NullableDouble(JsonElement value, params string[] names)
+        => double.TryParse(Text(value, names), System.Globalization.NumberStyles.Float,
+            System.Globalization.CultureInfo.InvariantCulture, out var number) ? number : null;
+    private static double? NullableDouble(JsonElement? preferred, JsonElement fallback, params string[] names)
+        => preferred is { } value && NullableDouble(value, names) is { } number ? number : NullableDouble(fallback, names);
     private static IReadOnlyList<string> Strings(JsonElement value, params string[] names)
     {
         foreach (var name in names)
@@ -197,6 +219,24 @@ public sealed class AgentStudioTaskStorageImporter
             if (item.ValueKind == JsonValueKind.String) return [item.GetString()!];
         }
         return [];
+    }
+    private static IReadOnlyList<string> Strings(JsonElement? preferred, JsonElement fallback, params string[] names)
+    {
+        var values = preferred is { } value ? Strings(value, names) : [];
+        return values.Count > 0 ? values : Strings(fallback, names);
+    }
+    private static IReadOnlyList<ComplexityHardFloorTrigger> HardFloorTriggers(JsonElement? preferred, JsonElement fallback)
+    {
+        var values = preferred is { } value ? Strings(value, "hardFloorTriggers", "hardFloors") : [];
+        if (values.Count == 0) values = Strings(fallback, "hardFloorTriggers", "hardFloors");
+        return values.Select(item => new string(item.Where(char.IsLetterOrDigit).ToArray()))
+            .Select(item => Enum.TryParse<ComplexityHardFloorTrigger>(item, true, out var trigger)
+                ? (ComplexityHardFloorTrigger?)trigger : null)
+            .Where(trigger => trigger is not null)
+            .Select(trigger => trigger!.Value)
+            .Distinct()
+            .Order()
+            .ToArray();
     }
     private static DateTime? Date(JsonElement value, params string[] names)
         => DateTime.TryParse(Text(value, names), null, System.Globalization.DateTimeStyles.RoundtripKind, out var date) ? date.ToUniversalTime() : null;

@@ -2,79 +2,133 @@
 
 ## Decision
 
-`TaskComplexityEstimator` produces a versioned per-card estimate before a run:
-`trivial`, `standard`, `demanding`, or `critical`, plus a 0–1 confidence,
-predicted tokens/duration/reissues, dimension evidence, and the historical neighbours
-used. `ITaskComplexityEstimateStore.Upsert` is the integration contract for
-Agent Studio routing policy.
+`TaskComplexityEstimator` converts a card into a versioned, auditable routing
+worksheet before implementation starts. The worksheet follows the weighted
+decision and hard floors in
+[`model-routing-policy.md`](../system/domains/model-routing-policy.md); that policy
+remains authoritative if this implementation note drifts.
 
-| Dimension | Weight | Measurable inputs |
+The schema-version 2 result exposes:
+
+- correctness risk, expected scope, context demand, task uncertainty, empirical
+  confidence, and quota/cost headroom as separate scored criteria;
+- the score, maximum score, and English evidence for every criterion, plus
+  evidence for the total score and confidence calculation;
+- the final complexity band, overall confidence (capped when history is absent),
+  and every applied hard-floor trigger;
+- the existing token, duration, and reissue point forecasts plus
+  lower/expected/upper ranges and range evidence;
+- comparable neighbour keys and measurement availability, plus aggregate
+  historical coverage.
+
+`ITaskComplexityEstimateStore.Upsert` remains the Agent Studio integration
+contract. The point-forecast properties remain available for existing callers;
+each equals the `Expected` value in its corresponding forecast range.
+
+## Canonical weighted worksheet
+
+The maximum is 100 points. Scores are policy points rather than normalized
+percentages.
+
+| Criterion | Maximum | Deterministic intake anchors |
 |---|---:|---|
-| Touched surface | 20% | referenced files/subsystems, dependency fan-out |
-| Novelty | 18% | measured override; otherwise new-design/research language |
-| Constraint density | 18% | acceptance criteria, security/concurrency/correctness constraints |
-| Specification ambiguity | 15% | measured override, exploration/decision language |
-| Required reading | 15% | prompt/context size, subsystems, capped repository retrieval term |
-| Verification cost | 14% | acceptance gates, integration/E2E/backtest/benchmark requirements |
+| Correctness risk | 35 | `0` prose/non-behavioral; `12` reversible local behavior with verification; `24` persistent state, public contract/protocol, unclear bug, or consequential migration; `35` critical authority, security, concurrency, or data-loss risk |
+| Expected scope | 20 | `0` up to about 50 expected lines in one subsystem; `8` 51–200 lines or two related components; `14` 201–500 lines or three runtime subsystems; `20` more than 500 lines, four or more runtime subsystems, or repository-wide migration |
+| Context demand | 20 | `0` exact file/behavior known; `8` adjacent component or contract; `14` several layers or historical behavior; `20` broad codebase/history and cross-repository or distributed invariants |
+| Task uncertainty | 10 | `0` mechanical/copy; `3` clear refactor/content/docs; `6` well-specified bug or feature; `10` unknown root cause, architecture decision, or derived requirements |
+| Empirical confidence | 10 | `0` qualified cohort of at least 20; `3` at least five favorable comparable runs; `6` sparse or mixed history; `10` no cohort, repeated semantic reissues, or unfavorable history |
+| Quota and cost headroom | 5 | `5` comfortable headroom; `3` nearing a cap; `0` unavailable. It never lowers a hard floor. |
 
-The input catalogue accepts prompt, task type, project/area, epic context,
-acceptance criteria, touched files/subsystems, dependency fan-out, repository
-file count, and optional measured dimension overrides. Signals that cannot be
-observed before launch—actual changed files, tool calls, or review feedback—are
-outcomes for later calibration, not estimator inputs.
+Totals map to the policy ladder exactly: `0–20` is `trivial` (Luna/medium),
+`21–50` is `standard` (Terra/medium), `51–69` is `demanding`
+(Sol/medium), and `70–100` is `critical` (Sol/xhigh). The optional LLM
+assessment can improve confidence when it agrees with the worksheet, but it
+does not silently rewrite any canonical score.
 
-Total repository size is not treated as work. It has a small capped effect only
-inside required reading; touched surface and fan-out dominate. The production
-backtest should compare a model with and without that term and retain it only if
-out-of-sample token/reissue error improves.
+Callers may supply explicit pre-launch policy scores through
+`ComplexityRoutingSignals`. Each override is clamped to its policy maximum and
+its evidence says that it was supplied explicitly. Empirical confidence cannot
+be overridden: it is calculated from the leakage-safe historical cohort.
 
-## Calibration and 30-card backtest
+## Intake-only scope and importer mappings
 
-`AgentStudioTaskStorageImporter` retains prompt/card features.
-`ComplexityHistory.FromRunRecords` aggregates all attempts into one measured
-sample per card (total tokens/duration plus reissue count), and
-`ComplexityBacktester.Run` performs leave-one-out evaluation. It reports band
-accuracy, token median absolute percentage error, reissue mean absolute error,
-and token-cost Spearman rank correlation. Duplicate card keys are rejected so
-another attempt of the held-out card cannot leak into its historical neighbours.
+Estimator inputs must exist before implementation: authored prompt, task type,
+project/area, epic context, acceptance criteria, referenced or expected files,
+expected runtime subsystems, expected changed-line range, dependency fan-out,
+repository file count, explicit intake routing scores, and explicit hard-floor
+facts.
 
-The automated suite also applies this pipeline to exactly 30 controlled fixture
-cards. Those fixtures validate the method; they are **not production evidence**.
-The real-card calibration snapshot and its machine-readable companion are
-published under [`results/complexity-backtest`](../../results/complexity-backtest/).
-Run `dotnet run --project tools/ComplexityBacktestReport` while the local Agent
-Studio API is available to refresh both artifacts. The report records its cohort
-selection, measurement definitions, and limitations rather than presenting
-observational history as a causal model comparison.
+Expected scope is not eventual changed scope. The importer maps
+`referencedFiles`/`expectedFiles`,
+`referencedSubsystems`/`expectedSubsystems`, and `expectedChangedLines`. It
+deliberately does not map `changedFiles`, `diffStats`, review feedback, tool
+calls, completion lanes, or other post-launch outcomes into `ComplexityCard`.
+Routing scores and `hardFloorTriggers` may be direct card fields or live under
+`routingFeatures`, `upfrontComplexity`, or `complexityRoutingSignals`.
 
-## Optional mini-model assessment and break-even
+Repository size is retained only for backward-compatible forecast similarity;
+it is not a routing-scope score. Generated files do not count toward expected
+scope.
 
-The library accepts an `LlmComplexityAssessment` but does not call a provider.
-The host can version, log, cache, or disable its rubric call. Influence is capped
-at 20% and scaled by supplied confidence; agreement raises overall confidence.
+## Hard floors
 
-Use the assessment when:
+Hard floors are applied after the weighted total and never alter that total.
+The result lists the trigger, minimum band, source evidence, and whether it was
+an explicit intake fact or a deterministic card-text match.
 
-`P(mis-route without LLM) - P(mis-route with LLM) > estimator cost / avoidable mis-route cost`
+- `P0`, `Fencing`, `LeaseOwnership`, `StaleWriteRejection`,
+  `DistributedAuthority`, `SecurityBoundary`, and `CredibleDataLoss` require
+  `critical` / Sol-xhigh.
+- `PublicProtocol`, `PersistentStateMigration`,
+  `ThreeOrMoreRuntimeSubsystems`, and
+  `DestructiveOrSecurityCriticalBoundedDecision` require at least `demanding`
+  / Sol-medium.
+- `UnclearBug` requires at least `standard` / Terra-medium.
 
-For an illustrative 2,000-token assessment and a 200,000-token avoidable
-mis-route, break-even is a 1% absolute reduction in mis-routing probability. At
-3,000 versus 300,000 tokens it is also 1%. Use money instead when model prices
-differ materially, and include reissue and gate-time costs.
+Quota is run-scoped and cannot reduce these floors. Model/provider selection
+still belongs to the orchestrator; the estimator supplies its auditable routing
+facts and floor.
 
-## Routing research fit and learning loop
+## History, confidence, and forecast ranges
 
-[RouteLLM](https://arxiv.org/abs/2406.18665) learns a router from preference
-data between stronger and weaker models. [FrugalGPT](https://arxiv.org/abs/2305.05176)
-learns model cascades under cost/quality trade-offs. Token Economy starts with
-auditable features plus measured neighbours and an optional semantic judge:
+Historical outcomes calibrate only empirical confidence and the existing cost
+forecasts. They never change correctness risk, expected scope, context demand,
+or task uncertainty.
 
-`task → extract features → select model + prompt variant → observe run → ingest tokens/duration/reissues/outcome → recalibrate`
+`ComplexityHistory.FromRunRecords` deduplicates task key plus attempt, then
+aggregates one sample per card. Missing token, duration, grade, or semantic
+reissue telemetry remains marked incomplete. It is excluded from the relevant
+forecast or metric instead of becoming a measured zero. `HistoricalEvidence`
+and each neighbour expose this coverage, so no-history and low-confidence
+routes remain visible.
 
-Model-selection research is worth the time when:
+Before similarity or cohort calculations, `Estimate` removes every historical
+sample whose task key equals the evaluated card. `ComplexityBacktester.Run`
+leaves out the entire card. `RunHeldOut` accepts explicit training and evaluation
+sets and rejects any overlapping card key, preventing an attempt of an evaluated
+card from entering its neighbours. Backtest metrics are nullable and include
+evaluation counts; unavailable outcome coverage therefore cannot appear as a
+zero error.
 
-`task volume × avoidable cost per task × achievable error reduction > estimator + maintenance + evaluation cost`
+The lower/expected/upper forecasts envelope both confidence and the observed
+span of complete comparable history. Without complete neighbours,
+deterministic point forecasts are retained and the range is widened according
+to confidence. Range evidence says which path was used.
 
-For one-off cheap tasks, use deterministic policy. For repeated expensive task
-families, collect outcomes and use temporal or project-held-out evaluation
-before enabling learning-based selection.
+## Calibration and learning loop
+
+The deterministic 30-card fixtures validate mechanics and boundaries; they are
+not production evidence. Real-card calibration artifacts live under
+[`results/complexity-backtest`](../../results/complexity-backtest/). Refresh
+them with `dotnet run --project tools/ComplexityBacktestReport` while the Agent
+Studio API is available. Prefer temporal, project, or scenario holdouts through
+`RunHeldOut` for claims about generalization.
+
+The loop remains:
+
+`task → extract auditable intake features → select route → observe run → ingest complete/unknown outcomes → recalibrate on held-out cards`
+
+Use the optional model assessment only when its expected reduction in expensive
+misroutes exceeds its own token, latency, and maintenance cost. Controlled
+comparisons—not observational routing history—are required before changing the
+canonical policy thresholds or correctness floors.

@@ -30,8 +30,12 @@ public sealed record AgentStudioRunRecord
     public IReadOnlyList<string> AcceptanceCriteria { get; init; } = [];
     public IReadOnlyList<string> ReferencedFiles { get; init; } = [];
     public IReadOnlyList<string> ReferencedSubsystems { get; init; } = [];
+    /// <summary>Scope expected on the card before launch; never sourced from a completed diff.</summary>
+    public int? ExpectedChangedLines { get; init; }
     public int? DependencyFanOut { get; init; }
     public int? RepositoryFileCount { get; init; }
+    public ComplexityRoutingSignals RoutingSignals { get; init; } = new();
+    public IReadOnlyList<ComplexityHardFloorTrigger> HardFloorTriggers { get; init; } = [];
     public string? FinalLane { get; init; }
     public required TokenUsage Usage { get; init; }
     /// <summary>Distinguishes a measured zero-token attempt from absent token telemetry.</summary>
@@ -77,7 +81,7 @@ public static class ComplexityHistory
     {
         ArgumentNullException.ThrowIfNull(records);
         return records
-            .GroupBy(record => record.TaskKey, StringComparer.Ordinal)
+            .GroupBy(record => record.TaskKey, StringComparer.OrdinalIgnoreCase)
             .Where(group => group.Any(record => !string.IsNullOrWhiteSpace(record.TaskPrompt)))
             .Select(group =>
             {
@@ -100,16 +104,27 @@ public static class ComplexityHistory
                         Area = cardRecord.Area, TaskType = cardRecord.TaskType, EpicContext = cardRecord.EpicContext,
                         AcceptanceCriteria = cardRecord.AcceptanceCriteria, ReferencedFiles = cardRecord.ReferencedFiles,
                         ReferencedSubsystems = cardRecord.ReferencedSubsystems, DependencyFanOut = cardRecord.DependencyFanOut,
-                        RepositoryFileCount = cardRecord.RepositoryFileCount,
+                        ExpectedChangedLines = cardRecord.ExpectedChangedLines, RepositoryFileCount = cardRecord.RepositoryFileCount,
+                        RoutingSignals = cardRecord.RoutingSignals, HardFloorTriggers = cardRecord.HardFloorTriggers,
                     },
                     ActualTokens = attempts.Sum(record =>
-                        record.Usage.Input + record.Usage.Output + record.Usage.CacheRead + record.Usage.CacheWrite),
+                        record.TokenUsageAvailable
+                            ? record.Usage.Input + record.Usage.Output + record.Usage.CacheRead + record.Usage.CacheWrite
+                            : 0),
                     ActualDuration = TimeSpan.FromTicks(attempts.Sum(record =>
                         record.StartedAtUtc is { } started && record.ExecutedAtUtc >= started
                             ? (record.ExecutedAtUtc - started).Ticks : 0)),
                     // Run numbers preserve known prior attempts even when task storage only retains
                     // the latest run; distinct records provide the same fact when all attempts exist.
                     ReissueCount = Math.Max(attempts.Length - 1, Math.Max(0, attempts.Max(record => record.Run) - 1)),
+                    TokenHistoryComplete = attempts.All(record => record.TokenUsageAvailable),
+                    DurationHistoryComplete = attempts.All(record => record.StartedAtUtc is { } started && record.ExecutedAtUtc >= started),
+                    ReissueHistoryAvailable = attempts.All(record => record.Run > 0),
+                    KnownGradeCount = attempts.Count(record => record.Grade is not null),
+                    FavorableGradeCount = attempts.Count(record => record.Grade is "A" or "B"),
+                    SemanticReissueCount = attempts.All(record => record.SemanticReissue is not null)
+                        ? attempts.Count(record => record.SemanticReissue == true)
+                        : null,
                 };
             })
             .OrderBy(sample => sample.Card.TaskKey, StringComparer.Ordinal)
