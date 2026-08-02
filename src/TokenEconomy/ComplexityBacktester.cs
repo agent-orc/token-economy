@@ -6,7 +6,22 @@ public sealed record ComplexityBacktestResult(
     double LevelAccuracy,
     double TokenMedianAbsolutePercentageError,
     double ReissueMeanAbsoluteError,
-    double TokenRankCorrelation);
+    double TokenRankCorrelation)
+{
+    public int HeldOutNeighbourLeakageCount { get; init; }
+    public IReadOnlyList<ComplexityBacktestRow> Rows { get; init; } = [];
+}
+
+/// <summary>Auditable held-out row, including the exact neighbours visible to that estimate.</summary>
+public sealed record ComplexityBacktestRow(
+    string TaskKey,
+    double EstimatedScore,
+    TaskComplexityLevel EstimatedLevel,
+    TaskComplexityLevel ActualLevel,
+    IReadOnlyList<string> NeighbourTaskKeys,
+    IReadOnlyList<string> HardFloorTriggers,
+    IReadOnlyList<string> AppliedHardFloors,
+    ComplexityHistoryEvidenceStatus HistoryEvidenceStatus);
 
 /// <summary>Attempt-level input coverage reported before history is collapsed into backtest samples.</summary>
 public sealed record ComplexityBacktestCoverage(
@@ -49,27 +64,37 @@ public static class ComplexityBacktester
         if (samples.Select(sample => sample.Card.TaskKey).Distinct(StringComparer.Ordinal).Count() != samples.Count)
             throw new ArgumentException("Backtesting requires one aggregated sample per task key.", nameof(samples));
         estimator ??= new TaskComplexityEstimator();
-        var rows = samples.Select((sample, index) =>
+        var rows = samples.Select(sample =>
         {
-            var estimate = estimator.Estimate(sample.Card, samples.Where((_, other) => other != index));
+            var estimate = estimator.Estimate(sample.Card,
+                samples.Where(other => !string.Equals(other.Card.TaskKey, sample.Card.TaskKey, StringComparison.Ordinal)));
             var actualLevel = ActualLevel(sample.ActualTokens, sample.ActualDuration, sample.ReissueCount);
             var percentageError = Math.Abs(estimate.PredictedTokens - sample.ActualTokens) / (double)Math.Max(1, sample.ActualTokens);
             return (Estimate: estimate, Sample: sample, ActualLevel: actualLevel, PercentageError: percentageError);
         }).ToArray();
 
+        var backtestRows = rows.Select(row => new ComplexityBacktestRow(
+            row.Sample.Card.TaskKey, row.Estimate.Score, row.Estimate.Level, row.ActualLevel,
+            row.Estimate.Neighbours.Select(neighbour => neighbour.TaskKey).ToArray(),
+            row.Estimate.HardFloorTriggers, row.Estimate.AppliedHardFloors,
+            row.Estimate.HistoryEvidenceStatus)).ToArray();
         return new(
             rows.Length,
             Round(rows.Count(r => r.Estimate.Level == r.ActualLevel) / (double)rows.Length),
             Round(Median(rows.Select(r => r.PercentageError))),
             Round(rows.Average(r => Math.Abs(r.Estimate.PredictedReissues - r.Sample.ReissueCount))),
-            Round(Spearman(rows.Select(r => (double)r.Estimate.PredictedTokens).ToArray(), rows.Select(r => (double)r.Sample.ActualTokens).ToArray())));
+            Round(Spearman(rows.Select(r => (double)r.Estimate.PredictedTokens).ToArray(), rows.Select(r => (double)r.Sample.ActualTokens).ToArray())))
+        {
+            HeldOutNeighbourLeakageCount = backtestRows.Sum(row => row.NeighbourTaskKeys.Count(key => string.Equals(key, row.TaskKey, StringComparison.Ordinal))),
+            Rows = backtestRows,
+        };
     }
 
     private static TaskComplexityLevel ActualLevel(long tokens, TimeSpan duration, int reissues)
     {
         var score = Math.Min(100, Math.Max(0, Math.Log10(Math.Max(1, tokens) / 10_000d) * 28
             + Math.Log2(1 + Math.Max(0, duration.TotalHours)) * 7 + reissues * 12));
-        return score switch { < 25 => TaskComplexityLevel.Trivial, < 55 => TaskComplexityLevel.Standard, < 80 => TaskComplexityLevel.Demanding, _ => TaskComplexityLevel.Critical };
+        return score switch { <= 20 => TaskComplexityLevel.Trivial, <= 50 => TaskComplexityLevel.Standard, <= 69 => TaskComplexityLevel.Demanding, _ => TaskComplexityLevel.Critical };
     }
 
     private static double Median(IEnumerable<double> values)

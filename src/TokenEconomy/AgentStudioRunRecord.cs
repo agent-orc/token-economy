@@ -30,8 +30,16 @@ public sealed record AgentStudioRunRecord
     public IReadOnlyList<string> AcceptanceCriteria { get; init; } = [];
     public IReadOnlyList<string> ReferencedFiles { get; init; } = [];
     public IReadOnlyList<string> ReferencedSubsystems { get; init; } = [];
+    /// <summary>Pre-launch expected files; deliberately distinct from any eventual changed-files field.</summary>
+    public IReadOnlyList<string> ExpectedChangedFiles { get; init; } = [];
+    /// <summary>Pre-launch expected runtime subsystems; deliberately distinct from the eventual diff.</summary>
+    public IReadOnlyList<string> ExpectedRuntimeSubsystems { get; init; } = [];
+    public int? ExpectedChangedLines { get; init; }
     public int? DependencyFanOut { get; init; }
     public int? RepositoryFileCount { get; init; }
+    public IReadOnlyList<string> HardFloorTriggers { get; init; } = [];
+    public int? QuotaAndCostHeadroom { get; init; }
+    public ComplexityRoutingOverrides RoutingOverrides { get; init; } = new();
     public string? FinalLane { get; init; }
     public required TokenUsage Usage { get; init; }
     /// <summary>Distinguishes a measured zero-token attempt from absent token telemetry.</summary>
@@ -100,7 +108,13 @@ public static class ComplexityHistory
                         Area = cardRecord.Area, TaskType = cardRecord.TaskType, EpicContext = cardRecord.EpicContext,
                         AcceptanceCriteria = cardRecord.AcceptanceCriteria, ReferencedFiles = cardRecord.ReferencedFiles,
                         ReferencedSubsystems = cardRecord.ReferencedSubsystems, DependencyFanOut = cardRecord.DependencyFanOut,
+                        ExpectedChangedFiles = cardRecord.ExpectedChangedFiles,
+                        ExpectedRuntimeSubsystems = cardRecord.ExpectedRuntimeSubsystems,
+                        ExpectedChangedLines = cardRecord.ExpectedChangedLines,
                         RepositoryFileCount = cardRecord.RepositoryFileCount,
+                        HardFloorTriggers = cardRecord.HardFloorTriggers,
+                        QuotaAndCostHeadroom = cardRecord.QuotaAndCostHeadroom,
+                        RoutingOverrides = cardRecord.RoutingOverrides,
                     },
                     ActualTokens = attempts.Sum(record =>
                         record.Usage.Input + record.Usage.Output + record.Usage.CacheRead + record.Usage.CacheWrite),
@@ -110,6 +124,10 @@ public static class ComplexityHistory
                     // Run numbers preserve known prior attempts even when task storage only retains
                     // the latest run; distinct records provide the same fact when all attempts exist.
                     ReissueCount = Math.Max(attempts.Length - 1, Math.Max(0, attempts.Max(record => record.Run) - 1)),
+                    TokenUsageAvailable = attempts.All(record => record.TokenUsageAvailable),
+                    DurationAvailable = attempts.All(record => record.StartedAtUtc is { } started && record.ExecutedAtUtc >= started),
+                    SemanticReissueEvidenceAvailable = attempts.All(record => record.SemanticReissue is not null),
+                    FinalGrade = attempts.OrderBy(record => record.Run).Last().Grade,
                 };
             })
             .OrderBy(sample => sample.Card.TaskKey, StringComparer.Ordinal)

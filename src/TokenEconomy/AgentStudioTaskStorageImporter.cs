@@ -127,6 +127,10 @@ public sealed class AgentStudioTaskStorageImporter
         if (requestedGranularity == AgentStudioRouteGranularity.Card)
             lane ??= Text(task, "finalLane", "lane", "column");
         var listing = _prices.Find(model);
+        // These mappings intentionally whitelist intake/expected fields. Eventual changedLines,
+        // changedFiles, review feedback, and attempt outcomes must never become estimator inputs.
+        var upfront = Object(task, "upfrontComplexity") ?? Object(task, "upfrontRouting") ?? task;
+        var routingFeatures = Object(upfront, "routingFeatures") ?? Object(upfront, "scores") ?? upfront;
         return new AgentStudioRunRecord
         {
             TaskKey = taskKey, Run = Number(measurement, fallbackRun, "run", "attempt", "runNumber"), Project = Text(task, "project", "projectId"),
@@ -137,7 +141,21 @@ public sealed class AgentStudioTaskStorageImporter
             TaskPrompt = Text(task, "prompt", "description"), Area = Text(task, "area", "component"),
             EpicContext = Text(task, "epicContext", "epic"), AcceptanceCriteria = Strings(task, "acceptanceCriteria", "criteria"),
             ReferencedFiles = Strings(task, "referencedFiles", "files"), ReferencedSubsystems = Strings(task, "referencedSubsystems", "subsystems"),
+            ExpectedChangedFiles = Strings(upfront, "expectedChangedFiles", "plannedChangedFiles"),
+            ExpectedRuntimeSubsystems = Strings(upfront, "expectedRuntimeSubsystems", "expectedSubsystems"),
+            ExpectedChangedLines = NullableNumber(upfront, "expectedChangedLines"),
             DependencyFanOut = NullableNumber(task, "dependencyFanOut"), RepositoryFileCount = NullableNumber(task, "repositoryFileCount"),
+            HardFloorTriggers = Strings(upfront, "hardFloorTriggers", "correctnessTriggers"),
+            QuotaAndCostHeadroom = NullableNumber(upfront, "quotaAndCostHeadroom"),
+            RoutingOverrides = new ComplexityRoutingOverrides
+            {
+                CorrectnessRisk = Criterion(routingFeatures, "correctnessRisk"),
+                ExpectedScope = Criterion(routingFeatures, "expectedScope"),
+                ContextDemand = Criterion(routingFeatures, "contextDemand"),
+                TaskTypeAndUncertainty = Criterion(routingFeatures, "taskTypeAndUncertainty", "taskUncertainty"),
+                EmpiricalConfidence = Criterion(routingFeatures, "empiricalConfidence"),
+                QuotaAndCostHeadroom = Criterion(routingFeatures, "quotaAndCostHeadroom"),
+            },
             FinalLane = lane,
             Usage = usage, TokenUsageAvailable = usageElement is not null, ExecutedAtUtc = executedAt,
             CostEstimate = usageElement is null ? null : cost.Total, Currency = usageElement is null ? null : cost.Currency,
@@ -187,6 +205,20 @@ public sealed class AgentStudioTaskStorageImporter
         => int.TryParse(Text(value, names), out var number) ? number : fallback;
     private static int? NullableNumber(JsonElement value, params string[] names)
         => int.TryParse(Text(value, names), out var number) ? Math.Max(0, number) : null;
+    private static ComplexityCriterionOverride? Criterion(JsonElement value, params string[] names)
+    {
+        foreach (var name in names)
+        {
+            if (Property(value, name) is not { } item) continue;
+            if (item.ValueKind is JsonValueKind.Number or JsonValueKind.String
+                && int.TryParse(item.ToString(), out var direct))
+                return new(Math.Max(0, direct), $"Imported pre-launch {name} score.");
+            if (item.ValueKind == JsonValueKind.Object
+                && int.TryParse(Text(item, "score", "points"), out var score))
+                return new(Math.Max(0, score), Text(item, "evidence", "reason") ?? $"Imported pre-launch {name} score.");
+        }
+        return null;
+    }
     private static IReadOnlyList<string> Strings(JsonElement value, params string[] names)
     {
         foreach (var name in names)
