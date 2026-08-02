@@ -102,6 +102,8 @@ public sealed record TrustEvidence
     public required string ArtifactReference { get; init; }
     /// <summary>Optional content hash of the artifact, for tamper-evident evidence stores.</summary>
     public string? ArtifactSha256 { get; init; }
+    /// <summary>Derived qualification report that applied confidence gates, when applicable.</summary>
+    public string? QualificationReference { get; init; }
 
     /// <summary>True only for successful, independently collected evidence with a retained artifact.</summary>
     public bool IsIndependentProof => Outcome == EvidenceOutcome.Supports
@@ -261,7 +263,7 @@ public sealed class ModelTrustLedger
         Require(modelId, nameof(modelId));
         var claims = _capabilities.Count(record => SameModel(record.ModelId, modelId));
         var proofs = _evidence.Where(evidence => SameModel(evidence.ModelId, modelId) && evidence.IsIndependentProof)
-            .Select(evidence => evidence.EvidenceId).Distinct(StringComparer.Ordinal).Count();
+            .Select(evidence => evidence.ArtifactReference).Distinct(StringComparer.Ordinal).Count();
         var open = _incidents.Where(incident => SameModel(incident.ModelId, modelId) && incident.Status == IncidentStatus.Open)
             .OrderByDescending(incident => incident.OccurredAtUtc).ThenBy(incident => incident.IncidentId, StringComparer.Ordinal).ToArray();
 
@@ -325,5 +327,43 @@ public sealed class ModelTrustLedger
     {
         if (string.IsNullOrWhiteSpace(value))
             throw new ArgumentException("A non-empty value is required.", paramName);
+    }
+}
+
+/// <summary>Converts gated routing cohorts into trust-ledger evidence without upgrading observations to validation.</summary>
+public static class RoutingEvidenceTrust
+{
+    /// <summary>
+    /// Creates one deterministic ledger entry per controlled cohort. Only a cohort whose retained
+    /// qualification explicitly claims validation supports the capability; all others are inconclusive.
+    /// Observational cohorts are intentionally excluded because association is not controlled proof.
+    /// </summary>
+    public static IReadOnlyList<TrustEvidence> FromReport(RoutingEvidenceReport report, string reportArtifactReference)
+    {
+        ArgumentNullException.ThrowIfNull(report);
+        ArgumentException.ThrowIfNullOrWhiteSpace(reportArtifactReference);
+        return report.ControlledCohorts
+            .Where(cohort => cohort.CanonicalModel is not null && cohort.Capability is not null)
+            .SelectMany(cohort => cohort.Provenance.Select(provenance =>
+            {
+                var key = string.Join("\n", report.EvidenceVersion, cohort.CanonicalModel, cohort.ThinkingLevel,
+                    cohort.TaskClass, cohort.Capability, cohort.ObservedThrough?.ToString("O"), provenance.ArtifactReference);
+                var id = "routing-" + Convert.ToHexString(System.Security.Cryptography.SHA256.HashData(
+                    System.Text.Encoding.UTF8.GetBytes(key))).ToLowerInvariant();
+                return new TrustEvidence
+                {
+                    EvidenceId = id, ModelId = cohort.CanonicalModel!, Capability = cohort.Capability!,
+                    Source = EvidenceSource.ControlledBenchmark,
+                    Outcome = cohort.Qualification.ClaimsValidation ? EvidenceOutcome.Supports : EvidenceOutcome.Inconclusive,
+                    ObservedAtUtc = cohort.ObservedThrough is { } date
+                        ? date.ToDateTime(TimeOnly.MinValue, DateTimeKind.Utc) : DateTime.UnixEpoch,
+                    ArtifactReference = provenance.ArtifactReference, ArtifactSha256 = provenance.ArtifactSha256,
+                    QualificationReference = reportArtifactReference,
+                };
+            }))
+            .OrderBy(item => item.ModelId, StringComparer.Ordinal)
+            .ThenBy(item => item.Capability, StringComparer.Ordinal)
+            .ThenBy(item => item.EvidenceId, StringComparer.Ordinal)
+            .ToArray();
     }
 }

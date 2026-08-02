@@ -8,9 +8,38 @@ public sealed record ComplexityBacktestResult(
     double ReissueMeanAbsoluteError,
     double TokenRankCorrelation);
 
+/// <summary>Attempt-level input coverage reported before history is collapsed into backtest samples.</summary>
+public sealed record ComplexityBacktestCoverage(
+    int TaskCount,
+    int AttemptCount,
+    int AttemptLevelRouteCount,
+    decimal TokenCoverage,
+    decimal DurationCoverage,
+    decimal SemanticReissueCoverage);
+
 /// <summary>Leave-one-out backtest: every card is estimated using only the other historical cards.</summary>
 public static class ComplexityBacktester
 {
+    /// <summary>
+    /// Describes whether imported attempt history is complete enough for calibration. Missing
+    /// telemetry stays in the denominator and is not converted to a measured zero.
+    /// </summary>
+    public static ComplexityBacktestCoverage MeasureCoverage(IEnumerable<AgentStudioRunRecord> records)
+    {
+        ArgumentNullException.ThrowIfNull(records);
+        var attempts = records.GroupBy(record => (record.TaskKey, record.Run))
+            .Select(group => group.OrderByDescending(record => record.ObservedAtUtc).First()).ToArray();
+        var count = attempts.Length;
+        static decimal Coverage(int available, int total) => total == 0 ? 0
+            : Math.Round((decimal)available / total, 6, MidpointRounding.AwayFromZero);
+        return new(
+            attempts.Select(record => record.TaskKey).Distinct(StringComparer.Ordinal).Count(), count,
+            attempts.Count(record => record.RouteGranularity == AgentStudioRouteGranularity.Attempt),
+            Coverage(attempts.Count(record => record.TokenUsageAvailable), count),
+            Coverage(attempts.Count(record => record.StartedAtUtc is { } started && record.ExecutedAtUtc >= started), count),
+            Coverage(attempts.Count(record => record.SemanticReissue is not null), count));
+    }
+
     public static ComplexityBacktestResult Run(
         IReadOnlyList<ComplexityHistorySample> samples,
         TaskComplexityEstimator? estimator = null)

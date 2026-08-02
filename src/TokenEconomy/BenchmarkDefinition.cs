@@ -41,6 +41,10 @@ public sealed record BenchmarkTask
     public required string Prompt { get; init; }
     public required string SeedWorkspace { get; init; }
     public string? ResponseFile { get; init; }
+    /// <summary>Stable routing task class. Null means the setup did not declare one.</summary>
+    public string? TaskClass { get; init; }
+    /// <summary>Specific capability exercised by the success criteria, when declared.</summary>
+    public string? Capability { get; init; }
 }
 
 public sealed record BenchmarkVariant
@@ -103,6 +107,8 @@ public sealed record BenchmarkRunResult
     public required string RunId { get; init; }
     public required DateTime StartedAtUtc { get; init; }
     public required DateTime CompletedAtUtc { get; init; }
+    public string? TaskClass { get; init; }
+    public string? Capability { get; init; }
     public required IReadOnlyList<BenchmarkCaseResult> Cases { get; init; }
 }
 

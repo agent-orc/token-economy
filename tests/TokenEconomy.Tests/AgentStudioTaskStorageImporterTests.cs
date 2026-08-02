@@ -25,6 +25,7 @@ public class AgentStudioTaskStorageImporterTests
             Assert.Equal(1, first.RecordsUpserted); Assert.Equal(1, second.RecordsUpserted);
             Assert.Equal("TE-5", record.TaskKey); Assert.Equal(2, record.Run);
             Assert.Equal("anthropic", record.Provider); Assert.Equal(100000, record.Usage.Input);
+            Assert.True(record.TokenUsageAvailable);
             Assert.Equal(OutcomeQualitySignal.Successful, record.Outcome); Assert.NotNull(record.CostEstimate);
             Assert.Equal(ModelPrice.EstimatedListPricesCaveat, record.CostCaveat);
             Assert.True(record.IsEstimatedListPrice);
@@ -61,6 +62,20 @@ public class AgentStudioTaskStorageImporterTests
 
         Assert.Equal(DateTime.UnixEpoch, first.ObservedAtUtc);
         Assert.Equal(first, second);
+    }
+
+    [Fact]
+    public void Parse_MissingUsageIsUnavailableRatherThanMeasuredZero()
+    {
+        using var json = System.Text.Json.JsonDocument.Parse("""
+            { "id":"card-9", "model":"claude-sonnet-5", "updatedAt":"2026-07-10T12:00:00Z" }
+            """);
+
+        var record = new AgentStudioTaskStorageImporter().Parse(json.RootElement);
+
+        Assert.False(record.TokenUsageAvailable);
+        Assert.Equal(PriceStatus.UsageUnavailable, record.CostStatus);
+        Assert.Null(record.CostEstimate);
     }
 
     [Fact]

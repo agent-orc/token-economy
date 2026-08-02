@@ -34,3 +34,13 @@ for every denominator and attach the incident to its model, CLI, and (when
 known) run id before reporting a model/CLI-specific rate. Rejected incidents
 are excluded from the numerator; resolved incidents remain in the historical
 rate so the evidence is not erased.
+
+## Routing qualifications
+
+Versioned routing cohorts are described in
+[`routing-evidence.md`](routing-evidence.md). `RoutingEvidenceTrust.FromReport`
+converts controlled cohorts to ledger entries. Only a cohort that clears the
+declared confidence gates has a supporting outcome; below-gate cohorts remain
+inconclusive, and observational support is not converted into independent
+proof. Independent proof count is the count of distinct retained artifacts,
+not the count of capability rows derived from one report.

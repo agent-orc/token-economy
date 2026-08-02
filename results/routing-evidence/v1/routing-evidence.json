@@ -1,0 +1,3233 @@
+{
+  "schemaVersion": 1,
+  "evidenceVersion": "routing-evidence-v1",
+  "confidenceGates": {
+    "version": 1,
+    "minimumSampleSize": 20,
+    "minimumGradeCoverage": 0.70,
+    "minimumDurationCoverage": 0.70,
+    "minimumTokenCoverage": 0.70,
+    "minimumSemanticReissueCoverage": 0.70,
+    "minimumFavorableGradeRate": 0.70,
+    "maximumSemanticReissueRate": 0.10
+  },
+  "controlledCohorts": [
+    {
+      "canonicalModel": "claude-fable-5",
+      "thinkingLevel": null,
+      "taskClass": "document-to-text",
+      "capability": "document-to-text/pdf",
+      "sampleSize": 1,
+      "attemptLevelRouteCount": 1,
+      "cardLevelRouteCount": 0,
+      "unknownRouteCount": 0,
+      "outcomeAvailableCount": 1,
+      "successCount": 1,
+      "successRate": 1,
+      "outcomeCoverage": 1,
+      "gradeAvailableCount": 1,
+      "favorableGradeCount": 1,
+      "gradeCoverage": 1,
+      "favorableGradeRate": 1,
+      "semanticReissueAvailableCount": 1,
+      "semanticReissueCount": 0,
+      "semanticReissueCoverage": 1,
+      "semanticReissueRate": 0,
+      "durationAvailableCount": 1,
+      "durationCoverage": 1,
+      "totalDurationMs": 38533,
+      "averageDurationMs": 38533,
+      "tokenAvailableCount": 1,
+      "tokenCoverage": 1,
+      "totalTokens": 89436,
+      "averageTokens": 89436,
+      "costAvailableCount": 0,
+      "costCoverage": 0,
+      "totalCostUsd": null,
+      "observedFrom": "2026-07-25",
+      "observedThrough": "2026-07-25",
+      "provenance": [
+        {
+          "artifactReference": "benchmarks/results/document-to-text/curated-hard-cases-v1/20260725T120544879Z.json",
+          "artifactSha256": "24bbe757115888ec2fa32436d8a37258e7b99c2ed2786ee7be88545ce3130849"
+        }
+      ],
+      "qualification": {
+        "level": "Unknown",
+        "claimsValidation": false,
+        "gateFailures": [
+          "thinking level is unknown",
+          "sample size 1 is below 20"
+        ]
+      }
+    },
+    {
+      "canonicalModel": "claude-fable-5",
+      "thinkingLevel": null,
+      "taskClass": "document-to-text",
+      "capability": "document-to-text/presentation",
+      "sampleSize": 1,
+      "attemptLevelRouteCount": 1,
+      "cardLevelRouteCount": 0,
+      "unknownRouteCount": 0,
+      "outcomeAvailableCount": 1,
+      "successCount": 1,
+      "successRate": 1,
+      "outcomeCoverage": 1,
+      "gradeAvailableCount": 1,
+      "favorableGradeCount": 1,
+      "gradeCoverage": 1,
+      "favorableGradeRate": 1,
+      "semanticReissueAvailableCount": 1,
+      "semanticReissueCount": 0,
+      "semanticReissueCoverage": 1,
+      "semanticReissueRate": 0,
+      "durationAvailableCount": 1,
+      "durationCoverage": 1,
+      "totalDurationMs": 19733,
+      "averageDurationMs": 19733,
+      "tokenAvailableCount": 1,
+      "tokenCoverage": 1,
+      "totalTokens": 88226,
+      "averageTokens": 88226,
+      "costAvailableCount": 0,
+      "costCoverage": 0,
+      "totalCostUsd": null,
+      "observedFrom": "2026-07-25",
+      "observedThrough": "2026-07-25",
+      "provenance": [
+        {
+          "artifactReference": "benchmarks/results/document-to-text/curated-hard-cases-v1/20260725T120544879Z.json",
+          "artifactSha256": "24bbe757115888ec2fa32436d8a37258e7b99c2ed2786ee7be88545ce3130849"
+        }
+      ],
+      "qualification": {
+        "level": "Unknown",
+        "claimsValidation": false,
+        "gateFailures": [
+          "thinking level is unknown",
+          "sample size 1 is below 20"
+        ]
+      }
+    },
+    {
+      "canonicalModel": "claude-fable-5",
+      "thinkingLevel": null,
+      "taskClass": "document-to-text",
+      "capability": "document-to-text/spreadsheet",
+      "sampleSize": 1,
+      "attemptLevelRouteCount": 1,
+      "cardLevelRouteCount": 0,
+      "unknownRouteCount": 0,
+      "outcomeAvailableCount": 1,
+      "successCount": 1,
+      "successRate": 1,
+      "outcomeCoverage": 1,
+      "gradeAvailableCount": 1,
+      "favorableGradeCount": 1,
+      "gradeCoverage": 1,
+      "favorableGradeRate": 1,
+      "semanticReissueAvailableCount": 1,
+      "semanticReissueCount": 0,
+      "semanticReissueCoverage": 1,
+      "semanticReissueRate": 0,
+      "durationAvailableCount": 1,
+      "durationCoverage": 1,
+      "totalDurationMs": 20252,
+      "averageDurationMs": 20252,
+      "tokenAvailableCount": 1,
+      "tokenCoverage": 1,
+      "totalTokens": 89219,
+      "averageTokens": 89219,
+      "costAvailableCount": 0,
+      "costCoverage": 0,
+      "totalCostUsd": null,
+      "observedFrom": "2026-07-25",
+      "observedThrough": "2026-07-25",
+      "provenance": [
+        {
+          "artifactReference": "benchmarks/results/document-to-text/curated-hard-cases-v1/20260725T120544879Z.json",
+          "artifactSha256": "24bbe757115888ec2fa32436d8a37258e7b99c2ed2786ee7be88545ce3130849"
+        }
+      ],
+      "qualification": {
+        "level": "Unknown",
+        "claimsValidation": false,
+        "gateFailures": [
+          "thinking level is unknown",
+          "sample size 1 is below 20"
+        ]
+      }
+    },
+    {
+      "canonicalModel": "claude-fable-5",
+      "thinkingLevel": null,
+      "taskClass": "document-to-text",
+      "capability": "document-to-text/word",
+      "sampleSize": 1,
+      "attemptLevelRouteCount": 1,
+      "cardLevelRouteCount": 0,
+      "unknownRouteCount": 0,
+      "outcomeAvailableCount": 1,
+      "successCount": 1,
+      "successRate": 1,
+      "outcomeCoverage": 1,
+      "gradeAvailableCount": 1,
+      "favorableGradeCount": 1,
+      "gradeCoverage": 1,
+      "favorableGradeRate": 1,
+      "semanticReissueAvailableCount": 1,
+      "semanticReissueCount": 0,
+      "semanticReissueCoverage": 1,
+      "semanticReissueRate": 0,
+      "durationAvailableCount": 1,
+      "durationCoverage": 1,
+      "totalDurationMs": 26582,
+      "averageDurationMs": 26582,
+      "tokenAvailableCount": 1,
+      "tokenCoverage": 1,
+      "totalTokens": 88134,
+      "averageTokens": 88134,
+      "costAvailableCount": 0,
+      "costCoverage": 0,
+      "totalCostUsd": null,
+      "observedFrom": "2026-07-25",
+      "observedThrough": "2026-07-25",
+      "provenance": [
+        {
+          "artifactReference": "benchmarks/results/document-to-text/curated-hard-cases-v1/20260725T120544879Z.json",
+          "artifactSha256": "24bbe757115888ec2fa32436d8a37258e7b99c2ed2786ee7be88545ce3130849"
+        }
+      ],
+      "qualification": {
+        "level": "Unknown",
+        "claimsValidation": false,
+        "gateFailures": [
+          "thinking level is unknown",
+          "sample size 1 is below 20"
+        ]
+      }
+    },
+    {
+      "canonicalModel": "claude-haiku-4-5",
+      "thinkingLevel": null,
+      "taskClass": "document-to-text",
+      "capability": "document-to-text/pdf",
+      "sampleSize": 1,
+      "attemptLevelRouteCount": 1,
+      "cardLevelRouteCount": 0,
+      "unknownRouteCount": 0,
+      "outcomeAvailableCount": 1,
+      "successCount": 0,
+      "successRate": 0,
+      "outcomeCoverage": 1,
+      "gradeAvailableCount": 1,
+      "favorableGradeCount": 0,
+      "gradeCoverage": 1,
+      "favorableGradeRate": 0,
+      "semanticReissueAvailableCount": 1,
+      "semanticReissueCount": 0,
+      "semanticReissueCoverage": 1,
+      "semanticReissueRate": 0,
+      "durationAvailableCount": 1,
+      "durationCoverage": 1,
+      "totalDurationMs": 35168,
+      "averageDurationMs": 35168,
+      "tokenAvailableCount": 1,
+      "tokenCoverage": 1,
+      "totalTokens": 121318,
+      "averageTokens": 121318,
+      "costAvailableCount": 0,
+      "costCoverage": 0,
+      "totalCostUsd": null,
+      "observedFrom": "2026-07-25",
+      "observedThrough": "2026-07-25",
+      "provenance": [
+        {
+          "artifactReference": "benchmarks/results/document-to-text/curated-hard-cases-v1/20260725T120544879Z.json",
+          "artifactSha256": "24bbe757115888ec2fa32436d8a37258e7b99c2ed2786ee7be88545ce3130849"
+        }
+      ],
+      "qualification": {
+        "level": "Unknown",
+        "claimsValidation": false,
+        "gateFailures": [
+          "thinking level is unknown",
+          "sample size 1 is below 20",
+          "favorable grade rate is unavailable or below the declared gate"
+        ]
+      }
+    },
+    {
+      "canonicalModel": "claude-haiku-4-5",
+      "thinkingLevel": null,
+      "taskClass": "document-to-text",
+      "capability": "document-to-text/presentation",
+      "sampleSize": 1,
+      "attemptLevelRouteCount": 1,
+      "cardLevelRouteCount": 0,
+      "unknownRouteCount": 0,
+      "outcomeAvailableCount": 1,
+      "successCount": 1,
+      "successRate": 1,
+      "outcomeCoverage": 1,
+      "gradeAvailableCount": 1,
+      "favorableGradeCount": 1,
+      "gradeCoverage": 1,
+      "favorableGradeRate": 1,
+      "semanticReissueAvailableCount": 1,
+      "semanticReissueCount": 0,
+      "semanticReissueCoverage": 1,
+      "semanticReissueRate": 0,
+      "durationAvailableCount": 1,
+      "durationCoverage": 1,
+      "totalDurationMs": 49176,
+      "averageDurationMs": 49176,
+      "tokenAvailableCount": 1,
+      "tokenCoverage": 1,
+      "totalTokens": 185220,
+      "averageTokens": 185220,
+      "costAvailableCount": 0,
+      "costCoverage": 0,
+      "totalCostUsd": null,
+      "observedFrom": "2026-07-25",
+      "observedThrough": "2026-07-25",
+      "provenance": [
+        {
+          "artifactReference": "benchmarks/results/document-to-text/curated-hard-cases-v1/20260725T120544879Z.json",
+          "artifactSha256": "24bbe757115888ec2fa32436d8a37258e7b99c2ed2786ee7be88545ce3130849"
+        }
+      ],
+      "qualification": {
+        "level": "Unknown",
+        "claimsValidation": false,
+        "gateFailures": [
+          "thinking level is unknown",
+          "sample size 1 is below 20"
+        ]
+      }
+    },
+    {
+      "canonicalModel": "claude-haiku-4-5",
+      "thinkingLevel": null,
+      "taskClass": "document-to-text",
+      "capability": "document-to-text/spreadsheet",
+      "sampleSize": 1,
+      "attemptLevelRouteCount": 1,
+      "cardLevelRouteCount": 0,
+      "unknownRouteCount": 0,
+      "outcomeAvailableCount": 1,
+      "successCount": 0,
+      "successRate": 0,
+      "outcomeCoverage": 1,
+      "gradeAvailableCount": 1,
+      "favorableGradeCount": 0,
+      "gradeCoverage": 1,
+      "favorableGradeRate": 0,
+      "semanticReissueAvailableCount": 1,
+      "semanticReissueCount": 0,
+      "semanticReissueCoverage": 1,
+      "semanticReissueRate": 0,
+      "durationAvailableCount": 1,
+      "durationCoverage": 1,
+      "totalDurationMs": 18125,
+      "averageDurationMs": 18125,
+      "tokenAvailableCount": 1,
+      "tokenCoverage": 1,
+      "totalTokens": 60335,
+      "averageTokens": 60335,
+      "costAvailableCount": 0,
+      "costCoverage": 0,
+      "totalCostUsd": null,
+      "observedFrom": "2026-07-25",
+      "observedThrough": "2026-07-25",
+      "provenance": [
+        {
+          "artifactReference": "benchmarks/results/document-to-text/curated-hard-cases-v1/20260725T120544879Z.json",
+          "artifactSha256": "24bbe757115888ec2fa32436d8a37258e7b99c2ed2786ee7be88545ce3130849"
+        }
+      ],
+      "qualification": {
+        "level": "Unknown",
+        "claimsValidation": false,
+        "gateFailures": [
+          "thinking level is unknown",
+          "sample size 1 is below 20",
+          "favorable grade rate is unavailable or below the declared gate"
+        ]
+      }
+    },
+    {
+      "canonicalModel": "claude-haiku-4-5",
+      "thinkingLevel": null,
+      "taskClass": "document-to-text",
+      "capability": "document-to-text/word",
+      "sampleSize": 1,
+      "attemptLevelRouteCount": 1,
+      "cardLevelRouteCount": 0,
+      "unknownRouteCount": 0,
+      "outcomeAvailableCount": 1,
+      "successCount": 0,
+      "successRate": 0,
+      "outcomeCoverage": 1,
+      "gradeAvailableCount": 1,
+      "favorableGradeCount": 0,
+      "gradeCoverage": 1,
+      "favorableGradeRate": 0,
+      "semanticReissueAvailableCount": 1,
+      "semanticReissueCount": 0,
+      "semanticReissueCoverage": 1,
+      "semanticReissueRate": 0,
+      "durationAvailableCount": 1,
+      "durationCoverage": 1,
+      "totalDurationMs": 18735,
+      "averageDurationMs": 18735,
+      "tokenAvailableCount": 1,
+      "tokenCoverage": 1,
+      "totalTokens": 60198,
+      "averageTokens": 60198,
+      "costAvailableCount": 0,
+      "costCoverage": 0,
+      "totalCostUsd": null,
+      "observedFrom": "2026-07-25",
+      "observedThrough": "2026-07-25",
+      "provenance": [
+        {
+          "artifactReference": "benchmarks/results/document-to-text/curated-hard-cases-v1/20260725T120544879Z.json",
+          "artifactSha256": "24bbe757115888ec2fa32436d8a37258e7b99c2ed2786ee7be88545ce3130849"
+        }
+      ],
+      "qualification": {
+        "level": "Unknown",
+        "claimsValidation": false,
+        "gateFailures": [
+          "thinking level is unknown",
+          "sample size 1 is below 20",
+          "favorable grade rate is unavailable or below the declared gate"
+        ]
+      }
+    },
+    {
+      "canonicalModel": "claude-mythos-5",
+      "thinkingLevel": null,
+      "taskClass": "document-to-text",
+      "capability": "document-to-text/pdf",
+      "sampleSize": 1,
+      "attemptLevelRouteCount": 1,
+      "cardLevelRouteCount": 0,
+      "unknownRouteCount": 0,
+      "outcomeAvailableCount": 1,
+      "successCount": 0,
+      "successRate": 0,
+      "outcomeCoverage": 1,
+      "gradeAvailableCount": 1,
+      "favorableGradeCount": 0,
+      "gradeCoverage": 1,
+      "favorableGradeRate": 0,
+      "semanticReissueAvailableCount": 1,
+      "semanticReissueCount": 0,
+      "semanticReissueCoverage": 1,
+      "semanticReissueRate": 0,
+      "durationAvailableCount": 1,
+      "durationCoverage": 1,
+      "totalDurationMs": 15874,
+      "averageDurationMs": 15874,
+      "tokenAvailableCount": 1,
+      "tokenCoverage": 1,
+      "totalTokens": 0,
+      "averageTokens": 0,
+      "costAvailableCount": 0,
+      "costCoverage": 0,
+      "totalCostUsd": null,
+      "observedFrom": "2026-07-25",
+      "observedThrough": "2026-07-25",
+      "provenance": [
+        {
+          "artifactReference": "benchmarks/results/document-to-text/curated-hard-cases-v1/20260725T120544879Z.json",
+          "artifactSha256": "24bbe757115888ec2fa32436d8a37258e7b99c2ed2786ee7be88545ce3130849"
+        }
+      ],
+      "qualification": {
+        "level": "Unknown",
+        "claimsValidation": false,
+        "gateFailures": [
+          "thinking level is unknown",
+          "sample size 1 is below 20",
+          "favorable grade rate is unavailable or below the declared gate"
+        ]
+      }
+    },
+    {
+      "canonicalModel": "claude-mythos-5",
+      "thinkingLevel": null,
+      "taskClass": "document-to-text",
+      "capability": "document-to-text/presentation",
+      "sampleSize": 1,
+      "attemptLevelRouteCount": 1,
+      "cardLevelRouteCount": 0,
+      "unknownRouteCount": 0,
+      "outcomeAvailableCount": 1,
+      "successCount": 0,
+      "successRate": 0,
+      "outcomeCoverage": 1,
+      "gradeAvailableCount": 1,
+      "favorableGradeCount": 0,
+      "gradeCoverage": 1,
+      "favorableGradeRate": 0,
+      "semanticReissueAvailableCount": 1,
+      "semanticReissueCount": 0,
+      "semanticReissueCoverage": 1,
+      "semanticReissueRate": 0,
+      "durationAvailableCount": 1,
+      "durationCoverage": 1,
+      "totalDurationMs": 24512,
+      "averageDurationMs": 24512,
+      "tokenAvailableCount": 1,
+      "tokenCoverage": 1,
+      "totalTokens": 0,
+      "averageTokens": 0,
+      "costAvailableCount": 0,
+      "costCoverage": 0,
+      "totalCostUsd": null,
+      "observedFrom": "2026-07-25",
+      "observedThrough": "2026-07-25",
+      "provenance": [
+        {
+          "artifactReference": "benchmarks/results/document-to-text/curated-hard-cases-v1/20260725T120544879Z.json",
+          "artifactSha256": "24bbe757115888ec2fa32436d8a37258e7b99c2ed2786ee7be88545ce3130849"
+        }
+      ],
+      "qualification": {
+        "level": "Unknown",
+        "claimsValidation": false,
+        "gateFailures": [
+          "thinking level is unknown",
+          "sample size 1 is below 20",
+          "favorable grade rate is unavailable or below the declared gate"
+        ]
+      }
+    },
+    {
+      "canonicalModel": "claude-mythos-5",
+      "thinkingLevel": null,
+      "taskClass": "document-to-text",
+      "capability": "document-to-text/spreadsheet",
+      "sampleSize": 1,
+      "attemptLevelRouteCount": 1,
+      "cardLevelRouteCount": 0,
+      "unknownRouteCount": 0,
+      "outcomeAvailableCount": 1,
+      "successCount": 0,
+      "successRate": 0,
+      "outcomeCoverage": 1,
+      "gradeAvailableCount": 1,
+      "favorableGradeCount": 0,
+      "gradeCoverage": 1,
+      "favorableGradeRate": 0,
+      "semanticReissueAvailableCount": 1,
+      "semanticReissueCount": 0,
+      "semanticReissueCoverage": 1,
+      "semanticReissueRate": 0,
+      "durationAvailableCount": 1,
+      "durationCoverage": 1,
+      "totalDurationMs": 13047,
+      "averageDurationMs": 13047,
+      "tokenAvailableCount": 1,
+      "tokenCoverage": 1,
+      "totalTokens": 0,
+      "averageTokens": 0,
+      "costAvailableCount": 0,
+      "costCoverage": 0,
+      "totalCostUsd": null,
+      "observedFrom": "2026-07-25",
+      "observedThrough": "2026-07-25",
+      "provenance": [
+        {
+          "artifactReference": "benchmarks/results/document-to-text/curated-hard-cases-v1/20260725T120544879Z.json",
+          "artifactSha256": "24bbe757115888ec2fa32436d8a37258e7b99c2ed2786ee7be88545ce3130849"
+        }
+      ],
+      "qualification": {
+        "level": "Unknown",
+        "claimsValidation": false,
+        "gateFailures": [
+          "thinking level is unknown",
+          "sample size 1 is below 20",
+          "favorable grade rate is unavailable or below the declared gate"
+        ]
+      }
+    },
+    {
+      "canonicalModel": "claude-mythos-5",
+      "thinkingLevel": null,
+      "taskClass": "document-to-text",
+      "capability": "document-to-text/word",
+      "sampleSize": 1,
+      "attemptLevelRouteCount": 1,
+      "cardLevelRouteCount": 0,
+      "unknownRouteCount": 0,
+      "outcomeAvailableCount": 1,
+      "successCount": 0,
+      "successRate": 0,
+      "outcomeCoverage": 1,
+      "gradeAvailableCount": 1,
+      "favorableGradeCount": 0,
+      "gradeCoverage": 1,
+      "favorableGradeRate": 0,
+      "semanticReissueAvailableCount": 1,
+      "semanticReissueCount": 0,
+      "semanticReissueCoverage": 1,
+      "semanticReissueRate": 0,
+      "durationAvailableCount": 1,
+      "durationCoverage": 1,
+      "totalDurationMs": 13594,
+      "averageDurationMs": 13594,
+      "tokenAvailableCount": 1,
+      "tokenCoverage": 1,
+      "totalTokens": 0,
+      "averageTokens": 0,
+      "costAvailableCount": 0,
+      "costCoverage": 0,
+      "totalCostUsd": null,
+      "observedFrom": "2026-07-25",
+      "observedThrough": "2026-07-25",
+      "provenance": [
+        {
+          "artifactReference": "benchmarks/results/document-to-text/curated-hard-cases-v1/20260725T120544879Z.json",
+          "artifactSha256": "24bbe757115888ec2fa32436d8a37258e7b99c2ed2786ee7be88545ce3130849"
+        }
+      ],
+      "qualification": {
+        "level": "Unknown",
+        "claimsValidation": false,
+        "gateFailures": [
+          "thinking level is unknown",
+          "sample size 1 is below 20",
+          "favorable grade rate is unavailable or below the declared gate"
+        ]
+      }
+    },
+    {
+      "canonicalModel": "claude-opus-4-1",
+      "thinkingLevel": null,
+      "taskClass": "document-to-text",
+      "capability": "document-to-text/pdf",
+      "sampleSize": 1,
+      "attemptLevelRouteCount": 1,
+      "cardLevelRouteCount": 0,
+      "unknownRouteCount": 0,
+      "outcomeAvailableCount": 1,
+      "successCount": 1,
+      "successRate": 1,
+      "outcomeCoverage": 1,
+      "gradeAvailableCount": 1,
+      "favorableGradeCount": 1,
+      "gradeCoverage": 1,
+      "favorableGradeRate": 1,
+      "semanticReissueAvailableCount": 1,
+      "semanticReissueCount": 0,
+      "semanticReissueCoverage": 1,
+      "semanticReissueRate": 0,
+      "durationAvailableCount": 1,
+      "durationCoverage": 1,
+      "totalDurationMs": 45237,
+      "averageDurationMs": 45237,
+      "tokenAvailableCount": 1,
+      "tokenCoverage": 1,
+      "totalTokens": 86262,
+      "averageTokens": 86262,
+      "costAvailableCount": 0,
+      "costCoverage": 0,
+      "totalCostUsd": null,
+      "observedFrom": "2026-07-25",
+      "observedThrough": "2026-07-25",
+      "provenance": [
+        {
+          "artifactReference": "benchmarks/results/document-to-text/curated-hard-cases-v1/20260725T120544879Z.json",
+          "artifactSha256": "24bbe757115888ec2fa32436d8a37258e7b99c2ed2786ee7be88545ce3130849"
+        }
+      ],
+      "qualification": {
+        "level": "Unknown",
+        "claimsValidation": false,
+        "gateFailures": [
+          "thinking level is unknown",
+          "sample size 1 is below 20"
+        ]
+      }
+    },
+    {
+      "canonicalModel": "claude-opus-4-1",
+      "thinkingLevel": null,
+      "taskClass": "document-to-text",
+      "capability": "document-to-text/presentation",
+      "sampleSize": 1,
+      "attemptLevelRouteCount": 1,
+      "cardLevelRouteCount": 0,
+      "unknownRouteCount": 0,
+      "outcomeAvailableCount": 1,
+      "successCount": 1,
+      "successRate": 1,
+      "outcomeCoverage": 1,
+      "gradeAvailableCount": 1,
+      "favorableGradeCount": 1,
+      "gradeCoverage": 1,
+      "favorableGradeRate": 1,
+      "semanticReissueAvailableCount": 1,
+      "semanticReissueCount": 0,
+      "semanticReissueCoverage": 1,
+      "semanticReissueRate": 0,
+      "durationAvailableCount": 1,
+      "durationCoverage": 1,
+      "totalDurationMs": 29424,
+      "averageDurationMs": 29424,
+      "tokenAvailableCount": 1,
+      "tokenCoverage": 1,
+      "totalTokens": 85338,
+      "averageTokens": 85338,
+      "costAvailableCount": 0,
+      "costCoverage": 0,
+      "totalCostUsd": null,
+      "observedFrom": "2026-07-25",
+      "observedThrough": "2026-07-25",
+      "provenance": [
+        {
+          "artifactReference": "benchmarks/results/document-to-text/curated-hard-cases-v1/20260725T120544879Z.json",
+          "artifactSha256": "24bbe757115888ec2fa32436d8a37258e7b99c2ed2786ee7be88545ce3130849"
+        }
+      ],
+      "qualification": {
+        "level": "Unknown",
+        "claimsValidation": false,
+        "gateFailures": [
+          "thinking level is unknown",
+          "sample size 1 is below 20"
+        ]
+      }
+    },
+    {
+      "canonicalModel": "claude-opus-4-1",
+      "thinkingLevel": null,
+      "taskClass": "document-to-text",
+      "capability": "document-to-text/spreadsheet",
+      "sampleSize": 1,
+      "attemptLevelRouteCount": 1,
+      "cardLevelRouteCount": 0,
+      "unknownRouteCount": 0,
+      "outcomeAvailableCount": 1,
+      "successCount": 1,
+      "successRate": 1,
+      "outcomeCoverage": 1,
+      "gradeAvailableCount": 1,
+      "favorableGradeCount": 1,
+      "gradeCoverage": 1,
+      "favorableGradeRate": 1,
+      "semanticReissueAvailableCount": 1,
+      "semanticReissueCount": 0,
+      "semanticReissueCoverage": 1,
+      "semanticReissueRate": 0,
+      "durationAvailableCount": 1,
+      "durationCoverage": 1,
+      "totalDurationMs": 17593,
+      "averageDurationMs": 17593,
+      "tokenAvailableCount": 1,
+      "tokenCoverage": 1,
+      "totalTokens": 56420,
+      "averageTokens": 56420,
+      "costAvailableCount": 0,
+      "costCoverage": 0,
+      "totalCostUsd": null,
+      "observedFrom": "2026-07-25",
+      "observedThrough": "2026-07-25",
+      "provenance": [
+        {
+          "artifactReference": "benchmarks/results/document-to-text/curated-hard-cases-v1/20260725T120544879Z.json",
+          "artifactSha256": "24bbe757115888ec2fa32436d8a37258e7b99c2ed2786ee7be88545ce3130849"
+        }
+      ],
+      "qualification": {
+        "level": "Unknown",
+        "claimsValidation": false,
+        "gateFailures": [
+          "thinking level is unknown",
+          "sample size 1 is below 20"
+        ]
+      }
+    },
+    {
+      "canonicalModel": "claude-opus-4-1",
+      "thinkingLevel": null,
+      "taskClass": "document-to-text",
+      "capability": "document-to-text/word",
+      "sampleSize": 1,
+      "attemptLevelRouteCount": 1,
+      "cardLevelRouteCount": 0,
+      "unknownRouteCount": 0,
+      "outcomeAvailableCount": 1,
+      "successCount": 1,
+      "successRate": 1,
+      "outcomeCoverage": 1,
+      "gradeAvailableCount": 1,
+      "favorableGradeCount": 1,
+      "gradeCoverage": 1,
+      "favorableGradeRate": 1,
+      "semanticReissueAvailableCount": 1,
+      "semanticReissueCount": 0,
+      "semanticReissueCoverage": 1,
+      "semanticReissueRate": 0,
+      "durationAvailableCount": 1,
+      "durationCoverage": 1,
+      "totalDurationMs": 23342,
+      "averageDurationMs": 23342,
+      "tokenAvailableCount": 1,
+      "tokenCoverage": 1,
+      "totalTokens": 56208,
+      "averageTokens": 56208,
+      "costAvailableCount": 0,
+      "costCoverage": 0,
+      "totalCostUsd": null,
+      "observedFrom": "2026-07-25",
+      "observedThrough": "2026-07-25",
+      "provenance": [
+        {
+          "artifactReference": "benchmarks/results/document-to-text/curated-hard-cases-v1/20260725T120544879Z.json",
+          "artifactSha256": "24bbe757115888ec2fa32436d8a37258e7b99c2ed2786ee7be88545ce3130849"
+        }
+      ],
+      "qualification": {
+        "level": "Unknown",
+        "claimsValidation": false,
+        "gateFailures": [
+          "thinking level is unknown",
+          "sample size 1 is below 20"
+        ]
+      }
+    },
+    {
+      "canonicalModel": "claude-opus-4-5",
+      "thinkingLevel": null,
+      "taskClass": "document-to-text",
+      "capability": "document-to-text/pdf",
+      "sampleSize": 1,
+      "attemptLevelRouteCount": 1,
+      "cardLevelRouteCount": 0,
+      "unknownRouteCount": 0,
+      "outcomeAvailableCount": 1,
+      "successCount": 1,
+      "successRate": 1,
+      "outcomeCoverage": 1,
+      "gradeAvailableCount": 1,
+      "favorableGradeCount": 1,
+      "gradeCoverage": 1,
+      "favorableGradeRate": 1,
+      "semanticReissueAvailableCount": 1,
+      "semanticReissueCount": 0,
+      "semanticReissueCoverage": 1,
+      "semanticReissueRate": 0,
+      "durationAvailableCount": 1,
+      "durationCoverage": 1,
+      "totalDurationMs": 24320,
+      "averageDurationMs": 24320,
+      "tokenAvailableCount": 1,
+      "tokenCoverage": 1,
+      "totalTokens": 61849,
+      "averageTokens": 61849,
+      "costAvailableCount": 0,
+      "costCoverage": 0,
+      "totalCostUsd": null,
+      "observedFrom": "2026-07-25",
+      "observedThrough": "2026-07-25",
+      "provenance": [
+        {
+          "artifactReference": "benchmarks/results/document-to-text/curated-hard-cases-v1/20260725T120544879Z.json",
+          "artifactSha256": "24bbe757115888ec2fa32436d8a37258e7b99c2ed2786ee7be88545ce3130849"
+        }
+      ],
+      "qualification": {
+        "level": "Unknown",
+        "claimsValidation": false,
+        "gateFailures": [
+          "thinking level is unknown",
+          "sample size 1 is below 20"
+        ]
+      }
+    },
+    {
+      "canonicalModel": "claude-opus-4-5",
+      "thinkingLevel": null,
+      "taskClass": "document-to-text",
+      "capability": "document-to-text/presentation",
+      "sampleSize": 1,
+      "attemptLevelRouteCount": 1,
+      "cardLevelRouteCount": 0,
+      "unknownRouteCount": 0,
+      "outcomeAvailableCount": 1,
+      "successCount": 1,
+      "successRate": 1,
+      "outcomeCoverage": 1,
+      "gradeAvailableCount": 1,
+      "favorableGradeCount": 1,
+      "gradeCoverage": 1,
+      "favorableGradeRate": 1,
+      "semanticReissueAvailableCount": 1,
+      "semanticReissueCount": 0,
+      "semanticReissueCoverage": 1,
+      "semanticReissueRate": 0,
+      "durationAvailableCount": 1,
+      "durationCoverage": 1,
+      "totalDurationMs": 33009,
+      "averageDurationMs": 33009,
+      "tokenAvailableCount": 1,
+      "tokenCoverage": 1,
+      "totalTokens": 60310,
+      "averageTokens": 60310,
+      "costAvailableCount": 0,
+      "costCoverage": 0,
+      "totalCostUsd": null,
+      "observedFrom": "2026-07-25",
+      "observedThrough": "2026-07-25",
+      "provenance": [
+        {
+          "artifactReference": "benchmarks/results/document-to-text/curated-hard-cases-v1/20260725T120544879Z.json",
+          "artifactSha256": "24bbe757115888ec2fa32436d8a37258e7b99c2ed2786ee7be88545ce3130849"
+        }
+      ],
+      "qualification": {
+        "level": "Unknown",
+        "claimsValidation": false,
+        "gateFailures": [
+          "thinking level is unknown",
+          "sample size 1 is below 20"
+        ]
+      }
+    },
+    {
+      "canonicalModel": "claude-opus-4-5",
+      "thinkingLevel": null,
+      "taskClass": "document-to-text",
+      "capability": "document-to-text/spreadsheet",
+      "sampleSize": 1,
+      "attemptLevelRouteCount": 1,
+      "cardLevelRouteCount": 0,
+      "unknownRouteCount": 0,
+      "outcomeAvailableCount": 1,
+      "successCount": 1,
+      "successRate": 1,
+      "outcomeCoverage": 1,
+      "gradeAvailableCount": 1,
+      "favorableGradeCount": 1,
+      "gradeCoverage": 1,
+      "favorableGradeRate": 1,
+      "semanticReissueAvailableCount": 1,
+      "semanticReissueCount": 0,
+      "semanticReissueCoverage": 1,
+      "semanticReissueRate": 0,
+      "durationAvailableCount": 1,
+      "durationCoverage": 1,
+      "totalDurationMs": 29221,
+      "averageDurationMs": 29221,
+      "tokenAvailableCount": 1,
+      "tokenCoverage": 1,
+      "totalTokens": 60177,
+      "averageTokens": 60177,
+      "costAvailableCount": 0,
+      "costCoverage": 0,
+      "totalCostUsd": null,
+      "observedFrom": "2026-07-25",
+      "observedThrough": "2026-07-25",
+      "provenance": [
+        {
+          "artifactReference": "benchmarks/results/document-to-text/curated-hard-cases-v1/20260725T120544879Z.json",
+          "artifactSha256": "24bbe757115888ec2fa32436d8a37258e7b99c2ed2786ee7be88545ce3130849"
+        }
+      ],
+      "qualification": {
+        "level": "Unknown",
+        "claimsValidation": false,
+        "gateFailures": [
+          "thinking level is unknown",
+          "sample size 1 is below 20"
+        ]
+      }
+    },
+    {
+      "canonicalModel": "claude-opus-4-5",
+      "thinkingLevel": null,
+      "taskClass": "document-to-text",
+      "capability": "document-to-text/word",
+      "sampleSize": 1,
+      "attemptLevelRouteCount": 1,
+      "cardLevelRouteCount": 0,
+      "unknownRouteCount": 0,
+      "outcomeAvailableCount": 1,
+      "successCount": 1,
+      "successRate": 1,
+      "outcomeCoverage": 1,
+      "gradeAvailableCount": 1,
+      "favorableGradeCount": 1,
+      "gradeCoverage": 1,
+      "favorableGradeRate": 1,
+      "semanticReissueAvailableCount": 1,
+      "semanticReissueCount": 0,
+      "semanticReissueCoverage": 1,
+      "semanticReissueRate": 0,
+      "durationAvailableCount": 1,
+      "durationCoverage": 1,
+      "totalDurationMs": 19313,
+      "averageDurationMs": 19313,
+      "tokenAvailableCount": 1,
+      "tokenCoverage": 1,
+      "totalTokens": 60013,
+      "averageTokens": 60013,
+      "costAvailableCount": 0,
+      "costCoverage": 0,
+      "totalCostUsd": null,
+      "observedFrom": "2026-07-25",
+      "observedThrough": "2026-07-25",
+      "provenance": [
+        {
+          "artifactReference": "benchmarks/results/document-to-text/curated-hard-cases-v1/20260725T120544879Z.json",
+          "artifactSha256": "24bbe757115888ec2fa32436d8a37258e7b99c2ed2786ee7be88545ce3130849"
+        }
+      ],
+      "qualification": {
+        "level": "Unknown",
+        "claimsValidation": false,
+        "gateFailures": [
+          "thinking level is unknown",
+          "sample size 1 is below 20"
+        ]
+      }
+    },
+    {
+      "canonicalModel": "claude-opus-4-6",
+      "thinkingLevel": null,
+      "taskClass": "document-to-text",
+      "capability": "document-to-text/pdf",
+      "sampleSize": 1,
+      "attemptLevelRouteCount": 1,
+      "cardLevelRouteCount": 0,
+      "unknownRouteCount": 0,
+      "outcomeAvailableCount": 1,
+      "successCount": 1,
+      "successRate": 1,
+      "outcomeCoverage": 1,
+      "gradeAvailableCount": 1,
+      "favorableGradeCount": 1,
+      "gradeCoverage": 1,
+      "favorableGradeRate": 1,
+      "semanticReissueAvailableCount": 1,
+      "semanticReissueCount": 0,
+      "semanticReissueCoverage": 1,
+      "semanticReissueRate": 0,
+      "durationAvailableCount": 1,
+      "durationCoverage": 1,
+      "totalDurationMs": 16850,
+      "averageDurationMs": 16850,
+      "tokenAvailableCount": 1,
+      "tokenCoverage": 1,
+      "totalTokens": 61354,
+      "averageTokens": 61354,
+      "costAvailableCount": 0,
+      "costCoverage": 0,
+      "totalCostUsd": null,
+      "observedFrom": "2026-07-25",
+      "observedThrough": "2026-07-25",
+      "provenance": [
+        {
+          "artifactReference": "benchmarks/results/document-to-text/curated-hard-cases-v1/20260725T120544879Z.json",
+          "artifactSha256": "24bbe757115888ec2fa32436d8a37258e7b99c2ed2786ee7be88545ce3130849"
+        }
+      ],
+      "qualification": {
+        "level": "Unknown",
+        "claimsValidation": false,
+        "gateFailures": [
+          "thinking level is unknown",
+          "sample size 1 is below 20"
+        ]
+      }
+    },
+    {
+      "canonicalModel": "claude-opus-4-6",
+      "thinkingLevel": null,
+      "taskClass": "document-to-text",
+      "capability": "document-to-text/presentation",
+      "sampleSize": 1,
+      "attemptLevelRouteCount": 1,
+      "cardLevelRouteCount": 0,
+      "unknownRouteCount": 0,
+      "outcomeAvailableCount": 1,
+      "successCount": 1,
+      "successRate": 1,
+      "outcomeCoverage": 1,
+      "gradeAvailableCount": 1,
+      "favorableGradeCount": 1,
+      "gradeCoverage": 1,
+      "favorableGradeRate": 1,
+      "semanticReissueAvailableCount": 1,
+      "semanticReissueCount": 0,
+      "semanticReissueCoverage": 1,
+      "semanticReissueRate": 0,
+      "durationAvailableCount": 1,
+      "durationCoverage": 1,
+      "totalDurationMs": 22192,
+      "averageDurationMs": 22192,
+      "tokenAvailableCount": 1,
+      "tokenCoverage": 1,
+      "totalTokens": 60150,
+      "averageTokens": 60150,
+      "costAvailableCount": 0,
+      "costCoverage": 0,
+      "totalCostUsd": null,
+      "observedFrom": "2026-07-25",
+      "observedThrough": "2026-07-25",
+      "provenance": [
+        {
+          "artifactReference": "benchmarks/results/document-to-text/curated-hard-cases-v1/20260725T120544879Z.json",
+          "artifactSha256": "24bbe757115888ec2fa32436d8a37258e7b99c2ed2786ee7be88545ce3130849"
+        }
+      ],
+      "qualification": {
+        "level": "Unknown",
+        "claimsValidation": false,
+        "gateFailures": [
+          "thinking level is unknown",
+          "sample size 1 is below 20"
+        ]
+      }
+    },
+    {
+      "canonicalModel": "claude-opus-4-6",
+      "thinkingLevel": null,
+      "taskClass": "document-to-text",
+      "capability": "document-to-text/spreadsheet",
+      "sampleSize": 1,
+      "attemptLevelRouteCount": 1,
+      "cardLevelRouteCount": 0,
+      "unknownRouteCount": 0,
+      "outcomeAvailableCount": 1,
+      "successCount": 1,
+      "successRate": 1,
+      "outcomeCoverage": 1,
+      "gradeAvailableCount": 1,
+      "favorableGradeCount": 1,
+      "gradeCoverage": 1,
+      "favorableGradeRate": 1,
+      "semanticReissueAvailableCount": 1,
+      "semanticReissueCount": 0,
+      "semanticReissueCoverage": 1,
+      "semanticReissueRate": 0,
+      "durationAvailableCount": 1,
+      "durationCoverage": 1,
+      "totalDurationMs": 17858,
+      "averageDurationMs": 17858,
+      "tokenAvailableCount": 1,
+      "tokenCoverage": 1,
+      "totalTokens": 60071,
+      "averageTokens": 60071,
+      "costAvailableCount": 0,
+      "costCoverage": 0,
+      "totalCostUsd": null,
+      "observedFrom": "2026-07-25",
+      "observedThrough": "2026-07-25",
+      "provenance": [
+        {
+          "artifactReference": "benchmarks/results/document-to-text/curated-hard-cases-v1/20260725T120544879Z.json",
+          "artifactSha256": "24bbe757115888ec2fa32436d8a37258e7b99c2ed2786ee7be88545ce3130849"
+        }
+      ],
+      "qualification": {
+        "level": "Unknown",
+        "claimsValidation": false,
+        "gateFailures": [
+          "thinking level is unknown",
+          "sample size 1 is below 20"
+        ]
+      }
+    },
+    {
+      "canonicalModel": "claude-opus-4-6",
+      "thinkingLevel": null,
+      "taskClass": "document-to-text",
+      "capability": "document-to-text/word",
+      "sampleSize": 1,
+      "attemptLevelRouteCount": 1,
+      "cardLevelRouteCount": 0,
+      "unknownRouteCount": 0,
+      "outcomeAvailableCount": 1,
+      "successCount": 1,
+      "successRate": 1,
+      "outcomeCoverage": 1,
+      "gradeAvailableCount": 1,
+      "favorableGradeCount": 1,
+      "gradeCoverage": 1,
+      "favorableGradeRate": 1,
+      "semanticReissueAvailableCount": 1,
+      "semanticReissueCount": 0,
+      "semanticReissueCoverage": 1,
+      "semanticReissueRate": 0,
+      "durationAvailableCount": 1,
+      "durationCoverage": 1,
+      "totalDurationMs": 23614,
+      "averageDurationMs": 23614,
+      "tokenAvailableCount": 1,
+      "tokenCoverage": 1,
+      "totalTokens": 60295,
+      "averageTokens": 60295,
+      "costAvailableCount": 0,
+      "costCoverage": 0,
+      "totalCostUsd": null,
+      "observedFrom": "2026-07-25",
+      "observedThrough": "2026-07-25",
+      "provenance": [
+        {
+          "artifactReference": "benchmarks/results/document-to-text/curated-hard-cases-v1/20260725T120544879Z.json",
+          "artifactSha256": "24bbe757115888ec2fa32436d8a37258e7b99c2ed2786ee7be88545ce3130849"
+        }
+      ],
+      "qualification": {
+        "level": "Unknown",
+        "claimsValidation": false,
+        "gateFailures": [
+          "thinking level is unknown",
+          "sample size 1 is below 20"
+        ]
+      }
+    },
+    {
+      "canonicalModel": "claude-opus-4-7",
+      "thinkingLevel": null,
+      "taskClass": "document-to-text",
+      "capability": "document-to-text/pdf",
+      "sampleSize": 1,
+      "attemptLevelRouteCount": 1,
+      "cardLevelRouteCount": 0,
+      "unknownRouteCount": 0,
+      "outcomeAvailableCount": 1,
+      "successCount": 1,
+      "successRate": 1,
+      "outcomeCoverage": 1,
+      "gradeAvailableCount": 1,
+      "favorableGradeCount": 1,
+      "gradeCoverage": 1,
+      "favorableGradeRate": 1,
+      "semanticReissueAvailableCount": 1,
+      "semanticReissueCount": 0,
+      "semanticReissueCoverage": 1,
+      "semanticReissueRate": 0,
+      "durationAvailableCount": 1,
+      "durationCoverage": 1,
+      "totalDurationMs": 27640,
+      "averageDurationMs": 27640,
+      "tokenAvailableCount": 1,
+      "tokenCoverage": 1,
+      "totalTokens": 123709,
+      "averageTokens": 123709,
+      "costAvailableCount": 0,
+      "costCoverage": 0,
+      "totalCostUsd": null,
+      "observedFrom": "2026-07-25",
+      "observedThrough": "2026-07-25",
+      "provenance": [
+        {
+          "artifactReference": "benchmarks/results/document-to-text/curated-hard-cases-v1/20260725T120544879Z.json",
+          "artifactSha256": "24bbe757115888ec2fa32436d8a37258e7b99c2ed2786ee7be88545ce3130849"
+        }
+      ],
+      "qualification": {
+        "level": "Unknown",
+        "claimsValidation": false,
+        "gateFailures": [
+          "thinking level is unknown",
+          "sample size 1 is below 20"
+        ]
+      }
+    },
+    {
+      "canonicalModel": "claude-opus-4-7",
+      "thinkingLevel": null,
+      "taskClass": "document-to-text",
+      "capability": "document-to-text/presentation",
+      "sampleSize": 1,
+      "attemptLevelRouteCount": 1,
+      "cardLevelRouteCount": 0,
+      "unknownRouteCount": 0,
+      "outcomeAvailableCount": 1,
+      "successCount": 1,
+      "successRate": 1,
+      "outcomeCoverage": 1,
+      "gradeAvailableCount": 1,
+      "favorableGradeCount": 1,
+      "gradeCoverage": 1,
+      "favorableGradeRate": 1,
+      "semanticReissueAvailableCount": 1,
+      "semanticReissueCount": 0,
+      "semanticReissueCoverage": 1,
+      "semanticReissueRate": 0,
+      "durationAvailableCount": 1,
+      "durationCoverage": 1,
+      "totalDurationMs": 23792,
+      "averageDurationMs": 23792,
+      "tokenAvailableCount": 1,
+      "tokenCoverage": 1,
+      "totalTokens": 121598,
+      "averageTokens": 121598,
+      "costAvailableCount": 0,
+      "costCoverage": 0,
+      "totalCostUsd": null,
+      "observedFrom": "2026-07-25",
+      "observedThrough": "2026-07-25",
+      "provenance": [
+        {
+          "artifactReference": "benchmarks/results/document-to-text/curated-hard-cases-v1/20260725T120544879Z.json",
+          "artifactSha256": "24bbe757115888ec2fa32436d8a37258e7b99c2ed2786ee7be88545ce3130849"
+        }
+      ],
+      "qualification": {
+        "level": "Unknown",
+        "claimsValidation": false,
+        "gateFailures": [
+          "thinking level is unknown",
+          "sample size 1 is below 20"
+        ]
+      }
+    },
+    {
+      "canonicalModel": "claude-opus-4-7",
+      "thinkingLevel": null,
+      "taskClass": "document-to-text",
+      "capability": "document-to-text/spreadsheet",
+      "sampleSize": 1,
+      "attemptLevelRouteCount": 1,
+      "cardLevelRouteCount": 0,
+      "unknownRouteCount": 0,
+      "outcomeAvailableCount": 1,
+      "successCount": 1,
+      "successRate": 1,
+      "outcomeCoverage": 1,
+      "gradeAvailableCount": 1,
+      "favorableGradeCount": 1,
+      "gradeCoverage": 1,
+      "favorableGradeRate": 1,
+      "semanticReissueAvailableCount": 1,
+      "semanticReissueCount": 0,
+      "semanticReissueCoverage": 1,
+      "semanticReissueRate": 0,
+      "durationAvailableCount": 1,
+      "durationCoverage": 1,
+      "totalDurationMs": 22784,
+      "averageDurationMs": 22784,
+      "tokenAvailableCount": 1,
+      "tokenCoverage": 1,
+      "totalTokens": 121702,
+      "averageTokens": 121702,
+      "costAvailableCount": 0,
+      "costCoverage": 0,
+      "totalCostUsd": null,
+      "observedFrom": "2026-07-25",
+      "observedThrough": "2026-07-25",
+      "provenance": [
+        {
+          "artifactReference": "benchmarks/results/document-to-text/curated-hard-cases-v1/20260725T120544879Z.json",
+          "artifactSha256": "24bbe757115888ec2fa32436d8a37258e7b99c2ed2786ee7be88545ce3130849"
+        }
+      ],
+      "qualification": {
+        "level": "Unknown",
+        "claimsValidation": false,
+        "gateFailures": [
+          "thinking level is unknown",
+          "sample size 1 is below 20"
+        ]
+      }
+    },
+    {
+      "canonicalModel": "claude-opus-4-7",
+      "thinkingLevel": null,
+      "taskClass": "document-to-text",
+      "capability": "document-to-text/word",
+      "sampleSize": 1,
+      "attemptLevelRouteCount": 1,
+      "cardLevelRouteCount": 0,
+      "unknownRouteCount": 0,
+      "outcomeAvailableCount": 1,
+      "successCount": 1,
+      "successRate": 1,
+      "outcomeCoverage": 1,
+      "gradeAvailableCount": 1,
+      "favorableGradeCount": 1,
+      "gradeCoverage": 1,
+      "favorableGradeRate": 1,
+      "semanticReissueAvailableCount": 1,
+      "semanticReissueCount": 0,
+      "semanticReissueCoverage": 1,
+      "semanticReissueRate": 0,
+      "durationAvailableCount": 1,
+      "durationCoverage": 1,
+      "totalDurationMs": 55982,
+      "averageDurationMs": 55982,
+      "tokenAvailableCount": 1,
+      "tokenCoverage": 1,
+      "totalTokens": 122166,
+      "averageTokens": 122166,
+      "costAvailableCount": 0,
+      "costCoverage": 0,
+      "totalCostUsd": null,
+      "observedFrom": "2026-07-25",
+      "observedThrough": "2026-07-25",
+      "provenance": [
+        {
+          "artifactReference": "benchmarks/results/document-to-text/curated-hard-cases-v1/20260725T120544879Z.json",
+          "artifactSha256": "24bbe757115888ec2fa32436d8a37258e7b99c2ed2786ee7be88545ce3130849"
+        }
+      ],
+      "qualification": {
+        "level": "Unknown",
+        "claimsValidation": false,
+        "gateFailures": [
+          "thinking level is unknown",
+          "sample size 1 is below 20"
+        ]
+      }
+    },
+    {
+      "canonicalModel": "claude-opus-4-8",
+      "thinkingLevel": null,
+      "taskClass": "document-to-text",
+      "capability": "document-to-text/pdf",
+      "sampleSize": 1,
+      "attemptLevelRouteCount": 1,
+      "cardLevelRouteCount": 0,
+      "unknownRouteCount": 0,
+      "outcomeAvailableCount": 1,
+      "successCount": 1,
+      "successRate": 1,
+      "outcomeCoverage": 1,
+      "gradeAvailableCount": 1,
+      "favorableGradeCount": 1,
+      "gradeCoverage": 1,
+      "favorableGradeRate": 1,
+      "semanticReissueAvailableCount": 1,
+      "semanticReissueCount": 0,
+      "semanticReissueCoverage": 1,
+      "semanticReissueRate": 0,
+      "durationAvailableCount": 1,
+      "durationCoverage": 1,
+      "totalDurationMs": 22343,
+      "averageDurationMs": 22343,
+      "tokenAvailableCount": 1,
+      "tokenCoverage": 1,
+      "totalTokens": 86955,
+      "averageTokens": 86955,
+      "costAvailableCount": 0,
+      "costCoverage": 0,
+      "totalCostUsd": null,
+      "observedFrom": "2026-07-25",
+      "observedThrough": "2026-07-25",
+      "provenance": [
+        {
+          "artifactReference": "benchmarks/results/document-to-text/curated-hard-cases-v1/20260725T120544879Z.json",
+          "artifactSha256": "24bbe757115888ec2fa32436d8a37258e7b99c2ed2786ee7be88545ce3130849"
+        }
+      ],
+      "qualification": {
+        "level": "Unknown",
+        "claimsValidation": false,
+        "gateFailures": [
+          "thinking level is unknown",
+          "sample size 1 is below 20"
+        ]
+      }
+    },
+    {
+      "canonicalModel": "claude-opus-4-8",
+      "thinkingLevel": null,
+      "taskClass": "document-to-text",
+      "capability": "document-to-text/presentation",
+      "sampleSize": 1,
+      "attemptLevelRouteCount": 1,
+      "cardLevelRouteCount": 0,
+      "unknownRouteCount": 0,
+      "outcomeAvailableCount": 1,
+      "successCount": 1,
+      "successRate": 1,
+      "outcomeCoverage": 1,
+      "gradeAvailableCount": 1,
+      "favorableGradeCount": 1,
+      "gradeCoverage": 1,
+      "favorableGradeRate": 1,
+      "semanticReissueAvailableCount": 1,
+      "semanticReissueCount": 0,
+      "semanticReissueCoverage": 1,
+      "semanticReissueRate": 0,
+      "durationAvailableCount": 1,
+      "durationCoverage": 1,
+      "totalDurationMs": 29715,
+      "averageDurationMs": 29715,
+      "tokenAvailableCount": 1,
+      "tokenCoverage": 1,
+      "totalTokens": 85927,
+      "averageTokens": 85927,
+      "costAvailableCount": 0,
+      "costCoverage": 0,
+      "totalCostUsd": null,
+      "observedFrom": "2026-07-25",
+      "observedThrough": "2026-07-25",
+      "provenance": [
+        {
+          "artifactReference": "benchmarks/results/document-to-text/curated-hard-cases-v1/20260725T120544879Z.json",
+          "artifactSha256": "24bbe757115888ec2fa32436d8a37258e7b99c2ed2786ee7be88545ce3130849"
+        }
+      ],
+      "qualification": {
+        "level": "Unknown",
+        "claimsValidation": false,
+        "gateFailures": [
+          "thinking level is unknown",
+          "sample size 1 is below 20"
+        ]
+      }
+    },
+    {
+      "canonicalModel": "claude-opus-4-8",
+      "thinkingLevel": null,
+      "taskClass": "document-to-text",
+      "capability": "document-to-text/spreadsheet",
+      "sampleSize": 1,
+      "attemptLevelRouteCount": 1,
+      "cardLevelRouteCount": 0,
+      "unknownRouteCount": 0,
+      "outcomeAvailableCount": 1,
+      "successCount": 1,
+      "successRate": 1,
+      "outcomeCoverage": 1,
+      "gradeAvailableCount": 1,
+      "favorableGradeCount": 1,
+      "gradeCoverage": 1,
+      "favorableGradeRate": 1,
+      "semanticReissueAvailableCount": 1,
+      "semanticReissueCount": 0,
+      "semanticReissueCoverage": 1,
+      "semanticReissueRate": 0,
+      "durationAvailableCount": 1,
+      "durationCoverage": 1,
+      "totalDurationMs": 16742,
+      "averageDurationMs": 16742,
+      "tokenAvailableCount": 1,
+      "tokenCoverage": 1,
+      "totalTokens": 56416,
+      "averageTokens": 56416,
+      "costAvailableCount": 0,
+      "costCoverage": 0,
+      "totalCostUsd": null,
+      "observedFrom": "2026-07-25",
+      "observedThrough": "2026-07-25",
+      "provenance": [
+        {
+          "artifactReference": "benchmarks/results/document-to-text/curated-hard-cases-v1/20260725T120544879Z.json",
+          "artifactSha256": "24bbe757115888ec2fa32436d8a37258e7b99c2ed2786ee7be88545ce3130849"
+        }
+      ],
+      "qualification": {
+        "level": "Unknown",
+        "claimsValidation": false,
+        "gateFailures": [
+          "thinking level is unknown",
+          "sample size 1 is below 20"
+        ]
+      }
+    },
+    {
+      "canonicalModel": "claude-opus-4-8",
+      "thinkingLevel": null,
+      "taskClass": "document-to-text",
+      "capability": "document-to-text/word",
+      "sampleSize": 1,
+      "attemptLevelRouteCount": 1,
+      "cardLevelRouteCount": 0,
+      "unknownRouteCount": 0,
+      "outcomeAvailableCount": 1,
+      "successCount": 1,
+      "successRate": 1,
+      "outcomeCoverage": 1,
+      "gradeAvailableCount": 1,
+      "favorableGradeCount": 1,
+      "gradeCoverage": 1,
+      "favorableGradeRate": 1,
+      "semanticReissueAvailableCount": 1,
+      "semanticReissueCount": 0,
+      "semanticReissueCoverage": 1,
+      "semanticReissueRate": 0,
+      "durationAvailableCount": 1,
+      "durationCoverage": 1,
+      "totalDurationMs": 18024,
+      "averageDurationMs": 18024,
+      "tokenAvailableCount": 1,
+      "tokenCoverage": 1,
+      "totalTokens": 56539,
+      "averageTokens": 56539,
+      "costAvailableCount": 0,
+      "costCoverage": 0,
+      "totalCostUsd": null,
+      "observedFrom": "2026-07-25",
+      "observedThrough": "2026-07-25",
+      "provenance": [
+        {
+          "artifactReference": "benchmarks/results/document-to-text/curated-hard-cases-v1/20260725T120544879Z.json",
+          "artifactSha256": "24bbe757115888ec2fa32436d8a37258e7b99c2ed2786ee7be88545ce3130849"
+        }
+      ],
+      "qualification": {
+        "level": "Unknown",
+        "claimsValidation": false,
+        "gateFailures": [
+          "thinking level is unknown",
+          "sample size 1 is below 20"
+        ]
+      }
+    },
+    {
+      "canonicalModel": "claude-sonnet-4-5",
+      "thinkingLevel": null,
+      "taskClass": "document-to-text",
+      "capability": "document-to-text/pdf",
+      "sampleSize": 1,
+      "attemptLevelRouteCount": 1,
+      "cardLevelRouteCount": 0,
+      "unknownRouteCount": 0,
+      "outcomeAvailableCount": 1,
+      "successCount": 0,
+      "successRate": 0,
+      "outcomeCoverage": 1,
+      "gradeAvailableCount": 1,
+      "favorableGradeCount": 0,
+      "gradeCoverage": 1,
+      "favorableGradeRate": 0,
+      "semanticReissueAvailableCount": 1,
+      "semanticReissueCount": 0,
+      "semanticReissueCoverage": 1,
+      "semanticReissueRate": 0,
+      "durationAvailableCount": 1,
+      "durationCoverage": 1,
+      "totalDurationMs": 180147,
+      "averageDurationMs": 180147,
+      "tokenAvailableCount": 1,
+      "tokenCoverage": 1,
+      "totalTokens": 0,
+      "averageTokens": 0,
+      "costAvailableCount": 0,
+      "costCoverage": 0,
+      "totalCostUsd": null,
+      "observedFrom": "2026-07-25",
+      "observedThrough": "2026-07-25",
+      "provenance": [
+        {
+          "artifactReference": "benchmarks/results/document-to-text/curated-hard-cases-v1/20260725T120544879Z.json",
+          "artifactSha256": "24bbe757115888ec2fa32436d8a37258e7b99c2ed2786ee7be88545ce3130849"
+        }
+      ],
+      "qualification": {
+        "level": "Unknown",
+        "claimsValidation": false,
+        "gateFailures": [
+          "thinking level is unknown",
+          "sample size 1 is below 20",
+          "favorable grade rate is unavailable or below the declared gate"
+        ]
+      }
+    },
+    {
+      "canonicalModel": "claude-sonnet-4-5",
+      "thinkingLevel": null,
+      "taskClass": "document-to-text",
+      "capability": "document-to-text/presentation",
+      "sampleSize": 1,
+      "attemptLevelRouteCount": 1,
+      "cardLevelRouteCount": 0,
+      "unknownRouteCount": 0,
+      "outcomeAvailableCount": 1,
+      "successCount": 1,
+      "successRate": 1,
+      "outcomeCoverage": 1,
+      "gradeAvailableCount": 1,
+      "favorableGradeCount": 1,
+      "gradeCoverage": 1,
+      "favorableGradeRate": 1,
+      "semanticReissueAvailableCount": 1,
+      "semanticReissueCount": 0,
+      "semanticReissueCoverage": 1,
+      "semanticReissueRate": 0,
+      "durationAvailableCount": 1,
+      "durationCoverage": 1,
+      "totalDurationMs": 39846,
+      "averageDurationMs": 39846,
+      "tokenAvailableCount": 1,
+      "tokenCoverage": 1,
+      "totalTokens": 60413,
+      "averageTokens": 60413,
+      "costAvailableCount": 0,
+      "costCoverage": 0,
+      "totalCostUsd": null,
+      "observedFrom": "2026-07-25",
+      "observedThrough": "2026-07-25",
+      "provenance": [
+        {
+          "artifactReference": "benchmarks/results/document-to-text/curated-hard-cases-v1/20260725T120544879Z.json",
+          "artifactSha256": "24bbe757115888ec2fa32436d8a37258e7b99c2ed2786ee7be88545ce3130849"
+        }
+      ],
+      "qualification": {
+        "level": "Unknown",
+        "claimsValidation": false,
+        "gateFailures": [
+          "thinking level is unknown",
+          "sample size 1 is below 20"
+        ]
+      }
+    },
+    {
+      "canonicalModel": "claude-sonnet-4-5",
+      "thinkingLevel": null,
+      "taskClass": "document-to-text",
+      "capability": "document-to-text/spreadsheet",
+      "sampleSize": 1,
+      "attemptLevelRouteCount": 1,
+      "cardLevelRouteCount": 0,
+      "unknownRouteCount": 0,
+      "outcomeAvailableCount": 1,
+      "successCount": 0,
+      "successRate": 0,
+      "outcomeCoverage": 1,
+      "gradeAvailableCount": 1,
+      "favorableGradeCount": 0,
+      "gradeCoverage": 1,
+      "favorableGradeRate": 0,
+      "semanticReissueAvailableCount": 1,
+      "semanticReissueCount": 0,
+      "semanticReissueCoverage": 1,
+      "semanticReissueRate": 0,
+      "durationAvailableCount": 1,
+      "durationCoverage": 1,
+      "totalDurationMs": 20718,
+      "averageDurationMs": 20718,
+      "tokenAvailableCount": 1,
+      "tokenCoverage": 1,
+      "totalTokens": 60264,
+      "averageTokens": 60264,
+      "costAvailableCount": 0,
+      "costCoverage": 0,
+      "totalCostUsd": null,
+      "observedFrom": "2026-07-25",
+      "observedThrough": "2026-07-25",
+      "provenance": [
+        {
+          "artifactReference": "benchmarks/results/document-to-text/curated-hard-cases-v1/20260725T120544879Z.json",
+          "artifactSha256": "24bbe757115888ec2fa32436d8a37258e7b99c2ed2786ee7be88545ce3130849"
+        }
+      ],
+      "qualification": {
+        "level": "Unknown",
+        "claimsValidation": false,
+        "gateFailures": [
+          "thinking level is unknown",
+          "sample size 1 is below 20",
+          "favorable grade rate is unavailable or below the declared gate"
+        ]
+      }
+    },
+    {
+      "canonicalModel": "claude-sonnet-4-5",
+      "thinkingLevel": null,
+      "taskClass": "document-to-text",
+      "capability": "document-to-text/word",
+      "sampleSize": 1,
+      "attemptLevelRouteCount": 1,
+      "cardLevelRouteCount": 0,
+      "unknownRouteCount": 0,
+      "outcomeAvailableCount": 1,
+      "successCount": 1,
+      "successRate": 1,
+      "outcomeCoverage": 1,
+      "gradeAvailableCount": 1,
+      "favorableGradeCount": 1,
+      "gradeCoverage": 1,
+      "favorableGradeRate": 1,
+      "semanticReissueAvailableCount": 1,
+      "semanticReissueCount": 0,
+      "semanticReissueCoverage": 1,
+      "semanticReissueRate": 0,
+      "durationAvailableCount": 1,
+      "durationCoverage": 1,
+      "totalDurationMs": 35572,
+      "averageDurationMs": 35572,
+      "tokenAvailableCount": 1,
+      "tokenCoverage": 1,
+      "totalTokens": 60101,
+      "averageTokens": 60101,
+      "costAvailableCount": 0,
+      "costCoverage": 0,
+      "totalCostUsd": null,
+      "observedFrom": "2026-07-25",
+      "observedThrough": "2026-07-25",
+      "provenance": [
+        {
+          "artifactReference": "benchmarks/results/document-to-text/curated-hard-cases-v1/20260725T120544879Z.json",
+          "artifactSha256": "24bbe757115888ec2fa32436d8a37258e7b99c2ed2786ee7be88545ce3130849"
+        }
+      ],
+      "qualification": {
+        "level": "Unknown",
+        "claimsValidation": false,
+        "gateFailures": [
+          "thinking level is unknown",
+          "sample size 1 is below 20"
+        ]
+      }
+    },
+    {
+      "canonicalModel": "claude-sonnet-4-6",
+      "thinkingLevel": null,
+      "taskClass": "document-to-text",
+      "capability": "document-to-text/pdf",
+      "sampleSize": 1,
+      "attemptLevelRouteCount": 1,
+      "cardLevelRouteCount": 0,
+      "unknownRouteCount": 0,
+      "outcomeAvailableCount": 1,
+      "successCount": 1,
+      "successRate": 1,
+      "outcomeCoverage": 1,
+      "gradeAvailableCount": 1,
+      "favorableGradeCount": 1,
+      "gradeCoverage": 1,
+      "favorableGradeRate": 1,
+      "semanticReissueAvailableCount": 1,
+      "semanticReissueCount": 0,
+      "semanticReissueCoverage": 1,
+      "semanticReissueRate": 0,
+      "durationAvailableCount": 1,
+      "durationCoverage": 1,
+      "totalDurationMs": 18784,
+      "averageDurationMs": 18784,
+      "tokenAvailableCount": 1,
+      "tokenCoverage": 1,
+      "totalTokens": 89895,
+      "averageTokens": 89895,
+      "costAvailableCount": 0,
+      "costCoverage": 0,
+      "totalCostUsd": null,
+      "observedFrom": "2026-07-25",
+      "observedThrough": "2026-07-25",
+      "provenance": [
+        {
+          "artifactReference": "benchmarks/results/document-to-text/curated-hard-cases-v1/20260725T120544879Z.json",
+          "artifactSha256": "24bbe757115888ec2fa32436d8a37258e7b99c2ed2786ee7be88545ce3130849"
+        }
+      ],
+      "qualification": {
+        "level": "Unknown",
+        "claimsValidation": false,
+        "gateFailures": [
+          "thinking level is unknown",
+          "sample size 1 is below 20"
+        ]
+      }
+    },
+    {
+      "canonicalModel": "claude-sonnet-4-6",
+      "thinkingLevel": null,
+      "taskClass": "document-to-text",
+      "capability": "document-to-text/presentation",
+      "sampleSize": 1,
+      "attemptLevelRouteCount": 1,
+      "cardLevelRouteCount": 0,
+      "unknownRouteCount": 0,
+      "outcomeAvailableCount": 1,
+      "successCount": 1,
+      "successRate": 1,
+      "outcomeCoverage": 1,
+      "gradeAvailableCount": 1,
+      "favorableGradeCount": 1,
+      "gradeCoverage": 1,
+      "favorableGradeRate": 1,
+      "semanticReissueAvailableCount": 1,
+      "semanticReissueCount": 0,
+      "semanticReissueCoverage": 1,
+      "semanticReissueRate": 0,
+      "durationAvailableCount": 1,
+      "durationCoverage": 1,
+      "totalDurationMs": 24985,
+      "averageDurationMs": 24985,
+      "tokenAvailableCount": 1,
+      "tokenCoverage": 1,
+      "totalTokens": 88738,
+      "averageTokens": 88738,
+      "costAvailableCount": 0,
+      "costCoverage": 0,
+      "totalCostUsd": null,
+      "observedFrom": "2026-07-25",
+      "observedThrough": "2026-07-25",
+      "provenance": [
+        {
+          "artifactReference": "benchmarks/results/document-to-text/curated-hard-cases-v1/20260725T120544879Z.json",
+          "artifactSha256": "24bbe757115888ec2fa32436d8a37258e7b99c2ed2786ee7be88545ce3130849"
+        }
+      ],
+      "qualification": {
+        "level": "Unknown",
+        "claimsValidation": false,
+        "gateFailures": [
+          "thinking level is unknown",
+          "sample size 1 is below 20"
+        ]
+      }
+    },
+    {
+      "canonicalModel": "claude-sonnet-4-6",
+      "thinkingLevel": null,
+      "taskClass": "document-to-text",
+      "capability": "document-to-text/spreadsheet",
+      "sampleSize": 1,
+      "attemptLevelRouteCount": 1,
+      "cardLevelRouteCount": 0,
+      "unknownRouteCount": 0,
+      "outcomeAvailableCount": 1,
+      "successCount": 0,
+      "successRate": 0,
+      "outcomeCoverage": 1,
+      "gradeAvailableCount": 1,
+      "favorableGradeCount": 0,
+      "gradeCoverage": 1,
+      "favorableGradeRate": 0,
+      "semanticReissueAvailableCount": 1,
+      "semanticReissueCount": 0,
+      "semanticReissueCoverage": 1,
+      "semanticReissueRate": 0,
+      "durationAvailableCount": 1,
+      "durationCoverage": 1,
+      "totalDurationMs": 12471,
+      "averageDurationMs": 12471,
+      "tokenAvailableCount": 1,
+      "tokenCoverage": 1,
+      "totalTokens": 58566,
+      "averageTokens": 58566,
+      "costAvailableCount": 0,
+      "costCoverage": 0,
+      "totalCostUsd": null,
+      "observedFrom": "2026-07-25",
+      "observedThrough": "2026-07-25",
+      "provenance": [
+        {
+          "artifactReference": "benchmarks/results/document-to-text/curated-hard-cases-v1/20260725T120544879Z.json",
+          "artifactSha256": "24bbe757115888ec2fa32436d8a37258e7b99c2ed2786ee7be88545ce3130849"
+        }
+      ],
+      "qualification": {
+        "level": "Unknown",
+        "claimsValidation": false,
+        "gateFailures": [
+          "thinking level is unknown",
+          "sample size 1 is below 20",
+          "favorable grade rate is unavailable or below the declared gate"
+        ]
+      }
+    },
+    {
+      "canonicalModel": "claude-sonnet-4-6",
+      "thinkingLevel": null,
+      "taskClass": "document-to-text",
+      "capability": "document-to-text/word",
+      "sampleSize": 1,
+      "attemptLevelRouteCount": 1,
+      "cardLevelRouteCount": 0,
+      "unknownRouteCount": 0,
+      "outcomeAvailableCount": 1,
+      "successCount": 1,
+      "successRate": 1,
+      "outcomeCoverage": 1,
+      "gradeAvailableCount": 1,
+      "favorableGradeCount": 1,
+      "gradeCoverage": 1,
+      "favorableGradeRate": 1,
+      "semanticReissueAvailableCount": 1,
+      "semanticReissueCount": 0,
+      "semanticReissueCoverage": 1,
+      "semanticReissueRate": 0,
+      "durationAvailableCount": 1,
+      "durationCoverage": 1,
+      "totalDurationMs": 18096,
+      "averageDurationMs": 18096,
+      "tokenAvailableCount": 1,
+      "tokenCoverage": 1,
+      "totalTokens": 58404,
+      "averageTokens": 58404,
+      "costAvailableCount": 0,
+      "costCoverage": 0,
+      "totalCostUsd": null,
+      "observedFrom": "2026-07-25",
+      "observedThrough": "2026-07-25",
+      "provenance": [
+        {
+          "artifactReference": "benchmarks/results/document-to-text/curated-hard-cases-v1/20260725T120544879Z.json",
+          "artifactSha256": "24bbe757115888ec2fa32436d8a37258e7b99c2ed2786ee7be88545ce3130849"
+        }
+      ],
+      "qualification": {
+        "level": "Unknown",
+        "claimsValidation": false,
+        "gateFailures": [
+          "thinking level is unknown",
+          "sample size 1 is below 20"
+        ]
+      }
+    },
+    {
+      "canonicalModel": "claude-sonnet-5",
+      "thinkingLevel": null,
+      "taskClass": "document-to-text",
+      "capability": "document-to-text/pdf",
+      "sampleSize": 1,
+      "attemptLevelRouteCount": 1,
+      "cardLevelRouteCount": 0,
+      "unknownRouteCount": 0,
+      "outcomeAvailableCount": 1,
+      "successCount": 1,
+      "successRate": 1,
+      "outcomeCoverage": 1,
+      "gradeAvailableCount": 1,
+      "favorableGradeCount": 1,
+      "gradeCoverage": 1,
+      "favorableGradeRate": 1,
+      "semanticReissueAvailableCount": 1,
+      "semanticReissueCount": 0,
+      "semanticReissueCoverage": 1,
+      "semanticReissueRate": 0,
+      "durationAvailableCount": 1,
+      "durationCoverage": 1,
+      "totalDurationMs": 18892,
+      "averageDurationMs": 18892,
+      "tokenAvailableCount": 1,
+      "tokenCoverage": 1,
+      "totalTokens": 122777,
+      "averageTokens": 122777,
+      "costAvailableCount": 0,
+      "costCoverage": 0,
+      "totalCostUsd": null,
+      "observedFrom": "2026-07-25",
+      "observedThrough": "2026-07-25",
+      "provenance": [
+        {
+          "artifactReference": "benchmarks/results/document-to-text/curated-hard-cases-v1/20260725T120544879Z.json",
+          "artifactSha256": "24bbe757115888ec2fa32436d8a37258e7b99c2ed2786ee7be88545ce3130849"
+        }
+      ],
+      "qualification": {
+        "level": "Unknown",
+        "claimsValidation": false,
+        "gateFailures": [
+          "thinking level is unknown",
+          "sample size 1 is below 20"
+        ]
+      }
+    },
+    {
+      "canonicalModel": "claude-sonnet-5",
+      "thinkingLevel": null,
+      "taskClass": "document-to-text",
+      "capability": "document-to-text/presentation",
+      "sampleSize": 1,
+      "attemptLevelRouteCount": 1,
+      "cardLevelRouteCount": 0,
+      "unknownRouteCount": 0,
+      "outcomeAvailableCount": 1,
+      "successCount": 1,
+      "successRate": 1,
+      "outcomeCoverage": 1,
+      "gradeAvailableCount": 1,
+      "favorableGradeCount": 1,
+      "gradeCoverage": 1,
+      "favorableGradeRate": 1,
+      "semanticReissueAvailableCount": 1,
+      "semanticReissueCount": 0,
+      "semanticReissueCoverage": 1,
+      "semanticReissueRate": 0,
+      "durationAvailableCount": 1,
+      "durationCoverage": 1,
+      "totalDurationMs": 42470,
+      "averageDurationMs": 42470,
+      "tokenAvailableCount": 1,
+      "tokenCoverage": 1,
+      "totalTokens": 162371,
+      "averageTokens": 162371,
+      "costAvailableCount": 0,
+      "costCoverage": 0,
+      "totalCostUsd": null,
+      "observedFrom": "2026-07-25",
+      "observedThrough": "2026-07-25",
+      "provenance": [
+        {
+          "artifactReference": "benchmarks/results/document-to-text/curated-hard-cases-v1/20260725T120544879Z.json",
+          "artifactSha256": "24bbe757115888ec2fa32436d8a37258e7b99c2ed2786ee7be88545ce3130849"
+        }
+      ],
+      "qualification": {
+        "level": "Unknown",
+        "claimsValidation": false,
+        "gateFailures": [
+          "thinking level is unknown",
+          "sample size 1 is below 20"
+        ]
+      }
+    },
+    {
+      "canonicalModel": "claude-sonnet-5",
+      "thinkingLevel": null,
+      "taskClass": "document-to-text",
+      "capability": "document-to-text/spreadsheet",
+      "sampleSize": 1,
+      "attemptLevelRouteCount": 1,
+      "cardLevelRouteCount": 0,
+      "unknownRouteCount": 0,
+      "outcomeAvailableCount": 1,
+      "successCount": 1,
+      "successRate": 1,
+      "outcomeCoverage": 1,
+      "gradeAvailableCount": 1,
+      "favorableGradeCount": 1,
+      "gradeCoverage": 1,
+      "favorableGradeRate": 1,
+      "semanticReissueAvailableCount": 1,
+      "semanticReissueCount": 0,
+      "semanticReissueCoverage": 1,
+      "semanticReissueRate": 0,
+      "durationAvailableCount": 1,
+      "durationCoverage": 1,
+      "totalDurationMs": 22333,
+      "averageDurationMs": 22333,
+      "tokenAvailableCount": 1,
+      "tokenCoverage": 1,
+      "totalTokens": 121195,
+      "averageTokens": 121195,
+      "costAvailableCount": 0,
+      "costCoverage": 0,
+      "totalCostUsd": null,
+      "observedFrom": "2026-07-25",
+      "observedThrough": "2026-07-25",
+      "provenance": [
+        {
+          "artifactReference": "benchmarks/results/document-to-text/curated-hard-cases-v1/20260725T120544879Z.json",
+          "artifactSha256": "24bbe757115888ec2fa32436d8a37258e7b99c2ed2786ee7be88545ce3130849"
+        }
+      ],
+      "qualification": {
+        "level": "Unknown",
+        "claimsValidation": false,
+        "gateFailures": [
+          "thinking level is unknown",
+          "sample size 1 is below 20"
+        ]
+      }
+    },
+    {
+      "canonicalModel": "claude-sonnet-5",
+      "thinkingLevel": null,
+      "taskClass": "document-to-text",
+      "capability": "document-to-text/word",
+      "sampleSize": 1,
+      "attemptLevelRouteCount": 1,
+      "cardLevelRouteCount": 0,
+      "unknownRouteCount": 0,
+      "outcomeAvailableCount": 1,
+      "successCount": 1,
+      "successRate": 1,
+      "outcomeCoverage": 1,
+      "gradeAvailableCount": 1,
+      "favorableGradeCount": 1,
+      "gradeCoverage": 1,
+      "favorableGradeRate": 1,
+      "semanticReissueAvailableCount": 1,
+      "semanticReissueCount": 0,
+      "semanticReissueCoverage": 1,
+      "semanticReissueRate": 0,
+      "durationAvailableCount": 1,
+      "durationCoverage": 1,
+      "totalDurationMs": 18998,
+      "averageDurationMs": 18998,
+      "tokenAvailableCount": 1,
+      "tokenCoverage": 1,
+      "totalTokens": 80251,
+      "averageTokens": 80251,
+      "costAvailableCount": 0,
+      "costCoverage": 0,
+      "totalCostUsd": null,
+      "observedFrom": "2026-07-25",
+      "observedThrough": "2026-07-25",
+      "provenance": [
+        {
+          "artifactReference": "benchmarks/results/document-to-text/curated-hard-cases-v1/20260725T120544879Z.json",
+          "artifactSha256": "24bbe757115888ec2fa32436d8a37258e7b99c2ed2786ee7be88545ce3130849"
+        }
+      ],
+      "qualification": {
+        "level": "Unknown",
+        "claimsValidation": false,
+        "gateFailures": [
+          "thinking level is unknown",
+          "sample size 1 is below 20"
+        ]
+      }
+    },
+    {
+      "canonicalModel": "gpt-5",
+      "thinkingLevel": null,
+      "taskClass": "document-to-text",
+      "capability": "document-to-text/pdf",
+      "sampleSize": 1,
+      "attemptLevelRouteCount": 1,
+      "cardLevelRouteCount": 0,
+      "unknownRouteCount": 0,
+      "outcomeAvailableCount": 1,
+      "successCount": 0,
+      "successRate": 0,
+      "outcomeCoverage": 1,
+      "gradeAvailableCount": 1,
+      "favorableGradeCount": 0,
+      "gradeCoverage": 1,
+      "favorableGradeRate": 0,
+      "semanticReissueAvailableCount": 1,
+      "semanticReissueCount": 0,
+      "semanticReissueCoverage": 1,
+      "semanticReissueRate": 0,
+      "durationAvailableCount": 1,
+      "durationCoverage": 1,
+      "totalDurationMs": 3839,
+      "averageDurationMs": 3839,
+      "tokenAvailableCount": 1,
+      "tokenCoverage": 1,
+      "totalTokens": 0,
+      "averageTokens": 0,
+      "costAvailableCount": 0,
+      "costCoverage": 0,
+      "totalCostUsd": null,
+      "observedFrom": "2026-07-25",
+      "observedThrough": "2026-07-25",
+      "provenance": [
+        {
+          "artifactReference": "benchmarks/results/document-to-text/curated-hard-cases-v1/20260725T120544879Z.json",
+          "artifactSha256": "24bbe757115888ec2fa32436d8a37258e7b99c2ed2786ee7be88545ce3130849"
+        }
+      ],
+      "qualification": {
+        "level": "Unknown",
+        "claimsValidation": false,
+        "gateFailures": [
+          "thinking level is unknown",
+          "sample size 1 is below 20",
+          "favorable grade rate is unavailable or below the declared gate"
+        ]
+      }
+    },
+    {
+      "canonicalModel": "gpt-5",
+      "thinkingLevel": null,
+      "taskClass": "document-to-text",
+      "capability": "document-to-text/presentation",
+      "sampleSize": 1,
+      "attemptLevelRouteCount": 1,
+      "cardLevelRouteCount": 0,
+      "unknownRouteCount": 0,
+      "outcomeAvailableCount": 1,
+      "successCount": 0,
+      "successRate": 0,
+      "outcomeCoverage": 1,
+      "gradeAvailableCount": 1,
+      "favorableGradeCount": 0,
+      "gradeCoverage": 1,
+      "favorableGradeRate": 0,
+      "semanticReissueAvailableCount": 1,
+      "semanticReissueCount": 0,
+      "semanticReissueCoverage": 1,
+      "semanticReissueRate": 0,
+      "durationAvailableCount": 1,
+      "durationCoverage": 1,
+      "totalDurationMs": 4784,
+      "averageDurationMs": 4784,
+      "tokenAvailableCount": 1,
+      "tokenCoverage": 1,
+      "totalTokens": 0,
+      "averageTokens": 0,
+      "costAvailableCount": 0,
+      "costCoverage": 0,
+      "totalCostUsd": null,
+      "observedFrom": "2026-07-25",
+      "observedThrough": "2026-07-25",
+      "provenance": [
+        {
+          "artifactReference": "benchmarks/results/document-to-text/curated-hard-cases-v1/20260725T120544879Z.json",
+          "artifactSha256": "24bbe757115888ec2fa32436d8a37258e7b99c2ed2786ee7be88545ce3130849"
+        }
+      ],
+      "qualification": {
+        "level": "Unknown",
+        "claimsValidation": false,
+        "gateFailures": [
+          "thinking level is unknown",
+          "sample size 1 is below 20",
+          "favorable grade rate is unavailable or below the declared gate"
+        ]
+      }
+    },
+    {
+      "canonicalModel": "gpt-5",
+      "thinkingLevel": null,
+      "taskClass": "document-to-text",
+      "capability": "document-to-text/spreadsheet",
+      "sampleSize": 1,
+      "attemptLevelRouteCount": 1,
+      "cardLevelRouteCount": 0,
+      "unknownRouteCount": 0,
+      "outcomeAvailableCount": 1,
+      "successCount": 0,
+      "successRate": 0,
+      "outcomeCoverage": 1,
+      "gradeAvailableCount": 1,
+      "favorableGradeCount": 0,
+      "gradeCoverage": 1,
+      "favorableGradeRate": 0,
+      "semanticReissueAvailableCount": 1,
+      "semanticReissueCount": 0,
+      "semanticReissueCoverage": 1,
+      "semanticReissueRate": 0,
+      "durationAvailableCount": 1,
+      "durationCoverage": 1,
+      "totalDurationMs": 7184,
+      "averageDurationMs": 7184,
+      "tokenAvailableCount": 1,
+      "tokenCoverage": 1,
+      "totalTokens": 0,
+      "averageTokens": 0,
+      "costAvailableCount": 0,
+      "costCoverage": 0,
+      "totalCostUsd": null,
+      "observedFrom": "2026-07-25",
+      "observedThrough": "2026-07-25",
+      "provenance": [
+        {
+          "artifactReference": "benchmarks/results/document-to-text/curated-hard-cases-v1/20260725T120544879Z.json",
+          "artifactSha256": "24bbe757115888ec2fa32436d8a37258e7b99c2ed2786ee7be88545ce3130849"
+        }
+      ],
+      "qualification": {
+        "level": "Unknown",
+        "claimsValidation": false,
+        "gateFailures": [
+          "thinking level is unknown",
+          "sample size 1 is below 20",
+          "favorable grade rate is unavailable or below the declared gate"
+        ]
+      }
+    },
+    {
+      "canonicalModel": "gpt-5",
+      "thinkingLevel": null,
+      "taskClass": "document-to-text",
+      "capability": "document-to-text/word",
+      "sampleSize": 1,
+      "attemptLevelRouteCount": 1,
+      "cardLevelRouteCount": 0,
+      "unknownRouteCount": 0,
+      "outcomeAvailableCount": 1,
+      "successCount": 0,
+      "successRate": 0,
+      "outcomeCoverage": 1,
+      "gradeAvailableCount": 1,
+      "favorableGradeCount": 0,
+      "gradeCoverage": 1,
+      "favorableGradeRate": 0,
+      "semanticReissueAvailableCount": 1,
+      "semanticReissueCount": 0,
+      "semanticReissueCoverage": 1,
+      "semanticReissueRate": 0,
+      "durationAvailableCount": 1,
+      "durationCoverage": 1,
+      "totalDurationMs": 4253,
+      "averageDurationMs": 4253,
+      "tokenAvailableCount": 1,
+      "tokenCoverage": 1,
+      "totalTokens": 0,
+      "averageTokens": 0,
+      "costAvailableCount": 0,
+      "costCoverage": 0,
+      "totalCostUsd": null,
+      "observedFrom": "2026-07-25",
+      "observedThrough": "2026-07-25",
+      "provenance": [
+        {
+          "artifactReference": "benchmarks/results/document-to-text/curated-hard-cases-v1/20260725T120544879Z.json",
+          "artifactSha256": "24bbe757115888ec2fa32436d8a37258e7b99c2ed2786ee7be88545ce3130849"
+        }
+      ],
+      "qualification": {
+        "level": "Unknown",
+        "claimsValidation": false,
+        "gateFailures": [
+          "thinking level is unknown",
+          "sample size 1 is below 20",
+          "favorable grade rate is unavailable or below the declared gate"
+        ]
+      }
+    },
+    {
+      "canonicalModel": "gpt-5-codex",
+      "thinkingLevel": null,
+      "taskClass": "document-to-text",
+      "capability": "document-to-text/pdf",
+      "sampleSize": 1,
+      "attemptLevelRouteCount": 1,
+      "cardLevelRouteCount": 0,
+      "unknownRouteCount": 0,
+      "outcomeAvailableCount": 1,
+      "successCount": 0,
+      "successRate": 0,
+      "outcomeCoverage": 1,
+      "gradeAvailableCount": 1,
+      "favorableGradeCount": 0,
+      "gradeCoverage": 1,
+      "favorableGradeRate": 0,
+      "semanticReissueAvailableCount": 1,
+      "semanticReissueCount": 0,
+      "semanticReissueCoverage": 1,
+      "semanticReissueRate": 0,
+      "durationAvailableCount": 1,
+      "durationCoverage": 1,
+      "totalDurationMs": 6085,
+      "averageDurationMs": 6085,
+      "tokenAvailableCount": 1,
+      "tokenCoverage": 1,
+      "totalTokens": 0,
+      "averageTokens": 0,
+      "costAvailableCount": 0,
+      "costCoverage": 0,
+      "totalCostUsd": null,
+      "observedFrom": "2026-07-25",
+      "observedThrough": "2026-07-25",
+      "provenance": [
+        {
+          "artifactReference": "benchmarks/results/document-to-text/curated-hard-cases-v1/20260725T120544879Z.json",
+          "artifactSha256": "24bbe757115888ec2fa32436d8a37258e7b99c2ed2786ee7be88545ce3130849"
+        }
+      ],
+      "qualification": {
+        "level": "Unknown",
+        "claimsValidation": false,
+        "gateFailures": [
+          "thinking level is unknown",
+          "sample size 1 is below 20",
+          "favorable grade rate is unavailable or below the declared gate"
+        ]
+      }
+    },
+    {
+      "canonicalModel": "gpt-5-codex",
+      "thinkingLevel": null,
+      "taskClass": "document-to-text",
+      "capability": "document-to-text/presentation",
+      "sampleSize": 1,
+      "attemptLevelRouteCount": 1,
+      "cardLevelRouteCount": 0,
+      "unknownRouteCount": 0,
+      "outcomeAvailableCount": 1,
+      "successCount": 0,
+      "successRate": 0,
+      "outcomeCoverage": 1,
+      "gradeAvailableCount": 1,
+      "favorableGradeCount": 0,
+      "gradeCoverage": 1,
+      "favorableGradeRate": 0,
+      "semanticReissueAvailableCount": 1,
+      "semanticReissueCount": 0,
+      "semanticReissueCoverage": 1,
+      "semanticReissueRate": 0,
+      "durationAvailableCount": 1,
+      "durationCoverage": 1,
+      "totalDurationMs": 5656,
+      "averageDurationMs": 5656,
+      "tokenAvailableCount": 1,
+      "tokenCoverage": 1,
+      "totalTokens": 0,
+      "averageTokens": 0,
+      "costAvailableCount": 0,
+      "costCoverage": 0,
+      "totalCostUsd": null,
+      "observedFrom": "2026-07-25",
+      "observedThrough": "2026-07-25",
+      "provenance": [
+        {
+          "artifactReference": "benchmarks/results/document-to-text/curated-hard-cases-v1/20260725T120544879Z.json",
+          "artifactSha256": "24bbe757115888ec2fa32436d8a37258e7b99c2ed2786ee7be88545ce3130849"
+        }
+      ],
+      "qualification": {
+        "level": "Unknown",
+        "claimsValidation": false,
+        "gateFailures": [
+          "thinking level is unknown",
+          "sample size 1 is below 20",
+          "favorable grade rate is unavailable or below the declared gate"
+        ]
+      }
+    },
+    {
+      "canonicalModel": "gpt-5-codex",
+      "thinkingLevel": null,
+      "taskClass": "document-to-text",
+      "capability": "document-to-text/spreadsheet",
+      "sampleSize": 1,
+      "attemptLevelRouteCount": 1,
+      "cardLevelRouteCount": 0,
+      "unknownRouteCount": 0,
+      "outcomeAvailableCount": 1,
+      "successCount": 0,
+      "successRate": 0,
+      "outcomeCoverage": 1,
+      "gradeAvailableCount": 1,
+      "favorableGradeCount": 0,
+      "gradeCoverage": 1,
+      "favorableGradeRate": 0,
+      "semanticReissueAvailableCount": 1,
+      "semanticReissueCount": 0,
+      "semanticReissueCoverage": 1,
+      "semanticReissueRate": 0,
+      "durationAvailableCount": 1,
+      "durationCoverage": 1,
+      "totalDurationMs": 5449,
+      "averageDurationMs": 5449,
+      "tokenAvailableCount": 1,
+      "tokenCoverage": 1,
+      "totalTokens": 0,
+      "averageTokens": 0,
+      "costAvailableCount": 0,
+      "costCoverage": 0,
+      "totalCostUsd": null,
+      "observedFrom": "2026-07-25",
+      "observedThrough": "2026-07-25",
+      "provenance": [
+        {
+          "artifactReference": "benchmarks/results/document-to-text/curated-hard-cases-v1/20260725T120544879Z.json",
+          "artifactSha256": "24bbe757115888ec2fa32436d8a37258e7b99c2ed2786ee7be88545ce3130849"
+        }
+      ],
+      "qualification": {
+        "level": "Unknown",
+        "claimsValidation": false,
+        "gateFailures": [
+          "thinking level is unknown",
+          "sample size 1 is below 20",
+          "favorable grade rate is unavailable or below the declared gate"
+        ]
+      }
+    },
+    {
+      "canonicalModel": "gpt-5-codex",
+      "thinkingLevel": null,
+      "taskClass": "document-to-text",
+      "capability": "document-to-text/word",
+      "sampleSize": 1,
+      "attemptLevelRouteCount": 1,
+      "cardLevelRouteCount": 0,
+      "unknownRouteCount": 0,
+      "outcomeAvailableCount": 1,
+      "successCount": 0,
+      "successRate": 0,
+      "outcomeCoverage": 1,
+      "gradeAvailableCount": 1,
+      "favorableGradeCount": 0,
+      "gradeCoverage": 1,
+      "favorableGradeRate": 0,
+      "semanticReissueAvailableCount": 1,
+      "semanticReissueCount": 0,
+      "semanticReissueCoverage": 1,
+      "semanticReissueRate": 0,
+      "durationAvailableCount": 1,
+      "durationCoverage": 1,
+      "totalDurationMs": 3469,
+      "averageDurationMs": 3469,
+      "tokenAvailableCount": 1,
+      "tokenCoverage": 1,
+      "totalTokens": 0,
+      "averageTokens": 0,
+      "costAvailableCount": 0,
+      "costCoverage": 0,
+      "totalCostUsd": null,
+      "observedFrom": "2026-07-25",
+      "observedThrough": "2026-07-25",
+      "provenance": [
+        {
+          "artifactReference": "benchmarks/results/document-to-text/curated-hard-cases-v1/20260725T120544879Z.json",
+          "artifactSha256": "24bbe757115888ec2fa32436d8a37258e7b99c2ed2786ee7be88545ce3130849"
+        }
+      ],
+      "qualification": {
+        "level": "Unknown",
+        "claimsValidation": false,
+        "gateFailures": [
+          "thinking level is unknown",
+          "sample size 1 is below 20",
+          "favorable grade rate is unavailable or below the declared gate"
+        ]
+      }
+    },
+    {
+      "canonicalModel": "gpt-5.5",
+      "thinkingLevel": null,
+      "taskClass": "document-to-text",
+      "capability": "document-to-text/pdf",
+      "sampleSize": 1,
+      "attemptLevelRouteCount": 1,
+      "cardLevelRouteCount": 0,
+      "unknownRouteCount": 0,
+      "outcomeAvailableCount": 1,
+      "successCount": 1,
+      "successRate": 1,
+      "outcomeCoverage": 1,
+      "gradeAvailableCount": 1,
+      "favorableGradeCount": 1,
+      "gradeCoverage": 1,
+      "favorableGradeRate": 1,
+      "semanticReissueAvailableCount": 1,
+      "semanticReissueCount": 0,
+      "semanticReissueCoverage": 1,
+      "semanticReissueRate": 0,
+      "durationAvailableCount": 1,
+      "durationCoverage": 1,
+      "totalDurationMs": 152880,
+      "averageDurationMs": 152880,
+      "tokenAvailableCount": 1,
+      "tokenCoverage": 1,
+      "totalTokens": 68416,
+      "averageTokens": 68416,
+      "costAvailableCount": 0,
+      "costCoverage": 0,
+      "totalCostUsd": null,
+      "observedFrom": "2026-07-25",
+      "observedThrough": "2026-07-25",
+      "provenance": [
+        {
+          "artifactReference": "benchmarks/results/document-to-text/curated-hard-cases-v1/20260725T120544879Z.json",
+          "artifactSha256": "24bbe757115888ec2fa32436d8a37258e7b99c2ed2786ee7be88545ce3130849"
+        }
+      ],
+      "qualification": {
+        "level": "Unknown",
+        "claimsValidation": false,
+        "gateFailures": [
+          "thinking level is unknown",
+          "sample size 1 is below 20"
+        ]
+      }
+    },
+    {
+      "canonicalModel": "gpt-5.5",
+      "thinkingLevel": null,
+      "taskClass": "document-to-text",
+      "capability": "document-to-text/presentation",
+      "sampleSize": 1,
+      "attemptLevelRouteCount": 1,
+      "cardLevelRouteCount": 0,
+      "unknownRouteCount": 0,
+      "outcomeAvailableCount": 1,
+      "successCount": 1,
+      "successRate": 1,
+      "outcomeCoverage": 1,
+      "gradeAvailableCount": 1,
+      "favorableGradeCount": 1,
+      "gradeCoverage": 1,
+      "favorableGradeRate": 1,
+      "semanticReissueAvailableCount": 1,
+      "semanticReissueCount": 0,
+      "semanticReissueCoverage": 1,
+      "semanticReissueRate": 0,
+      "durationAvailableCount": 1,
+      "durationCoverage": 1,
+      "totalDurationMs": 51488,
+      "averageDurationMs": 51488,
+      "tokenAvailableCount": 1,
+      "tokenCoverage": 1,
+      "totalTokens": 74036,
+      "averageTokens": 74036,
+      "costAvailableCount": 0,
+      "costCoverage": 0,
+      "totalCostUsd": null,
+      "observedFrom": "2026-07-25",
+      "observedThrough": "2026-07-25",
+      "provenance": [
+        {
+          "artifactReference": "benchmarks/results/document-to-text/curated-hard-cases-v1/20260725T120544879Z.json",
+          "artifactSha256": "24bbe757115888ec2fa32436d8a37258e7b99c2ed2786ee7be88545ce3130849"
+        }
+      ],
+      "qualification": {
+        "level": "Unknown",
+        "claimsValidation": false,
+        "gateFailures": [
+          "thinking level is unknown",
+          "sample size 1 is below 20"
+        ]
+      }
+    },
+    {
+      "canonicalModel": "gpt-5.5",
+      "thinkingLevel": null,
+      "taskClass": "document-to-text",
+      "capability": "document-to-text/spreadsheet",
+      "sampleSize": 1,
+      "attemptLevelRouteCount": 1,
+      "cardLevelRouteCount": 0,
+      "unknownRouteCount": 0,
+      "outcomeAvailableCount": 1,
+      "successCount": 1,
+      "successRate": 1,
+      "outcomeCoverage": 1,
+      "gradeAvailableCount": 1,
+      "favorableGradeCount": 1,
+      "gradeCoverage": 1,
+      "favorableGradeRate": 1,
+      "semanticReissueAvailableCount": 1,
+      "semanticReissueCount": 0,
+      "semanticReissueCoverage": 1,
+      "semanticReissueRate": 0,
+      "durationAvailableCount": 1,
+      "durationCoverage": 1,
+      "totalDurationMs": 53076,
+      "averageDurationMs": 53076,
+      "tokenAvailableCount": 1,
+      "tokenCoverage": 1,
+      "totalTokens": 54837,
+      "averageTokens": 54837,
+      "costAvailableCount": 0,
+      "costCoverage": 0,
+      "totalCostUsd": null,
+      "observedFrom": "2026-07-25",
+      "observedThrough": "2026-07-25",
+      "provenance": [
+        {
+          "artifactReference": "benchmarks/results/document-to-text/curated-hard-cases-v1/20260725T120544879Z.json",
+          "artifactSha256": "24bbe757115888ec2fa32436d8a37258e7b99c2ed2786ee7be88545ce3130849"
+        }
+      ],
+      "qualification": {
+        "level": "Unknown",
+        "claimsValidation": false,
+        "gateFailures": [
+          "thinking level is unknown",
+          "sample size 1 is below 20"
+        ]
+      }
+    },
+    {
+      "canonicalModel": "gpt-5.5",
+      "thinkingLevel": null,
+      "taskClass": "document-to-text",
+      "capability": "document-to-text/word",
+      "sampleSize": 1,
+      "attemptLevelRouteCount": 1,
+      "cardLevelRouteCount": 0,
+      "unknownRouteCount": 0,
+      "outcomeAvailableCount": 1,
+      "successCount": 1,
+      "successRate": 1,
+      "outcomeCoverage": 1,
+      "gradeAvailableCount": 1,
+      "favorableGradeCount": 1,
+      "gradeCoverage": 1,
+      "favorableGradeRate": 1,
+      "semanticReissueAvailableCount": 1,
+      "semanticReissueCount": 0,
+      "semanticReissueCoverage": 1,
+      "semanticReissueRate": 0,
+      "durationAvailableCount": 1,
+      "durationCoverage": 1,
+      "totalDurationMs": 24889,
+      "averageDurationMs": 24889,
+      "tokenAvailableCount": 1,
+      "tokenCoverage": 1,
+      "totalTokens": 26213,
+      "averageTokens": 26213,
+      "costAvailableCount": 0,
+      "costCoverage": 0,
+      "totalCostUsd": null,
+      "observedFrom": "2026-07-25",
+      "observedThrough": "2026-07-25",
+      "provenance": [
+        {
+          "artifactReference": "benchmarks/results/document-to-text/curated-hard-cases-v1/20260725T120544879Z.json",
+          "artifactSha256": "24bbe757115888ec2fa32436d8a37258e7b99c2ed2786ee7be88545ce3130849"
+        }
+      ],
+      "qualification": {
+        "level": "Unknown",
+        "claimsValidation": false,
+        "gateFailures": [
+          "thinking level is unknown",
+          "sample size 1 is below 20"
+        ]
+      }
+    },
+    {
+      "canonicalModel": "gpt-5.6",
+      "thinkingLevel": "medium",
+      "taskClass": null,
+      "capability": null,
+      "sampleSize": 1,
+      "attemptLevelRouteCount": 1,
+      "cardLevelRouteCount": 0,
+      "unknownRouteCount": 0,
+      "outcomeAvailableCount": 1,
+      "successCount": 1,
+      "successRate": 1,
+      "outcomeCoverage": 1,
+      "gradeAvailableCount": 1,
+      "favorableGradeCount": 1,
+      "gradeCoverage": 1,
+      "favorableGradeRate": 1,
+      "semanticReissueAvailableCount": 1,
+      "semanticReissueCount": 0,
+      "semanticReissueCoverage": 1,
+      "semanticReissueRate": 0,
+      "durationAvailableCount": 1,
+      "durationCoverage": 1,
+      "totalDurationMs": 18538,
+      "averageDurationMs": 18538,
+      "tokenAvailableCount": 1,
+      "tokenCoverage": 1,
+      "totalTokens": 13550,
+      "averageTokens": 13550,
+      "costAvailableCount": 0,
+      "costCoverage": 0,
+      "totalCostUsd": null,
+      "observedFrom": "2026-07-22",
+      "observedThrough": "2026-07-22",
+      "provenance": [
+        {
+          "artifactReference": "benchmarks/results/palindrome-repair/20260722T233105307Z.json",
+          "artifactSha256": "23ea2519964d6595a676412632e528df677880f498586677be7fc7d2408216e2"
+        }
+      ],
+      "qualification": {
+        "level": "Unknown",
+        "claimsValidation": false,
+        "gateFailures": [
+          "task class is unknown",
+          "capability is unknown",
+          "sample size 1 is below 20"
+        ]
+      }
+    },
+    {
+      "canonicalModel": "gpt-5.6",
+      "thinkingLevel": null,
+      "taskClass": "document-to-text",
+      "capability": "document-to-text/pdf",
+      "sampleSize": 1,
+      "attemptLevelRouteCount": 1,
+      "cardLevelRouteCount": 0,
+      "unknownRouteCount": 0,
+      "outcomeAvailableCount": 1,
+      "successCount": 0,
+      "successRate": 0,
+      "outcomeCoverage": 1,
+      "gradeAvailableCount": 1,
+      "favorableGradeCount": 0,
+      "gradeCoverage": 1,
+      "favorableGradeRate": 0,
+      "semanticReissueAvailableCount": 1,
+      "semanticReissueCount": 0,
+      "semanticReissueCoverage": 1,
+      "semanticReissueRate": 0,
+      "durationAvailableCount": 1,
+      "durationCoverage": 1,
+      "totalDurationMs": 5114,
+      "averageDurationMs": 5114,
+      "tokenAvailableCount": 1,
+      "tokenCoverage": 1,
+      "totalTokens": 0,
+      "averageTokens": 0,
+      "costAvailableCount": 0,
+      "costCoverage": 0,
+      "totalCostUsd": null,
+      "observedFrom": "2026-07-25",
+      "observedThrough": "2026-07-25",
+      "provenance": [
+        {
+          "artifactReference": "benchmarks/results/document-to-text/curated-hard-cases-v1/20260725T120544879Z.json",
+          "artifactSha256": "24bbe757115888ec2fa32436d8a37258e7b99c2ed2786ee7be88545ce3130849"
+        }
+      ],
+      "qualification": {
+        "level": "Unknown",
+        "claimsValidation": false,
+        "gateFailures": [
+          "thinking level is unknown",
+          "sample size 1 is below 20",
+          "favorable grade rate is unavailable or below the declared gate"
+        ]
+      }
+    },
+    {
+      "canonicalModel": "gpt-5.6",
+      "thinkingLevel": null,
+      "taskClass": "document-to-text",
+      "capability": "document-to-text/presentation",
+      "sampleSize": 1,
+      "attemptLevelRouteCount": 1,
+      "cardLevelRouteCount": 0,
+      "unknownRouteCount": 0,
+      "outcomeAvailableCount": 1,
+      "successCount": 0,
+      "successRate": 0,
+      "outcomeCoverage": 1,
+      "gradeAvailableCount": 1,
+      "favorableGradeCount": 0,
+      "gradeCoverage": 1,
+      "favorableGradeRate": 0,
+      "semanticReissueAvailableCount": 1,
+      "semanticReissueCount": 0,
+      "semanticReissueCoverage": 1,
+      "semanticReissueRate": 0,
+      "durationAvailableCount": 1,
+      "durationCoverage": 1,
+      "totalDurationMs": 5584,
+      "averageDurationMs": 5584,
+      "tokenAvailableCount": 1,
+      "tokenCoverage": 1,
+      "totalTokens": 0,
+      "averageTokens": 0,
+      "costAvailableCount": 0,
+      "costCoverage": 0,
+      "totalCostUsd": null,
+      "observedFrom": "2026-07-25",
+      "observedThrough": "2026-07-25",
+      "provenance": [
+        {
+          "artifactReference": "benchmarks/results/document-to-text/curated-hard-cases-v1/20260725T120544879Z.json",
+          "artifactSha256": "24bbe757115888ec2fa32436d8a37258e7b99c2ed2786ee7be88545ce3130849"
+        }
+      ],
+      "qualification": {
+        "level": "Unknown",
+        "claimsValidation": false,
+        "gateFailures": [
+          "thinking level is unknown",
+          "sample size 1 is below 20",
+          "favorable grade rate is unavailable or below the declared gate"
+        ]
+      }
+    },
+    {
+      "canonicalModel": "gpt-5.6",
+      "thinkingLevel": null,
+      "taskClass": "document-to-text",
+      "capability": "document-to-text/spreadsheet",
+      "sampleSize": 1,
+      "attemptLevelRouteCount": 1,
+      "cardLevelRouteCount": 0,
+      "unknownRouteCount": 0,
+      "outcomeAvailableCount": 1,
+      "successCount": 0,
+      "successRate": 0,
+      "outcomeCoverage": 1,
+      "gradeAvailableCount": 1,
+      "favorableGradeCount": 0,
+      "gradeCoverage": 1,
+      "favorableGradeRate": 0,
+      "semanticReissueAvailableCount": 1,
+      "semanticReissueCount": 0,
+      "semanticReissueCoverage": 1,
+      "semanticReissueRate": 0,
+      "durationAvailableCount": 1,
+      "durationCoverage": 1,
+      "totalDurationMs": 5119,
+      "averageDurationMs": 5119,
+      "tokenAvailableCount": 1,
+      "tokenCoverage": 1,
+      "totalTokens": 0,
+      "averageTokens": 0,
+      "costAvailableCount": 0,
+      "costCoverage": 0,
+      "totalCostUsd": null,
+      "observedFrom": "2026-07-25",
+      "observedThrough": "2026-07-25",
+      "provenance": [
+        {
+          "artifactReference": "benchmarks/results/document-to-text/curated-hard-cases-v1/20260725T120544879Z.json",
+          "artifactSha256": "24bbe757115888ec2fa32436d8a37258e7b99c2ed2786ee7be88545ce3130849"
+        }
+      ],
+      "qualification": {
+        "level": "Unknown",
+        "claimsValidation": false,
+        "gateFailures": [
+          "thinking level is unknown",
+          "sample size 1 is below 20",
+          "favorable grade rate is unavailable or below the declared gate"
+        ]
+      }
+    },
+    {
+      "canonicalModel": "gpt-5.6",
+      "thinkingLevel": null,
+      "taskClass": "document-to-text",
+      "capability": "document-to-text/word",
+      "sampleSize": 1,
+      "attemptLevelRouteCount": 1,
+      "cardLevelRouteCount": 0,
+      "unknownRouteCount": 0,
+      "outcomeAvailableCount": 1,
+      "successCount": 0,
+      "successRate": 0,
+      "outcomeCoverage": 1,
+      "gradeAvailableCount": 1,
+      "favorableGradeCount": 0,
+      "gradeCoverage": 1,
+      "favorableGradeRate": 0,
+      "semanticReissueAvailableCount": 1,
+      "semanticReissueCount": 0,
+      "semanticReissueCoverage": 1,
+      "semanticReissueRate": 0,
+      "durationAvailableCount": 1,
+      "durationCoverage": 1,
+      "totalDurationMs": 6376,
+      "averageDurationMs": 6376,
+      "tokenAvailableCount": 1,
+      "tokenCoverage": 1,
+      "totalTokens": 0,
+      "averageTokens": 0,
+      "costAvailableCount": 0,
+      "costCoverage": 0,
+      "totalCostUsd": null,
+      "observedFrom": "2026-07-25",
+      "observedThrough": "2026-07-25",
+      "provenance": [
+        {
+          "artifactReference": "benchmarks/results/document-to-text/curated-hard-cases-v1/20260725T120544879Z.json",
+          "artifactSha256": "24bbe757115888ec2fa32436d8a37258e7b99c2ed2786ee7be88545ce3130849"
+        }
+      ],
+      "qualification": {
+        "level": "Unknown",
+        "claimsValidation": false,
+        "gateFailures": [
+          "thinking level is unknown",
+          "sample size 1 is below 20",
+          "favorable grade rate is unavailable or below the declared gate"
+        ]
+      }
+    },
+    {
+      "canonicalModel": null,
+      "thinkingLevel": "medium",
+      "taskClass": null,
+      "capability": null,
+      "sampleSize": 1,
+      "attemptLevelRouteCount": 1,
+      "cardLevelRouteCount": 0,
+      "unknownRouteCount": 0,
+      "outcomeAvailableCount": 1,
+      "successCount": 1,
+      "successRate": 1,
+      "outcomeCoverage": 1,
+      "gradeAvailableCount": 1,
+      "favorableGradeCount": 1,
+      "gradeCoverage": 1,
+      "favorableGradeRate": 1,
+      "semanticReissueAvailableCount": 1,
+      "semanticReissueCount": 0,
+      "semanticReissueCoverage": 1,
+      "semanticReissueRate": 0,
+      "durationAvailableCount": 1,
+      "durationCoverage": 1,
+      "totalDurationMs": 16004,
+      "averageDurationMs": 16004,
+      "tokenAvailableCount": 1,
+      "tokenCoverage": 1,
+      "totalTokens": 13668,
+      "averageTokens": 13668,
+      "costAvailableCount": 0,
+      "costCoverage": 0,
+      "totalCostUsd": null,
+      "observedFrom": "2026-07-22",
+      "observedThrough": "2026-07-22",
+      "provenance": [
+        {
+          "artifactReference": "benchmarks/results/palindrome-repair/20260722T233105307Z.json",
+          "artifactSha256": "23ea2519964d6595a676412632e528df677880f498586677be7fc7d2408216e2"
+        }
+      ],
+      "qualification": {
+        "level": "Unknown",
+        "claimsValidation": false,
+        "gateFailures": [
+          "canonical model is unknown",
+          "task class is unknown",
+          "capability is unknown",
+          "sample size 1 is below 20"
+        ]
+      }
+    }
+  ],
+  "observationalCohorts": [
+    {
+      "canonicalModel": "claude-sonnet-4-5",
+      "thinkingLevel": "high",
+      "taskClass": "feature",
+      "capability": "routing-evidence-aggregation",
+      "sampleSize": 1,
+      "attemptLevelRouteCount": 1,
+      "cardLevelRouteCount": 0,
+      "unknownRouteCount": 0,
+      "outcomeAvailableCount": 0,
+      "successCount": 0,
+      "successRate": null,
+      "outcomeCoverage": 0,
+      "gradeAvailableCount": 1,
+      "favorableGradeCount": 1,
+      "gradeCoverage": 1,
+      "favorableGradeRate": 1,
+      "semanticReissueAvailableCount": 1,
+      "semanticReissueCount": 1,
+      "semanticReissueCoverage": 1,
+      "semanticReissueRate": 1,
+      "durationAvailableCount": 1,
+      "durationCoverage": 1,
+      "totalDurationMs": 180000,
+      "averageDurationMs": 180000,
+      "tokenAvailableCount": 1,
+      "tokenCoverage": 1,
+      "totalTokens": 2350,
+      "averageTokens": 2350,
+      "costAvailableCount": 1,
+      "costCoverage": 1,
+      "totalCostUsd": 0.0123750,
+      "observedFrom": "2026-07-25",
+      "observedThrough": "2026-07-25",
+      "provenance": [
+        {
+          "artifactReference": "agent-studio-task-storage/TE-26/task.json",
+          "artifactSha256": "f9c14b355c9cd204f898464e2660f59eecac9a09af2bce3c03c6207bbd664222"
+        }
+      ],
+      "qualification": {
+        "level": "BelowConfidenceGate",
+        "claimsValidation": false,
+        "gateFailures": [
+          "sample size 1 is below 20",
+          "semantic reissue rate is unavailable or above the declared gate"
+        ]
+      }
+    },
+    {
+      "canonicalModel": "gpt-5.6",
+      "thinkingLevel": "medium",
+      "taskClass": "feature",
+      "capability": "routing-evidence-aggregation",
+      "sampleSize": 1,
+      "attemptLevelRouteCount": 1,
+      "cardLevelRouteCount": 0,
+      "unknownRouteCount": 0,
+      "outcomeAvailableCount": 0,
+      "successCount": 0,
+      "successRate": null,
+      "outcomeCoverage": 0,
+      "gradeAvailableCount": 1,
+      "favorableGradeCount": 0,
+      "gradeCoverage": 1,
+      "favorableGradeRate": 0,
+      "semanticReissueAvailableCount": 1,
+      "semanticReissueCount": 0,
+      "semanticReissueCoverage": 1,
+      "semanticReissueRate": 0,
+      "durationAvailableCount": 1,
+      "durationCoverage": 1,
+      "totalDurationMs": 120000,
+      "averageDurationMs": 120000,
+      "tokenAvailableCount": 1,
+      "tokenCoverage": 1,
+      "totalTokens": 1900,
+      "averageTokens": 1900,
+      "costAvailableCount": 0,
+      "costCoverage": 0,
+      "totalCostUsd": null,
+      "observedFrom": "2026-07-25",
+      "observedThrough": "2026-07-25",
+      "provenance": [
+        {
+          "artifactReference": "agent-studio-task-storage/TE-26/task.json",
+          "artifactSha256": "f9c14b355c9cd204f898464e2660f59eecac9a09af2bce3c03c6207bbd664222"
+        }
+      ],
+      "qualification": {
+        "level": "BelowConfidenceGate",
+        "claimsValidation": false,
+        "gateFailures": [
+          "sample size 1 is below 20",
+          "favorable grade rate is unavailable or below the declared gate"
+        ]
+      }
+    },
+    {
+      "canonicalModel": null,
+      "thinkingLevel": null,
+      "taskClass": "feature",
+      "capability": "routing-evidence-aggregation",
+      "sampleSize": 1,
+      "attemptLevelRouteCount": 0,
+      "cardLevelRouteCount": 0,
+      "unknownRouteCount": 1,
+      "outcomeAvailableCount": 0,
+      "successCount": 0,
+      "successRate": null,
+      "outcomeCoverage": 0,
+      "gradeAvailableCount": 1,
+      "favorableGradeCount": 1,
+      "gradeCoverage": 1,
+      "favorableGradeRate": 1,
+      "semanticReissueAvailableCount": 0,
+      "semanticReissueCount": 0,
+      "semanticReissueCoverage": 0,
+      "semanticReissueRate": null,
+      "durationAvailableCount": 0,
+      "durationCoverage": 0,
+      "totalDurationMs": null,
+      "averageDurationMs": null,
+      "tokenAvailableCount": 0,
+      "tokenCoverage": 0,
+      "totalTokens": null,
+      "averageTokens": null,
+      "costAvailableCount": 0,
+      "costCoverage": 0,
+      "totalCostUsd": null,
+      "observedFrom": "2026-07-25",
+      "observedThrough": "2026-07-25",
+      "provenance": [
+        {
+          "artifactReference": "agent-studio-task-storage/TE-26/task.json",
+          "artifactSha256": "f9c14b355c9cd204f898464e2660f59eecac9a09af2bce3c03c6207bbd664222"
+        }
+      ],
+      "qualification": {
+        "level": "Unknown",
+        "claimsValidation": false,
+        "gateFailures": [
+          "canonical model is unknown",
+          "thinking level is unknown",
+          "sample size 1 is below 20",
+          "duration coverage 0 is below 0.7",
+          "token coverage 0 is below 0.7",
+          "semantic reissue coverage 0 is below 0.7",
+          "semantic reissue rate is unavailable or above the declared gate"
+        ]
+      }
+    }
+  ]
+}
