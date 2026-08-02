@@ -75,13 +75,19 @@ selection rubric, and a standalone `ai-patterns` handoff.
 - **Agent Studio ingest** — reads each card's durable `task.json` directly and
   upserts model-run metrics by task key + run. It maps model/provider, usage,
   price-at-run-time, final-lane outcome signal, timestamps, project, task type,
-  CLI and thinking level; `ModelRunViews` provides daily per-model and project
-  consumption/outcome views. The filesystem contract is intentionally used over
+  CLI and thinking level; `ModelRunViews` provides daily per-model, CLI, and
+  project consumption/outcome views with explicit unresolved-cost counts. The filesystem contract is intentionally used over
   the task-server API so reporting jobs do not require a running server.
 
-- **Provider quota dashboard** — derives trailing tokens/hour, capability-tier
-  share, quota-mark projection, and ok/warning/critical state from imported
-  runs. See the [rendered dashboard view](website/provider-quota-dashboard/index.html).
+- **Provider availability snapshot** — captures provider/CLI probe state,
+  independently identified quota windows, observed usage/headroom and reset,
+  freshness, conservative warning state, and model-price coverage at one
+  decision instant. Imported runs supply only the separately labelled rate and
+  exhaustion projection; they never replace observed quota. Unknown, stale,
+  suspicious, unavailable, or unpriced inputs cannot render as healthy or as a
+  zero cost. The snapshot is routing evidence, not model selection. See the
+  [data contract](docs/concepts/provider-availability-snapshot.md) and
+  [rendered snapshot](website/provider-quota-dashboard/index.html).
 
 - **Controlled A/B benchmarks** — versioned repository definitions execute the
   same task against model/effort variants in isolated workspaces, retain raw
