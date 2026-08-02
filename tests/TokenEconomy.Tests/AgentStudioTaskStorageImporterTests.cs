@@ -31,6 +31,9 @@ public class AgentStudioTaskStorageImporterTests
             Assert.True(record.IsEstimatedListPrice);
             var view = Assert.Single(ModelRunViews.ByModelOverTime(store.Records));
             Assert.Equal(1, view.Runs); Assert.Equal(1, view.SuccessfulRuns); Assert.Equal("Token-Economy", view.Project);
+            Assert.Equal("claude", view.CliType); Assert.Equal(1, view.TokenUsageAvailableRuns);
+            Assert.Equal([PriceStatus.Resolved], view.CostStatuses); Assert.Equal(1, view.PricedRuns); Assert.Equal(0, view.UnpricedRuns);
+            Assert.Equal([ModelPrice.EstimatedListPricesCaveat], view.CostCaveats);
         }
         finally { Directory.Delete(directory, true); }
     }
@@ -76,6 +79,30 @@ public class AgentStudioTaskStorageImporterTests
         Assert.False(record.TokenUsageAvailable);
         Assert.Equal(PriceStatus.UsageUnavailable, record.CostStatus);
         Assert.Null(record.CostEstimate);
+    }
+
+    [Fact]
+    public void ModelRunViews_RetainMissingUsageAndUnresolvedCostInsteadOfSummingThemAsFree()
+    {
+        using var json = System.Text.Json.JsonDocument.Parse("""
+            { "id":"card-views", "project":"Token-Economy", "model":"claude-sonnet-5", "cliType":"claude",
+              "attempts": [
+                { "run":1, "model":"claude-sonnet-5", "cliType":"claude", "updatedAt":"2026-07-10T12:00:00Z", "tokenSummary": { "inputTokens":1000 } },
+                { "run":2, "model":"claude-sonnet-5", "cliType":"claude", "updatedAt":"2026-07-10T13:00:00Z" }
+              ] }
+            """);
+
+        var records = new AgentStudioTaskStorageImporter().ParseRecords(json.RootElement);
+        var view = Assert.Single(ModelRunViews.ByModelOverTime(records));
+
+        Assert.Equal("anthropic", view.Provider);
+        Assert.Equal("claude", view.CliType);
+        Assert.Equal(2, view.Runs);
+        Assert.Equal(1, view.TokenUsageAvailableRuns);
+        Assert.Equal([PriceStatus.Resolved, PriceStatus.UsageUnavailable], view.CostStatuses);
+        Assert.Equal(1, view.PricedRuns);
+        Assert.Equal(1, view.UnpricedRuns);
+        Assert.Null(view.CostEstimate);
     }
 
     [Fact]

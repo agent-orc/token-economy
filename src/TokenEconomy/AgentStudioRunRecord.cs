@@ -132,11 +132,12 @@ public sealed class InMemoryAgentStudioRunStore : IAgentStudioRunStore
     public void Upsert(AgentStudioRunRecord record) => _records[(record.TaskKey, record.Run)] = record;
 }
 
-/// <summary>A consumption/outcome view grouped by day, provider, model, and project.</summary>
+/// <summary>A consumption/outcome view grouped by day, provider, CLI, model, and project.</summary>
 public sealed record ModelRunView
 {
     public required DateOnly Day { get; init; }
     public string? Provider { get; init; }
+    public string? CliType { get; init; }
     public string? Model { get; init; }
     public string? Project { get; init; }
     public required int Runs { get; init; }
@@ -144,7 +145,14 @@ public sealed record ModelRunView
     public required long OutputTokens { get; init; }
     public required long CacheReadTokens { get; init; }
     public required long CacheWriteTokens { get; init; }
+    /// <summary>Runs with measured token telemetry; absent telemetry is never counted as measured zero.</summary>
+    public required int TokenUsageAvailableRuns { get; init; }
+    /// <summary>Distinct historical price-resolution outcomes retained without collapsing unresolved runs into a zero cost.</summary>
+    public IReadOnlyList<PriceStatus> CostStatuses { get; init; } = [];
+    public required int PricedRuns { get; init; }
+    public required int UnpricedRuns { get; init; }
     public decimal? CostEstimate { get; init; }
+    public IReadOnlyList<string> CostCaveats { get; init; } = [];
     public required int SuccessfulRuns { get; init; }
     public required int NeedsReviewRuns { get; init; }
     public required int UnsuccessfulRuns { get; init; }
@@ -162,14 +170,19 @@ public static class ModelRunViews
         => Build(records);
 
     private static IReadOnlyList<ModelRunView> Build(IEnumerable<AgentStudioRunRecord> records) => records
-        .GroupBy(r => (Day: DateOnly.FromDateTime(r.ObservedAtUtc), r.Provider, r.Model, r.Project))
+        .GroupBy(r => (Day: DateOnly.FromDateTime(r.ObservedAtUtc), r.Provider, r.CliType, r.Model, r.Project))
         .OrderBy(g => g.Key.Day).ThenBy(g => g.Key.Project).ThenBy(g => g.Key.Model, StringComparer.Ordinal)
         .Select(g => new ModelRunView
         {
-            Day = g.Key.Day, Provider = g.Key.Provider, Model = g.Key.Model, Project = g.Key.Project,
+            Day = g.Key.Day, Provider = g.Key.Provider, CliType = g.Key.CliType, Model = g.Key.Model, Project = g.Key.Project,
             Runs = g.Count(), InputTokens = g.Sum(r => r.Usage.Input), OutputTokens = g.Sum(r => r.Usage.Output),
             CacheReadTokens = g.Sum(r => r.Usage.CacheRead), CacheWriteTokens = g.Sum(r => r.Usage.CacheWrite),
-            CostEstimate = g.Any(r => r.CostEstimate is null) ? null : g.Sum(r => r.CostEstimate!.Value),
+            TokenUsageAvailableRuns = g.Count(r => r.TokenUsageAvailable),
+            CostStatuses = g.Select(r => r.CostStatus).Distinct().Order().ToArray(),
+            PricedRuns = g.Count(r => r.CostStatus == PriceStatus.Resolved),
+            UnpricedRuns = g.Count(r => r.CostStatus != PriceStatus.Resolved),
+            CostEstimate = g.Any(r => r.CostStatus != PriceStatus.Resolved || r.CostEstimate is null) ? null : g.Sum(r => r.CostEstimate!.Value),
+            CostCaveats = g.Select(r => r.CostCaveat).Where(caveat => !string.IsNullOrWhiteSpace(caveat)).Distinct(StringComparer.Ordinal).Select(caveat => caveat!).Order(StringComparer.Ordinal).ToArray(),
             SuccessfulRuns = g.Count(r => r.Outcome == OutcomeQualitySignal.Successful),
             NeedsReviewRuns = g.Count(r => r.Outcome == OutcomeQualitySignal.NeedsReview),
             UnsuccessfulRuns = g.Count(r => r.Outcome == OutcomeQualitySignal.Unsuccessful),
