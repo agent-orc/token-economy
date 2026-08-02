@@ -41,7 +41,7 @@
         }
       }
     },
-    "task": { "type": "object", "additionalProperties": false, "required": ["prompt", "seedWorkspace"], "properties": { "prompt": { "type": "string", "minLength": 1 }, "seedWorkspace": { "type": "string", "minLength": 1 }, "responseFile": { "type": "string", "minLength": 1 } } },
+    "task": { "type": "object", "additionalProperties": false, "required": ["prompt", "seedWorkspace"], "properties": { "prompt": { "type": "string", "minLength": 1 }, "seedWorkspace": { "type": "string", "minLength": 1 }, "responseFile": { "type": "string", "minLength": 1 }, "taskClass": { "type": "string", "minLength": 1 }, "capability": { "type": "string", "minLength": 1 } } },
     "variants": { "type": "array", "minItems": 2, "items": { "type": "object", "additionalProperties": false, "required": ["id", "model"], "properties": { "id": { "type": "string", "minLength": 1 }, "model": { "type": "string", "minLength": 1 }, "thinkingLevel": { "type": "string" } } } },
     "repetitions": { "type": "integer", "minimum": 1, "default": 1 },
     "invocationTimeoutSeconds": { "type": "integer", "minimum": 1, "default": 300 },

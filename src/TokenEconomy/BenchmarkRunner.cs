@@ -76,7 +76,12 @@ public sealed class BenchmarkRunner
                   ["failureReason"] = failure }));
             }
 
-            var result = new BenchmarkRunResult { SchemaVersion = 1, SetupId = definition.Id, RunId = runId, StartedAtUtc = started, CompletedAtUtc = DateTime.UtcNow, Cases = cases };
+            var result = new BenchmarkRunResult
+            {
+                SchemaVersion = 1, SetupId = definition.Id, RunId = runId,
+                StartedAtUtc = started, CompletedAtUtc = DateTime.UtcNow,
+                TaskClass = definition.Task.TaskClass, Capability = definition.Task.Capability, Cases = cases,
+            };
             var report = Compare(result);
             await WriteNewAsync(resultPath, result, cancellationToken);
             await WriteNewAsync(reportPath, report, cancellationToken);

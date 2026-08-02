@@ -1,4 +1,5 @@
 using System.Diagnostics;
+using System.Security.Cryptography;
 using System.Text.Json;
 
 #pragma warning disable CS1591
@@ -29,13 +30,21 @@ public sealed class AgentStudioTaskStorageImporter
         ArgumentException.ThrowIfNullOrWhiteSpace(storageDirectory);
         ArgumentNullException.ThrowIfNull(destination);
         var timer = Stopwatch.StartNew(); var files = 0; var upserted = 0;
-        foreach (var path in Directory.EnumerateFiles(storageDirectory, "task.json", SearchOption.AllDirectories))
+        foreach (var path in Directory.EnumerateFiles(storageDirectory, "task.json", SearchOption.AllDirectories)
+                     .Order(StringComparer.Ordinal))
         {
             files++;
             try
             {
-                using var document = JsonDocument.Parse(File.ReadAllText(path));
-                destination.Upsert(Parse(document.RootElement)); upserted++;
+                var bytes = File.ReadAllBytes(path);
+                using var document = JsonDocument.Parse(bytes);
+                var reference = "agent-studio-task-storage/" + Path.GetRelativePath(storageDirectory, path).Replace('\\', '/');
+                var hash = Convert.ToHexString(SHA256.HashData(bytes)).ToLowerInvariant();
+                foreach (var record in ParseRecords(document.RootElement))
+                {
+                    destination.Upsert(record with { ProvenanceReference = reference, ProvenanceSha256 = hash });
+                    upserted++;
+                }
             }
             catch (Exception error) when (error is IOException or JsonException or InvalidDataException)
             {
@@ -53,37 +62,113 @@ public sealed class AgentStudioTaskStorageImporter
         return result;
     }
 
-    /// <summary>Maps one task.json document to a priced run record. Exposed for API-based callers that already obtained the JSON.</summary>
-    public AgentStudioRunRecord Parse(JsonElement root)
+    /// <summary>
+    /// Maps one task.json document to attempt records. Attempt-local routes and measurements win;
+    /// card-level route fields are used only when the document has no attempt history.
+    /// </summary>
+    public IReadOnlyList<AgentStudioRunRecord> ParseRecords(JsonElement root)
     {
         var task = Object(root, "task") ?? root;
-        var model = Text(task, "model") ?? throw new InvalidDataException("Agent Studio task.json has no model.");
         var taskKey = Text(task, "taskKey", "key", "id") ?? throw new InvalidDataException("Agent Studio task.json has no task key.");
+        var attempts = Array(task, "attempts", "runAttempts", "attemptHistory", "runHistory", "runs");
+        if (attempts is null)
+            return [ParseRecord(task, task, null, taskKey, AgentStudioRouteGranularity.Card)];
+
+        var records = attempts.Value.EnumerateArray()
+            .Where(item => item.ValueKind == JsonValueKind.Object)
+            .Select((attempt, index) => ParseRecord(task, attempt,
+                Object(attempt, "route") ?? Object(attempt, "selectedRoute") ?? Object(attempt, "routing"),
+                taskKey, AgentStudioRouteGranularity.Attempt, index + 1))
+            .GroupBy(record => record.Run)
+            .Select(MergeAttemptDuplicates)
+            .OrderBy(record => record.Run)
+            .ToArray();
+        return records;
+    }
+
+    /// <summary>
+    /// Maps a task.json document to its latest attempt. Use <see cref="ParseRecords"/> when attempt
+    /// history is available and every route must be retained.
+    /// </summary>
+    public AgentStudioRunRecord Parse(JsonElement root)
+    {
+        var records = ParseRecords(root);
+        if (records.Count == 0) throw new InvalidDataException("Agent Studio task.json has no importable attempt.");
+        return records.OrderBy(record => record.Run).Last();
+    }
+
+    private AgentStudioRunRecord ParseRecord(
+        JsonElement task,
+        JsonElement measurement,
+        JsonElement? route,
+        string taskKey,
+        AgentStudioRouteGranularity requestedGranularity,
+        int fallbackRun = 0)
+    {
+        var model = Text(route, "model", "modelId") ?? Text(measurement, "model", "modelId");
+        if (requestedGranularity == AgentStudioRouteGranularity.Card)
+            model ??= Text(task, "model", "modelId");
+        var thinking = Text(route, "thinkingLevel", "effort", "reasoningEffort")
+            ?? Text(measurement, "thinkingLevel", "effort", "reasoningEffort");
+        if (requestedGranularity == AgentStudioRouteGranularity.Card)
+            thinking ??= Text(task, "thinkingLevel", "effort", "reasoningEffort");
+        var granularity = string.IsNullOrWhiteSpace(model) ? AgentStudioRouteGranularity.Unknown : requestedGranularity;
         // Price at execution, not at a later card update. Keep the update timestamp separately so
         // consumers can track when this record was observed without changing its historic cost.
         // UnixEpoch remains the stable "unknown" timestamp so undated cards stay idempotent.
-        var executedAt = Date(task, "completedAt", "finishedAt", "updatedAt", "createdAt") ?? DateTime.UnixEpoch;
-        var observedAt = Date(task, "updatedAt", "completedAt", "finishedAt", "createdAt") ?? executedAt;
-        var usage = Usage(Object(task, "tokenSummary") ?? Object(task, "lastUsage"));
+        var executedAt = Date(measurement, "completedAt", "finishedAt", "updatedAt", "createdAt")
+            ?? Date(task, "completedAt", "finishedAt", "updatedAt", "createdAt") ?? DateTime.UnixEpoch;
+        var observedAt = Date(measurement, "updatedAt", "completedAt", "finishedAt", "createdAt")
+            ?? Date(task, "updatedAt", "completedAt", "finishedAt", "createdAt") ?? executedAt;
+        var usageElement = Object(measurement, "tokenSummary") ?? Object(measurement, "lastUsage");
+        var usage = Usage(usageElement);
         var cost = _prices.ComputeCost(model, usage, executedAt);
-        var lane = Text(task, "finalLane", "lane", "column");
+        var lane = Text(measurement, "finalLane", "lane", "column");
+        if (requestedGranularity == AgentStudioRouteGranularity.Card)
+            lane ??= Text(task, "finalLane", "lane", "column");
         var listing = _prices.Find(model);
         return new AgentStudioRunRecord
         {
-            TaskKey = taskKey, Run = Number(task, "run", "attempt", "runNumber"), Project = Text(task, "project", "projectId"),
-            Provider = listing?.Vendor ?? ProviderFromCli(Text(task, "cliType")), Model = cost.ModelId ?? model,
-            ThinkingLevel = Text(task, "thinkingLevel"), CliType = Text(task, "cliType"), TaskType = Text(task, "taskType"),
+            TaskKey = taskKey, Run = Number(measurement, fallbackRun, "run", "attempt", "runNumber"), Project = Text(task, "project", "projectId"),
+            Provider = listing?.Vendor ?? ProviderFromCli(Text(route, "cliType") ?? Text(measurement, "cliType") ?? Text(task, "cliType")),
+            Model = cost.ModelId ?? model, ThinkingLevel = thinking, RouteGranularity = granularity,
+            CliType = Text(route, "cliType") ?? Text(measurement, "cliType") ?? Text(task, "cliType"), TaskType = Text(task, "taskType"),
+            Capability = Text(task, "capability", "requiredCapability"),
             TaskPrompt = Text(task, "prompt", "description"), Area = Text(task, "area", "component"),
             EpicContext = Text(task, "epicContext", "epic"), AcceptanceCriteria = Strings(task, "acceptanceCriteria", "criteria"),
             ReferencedFiles = Strings(task, "referencedFiles", "files"), ReferencedSubsystems = Strings(task, "referencedSubsystems", "subsystems"),
             DependencyFanOut = NullableNumber(task, "dependencyFanOut"), RepositoryFileCount = NullableNumber(task, "repositoryFileCount"),
             FinalLane = lane,
-            Usage = usage, ExecutedAtUtc = executedAt, CostEstimate = cost.Total, Currency = cost.Currency, CostStatus = cost.Status, CostCaveat = cost.Caveat, Outcome = Outcome(lane),
-            StartedAtUtc = Date(task, "startedAt", "createdAt"), ObservedAtUtc = observedAt,
+            Usage = usage, TokenUsageAvailable = usageElement is not null, ExecutedAtUtc = executedAt,
+            CostEstimate = usageElement is null ? null : cost.Total, Currency = usageElement is null ? null : cost.Currency,
+            CostStatus = usageElement is null ? PriceStatus.UsageUnavailable : cost.Status,
+            CostCaveat = usageElement is null ? null : cost.Caveat, Outcome = Outcome(lane),
+            Grade = Grade(Text(measurement, "grade", "reviewGrade", "finalGrade")),
+            SemanticReissue = Boolean(measurement, "semanticReissue", "isSemanticReissue"),
+            StartedAtUtc = Date(measurement, "startedAt", "createdAt"), ObservedAtUtc = observedAt,
         };
     }
 
+    private static AgentStudioRunRecord MergeAttemptDuplicates(IGrouping<int, AgentStudioRunRecord> group)
+    {
+        var ordered = group.OrderByDescending(record => record.ObservedAtUtc).ToArray();
+        var newest = ordered[0];
+        var peers = ordered.Where(record => record.ObservedAtUtc == newest.ObservedAtUtc).ToArray();
+        var routeAmbiguous = peers.Select(record => (record.Model, record.ThinkingLevel)).Distinct().Count() > 1;
+        return routeAmbiguous
+            ? newest with { Model = null, ThinkingLevel = null, Provider = null, RouteGranularity = AgentStudioRouteGranularity.Unknown,
+                CostEstimate = null, Currency = null, CostCaveat = null, CostStatus = PriceStatus.UnknownModel }
+            : newest;
+    }
+
     private static JsonElement? Object(JsonElement value, string name) => Property(value, name) is { ValueKind: JsonValueKind.Object } result ? result : null;
+    private static JsonElement? Object(JsonElement? value, string name) => value is { } item ? Object(item, name) : null;
+    private static JsonElement? Array(JsonElement value, params string[] names)
+    {
+        foreach (var name in names)
+            if (Property(value, name) is { ValueKind: JsonValueKind.Array } result) return result;
+        return null;
+    }
     private static JsonElement? Property(JsonElement value, string name)
     {
         if (value.ValueKind != JsonValueKind.Object) return null;
@@ -95,8 +180,11 @@ public sealed class AgentStudioTaskStorageImporter
         foreach (var name in names) if (Property(value, name) is { } item && item.ValueKind is JsonValueKind.String or JsonValueKind.Number) return item.ToString();
         return null;
     }
+    private static string? Text(JsonElement? value, params string[] names) => value is { } item ? Text(item, names) : null;
     private static int Number(JsonElement value, params string[] names)
         => int.TryParse(Text(value, names), out var number) ? number : 0;
+    private static int Number(JsonElement value, int fallback, params string[] names)
+        => int.TryParse(Text(value, names), out var number) ? number : fallback;
     private static int? NullableNumber(JsonElement value, params string[] names)
         => int.TryParse(Text(value, names), out var number) ? Math.Max(0, number) : null;
     private static IReadOnlyList<string> Strings(JsonElement value, params string[] names)
@@ -112,12 +200,25 @@ public sealed class AgentStudioTaskStorageImporter
     }
     private static DateTime? Date(JsonElement value, params string[] names)
         => DateTime.TryParse(Text(value, names), null, System.Globalization.DateTimeStyles.RoundtripKind, out var date) ? date.ToUniversalTime() : null;
+    private static bool? Boolean(JsonElement value, params string[] names)
+    {
+        foreach (var name in names)
+        {
+            if (Property(value, name) is { ValueKind: JsonValueKind.True }) return true;
+            if (Property(value, name) is { ValueKind: JsonValueKind.False }) return false;
+        }
+        return null;
+    }
     private static long Tokens(JsonElement? usage, params string[] names)
         => usage is { } value && long.TryParse(Text(value, names), out var count) ? Math.Max(0, count) : 0;
     private static TokenUsage Usage(JsonElement? usage) => new(
         Tokens(usage, "inputTokens", "input", "promptTokens"), Tokens(usage, "outputTokens", "output", "completionTokens"),
         Tokens(usage, "cacheReadTokens", "cacheRead"), Tokens(usage, "cacheWriteTokens", "cacheWrite"));
     private static string? ProviderFromCli(string? cli) => cli?.ToLowerInvariant() switch { "claude" => "anthropic", "codex" => "openai", _ => null };
+    private static string? Grade(string? grade) => grade?.Trim().ToUpperInvariant() switch
+    {
+        "A" => "A", "B" => "B", "C" => "C", "D" => "D", _ => null,
+    };
     private static OutcomeQualitySignal Outcome(string? lane)
     {
         var value = lane?.ToLowerInvariant() ?? "";

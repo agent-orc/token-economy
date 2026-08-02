@@ -2,16 +2,30 @@ using System.Diagnostics;
 using System.Text.Json;
 using TokenEconomy;
 
-if (args.Length != 2 || (args[0] != "run" && args[0] != "document-to-text"))
+if (args.Length != 2 || (args[0] != "run" && args[0] != "document-to-text" && args[0] != "aggregate"))
 {
     Console.Error.WriteLine("Usage:");
     Console.Error.WriteLine("  dotnet run --project src/TokenEconomy.Benchmarks -- run benchmarks/setups/<setup>.json");
     Console.Error.WriteLine("  dotnet run --project src/TokenEconomy.Benchmarks -- document-to-text benchmarks/document-to-text/<corpus>.json");
+    Console.Error.WriteLine("  dotnet run --project src/TokenEconomy.Benchmarks -- aggregate <agent-studio-task-storage>");
     return 2;
 }
 
 var repositoryRoot = FindRepositoryRoot(Environment.CurrentDirectory);
 var setupPath = Path.GetFullPath(args[1], repositoryRoot);
+if (args[0] == "aggregate")
+{
+    var evidence = new RoutingEvidencePipeline().Run(repositoryRoot, setupPath);
+    if (Environment.GetEnvironmentVariable("JOB_RESULTS_DIR") is { Length: > 0 } jobResultsDirectory)
+        RoutingEvidencePipeline.WriteDerived(Path.Combine(jobResultsDirectory, "routing-evidence.json"), evidence);
+    Console.WriteLine(JsonSerializer.Serialize(evidence, new JsonSerializerOptions(JsonSerializerDefaults.Web)
+    {
+        WriteIndented = true,
+        Converters = { new System.Text.Json.Serialization.JsonStringEnumConverter() },
+    }));
+    return 0;
+}
+
 if (args[0] == "document-to-text")
 {
     var documentRunner = new DocumentTextBenchmarkRunner(new DocumentTextCliExtractor());

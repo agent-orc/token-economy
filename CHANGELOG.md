@@ -7,6 +7,13 @@ SemVer; pre-1.0 the public API may still shift).
 
 ### Added
 
+- A deterministic routing-evidence pipeline that canonicalizes model aliases,
+  keeps controlled benchmarks separate from Agent Studio observations, retains
+  attempt-level mixed routes and explicit unknowns, and emits versioned cohorts
+  with quality/reissue/resource coverage, provenance, observation dates, and
+  confidence-gated qualifications. Observational cohorts never claim controlled
+  validation, and source task files plus benchmark raw results stay append-only.
+
 - **`claude-opus-5` onboarded** into the seeded pricing catalog and the
   efficiency matrix (TE-19). Priced at the confirmed Opus rate card
   ($5.00 / $25.00 per MTok, cache-read $0.50, 5-minute cache-write $6.25),

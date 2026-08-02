@@ -14,6 +14,9 @@ public enum PriceStatus
     /// model with an empty history and a timestamp earlier than the first entry.
     /// </summary>
     NoPriceForDate,
+
+    /// <summary>No usage measurement was present, so a price calculation was not attempted.</summary>
+    UsageUnavailable,
 }
 
 /// <summary>

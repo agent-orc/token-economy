@@ -4,6 +4,9 @@ namespace TokenEconomy;
 /// <summary>The quality signal inferred from the final Agent Studio lane. It is intentionally a signal, not a claim of human evaluation.</summary>
 public enum OutcomeQualitySignal { Unknown, Successful, NeedsReview, Unsuccessful }
 
+/// <summary>How precisely the imported record identifies the model route for this attempt.</summary>
+public enum AgentStudioRouteGranularity { Unknown, Card, Attempt }
+
 /// <summary>A single, deduplicatable model run imported from an Agent Studio task card.</summary>
 public sealed record AgentStudioRunRecord
 {
@@ -13,10 +16,13 @@ public sealed record AgentStudioRunRecord
     public required int Run { get; init; }
     public string? Project { get; init; }
     public string? Provider { get; init; }
-    public required string Model { get; init; }
+    /// <summary>The recorded model id. Null means task storage did not identify an unambiguous route.</summary>
+    public string? Model { get; init; }
     public string? ThinkingLevel { get; init; }
+    public AgentStudioRouteGranularity RouteGranularity { get; init; }
     public string? CliType { get; init; }
     public string? TaskType { get; init; }
+    public string? Capability { get; init; }
     /// <summary>Original pre-run card text retained for complexity calibration.</summary>
     public string? TaskPrompt { get; init; }
     public string? Area { get; init; }
@@ -28,6 +34,8 @@ public sealed record AgentStudioRunRecord
     public int? RepositoryFileCount { get; init; }
     public string? FinalLane { get; init; }
     public required TokenUsage Usage { get; init; }
+    /// <summary>Distinguishes a measured zero-token attempt from absent token telemetry.</summary>
+    public bool TokenUsageAvailable { get; init; }
     /// <summary>
     /// UTC instant used to resolve <see cref="CostEstimate"/> from the dated pricing catalog.
     /// This is normally the run completion timestamp; it remains distinct from
@@ -46,8 +54,19 @@ public sealed record AgentStudioRunRecord
     /// <summary>True when <see cref="CostEstimate"/> is based on published list prices rather than an invoice.</summary>
     public bool IsEstimatedListPrice => CostCaveat == ModelPrice.EstimatedListPricesCaveat;
     public required OutcomeQualitySignal Outcome { get; init; }
+    /// <summary>Review grade when task storage records one; unrecognized values remain unknown.</summary>
+    public string? Grade { get; init; }
+    /// <summary>
+    /// True only when storage explicitly classifies this attempt as a semantic reissue. A retry
+    /// number alone is not enough because environmental and delivery failures are not semantic.
+    /// </summary>
+    public bool? SemanticReissue { get; init; }
     public DateTime? StartedAtUtc { get; init; }
     public required DateTime ObservedAtUtc { get; init; }
+    /// <summary>Source task artifact, when imported from a directory.</summary>
+    public string? ProvenanceReference { get; init; }
+    /// <summary>SHA-256 of the source task artifact. The importer never rewrites that raw file.</summary>
+    public string? ProvenanceSha256 { get; init; }
 }
 
 /// <summary>Converts enriched imported runs into estimator calibration samples.</summary>
@@ -118,7 +137,7 @@ public sealed record ModelRunView
 {
     public required DateOnly Day { get; init; }
     public string? Provider { get; init; }
-    public required string Model { get; init; }
+    public string? Model { get; init; }
     public string? Project { get; init; }
     public required int Runs { get; init; }
     public required long InputTokens { get; init; }

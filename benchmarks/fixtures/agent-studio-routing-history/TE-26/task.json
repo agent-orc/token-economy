@@ -1,0 +1,33 @@
+{
+  "taskKey": "TE-26",
+  "project": "TokenEconomy",
+  "taskType": "feature",
+  "capability": "routing-evidence-aggregation",
+  "model": "gpt-5.6-sol",
+  "thinkingLevel": "medium",
+  "attempts": [
+    {
+      "run": 1,
+      "route": { "model": "gpt-5.6-sol", "thinkingLevel": "medium", "cliType": "codex" },
+      "grade": "C",
+      "semanticReissue": false,
+      "startedAt": "2026-07-25T10:00:00Z",
+      "completedAt": "2026-07-25T10:02:00Z",
+      "tokenSummary": { "inputTokens": 1200, "outputTokens": 300, "cacheReadTokens": 400 }
+    },
+    {
+      "run": 2,
+      "route": { "model": "claude-sonnet-4-5-20250929", "thinkingLevel": "high", "cliType": "claude" },
+      "grade": "A",
+      "semanticReissue": true,
+      "startedAt": "2026-07-25T11:00:00Z",
+      "completedAt": "2026-07-25T11:03:00Z",
+      "tokenSummary": { "inputTokens": 1600, "outputTokens": 500, "cacheReadTokens": 250 }
+    },
+    {
+      "run": 3,
+      "grade": "B",
+      "completedAt": "2026-07-25T12:00:00Z"
+    }
+  ]
+}

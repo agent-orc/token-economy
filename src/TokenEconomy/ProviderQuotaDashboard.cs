@@ -105,5 +105,5 @@ public sealed class ProviderQuotaDashboardBuilder
 
     // Imported ids can be aliases. The matrix resolves those aliases and keeps the dashboard's
     // capability vocabulary aligned with model routing. Unprofiled imports remain visible.
-    private static string ResolveTier(string model) => ModelEfficiencyMatrix.Default.Find(model)?.Tier.ToString() ?? "Unknown";
+    private static string ResolveTier(string? model) => ModelEfficiencyMatrix.Default.Find(model)?.Tier.ToString() ?? "Unknown";
 }

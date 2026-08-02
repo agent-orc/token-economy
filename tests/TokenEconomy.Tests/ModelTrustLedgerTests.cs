@@ -46,6 +46,24 @@ public class ModelTrustLedgerTests
     }
 
     [Fact]
+    public void MultipleQualificationsFromOneDerivedArtifactCountAsOneIndependentProof()
+    {
+        var ledger = new ModelTrustLedger();
+        foreach (var id in new[] { "capability-a", "capability-b", "capability-c" })
+            ledger.RecordEvidence(new()
+            {
+                EvidenceId = id, ModelId = "model-a", Capability = id,
+                Source = EvidenceSource.ControlledBenchmark, Outcome = EvidenceOutcome.Supports,
+                ObservedAtUtc = Now, ArtifactReference = "results/one-derived-report.json",
+            });
+
+        var assessment = ledger.Assess("model-a");
+
+        Assert.Equal(1, assessment.IndependentProofCount);
+        Assert.Equal(TrustLevel.Provisional, assessment.Level);
+    }
+
+    [Fact]
     public void OpenMaterialIncident_RestrictsEvenAVerifiedModel()
     {
         var ledger = new ModelTrustLedger();

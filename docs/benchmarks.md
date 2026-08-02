@@ -2,6 +2,10 @@
 
 Benchmarking is a Token Economy capability. It executes locally from this repository and has no Agent Studio runtime dependency. Agent Studio history imported by `AgentStudioTaskStorageImporter` is observational input; controlled benchmark results are a separate calibration source for complexity estimation and future routing policy.
 
+The two sources meet only in the derived, versioned aggregation described in
+[`routing-evidence.md`](routing-evidence.md). Its report keeps controlled and
+observational cohorts in separate arrays and never rewrites either raw source.
+
 ## Run the real example
 
 Prerequisites are .NET 10 and an authenticated Codex CLI that exposes the configured models. From the repository root:
@@ -42,7 +46,7 @@ It deliberately differs in four ways, also recorded in the setup JSON:
 
 1. Copy a setup under `benchmarks/setups/` and give it a stable `id`. Definitions use `benchmarks/schema/setup.schema.json` (schema version 1). Fill in `formatAttribution`: cite each established suite or task subset, list the transferred format/metric choices, and document every intentional deviation with its reason.
 2. Put only the minimal starting files under `benchmarks/fixtures/<id>/`. The path in `task.seedWorkspace` must stay repository-relative.
-3. Write one task prompt shared by every variant. Do not put variant-specific hints in it. For a response-artifact task, set `task.responseFile` to a safe path below the copied workspace and ask for only that file's content; omit it when the model should edit through its tools.
+3. Write one task prompt shared by every variant. Do not put variant-specific hints in it. For a response-artifact task, set `task.responseFile` to a safe path below the copied workspace and ask for only that file's content; omit it when the model should edit through its tools. Declare `task.taskClass` and the specific `task.capability` so routing evidence does not have to infer either dimension.
 4. Add at least two variants. A variant combines a stable result label, model id, and optional thinking level.
 5. Choose repetitions. Use more than one when variance matters; every model receives the same count.
 6. Define a deterministic success command as an executable plus an argument array. Avoid shell syntax and subjective judging. Set evaluation and invocation timeouts.
