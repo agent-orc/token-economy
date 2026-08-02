@@ -59,12 +59,15 @@ public enum CapabilityTier
 
 /// <summary>
 /// A reasoning-effort setting passed to a model. Higher effort spends more tokens on internal
-/// reasoning. Ordered <see cref="Low"/> &lt; <see cref="Medium"/> &lt; <see cref="High"/> so values can
-/// be compared and clamped to what a model supports.
+/// reasoning. The complete cross-provider vocabulary is ordered so a value can be compared with a
+/// concrete model's supported ladder; unsupported values must remain explicit at policy resolution.
 /// </summary>
 public enum EffortLevel
 {
-    /// <summary>Minimal reasoning — fastest and cheapest.</summary>
+    /// <summary>Provider-defined minimal reasoning, below low.</summary>
+    Minimal,
+
+    /// <summary>Low reasoning.</summary>
     Low,
 
     /// <summary>Moderate reasoning — the everyday default.</summary>
@@ -72,6 +75,15 @@ public enum EffortLevel
 
     /// <summary>Extended reasoning — most thorough and most expensive.</summary>
     High,
+
+    /// <summary>Extra-high reasoning supported by selected model ladders.</summary>
+    XHigh,
+
+    /// <summary>Codex gpt-5.6 top reasoning tier.</summary>
+    Ultra,
+
+    /// <summary>Claude top reasoning tier where the model exposes <c>max</c>.</summary>
+    Max,
 }
 
 /// <summary>

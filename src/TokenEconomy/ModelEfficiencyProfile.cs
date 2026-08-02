@@ -17,7 +17,8 @@ public sealed record ModelEfficiencyProfile
 
     /// <summary>
     /// The reasoning-effort levels this model accepts, used to clamp a task's suggested effort to what
-    /// the model can actually do. Defaults to the full <see cref="EffortLevel.Low"/>/<see cref="EffortLevel.Medium"/>/<see cref="EffortLevel.High"/> range.
+    /// the model can actually do. Default profiles are projected from the routing knowledge base;
+    /// host-supplied profiles default to low/medium/high for compatibility.
     /// </summary>
     public IReadOnlyList<EffortLevel> EffortLevels { get; init; } = [EffortLevel.Low, EffortLevel.Medium, EffortLevel.High];
 
@@ -33,6 +34,18 @@ public sealed record ModelEfficiencyProfile
     /// matrix for costing history but is excluded from suggestions so new work is not routed onto it.
     /// </summary>
     public bool Deprecated { get; init; }
+
+    /// <summary>The explicit routing-policy status. Unsupported models remain profileable for cost history but are never suggested.</summary>
+    public ModelRoutingStatus RoutingStatus { get; init; } = ModelRoutingStatus.Selectable;
+
+    /// <summary>Evidence strength copied from the versioned routing knowledge base.</summary>
+    public PolicyEvidenceStatus EvidenceStatus { get; init; } = PolicyEvidenceStatus.Unknown;
+
+    /// <summary>Workflow roles for which the authoritative policy permits this model.</summary>
+    public IReadOnlyList<RoutingWorkflowRole> WorkflowRoles { get; init; } = [RoutingWorkflowRole.CoreTask];
+
+    /// <summary>True when the route is a visible hypothesis pending stronger controlled evidence.</summary>
+    public bool Provisional { get; init; }
 
     /// <summary>Optional human note explaining the tier choice or a routing caveat.</summary>
     public string? Note { get; init; }

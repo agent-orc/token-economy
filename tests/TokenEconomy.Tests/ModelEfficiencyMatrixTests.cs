@@ -134,9 +134,11 @@ public class ModelEfficiencyMatrixTests
         Assert.Equal(CostClass.Economy, haiku.CostClass);
         Assert.Equal([EffortLevel.Low, EffortLevel.Medium], haiku.EffortLevels);
 
-        var gpt = rows.Single(r => r.ModelId == "gpt-5.6");
+        var gpt = rows.Single(r => r.ModelId == "gpt-5.6-sol");
         Assert.Equal(CostClass.Unknown, gpt.CostClass);
         Assert.Equal(Cli.Codex, gpt.Cli);
+        Assert.Equal(ModelRoutingStatus.Selectable, gpt.RoutingStatus);
+        Assert.Equal(PolicyEvidenceStatus.Observational, gpt.EvidenceStatus);
     }
 
     [Fact]

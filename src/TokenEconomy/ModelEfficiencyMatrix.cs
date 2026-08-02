@@ -1,10 +1,10 @@
 namespace TokenEconomy;
 
 /// <summary>
-/// The token-efficiency matrix: one <see cref="ModelEfficiencyProfile"/> per catalog model, joined to a
-/// <see cref="ModelPriceCatalog"/> so cost is <i>derived</i> (never duplicated), plus the
-/// <see cref="SuggestModel"/> selection API. Pure and deterministic — no logging or I/O; the same inputs
-/// always yield the same ranking.
+/// The compatibility token-efficiency matrix: policy-backed profiles joined to a
+/// <see cref="ModelPriceCatalog"/> so cost is <i>derived</i> (never duplicated), plus an availability
+/// ranking API. Use <see cref="ModelRoutingPolicy"/> to choose a correctness route before consulting
+/// this price-aware menu. Pure and deterministic — no logging or I/O.
 /// </summary>
 /// <remarks>
 /// <para>
@@ -13,9 +13,9 @@ namespace TokenEconomy;
 /// rationale string for the orchestrator's decision event and the Lastverteilung view.
 /// </para>
 /// <para>
-/// The matrix supplies the ranked menu; the <i>policy</i> of when to act on it (downshift, throttle,
-/// wait) stays in the admission algorithm. Use <see cref="Default"/> for the seeded matrix, or build one
-/// from your own catalog + profiles.
+/// The matrix supplies a ranked compatibility menu after policy statuses and workflow roles are
+/// applied. It cannot lower a route selected by <see cref="ModelRoutingPolicy"/>. Use
+/// <see cref="Default"/> for the repository policy projection, or build one from host data.
 /// </para>
 /// </remarks>
 public sealed class ModelEfficiencyMatrix
@@ -121,6 +121,9 @@ public sealed class ModelEfficiencyMatrix
                 Suitability = suitability,
                 Restricted = profile.Restricted,
                 Deprecated = profile.Deprecated,
+                RoutingStatus = profile.RoutingStatus,
+                EvidenceStatus = profile.EvidenceStatus,
+                Provisional = profile.Provisional,
                 CostUnconfirmed = breakdown.Unconfirmed,
                 Note = profile.Note,
             });
@@ -129,10 +132,11 @@ public sealed class ModelEfficiencyMatrix
     }
 
     /// <summary>
-    /// Rank the models selectable right now for <paramref name="taskClass"/> under
+    /// Rank policy-permitted core models available right now for <paramref name="taskClass"/> under
     /// <paramref name="budgetPressure"/>, restricted to the CLIs in <paramref name="availableClis"/>.
-    /// Best candidate first; each carries a <see cref="ModelSuggestion.Score"/>, a suggested effort and a
-    /// <see cref="ModelSuggestion.Rationale"/>. Restricted and deprecated models are never suggested.
+    /// Best candidate first; each carries a compatibility <see cref="ModelSuggestion.Score"/>, a suggested effort and a
+    /// <see cref="ModelSuggestion.Rationale"/>. Unsupported, restricted, deprecated, and role-incompatible
+    /// models are never suggested. This method does not replace score/floor routing.
     /// </summary>
     /// <param name="taskClass">The class of work the run performs.</param>
     /// <param name="budgetPressure">How hard the remaining budget constrains the choice.</param>
@@ -156,7 +160,10 @@ public sealed class ModelEfficiencyMatrix
         var candidates = new List<ModelSuggestion>();
         foreach (var profile in _profiles)
         {
-            if (profile.Restricted || profile.Deprecated)
+            if (profile.Restricted || profile.Deprecated
+                || profile.RoutingStatus is ModelRoutingStatus.Restricted or ModelRoutingStatus.Deprecated or ModelRoutingStatus.Unsupported
+                || profile.RoutingStatus == ModelRoutingStatus.FallbackOnly
+                || !profile.WorkflowRoles.Contains(RoutingWorkflowRole.CoreTask))
                 continue;
 
             var listing = _catalog.Find(profile.ModelId)!;   // validated in the constructor
@@ -180,6 +187,8 @@ public sealed class ModelEfficiencyMatrix
                 Score = EfficiencyPolicy.Score(suitability, cost, budgetPressure),
                 Rationale = BuildRationale(listing.ModelId, taskClass, budgetPressure, profile.Tier, suitability, cost, effort),
                 CostUnconfirmed = breakdown.Unconfirmed,
+                EvidenceStatus = profile.EvidenceStatus,
+                Provisional = profile.Provisional,
             });
         }
 
@@ -206,19 +215,12 @@ public sealed class ModelEfficiencyMatrix
         return _order[a.ModelId].CompareTo(_order[b.ModelId]);       // stable: curator's declaration order
     }
 
-    /// <summary>Clamp a desired effort into the range a model actually supports.</summary>
+    /// <summary>Normalize a desired effort to an exact value in the model's possibly non-contiguous ladder.</summary>
     private static EffortLevel ClampEffort(EffortLevel desired, IReadOnlyList<EffortLevel> supported)
     {
-        var min = EffortLevel.High;
-        var max = EffortLevel.Low;
-        foreach (var e in supported)
-        {
-            if (e < min) min = e;
-            if (e > max) max = e;
-        }
-        if (desired < min) return min;
-        if (desired > max) return max;
-        return desired;
+        var ordered = supported.Distinct().Order().ToArray();
+        if (desired <= ordered[0]) return ordered[0];
+        return ordered.LastOrDefault(level => level <= desired, ordered[0]);
     }
 
     private static string BuildRationale(

@@ -1,0 +1,116 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://agent-orchestrator.dev/schemas/model-routing-policy.schema.json",
+  "title": "Token Economy model routing knowledge base",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["$schema", "schemaVersion", "policyVersion", "evidenceAsOfDate", "authority", "providers", "thinkingLevels", "models", "routes", "providerFallbacks", "scoringCriteria", "hardFloors", "workflowConstraints", "reissueRules", "catalogContracts"],
+  "properties": {
+    "$schema": { "type": "string" },
+    "schemaVersion": { "type": "integer", "const": 1 },
+    "policyVersion": { "type": "string", "format": "date" },
+    "evidenceAsOfDate": { "type": "string", "format": "date" },
+    "authority": { "$ref": "#/$defs/authority" },
+    "providers": { "type": "array", "items": { "$ref": "#/$defs/provider" }, "minItems": 1 },
+    "thinkingLevels": { "type": "array", "items": { "$ref": "#/$defs/thinkingLevel" }, "minItems": 1 },
+    "models": { "type": "array", "items": { "$ref": "#/$defs/model" }, "minItems": 1 },
+    "routes": { "type": "array", "items": { "$ref": "#/$defs/route" }, "minItems": 1 },
+    "providerFallbacks": { "type": "array", "items": { "$ref": "#/$defs/providerFallback" } },
+    "scoringCriteria": { "type": "array", "items": { "$ref": "#/$defs/scoringCriterion" }, "minItems": 1 },
+    "hardFloors": { "type": "array", "items": { "$ref": "#/$defs/hardFloor" }, "minItems": 1 },
+    "workflowConstraints": { "$ref": "#/$defs/workflowConstraints" },
+    "reissueRules": { "$ref": "#/$defs/reissueRules" },
+    "catalogContracts": { "$ref": "#/$defs/catalogContracts" }
+  },
+  "$defs": {
+    "authority": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["repositoryPath", "upstreamRepository", "upstreamPath", "contentSha256", "synchronization"],
+      "properties": {
+        "repositoryPath": { "type": "string" }, "upstreamRepository": { "type": "string" }, "upstreamPath": { "type": "string" },
+        "contentSha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" }, "synchronization": { "type": "string" }
+      }
+    },
+    "provider": {
+      "type": "object", "additionalProperties": false, "required": ["id", "cliId", "cliLabel", "evidenceStatus"],
+      "properties": { "id": { "type": "string" }, "cliId": { "type": "string" }, "cliLabel": { "type": "string" }, "evidenceStatus": { "type": "string" } }
+    },
+    "thinkingLevel": {
+      "type": "object", "additionalProperties": false, "required": ["id", "rank", "evidenceStatus"],
+      "properties": { "id": { "type": "string" }, "rank": { "type": "integer", "minimum": 0 }, "evidenceStatus": { "type": "string" } }
+    },
+    "model": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["canonicalId", "aliases", "providerId", "cliId", "priceCatalogId", "mediaCatalogModelId", "trustModelId", "supportedThinkingLevels", "routingStatus", "evidenceStatus", "provisional", "capabilityTier", "workflowRoles", "note"],
+      "properties": {
+        "canonicalId": { "type": "string" }, "aliases": { "type": "array", "items": { "type": "string" } },
+        "providerId": { "type": "string" }, "cliId": { "type": "string" }, "priceCatalogId": { "type": "string" },
+        "mediaCatalogModelId": { "type": "string" }, "trustModelId": { "type": "string" },
+        "supportedThinkingLevels": { "type": "array", "items": { "type": "string" }, "minItems": 1 },
+        "routingStatus": { "enum": ["selectable", "fallbackOnly", "unsupported", "restricted", "deprecated"] },
+        "evidenceStatus": { "enum": ["unknown", "provisional", "observational", "observed", "correctnessFloor"] },
+        "provisional": { "type": "boolean" }, "capabilityTier": { "enum": ["light", "balanced", "frontier"] },
+        "workflowRoles": { "type": "array", "items": { "enum": ["coreTask", "boundedPipelineDecision"] } }, "note": { "type": "string" }
+      }
+    },
+    "route": {
+      "type": "object", "additionalProperties": false, "required": ["id", "label", "modelId", "thinkingLevel", "workflowRole", "rank", "evidenceStatus", "useFor", "doNotUseFor"],
+      "properties": {
+        "id": { "type": "string" }, "label": { "type": "string" }, "modelId": { "type": "string" }, "thinkingLevel": { "type": "string" },
+        "workflowRole": { "enum": ["coreTask", "boundedPipelineDecision"] }, "minimumScore": { "type": "integer", "minimum": 0, "maximum": 100 },
+        "maximumScore": { "type": "integer", "minimum": 0, "maximum": 100 }, "rank": { "type": "integer", "minimum": 0 }, "evidenceStatus": { "type": "string" },
+        "useFor": { "type": "array", "items": { "type": "string" }, "minItems": 1 }, "doNotUseFor": { "type": "array", "items": { "type": "string" }, "minItems": 1 }
+      }
+    },
+    "providerFallback": {
+      "type": "object", "additionalProperties": false,
+      "required": ["id", "forRouteIds", "notForRouteIds", "modelId", "thinkingLevel", "evidenceStatus", "provisional", "note"],
+      "properties": {
+        "id": { "type": "string" }, "forRouteIds": { "type": "array", "items": { "type": "string" }, "minItems": 1 },
+        "notForRouteIds": { "type": "array", "items": { "type": "string" } }, "modelId": { "type": "string" },
+        "thinkingLevel": { "type": "string" }, "evidenceStatus": { "type": "string" }, "provisional": { "type": "boolean" }, "note": { "type": "string" }
+      }
+    },
+    "scoringCriterion": {
+      "type": "object", "additionalProperties": false, "required": ["id", "maximumPoints"],
+      "properties": { "id": { "type": "string" }, "maximumPoints": { "type": "integer", "minimum": 1 } }
+    },
+    "hardFloor": {
+      "type": "object", "additionalProperties": false, "required": ["id", "minimumRouteId", "triggers"],
+      "properties": { "id": { "type": "string" }, "minimumRouteId": { "type": "string" }, "triggers": { "type": "array", "items": { "type": "string" }, "minItems": 1 } }
+    },
+    "workflowConstraints": {
+      "type": "object", "additionalProperties": false,
+      "required": ["boundedPipelineDefaultRouteId", "ambiguousOrUnboundedAuthorizingDecisionMinimumRouteId", "authorizingDecisionTriggers"],
+      "properties": {
+        "boundedPipelineDefaultRouteId": { "type": "string" },
+        "ambiguousOrUnboundedAuthorizingDecisionMinimumRouteId": { "type": "string" },
+        "authorizingDecisionTriggers": { "type": "array", "items": { "type": "string" }, "minItems": 1 }
+      }
+    },
+    "reissueRules": {
+      "type": "object", "additionalProperties": false,
+      "required": ["promoteOn", "doNotPromoteOn", "empiricalConfidencePointsAfterSemanticFailure", "minimumCoreTierIncrease", "stopAfterSemanticFailuresAtStrongerTier"],
+      "properties": {
+        "promoteOn": { "type": "array", "items": { "type": "string" }, "minItems": 1 },
+        "doNotPromoteOn": { "type": "array", "items": { "type": "string" }, "minItems": 1 },
+        "empiricalConfidencePointsAfterSemanticFailure": { "type": "integer", "minimum": 0, "maximum": 10 },
+        "minimumCoreTierIncrease": { "type": "integer", "minimum": 1 },
+        "stopAfterSemanticFailuresAtStrongerTier": { "type": "integer", "minimum": 1 }
+      }
+    },
+    "catalogContracts": {
+      "type": "object", "additionalProperties": false,
+      "required": ["priceCatalog", "mediaCatalog", "trustEvidence", "namedModelTrustEvidenceStatus", "historicalIncidentAttribution", "generatedPublicView", "unknownFactsRemainUnknown", "priceAndQuotaMayNotLowerHardFloors"],
+      "properties": {
+        "priceCatalog": { "type": "string" }, "mediaCatalog": { "type": "string" }, "trustEvidence": { "type": "string" },
+        "namedModelTrustEvidenceStatus": { "const": "unverifiedNoDenominator" },
+        "historicalIncidentAttribution": { "const": "unattributed" },
+        "generatedPublicView": { "type": "string" },
+        "unknownFactsRemainUnknown": { "const": true }, "priceAndQuotaMayNotLowerHardFloors": { "const": true }
+      }
+    }
+  }
+}
