@@ -157,7 +157,8 @@ public sealed class AgentStudioTaskStorageImporter
             Usage = usage, TokenUsageAvailable = usageElement is not null, ExecutedAtUtc = executedAt,
             CostEstimate = usageElement is null ? null : cost.Total, Currency = usageElement is null ? null : cost.Currency,
             CostStatus = usageElement is null ? PriceStatus.UsageUnavailable : cost.Status,
-            CostCaveat = usageElement is null ? null : cost.Caveat, Outcome = Outcome(lane),
+            CostCaveat = usageElement is null ? null : cost.Caveat,
+            CostUnconfirmed = usageElement is not null && cost.Unconfirmed, Outcome = Outcome(lane),
             Grade = Grade(Text(measurement, "grade", "reviewGrade", "finalGrade")),
             SemanticReissue = Boolean(measurement, "semanticReissue", "isSemanticReissue"),
             StartedAtUtc = Date(measurement, "startedAt", "createdAt"), ObservedAtUtc = observedAt,
@@ -172,7 +173,7 @@ public sealed class AgentStudioTaskStorageImporter
         var routeAmbiguous = peers.Select(record => (record.Model, record.ThinkingLevel)).Distinct().Count() > 1;
         return routeAmbiguous
             ? newest with { Model = null, ThinkingLevel = null, Provider = null, RouteGranularity = AgentStudioRouteGranularity.Unknown,
-                CostEstimate = null, Currency = null, CostCaveat = null, CostStatus = PriceStatus.UnknownModel }
+                CostEstimate = null, Currency = null, CostCaveat = null, CostUnconfirmed = false, CostStatus = PriceStatus.UnknownModel }
             : newest;
     }
 

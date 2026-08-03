@@ -3,49 +3,124 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>Provider quota dashboard</title>
+  <title>Provider availability snapshot</title>
   <style>
-    :root { color-scheme: dark; font: 16px/1.45 system-ui, sans-serif; background:#101827; color:#eef4ff; }
-    body { margin:0; padding:3rem max(1.25rem, calc((100% - 1100px)/2)); } h1 { margin:0; font-size:2rem; }
-    .lede { color:#a9bad3; max-width:60rem; } .grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:1rem; }
-    .card { border:1px solid #33445e; border-top:5px solid #4a9eff; border-radius:10px; padding:1.1rem; background:#172338; }
-    .card.warning { border-top-color:#f0b429; } .card.critical { border-top-color:#f05d5e; } .top { display:flex; justify-content:space-between; align-items:center; }
-    h2 { margin:0; font-size:1.25rem; } .state { border-radius:999px; padding:.2rem .6rem; font-size:.78rem; font-weight:700; text-transform:uppercase; }
-    .ok .state { background:#164e3a; color:#9af0c5; } .warning .state { background:#6b4d10; color:#ffe19a; } .critical .state { background:#6b252b; color:#ffb5b6; }
-    .rate { font-size:2rem; font-weight:700; margin:.7rem 0 0; } .muted { color:#a9bad3; margin:.1rem 0 1rem; } .meter { height:.65rem; background:#29384e; border-radius:999px; overflow:hidden; }
-    .meter > span { display:block; height:100%; background:#4a9eff; } .warning .meter > span { background:#f0b429; } .critical .meter > span { background:#f05d5e; }
-    dl { display:grid; grid-template-columns:1fr auto; gap:.45rem .8rem; margin:1rem 0; } dt { color:#a9bad3; } dd { margin:0; font-weight:600; }
-    .tiers { border-top:1px solid #33445e; padding-top:.7rem; } .tier { display:grid; grid-template-columns:100px 1fr 46px; gap:.5rem; align-items:center; margin:.35rem 0; font-size:.9rem; }
-    .tier i { height:.45rem; background:#7268ff; border-radius:999px; } .spike { margin-top:2rem; border:1px solid #33445e; border-radius:10px; padding:1rem; background:#172338; }
-    .bars { height:88px; display:flex; align-items:end; gap:6px; } .bars span { flex:1; background:#3a5275; min-width:10px; } .bars span:nth-last-child(-n+2) { background:#f05d5e; } .legend { color:#a9bad3; font-size:.9rem; }
+    :root {
+      color-scheme: dark;
+      --space-1: .25rem; --space-2: .5rem; --space-3: .75rem; --space-4: 1rem; --space-5: 1.5rem; --space-6: 2rem; --space-7: 3rem;
+      --radius-sm: .5rem; --radius-md: .75rem; --radius-pill: 999rem;
+      --font-body: system-ui, sans-serif; --font-mono: ui-monospace, monospace;
+      --surface-page: #0b111d; --surface-card: #121c2c; --surface-raised: #19263a; --surface-meter: #283750;
+      --border: #334560; --text: #eef4ff; --text-muted: #a9bad3;
+      --healthy: #54d99b; --healthy-bg: #143d31; --warning: #f0bd51; --warning-bg: #513b13;
+      --critical: #ff7b7d; --critical-bg: #512329; --unknown: #b4a9ff; --unknown-bg: #302b57;
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; background: var(--surface-page); color: var(--text); font: 1rem/1.5 var(--font-body); }
+    .page { width: min(76rem, calc(100% - 2 * var(--space-5))); margin-inline: auto; padding-block: var(--space-7); }
+    .eyebrow, .meta, .muted, .origin { color: var(--text-muted); }
+    .eyebrow { margin: 0 0 var(--space-2); font-size: .78rem; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; }
+    h1 { max-width: 48rem; margin: 0; font-size: clamp(2rem, 6vw, 3.5rem); line-height: 1.05; }
+    .lede { max-width: 52rem; margin: var(--space-4) 0; color: var(--text-muted); font-size: 1.1rem; }
+    .decision { display: flex; flex-wrap: wrap; gap: var(--space-2) var(--space-5); padding: var(--space-3) var(--space-4); border: .0625rem solid var(--border); border-radius: var(--radius-sm); background: var(--surface-card); }
+    .decision strong { color: var(--text); }
+    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 22rem), 1fr)); gap: var(--space-4); margin-top: var(--space-6); }
+    .card, .window { border: .0625rem solid var(--border); border-radius: var(--radius-md); background: var(--surface-card); }
+    .card { overflow: hidden; border-top: .3rem solid var(--state-color); }
+    .card.warning { --state-color: var(--warning); --state-bg: var(--warning-bg); }
+    .card.critical { --state-color: var(--critical); --state-bg: var(--critical-bg); }
+    .card.unknown { --state-color: var(--unknown); --state-bg: var(--unknown-bg); }
+    .card > header, .card > section { padding: var(--space-4); }
+    .card > section { border-top: .0625rem solid var(--border); }
+    .top, .window header { display: flex; align-items: start; justify-content: space-between; gap: var(--space-3); }
+    h2, h3, h4, p { margin-top: 0; } h2 { margin-bottom: var(--space-1); font-size: 1.35rem; } h3 { margin-bottom: var(--space-3); font-size: .95rem; } h4 { margin: 0; font-size: .95rem; }
+    .cli { margin: 0; color: var(--text-muted); font-family: var(--font-mono); }
+    .state, .origin-tag { display: inline-flex; align-items: center; border-radius: var(--radius-pill); font-weight: 800; white-space: nowrap; }
+    .state { padding: var(--space-1) var(--space-3); background: var(--state-bg); color: var(--state-color); font-size: .74rem; text-transform: uppercase; }
+    .facts { display: grid; grid-template-columns: 1fr auto; gap: var(--space-2) var(--space-4); margin: var(--space-4) 0 0; }
+    dt { color: var(--text-muted); } dd { margin: 0; text-align: right; font-weight: 700; }
+    .windows { display: grid; gap: var(--space-3); }
+    .window { padding: var(--space-3); background: var(--surface-raised); }
+    .window .state { --state-bg: var(--warning-bg); --state-color: var(--warning); }
+    .window.healthy { --state-color: var(--healthy); }
+    .window.healthy .state { --state-bg: var(--healthy-bg); --state-color: var(--healthy); }
+    .window.critical .state { --state-bg: var(--critical-bg); --state-color: var(--critical); }
+    .window.unknown .state { --state-bg: var(--unknown-bg); --state-color: var(--unknown); }
+    .meter { height: .55rem; margin-top: var(--space-3); overflow: hidden; border-radius: var(--radius-pill); background: var(--surface-meter); }
+    .meter span { display: block; height: 100%; background: var(--state-color, var(--warning)); }
+    .origin { margin: var(--space-2) 0 0; font-size: .78rem; }
+    .origin-tag { margin-right: var(--space-2); padding: .1rem var(--space-2); color: var(--text); background: var(--surface-meter); font-size: .68rem; letter-spacing: .04em; text-transform: uppercase; }
+    .cost-list { display: grid; gap: var(--space-2); margin: 0; padding: 0; list-style: none; }
+    .cost-list li { display: flex; justify-content: space-between; gap: var(--space-3); }
+    .cost-list b { color: var(--state-color); text-align: right; }
+    .boundary { margin-top: var(--space-6); padding: var(--space-4); border-left: .25rem solid var(--unknown); background: var(--surface-card); color: var(--text-muted); }
+    .boundary strong { color: var(--text); }
+    code { font-family: var(--font-mono); }
   </style>
 </head>
 <body>
-  <h1>Provider quota dashboard</h1>
-  <p class="lede">Trailing consumption, active-window capability-tier share, and the estimated time to each configured quota mark. This rendered historical snapshot deliberately makes the OpenAI spike visible.</p>
-  <main class="grid" aria-label="Provider quota status">
-    <article class="card critical">
-      <div class="top"><h2>OpenAI</h2><span class="state">Critical</span></div>
-      <p class="rate">900 tokens/hour</p><p class="muted">Trailing 1-hour window</p>
-      <div class="meter" aria-label="85 percent of quota mark used"><span style="width:85%"></span></div>
-      <dl><dt>Quota mark</dt><dd>1,700 / 2,000 tokens &middot; 85%</dd><dt>Until mark</dt><dd>300 tokens</dd><dt>Projected mark</dt><dd>12:20 UTC</dd></dl>
-      <div class="tiers"><strong>Active-window capability-tier share</strong><div class="tier"><span>Balanced</span><i style="width:82%"></i><b>82%</b></div><div class="tier"><span>Unknown</span><i style="width:18%"></i><b>18%</b></div></div>
-    </article>
-    <article class="card ok">
-      <div class="top"><h2>Anthropic</h2><span class="state">OK</span></div>
-      <p class="rate">100 tokens/hour</p><p class="muted">Trailing 1-hour window</p>
-      <div class="meter" aria-label="10 percent of quota mark used"><span style="width:10%"></span></div>
-      <dl><dt>Quota mark</dt><dd>100 / 1,000 tokens &middot; 10%</dd><dt>Until mark</dt><dd>900 tokens</dd><dt>Projected mark</dt><dd>21:00 UTC</dd></dl>
-      <div class="tiers"><strong>Active-window capability-tier share</strong><div class="tier"><span>Unknown</span><i style="width:100%"></i><b>100%</b></div></div>
-    </article>
-    <article class="card ok">
-      <div class="top"><h2>Google</h2><span class="state">OK</span></div>
-      <p class="rate">0 tokens/hour</p><p class="muted">Trailing 1-hour window</p>
-      <div class="meter" aria-label="0 percent of quota mark used"><span style="width:0%"></span></div>
-      <dl><dt>Quota mark</dt><dd>0 / 1,000 tokens &middot; 0%</dd><dt>Until mark</dt><dd>1,000 tokens</dd><dt>Projected mark</dt><dd>No recent rate</dd></dl>
-      <div class="tiers"><strong>Active-window capability-tier share</strong><p class="muted">No active-window consumption</p></div>
-    </article>
+  <main class="page">
+    <p class="eyebrow">Routing evidence · deterministic example</p>
+    <h1>Provider availability at the decision time</h1>
+    <p class="lede">Provider and CLI probes, independent quota windows, observed headroom, inferred exhaustion, freshness, and catalog coverage—kept honest when evidence is incomplete.</p>
+    <div class="decision meta"><span><strong>Decision time</strong> 2026-08-02 12:00 UTC</span><span><strong>Freshness limit</strong> 15 minutes</span><span><strong>Rate lookback</strong> 1 hour</span></div>
+
+    <section class="grid" aria-label="Provider availability states">
+      <article class="card warning">
+        <header>
+          <div class="top"><div><h2>Anthropic</h2><p class="cli">CLI claude</p></div><span class="state">Warning</span></div>
+          <dl class="facts"><dt>CLI availability</dt><dd>Available</dd><dt>Freshness</dt><dd>Fresh · 2 min</dd><dt>Cost at decision</dt><dd>List price available</dd></dl>
+        </header>
+        <section><h3>Quota windows · kept separate</h3><div class="windows">
+          <article class="window warning">
+            <header><h4>five-hour</h4><span class="state">Near cap</span></header>
+            <dl class="facts"><dt>Observed usage</dt><dd>800 / 1,000 · 80%</dd><dt>Observed headroom</dt><dd>200 tokens</dd><dt>Reset</dt><dd>15:00 UTC</dd></dl>
+            <div class="meter" role="progressbar" aria-label="five-hour observed quota used" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100"><span style="width:80%"></span></div>
+            <p class="origin"><span class="origin-tag">Observed</span>Provider quota telemetry at 11:58 UTC</p>
+            <p class="origin"><span class="origin-tag">Inferred</span>Exhaustion 14:00 UTC from 100 tokens/hour; before reset</p>
+          </article>
+          <article class="window healthy">
+            <header><h4>weekly</h4><span class="state">Healthy</span></header>
+            <dl class="facts"><dt>Observed usage</dt><dd>2,000 / 10,000 · 20%</dd><dt>Observed headroom</dt><dd>8,000 tokens</dd><dt>Reset</dt><dd>Aug 7 · 12:00 UTC</dd></dl>
+            <div class="meter" role="progressbar" aria-label="weekly observed quota used" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100"><span style="width:20%"></span></div>
+            <p class="origin"><span class="origin-tag">Observed</span>Provider quota telemetry at 11:58 UTC</p>
+            <p class="origin"><span class="origin-tag">Inferred</span>Exhaustion Aug 5 · 20:00 UTC; before reset</p>
+          </article>
+        </div></section>
+        <section><h3>Model cost coverage</h3><ul class="cost-list"><li><code>claude-sonnet-5</code><b>List price available</b></li></ul></section>
+      </article>
+
+      <article class="card critical">
+        <header>
+          <div class="top"><div><h2>OpenAI</h2><p class="cli">CLI codex</p></div><span class="state">Critical</span></div>
+          <dl class="facts"><dt>CLI availability</dt><dd>Unavailable</dd><dt>Freshness</dt><dd>Fresh · 1 min</dd><dt>Cost at decision</dt><dd>Unpriced</dd></dl>
+        </header>
+        <section><h3>Quota windows</h3><div class="windows"><article class="window critical">
+          <header><h4>five-hour</h4><span class="state">Exhausted</span></header>
+          <dl class="facts"><dt>Observed usage</dt><dd>1,100 / 1,000 · 110%</dd><dt>Observed headroom</dt><dd>0 tokens</dd><dt>Reset</dt><dd>14:00 UTC</dd></dl>
+          <div class="meter" role="progressbar" aria-label="five-hour observed quota used" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"><span style="width:100%"></span></div>
+          <p class="origin"><span class="origin-tag">Observed</span>Provider quota telemetry at 11:59 UTC</p>
+          <p class="origin"><span class="origin-tag">Inferred</span>No projection; observed headroom is exhausted</p>
+        </article></div></section>
+        <section><h3>Model cost coverage</h3><ul class="cost-list"><li><code>gpt-5.6-sol</code><b>Unpriced at decision time</b></li></ul></section>
+      </article>
+
+      <article class="card unknown">
+        <header>
+          <div class="top"><div><h2>Google</h2><p class="cli">CLI antigravity</p></div><span class="state">Unknown</span></div>
+          <dl class="facts"><dt>CLI availability</dt><dd>Unknown</dd><dt>Freshness</dt><dd>Stale · 2 hours</dd><dt>Cost at decision</dt><dd>Unknown model cost</dd></dl>
+        </header>
+        <section><h3>Quota windows</h3><div class="windows"><article class="window unknown">
+          <header><h4>daily</h4><span class="state">Unknown</span></header>
+          <dl class="facts"><dt>Observed usage</dt><dd>10 / 1,000 · stale</dd><dt>Observed headroom</dt><dd>Not trusted</dd><dt>Reset</dt><dd>18:00 UTC</dd></dl>
+          <p class="origin"><span class="origin-tag">Observed</span>Last observation 10:00 UTC exceeds freshness limit</p>
+          <p class="origin"><span class="origin-tag">Inferred</span>No projection from stale quota</p>
+        </article></div></section>
+        <section><h3>Model cost coverage</h3><ul class="cost-list"><li><code>unrecognized-model</code><b>Unknown model cost</b></li></ul></section>
+      </article>
+    </section>
+
+    <p class="boundary"><strong>This snapshot does not select a model.</strong> The orchestrator establishes the correctness floor first, then consumes this evidence. Quota or cost must never lower that floor. See <code>docs/concepts/provider-availability-snapshot.md</code>.</p>
   </main>
-  <section class="spike" aria-label="OpenAI historical consumption spike"><strong>OpenAI historical consumption</strong><div class="bars" aria-hidden="true"><span style="height:12%"></span><span style="height:14%"></span><span style="height:15%"></span><span style="height:13%"></span><span style="height:18%"></span><span style="height:20%"></span><span style="height:65%"></span><span style="height:100%"></span></div><p class="legend">Previous intervals &rarr; current trailing window. The final two red bars reproduce the spike that drives the critical projection. Reproducible input and derived report are in <code>results/provider-quota-dashboard/</code>.</p></section>
 </body>
 </html>

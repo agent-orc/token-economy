@@ -5,6 +5,160 @@ namespace TokenEconomy.Tests;
 
 public class ProviderQuotaDashboardTests
 {
+    private static readonly DateTime DecisionAt = new(2026, 8, 2, 12, 0, 0, DateTimeKind.Utc);
+
+    [Fact]
+    public void BuildSnapshot_PreservesMultipleObservedWindowsAndSeparatesInferredProjection()
+    {
+        var builder = new ProviderQuotaDashboardBuilder();
+        ProviderQuotaDashboardEvent? observedEvent = null;
+        builder.EventOccurred += value => observedEvent = value;
+        var snapshot = builder.BuildSnapshot(
+            [MeasuredRun("anthropic", "claude", "claude-sonnet-5", DecisionAt.AddMinutes(-30), 100)],
+            SnapshotOptions(
+                new("anthropic", "claude", ProviderCliAvailability.Available, DecisionAt.AddMinutes(-2), ["claude-sonnet-5"]),
+                [
+                    new("anthropic", "claude", "five-hour", 800, 1_000, DecisionAt.AddMinutes(-2), DecisionAt.AddHours(3), DecisionAt.AddHours(-2)),
+                    new("anthropic", "claude", "weekly", 2_000, 10_000, DecisionAt.AddMinutes(-2), DecisionAt.AddDays(5), DecisionAt.AddDays(-2)),
+                ]));
+
+        var row = Assert.Single(snapshot.Providers);
+        Assert.Equal(DecisionAt, snapshot.DecisionAtUtc);
+        Assert.Equal("claude", row.CliType);
+        Assert.Equal(AvailabilityWarningState.Warning, row.WarningState);
+        Assert.Equal(SnapshotCostStatus.Priced, row.Cost.Status);
+        Assert.Equal(2, row.QuotaWindows.Count);
+
+        var shortWindow = row.QuotaWindows.Single(window => window.WindowId == "five-hour");
+        Assert.Equal(SnapshotValueOrigin.Observed, shortWindow.Usage?.Origin);
+        Assert.Equal(800, shortWindow.Usage?.UsedTokens);
+        Assert.Equal(200, shortWindow.Usage?.HeadroomTokens);
+        Assert.Equal(SnapshotValueOrigin.Inferred, shortWindow.Projection?.Origin);
+        Assert.Equal(DecisionAt.AddHours(2), shortWindow.Projection?.ProjectedExhaustionAtUtc);
+        Assert.True(shortWindow.Projection?.ExhaustsBeforeReset);
+        Assert.Equal(2_000, row.QuotaWindows.Single(window => window.WindowId == "weekly").Usage?.UsedTokens);
+        Assert.Equal("provider_availability.snapshot.built", observedEvent?.Name);
+        Assert.Equal(2, observedEvent?.Context["quotaWindowCount"]);
+    }
+
+    [Fact]
+    public void BuildSnapshot_ExhaustedWindowIsCriticalWithZeroObservedHeadroom()
+    {
+        var row = BuildSingle(
+            new("anthropic", "claude", ProviderCliAvailability.Available, DecisionAt.AddMinutes(-1), ["claude-sonnet-5"]),
+            new("anthropic", "claude", "five-hour", 1_100, 1_000, DecisionAt.AddMinutes(-1), DecisionAt.AddHours(2)));
+
+        var window = Assert.Single(row.QuotaWindows);
+        Assert.Equal(AvailabilityWarningState.Critical, row.WarningState);
+        Assert.Equal(AvailabilityWarningState.Critical, window.WarningState);
+        Assert.Equal(0, window.Usage?.HeadroomTokens);
+        Assert.Null(window.Projection);
+    }
+
+    [Fact]
+    public void BuildSnapshot_StaleLowUsageIsUnknownRatherThanHealthy()
+    {
+        var row = BuildSingle(
+            new("anthropic", "claude", ProviderCliAvailability.Available, DecisionAt.AddHours(-2), ["claude-sonnet-5"]),
+            new("anthropic", "claude", "five-hour", 10, 1_000, DecisionAt.AddHours(-2), DecisionAt.AddHours(2)));
+
+        Assert.Equal(SnapshotFreshness.Stale, row.Freshness);
+        Assert.Equal(AvailabilityWarningState.Unknown, row.WarningState);
+        Assert.Equal(AvailabilityWarningState.Unknown, Assert.Single(row.QuotaWindows).WarningState);
+        Assert.Null(Assert.Single(row.QuotaWindows).Projection);
+    }
+
+    [Fact]
+    public void BuildSnapshot_UnavailableCliIsCriticalEvenWithFreshHeadroom()
+    {
+        var row = BuildSingle(
+            new("anthropic", "claude", ProviderCliAvailability.Unavailable, DecisionAt.AddMinutes(-1), ["claude-sonnet-5"], "CLI probe failed"),
+            new("anthropic", "claude", "five-hour", 10, 1_000, DecisionAt.AddMinutes(-1), DecisionAt.AddHours(2)));
+
+        Assert.Equal(ProviderCliAvailability.Unavailable, row.Availability);
+        Assert.Equal(AvailabilityWarningState.Critical, row.WarningState);
+    }
+
+    [Theory]
+    [InlineData("never-seen-model", SnapshotCostStatus.Unknown)]
+    [InlineData("gpt-5.6-sol", SnapshotCostStatus.Unpriced)]
+    public void BuildSnapshot_UnknownOrUnpricedCostIsNeverHealthy(string model, SnapshotCostStatus expected)
+    {
+        var row = BuildSingle(
+            new("openai", "codex", ProviderCliAvailability.Available, DecisionAt.AddMinutes(-1), [model]),
+            new("openai", "codex", "five-hour", 10, 1_000, DecisionAt.AddMinutes(-1), DecisionAt.AddHours(2)));
+
+        Assert.Equal(expected, row.Cost.Status);
+        Assert.Equal(AvailabilityWarningState.Unknown, row.WarningState);
+        var html = ProviderQuotaDashboardHtmlRenderer.RenderSnapshot(new(DecisionAt, TimeSpan.FromHours(1), TimeSpan.FromMinutes(15), [row]));
+        Assert.DoesNotContain("$0", html, StringComparison.OrdinalIgnoreCase);
+        Assert.Contains(expected == SnapshotCostStatus.Unknown ? "Unknown model cost" : "Unpriced at decision time", html);
+    }
+
+    [Fact]
+    public void BuildSnapshot_UnconfirmedCostAndUnknownAvailabilityAreNeverHealthy()
+    {
+        var row = BuildSingle(
+            new("anthropic", "claude", ProviderCliAvailability.Unknown, DecisionAt.AddMinutes(-1), ["claude-sonnet-4-5"]),
+            new("anthropic", "claude", "five-hour", 10, 1_000, DecisionAt.AddMinutes(-1), DecisionAt.AddHours(2)));
+
+        Assert.Equal(SnapshotCostStatus.Unconfirmed, row.Cost.Status);
+        Assert.Equal(AvailabilityWarningState.Unknown, row.WarningState);
+    }
+
+    [Fact]
+    public void BuildSnapshot_UsesExecutionTimeRatherThanLaterImportObservationForRate()
+    {
+        var oldRun = MeasuredRun("anthropic", "claude", "claude-sonnet-5", DecisionAt.AddHours(-3), 100) with
+        {
+            ObservedAtUtc = DecisionAt.AddMinutes(-1),
+        };
+        var snapshot = new ProviderQuotaDashboardBuilder().BuildSnapshot(
+            [oldRun],
+            SnapshotOptions(
+                new("anthropic", "claude", ProviderCliAvailability.Available, DecisionAt.AddMinutes(-1), ["claude-sonnet-5"]),
+                [new("anthropic", "claude", "five-hour", 100, 1_000, DecisionAt.AddMinutes(-1), DecisionAt.AddHours(2))]));
+
+        var row = Assert.Single(snapshot.Providers);
+        Assert.Equal(0, row.TrailingTokens);
+        Assert.Equal(0, row.TokensPerHour);
+        Assert.Null(Assert.Single(row.QuotaWindows).Projection);
+    }
+
+    [Theory]
+    [InlineData(null, 100L, SnapshotFreshness.Missing)]
+    [InlineData(-1L, 100L, SnapshotFreshness.Suspicious)]
+    public void BuildSnapshot_MissingOrSuspiciousQuotaIsNeverHealthy(long? used, long? limit, SnapshotFreshness expected)
+    {
+        var row = BuildSingle(
+            new("anthropic", "claude", ProviderCliAvailability.Available, DecisionAt.AddMinutes(-1), ["claude-sonnet-5"]),
+            new("anthropic", "claude", "five-hour", used, limit, DecisionAt.AddMinutes(-1), DecisionAt.AddHours(2)));
+
+        var window = Assert.Single(row.QuotaWindows);
+        Assert.Equal(expected, window.Freshness);
+        Assert.Equal(AvailabilityWarningState.Unknown, row.WarningState);
+    }
+
+    [Fact]
+    public void RenderSnapshot_ShowsDecisionEvidenceOriginsAvailabilityAndEveryWindow()
+    {
+        var row = BuildSingle(
+            new("anthropic", "claude", ProviderCliAvailability.Available, DecisionAt.AddMinutes(-1), ["claude-sonnet-5"]),
+            new("anthropic", "claude", "five-hour", 800, 1_000, DecisionAt.AddMinutes(-1), DecisionAt.AddHours(3)));
+        var html = ProviderQuotaDashboardHtmlRenderer.RenderSnapshot(new(DecisionAt, TimeSpan.FromHours(1), TimeSpan.FromMinutes(15), [row]));
+
+        Assert.Contains("Decision time", html);
+        Assert.Contains("CLI claude", html);
+        Assert.Contains("CLI availability", html);
+        Assert.Contains("Observed provider quota telemetry", html);
+        Assert.Contains("not provider-observed", html);
+        Assert.Contains("Observed headroom", html);
+        Assert.Contains("Reset", html);
+        Assert.Contains("Cost at decision time", html);
+        Assert.Contains("five-hour", html);
+        Assert.Contains("Availability evidence only; no model selection is performed", html);
+    }
+
     [Fact]
     public void Build_ReproducesHistoricalSpikeAndProjectsQuotaMark()
     {
@@ -100,4 +254,22 @@ public class ProviderQuotaDashboardTests
         TaskKey = Guid.NewGuid().ToString("N"), Run = 1, Provider = provider, Model = model, Usage = new(input, 0, 0, 0),
         ExecutedAtUtc = observedAt, ObservedAtUtc = observedAt, CostStatus = PriceStatus.UnknownModel, Outcome = OutcomeQualitySignal.Unknown
     };
+
+    private static AgentStudioRunRecord MeasuredRun(string provider, string cli, string model, DateTime observedAt, long input) => new()
+    {
+        TaskKey = Guid.NewGuid().ToString("N"), Run = 1, Provider = provider, CliType = cli, Model = model,
+        Usage = new(input, 0, 0, 0), TokenUsageAvailable = true, ExecutedAtUtc = observedAt,
+        ObservedAtUtc = observedAt, CostStatus = PriceStatus.Resolved, Outcome = OutcomeQualitySignal.Unknown,
+    };
+
+    private static ProviderAvailabilitySnapshotOptions SnapshotOptions(
+        ProviderCliObservation provider,
+        IReadOnlyCollection<ProviderQuotaWindowObservation> windows) => new(
+            DecisionAt, TimeSpan.FromHours(1), TimeSpan.FromMinutes(15), [provider], windows, new(75, 90));
+
+    private static ProviderAvailabilitySnapshotRow BuildSingle(
+        ProviderCliObservation provider,
+        ProviderQuotaWindowObservation window) => Assert.Single(new ProviderQuotaDashboardBuilder().BuildSnapshot(
+            [MeasuredRun(provider.Provider, provider.CliType, provider.ModelIds.Single(), DecisionAt.AddMinutes(-30), 100)],
+            SnapshotOptions(provider, [window])).Providers);
 }

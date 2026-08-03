@@ -12,6 +12,14 @@ SemVer; pre-1.0 the public API may still shift).
   preserves token/duration/reissue point forecasts, adds evidence-backed ranges
   and missing-history coverage, imports expected (never eventual) scope, and
   supports leakage-safe explicit held-out backtests.
+- A routing-grade provider availability snapshot alongside the retained
+  historical quota dashboard. It reports provider/CLI availability, separate
+  named quota windows with observed usage/headroom and reset, freshness and
+  conservative warning states, decision-time price coverage, and explicitly
+  inferred rate projections. Imported run views now retain CLI identity and
+  unresolved cost counts; stale, missing, suspicious, unavailable, unknown,
+  and unpriced evidence cannot appear healthy or as zero cost. The contract
+  intentionally does not select a model.
 
 - A deterministic routing-evidence pipeline that canonicalizes model aliases,
   keeps controlled benchmarks separate from Agent Studio observations, retains

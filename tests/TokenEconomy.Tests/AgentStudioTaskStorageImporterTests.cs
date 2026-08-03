@@ -31,6 +31,8 @@ public class AgentStudioTaskStorageImporterTests
             Assert.True(record.IsEstimatedListPrice);
             var view = Assert.Single(ModelRunViews.ByModelOverTime(store.Records));
             Assert.Equal(1, view.Runs); Assert.Equal(1, view.SuccessfulRuns); Assert.Equal("Token-Economy", view.Project);
+            Assert.Equal("claude", view.CliType);
+            Assert.True(view.CostStatus.IsFullyPriced);
         }
         finally { Directory.Delete(directory, true); }
     }
@@ -76,6 +78,44 @@ public class AgentStudioTaskStorageImporterTests
         Assert.False(record.TokenUsageAvailable);
         Assert.Equal(PriceStatus.UsageUnavailable, record.CostStatus);
         Assert.Null(record.CostEstimate);
+    }
+
+    [Fact]
+    public void ModelRunViews_RetainCliAndUnresolvedCostCoverage()
+    {
+        var observedAt = new DateTime(2026, 8, 2, 12, 0, 0, DateTimeKind.Utc);
+        var records = new[]
+        {
+            ViewRecord("codex", "gpt-5.6-sol", PriceStatus.NoPriceForDate, observedAt),
+            ViewRecord("codex", "gpt-5.6-sol", PriceStatus.UsageUnavailable, observedAt, run: 2),
+            ViewRecord("other-cli", "gpt-5.6-sol", PriceStatus.NoPriceForDate, observedAt, run: 3),
+        };
+
+        var views = ModelRunViews.ByModelOverTime(records);
+
+        Assert.Equal(2, views.Count);
+        var codex = views.Single(view => view.CliType == "codex");
+        Assert.Equal(2, codex.Runs);
+        Assert.Null(codex.CostEstimate);
+        Assert.Equal(1, codex.CostStatus.NoPriceForDateRuns);
+        Assert.Equal(1, codex.CostStatus.UsageUnavailableRuns);
+        Assert.False(codex.CostStatus.IsFullyPriced);
+    }
+
+    [Fact]
+    public void ModelRunViews_RetainUnconfirmedCatalogCoverage()
+    {
+        using var json = System.Text.Json.JsonDocument.Parse("""
+            { "id":"card-unconfirmed", "model":"claude-sonnet-4-5", "cliType":"claude",
+              "completedAt":"2026-08-02T12:00:00Z", "tokenSummary": { "inputTokens":10 } }
+            """);
+
+        var record = new AgentStudioTaskStorageImporter().Parse(json.RootElement);
+        var view = Assert.Single(ModelRunViews.ByModelOverTime([record]));
+
+        Assert.True(record.CostUnconfirmed);
+        Assert.Equal(1, view.CostStatus.UnconfirmedRuns);
+        Assert.False(view.CostStatus.IsFullyPriced);
     }
 
     [Fact]
@@ -146,4 +186,12 @@ public class AgentStudioTaskStorageImporterTests
             [ComplexityHardFloorTrigger.PublicProtocol, ComplexityHardFloorTrigger.PersistentStateMigration],
             card.HardFloorTriggers);
     }
+
+    private static AgentStudioRunRecord ViewRecord(string cli, string model, PriceStatus status, DateTime observedAt, int run = 1) => new()
+    {
+        TaskKey = "TE-view", Run = run, Provider = "openai", CliType = cli, Model = model,
+        Usage = new(10, 0), TokenUsageAvailable = status != PriceStatus.UsageUnavailable,
+        ExecutedAtUtc = observedAt, ObservedAtUtc = observedAt, CostStatus = status,
+        CostEstimate = null, Outcome = OutcomeQualitySignal.Unknown,
+    };
 }

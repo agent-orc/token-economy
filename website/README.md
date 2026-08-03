@@ -37,3 +37,9 @@ Editing: change the relevant HTML page and push to `main`; CI deploys the whole
 directory recursively (see [`DEPLOY.md`](DEPLOY.md)). Every page remains
 self-contained. Preview locally with `python3 -m http.server --directory
 website` or by opening a page directly.
+
+The provider availability page is a deterministic contract example rather
+than live telemetry. It mirrors `ProviderAvailabilitySnapshot`: provider/CLI
+probe state, independently named observed quota windows, explicitly inferred
+projections, freshness, warning state, and decision-time cost coverage. It
+must not imply that the library selects a route.

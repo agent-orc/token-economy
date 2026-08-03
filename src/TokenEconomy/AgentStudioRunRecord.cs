@@ -55,6 +55,8 @@ public sealed record AgentStudioRunRecord
     /// render the list-price disclaimer alongside the number.
     /// </summary>
     public string? CostCaveat { get; init; }
+    /// <summary>True when the dated catalog entry used for this run was explicitly unconfirmed.</summary>
+    public bool CostUnconfirmed { get; init; }
     /// <summary>True when <see cref="CostEstimate"/> is based on published list prices rather than an invoice.</summary>
     public bool IsEstimatedListPrice => CostCaveat == ModelPrice.EstimatedListPricesCaveat;
     public required OutcomeQualitySignal Outcome { get; init; }
@@ -147,11 +149,25 @@ public sealed class InMemoryAgentStudioRunStore : IAgentStudioRunStore
     public void Upsert(AgentStudioRunRecord record) => _records[(record.TaskKey, record.Run)] = record;
 }
 
-/// <summary>A consumption/outcome view grouped by day, provider, model, and project.</summary>
+/// <summary>Cost coverage retained when imported runs are aggregated.</summary>
+public sealed record RunCostStatusSummary(
+    int ResolvedRuns,
+    int UnconfirmedRuns,
+    int UnknownModelRuns,
+    int NoPriceForDateRuns,
+    int UsageUnavailableRuns)
+{
+    /// <summary>True only when every run has a confirmed catalog price.</summary>
+    public bool IsFullyPriced => ResolvedRuns > 0 && UnconfirmedRuns == 0 && UnknownModelRuns == 0 && NoPriceForDateRuns == 0 && UsageUnavailableRuns == 0;
+}
+
+/// <summary>A consumption/outcome view grouped by day, provider, CLI, model, and project.</summary>
 public sealed record ModelRunView
 {
     public required DateOnly Day { get; init; }
     public string? Provider { get; init; }
+    /// <summary>Retained so provider availability is not collapsed across different launch surfaces.</summary>
+    public string? CliType { get; init; }
     public string? Model { get; init; }
     public string? Project { get; init; }
     public required int Runs { get; init; }
@@ -159,7 +175,12 @@ public sealed record ModelRunView
     public required long OutputTokens { get; init; }
     public required long CacheReadTokens { get; init; }
     public required long CacheWriteTokens { get; init; }
+    /// <summary>
+    /// Null when any aggregated run is unresolved. A measured, fully priced zero may remain zero.
+    /// Inspect <see cref="CostStatus"/> to distinguish those cases.
+    /// </summary>
     public decimal? CostEstimate { get; init; }
+    public required RunCostStatusSummary CostStatus { get; init; }
     public required int SuccessfulRuns { get; init; }
     public required int NeedsReviewRuns { get; init; }
     public required int UnsuccessfulRuns { get; init; }
@@ -177,14 +198,20 @@ public static class ModelRunViews
         => Build(records);
 
     private static IReadOnlyList<ModelRunView> Build(IEnumerable<AgentStudioRunRecord> records) => records
-        .GroupBy(r => (Day: DateOnly.FromDateTime(r.ObservedAtUtc), r.Provider, r.Model, r.Project))
+        .GroupBy(r => (Day: DateOnly.FromDateTime(r.ObservedAtUtc), r.Provider, r.CliType, r.Model, r.Project))
         .OrderBy(g => g.Key.Day).ThenBy(g => g.Key.Project).ThenBy(g => g.Key.Model, StringComparer.Ordinal)
         .Select(g => new ModelRunView
         {
-            Day = g.Key.Day, Provider = g.Key.Provider, Model = g.Key.Model, Project = g.Key.Project,
+            Day = g.Key.Day, Provider = g.Key.Provider, CliType = g.Key.CliType, Model = g.Key.Model, Project = g.Key.Project,
             Runs = g.Count(), InputTokens = g.Sum(r => r.Usage.Input), OutputTokens = g.Sum(r => r.Usage.Output),
             CacheReadTokens = g.Sum(r => r.Usage.CacheRead), CacheWriteTokens = g.Sum(r => r.Usage.CacheWrite),
             CostEstimate = g.Any(r => r.CostEstimate is null) ? null : g.Sum(r => r.CostEstimate!.Value),
+            CostStatus = new(
+                g.Count(r => r.CostStatus == PriceStatus.Resolved && !r.CostUnconfirmed),
+                g.Count(r => r.CostStatus == PriceStatus.Resolved && r.CostUnconfirmed),
+                g.Count(r => r.CostStatus == PriceStatus.UnknownModel),
+                g.Count(r => r.CostStatus == PriceStatus.NoPriceForDate),
+                g.Count(r => r.CostStatus == PriceStatus.UsageUnavailable)),
             SuccessfulRuns = g.Count(r => r.Outcome == OutcomeQualitySignal.Successful),
             NeedsReviewRuns = g.Count(r => r.Outcome == OutcomeQualitySignal.NeedsReview),
             UnsuccessfulRuns = g.Count(r => r.Outcome == OutcomeQualitySignal.Unsuccessful),
