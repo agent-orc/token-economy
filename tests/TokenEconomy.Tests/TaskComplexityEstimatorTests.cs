@@ -14,6 +14,13 @@ public class TaskComplexityEstimatorTests
         Assert.Equal(small.Level, huge.Level);
         Assert.InRange(huge.Score - small.Score, 0, 2);
         Assert.Equal(6, huge.Dimensions.Count);
+        Assert.Equal(6, new[]
+        {
+            huge.CorrectnessRisk.Evidence, huge.ExpectedScope.Evidence, huge.ContextDemand.Evidence,
+            huge.TaskUncertainty.Evidence, huge.EmpiricalConfidence.Evidence, huge.QuotaAndCostHeadroom.Evidence,
+        }.Count(value => !string.IsNullOrWhiteSpace(value)));
+        Assert.False(string.IsNullOrWhiteSpace(huge.ScoreEvidence));
+        Assert.False(string.IsNullOrWhiteSpace(huge.ConfidenceEvidence));
         Assert.InRange(huge.Confidence, 0, 1);
     }
 
@@ -32,8 +39,11 @@ public class TaskComplexityEstimatorTests
         Assert.Equal(2, withoutLlm.Neighbours.Count);
         Assert.InRange(withoutLlm.PredictedTokens, 380_000, 420_000);
         Assert.True(withoutLlm.PredictedDuration > TimeSpan.Zero);
-        Assert.True(withLlm.Score > withoutLlm.Score);
+        Assert.Equal(withoutLlm.Score, withLlm.Score);
+        Assert.True(withLlm.Confidence > withoutLlm.Confidence);
         Assert.Equal("routing-rubric-v1", withLlm.LlmRubricVersion);
+        Assert.Equal(withoutLlm.PredictedTokens, withoutLlm.TokenForecast.Expected);
+        Assert.InRange(withoutLlm.PredictedTokens, withoutLlm.TokenForecast.LowerBound, withoutLlm.TokenForecast.UpperBound);
     }
 
     [Fact]
@@ -73,10 +83,10 @@ public class TaskComplexityEstimatorTests
         }).ToArray();
         var report = ComplexityBacktester.Run(samples);
         Assert.Equal(30, report.SampleCount);
-        Assert.InRange(report.LevelAccuracy, 0, 1);
-        Assert.InRange(report.TokenMedianAbsolutePercentageError, 0, 1);
-        Assert.InRange(report.ReissueMeanAbsoluteError, 0, 2);
-        Assert.InRange(report.TokenRankCorrelation, -1, 1);
+        Assert.InRange(report.LevelAccuracy!.Value, 0, 1);
+        Assert.InRange(report.TokenMedianAbsolutePercentageError!.Value, 0, 1);
+        Assert.InRange(report.ReissueMeanAbsoluteError!.Value, 0, 2);
+        Assert.InRange(report.TokenRankCorrelation!.Value, -1, 1);
     }
 
     [Fact]
@@ -127,6 +137,221 @@ public class TaskComplexityEstimatorTests
         Assert.Contains("one aggregated sample per task key", error.Message);
     }
 
+    [Fact]
+    public void Estimate_ExcludesEveryAttemptDerivedSampleForEvaluatedCardBeforeNeighbourSelection()
+    {
+        var card = Card("TE-27");
+        var estimate = new TaskComplexityEstimator().Estimate(card,
+        [
+            Sample(card with { TaskKey = "te-27" }, 9_000_000, 9),
+            Sample(card, 8_000_000, 8),
+            Sample(Card("safe-neighbour"), 40_000, 0),
+        ]);
+
+        var neighbour = Assert.Single(estimate.Neighbours);
+        Assert.Equal("safe-neighbour", neighbour.TaskKey);
+        Assert.Equal(40_000, estimate.PredictedTokens);
+    }
+
+    [Theory]
+    [InlineData(20, TaskComplexityLevel.Trivial)]
+    [InlineData(21, TaskComplexityLevel.Standard)]
+    [InlineData(50, TaskComplexityLevel.Standard)]
+    [InlineData(51, TaskComplexityLevel.Demanding)]
+    [InlineData(69, TaskComplexityLevel.Demanding)]
+    [InlineData(70, TaskComplexityLevel.Critical)]
+    public void Estimate_UsesCanonicalBoundaryScores(int score, TaskComplexityLevel expected)
+    {
+        // With no comparable history empirical uncertainty contributes the canonical 10 points.
+        var remaining = score - 10;
+        var correctness = Math.Min(35, remaining);
+        remaining -= (int)correctness;
+        var scope = Math.Min(20, remaining);
+        remaining -= (int)scope;
+        var context = Math.Min(20, remaining);
+        remaining -= (int)context;
+        var uncertainty = Math.Min(10, remaining);
+        remaining -= (int)uncertainty;
+        var estimate = new TaskComplexityEstimator().Estimate(Card($"boundary-{score}") with
+        {
+            Prompt = "Deterministic boundary fixture.",
+            TaskType = "chore",
+            AcceptanceCriteria = [],
+            ReferencedFiles = [],
+            ReferencedSubsystems = [],
+            RoutingSignals = new ComplexityRoutingSignals
+            {
+                CorrectnessRisk = correctness,
+                ExpectedScope = scope,
+                ContextDemand = context,
+                TaskUncertainty = uncertainty,
+                QuotaAndCostHeadroom = remaining,
+            },
+        });
+
+        Assert.Equal(score, estimate.Score);
+        Assert.Equal(expected, estimate.ComplexityBand);
+    }
+
+    [Theory]
+    [InlineData(ComplexityHardFloorTrigger.P0, TaskComplexityLevel.Critical)]
+    [InlineData(ComplexityHardFloorTrigger.Fencing, TaskComplexityLevel.Critical)]
+    [InlineData(ComplexityHardFloorTrigger.LeaseOwnership, TaskComplexityLevel.Critical)]
+    [InlineData(ComplexityHardFloorTrigger.StaleWriteRejection, TaskComplexityLevel.Critical)]
+    [InlineData(ComplexityHardFloorTrigger.DistributedAuthority, TaskComplexityLevel.Critical)]
+    [InlineData(ComplexityHardFloorTrigger.SecurityBoundary, TaskComplexityLevel.Critical)]
+    [InlineData(ComplexityHardFloorTrigger.CredibleDataLoss, TaskComplexityLevel.Critical)]
+    [InlineData(ComplexityHardFloorTrigger.PublicProtocol, TaskComplexityLevel.Demanding)]
+    [InlineData(ComplexityHardFloorTrigger.PersistentStateMigration, TaskComplexityLevel.Demanding)]
+    [InlineData(ComplexityHardFloorTrigger.ThreeOrMoreRuntimeSubsystems, TaskComplexityLevel.Demanding)]
+    [InlineData(ComplexityHardFloorTrigger.UnclearBug, TaskComplexityLevel.Standard)]
+    [InlineData(ComplexityHardFloorTrigger.DestructiveOrSecurityCriticalBoundedDecision, TaskComplexityLevel.Demanding)]
+    public void Estimate_AppliesAndExplainsEveryHardFloor(
+        ComplexityHardFloorTrigger trigger,
+        TaskComplexityLevel minimumBand)
+    {
+        var estimate = new TaskComplexityEstimator().Estimate(Card("floor") with
+        {
+            Prompt = "Mechanical fixture.", TaskType = "chore", AcceptanceCriteria = [],
+            ReferencedFiles = [], ReferencedSubsystems = [],
+            RoutingSignals = new ComplexityRoutingSignals
+            {
+                CorrectnessRisk = 0, ExpectedScope = 0, ContextDemand = 0,
+                TaskUncertainty = 0, QuotaAndCostHeadroom = 0,
+            },
+            HardFloorTriggers = [trigger],
+        });
+
+        var floor = Assert.Single(estimate.HardFloors);
+        Assert.Equal(trigger, floor.Trigger);
+        Assert.Equal(minimumBand, floor.MinimumBand);
+        Assert.True(estimate.Level >= minimumBand);
+        Assert.False(string.IsNullOrWhiteSpace(floor.Evidence));
+    }
+
+    [Fact]
+    public void Estimate_LeavesMissingHistoryAndMeasurementsVisible()
+    {
+        var incomplete = Sample(Card("history"), 0, 0) with
+        {
+            TokenHistoryComplete = false,
+            DurationHistoryComplete = false,
+            ReissueHistoryAvailable = false,
+        };
+
+        var estimate = new TaskComplexityEstimator().Estimate(Card("target"), [incomplete]);
+
+        Assert.Equal(1, estimate.HistoricalEvidence.ComparableCards);
+        Assert.Equal(0, estimate.HistoricalEvidence.TokenCompleteCards);
+        Assert.Equal(0, estimate.HistoricalEvidence.DurationCompleteCards);
+        Assert.Equal(0, estimate.HistoricalEvidence.ReissueAvailableCards);
+        Assert.Equal(6, estimate.EmpiricalConfidence.Score);
+        Assert.Null(Assert.Single(estimate.Neighbours).ActualTokens);
+        Assert.Contains("Missing measurements", estimate.HistoricalEvidence.Evidence);
+        Assert.True(estimate.TokenForecast.UpperBound > estimate.TokenForecast.LowerBound);
+    }
+
+    [Fact]
+    public void Estimate_UsesCanonicalEmpiricalConfidenceAnchors()
+    {
+        var card = Card("target");
+        var favorable = Enumerable.Range(1, 20).Select(index => Sample(Card($"good-{index}"), 50_000, 0) with
+        {
+            KnownGradeCount = 1,
+            FavorableGradeCount = 1,
+            SemanticReissueCount = 0,
+        }).ToArray();
+        var unfavorable = Enumerable.Range(1, 3).Select(index => Sample(Card($"bad-{index}"), 50_000, 1) with
+        {
+            KnownGradeCount = 1,
+            FavorableGradeCount = 0,
+            SemanticReissueCount = 1,
+        }).ToArray();
+        var estimator = new TaskComplexityEstimator();
+
+        Assert.Equal(10, estimator.Estimate(card).EmpiricalConfidence.Score);
+        Assert.Equal(3, estimator.Estimate(card, favorable.Take(5)).EmpiricalConfidence.Score);
+        Assert.Equal(0, estimator.Estimate(card, favorable).EmpiricalConfidence.Score);
+        Assert.Equal(10, estimator.Estimate(card, unfavorable).EmpiricalConfidence.Score);
+        Assert.True(estimator.Estimate(card).Confidence < .5);
+    }
+
+    [Fact]
+    public void HeldOutBacktest_RejectsAnyEvaluatedCardInTrainingHistory()
+    {
+        var evaluated = Sample(Card("held-out"), 50_000, 0);
+        var error = Assert.Throws<ArgumentException>(() => ComplexityBacktester.RunHeldOut(
+            [Sample(Card("training"), 40_000, 0), Sample(Card("HELD-OUT"), 30_000, 0)],
+            [evaluated]));
+
+        Assert.Contains("evaluated card", error.Message);
+    }
+
+    [Fact]
+    public void HeldOutBacktest_ReportsMissingOutcomeCoverageInsteadOfZeroMetrics()
+    {
+        var evaluation = Sample(Card("held-out"), 0, 0) with
+        {
+            TokenHistoryComplete = false,
+            DurationHistoryComplete = false,
+            ReissueHistoryAvailable = false,
+        };
+
+        var report = ComplexityBacktester.RunHeldOut([Sample(Card("training"), 40_000, 0)], [evaluation]);
+
+        Assert.Equal(0, report.BandEvaluationCount);
+        Assert.Equal(0, report.TokenEvaluationCount);
+        Assert.Equal(0, report.ReissueEvaluationCount);
+        Assert.Null(report.LevelAccuracy);
+        Assert.Null(report.TokenMedianAbsolutePercentageError);
+        Assert.Null(report.ReissueMeanAbsoluteError);
+        Assert.Null(report.TokenRankCorrelation);
+    }
+
+    [Fact]
+    public void HeldOutBacktest_AcceptsDeterministicBoundaryAndHardFloorFixtures()
+    {
+        var boundaryCards = new[] { 20, 21, 50, 51, 69, 70 }.Select(score =>
+        {
+            var remaining = score - 10;
+            var correctness = Math.Min(35, remaining); remaining -= correctness;
+            var scope = Math.Min(20, remaining); remaining -= scope;
+            var context = Math.Min(20, remaining); remaining -= context;
+            var uncertainty = Math.Min(10, remaining); remaining -= uncertainty;
+            return Card($"held-boundary-{score}") with
+            {
+                Prompt = "Held-out deterministic fixture.", TaskType = "chore",
+                AcceptanceCriteria = [], ReferencedFiles = [], ReferencedSubsystems = [],
+                RoutingSignals = new ComplexityRoutingSignals
+                {
+                    CorrectnessRisk = correctness, ExpectedScope = scope, ContextDemand = context,
+                    TaskUncertainty = uncertainty, QuotaAndCostHeadroom = remaining,
+                },
+            };
+        });
+        var floorCards = Enum.GetValues<ComplexityHardFloorTrigger>().Select(trigger => Card($"held-floor-{trigger}") with
+        {
+            Prompt = "Held-out deterministic fixture.", TaskType = "chore",
+            AcceptanceCriteria = [], ReferencedFiles = [], ReferencedSubsystems = [],
+            RoutingSignals = new ComplexityRoutingSignals
+            {
+                CorrectnessRisk = 0, ExpectedScope = 0, ContextDemand = 0,
+                TaskUncertainty = 0, QuotaAndCostHeadroom = 0,
+            },
+            HardFloorTriggers = [trigger],
+        });
+        var evaluation = boundaryCards.Concat(floorCards).Select(card => Sample(card, 50_000, 0)).ToArray();
+
+        var training = Card("training") with { Project = "Other", Area = "other", TaskType = "other" };
+        var report = ComplexityBacktester.RunHeldOut([Sample(training, 40_000, 0)], evaluation);
+
+        Assert.Equal(6 + Enum.GetValues<ComplexityHardFloorTrigger>().Length, report.SampleCount);
+        Assert.All(boundaryCards, card => Assert.Equal(
+            int.Parse(card.TaskKey.Split('-')[^1]),
+            new TaskComplexityEstimator().Estimate(card).Score));
+        Assert.All(floorCards, card => Assert.NotEmpty(new TaskComplexityEstimator().Estimate(card).HardFloors));
+    }
+
     private static ComplexityCard Card(string key) => new()
     {
         TaskKey = key, Project = "Token-Economy", Area = "routing", TaskType = "feature",
@@ -144,7 +369,7 @@ public class TaskComplexityEstimatorTests
     private static AgentStudioRunRecord Run(string taskKey, int run, long tokens, DateTime observedAt) => new()
     {
         TaskKey = taskKey, Run = run, Project = "Token-Economy", Model = "gpt-5-mini",
-        TaskPrompt = "Implement the estimator", Usage = new TokenUsage(tokens, 0),
+        TaskPrompt = "Implement the estimator", Usage = new TokenUsage(tokens, 0), TokenUsageAvailable = true,
         StartedAtUtc = observedAt.AddMinutes(-10), ExecutedAtUtc = observedAt,
         ObservedAtUtc = observedAt, CostStatus = PriceStatus.Resolved, Outcome = OutcomeQualitySignal.Successful,
     };

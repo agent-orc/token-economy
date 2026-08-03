@@ -132,9 +132,9 @@ static TaskComplexityLevel ActualLevel(ComplexityHistorySample sample)
         + Math.Log2(1 + Math.Max(0, sample.ActualDuration.TotalHours)) * 7 + sample.ReissueCount * 12));
     return score switch
     {
-        < 25 => TaskComplexityLevel.Trivial,
-        < 55 => TaskComplexityLevel.Standard,
-        < 80 => TaskComplexityLevel.Demanding,
+        <= 20 => TaskComplexityLevel.Trivial,
+        <= 50 => TaskComplexityLevel.Standard,
+        <= 69 => TaskComplexityLevel.Demanding,
         _ => TaskComplexityLevel.Critical,
     };
 }
@@ -151,10 +151,10 @@ static string BuildMarkdown(DateTimeOffset generatedAt, int candidatesScanned, C
     text.AppendLine("| Metric | Result |");
     text.AppendLine("|---|---:|");
     text.AppendLine($"| Cards | {result.SampleCount} |");
-    text.AppendLine($"| Complexity-band accuracy | {result.LevelAccuracy.ToString("P1", CultureInfo.InvariantCulture)} |");
-    text.AppendLine($"| Token median absolute percentage error | {result.TokenMedianAbsolutePercentageError.ToString("P1", CultureInfo.InvariantCulture)} |");
-    text.AppendLine($"| Reissue mean absolute error | {result.ReissueMeanAbsoluteError.ToString("F3", CultureInfo.InvariantCulture)} |");
-    text.AppendLine($"| Token-cost Spearman rank correlation | {result.TokenRankCorrelation.ToString("F3", CultureInfo.InvariantCulture)} |");
+    text.AppendLine($"| Complexity-band accuracy ({result.BandEvaluationCount}/{result.SampleCount}) | {Format(result.LevelAccuracy, "P1")} |");
+    text.AppendLine($"| Token median absolute percentage error ({result.TokenEvaluationCount}/{result.SampleCount}) | {Format(result.TokenMedianAbsolutePercentageError, "P1")} |");
+    text.AppendLine($"| Reissue mean absolute error ({result.ReissueEvaluationCount}/{result.SampleCount}) | {Format(result.ReissueMeanAbsoluteError, "F3")} |");
+    text.AppendLine($"| Token-cost Spearman rank correlation | {Format(result.TokenRankCorrelation, "F3")} |");
     text.AppendLine();
     text.AppendLine("This is an observational leave-one-card-out backtest of the deterministic-plus-historical estimator. Each estimate was produced with the other 29 cards only.");
     text.AppendLine();
@@ -181,6 +181,7 @@ static string BuildMarkdown(DateTimeOffset generatedAt, int candidatesScanned, C
 }
 
 static string Escape(string value) => value.Replace("|", "\\|").Replace("\r", " ").Replace("\n", " ");
+static string Format(double? value, string format) => value?.ToString(format, CultureInfo.InvariantCulture) ?? "unavailable";
 
 sealed record Observation(ComplexityHistorySample Sample, string Title, string State, DateTimeOffset FirstEntry, DateTimeOffset LastEntry, int AgentEntryCount);
 sealed record ReportRow(string TaskKey, string Title, string? Project, string? TaskType, string State, long ActualTokens, int ActualReissues, double ObservedDurationHours, string ActualLevel, string EstimatedLevel, double Score, double Confidence, long PredictedTokens, double PredictedReissues, string[] Neighbours);

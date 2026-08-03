@@ -7,6 +7,12 @@ SemVer; pre-1.0 the public API may still shift).
 
 ### Added
 
+- An auditable upfront routing worksheet in `TaskComplexityEstimator` aligned
+  with the canonical weighted criteria, score boundaries, and hard floors. It
+  preserves token/duration/reissue point forecasts, adds evidence-backed ranges
+  and missing-history coverage, imports expected (never eventual) scope, and
+  supports leakage-safe explicit held-out backtests.
+
 - A deterministic routing-evidence pipeline that canonicalizes model aliases,
   keeps controlled benchmarks separate from Agent Studio observations, retains
   attempt-level mixed routes and explicit unknowns, and emits versioned cohorts
