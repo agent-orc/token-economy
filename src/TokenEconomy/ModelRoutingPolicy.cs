@@ -74,6 +74,12 @@ public sealed class ModelRoutingPolicy
 
     public static ModelRoutingPolicy Default { get; } = new(ModelRoutingKnowledgeBase.Default);
 
+    /// <summary>The exact versioned knowledge used by this evaluator.</summary>
+    public ModelRoutingKnowledgeBase Knowledge => _knowledge;
+
+    /// <summary>The canonical policy version used by this evaluator.</summary>
+    public string PolicyVersion => _knowledge.PolicyVersion.ToString("yyyy-MM-dd");
+
     /// <summary>Apply the weighted ladder, then hard floors, then semantic-reissue promotion.</summary>
     public ModelRoutingDecision RecommendCore(ModelRoutingRequest request)
     {

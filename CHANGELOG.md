@@ -7,6 +7,16 @@ SemVer; pre-1.0 the public API may still shift).
 
 ### Added
 
+- A public deterministic `ModelRouter.Route` API that composes the existing
+  complexity worksheet, versioned routing policy and knowledge, efficiency
+  matrix suggestions, benchmark qualification, trust evidence, workflow
+  capabilities, available CLIs, provider quota/budget state, and operator pins.
+  Results retain recommended and selected routes, the score worksheet and
+  correctness floor, all evidence versions, source/reason, pin warnings, and
+  uncertainty. Equivalent-provider fallback precedes the tightly bounded
+  one-tier quota downgrade; no capacity or cost state can cross a hard or
+  semantic-reissue floor.
+
 - An auditable upfront routing worksheet in `TaskComplexityEstimator` aligned
   with the canonical weighted criteria, score boundaries, and hard floors. It
   preserves token/duration/reissue point forecasts, adds evidence-backed ranges

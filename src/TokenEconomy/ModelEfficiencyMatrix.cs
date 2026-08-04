@@ -171,29 +171,65 @@ public sealed class ModelEfficiencyMatrix
             if (cli is null || !available.Contains(cli.Value))
                 continue;
 
-            var suitability = EfficiencyPolicy.SuitabilityFor(profile.Tier, taskClass);
-            var breakdown = _catalog.ComputeCost(listing.ModelId, EfficiencyPolicy.CostReferenceUsage, atUtc);
-            var cost = EfficiencyPolicy.ClassifyCost(breakdown.Total);
-            var effort = ClampEffort(desiredEffort, profile.EffortLevels);
-
-            candidates.Add(new ModelSuggestion
-            {
-                ModelId = listing.ModelId,
-                Cli = cli.Value,
-                Tier = profile.Tier,
-                CostClass = cost,
-                Suitability = suitability,
-                SuggestedEffort = effort,
-                Score = EfficiencyPolicy.Score(suitability, cost, budgetPressure),
-                Rationale = BuildRationale(listing.ModelId, taskClass, budgetPressure, profile.Tier, suitability, cost, effort),
-                CostUnconfirmed = breakdown.Unconfirmed,
-                EvidenceStatus = profile.EvidenceStatus,
-                Provisional = profile.Provisional,
-            });
+            candidates.Add(CreateSuggestion(listing.ModelId, cli.Value, profile, taskClass, budgetPressure, desiredEffort, atUtc));
         }
 
         candidates.Sort(Compare);
         return candidates;
+    }
+
+    /// <summary>
+    /// Describe one known, policy-permitted model with the same compatibility calculation used by
+    /// <see cref="SuggestModel"/>. Unlike the ranked core menu, this also permits an explicitly
+    /// fallback-only model or bounded-workflow model so a composed routing decision can retain one
+    /// consistent <see cref="ModelSuggestion"/> worksheet. Restricted, deprecated, unsupported, and
+    /// unknown models return <see langword="null"/>.
+    /// </summary>
+    public ModelSuggestion? EvaluateModel(
+        string? model,
+        TaskClass taskClass,
+        BudgetPressure budgetPressure,
+        DateTime atUtc,
+        EffortLevel? desiredEffort = null)
+    {
+        var listing = _catalog.Find(model);
+        var profile = Find(model);
+        if (listing is null || profile is null || profile.Restricted || profile.Deprecated
+            || profile.RoutingStatus is ModelRoutingStatus.Restricted or ModelRoutingStatus.Deprecated or ModelRoutingStatus.Unsupported)
+            return null;
+        var cli = CliForVendor(listing.Vendor);
+        if (cli is null) return null;
+        return CreateSuggestion(listing.ModelId, cli.Value, profile, taskClass, budgetPressure,
+            desiredEffort ?? EfficiencyPolicy.SuggestedEffort(taskClass, budgetPressure), atUtc);
+    }
+
+    private ModelSuggestion CreateSuggestion(
+        string modelId,
+        Cli cli,
+        ModelEfficiencyProfile profile,
+        TaskClass taskClass,
+        BudgetPressure budgetPressure,
+        EffortLevel desiredEffort,
+        DateTime atUtc)
+    {
+        var suitability = EfficiencyPolicy.SuitabilityFor(profile.Tier, taskClass);
+        var breakdown = _catalog.ComputeCost(modelId, EfficiencyPolicy.CostReferenceUsage, atUtc);
+        var cost = EfficiencyPolicy.ClassifyCost(breakdown.Total);
+        var effort = ClampEffort(desiredEffort, profile.EffortLevels);
+        return new ModelSuggestion
+        {
+            ModelId = modelId,
+            Cli = cli,
+            Tier = profile.Tier,
+            CostClass = cost,
+            Suitability = suitability,
+            SuggestedEffort = effort,
+            Score = EfficiencyPolicy.Score(suitability, cost, budgetPressure),
+            Rationale = BuildRationale(modelId, taskClass, budgetPressure, profile.Tier, suitability, cost, effort),
+            CostUnconfirmed = breakdown.Unconfirmed,
+            EvidenceStatus = profile.EvidenceStatus,
+            Provisional = profile.Provisional,
+        };
     }
 
     /// <summary>Total order over candidates: score, then capability fit, then known-cost, then cheaper-cost, then declaration order.</summary>

@@ -89,6 +89,14 @@ selection rubric, and a standalone `ai-patterns` handoff.
   [data contract](docs/concepts/provider-availability-snapshot.md) and
   [rendered snapshot](website/provider-quota-dashboard/index.html).
 
+- **Deterministic routing composition** — `ModelRouter.Route` combines an
+  upfront estimate, the versioned policy and knowledge base, benchmark and
+  trust qualification, workflow capabilities, available CLIs, run-scoped
+  quota/budget state, and an optional operator pin. It returns a selected
+  model/thinking level or an explicit wait/override decision without allowing
+  quota or cost to cross a correctness floor. See the
+  [routing API contract](docs/model-routing-api.md).
+
 - **Controlled A/B benchmarks** — versioned repository definitions execute the
   same task against model/effort variants in isolated workspaces, retain raw
   append-only measurements, and derive deterministic comparison reports. See
