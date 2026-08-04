@@ -7,6 +7,16 @@ SemVer; pre-1.0 the public API may still shift).
 
 ### Added
 
+- Agent Studio task-launch admission through
+  `AgentStudioTaskRoutingAdmission`: every attempt joins the durable upfront
+  estimate, newest versioned outcome classification, and that run's provider
+  quota snapshot before routing. The immutable decision record and operator
+  view retain the configured card route without rewriting it, recommended and
+  selected routes, scores/floors, source and explanations, policy/provisional
+  state, quota fallback, pin warning, wait reason, and quota provenance. An
+  end-to-end fixture covers initial routing, provider fallback, semantic
+  promotion, terminal ingestion, safe waiting, and deterministic replay.
+
 - Durable Agent Studio routing decisions, append-only attempt observations, and
   versioned outcome classifications joined by stable IDs. Imports and model-run
   views now retain actual model/thinking level, policy version, tokens,

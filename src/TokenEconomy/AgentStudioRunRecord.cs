@@ -41,19 +41,39 @@ public enum AgentStudioReviewOutcome
 /// <summary>The immutable routing decision made before one Agent Studio attempt launched.</summary>
 public sealed record AgentStudioRoutingDecisionRecord
 {
-    public const int CurrentSchemaVersion = 1;
+    public const int CurrentSchemaVersion = 2;
     public int SchemaVersion { get; init; } = CurrentSchemaVersion;
     public required string DecisionId { get; init; }
     public required string TaskKey { get; init; }
     public required int Run { get; init; }
     public string? PolicyVersion { get; init; }
+    public string? Disposition { get; init; }
+    public string? ConfiguredModel { get; init; }
+    public string? ConfiguredThinkingLevel { get; init; }
+    public string? RecommendedRouteId { get; init; }
     public string? RecommendedModel { get; init; }
     public string? RecommendedThinkingLevel { get; init; }
+    public bool? RecommendedProvisional { get; init; }
+    public string? SelectedRouteId { get; init; }
     public string? SelectedModel { get; init; }
     public string? SelectedThinkingLevel { get; init; }
+    public bool? SelectedProvisional { get; init; }
     public string? SelectionSource { get; init; }
+    public int? UpfrontScore { get; init; }
     public int? Score { get; init; }
+    public string? HardFloorRouteId { get; init; }
+    public string? HardFloorModel { get; init; }
+    public string? HardFloorThinkingLevel { get; init; }
+    public bool? IsHardFloor { get; init; }
+    public IReadOnlyList<string> AppliedHardFloorIds { get; init; } = [];
     public string? Reason { get; init; }
+    public string? SelectionReason { get; init; }
+    public bool QuotaFallback { get; init; }
+    public DateTime? QuotaSnapshotAtUtc { get; init; }
+    public string? QuotaSnapshotState { get; init; }
+    public bool OperatorPinBelowPolicy { get; init; }
+    public string? PinWarning { get; init; }
+    public string? WaitReason { get; init; }
     public DateTime? DecidedAtUtc { get; init; }
     public string? ProvenanceReference { get; init; }
     public string? ProvenanceSha256 { get; init; }
@@ -272,13 +292,19 @@ public interface IAgentStudioRunStore
     IReadOnlyCollection<AgentStudioRunRecord> Records { get; }
 }
 
+/// <summary>Persists immutable pre-launch routing decisions independently of outcome ingestion.</summary>
+public interface IAgentStudioRoutingDecisionStore
+{
+    void AddDecision(AgentStudioRoutingDecisionRecord decision);
+    IReadOnlyCollection<AgentStudioRoutingDecisionRecord> Decisions { get; }
+}
+
 /// <summary>
 /// A run store that also retains immutable decisions, append-only raw observations, and versioned
 /// derived classifications. Duplicate identities are idempotent; an existing decision is never replaced.
 /// </summary>
-public interface IAgentStudioRunLedger : IAgentStudioRunStore
+public interface IAgentStudioRunLedger : IAgentStudioRunStore, IAgentStudioRoutingDecisionStore
 {
-    IReadOnlyCollection<AgentStudioRoutingDecisionRecord> Decisions { get; }
     IReadOnlyCollection<AgentStudioRunOutcomeObservation> OutcomeObservations { get; }
     IReadOnlyCollection<AgentStudioOutcomeClassification> OutcomeClassifications { get; }
 }
@@ -299,12 +325,7 @@ public sealed class InMemoryAgentStudioRunStore : IAgentStudioRunLedger
     {
         ArgumentNullException.ThrowIfNull(record);
         if (record.RoutingDecision is { } decision)
-        {
-            if (_decisions.TryGetValue(decision.DecisionId, out var retained)
-                && !SameDecision(retained, decision))
-                throw new ArgumentException($"Routing decision '{decision.DecisionId}' cannot be rewritten.", nameof(record));
-            _decisions.TryAdd(decision.DecisionId, decision);
-        }
+            AddDecision(decision);
         if (record.OutcomeObservation is { } observation)
             AddOrVerify(_observations, observation.ObservationId, observation, "outcome observation", record);
         if (record.OutcomeClassification is { } classification)
@@ -316,9 +337,19 @@ public sealed class InMemoryAgentStudioRunStore : IAgentStudioRunLedger
             _records[key] = record;
     }
 
+    public void AddDecision(AgentStudioRoutingDecisionRecord decision)
+    {
+        ArgumentNullException.ThrowIfNull(decision);
+        if (_decisions.TryGetValue(decision.DecisionId, out var retained)
+            && !SameDecision(retained, decision))
+            throw new ArgumentException($"Routing decision '{decision.DecisionId}' cannot be rewritten.", nameof(decision));
+        _decisions.TryAdd(decision.DecisionId, decision);
+    }
+
     private static bool SameDecision(AgentStudioRoutingDecisionRecord left, AgentStudioRoutingDecisionRecord right)
-        => left with { ProvenanceReference = null, ProvenanceSha256 = null }
-            == right with { ProvenanceReference = null, ProvenanceSha256 = null };
+        => left.AppliedHardFloorIds.SequenceEqual(right.AppliedHardFloorIds, StringComparer.Ordinal)
+            && left with { AppliedHardFloorIds = [], ProvenanceReference = null, ProvenanceSha256 = null }
+                == right with { AppliedHardFloorIds = [], ProvenanceReference = null, ProvenanceSha256 = null };
 
     private static void AddOrVerify<TKey, TValue>(
         IDictionary<TKey, TValue> destination,

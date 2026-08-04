@@ -161,6 +161,14 @@ public sealed class AgentStudioTaskStorageImporter
         var decisionId = Text(decision, "decisionId", "id", "routingDecisionId")
             ?? Text(measurement, "routingDecisionId", "decisionId")
             ?? $"{taskKey}:attempt:{run}:routing";
+        var disposition = Text(decision, "disposition", "admissionDisposition");
+        var selectionSource = Text(decision, "selectionSource", "source");
+        var pinBelowPolicy = Boolean(decision, "operatorPinBelowPolicy") ?? false;
+        var quotaFallback = Boolean(decision, "quotaFallback") ?? Normalize(selectionSource) is
+            "equivalentproviderfallback" or "onetierquotadowngrade";
+        var waitReason = Text(decision, "waitReason")
+            ?? (Normalize(disposition) is "wait" or "overriderequired"
+                ? Text(decision, "fallbackOrWaitReason") : null);
         var observationId = Text(measurement, "outcomeObservationId", "observationId")
             ?? StableId($"{taskKey}\n{run}\n{measurement.GetRawText()}");
         var duration = Date(measurement, "startedAt", "createdAt") is { } started && executedAt >= started
@@ -171,16 +179,37 @@ public sealed class AgentStudioTaskStorageImporter
             TaskKey = taskKey,
             Run = run,
             PolicyVersion = Text(decision, "policyVersion") ?? Text(route, "policyVersion") ?? Text(measurement, "policyVersion"),
+            Disposition = disposition,
+            ConfiguredModel = Text(decision, "configuredModel", "cardConfiguredModel"),
+            ConfiguredThinkingLevel = Text(decision, "configuredThinkingLevel", "cardConfiguredThinkingLevel"),
+            RecommendedRouteId = Text(recommendedRoute, "routeId", "id") ?? Text(decision, "recommendedRouteId"),
             RecommendedModel = Text(recommendedRoute, "model", "modelId") ?? Text(decision, "recommendedModel"),
             RecommendedThinkingLevel = Text(recommendedRoute, "thinkingLevel", "effort", "reasoningEffort")
                 ?? Text(decision, "recommendedThinkingLevel"),
+            RecommendedProvisional = Boolean(recommendedRoute, "provisional") ?? Boolean(decision, "recommendedProvisional"),
+            SelectedRouteId = Text(selectedRoute, "routeId", "id") ?? Text(decision, "selectedRouteId"),
             SelectedModel = Text(selectedRoute, "model", "modelId") ?? Text(decision, "selectedModel") ?? Text(route, "model", "modelId"),
             SelectedThinkingLevel = Text(selectedRoute, "thinkingLevel", "effort", "reasoningEffort")
                 ?? Text(decision, "selectedThinkingLevel") ?? Text(route, "thinkingLevel", "effort", "reasoningEffort"),
-            SelectionSource = Text(decision, "selectionSource", "source"),
+            SelectedProvisional = Boolean(selectedRoute, "provisional") ?? Boolean(decision, "selectedProvisional"),
+            SelectionSource = selectionSource,
+            UpfrontScore = NullableNumber(decision, "upfrontScore", "intakeScore"),
             Score = NullableNumber(decision, "effectivePolicyScore", "score"),
+            HardFloorRouteId = Text(decision, "hardFloorRouteId"),
+            HardFloorModel = Text(decision, "hardFloorModel"),
+            HardFloorThinkingLevel = Text(decision, "hardFloorThinkingLevel"),
+            IsHardFloor = Boolean(decision, "isHardFloor"),
+            AppliedHardFloorIds = Strings(decision, "appliedHardFloorIds", "hardFloorIds"),
             Reason = Text(decision, "reason", "policyReason", "fallbackOrWaitReason"),
-            DecidedAtUtc = decision is { } decisionValue ? Date(decisionValue, "decidedAt", "decisionAt", "createdAt") : null,
+            SelectionReason = Text(decision, "selectionReason", "fallbackOrWaitReason"),
+            QuotaFallback = quotaFallback,
+            QuotaSnapshotAtUtc = decision is { } quotaDecision ? Date(quotaDecision, "quotaSnapshotAtUtc", "quotaDecisionAtUtc") : null,
+            QuotaSnapshotState = Text(decision, "quotaSnapshotState"),
+            OperatorPinBelowPolicy = pinBelowPolicy,
+            PinWarning = Text(decision, "pinWarning")
+                ?? (pinBelowPolicy ? "Operator pin is below the recorded policy recommendation." : null),
+            WaitReason = waitReason,
+            DecidedAtUtc = decision is { } decisionValue ? Date(decisionValue, "decidedAtUtc", "decidedAt", "decisionAt", "createdAt") : null,
         };
         var observation = new AgentStudioRunOutcomeObservation
         {
@@ -312,6 +341,8 @@ public sealed class AgentStudioTaskStorageImporter
         }
         return [];
     }
+    private static IReadOnlyList<string> Strings(JsonElement? value, params string[] names)
+        => value is { } item ? Strings(item, names) : [];
     private static IReadOnlyList<string> Strings(JsonElement? preferred, JsonElement fallback, params string[] names)
     {
         var values = preferred is { } value ? Strings(value, names) : [];
@@ -341,6 +372,8 @@ public sealed class AgentStudioTaskStorageImporter
         }
         return null;
     }
+    private static bool? Boolean(JsonElement? value, params string[] names)
+        => value is { } item ? Boolean(item, names) : null;
     private static long Tokens(JsonElement? usage, params string[] names)
         => usage is { } value && long.TryParse(Text(value, names), out var count) ? Math.Max(0, count) : 0;
     private static TokenUsage Usage(JsonElement? usage) => new(

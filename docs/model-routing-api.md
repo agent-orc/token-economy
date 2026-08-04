@@ -73,3 +73,22 @@ Every `ModelRoutingResult` contains:
 `SelectedRoute` is null only for `Wait` and `OverrideRequired`. The recommended
 route and all other audit fields remain populated in those outcomes so a host
 can explain the decision without reconstructing it.
+
+## Agent Studio admission adapter
+
+`AgentStudioTaskRoutingAdmission.Admit` is the host adapter around this pure
+decision. It resolves exactly one estimate for the task from
+`ITaskComplexityEstimateStore`, reads the newest prior observation joined to
+its highest available outcome-classification version, and passes the supplied
+attempt-scoped `ProviderAvailabilitySnapshot` to `ModelRouter.Route`. It then
+adds an immutable `AgentStudioRoutingDecisionRecord` to
+`IAgentStudioRoutingDecisionStore` before returning a launch route.
+
+The adapter treats the card's configured model and thinking level as retained
+audit data. It does not mutate those fields and it does not turn them into an
+operator pin. A deliberate human override must be supplied separately as
+`HumanOverride`; below-policy pins remain visible. `Wait` and
+`OverrideRequired` never contain a launch route.
+
+See [Agent Studio routing integration](agent-studio-routing-integration.md) for
+the task-storage lifecycle and persisted/operator-visible field mapping.

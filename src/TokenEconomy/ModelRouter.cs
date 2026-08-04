@@ -161,6 +161,9 @@ public sealed class ModelRouter
     public static ModelRouter Default { get; } = new(
         ModelRoutingPolicy.Default, ModelRoutingKnowledgeBase.Default, ModelEfficiencyMatrix.Default);
 
+    /// <summary>The exact policy knowledge used to resolve routes and rank semantic reissues.</summary>
+    public ModelRoutingKnowledgeBase Knowledge => _knowledge;
+
     /// <summary>Return one selected route, a wait decision, or an explicit-override requirement.</summary>
     public ModelRoutingResult Route(ModelRoutingSelectionRequest request)
     {
