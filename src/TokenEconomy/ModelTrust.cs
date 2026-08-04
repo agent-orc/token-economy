@@ -347,7 +347,8 @@ public static class RoutingEvidenceTrust
             .SelectMany(cohort => cohort.Provenance.Select(provenance =>
             {
                 var key = string.Join("\n", report.EvidenceVersion, cohort.CanonicalModel, cohort.ThinkingLevel,
-                    cohort.TaskClass, cohort.Capability, cohort.ObservedThrough?.ToString("O"), provenance.ArtifactReference);
+                    cohort.PolicyVersion, cohort.TaskClass, cohort.Capability,
+                    cohort.ObservedThrough?.ToString("O"), provenance.ArtifactReference);
                 var id = "routing-" + Convert.ToHexString(System.Security.Cryptography.SHA256.HashData(
                     System.Text.Encoding.UTF8.GetBytes(key))).ToLowerInvariant();
                 return new TrustEvidence
@@ -364,6 +365,37 @@ public static class RoutingEvidenceTrust
             .OrderBy(item => item.ModelId, StringComparer.Ordinal)
             .ThenBy(item => item.Capability, StringComparer.Ordinal)
             .ThenBy(item => item.EvidenceId, StringComparer.Ordinal)
+            .ToArray();
+    }
+
+    /// <summary>
+    /// Converts joined Agent Studio observations into append-only trust-run denominators. Outcome
+    /// categories remain in routing evidence; infrastructure failures are counted as runs but are
+    /// never converted into negative capability proof.
+    /// </summary>
+    public static IReadOnlyList<ModelTrustRun> RunsFromObservations(IEnumerable<AgentStudioRunRecord> records)
+    {
+        ArgumentNullException.ThrowIfNull(records);
+        return records
+            .Where(record => record.OutcomeObservation is not null
+                && !string.IsNullOrWhiteSpace(record.ActualModel)
+                && !string.IsNullOrWhiteSpace(record.ProvenanceReference))
+            .GroupBy(record => record.OutcomeObservation!.ObservationId, StringComparer.Ordinal)
+            .Select(group => group.OrderByDescending(record => record.ObservedAtUtc).First())
+            .Select(record => new ModelTrustRun
+            {
+                RunId = record.OutcomeObservation!.ObservationId,
+                ModelId = record.ActualModel!,
+                Cli = record.CliType?.Trim().ToLowerInvariant() switch
+                {
+                    "codex" => TokenEconomy.Cli.Codex,
+                    "claude" or "claude-code" => TokenEconomy.Cli.Claude,
+                    _ => null,
+                },
+                ObservedAtUtc = record.ObservedAtUtc,
+                ArtifactReference = record.ProvenanceReference!,
+            })
+            .OrderBy(run => run.RunId, StringComparer.Ordinal)
             .ToArray();
     }
 }

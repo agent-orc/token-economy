@@ -71,6 +71,7 @@ public class ModelRoutingPolicyTests
         });
 
         Assert.Equal(55, decision.Score);
+        Assert.Equal(10, decision.EffectiveEmpiricalConfidence);
         Assert.Equal("sol-medium", decision.Route.Id);
         Assert.True(decision.ReissuePromoted);
     }
@@ -79,6 +80,8 @@ public class ModelRoutingPolicyTests
     [InlineData(RoutingAttemptOutcome.EnvironmentalFailure)]
     [InlineData(RoutingAttemptOutcome.StaleBase)]
     [InlineData(RoutingAttemptOutcome.BrokenTestHost)]
+    [InlineData(RoutingAttemptOutcome.Cancellation)]
+    [InlineData(RoutingAttemptOutcome.QuotaTruncation)]
     [InlineData(RoutingAttemptOutcome.MissingDeliveryPath)]
     public void SubstrateFailures_DoNotPromote(RoutingAttemptOutcome outcome)
     {

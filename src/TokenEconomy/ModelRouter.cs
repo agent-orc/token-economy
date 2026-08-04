@@ -64,6 +64,11 @@ public sealed record ModelRoutingScoreWorksheet
     public required IReadOnlyList<ModelRoutingScoreItem> Criteria { get; init; }
     public required int Total { get; init; }
     public required int EffectivePolicyScore { get; init; }
+    /// <summary>
+    /// Effective empirical-uncertainty points after the previous-attempt outcome. The original
+    /// scorecard remains unchanged so replay never rewrites the intake decision.
+    /// </summary>
+    public required int EffectiveEmpiricalConfidence { get; init; }
     public required string Evidence { get; init; }
 }
 
@@ -168,7 +173,11 @@ public sealed class ModelRouter
             uncertainties.Add("Task class is unknown; benchmark evidence cannot qualify a provider fallback.");
 
         var policyDecision = Recommendation(request, worksheet);
-        worksheet = worksheet with { EffectivePolicyScore = policyDecision.Score };
+        worksheet = worksheet with
+        {
+            EffectivePolicyScore = policyDecision.Score,
+            EffectiveEmpiricalConfidence = policyDecision.EffectiveEmpiricalConfidence,
+        };
         var recommended = Candidate(policyDecision.Route.Id, policyDecision.Route, taskClass, request, trust);
         AddUncertainty(recommended, request, uncertainties);
         if (request.UpfrontEstimate.Confidence < 1)
@@ -303,6 +312,7 @@ public sealed class ModelRouter
                 PolicyVersion = _policy.PolicyVersion,
                 Route = route,
                 Score = worksheet.Total,
+                EffectiveEmpiricalConfidence = worksheet.Scorecard.EmpiricalConfidence,
                 AppliedHardFloors = ["workflowCapabilityConstraint"],
                 ReissuePromoted = false,
                 RequiresHumanDecision = false,
@@ -572,6 +582,7 @@ public sealed class ModelRouter
             Criteria = items,
             Total = scorecard.Total,
             EffectivePolicyScore = scorecard.Total,
+            EffectiveEmpiricalConfidence = scorecard.EmpiricalConfidence,
             Evidence = estimate.ScoreEvidence,
         };
 

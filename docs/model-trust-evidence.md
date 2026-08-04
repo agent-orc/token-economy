@@ -35,6 +35,12 @@ known) run id before reporting a model/CLI-specific rate. Rejected incidents
 are excluded from the numerator; resolved incidents remain in the historical
 rate so the evidence is not erased.
 
+`RoutingEvidenceTrust.RunsFromObservations` converts joined Agent Studio outcome
+observations into deduplicated `ModelTrustRun` denominators. Infrastructure,
+cancellation, quota, and missing-delivery outcomes still count as observed runs
+but never become negative capability proof; their classification remains in the
+versioned routing-evidence report.
+
 ## Routing qualifications
 
 Versioned routing cohorts are described in

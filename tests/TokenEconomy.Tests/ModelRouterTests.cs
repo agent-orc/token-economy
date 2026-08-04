@@ -300,6 +300,9 @@ public class ModelRouterTests
             previousOutcome: RoutingAttemptOutcome.SemanticFailure));
 
         Assert.Equal("sol-medium", result.RecommendedRoute.RouteId);
+        Assert.Equal(10, result.ScoreWorksheet.EffectiveEmpiricalConfidence);
+        Assert.NotEqual(result.ScoreWorksheet.Scorecard.EmpiricalConfidence,
+            result.ScoreWorksheet.EffectiveEmpiricalConfidence);
         Assert.Equal("sol-medium", result.CorrectnessFloor.RouteId);
         Assert.Contains("semanticReissuePromotion", result.CorrectnessFloor.AppliedFloorIds);
         Assert.Equal(ModelRoutingDisposition.Wait, result.Disposition);

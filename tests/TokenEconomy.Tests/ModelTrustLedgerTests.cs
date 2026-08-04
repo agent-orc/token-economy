@@ -140,4 +140,26 @@ public class ModelTrustLedgerTests
         Assert.Contains("unavailable", rate.Caveat, StringComparison.OrdinalIgnoreCase);
         Assert.Equal(3, HistoricalModelTrustEvidence.Incidents.Count);
     }
+
+    [Fact]
+    public void JoinedObservationsFeedTrustDenominatorsIdempotentlyWithoutTreatingInfrastructureAsProof()
+    {
+        using var json = System.Text.Json.JsonDocument.Parse("""
+            { "taskKey":"TE-30", "actualModel":"gpt-5.6-terra", "cliType":"codex",
+              "outcomeObservationId":"observation-30", "outcome":"quota-truncation",
+              "completedAt":"2026-08-03T12:00:00Z" }
+            """);
+        var imported = new AgentStudioTaskStorageImporter().Parse(json.RootElement) with
+        {
+            ProvenanceReference = "agent-studio/TE-30/task.json",
+        };
+
+        var runs = RoutingEvidenceTrust.RunsFromObservations([imported, imported]);
+
+        var run = Assert.Single(runs);
+        Assert.Equal("observation-30", run.RunId);
+        Assert.Equal("gpt-5.6-terra", run.ModelId);
+        Assert.Equal(Cli.Codex, run.Cli);
+        Assert.Equal(AgentStudioAttemptOutcomeCategory.QuotaTruncation, imported.OutcomeCategory);
+    }
 }

@@ -5,7 +5,7 @@
 Policy version: `2026-07-24`  
 Evidence as of: `2026-07-24`  
 Authority: `docs/system/domains/model-routing-policy.md`  
-Authority SHA-256: `ef7ff058e7b7f90a61764211847dc16d3d1ab6c46917922b78593ecadac23061`
+Authority SHA-256: `7269fbd6466f8bf86f838b4297c59933d8bb7472dbdd1383ce9439f4350b4ca0`
 
 The Markdown authority defines policy. The versioned JSON is its executable projection. Tests compare the authority hash, policy structure, adjacent catalogs, and this generated view so drift cannot pass unnoticed.
 
@@ -103,4 +103,4 @@ Trust reconciliation: named models are `unverifiedNoDenominator`; recovered hist
 
 ## Reissue rule
 
-Semantic reissues and substantive C/D reviews set empirical confidence to `10` and raise the next attempt by at least `1` core tier. Environmental failures do not promote. After `2` semantic failures at the stronger tier, escalation stops for task narrowing, better evidence, or a human decision.
+Semantic reissues and substantive C/D reviews set empirical confidence to `10` and raise the next attempt by at least `1` core tier. The do-not-promote outcomes are `environmentalFailure`, `staleBase`, `brokenTestHost`, `cancellation`, `quotaTruncation`, `missingDeliveryPath`. After `2` semantic failures at the stronger tier, escalation stops for task narrowing, better evidence, or a human decision.

@@ -7,6 +7,15 @@ SemVer; pre-1.0 the public API may still shift).
 
 ### Added
 
+- Durable Agent Studio routing decisions, append-only attempt observations, and
+  versioned outcome classifications joined by stable IDs. Imports and model-run
+  views now retain actual model/thinking level, policy version, tokens,
+  duration, cost status, review result, and reissue reason. Semantic and
+  substantive C/D outcomes update evidence and promote the next core attempt;
+  infrastructure, stale-base, broken-host, cancellation, quota, and delivery
+  failures do not. Replay tests protect historical decisions while regenerated
+  schema-version-2 evidence incorporates later outcomes.
+
 - A public deterministic `ModelRouter.Route` API that composes the existing
   complexity worksheet, versioned routing policy and knowledge, efficiency
   matrix suggestions, benchmark qualification, trust evidence, workflow

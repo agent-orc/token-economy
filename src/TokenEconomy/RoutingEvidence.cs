@@ -46,12 +46,14 @@ public sealed record RoutingEvidenceCohort
 {
     public string? CanonicalModel { get; init; }
     public string? ThinkingLevel { get; init; }
+    public string? PolicyVersion { get; init; }
     public string? TaskClass { get; init; }
     public string? Capability { get; init; }
     public required int SampleSize { get; init; }
     public required int AttemptLevelRouteCount { get; init; }
     public required int CardLevelRouteCount { get; init; }
     public required int UnknownRouteCount { get; init; }
+    public int DecisionJoinAvailableCount { get; init; }
     public required int OutcomeAvailableCount { get; init; }
     public required int SuccessCount { get; init; }
     public decimal? SuccessRate { get; init; }
@@ -64,6 +66,9 @@ public sealed record RoutingEvidenceCohort
     public required int SemanticReissueCount { get; init; }
     public required decimal SemanticReissueCoverage { get; init; }
     public decimal? SemanticReissueRate { get; init; }
+    public IReadOnlyDictionary<AgentStudioAttemptOutcomeCategory, int> OutcomeCategoryCounts { get; init; }
+        = new Dictionary<AgentStudioAttemptOutcomeCategory, int>();
+    public IReadOnlyList<int> OutcomeClassificationVersions { get; init; } = [];
     public required int DurationAvailableCount { get; init; }
     public required decimal DurationCoverage { get; init; }
     public long? TotalDurationMs { get; init; }
@@ -83,9 +88,10 @@ public sealed record RoutingEvidenceCohort
 
 public sealed record RoutingEvidenceReport
 {
-    public const int CurrentSchemaVersion = 1;
+    public const int CurrentSchemaVersion = 2;
     public int SchemaVersion { get; init; } = CurrentSchemaVersion;
     public required string EvidenceVersion { get; init; }
+    public int OutcomeClassificationVersion { get; init; } = AgentStudioOutcomeClassification.CurrentVersion;
     public required RoutingEvidenceConfidenceGates ConfidenceGates { get; init; }
     public required IReadOnlyList<RoutingEvidenceCohort> ControlledCohorts { get; init; }
     public required IReadOnlyList<RoutingEvidenceCohort> ObservationalCohorts { get; init; }
@@ -106,7 +112,7 @@ public sealed class RoutingEvidenceAggregator
         IEnumerable<DocumentTextRoutingEvidence> documentRuns,
         IEnumerable<AgentStudioRunRecord> observedRuns,
         RoutingEvidenceConfidenceGates? gates = null,
-        string evidenceVersion = "routing-evidence-v1")
+        string evidenceVersion = "routing-evidence-v2")
     {
         ArgumentNullException.ThrowIfNull(benchmarkRuns);
         ArgumentNullException.ThrowIfNull(documentRuns);
@@ -131,10 +137,10 @@ public sealed class RoutingEvidenceAggregator
     {
         foreach (var item in evidence.Run.Cases)
             yield return new(
-                Canonical(item.Model), Thinking(item.ThinkingLevel), TaskClass(evidence.Run.TaskClass), Value(evidence.Run.Capability),
+                Canonical(item.Model), Thinking(item.ThinkingLevel), null, TaskClass(evidence.Run.TaskClass), Value(evidence.Run.Capability),
                 RoutePrecision.Attempt, true, item.Succeeded, true, item.Succeeded, true, false,
                 true, item.DurationMs, true, Total(item.Usage), item.CostUsd,
-                ObservationDate(evidence.Run.CompletedAtUtc), new()
+                AgentStudioAttemptOutcomeCategory.Unknown, null, false, ObservationDate(evidence.Run.CompletedAtUtc), new()
                 {
                     ArtifactReference = evidence.ArtifactReference, ArtifactSha256 = evidence.ArtifactSha256,
                 });
@@ -144,10 +150,10 @@ public sealed class RoutingEvidenceAggregator
     {
         foreach (var item in evidence.Run.Cases)
             yield return new(
-                Canonical(item.Model), null, "document-to-text", $"document-to-text/{item.DocumentType.ToString().ToLowerInvariant()}",
+                Canonical(item.Model), null, null, "document-to-text", $"document-to-text/{item.DocumentType.ToString().ToLowerInvariant()}",
                 RoutePrecision.Attempt, true, item.Succeeded, true, item.Succeeded, true, false,
                 true, item.DurationMs, true, Total(item.Usage), item.CostUsd,
-                ObservationDate(evidence.Run.CompletedAtUtc), new()
+                AgentStudioAttemptOutcomeCategory.Unknown, null, false, ObservationDate(evidence.Run.CompletedAtUtc), new()
                 {
                     ArtifactReference = evidence.ArtifactReference, ArtifactSha256 = evidence.ArtifactSha256,
                 });
@@ -164,31 +170,43 @@ public sealed class RoutingEvidenceAggregator
             _ => RoutePrecision.Unknown,
         };
         var gradeKnown = item.Grade is "A" or "B" or "C" or "D";
-        var outcomeKnown = item.Outcome != OutcomeQualitySignal.Unknown;
+        var category = item.OutcomeCategory;
+        var classifiedModelOutcome = category is AgentStudioAttemptOutcomeCategory.Successful
+            or AgentStudioAttemptOutcomeCategory.SemanticFailure
+            or AgentStudioAttemptOutcomeCategory.SubstantiveReview;
+        var outcomeKnown = classifiedModelOutcome
+            || category == AgentStudioAttemptOutcomeCategory.Unknown && item.Outcome != OutcomeQualitySignal.Unknown;
+        var succeeded = category == AgentStudioAttemptOutcomeCategory.Successful
+            || category == AgentStudioAttemptOutcomeCategory.Unknown && item.Outcome == OutcomeQualitySignal.Successful;
+        var reissueKnown = (item.OutcomeClassification is not null
+            && category != AgentStudioAttemptOutcomeCategory.Unknown) || item.SemanticReissue is not null;
         var provenance = string.IsNullOrWhiteSpace(item.ProvenanceReference)
             ? new RoutingEvidenceProvenance { ArtifactReference = "unknown" }
             : new RoutingEvidenceProvenance { ArtifactReference = item.ProvenanceReference, ArtifactSha256 = item.ProvenanceSha256 };
         return new(
-            Canonical(item.Model), Thinking(item.ThinkingLevel), TaskClass(item.TaskType), Value(item.Capability), route,
-            outcomeKnown, item.Outcome == OutcomeQualitySignal.Successful,
+            Canonical(item.ActualModel), Thinking(item.ActualThinkingLevel), item.RoutingPolicyVersion,
+            TaskClass(item.TaskType), Value(item.Capability), route,
+            outcomeKnown, succeeded,
             gradeKnown, item.Grade is "A" or "B",
-            item.SemanticReissue is not null, item.SemanticReissue == true,
+            reissueKnown, item.OutcomeClassification?.IsSemanticFailure ?? item.SemanticReissue == true,
             duration is not null, duration ?? 0, item.TokenUsageAvailable, Total(item.Usage), item.CostEstimate,
+            category, item.OutcomeClassification?.Version, item.RoutingDecisionId is not null,
             ObservationDate(item.ObservedAtUtc), provenance);
     }
 
     private static IReadOnlyList<RoutingEvidenceCohort> Build(
         IEnumerable<Observation> source, RoutingEvidenceSource evidenceSource, RoutingEvidenceConfidenceGates gates)
-        => source.GroupBy(item => (item.Model, item.Thinking, item.TaskClass, item.Capability))
+        => source.GroupBy(item => (item.Model, item.Thinking, item.PolicyVersion, item.TaskClass, item.Capability))
             .Select(group => Cohort(group, evidenceSource, gates))
             .OrderBy(item => item.CanonicalModel, NullLastComparer.Instance)
             .ThenBy(item => item.ThinkingLevel, NullLastComparer.Instance)
+            .ThenBy(item => item.PolicyVersion, NullLastComparer.Instance)
             .ThenBy(item => item.TaskClass, NullLastComparer.Instance)
             .ThenBy(item => item.Capability, NullLastComparer.Instance)
             .ToArray();
 
     private static RoutingEvidenceCohort Cohort(
-        IGrouping<(string? Model, string? Thinking, string? TaskClass, string? Capability), Observation> group,
+        IGrouping<(string? Model, string? Thinking, string? PolicyVersion, string? TaskClass, string? Capability), Observation> group,
         RoutingEvidenceSource source,
         RoutingEvidenceConfidenceGates gates)
     {
@@ -203,11 +221,12 @@ public sealed class RoutingEvidenceAggregator
         var dates = rows.Where(row => row.ObservedOn is not null).Select(row => row.ObservedOn!.Value).ToArray();
         var provisional = new RoutingEvidenceCohort
         {
-            CanonicalModel = group.Key.Model, ThinkingLevel = group.Key.Thinking,
+            CanonicalModel = group.Key.Model, ThinkingLevel = group.Key.Thinking, PolicyVersion = group.Key.PolicyVersion,
             TaskClass = group.Key.TaskClass, Capability = group.Key.Capability, SampleSize = sample,
             AttemptLevelRouteCount = rows.Count(row => row.Route == RoutePrecision.Attempt),
             CardLevelRouteCount = rows.Count(row => row.Route == RoutePrecision.Card),
             UnknownRouteCount = rows.Count(row => row.Route == RoutePrecision.Unknown),
+            DecisionJoinAvailableCount = rows.Count(row => row.DecisionJoinAvailable),
             OutcomeAvailableCount = outcome, SuccessCount = rows.Count(row => row.OutcomeAvailable && row.Succeeded),
             SuccessRate = outcome == 0 ? null : Ratio(rows.Count(row => row.OutcomeAvailable && row.Succeeded), outcome),
             OutcomeCoverage = Ratio(outcome, sample), GradeAvailableCount = grades,
@@ -218,6 +237,10 @@ public sealed class RoutingEvidenceAggregator
             SemanticReissueCount = rows.Count(row => row.ReissueAvailable && row.SemanticReissue),
             SemanticReissueCoverage = Ratio(reissues, sample),
             SemanticReissueRate = reissues == 0 ? null : Ratio(rows.Count(row => row.ReissueAvailable && row.SemanticReissue), reissues),
+            OutcomeCategoryCounts = Enum.GetValues<AgentStudioAttemptOutcomeCategory>()
+                .ToDictionary(category => category, category => rows.Count(row => row.Category == category)),
+            OutcomeClassificationVersions = rows.Where(row => row.ClassificationVersion is not null)
+                .Select(row => row.ClassificationVersion!.Value).Distinct().Order().ToArray(),
             DurationAvailableCount = durations.Length, DurationCoverage = Ratio(durations.Length, sample),
             TotalDurationMs = durations.Length == 0 ? null : durations.Sum(row => row.DurationMs),
             AverageDurationMs = durations.Length == 0 ? null : DecimalAverage(durations.Select(row => row.DurationMs)),
@@ -317,6 +340,10 @@ public sealed class RoutingEvidenceAggregator
                 Model = null, ThinkingLevel = null, Provider = null,
                 RouteGranularity = AgentStudioRouteGranularity.Unknown,
                 CostEstimate = null, Currency = null, CostCaveat = null, CostStatus = PriceStatus.UnknownModel,
+                RoutingDecision = newest.RoutingDecision is { } decision
+                    ? decision with { SelectedModel = null, SelectedThinkingLevel = null } : null,
+                OutcomeObservation = newest.OutcomeObservation is { } observation
+                    ? observation with { ActualModel = null, ActualThinkingLevel = null, CostEstimate = null, CostStatus = PriceStatus.UnknownModel } : null,
             };
     }
 
@@ -339,10 +366,11 @@ public sealed class RoutingEvidenceAggregator
 
     private enum RoutePrecision { Unknown, Card, Attempt }
     private sealed record Observation(
-        string? Model, string? Thinking, string? TaskClass, string? Capability, RoutePrecision Route,
+        string? Model, string? Thinking, string? PolicyVersion, string? TaskClass, string? Capability, RoutePrecision Route,
         bool OutcomeAvailable, bool Succeeded, bool GradeAvailable, bool FavorableGrade,
         bool ReissueAvailable, bool SemanticReissue, bool DurationAvailable, long DurationMs,
-        bool TokenAvailable, long Tokens, decimal? CostUsd, DateOnly? ObservedOn, RoutingEvidenceProvenance Provenance);
+        bool TokenAvailable, long Tokens, decimal? CostUsd, AgentStudioAttemptOutcomeCategory Category,
+        int? ClassificationVersion, bool DecisionJoinAvailable, DateOnly? ObservedOn, RoutingEvidenceProvenance Provenance);
 
     private sealed class NullLastComparer : IComparer<string?>
     {
@@ -383,7 +411,7 @@ public sealed class RoutingEvidencePipeline
         var store = new InMemoryAgentStudioRunStore();
         _importer.ImportDirectory(agentStudioStorageDirectory, store);
         var report = _aggregator.Aggregate(benchmarks, documents, store.Records, gates);
-        outputPath ??= Path.Combine(repositoryRoot, "results", "routing-evidence", "v1", "routing-evidence.json");
+        outputPath ??= Path.Combine(repositoryRoot, "results", "routing-evidence", "v2", "routing-evidence.json");
         WriteDerived(outputPath, report);
         return report;
     }
