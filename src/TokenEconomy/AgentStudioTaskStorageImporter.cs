@@ -126,6 +126,10 @@ public sealed class AgentStudioTaskStorageImporter
             ?? Object(measurement, "decision");
         var recommendedRoute = Object(decision, "recommendedRoute") ?? Object(decision, "recommended");
         var selectedRoute = Object(decision, "selectedRoute") ?? Object(decision, "selected");
+        var correctnessFloor = Object(decision, "correctnessFloor") ?? Object(decision, "hardFloor");
+        var operatorPin = Object(decision, "operatorPin");
+        var configuredRoute = Object(decision, "configuredRoute") ?? Object(decision, "cardConfiguredRoute");
+        var quotaSnapshot = Object(decision, "quotaSnapshot");
         route ??= selectedRoute;
         var model = Text(measurement, "actualModel", "executedModel")
             ?? Text(route, "model", "modelId") ?? Text(measurement, "model", "modelId");
@@ -165,22 +169,57 @@ public sealed class AgentStudioTaskStorageImporter
             ?? StableId($"{taskKey}\n{run}\n{measurement.GetRawText()}");
         var duration = Date(measurement, "startedAt", "createdAt") is { } started && executedAt >= started
             ? (long?)(executedAt - started).TotalMilliseconds : null;
+        var disposition = EnumValue<ModelRoutingDisposition>(Text(decision, "disposition"));
+        var selectionSource = Text(decision, "selectionSource", "source");
+        var fallbackOrWaitReason = Text(decision, "fallbackOrWaitReason");
+        var quotaFallback = Boolean(decision, "quotaFallbackApplied")
+            ?? (Normalize(selectionSource) is "equivalentproviderfallback" or "onetierquotadowngrade" ? true : null);
         var decisionRecord = new AgentStudioRoutingDecisionRecord
         {
             DecisionId = decisionId,
             TaskKey = taskKey,
             Run = run,
+            Disposition = disposition,
             PolicyVersion = Text(decision, "policyVersion") ?? Text(route, "policyVersion") ?? Text(measurement, "policyVersion"),
+            RecommendedRouteId = Text(recommendedRoute, "routeId", "id") ?? Text(decision, "recommendedRouteId"),
             RecommendedModel = Text(recommendedRoute, "model", "modelId") ?? Text(decision, "recommendedModel"),
             RecommendedThinkingLevel = Text(recommendedRoute, "thinkingLevel", "effort", "reasoningEffort")
                 ?? Text(decision, "recommendedThinkingLevel"),
+            RecommendedRouteProvisional = Boolean(recommendedRoute, "provisional")
+                ?? Boolean(decision, "recommendedRouteProvisional", "provisional"),
+            SelectedRouteId = Text(selectedRoute, "routeId", "id") ?? Text(decision, "selectedRouteId"),
             SelectedModel = Text(selectedRoute, "model", "modelId") ?? Text(decision, "selectedModel") ?? Text(route, "model", "modelId"),
             SelectedThinkingLevel = Text(selectedRoute, "thinkingLevel", "effort", "reasoningEffort")
                 ?? Text(decision, "selectedThinkingLevel") ?? Text(route, "thinkingLevel", "effort", "reasoningEffort"),
-            SelectionSource = Text(decision, "selectionSource", "source"),
+            SelectedRouteProvisional = Boolean(selectedRoute, "provisional") ?? Boolean(decision, "selectedRouteProvisional"),
+            SelectionSource = selectionSource,
             Score = NullableNumber(decision, "effectivePolicyScore", "score"),
+            UpfrontScore = NullableNumber(decision, "upfrontScore", "intakeScore"),
+            HardFloorRouteId = Text(correctnessFloor, "routeId") ?? Text(decision, "hardFloorRouteId"),
+            HardFloorModel = Text(correctnessFloor, "model", "modelId") ?? Text(decision, "hardFloorModel"),
+            HardFloorThinkingLevel = Text(correctnessFloor, "thinkingLevel", "effort") ?? Text(decision, "hardFloorThinkingLevel"),
+            AppliedHardFloorIds = Strings(correctnessFloor, decision ?? measurement, "appliedFloorIds", "appliedHardFloorIds"),
+            IsHardFloor = Boolean(correctnessFloor, "isHardFloor") ?? Boolean(decision, "isHardFloor"),
+            SemanticPromotionApplied = Boolean(decision, "semanticPromotionApplied", "reissuePromoted"),
+            ConfiguredModel = Text(configuredRoute, "model", "modelId") ?? Text(decision, "configuredModel"),
+            ConfiguredThinkingLevel = Text(configuredRoute, "thinkingLevel", "effort") ?? Text(decision, "configuredThinkingLevel"),
+            OperatorPinModel = Text(operatorPin, "model", "modelId") ?? Text(decision, "operatorPinModel"),
+            OperatorPinThinkingLevel = Text(operatorPin, "thinkingLevel", "effort") ?? Text(decision, "operatorPinThinkingLevel"),
+            OperatorPinBelowPolicy = Boolean(decision, "operatorPinBelowPolicy", "pinBelowPolicy"),
+            OperatorPinWarning = Text(decision, "operatorPinWarning", "pinWarning"),
+            QuotaFallbackApplied = quotaFallback,
+            QuotaFallbackReason = Text(decision, "quotaFallbackReason")
+                ?? (quotaFallback == true ? fallbackOrWaitReason : null),
+            WaitOrOverrideReason = Text(decision, "waitOrOverrideReason", "waitReason")
+                ?? (disposition is ModelRoutingDisposition.Wait or ModelRoutingDisposition.OverrideRequired
+                    ? fallbackOrWaitReason : null),
+            QuotaSnapshotDecisionAtUtc = quotaSnapshot is { } snapshot
+                ? Date(snapshot, "decisionAtUtc", "decisionAt")
+                : Date(decision, "quotaSnapshotDecisionAtUtc"),
+            QuotaSnapshotId = Text(quotaSnapshot, "snapshotId", "id") ?? Text(decision, "quotaSnapshotId"),
+            PolicyReason = Text(decision, "policyReason"),
             Reason = Text(decision, "reason", "policyReason", "fallbackOrWaitReason"),
-            DecidedAtUtc = decision is { } decisionValue ? Date(decisionValue, "decidedAt", "decisionAt", "createdAt") : null,
+            DecidedAtUtc = decision is { } decisionValue ? Date(decisionValue, "decidedAtUtc", "decidedAt", "decisionAt", "createdAt") : null,
         };
         var observation = new AgentStudioRunOutcomeObservation
         {
@@ -332,6 +371,8 @@ public sealed class AgentStudioTaskStorageImporter
     }
     private static DateTime? Date(JsonElement value, params string[] names)
         => DateTime.TryParse(Text(value, names), null, System.Globalization.DateTimeStyles.RoundtripKind, out var date) ? date.ToUniversalTime() : null;
+    private static DateTime? Date(JsonElement? value, params string[] names)
+        => value is { } item ? Date(item, names) : null;
     private static bool? Boolean(JsonElement value, params string[] names)
     {
         foreach (var name in names)
@@ -341,6 +382,10 @@ public sealed class AgentStudioTaskStorageImporter
         }
         return null;
     }
+    private static bool? Boolean(JsonElement? value, params string[] names)
+        => value is { } item ? Boolean(item, names) : null;
+    private static T? EnumValue<T>(string? value) where T : struct, Enum
+        => Enum.TryParse<T>(Normalize(value), true, out var parsed) ? parsed : null;
     private static long Tokens(JsonElement? usage, params string[] names)
         => usage is { } value && long.TryParse(Text(value, names), out var count) ? Math.Max(0, count) : 0;
     private static TokenUsage Usage(JsonElement? usage) => new(
