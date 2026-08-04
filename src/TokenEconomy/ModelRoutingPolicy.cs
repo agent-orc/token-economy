@@ -11,6 +11,8 @@ public enum RoutingAttemptOutcome
     EnvironmentalFailure,
     StaleBase,
     BrokenTestHost,
+    Cancellation,
+    QuotaTruncation,
     MissingDeliveryPath,
 }
 
@@ -49,6 +51,8 @@ public sealed record ModelRoutingDecision
     public required string PolicyVersion { get; init; }
     public required ModelRoutingTier Route { get; init; }
     public required int Score { get; init; }
+    /// <summary>The empirical-uncertainty points after applying the previous-attempt outcome.</summary>
+    public required int EffectiveEmpiricalConfidence { get; init; }
     public required IReadOnlyList<string> AppliedHardFloors { get; init; }
     public required bool ReissuePromoted { get; init; }
     public required bool RequiresHumanDecision { get; init; }
@@ -118,7 +122,9 @@ public sealed class ModelRoutingPolicy
         var reason = requiresHuman
             ? "Two semantic failures at the stronger tier require narrower scope, better evidence, or a human decision; model escalation stops."
             : $"Score {effectiveScore} maps to the core ladder; {floorIds.Count} hard floor(s) applied; semantic promotion {(promoted ? "applied" : "not applied")}.";
-        return Decision(route, effectiveScore, floorIds, promoted, requiresHuman, reason);
+        return Decision(route, effectiveScore,
+            semanticReissue ? _knowledge.ReissueRules.EmpiricalConfidencePointsAfterSemanticFailure : request.Scorecard.EmpiricalConfidence,
+            floorIds, promoted, requiresHuman, reason);
     }
 
     /// <summary>Choose Mini/high only for a bounded decision; ambiguous or unbounded authorizing evidence raises the route to Sol/medium.</summary>
@@ -136,15 +142,23 @@ public sealed class ModelRoutingPolicy
         var reason = raised
             ? "Ambiguous or unbounded evidence can authorize a consequential action, so Mini is below the workflow floor."
             : "Compact bounded evidence with a deterministic output contract uses the Mini role exception.";
-        return Decision(route, 0, floors, false, false, reason);
+        return Decision(route, 0, 0, floors, false, false, reason);
     }
 
-    private ModelRoutingDecision Decision(ModelRoutingTier route, int score, IReadOnlyList<string> floors, bool promoted, bool requiresHuman, string reason)
+    private ModelRoutingDecision Decision(
+        ModelRoutingTier route,
+        int score,
+        int effectiveEmpiricalConfidence,
+        IReadOnlyList<string> floors,
+        bool promoted,
+        bool requiresHuman,
+        string reason)
         => new()
         {
             PolicyVersion = _knowledge.PolicyVersion.ToString("yyyy-MM-dd"),
             Route = route,
             Score = score,
+            EffectiveEmpiricalConfidence = effectiveEmpiricalConfidence,
             AppliedHardFloors = floors,
             ReissuePromoted = promoted,
             RequiresHumanDecision = requiresHuman,

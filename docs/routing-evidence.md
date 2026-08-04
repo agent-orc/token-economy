@@ -14,8 +14,8 @@ Run it from the repository root:
 dotnet run --project src/TokenEconomy.Benchmarks -- aggregate <agent-studio-task-storage>
 ```
 
-The derived schema-version-1 report is written to
-`results/routing-evidence/v1/routing-evidence.json`. Re-running with unchanged
+The derived schema-version-2 report is written to
+`results/routing-evidence/v2/routing-evidence.json`. Re-running with unchanged
 inputs produces identical content and does not rewrite an identical file. Raw
 artifacts are never modified. A host can supply another derived output path by
 calling `RoutingEvidencePipeline.Run`. The command also writes
@@ -36,10 +36,27 @@ unknown rather than inheriting the card's final route. Re-importing a task is an
 idempotent upsert. Conflicting records with the same task, attempt, and
 observation timestamp lose their ambiguous route instead of choosing one.
 
+Each imported attempt materializes an immutable routing-decision record, an
+append-only raw outcome observation, and a versioned derived classification.
+The decision ID joins policy version, recommendation and selection to the
+attempt. The observation joins the actual model/thinking level, tokens,
+duration, cost status, review result, and raw reissue reason. Exact replays are
+idempotent; a changed source snapshot appends a new observation, and a retained
+decision ID cannot be rewritten.
+
+Outcome classification version 1 distinguishes success, semantic failure,
+substantive C/D review, environmental failure, stale base, broken test host,
+cancellation, quota truncation, and missing delivery path. Only semantic
+failure and substantive review count as semantic reissues or negative model
+quality. Substrate, cancellation, and quota outcomes remain visible in category
+counts and resource totals without promoting or penalizing the model.
+
 Every cohort reports:
 
 - sample size and attempt/card/unknown route counts;
+- decision-join coverage and the policy version where it was recorded;
 - outcome and review-grade availability, success and favorable-grade rates;
+- counts for every outcome category and the classification versions present;
 - explicitly classified semantic-reissue availability and rate;
 - duration, token, and cost availability, with nullable totals and averages;
 - first and latest observation dates;

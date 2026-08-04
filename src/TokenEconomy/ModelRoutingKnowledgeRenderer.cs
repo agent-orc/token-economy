@@ -96,7 +96,7 @@ public static class ModelRoutingKnowledgeRenderer
         output.AppendLine();
         output.AppendLine("## Reissue rule");
         output.AppendLine();
-        output.AppendLine($"Semantic reissues and substantive C/D reviews set empirical confidence to `{knowledge.ReissueRules.EmpiricalConfidencePointsAfterSemanticFailure}` and raise the next attempt by at least `{knowledge.ReissueRules.MinimumCoreTierIncrease}` core tier. Environmental failures do not promote. After `{knowledge.ReissueRules.StopAfterSemanticFailuresAtStrongerTier}` semantic failures at the stronger tier, escalation stops for task narrowing, better evidence, or a human decision.");
+        output.AppendLine($"Semantic reissues and substantive C/D reviews set empirical confidence to `{knowledge.ReissueRules.EmpiricalConfidencePointsAfterSemanticFailure}` and raise the next attempt by at least `{knowledge.ReissueRules.MinimumCoreTierIncrease}` core tier. The do-not-promote outcomes are {string.Join(", ", knowledge.ReissueRules.DoNotPromoteOn.Select(value => $"`{value}`"))}. After `{knowledge.ReissueRules.StopAfterSemanticFailuresAtStrongerTier}` semantic failures at the stronger tier, escalation stops for task narrowing, better evidence, or a human decision.");
         return output.ToString().Replace("\r\n", "\n", StringComparison.Ordinal);
     }
 

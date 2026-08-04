@@ -7,7 +7,7 @@
     "repositoryPath": "docs/system/domains/model-routing-policy.md",
     "upstreamRepository": "agent-orc/agent-studio",
     "upstreamPath": "docs/system/domains/model-routing-policy.md",
-    "contentSha256": "ef7ff058e7b7f90a61764211847dc16d3d1ab6c46917922b78593ecadac23061",
+    "contentSha256": "7269fbd6466f8bf86f838b4297c59933d8bb7472dbdd1383ce9439f4350b4ca0",
     "synchronization": "The repository copy is an exact snapshot of the canonical Agent Studio document. A policy change requires a new policyVersion, refreshed hash, updated machine data, regenerated public view, and passing drift tests in one change."
   },
   "providers": [
@@ -186,7 +186,7 @@
   },
   "reissueRules": {
     "promoteOn": ["substantiveCOrDReview", "semanticReissue"],
-    "doNotPromoteOn": ["environmentalFailure", "staleBase", "brokenTestHost", "missingDeliveryPath"],
+    "doNotPromoteOn": ["environmentalFailure", "staleBase", "brokenTestHost", "cancellation", "quotaTruncation", "missingDeliveryPath"],
     "empiricalConfidencePointsAfterSemanticFailure": 10,
     "minimumCoreTierIncrease": 1,
     "stopAfterSemanticFailuresAtStrongerTier": 2

@@ -81,7 +81,8 @@ Apply these after scoring:
 Re-score from the newest evidence. A substantive C/D review or a semantic
 reissue sets empirical confidence to `10` and raises the next attempt by at
 least one core tier. Do not promote for an environmental failure, stale base,
-broken test host, or missing delivery path. Fix that substrate instead.
+broken test host, cancellation, quota truncation, or missing delivery path. Fix
+that substrate instead.
 
 After two semantic failures at the stronger tier, stop model escalation. Narrow
 the task, improve its evidence, or ask for a human decision.

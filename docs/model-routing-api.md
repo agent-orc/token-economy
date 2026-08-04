@@ -58,7 +58,8 @@ Every `ModelRoutingResult` contains:
 
 - the recommended route and nullable selected route;
 - the complete upfront score worksheet, effective post-reissue policy score,
-  policy reason, and explicit correctness floor;
+  effective empirical-uncertainty points, policy reason, and explicit
+  correctness floor; the original upfront scorecard is retained unchanged;
 - policy version, knowledge schema/evidence versions, and benchmark/gate
   versions;
 - the selection source and a fallback, wait, or override reason;

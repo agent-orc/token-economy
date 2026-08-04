@@ -15,7 +15,8 @@ public sealed record AgentStudioImportEvent(string Name, IReadOnlyDictionary<str
 /// Imports Agent Studio's on-disk task storage. The contract is a <c>task.json</c> per card, read
 /// directly (not through task-server): this remains available to batch/reporting jobs when no server
 /// is running. Fields read are task key, run/attempt, model, thinkingLevel, cliType, tokenSummary,
-/// lastUsage, taskType, prompt/card features, final lane, project, and timestamps. Unknown fields are ignored for forwards compatibility.
+/// lastUsage, routing decision, actual route, outcome/review/reissue classification, taskType,
+/// prompt/card features, final lane, project, and timestamps. Unknown fields are ignored for forwards compatibility.
 /// </summary>
 public sealed class AgentStudioTaskStorageImporter
 {
@@ -40,9 +41,20 @@ public sealed class AgentStudioTaskStorageImporter
                 using var document = JsonDocument.Parse(bytes);
                 var reference = "agent-studio-task-storage/" + Path.GetRelativePath(storageDirectory, path).Replace('\\', '/');
                 var hash = Convert.ToHexString(SHA256.HashData(bytes)).ToLowerInvariant();
-                foreach (var record in ParseRecords(document.RootElement))
+                foreach (var parsed in ParseRecords(document.RootElement))
                 {
-                    destination.Upsert(record with { ProvenanceReference = reference, ProvenanceSha256 = hash });
+                    var record = parsed with
+                    {
+                        ProvenanceReference = reference,
+                        ProvenanceSha256 = hash,
+                        RoutingDecision = parsed.RoutingDecision is { } decision
+                            ? decision with { ProvenanceReference = reference, ProvenanceSha256 = hash }
+                            : null,
+                        OutcomeObservation = parsed.OutcomeObservation is { } observation
+                            ? observation with { ProvenanceReference = reference, ProvenanceSha256 = hash }
+                            : null,
+                    };
+                    destination.Upsert(record);
                     upserted++;
                 }
             }
@@ -109,10 +121,18 @@ public sealed class AgentStudioTaskStorageImporter
         // eventual implementation scope would leak an outcome into an upfront estimate.
         var routing = Object(task, "routingFeatures") ?? Object(task, "upfrontComplexity")
             ?? Object(task, "complexityRoutingSignals") ?? Object(task, "complexity");
-        var model = Text(route, "model", "modelId") ?? Text(measurement, "model", "modelId");
+        var run = Number(measurement, fallbackRun, "run", "attempt", "runNumber");
+        var decision = Object(measurement, "routingDecision") ?? Object(measurement, "modelRoutingDecision")
+            ?? Object(measurement, "decision");
+        var recommendedRoute = Object(decision, "recommendedRoute") ?? Object(decision, "recommended");
+        var selectedRoute = Object(decision, "selectedRoute") ?? Object(decision, "selected");
+        route ??= selectedRoute;
+        var model = Text(measurement, "actualModel", "executedModel")
+            ?? Text(route, "model", "modelId") ?? Text(measurement, "model", "modelId");
         if (requestedGranularity == AgentStudioRouteGranularity.Card)
             model ??= Text(task, "model", "modelId");
-        var thinking = Text(route, "thinkingLevel", "effort", "reasoningEffort")
+        var thinking = Text(measurement, "actualThinkingLevel", "actualEffort")
+            ?? Text(route, "thinkingLevel", "effort", "reasoningEffort")
             ?? Text(measurement, "thinkingLevel", "effort", "reasoningEffort");
         if (requestedGranularity == AgentStudioRouteGranularity.Card)
             thinking ??= Text(task, "thinkingLevel", "effort", "reasoningEffort");
@@ -131,12 +151,76 @@ public sealed class AgentStudioTaskStorageImporter
         if (requestedGranularity == AgentStudioRouteGranularity.Card)
             lane ??= Text(task, "finalLane", "lane", "column");
         var listing = _prices.Find(model);
+        var grade = Grade(Text(measurement, "grade", "reviewGrade", "finalGrade"));
+        var rawReviewOutcome = Text(measurement, "reviewOutcome", "reviewResult");
+        var reviewOutcome = ReviewOutcome(rawReviewOutcome, grade);
+        var rawOutcome = Text(measurement, "outcomeCategory", "outcome", "attemptOutcome", "failureCategory", "status", "result");
+        var reissueReason = Text(measurement, "reissueReason", "retryReason", "reissueCategory", "failureReason");
+        var explicitSemanticReissue = Boolean(measurement, "semanticReissue", "isSemanticReissue");
+        var category = OutcomeCategory(rawOutcome, reissueReason, grade, explicitSemanticReissue, lane);
+        var decisionId = Text(decision, "decisionId", "id", "routingDecisionId")
+            ?? Text(measurement, "routingDecisionId", "decisionId")
+            ?? $"{taskKey}:attempt:{run}:routing";
+        var observationId = Text(measurement, "outcomeObservationId", "observationId")
+            ?? StableId($"{taskKey}\n{run}\n{measurement.GetRawText()}");
+        var duration = Date(measurement, "startedAt", "createdAt") is { } started && executedAt >= started
+            ? (long?)(executedAt - started).TotalMilliseconds : null;
+        var decisionRecord = new AgentStudioRoutingDecisionRecord
+        {
+            DecisionId = decisionId,
+            TaskKey = taskKey,
+            Run = run,
+            PolicyVersion = Text(decision, "policyVersion") ?? Text(route, "policyVersion") ?? Text(measurement, "policyVersion"),
+            RecommendedModel = Text(recommendedRoute, "model", "modelId") ?? Text(decision, "recommendedModel"),
+            RecommendedThinkingLevel = Text(recommendedRoute, "thinkingLevel", "effort", "reasoningEffort")
+                ?? Text(decision, "recommendedThinkingLevel"),
+            SelectedModel = Text(selectedRoute, "model", "modelId") ?? Text(decision, "selectedModel") ?? Text(route, "model", "modelId"),
+            SelectedThinkingLevel = Text(selectedRoute, "thinkingLevel", "effort", "reasoningEffort")
+                ?? Text(decision, "selectedThinkingLevel") ?? Text(route, "thinkingLevel", "effort", "reasoningEffort"),
+            SelectionSource = Text(decision, "selectionSource", "source"),
+            Score = NullableNumber(decision, "effectivePolicyScore", "score"),
+            Reason = Text(decision, "reason", "policyReason", "fallbackOrWaitReason"),
+            DecidedAtUtc = decision is { } decisionValue ? Date(decisionValue, "decidedAt", "decisionAt", "createdAt") : null,
+        };
+        var observation = new AgentStudioRunOutcomeObservation
+        {
+            ObservationId = observationId,
+            DecisionId = decisionId,
+            TaskKey = taskKey,
+            Run = run,
+            ActualModel = cost.ModelId ?? model,
+            ActualThinkingLevel = thinking,
+            Usage = usage,
+            TokenUsageAvailable = usageElement is not null,
+            StartedAtUtc = Date(measurement, "startedAt", "createdAt"),
+            ExecutedAtUtc = executedAt,
+            DurationMs = duration,
+            CostEstimate = usageElement is null ? null : cost.Total,
+            CostStatus = usageElement is null ? PriceStatus.UsageUnavailable : cost.Status,
+            RawOutcome = rawOutcome ?? lane,
+            RawReviewOutcome = rawReviewOutcome,
+            Grade = grade,
+            SemanticReissue = explicitSemanticReissue,
+            ReissueReason = reissueReason,
+            ObservedAtUtc = observedAt,
+        };
+        var classification = new AgentStudioOutcomeClassification
+        {
+            ObservationId = observationId,
+            DecisionId = decisionId,
+            Category = category,
+            ReviewOutcome = reviewOutcome,
+            ReissueReason = reissueReason,
+        };
         return new AgentStudioRunRecord
         {
-            TaskKey = taskKey, Run = Number(measurement, fallbackRun, "run", "attempt", "runNumber"), Project = Text(task, "project", "projectId"),
-            Provider = listing?.Vendor ?? ProviderFromCli(Text(route, "cliType") ?? Text(measurement, "cliType") ?? Text(task, "cliType")),
+            TaskKey = taskKey, Run = run, RoutingDecision = decisionRecord, OutcomeObservation = observation,
+            OutcomeClassification = classification, Project = Text(task, "project", "projectId"),
+            Provider = listing?.Vendor ?? ProviderFromCli(Text(measurement, "actualCliType", "cliType")
+                ?? Text(route, "cliType") ?? Text(task, "cliType")),
             Model = cost.ModelId ?? model, ThinkingLevel = thinking, RouteGranularity = granularity,
-            CliType = Text(route, "cliType") ?? Text(measurement, "cliType") ?? Text(task, "cliType"), TaskType = Text(task, "taskType"),
+            CliType = Text(measurement, "actualCliType", "cliType") ?? Text(route, "cliType")
+                ?? Text(task, "cliType"), TaskType = Text(task, "taskType"),
             Capability = Text(task, "capability", "requiredCapability"),
             TaskPrompt = Text(task, "prompt", "description"), Area = Text(task, "area", "component"),
             EpicContext = Text(task, "epicContext", "epic"), AcceptanceCriteria = Strings(task, "acceptanceCriteria", "criteria"),
@@ -158,9 +242,10 @@ public sealed class AgentStudioTaskStorageImporter
             CostEstimate = usageElement is null ? null : cost.Total, Currency = usageElement is null ? null : cost.Currency,
             CostStatus = usageElement is null ? PriceStatus.UsageUnavailable : cost.Status,
             CostCaveat = usageElement is null ? null : cost.Caveat,
-            CostUnconfirmed = usageElement is not null && cost.Unconfirmed, Outcome = Outcome(lane),
-            Grade = Grade(Text(measurement, "grade", "reviewGrade", "finalGrade")),
-            SemanticReissue = Boolean(measurement, "semanticReissue", "isSemanticReissue"),
+            CostUnconfirmed = usageElement is not null && cost.Unconfirmed, Outcome = QualityOutcome(category, lane),
+            Grade = grade,
+            SemanticReissue = explicitSemanticReissue ?? (category != AgentStudioAttemptOutcomeCategory.Unknown
+                ? classification.IsSemanticFailure : null),
             StartedAtUtc = Date(measurement, "startedAt", "createdAt"), ObservedAtUtc = observedAt,
         };
     }
@@ -173,7 +258,11 @@ public sealed class AgentStudioTaskStorageImporter
         var routeAmbiguous = peers.Select(record => (record.Model, record.ThinkingLevel)).Distinct().Count() > 1;
         return routeAmbiguous
             ? newest with { Model = null, ThinkingLevel = null, Provider = null, RouteGranularity = AgentStudioRouteGranularity.Unknown,
-                CostEstimate = null, Currency = null, CostCaveat = null, CostUnconfirmed = false, CostStatus = PriceStatus.UnknownModel }
+                CostEstimate = null, Currency = null, CostCaveat = null, CostUnconfirmed = false, CostStatus = PriceStatus.UnknownModel,
+                RoutingDecision = newest.RoutingDecision is { } decision
+                    ? decision with { SelectedModel = null, SelectedThinkingLevel = null } : null,
+                OutcomeObservation = newest.OutcomeObservation is { } observation
+                    ? observation with { ActualModel = null, ActualThinkingLevel = null, CostEstimate = null, CostStatus = PriceStatus.UnknownModel } : null }
             : newest;
     }
 
@@ -203,6 +292,8 @@ public sealed class AgentStudioTaskStorageImporter
         => int.TryParse(Text(value, names), out var number) ? number : fallback;
     private static int? NullableNumber(JsonElement value, params string[] names)
         => int.TryParse(Text(value, names), out var number) ? Math.Max(0, number) : null;
+    private static int? NullableNumber(JsonElement? value, params string[] names)
+        => value is { } item ? NullableNumber(item, names) : null;
     private static int? NullableNumber(JsonElement? preferred, JsonElement fallback, params string[] names)
         => preferred is { } value && NullableNumber(value, names) is { } number ? number : NullableNumber(fallback, names);
     private static double? NullableDouble(JsonElement value, params string[] names)
@@ -260,6 +351,71 @@ public sealed class AgentStudioTaskStorageImporter
     {
         "A" => "A", "B" => "B", "C" => "C", "D" => "D", _ => null,
     };
+    private static AgentStudioReviewOutcome ReviewOutcome(string? value, string? grade)
+    {
+        if (grade is not null)
+            return grade switch
+            {
+                "A" => AgentStudioReviewOutcome.GradeA,
+                "B" => AgentStudioReviewOutcome.GradeB,
+                "C" => AgentStudioReviewOutcome.GradeC,
+                "D" => AgentStudioReviewOutcome.GradeD,
+                _ => AgentStudioReviewOutcome.Unknown,
+            };
+        return Normalize(value) switch
+        {
+            "approved" or "accepted" or "pass" or "passed" => AgentStudioReviewOutcome.Approved,
+            "changesrequested" or "needschanges" or "reissue" => AgentStudioReviewOutcome.ChangesRequested,
+            "rejected" or "failed" => AgentStudioReviewOutcome.Rejected,
+            _ => AgentStudioReviewOutcome.Unknown,
+        };
+    }
+    private static AgentStudioAttemptOutcomeCategory OutcomeCategory(
+        string? rawOutcome,
+        string? reissueReason,
+        string? grade,
+        bool? semanticReissue,
+        string? lane)
+    {
+        foreach (var value in new[] { reissueReason, rawOutcome, lane })
+        {
+            var normalized = Normalize(value);
+            var category = normalized switch
+            {
+                "semantic" or "semanticfailure" or "implementationfailure" or "incorrectresult" => AgentStudioAttemptOutcomeCategory.SemanticFailure,
+                "substantivereview" or "substantivelowgrade" or "substantivecordreview" => AgentStudioAttemptOutcomeCategory.SubstantiveReview,
+                "environmental" or "environmentalfailure" or "infrastructurefailure" or "infrafailure" => AgentStudioAttemptOutcomeCategory.EnvironmentalFailure,
+                "stalebase" or "stalebranch" => AgentStudioAttemptOutcomeCategory.StaleBase,
+                "brokentesthost" or "testhostfailure" or "brokengate" => AgentStudioAttemptOutcomeCategory.BrokenTestHost,
+                "cancellation" or "cancelled" or "canceled" => AgentStudioAttemptOutcomeCategory.Cancellation,
+                "quotatruncation" or "quotatruncated" or "quotaexhausted" or "tokenlimit" => AgentStudioAttemptOutcomeCategory.QuotaTruncation,
+                "missingdeliverypath" or "deliveryfailure" or "missingterminalsentinel" => AgentStudioAttemptOutcomeCategory.MissingDeliveryPath,
+                "successful" or "success" or "completed" or "done" or "merged" => AgentStudioAttemptOutcomeCategory.Successful,
+                _ => AgentStudioAttemptOutcomeCategory.Unknown,
+            };
+            if (category != AgentStudioAttemptOutcomeCategory.Unknown) return category;
+        }
+        if (grade is "C" or "D") return AgentStudioAttemptOutcomeCategory.SubstantiveReview;
+        if (semanticReissue == true) return AgentStudioAttemptOutcomeCategory.SemanticFailure;
+        return Outcome(lane) switch
+        {
+            OutcomeQualitySignal.Successful => AgentStudioAttemptOutcomeCategory.Successful,
+            _ => AgentStudioAttemptOutcomeCategory.Unknown,
+        };
+    }
+    private static string Normalize(string? value) => value is null
+        ? ""
+        : new string(value.Where(char.IsLetterOrDigit).Select(char.ToLowerInvariant).ToArray());
+    private static string StableId(string value) => "agent-studio-observation-"
+        + Convert.ToHexString(SHA256.HashData(System.Text.Encoding.UTF8.GetBytes(value))).ToLowerInvariant();
+    private static OutcomeQualitySignal QualityOutcome(AgentStudioAttemptOutcomeCategory category, string? lane)
+        => category switch
+        {
+            AgentStudioAttemptOutcomeCategory.Successful => OutcomeQualitySignal.Successful,
+            AgentStudioAttemptOutcomeCategory.SubstantiveReview => OutcomeQualitySignal.NeedsReview,
+            AgentStudioAttemptOutcomeCategory.Unknown => Outcome(lane),
+            _ => OutcomeQualitySignal.Unsuccessful,
+        };
     private static OutcomeQualitySignal Outcome(string? lane)
     {
         var value = lane?.ToLowerInvariant() ?? "";

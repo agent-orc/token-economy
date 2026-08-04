@@ -187,6 +187,144 @@ public class AgentStudioTaskStorageImporterTests
             card.HardFloorTriggers);
     }
 
+    [Fact]
+    public void ParseRecords_JoinsDecisionActualRouteResourcesReviewAndReissueReason()
+    {
+        using var json = System.Text.Json.JsonDocument.Parse("""
+            {
+              "taskKey":"TE-30", "project":"Token-Economy", "taskType":"feature",
+              "attempts":[{
+                "run":1,
+                "routingDecision":{
+                  "decisionId":"decision-30-1", "policyVersion":"2026-07-24",
+                  "recommendedRoute":{"model":"gpt-5.6-terra","thinkingLevel":"medium"},
+                  "selectedRoute":{"model":"claude-sonnet-5","thinkingLevel":"high"},
+                  "selectionSource":"equivalentProviderFallback", "effectivePolicyScore":45
+                },
+                "actualModel":"claude-sonnet-5", "actualThinkingLevel":"high", "cliType":"claude",
+                "startedAt":"2026-08-03T10:00:00Z", "completedAt":"2026-08-03T10:02:00Z",
+                "updatedAt":"2026-08-03T10:03:00Z", "reviewGrade":"C",
+                "reissueReason":"substantive-c-or-d-review",
+                "tokenSummary":{"inputTokens":100,"outputTokens":20}
+              }]
+            }
+            """);
+
+        var record = Assert.Single(new AgentStudioTaskStorageImporter().ParseRecords(json.RootElement));
+
+        Assert.Equal("decision-30-1", record.RoutingDecisionId);
+        Assert.Equal("2026-07-24", record.RoutingPolicyVersion);
+        Assert.Equal("gpt-5.6-terra", record.RoutingDecision!.RecommendedModel);
+        Assert.Equal("claude-sonnet-5", record.ActualModel);
+        Assert.Equal("high", record.ActualThinkingLevel);
+        Assert.Equal(120, record.Usage.Input + record.Usage.Output);
+        Assert.Equal(120_000, record.OutcomeObservation!.DurationMs);
+        Assert.Equal(PriceStatus.Resolved, record.CostStatus);
+        Assert.Equal(AgentStudioReviewOutcome.GradeC, record.ReviewOutcome);
+        Assert.Equal(AgentStudioAttemptOutcomeCategory.SubstantiveReview, record.OutcomeCategory);
+        Assert.Equal(RoutingAttemptOutcome.SubstantiveLowGrade, record.RoutingOutcome);
+        Assert.True(record.SemanticReissue);
+        Assert.Equal("substantive-c-or-d-review", record.ReissueReason);
+
+        var view = Assert.Single(ModelRunViews.ByModelOverTime([record]));
+        Assert.Equal("high", view.ThinkingLevel);
+        Assert.Equal("2026-07-24", view.PolicyVersion);
+        Assert.Equal(AgentStudioOutcomeClassification.CurrentVersion, view.OutcomeClassificationVersion);
+        Assert.Equal(1, view.ReviewOutcomeAvailableRuns);
+        Assert.Equal(1, view.OutcomeCategoryCounts[AgentStudioAttemptOutcomeCategory.SubstantiveReview]);
+    }
+
+    [Fact]
+    public void Replay_AppendsRawObservationsVersionsClassificationAndNeverRewritesDecision()
+    {
+        var importer = new AgentStudioTaskStorageImporter();
+        var store = new InMemoryAgentStudioRunStore();
+        using var firstJson = System.Text.Json.JsonDocument.Parse(ReplayJson(
+            "observation-1", "successful", "", "2026-08-03T10:01:00Z"));
+        using var secondJson = System.Text.Json.JsonDocument.Parse(ReplayJson(
+            "observation-2", "semantic-failure", "semantic-failure", "2026-08-03T10:02:00Z"));
+        var first = importer.Parse(firstJson.RootElement);
+        var second = importer.Parse(secondJson.RootElement);
+
+        store.Upsert(first);
+        var beforeReplay = new RoutingEvidenceAggregator().Aggregate([], [], store.Records);
+        Assert.Equal(0, Assert.Single(beforeReplay.ObservationalCohorts).SemanticReissueCount);
+        var historicalDecision = Assert.Single(store.Decisions);
+        store.Upsert(first); // exact replay is idempotent
+        store.Upsert(second);
+        store.Upsert(second); // updated snapshot replay is also idempotent
+
+        Assert.Single(store.Decisions);
+        Assert.Same(historicalDecision, Assert.Single(store.Decisions));
+        Assert.Equal("gpt-5.6-terra", historicalDecision.SelectedModel);
+        Assert.Equal(2, store.OutcomeObservations.Count);
+        Assert.Equal(2, store.OutcomeClassifications.Count);
+        Assert.Single(store.Records);
+        Assert.Equal(AgentStudioAttemptOutcomeCategory.SemanticFailure, Assert.Single(store.Records).OutcomeCategory);
+
+        var evidence = new RoutingEvidenceAggregator().Aggregate([], [], store.Records);
+        var cohort = Assert.Single(evidence.ObservationalCohorts);
+        Assert.Equal(1, cohort.SemanticReissueCount);
+        Assert.Equal(1, cohort.DecisionJoinAvailableCount);
+        Assert.Equal([AgentStudioOutcomeClassification.CurrentVersion], cohort.OutcomeClassificationVersions);
+        Assert.Equal(AgentStudioOutcomeClassification.CurrentVersion, evidence.OutcomeClassificationVersion);
+        Assert.Equal("decision-replay", historicalDecision.DecisionId);
+
+        store.Upsert(second with
+        {
+            OutcomeClassification = second.OutcomeClassification! with
+            {
+                Version = AgentStudioOutcomeClassification.CurrentVersion + 1,
+                Category = AgentStudioAttemptOutcomeCategory.EnvironmentalFailure,
+            },
+        });
+        Assert.Equal(2, store.OutcomeObservations.Count);
+        Assert.Equal(3, store.OutcomeClassifications.Count);
+
+        var rewrittenDecision = second with
+        {
+            RoutingDecision = second.RoutingDecision! with { SelectedModel = "gpt-5.6-sol" },
+        };
+        Assert.Throws<ArgumentException>(() => store.Upsert(rewrittenDecision));
+        Assert.Equal("gpt-5.6-terra", Assert.Single(store.Decisions).SelectedModel);
+    }
+
+    [Fact]
+    public void InfrastructureOutcomesDoNotBecomeSemanticHistory()
+    {
+        using var json = System.Text.Json.JsonDocument.Parse("""
+            {
+              "taskKey":"TE-infra", "prompt":"Implement a feature", "taskType":"feature",
+              "attempts":[
+                {"run":1,"actualModel":"gpt-5.6-terra","outcome":"successful","completedAt":"2026-08-03T10:01:00Z"},
+                {"run":2,"actualModel":"gpt-5.6-terra","outcome":"broken-test-host","reissueReason":"broken-test-host","completedAt":"2026-08-03T10:02:00Z"}
+              ]
+            }
+            """);
+        var records = new AgentStudioTaskStorageImporter().ParseRecords(json.RootElement);
+
+        Assert.Equal(AgentStudioAttemptOutcomeCategory.BrokenTestHost, records[1].OutcomeCategory);
+        Assert.Equal(RoutingAttemptOutcome.BrokenTestHost, records[1].RoutingOutcome);
+        Assert.False(records[1].SemanticReissue);
+        Assert.Equal(0, Assert.Single(ComplexityHistory.FromRunRecords(records)).ReissueCount);
+
+        var cohort = Assert.Single(new RoutingEvidenceAggregator().Aggregate([], [], records).ObservationalCohorts);
+        Assert.Equal(1, cohort.OutcomeAvailableCount); // infrastructure is not model-quality evidence
+        Assert.Equal(1, cohort.OutcomeCategoryCounts[AgentStudioAttemptOutcomeCategory.BrokenTestHost]);
+    }
+
+    private static string ReplayJson(string observationId, string outcome, string reason, string updatedAt) => $$$"""
+        {
+          "taskKey":"TE-replay", "taskType":"feature", "capability":"code-repair",
+          "run":1, "actualModel":"gpt-5.6-terra", "actualThinkingLevel":"medium",
+          "routingDecision":{"decisionId":"decision-replay","policyVersion":"2026-07-24",
+            "selectedRoute":{"model":"gpt-5.6-terra","thinkingLevel":"medium"}},
+          "outcomeObservationId":"{{{observationId}}}", "outcome":"{{{outcome}}}", "reissueReason":"{{{reason}}}",
+          "completedAt":"2026-08-03T10:01:00Z", "updatedAt":"{{{updatedAt}}}",
+          "tokenSummary":{"inputTokens":10,"outputTokens":2}
+        }
+        """;
+
     private static AgentStudioRunRecord ViewRecord(string cli, string model, PriceStatus status, DateTime observedAt, int run = 1) => new()
     {
         TaskKey = "TE-view", Run = run, Provider = "openai", CliType = cli, Model = model,

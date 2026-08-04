@@ -7,6 +7,119 @@ public enum OutcomeQualitySignal { Unknown, Successful, NeedsReview, Unsuccessfu
 /// <summary>How precisely the imported record identifies the model route for this attempt.</summary>
 public enum AgentStudioRouteGranularity { Unknown, Card, Attempt }
 
+/// <summary>
+/// Durable outcome categories used to decide whether an attempt is model evidence or substrate
+/// evidence. Only semantic failure and substantive review participate in semantic escalation.
+/// </summary>
+public enum AgentStudioAttemptOutcomeCategory
+{
+    Unknown,
+    Successful,
+    SemanticFailure,
+    SubstantiveReview,
+    EnvironmentalFailure,
+    StaleBase,
+    BrokenTestHost,
+    Cancellation,
+    QuotaTruncation,
+    MissingDeliveryPath,
+}
+
+/// <summary>A normalized review result retained separately from the attempt's operational outcome.</summary>
+public enum AgentStudioReviewOutcome
+{
+    Unknown,
+    Approved,
+    ChangesRequested,
+    Rejected,
+    GradeA,
+    GradeB,
+    GradeC,
+    GradeD,
+}
+
+/// <summary>The immutable routing decision made before one Agent Studio attempt launched.</summary>
+public sealed record AgentStudioRoutingDecisionRecord
+{
+    public const int CurrentSchemaVersion = 1;
+    public int SchemaVersion { get; init; } = CurrentSchemaVersion;
+    public required string DecisionId { get; init; }
+    public required string TaskKey { get; init; }
+    public required int Run { get; init; }
+    public string? PolicyVersion { get; init; }
+    public string? RecommendedModel { get; init; }
+    public string? RecommendedThinkingLevel { get; init; }
+    public string? SelectedModel { get; init; }
+    public string? SelectedThinkingLevel { get; init; }
+    public string? SelectionSource { get; init; }
+    public int? Score { get; init; }
+    public string? Reason { get; init; }
+    public DateTime? DecidedAtUtc { get; init; }
+    public string? ProvenanceReference { get; init; }
+    public string? ProvenanceSha256 { get; init; }
+}
+
+/// <summary>
+/// Append-only telemetry and raw outcome facts for one attempt observation. A changed source
+/// snapshot produces another observation id; replaying the same snapshot produces the same id.
+/// </summary>
+public sealed record AgentStudioRunOutcomeObservation
+{
+    public const int CurrentSchemaVersion = 1;
+    public int SchemaVersion { get; init; } = CurrentSchemaVersion;
+    public required string ObservationId { get; init; }
+    public required string DecisionId { get; init; }
+    public required string TaskKey { get; init; }
+    public required int Run { get; init; }
+    public string? ActualModel { get; init; }
+    public string? ActualThinkingLevel { get; init; }
+    public required TokenUsage Usage { get; init; }
+    public bool TokenUsageAvailable { get; init; }
+    public DateTime? StartedAtUtc { get; init; }
+    public required DateTime ExecutedAtUtc { get; init; }
+    public long? DurationMs { get; init; }
+    public decimal? CostEstimate { get; init; }
+    public required PriceStatus CostStatus { get; init; }
+    public string? RawOutcome { get; init; }
+    public string? RawReviewOutcome { get; init; }
+    public string? Grade { get; init; }
+    public bool? SemanticReissue { get; init; }
+    public string? ReissueReason { get; init; }
+    public required DateTime ObservedAtUtc { get; init; }
+    public string? ProvenanceReference { get; init; }
+    public string? ProvenanceSha256 { get; init; }
+}
+
+/// <summary>A versioned derivation over an immutable outcome observation.</summary>
+public sealed record AgentStudioOutcomeClassification
+{
+    public const int CurrentVersion = 1;
+    public int Version { get; init; } = CurrentVersion;
+    public required string ObservationId { get; init; }
+    public required string DecisionId { get; init; }
+    public required AgentStudioAttemptOutcomeCategory Category { get; init; }
+    public required AgentStudioReviewOutcome ReviewOutcome { get; init; }
+    public string? ReissueReason { get; init; }
+    public bool IsSemanticFailure => Category is AgentStudioAttemptOutcomeCategory.SemanticFailure
+        or AgentStudioAttemptOutcomeCategory.SubstantiveReview;
+    public bool IsInfrastructureFailure => Category is AgentStudioAttemptOutcomeCategory.EnvironmentalFailure
+        or AgentStudioAttemptOutcomeCategory.StaleBase
+        or AgentStudioAttemptOutcomeCategory.BrokenTestHost
+        or AgentStudioAttemptOutcomeCategory.MissingDeliveryPath;
+    public RoutingAttemptOutcome RoutingOutcome => Category switch
+    {
+        AgentStudioAttemptOutcomeCategory.SemanticFailure => RoutingAttemptOutcome.SemanticFailure,
+        AgentStudioAttemptOutcomeCategory.SubstantiveReview => RoutingAttemptOutcome.SubstantiveLowGrade,
+        AgentStudioAttemptOutcomeCategory.EnvironmentalFailure => RoutingAttemptOutcome.EnvironmentalFailure,
+        AgentStudioAttemptOutcomeCategory.StaleBase => RoutingAttemptOutcome.StaleBase,
+        AgentStudioAttemptOutcomeCategory.BrokenTestHost => RoutingAttemptOutcome.BrokenTestHost,
+        AgentStudioAttemptOutcomeCategory.Cancellation => RoutingAttemptOutcome.Cancellation,
+        AgentStudioAttemptOutcomeCategory.QuotaTruncation => RoutingAttemptOutcome.QuotaTruncation,
+        AgentStudioAttemptOutcomeCategory.MissingDeliveryPath => RoutingAttemptOutcome.MissingDeliveryPath,
+        _ => RoutingAttemptOutcome.None,
+    };
+}
+
 /// <summary>A single, deduplicatable model run imported from an Agent Studio task card.</summary>
 public sealed record AgentStudioRunRecord
 {
@@ -14,11 +127,23 @@ public sealed record AgentStudioRunRecord
     public required string TaskKey { get; init; }
     /// <summary>Attempt/run number within the task. Together with <see cref="TaskKey"/> this is the idempotency key.</summary>
     public required int Run { get; init; }
+    /// <summary>Immutable pre-launch decision joined to this attempt, when recorded.</summary>
+    public AgentStudioRoutingDecisionRecord? RoutingDecision { get; init; }
+    /// <summary>Append-only raw observation represented by this materialized attempt record.</summary>
+    public AgentStudioRunOutcomeObservation? OutcomeObservation { get; init; }
+    /// <summary>Versioned classification derived from <see cref="OutcomeObservation"/>.</summary>
+    public AgentStudioOutcomeClassification? OutcomeClassification { get; init; }
     public string? Project { get; init; }
     public string? Provider { get; init; }
     /// <summary>The recorded model id. Null means task storage did not identify an unambiguous route.</summary>
     public string? Model { get; init; }
     public string? ThinkingLevel { get; init; }
+    /// <summary>The model that actually ran, independent of the route recommendation.</summary>
+    public string? ActualModel => OutcomeObservation?.ActualModel ?? Model;
+    /// <summary>The thinking level that actually ran, independent of the route recommendation.</summary>
+    public string? ActualThinkingLevel => OutcomeObservation?.ActualThinkingLevel ?? ThinkingLevel;
+    public string? RoutingDecisionId => RoutingDecision?.DecisionId ?? OutcomeObservation?.DecisionId;
+    public string? RoutingPolicyVersion => RoutingDecision?.PolicyVersion;
     public AgentStudioRouteGranularity RouteGranularity { get; init; }
     public string? CliType { get; init; }
     public string? TaskType { get; init; }
@@ -62,9 +187,13 @@ public sealed record AgentStudioRunRecord
     public required OutcomeQualitySignal Outcome { get; init; }
     /// <summary>Review grade when task storage records one; unrecognized values remain unknown.</summary>
     public string? Grade { get; init; }
+    public AgentStudioReviewOutcome ReviewOutcome => OutcomeClassification?.ReviewOutcome ?? AgentStudioReviewOutcome.Unknown;
+    public AgentStudioAttemptOutcomeCategory OutcomeCategory => OutcomeClassification?.Category ?? AgentStudioAttemptOutcomeCategory.Unknown;
+    public string? ReissueReason => OutcomeClassification?.ReissueReason ?? OutcomeObservation?.ReissueReason;
+    public RoutingAttemptOutcome RoutingOutcome => OutcomeClassification?.RoutingOutcome ?? RoutingAttemptOutcome.None;
     /// <summary>
-    /// True only when storage explicitly classifies this attempt as a semantic reissue. A retry
-    /// number alone is not enough because environmental and delivery failures are not semantic.
+    /// True only when storage explicitly identifies a semantic failure/reissue or substantive C/D
+    /// review. A retry number alone is not enough because substrate and delivery failures are not semantic.
     /// </summary>
     public bool? SemanticReissue { get; init; }
     public DateTime? StartedAtUtc { get; init; }
@@ -118,7 +247,9 @@ public static class ComplexityHistory
                             ? (record.ExecutedAtUtc - started).Ticks : 0)),
                     // Run numbers preserve known prior attempts even when task storage only retains
                     // the latest run; distinct records provide the same fact when all attempts exist.
-                    ReissueCount = Math.Max(attempts.Length - 1, Math.Max(0, attempts.Max(record => record.Run) - 1)),
+                    ReissueCount = attempts.All(record => record.SemanticReissue is not null)
+                        ? attempts.Count(record => record.SemanticReissue == true)
+                        : Math.Max(attempts.Length - 1, Math.Max(0, attempts.Max(record => record.Run) - 1)),
                     TokenHistoryComplete = attempts.All(record => record.TokenUsageAvailable),
                     DurationHistoryComplete = attempts.All(record => record.StartedAtUtc is { } started && record.ExecutedAtUtc >= started),
                     ReissueHistoryAvailable = attempts.All(record => record.Run > 0),
@@ -141,12 +272,67 @@ public interface IAgentStudioRunStore
     IReadOnlyCollection<AgentStudioRunRecord> Records { get; }
 }
 
+/// <summary>
+/// A run store that also retains immutable decisions, append-only raw observations, and versioned
+/// derived classifications. Duplicate identities are idempotent; an existing decision is never replaced.
+/// </summary>
+public interface IAgentStudioRunLedger : IAgentStudioRunStore
+{
+    IReadOnlyCollection<AgentStudioRoutingDecisionRecord> Decisions { get; }
+    IReadOnlyCollection<AgentStudioRunOutcomeObservation> OutcomeObservations { get; }
+    IReadOnlyCollection<AgentStudioOutcomeClassification> OutcomeClassifications { get; }
+}
+
 /// <summary>Small in-memory store useful to hosts, tests, and command-line import jobs.</summary>
-public sealed class InMemoryAgentStudioRunStore : IAgentStudioRunStore
+public sealed class InMemoryAgentStudioRunStore : IAgentStudioRunLedger
 {
     private readonly Dictionary<(string TaskKey, int Run), AgentStudioRunRecord> _records = new();
+    private readonly Dictionary<string, AgentStudioRoutingDecisionRecord> _decisions = new(StringComparer.Ordinal);
+    private readonly Dictionary<string, AgentStudioRunOutcomeObservation> _observations = new(StringComparer.Ordinal);
+    private readonly Dictionary<(string ObservationId, int Version), AgentStudioOutcomeClassification> _classifications = new();
     public IReadOnlyCollection<AgentStudioRunRecord> Records => _records.Values;
-    public void Upsert(AgentStudioRunRecord record) => _records[(record.TaskKey, record.Run)] = record;
+    public IReadOnlyCollection<AgentStudioRoutingDecisionRecord> Decisions => _decisions.Values;
+    public IReadOnlyCollection<AgentStudioRunOutcomeObservation> OutcomeObservations => _observations.Values;
+    public IReadOnlyCollection<AgentStudioOutcomeClassification> OutcomeClassifications => _classifications.Values;
+
+    public void Upsert(AgentStudioRunRecord record)
+    {
+        ArgumentNullException.ThrowIfNull(record);
+        if (record.RoutingDecision is { } decision)
+        {
+            if (_decisions.TryGetValue(decision.DecisionId, out var retained)
+                && !SameDecision(retained, decision))
+                throw new ArgumentException($"Routing decision '{decision.DecisionId}' cannot be rewritten.", nameof(record));
+            _decisions.TryAdd(decision.DecisionId, decision);
+        }
+        if (record.OutcomeObservation is { } observation)
+            AddOrVerify(_observations, observation.ObservationId, observation, "outcome observation", record);
+        if (record.OutcomeClassification is { } classification)
+            AddOrVerify(_classifications, (classification.ObservationId, classification.Version),
+                classification, "outcome classification", record);
+
+        var key = (record.TaskKey, record.Run);
+        if (!_records.TryGetValue(key, out var current) || record.ObservedAtUtc >= current.ObservedAtUtc)
+            _records[key] = record;
+    }
+
+    private static bool SameDecision(AgentStudioRoutingDecisionRecord left, AgentStudioRoutingDecisionRecord right)
+        => left with { ProvenanceReference = null, ProvenanceSha256 = null }
+            == right with { ProvenanceReference = null, ProvenanceSha256 = null };
+
+    private static void AddOrVerify<TKey, TValue>(
+        IDictionary<TKey, TValue> destination,
+        TKey key,
+        TValue value,
+        string kind,
+        AgentStudioRunRecord record)
+        where TKey : notnull
+        where TValue : notnull
+    {
+        if (destination.TryGetValue(key, out var retained) && !EqualityComparer<TValue>.Default.Equals(retained, value))
+            throw new ArgumentException($"Append-only {kind} '{key}' has conflicting content.", nameof(record));
+        destination.TryAdd(key, value);
+    }
 }
 
 /// <summary>Cost coverage retained when imported runs are aggregated.</summary>
@@ -169,6 +355,9 @@ public sealed record ModelRunView
     /// <summary>Retained so provider availability is not collapsed across different launch surfaces.</summary>
     public string? CliType { get; init; }
     public string? Model { get; init; }
+    public string? ThinkingLevel { get; init; }
+    public string? PolicyVersion { get; init; }
+    public int? OutcomeClassificationVersion { get; init; }
     public string? Project { get; init; }
     public required int Runs { get; init; }
     public required long InputTokens { get; init; }
@@ -184,6 +373,8 @@ public sealed record ModelRunView
     public required int SuccessfulRuns { get; init; }
     public required int NeedsReviewRuns { get; init; }
     public required int UnsuccessfulRuns { get; init; }
+    public required int ReviewOutcomeAvailableRuns { get; init; }
+    public required IReadOnlyDictionary<AgentStudioAttemptOutcomeCategory, int> OutcomeCategoryCounts { get; init; }
 }
 
 /// <summary>Builds model-over-time and per-project views from imported run records.</summary>
@@ -198,11 +389,16 @@ public static class ModelRunViews
         => Build(records);
 
     private static IReadOnlyList<ModelRunView> Build(IEnumerable<AgentStudioRunRecord> records) => records
-        .GroupBy(r => (Day: DateOnly.FromDateTime(r.ObservedAtUtc), r.Provider, r.CliType, r.Model, r.Project))
+        .GroupBy(r => (Day: DateOnly.FromDateTime(r.ObservedAtUtc), r.Provider, r.CliType,
+            Model: r.ActualModel, Thinking: r.ActualThinkingLevel, Policy: r.RoutingPolicyVersion,
+            ClassificationVersion: r.OutcomeClassification?.Version, r.Project))
         .OrderBy(g => g.Key.Day).ThenBy(g => g.Key.Project).ThenBy(g => g.Key.Model, StringComparer.Ordinal)
+        .ThenBy(g => g.Key.Thinking, StringComparer.Ordinal).ThenBy(g => g.Key.Policy, StringComparer.Ordinal)
         .Select(g => new ModelRunView
         {
-            Day = g.Key.Day, Provider = g.Key.Provider, CliType = g.Key.CliType, Model = g.Key.Model, Project = g.Key.Project,
+            Day = g.Key.Day, Provider = g.Key.Provider, CliType = g.Key.CliType, Model = g.Key.Model,
+            ThinkingLevel = g.Key.Thinking, PolicyVersion = g.Key.Policy,
+            OutcomeClassificationVersion = g.Key.ClassificationVersion, Project = g.Key.Project,
             Runs = g.Count(), InputTokens = g.Sum(r => r.Usage.Input), OutputTokens = g.Sum(r => r.Usage.Output),
             CacheReadTokens = g.Sum(r => r.Usage.CacheRead), CacheWriteTokens = g.Sum(r => r.Usage.CacheWrite),
             CostEstimate = g.Any(r => r.CostEstimate is null) ? null : g.Sum(r => r.CostEstimate!.Value),
@@ -215,5 +411,8 @@ public static class ModelRunViews
             SuccessfulRuns = g.Count(r => r.Outcome == OutcomeQualitySignal.Successful),
             NeedsReviewRuns = g.Count(r => r.Outcome == OutcomeQualitySignal.NeedsReview),
             UnsuccessfulRuns = g.Count(r => r.Outcome == OutcomeQualitySignal.Unsuccessful),
+            ReviewOutcomeAvailableRuns = g.Count(r => r.ReviewOutcome != AgentStudioReviewOutcome.Unknown),
+            OutcomeCategoryCounts = Enum.GetValues<AgentStudioAttemptOutcomeCategory>()
+                .ToDictionary(category => category, category => g.Count(r => r.OutcomeCategory == category)),
         }).ToList();
 }
