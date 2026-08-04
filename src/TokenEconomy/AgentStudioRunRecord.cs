@@ -41,18 +41,46 @@ public enum AgentStudioReviewOutcome
 /// <summary>The immutable routing decision made before one Agent Studio attempt launched.</summary>
 public sealed record AgentStudioRoutingDecisionRecord
 {
-    public const int CurrentSchemaVersion = 1;
+    public const int CurrentSchemaVersion = 2;
     public int SchemaVersion { get; init; } = CurrentSchemaVersion;
     public required string DecisionId { get; init; }
     public required string TaskKey { get; init; }
     public required int Run { get; init; }
+    /// <summary>The terminal admission disposition. A missing value identifies a legacy import.</summary>
+    public ModelRoutingDisposition? Disposition { get; init; }
     public string? PolicyVersion { get; init; }
+    public string? RecommendedRouteId { get; init; }
     public string? RecommendedModel { get; init; }
     public string? RecommendedThinkingLevel { get; init; }
+    public bool? RecommendedRouteProvisional { get; init; }
+    public string? SelectedRouteId { get; init; }
     public string? SelectedModel { get; init; }
     public string? SelectedThinkingLevel { get; init; }
+    public bool? SelectedRouteProvisional { get; init; }
     public string? SelectionSource { get; init; }
+    /// <summary>The effective policy score used for this attempt, including semantic evidence.</summary>
     public int? Score { get; init; }
+    /// <summary>The immutable intake score retained separately from the effective attempt score.</summary>
+    public int? UpfrontScore { get; init; }
+    public string? HardFloorRouteId { get; init; }
+    public string? HardFloorModel { get; init; }
+    public string? HardFloorThinkingLevel { get; init; }
+    public IReadOnlyList<string> AppliedHardFloorIds { get; init; } = [];
+    public bool? IsHardFloor { get; init; }
+    public bool? SemanticPromotionApplied { get; init; }
+    /// <summary>The configured card route is audit context only; admission never rewrites it.</summary>
+    public string? ConfiguredModel { get; init; }
+    public string? ConfiguredThinkingLevel { get; init; }
+    public string? OperatorPinModel { get; init; }
+    public string? OperatorPinThinkingLevel { get; init; }
+    public bool? OperatorPinBelowPolicy { get; init; }
+    public string? OperatorPinWarning { get; init; }
+    public bool? QuotaFallbackApplied { get; init; }
+    public string? QuotaFallbackReason { get; init; }
+    public string? WaitOrOverrideReason { get; init; }
+    public DateTime? QuotaSnapshotDecisionAtUtc { get; init; }
+    public string? QuotaSnapshotId { get; init; }
+    public string? PolicyReason { get; init; }
     public string? Reason { get; init; }
     public DateTime? DecidedAtUtc { get; init; }
     public string? ProvenanceReference { get; init; }
@@ -272,13 +300,16 @@ public interface IAgentStudioRunStore
     IReadOnlyCollection<AgentStudioRunRecord> Records { get; }
 }
 
-/// <summary>
-/// A run store that also retains immutable decisions, append-only raw observations, and versioned
-/// derived classifications. Duplicate identities are idempotent; an existing decision is never replaced.
-/// </summary>
-public interface IAgentStudioRunLedger : IAgentStudioRunStore
+/// <summary>Persists immutable attempt routing decisions before a launch is admitted.</summary>
+public interface IAgentStudioRoutingDecisionStore
 {
+    void RecordDecision(AgentStudioRoutingDecisionRecord decision);
     IReadOnlyCollection<AgentStudioRoutingDecisionRecord> Decisions { get; }
+}
+
+/// <summary>Host ledger for immutable decisions and append-only attempt evidence.</summary>
+public interface IAgentStudioRunLedger : IAgentStudioRunStore, IAgentStudioRoutingDecisionStore
+{
     IReadOnlyCollection<AgentStudioRunOutcomeObservation> OutcomeObservations { get; }
     IReadOnlyCollection<AgentStudioOutcomeClassification> OutcomeClassifications { get; }
 }
@@ -299,12 +330,7 @@ public sealed class InMemoryAgentStudioRunStore : IAgentStudioRunLedger
     {
         ArgumentNullException.ThrowIfNull(record);
         if (record.RoutingDecision is { } decision)
-        {
-            if (_decisions.TryGetValue(decision.DecisionId, out var retained)
-                && !SameDecision(retained, decision))
-                throw new ArgumentException($"Routing decision '{decision.DecisionId}' cannot be rewritten.", nameof(record));
-            _decisions.TryAdd(decision.DecisionId, decision);
-        }
+            RecordDecision(decision);
         if (record.OutcomeObservation is { } observation)
             AddOrVerify(_observations, observation.ObservationId, observation, "outcome observation", record);
         if (record.OutcomeClassification is { } classification)
@@ -316,9 +342,29 @@ public sealed class InMemoryAgentStudioRunStore : IAgentStudioRunLedger
             _records[key] = record;
     }
 
+    public void RecordDecision(AgentStudioRoutingDecisionRecord decision)
+    {
+        ArgumentNullException.ThrowIfNull(decision);
+        if (_decisions.TryGetValue(decision.DecisionId, out var retained)
+            && !SameDecision(retained, decision))
+            throw new ArgumentException($"Routing decision '{decision.DecisionId}' cannot be rewritten.", nameof(decision));
+        _decisions.TryAdd(decision.DecisionId, decision);
+    }
+
     private static bool SameDecision(AgentStudioRoutingDecisionRecord left, AgentStudioRoutingDecisionRecord right)
-        => left with { ProvenanceReference = null, ProvenanceSha256 = null }
-            == right with { ProvenanceReference = null, ProvenanceSha256 = null };
+        => left.AppliedHardFloorIds.SequenceEqual(right.AppliedHardFloorIds, StringComparer.Ordinal)
+            && left with
+            {
+                AppliedHardFloorIds = Array.Empty<string>(),
+                ProvenanceReference = null,
+                ProvenanceSha256 = null,
+            }
+            == right with
+            {
+                AppliedHardFloorIds = Array.Empty<string>(),
+                ProvenanceReference = null,
+                ProvenanceSha256 = null,
+            };
 
     private static void AddOrVerify<TKey, TValue>(
         IDictionary<TKey, TValue> destination,

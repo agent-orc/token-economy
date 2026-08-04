@@ -97,6 +97,14 @@ selection rubric, and a standalone `ai-patterns` handoff.
   quota or cost to cross a correctness floor. See the
   [routing API contract](docs/model-routing-api.md).
 
+- **Agent Studio admission loop** — `AgentStudioTaskAdmission.PrepareAttempt`
+  stores intake features, consumes the newest classified prior outcome, routes
+  before each attempt against a run-scoped quota snapshot, records the complete
+  decision, and returns either an attempt-local launch route or a closed
+  wait/override disposition. Card configuration is retained separately and is
+  never silently rewritten. See the
+  [host integration contract](docs/agent-studio-routing-integration.md).
+
 - **Controlled A/B benchmarks** — versioned repository definitions execute the
   same task against model/effort variants in isolated workspaces, retain raw
   append-only measurements, and derive deterministic comparison reports. See

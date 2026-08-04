@@ -7,6 +7,16 @@ SemVer; pre-1.0 the public API may still shift).
 
 ### Added
 
+- An Agent Studio task-admission adapter that persists intake estimates, routes
+  before every attempt with run-scoped quota evidence, consumes the newest
+  classified reissue outcome, and records a complete immutable launch/wait
+  decision without rewriting card configuration. The expanded task-storage
+  import contract and accessible operator fragment retain recommendation,
+  selection, score, floor, source, policy/provisional state, quota fallback,
+  pin warning, and wait reason. An end-to-end fixture covers initial routing,
+  equivalent-provider quota fallback, semantic promotion, terminal ingestion,
+  and deterministic replay.
+
 - Durable Agent Studio routing decisions, append-only attempt observations, and
   versioned outcome classifications joined by stable IDs. Imports and model-run
   views now retain actual model/thinking level, policy version, tokens,

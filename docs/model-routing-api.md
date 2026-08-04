@@ -73,3 +73,19 @@ Every `ModelRoutingResult` contains:
 `SelectedRoute` is null only for `Wait` and `OverrideRequired`. The recommended
 route and all other audit fields remain populated in those outcomes so a host
 can explain the decision without reconstructing it.
+
+## Agent Studio admission adapter
+
+`AgentStudioTaskAdmission.PrepareAttempt` wires this pure result into the host
+boundary before each attempt. It obtains or stores the intake estimate through
+`ITaskComplexityEstimateStore`, selects the newest classified prior evidence
+from `IAgentStudioRunLedger`, routes against the supplied run-scoped quota
+snapshot, and records an immutable schema-version-2
+`AgentStudioRoutingDecisionRecord`. Only a `Selected` result produces an
+attempt-local `LaunchRoute`; wait and override results cannot accidentally be
+launched.
+
+The card's configured route and an explicit operator pin are separate request
+fields. Neither is overwritten by the selected attempt route. Full host order,
+persistence fields, import mappings, and operator rendering are documented in
+[`agent-studio-routing-integration.md`](agent-studio-routing-integration.md).
