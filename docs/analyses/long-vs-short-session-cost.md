@@ -33,7 +33,7 @@ the topic changes or retained history is mostly irrelevant.
 
 This is the cost layer adjacent to **AIP-13, Topic Switching / Long Context**
 (in preparation in the
-[AI Patterns repository](https://github.com/agent-orc/ai-patterns)). AIP-13
+[AI Patterns repository](https://github.com/RobertMischke/ai-patterns.dev)). AIP-13
 owns the quality side: topic coherence, warmth, repair density, and the risk of
 carrying irrelevant state. This document does not duplicate that pattern. Cost
 and quality are orthogonal signals.
