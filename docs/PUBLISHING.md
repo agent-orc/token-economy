@@ -22,12 +22,12 @@ The tag push triggers `release.yml`, which:
 4. pushes the `.nupkg` and its symbols to nuget.org, and
 5. creates a GitHub Release carrying the package artifacts.
 
-## First publish of a new package id: one-time setup
+## Trusted Publishing policy: one-time setup
 
-Before the first release, the nuget.org owner must create a Trusted Publishing
-policy. If `TokenEconomy` is still unclaimed and the first OIDC publish is not
-accepted, claim it once through nuget.org's manual upload page, then use the
-keyless workflow for all later releases.
+`TokenEconomy` is already owned and published (0.2.0), so the keyless OIDC
+workflow is the only path in use. The policy values below are recorded so the
+policy can be recreated if it is ever removed or expires; a policy that already
+works needs no action.
 
 These steps follow Microsoft's
 [Trusted Publishing](https://learn.microsoft.com/nuget/nuget-org/trusted-publishing)
@@ -68,8 +68,11 @@ in nuget.org and rerun the failed workflow.
 
 ### Fallback: manually claim an unowned id once
 
-Use this only if the policy was created correctly but nuget.org rejects the
-first OIDC publish because the new `TokenEconomy` id has no owner.
+Retained for a future new, unowned package id only. It does not apply to
+`TokenEconomy`, which is already owned and published - never manually upload a
+copy of a version that already exists. Use this only if the policy was created
+correctly but nuget.org rejects a first OIDC publish because the id has no
+owner.
 
 1. From clean `main`, run `scripts/pack.sh <version>`.
 2. Sign in to nuget.org as `RobertMischke2`, select **Upload**, and choose
@@ -84,7 +87,7 @@ first OIDC publish because the new `TokenEconomy` id has no owner.
    created. Its package push uses `--skip-duplicate`, so the manual package
    upload is not overwritten.
 
-## After the first publish
+## Cutting a release
 
 Every subsequent release is:
 

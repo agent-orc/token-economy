@@ -4,8 +4,8 @@
 # The GitHub 'release' workflow then packs and pushes the package to nuget.org
 # using nuget.org Trusted Publishing (OIDC) — there is NO API key to store or
 # pass. This script uses and stores NO secret; it only drives git + tests
-# locally. NOTE: the very first publish of the new 'TokenEconomy' id may need a
-# one-time manual push / Trusted Publishing policy setup — see docs/PUBLISHING.md.
+# locally. The 'TokenEconomy' id is already owned and published (0.2.0), so the
+# keyless path applies to every release — see docs/PUBLISHING.md.
 #
 # Usage: scripts/release.sh 0.1.0
 set -euo pipefail
