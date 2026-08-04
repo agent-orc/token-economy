@@ -9,7 +9,7 @@ of every call. It is to minimize the expected cost of a correct result.
 The pattern applies at three levels:
 
 1. An operator session can spawn cheaper subagents for bounded work.
-2. A CodingAgentRunner run can spawn small agents for simple subtasks.
+2. A Runner run can spawn small agents for simple subtasks.
 3. A task card can pin a cheaper model when the whole card is narrow and
    mechanically verifiable.
 

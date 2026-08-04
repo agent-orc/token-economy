@@ -29,7 +29,7 @@ For current Agent Studio routing:
 - **Codex:** use small cards with `dependsOn` today. Codex has native subagents,
   but those are parallel agent threads, not Claude's scripted Workflow runtime,
   and the current `codex exec` documentation does not establish the exact
-  non-interactive spawn contract used by CodingAgentRunner (CAR).
+  non-interactive spawn contract used by the Runner.
 
 ## 1. Capability Boundary
 

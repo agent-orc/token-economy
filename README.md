@@ -264,7 +264,7 @@ TokenEconomy is the token-economics layer of the Agent Orchestrator family. It
 answers what a run costs and which model to spend the next tokens on;
 [Agent Studio](https://github.com/agent-orc/agent-studio) is the orchestrator
 that turns tasks into agent runs and is the source of the run metrics imported
-here; [CodingAgentRunner](https://github.com/agent-orc/runner) is the process
+here; the [Runner](https://github.com/agent-orc/runner) is the process
 and protocol layer that actually launches the coding-agent CLIs and reports the
 token usage this library prices; and
 [Agent Chat](https://github.com/agent-orc/chat) is the conversation UI for

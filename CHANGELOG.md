@@ -104,7 +104,7 @@ First release published to nuget.org.
   - **`SuggestModel(taskClass, budgetPressure, availableClis, atUtc)`** →
     candidates ranked best-first, each with a `Score`, a suggested effort, and a
     one-line English `Rationale` for the orchestrator's decision event and the
-    Lastverteilung view. Capability fit leads; budget pressure tips the balance
+    load-distribution view. Capability fit leads; budget pressure tips the balance
     toward cheaper models (a downshift) without ever letting an underpowered
     model outrank a capable one. Only models whose CLI is in `availableClis` are
     ranked — a dry/absent CLI drops out with no launch attempt — and restricted
