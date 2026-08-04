@@ -924,7 +924,7 @@
         "Gamma closes the page."
       ],
       "unexpectedFragments": [],
-      "failureReason": "WARNING: proceeding, even though we could not create PATH aliases: Refusing to create helper binaries under temporary dir \u0022C:\\\\Users\\\\rmisc\\\\AppData\\\\Local\\\\Temp\\\\\u0022 (codex_home: AbsolutePathBuf(\u0022C:\\\\Users\\\\rmisc\\\\AppData\\\\Local\\\\Temp\\\\atp-clean-context\\\\codex-ebbbe1d5e0e74ca4909ad675fec2b0e9\u0022))\nReading additional input from stdin...\n"
+      "failureReason": "WARNING: proceeding, even though we could not create PATH aliases: Refusing to create helper binaries under temporary dir \u0022<TEMP>\\\\\u0022 (codex_home: AbsolutePathBuf(\u0022<TEMP>\\\\atp-clean-context\\\\codex-<id>\u0022))\nReading additional input from stdin...\n"
     },
     {
       "model": "gpt-5.6",
@@ -951,7 +951,7 @@
         "Approved 24 July 2026"
       ],
       "unexpectedFragments": [],
-      "failureReason": "WARNING: proceeding, even though we could not create PATH aliases: Refusing to create helper binaries under temporary dir \u0022C:\\\\Users\\\\rmisc\\\\AppData\\\\Local\\\\Temp\\\\\u0022 (codex_home: AbsolutePathBuf(\u0022C:\\\\Users\\\\rmisc\\\\AppData\\\\Local\\\\Temp\\\\atp-clean-context\\\\codex-ebbbe1d5e0e74ca4909ad675fec2b0e9\u0022))\nReading additional input from stdin...\n"
+      "failureReason": "WARNING: proceeding, even though we could not create PATH aliases: Refusing to create helper binaries under temporary dir \u0022<TEMP>\\\\\u0022 (codex_home: AbsolutePathBuf(\u0022<TEMP>\\\\atp-clean-context\\\\codex-<id>\u0022))\nReading additional input from stdin...\n"
     },
     {
       "model": "gpt-5.6",
@@ -980,7 +980,7 @@
         "2750000"
       ],
       "unexpectedFragments": [],
-      "failureReason": "WARNING: proceeding, even though we could not create PATH aliases: Refusing to create helper binaries under temporary dir \u0022C:\\\\Users\\\\rmisc\\\\AppData\\\\Local\\\\Temp\\\\\u0022 (codex_home: AbsolutePathBuf(\u0022C:\\\\Users\\\\rmisc\\\\AppData\\\\Local\\\\Temp\\\\atp-clean-context\\\\codex-ebbbe1d5e0e74ca4909ad675fec2b0e9\u0022))\nReading additional input from stdin...\n"
+      "failureReason": "WARNING: proceeding, even though we could not create PATH aliases: Refusing to create helper binaries under temporary dir \u0022<TEMP>\\\\\u0022 (codex_home: AbsolutePathBuf(\u0022<TEMP>\\\\atp-clean-context\\\\codex-<id>\u0022))\nReading additional input from stdin...\n"
     },
     {
       "model": "gpt-5.6",
@@ -1005,7 +1005,7 @@
         "Owner: Zo\u00EB Fa\u00DFbinder"
       ],
       "unexpectedFragments": [],
-      "failureReason": "WARNING: proceeding, even though we could not create PATH aliases: Refusing to create helper binaries under temporary dir \u0022C:\\\\Users\\\\rmisc\\\\AppData\\\\Local\\\\Temp\\\\\u0022 (codex_home: AbsolutePathBuf(\u0022C:\\\\Users\\\\rmisc\\\\AppData\\\\Local\\\\Temp\\\\atp-clean-context\\\\codex-ebbbe1d5e0e74ca4909ad675fec2b0e9\u0022))\nReading additional input from stdin...\n"
+      "failureReason": "WARNING: proceeding, even though we could not create PATH aliases: Refusing to create helper binaries under temporary dir \u0022<TEMP>\\\\\u0022 (codex_home: AbsolutePathBuf(\u0022<TEMP>\\\\atp-clean-context\\\\codex-<id>\u0022))\nReading additional input from stdin...\n"
     },
     {
       "model": "gpt-5.5",
@@ -1105,7 +1105,7 @@
         "Gamma closes the page."
       ],
       "unexpectedFragments": [],
-      "failureReason": "WARNING: proceeding, even though we could not create PATH aliases: Refusing to create helper binaries under temporary dir \u0022C:\\\\Users\\\\rmisc\\\\AppData\\\\Local\\\\Temp\\\\\u0022 (codex_home: AbsolutePathBuf(\u0022C:\\\\Users\\\\rmisc\\\\AppData\\\\Local\\\\Temp\\\\atp-clean-context\\\\codex-ebbbe1d5e0e74ca4909ad675fec2b0e9\u0022))\nReading additional input from stdin...\n"
+      "failureReason": "WARNING: proceeding, even though we could not create PATH aliases: Refusing to create helper binaries under temporary dir \u0022<TEMP>\\\\\u0022 (codex_home: AbsolutePathBuf(\u0022<TEMP>\\\\atp-clean-context\\\\codex-<id>\u0022))\nReading additional input from stdin...\n"
     },
     {
       "model": "gpt-5",
@@ -1132,7 +1132,7 @@
         "Approved 24 July 2026"
       ],
       "unexpectedFragments": [],
-      "failureReason": "WARNING: proceeding, even though we could not create PATH aliases: Refusing to create helper binaries under temporary dir \u0022C:\\\\Users\\\\rmisc\\\\AppData\\\\Local\\\\Temp\\\\\u0022 (codex_home: AbsolutePathBuf(\u0022C:\\\\Users\\\\rmisc\\\\AppData\\\\Local\\\\Temp\\\\atp-clean-context\\\\codex-ebbbe1d5e0e74ca4909ad675fec2b0e9\u0022))\nReading additional input from stdin...\n"
+      "failureReason": "WARNING: proceeding, even though we could not create PATH aliases: Refusing to create helper binaries under temporary dir \u0022<TEMP>\\\\\u0022 (codex_home: AbsolutePathBuf(\u0022<TEMP>\\\\atp-clean-context\\\\codex-<id>\u0022))\nReading additional input from stdin...\n"
     },
     {
       "model": "gpt-5",
@@ -1161,7 +1161,7 @@
         "2750000"
       ],
       "unexpectedFragments": [],
-      "failureReason": "WARNING: proceeding, even though we could not create PATH aliases: Refusing to create helper binaries under temporary dir \u0022C:\\\\Users\\\\rmisc\\\\AppData\\\\Local\\\\Temp\\\\\u0022 (codex_home: AbsolutePathBuf(\u0022C:\\\\Users\\\\rmisc\\\\AppData\\\\Local\\\\Temp\\\\atp-clean-context\\\\codex-ebbbe1d5e0e74ca4909ad675fec2b0e9\u0022))\nReading additional input from stdin...\n"
+      "failureReason": "WARNING: proceeding, even though we could not create PATH aliases: Refusing to create helper binaries under temporary dir \u0022<TEMP>\\\\\u0022 (codex_home: AbsolutePathBuf(\u0022<TEMP>\\\\atp-clean-context\\\\codex-<id>\u0022))\nReading additional input from stdin...\n"
     },
     {
       "model": "gpt-5",
@@ -1186,7 +1186,7 @@
         "Owner: Zo\u00EB Fa\u00DFbinder"
       ],
       "unexpectedFragments": [],
-      "failureReason": "WARNING: proceeding, even though we could not create PATH aliases: Refusing to create helper binaries under temporary dir \u0022C:\\\\Users\\\\rmisc\\\\AppData\\\\Local\\\\Temp\\\\\u0022 (codex_home: AbsolutePathBuf(\u0022C:\\\\Users\\\\rmisc\\\\AppData\\\\Local\\\\Temp\\\\atp-clean-context\\\\codex-ebbbe1d5e0e74ca4909ad675fec2b0e9\u0022))\nReading additional input from stdin...\n"
+      "failureReason": "WARNING: proceeding, even though we could not create PATH aliases: Refusing to create helper binaries under temporary dir \u0022<TEMP>\\\\\u0022 (codex_home: AbsolutePathBuf(\u0022<TEMP>\\\\atp-clean-context\\\\codex-<id>\u0022))\nReading additional input from stdin...\n"
     },
     {
       "model": "gpt-5-codex",
@@ -1210,7 +1210,7 @@
         "Gamma closes the page."
       ],
       "unexpectedFragments": [],
-      "failureReason": "WARNING: proceeding, even though we could not create PATH aliases: Refusing to create helper binaries under temporary dir \u0022C:\\\\Users\\\\rmisc\\\\AppData\\\\Local\\\\Temp\\\\\u0022 (codex_home: AbsolutePathBuf(\u0022C:\\\\Users\\\\rmisc\\\\AppData\\\\Local\\\\Temp\\\\atp-clean-context\\\\codex-ebbbe1d5e0e74ca4909ad675fec2b0e9\u0022))\nReading additional input from stdin...\n"
+      "failureReason": "WARNING: proceeding, even though we could not create PATH aliases: Refusing to create helper binaries under temporary dir \u0022<TEMP>\\\\\u0022 (codex_home: AbsolutePathBuf(\u0022<TEMP>\\\\atp-clean-context\\\\codex-<id>\u0022))\nReading additional input from stdin...\n"
     },
     {
       "model": "gpt-5-codex",
@@ -1237,7 +1237,7 @@
         "Approved 24 July 2026"
       ],
       "unexpectedFragments": [],
-      "failureReason": "WARNING: proceeding, even though we could not create PATH aliases: Refusing to create helper binaries under temporary dir \u0022C:\\\\Users\\\\rmisc\\\\AppData\\\\Local\\\\Temp\\\\\u0022 (codex_home: AbsolutePathBuf(\u0022C:\\\\Users\\\\rmisc\\\\AppData\\\\Local\\\\Temp\\\\atp-clean-context\\\\codex-ebbbe1d5e0e74ca4909ad675fec2b0e9\u0022))\nReading additional input from stdin...\n"
+      "failureReason": "WARNING: proceeding, even though we could not create PATH aliases: Refusing to create helper binaries under temporary dir \u0022<TEMP>\\\\\u0022 (codex_home: AbsolutePathBuf(\u0022<TEMP>\\\\atp-clean-context\\\\codex-<id>\u0022))\nReading additional input from stdin...\n"
     },
     {
       "model": "gpt-5-codex",
@@ -1266,7 +1266,7 @@
         "2750000"
       ],
       "unexpectedFragments": [],
-      "failureReason": "WARNING: proceeding, even though we could not create PATH aliases: Refusing to create helper binaries under temporary dir \u0022C:\\\\Users\\\\rmisc\\\\AppData\\\\Local\\\\Temp\\\\\u0022 (codex_home: AbsolutePathBuf(\u0022C:\\\\Users\\\\rmisc\\\\AppData\\\\Local\\\\Temp\\\\atp-clean-context\\\\codex-ebbbe1d5e0e74ca4909ad675fec2b0e9\u0022))\nReading additional input from stdin...\n"
+      "failureReason": "WARNING: proceeding, even though we could not create PATH aliases: Refusing to create helper binaries under temporary dir \u0022<TEMP>\\\\\u0022 (codex_home: AbsolutePathBuf(\u0022<TEMP>\\\\atp-clean-context\\\\codex-<id>\u0022))\nReading additional input from stdin...\n"
     },
     {
       "model": "gpt-5-codex",
@@ -1291,7 +1291,7 @@
         "Owner: Zo\u00EB Fa\u00DFbinder"
       ],
       "unexpectedFragments": [],
-      "failureReason": "WARNING: proceeding, even though we could not create PATH aliases: Refusing to create helper binaries under temporary dir \u0022C:\\\\Users\\\\rmisc\\\\AppData\\\\Local\\\\Temp\\\\\u0022 (codex_home: AbsolutePathBuf(\u0022C:\\\\Users\\\\rmisc\\\\AppData\\\\Local\\\\Temp\\\\atp-clean-context\\\\codex-ebbbe1d5e0e74ca4909ad675fec2b0e9\u0022))\nReading additional input from stdin...\n"
+      "failureReason": "WARNING: proceeding, even though we could not create PATH aliases: Refusing to create helper binaries under temporary dir \u0022<TEMP>\\\\\u0022 (codex_home: AbsolutePathBuf(\u0022<TEMP>\\\\atp-clean-context\\\\codex-<id>\u0022))\nReading additional input from stdin...\n"
     }
   ]
 }
