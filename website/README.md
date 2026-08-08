@@ -30,7 +30,10 @@ never a silent $0.
 When adding a benchmark result, add its setup or corpus, fixture, raw JSON, and
 derived report or capability record first, then run `python
 scripts/generate-website-data.py`. The browser renders the resulting table; do
-not add result rows to `index.html` by hand.
+not add result rows to `index.html` by hand. Follow the
+[end-to-end benchmark methodology](../benchmarks/README.md) for fixture and
+oracle requirements, execution, immutable artifacts, statistics, and the full
+publication checklist.
 Update `website/data/site-status.json` for an honest status change.
 
 Editing: change the relevant HTML page and push to `main`; CI deploys the whole

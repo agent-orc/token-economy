@@ -82,6 +82,9 @@ SemVer; pre-1.0 the public API may still shift).
   Word/RTF, SpreadsheetML and flat-ODF presentation hard-case corpus,
   deterministic visible/hidden-content oracles, append-only raw extraction
   evidence, and conservative per-model/per-document-type capability records.
+- An end-to-end benchmark methodology covering controlled setups and capability
+  corpora, deterministic fixtures and oracles, CLI execution, immutable result
+  sidecars, statistical interpretation, and checked website publication.
 
 ## [0.2.0] - 2026-07-21
 
