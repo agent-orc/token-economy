@@ -1,0 +1,12 @@
+{
+  "schemaVersion": 1,
+  "id": "website-critical-review-2026-08",
+  "title": "Website critical review — simple and useful",
+  "summary": "Four-lens review (prose, factual accuracy, benchmark rigor, UX/API ergonomics) of website/index.html, commissioned 2026-08-08. Confirms the operator's chattiness verdict with line evidence, finds one factually wrong paragraph (complexity-estimate inputs), documents the claude-mythos-5 removal invariant (catalog+policy must go together or ModelEfficiencyMatrix.Default crashes at load), inventories benchmark weaknesses (1 repeat, no Claude coverage, 27% infra-crash rows rendered as capability misses), and derives the TE-32..TE-37 card wave.",
+  "entrypoint": "index.html",
+  "status": "active",
+  "phase": "decision-ready",
+  "updatedAt": "2026-08-08T16:00:00Z",
+  "sourceTaskKeys": [],
+  "relatedTaskKeys": ["TE-32", "TE-33", "TE-34", "TE-35", "TE-36", "TE-37"]
+}
