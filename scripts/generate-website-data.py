@@ -49,6 +49,7 @@ def load(path: Path) -> dict:
 
 
 def create_payload() -> dict:
+    price_index = load_price_index()
     studies = []
     capability_studies = []
     for raw_path in sorted(RESULTS.rglob("*.json")):
@@ -104,7 +105,13 @@ def create_payload() -> dict:
             capability_studies.append({
                 "corpusId": raw["corpusId"], "runId": raw["runId"],
                 "startedAtUtc": raw["startedAtUtc"], "completedAtUtc": raw["completedAtUtc"],
-                "capabilities": capabilities["capabilities"],
+                # Raw benchmark evidence is append-only, but the public projection
+                # must not present models absent from the current catalog as real
+                # capability measurements.
+                "capabilities": [
+                    row for row in capabilities["capabilities"]
+                    if normalize_model_key(row["model"]) in price_index
+                ],
             })
         else:
             raise ValueError(f"Missing derived result for {raw_path.relative_to(ROOT)}")
@@ -200,6 +207,10 @@ def create_document_usage(index: dict[str, dict]) -> tuple[dict, dict]:
     every document class once, so model and task class are directly comparable.
     """
     run = load(DOCUMENT_RUN)
+    cases = [
+        case for case in run["cases"]
+        if normalize_model_key(case["model"]) in index
+    ]
     priced_at = parse_utc(run["startedAtUtc"])
     evidence = str(DOCUMENT_RUN.relative_to(ROOT)).replace("\\", "/")
 
@@ -208,7 +219,7 @@ def create_document_usage(index: dict[str, dict]) -> tuple[dict, dict]:
     failed_usage = empty_usage()
     failed_with_usage = 0
     without_usage = 0
-    for case in run["cases"]:
+    for case in cases:
         recorded = total_tokens(case["usage"]) > 0
         without_usage += 0 if recorded else 1
         for group, key in ((by_model, case["model"]), (by_type, case["documentType"])):
@@ -247,11 +258,11 @@ def create_document_usage(index: dict[str, dict]) -> tuple[dict, dict]:
         "corpusId": run["corpusId"], "runId": run["runId"],
         "startedAtUtc": run["startedAtUtc"], "completedAtUtc": run["completedAtUtc"],
         "evidencePath": evidence, "pricedAtUtc": run["startedAtUtc"],
-        "cases": len(run["cases"]),
-        "casesPassed": sum(1 for case in run["cases"] if case["succeeded"]),
+        "cases": len(cases),
+        "casesPassed": sum(1 for case in cases if case["succeeded"]),
         # Cases whose CLI never started record no tokens at all; they carry no
         # token or cost information and must not read as an efficient model.
-        "casesWithUsage": len(run["cases"]) - without_usage,
+        "casesWithUsage": len(cases) - without_usage,
         "casesWithoutUsage": without_usage,
         "usage": run_usage, "tokens": total_tokens(run_usage),
         "failedCasesWithUsage": failed_with_usage,

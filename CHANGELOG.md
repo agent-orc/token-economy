@@ -5,6 +5,12 @@ SemVer; pre-1.0 the public API may still shift).
 
 ## [Unreleased]
 
+### Changed
+
+- Removed the unavailable Glasswing-only model from the pricing and routing
+  catalogs and from all derived website and routing-evidence projections. Raw
+  benchmark results remain unchanged as append-only historical evidence.
+
 ### Added
 
 - An Agent Studio task-admission adapter that persists intake estimates, routes

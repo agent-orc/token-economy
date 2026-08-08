@@ -22,12 +22,11 @@ public class SuggestModelTests
     }
 
     [Fact]
-    public void UnsupportedRestrictedDeprecatedAndRoleExceptionModels_AreNeverCoreSuggestions()
+    public void UnsupportedDeprecatedAndRoleExceptionModels_AreNeverCoreSuggestions()
     {
         var suggestions = Matrix.SuggestModel(TaskClass.HeavyDesign, BudgetPressure.Comfortable, [Cli.Claude, Cli.Codex], Now);
 
         Assert.DoesNotContain(suggestions, candidate => candidate.ModelId.StartsWith("claude-opus", StringComparison.Ordinal));
-        Assert.DoesNotContain(suggestions, candidate => candidate.ModelId == "claude-mythos-5");
         Assert.DoesNotContain(suggestions, candidate => candidate.ModelId == "gpt-5.4-mini");
         Assert.All(suggestions, candidate => Assert.NotEqual(PolicyEvidenceStatus.Unknown, candidate.EvidenceStatus));
     }

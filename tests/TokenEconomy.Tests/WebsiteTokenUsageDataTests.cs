@@ -25,15 +25,21 @@ public class WebsiteTokenUsageDataTests
         var run = LoadJson(Path.Combine(FindRepositoryRoot(), source.GetProperty("evidencePath").GetString()!));
 
         Assert.Equal(run.GetProperty("runId").GetString(), source.GetProperty("runId").GetString());
-        Assert.Equal(run.GetProperty("cases").GetArrayLength(), source.GetProperty("cases").GetInt32());
+        var cases = run.GetProperty("cases").EnumerateArray()
+            .Where(item => ModelPriceCatalog.Default.Find(item.GetProperty("model").GetString()) is not null)
+            .ToArray();
+        Assert.Equal(cases.Length, source.GetProperty("cases").GetInt32());
 
-        var cases = run.GetProperty("cases").EnumerateArray().ToArray();
         var models = byModel.GetProperty("models").EnumerateArray().ToArray();
-        Assert.Equal(run.GetProperty("models").GetArrayLength(), models.Length);
+        Assert.Equal(
+            run.GetProperty("models").EnumerateArray()
+                .Count(item => ModelPriceCatalog.Default.Find(item.GetString()) is not null),
+            models.Length);
 
         foreach (var model in models)
         {
             var id = model.GetProperty("model").GetString()!;
+            Assert.NotNull(ModelPriceCatalog.Default.Find(id));
             var expected = cases.Where(item => item.GetProperty("model").GetString() == id).ToArray();
             Assert.Equal(expected.Length, model.GetProperty("cases").GetInt32());
             Assert.Equal(
@@ -60,6 +66,16 @@ public class WebsiteTokenUsageDataTests
             cases.Where(item => !item.GetProperty("succeeded").GetBoolean())
                 .Sum(item => Total(ReadUsage(item.GetProperty("usage")))),
             source.GetProperty("failedCaseTokens").GetInt64());
+    }
+
+    [Fact]
+    public void Published_capability_rows_only_reference_cataloged_models()
+    {
+        var benchmarks = LoadJson(Path.Combine(FindRepositoryRoot(), "website", "data", "benchmarks.json"));
+
+        foreach (var study in benchmarks.GetProperty("capabilityStudies").EnumerateArray())
+            foreach (var capability in study.GetProperty("capabilities").EnumerateArray())
+                Assert.NotNull(ModelPriceCatalog.Default.Find(capability.GetProperty("model").GetString()));
     }
 
     [Fact]

@@ -105,9 +105,6 @@
       "note": "Small favorable Claude Sonnet 5/high feature cohort; use only as an equivalent-capability provider fallback."
     },
     {
-      "canonicalId": "claude-mythos-5", "aliases": [], "providerId": "anthropic", "cliId": "claude-code", "priceCatalogId": "claude-mythos-5", "mediaCatalogModelId": "*", "trustModelId": "claude-mythos-5", "supportedThinkingLevels": ["low", "medium", "high", "xhigh", "max"], "routingStatus": "restricted", "evidenceStatus": "unknown", "provisional": false, "capabilityTier": "frontier", "workflowRoles": [], "note": "Project Glasswing only."
-    },
-    {
       "canonicalId": "claude-opus-4-1", "aliases": ["claude-opus-4-1-20250805"], "providerId": "anthropic", "cliId": "claude-code", "priceCatalogId": "claude-opus-4-1", "mediaCatalogModelId": "*", "trustModelId": "claude-opus-4-1", "supportedThinkingLevels": ["low", "medium", "high", "max"], "routingStatus": "deprecated", "evidenceStatus": "unknown", "provisional": false, "capabilityTier": "frontier", "workflowRoles": [], "note": "Retires 2026-08-05."
     },
     {

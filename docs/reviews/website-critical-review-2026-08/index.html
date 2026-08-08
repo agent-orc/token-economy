@@ -76,7 +76,7 @@
   <li>Hero tagline and “What it does &amp; why” shortened to plain factual statements; per-capability cards link to API and source code.</li>
   <li>“From task to evidence” becomes <b>“Model recommendation”</b> — the library does not route. All route/routing prose goes.</li>
   <li>“Token usage, made visible” must explain where the data comes from and how.</li>
-  <li><code>claude-mythos-5</code> is removed everywhere — “we don't have it”.</li>
+  <li>The unavailable Glasswing-only model is removed everywhere.</li>
   <li>Sections <b>Project status</b> and <b>Quota-cap forecasting</b> (five-hour-cap plan) are removed completely.</li>
   <li>Code samples get real syntax highlighting; model ids become typed constants instead of raw strings.</li>
   <li>More benchmarks, better benchmark methodology documentation, more data.</li>
@@ -91,7 +91,7 @@
 </div>
 
 <div class="box bad">
-  <h4>claude-mythos-5 cannot be deleted naively — a partial removal crashes the process at load.</h4>
+  <h4>The unavailable model cannot be deleted naively — a partial removal crashes the process at load.</h4>
   <p><code>ModelEfficiencySeed</code> builds a profile per routing-policy row; the <code>ModelEfficiencyMatrix</code> constructor throws when a profile has no pricing-catalog entry, and <code>ModelEfficiencyMatrix.Default</code> is an eagerly-initialized static. <code>model-prices.json</code> and <code>model-routing-policy.json</code> must be cleaned in the same commit. 12 files reference the model; the “benchmark case” it contributes is literally a CLI access-denied message rendered as capability data.</p>
   <p class="evidence-link"><b>Evidence:</b> <code>ModelEfficiencySeed.cs</code> 10–23, <code>ModelEfficiencyMatrix.cs</code> 45–46. Removal in card TE-32; target-list cleanup in TE-35.</p>
 </div>
@@ -143,7 +143,7 @@
 <table>
   <thead><tr><th>Card</th><th>Scope</th><th>Depends on</th></tr></thead>
   <tbody>
-    <tr><td><b>TE-32</b></td><td>Remove claude-mythos-5 everywhere (catalog + policy together; regenerate derived data; keep raw run files as history)</td><td>—</td></tr>
+    <tr><td><b>TE-32</b></td><td>Remove the unavailable Glasswing-only model everywhere (catalog + policy together; regenerate derived data; keep raw run files as history)</td><td>—</td></tr>
     <tr><td><b>TE-33</b></td><td>Typed model ids: ModelId struct, generated KnownModels, typed overloads, drift test, typed samples</td><td>—</td></tr>
     <tr><td><b>TE-34</b></td><td>Website rework: all operator decisions above, provenance block, highlighting, section cuts, matrix rendering</td><td>TE-32, TE-33</td></tr>
     <tr><td><b>TE-35</b></td><td>Benchmark wave 1: first Claude-route measurement, invoker dispatch, repetitions ≥ 3, infra-vs-capability honesty, coverage, retired badge</td><td>TE-32</td></tr>

@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "generatedAtUtc": "2026-07-26T20:27:02.650097+00:00",
+  "generatedAtUtc": "2026-08-08T16:12:53.842077+00:00",
   "studies": [
     {
       "setupId": "palindrome-repair",
@@ -126,42 +126,6 @@
           "casesAttempted": 1,
           "casesPassed": 1,
           "successRate": 1,
-          "evidenceReference": "benchmarks/results/document-to-text/curated-hard-cases-v1/20260725T120544879Z.json"
-        },
-        {
-          "model": "claude-mythos-5",
-          "documentType": "Pdf",
-          "level": "NotDemonstrated",
-          "casesAttempted": 1,
-          "casesPassed": 0,
-          "successRate": 0,
-          "evidenceReference": "benchmarks/results/document-to-text/curated-hard-cases-v1/20260725T120544879Z.json"
-        },
-        {
-          "model": "claude-mythos-5",
-          "documentType": "Word",
-          "level": "NotDemonstrated",
-          "casesAttempted": 1,
-          "casesPassed": 0,
-          "successRate": 0,
-          "evidenceReference": "benchmarks/results/document-to-text/curated-hard-cases-v1/20260725T120544879Z.json"
-        },
-        {
-          "model": "claude-mythos-5",
-          "documentType": "Spreadsheet",
-          "level": "NotDemonstrated",
-          "casesAttempted": 1,
-          "casesPassed": 0,
-          "successRate": 0,
-          "evidenceReference": "benchmarks/results/document-to-text/curated-hard-cases-v1/20260725T120544879Z.json"
-        },
-        {
-          "model": "claude-mythos-5",
-          "documentType": "Presentation",
-          "level": "NotDemonstrated",
-          "casesAttempted": 1,
-          "casesPassed": 0,
-          "successRate": 0,
           "evidenceReference": "benchmarks/results/document-to-text/curated-hard-cases-v1/20260725T120544879Z.json"
         },
         {

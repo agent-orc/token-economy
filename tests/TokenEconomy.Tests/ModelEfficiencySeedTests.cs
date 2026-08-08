@@ -88,11 +88,8 @@ public class ModelEfficiencySeedTests
     }
 
     [Fact]
-    public void Mythos_IsRestricted_AndOpus41_IsDeprecated()
-    {
-        Assert.True(Matrix.Find("claude-mythos-5")!.Restricted);
-        Assert.True(Matrix.Find("claude-opus-4-1")!.Deprecated);
-    }
+    public void Opus41_IsDeprecated()
+        => Assert.True(Matrix.Find("claude-opus-4-1")!.Deprecated);
 
     [Fact]
     public void Profiles_AreAProjectionOfTheRoutingKnowledgeBase()

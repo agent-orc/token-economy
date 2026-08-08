@@ -95,7 +95,6 @@ public class ModelRoutingKnowledgeBaseTests
     [InlineData("gpt-5.6-sol", "impossible", ModelRouteResolutionStatus.UnknownThinkingLevel)]
     [InlineData("gpt-5.4-mini", "xhigh", ModelRouteResolutionStatus.UnsupportedThinkingLevel)]
     [InlineData("claude-opus-5", "high", ModelRouteResolutionStatus.UnsupportedModel)]
-    [InlineData("claude-mythos-5", "high", ModelRouteResolutionStatus.RestrictedModel)]
     [InlineData("claude-opus-4-1", "high", ModelRouteResolutionStatus.DeprecatedModel)]
     public void NonSelectableAndUnknownFacts_RemainExplicit(string model, string thinking, ModelRouteResolutionStatus expected)
         => Assert.Equal(expected, Knowledge.Resolve(model, thinking).Status);

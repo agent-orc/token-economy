@@ -143,7 +143,7 @@ at 2026-07-25 UTC. Dollar amounts are list prices per million tokens.
 
 | Catalog model(s) | Fresh input | Cache read | 5-minute cache write | Output | Read / fresh | Re-cache penalty (`write - read`) |
 |---|---:|---:|---:|---:|---:|---:|
-| `claude-fable-5`, `claude-mythos-5` | $10.00 | $1.00 | $12.50 | $50.00 | 0.10 | $11.50 / MTok |
+| `claude-fable-5` | $10.00 | $1.00 | $12.50 | $50.00 | 0.10 | $11.50 / MTok |
 | `claude-sonnet-5`, through 2026-08-31 | $2.00 | $0.20 | $2.50 | $10.00 | 0.10 | $2.30 / MTok |
 | `claude-opus-4-8`, `-4-7`, `-4-6` | $5.00 | $0.50 | $6.25 | $25.00 | 0.10 | $5.75 / MTok |
 | `claude-opus-4-5` | $5.00 | $0.50 | $6.25 | $25.00 | 0.10 | $5.75 / MTok |

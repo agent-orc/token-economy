@@ -4,10 +4,6 @@
     "history": [{ "inputPerMTok": 10.00, "outputPerMTok": 50.00, "cacheReadPerMTok": 1.00, "cacheWritePerMTok": 12.50, "currency": "USD", "validFrom": "0001-01-01T00:00:00Z", "source": "Anthropic published pricing (cache-read = 0.1x input, cache-write = 5-min-TTL 1.25x input)" }]
   },
   {
-    "modelId": "claude-mythos-5", "vendor": "anthropic", "note": "Project Glasswing only; same pricing as Claude Fable 5.",
-    "history": [{ "inputPerMTok": 10.00, "outputPerMTok": 50.00, "cacheReadPerMTok": 1.00, "cacheWritePerMTok": 12.50, "currency": "USD", "validFrom": "0001-01-01T00:00:00Z", "source": "Anthropic published pricing (cache-read = 0.1x input, cache-write = 5-min-TTL 1.25x input)" }]
-  },
-  {
     "modelId": "claude-opus-5", "vendor": "anthropic",
     "history": [{ "inputPerMTok": 5.00, "outputPerMTok": 25.00, "cacheReadPerMTok": 0.50, "cacheWritePerMTok": 6.25, "currency": "USD", "validFrom": "0001-01-01T00:00:00Z", "source": "Anthropic published pricing (cache-read = 0.1x input, cache-write = 5-min-TTL 1.25x input)" }]
   },

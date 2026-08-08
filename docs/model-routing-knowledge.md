@@ -71,7 +71,6 @@ Supported reasoning is resolved per concrete model. A vocabulary entry does not 
 | --- | --- | --- | --- | --- | --- | --- |
 | `claude-fable-5` | — | `anthropic` / `claude-code` | `low`, `medium`, `high`, `xhigh`, `max` | `unsupported` | `unknown` | price `claude-fable-5`; media `*`; trust `claude-fable-5` |
 | `claude-haiku-4-5` | `claude-haiku-4-5-20251001` | `anthropic` / `claude-code` | `low`, `medium` | `unsupported` | `unknown` | price `claude-haiku-4-5`; media `*`; trust `claude-haiku-4-5` |
-| `claude-mythos-5` | — | `anthropic` / `claude-code` | `low`, `medium`, `high`, `xhigh`, `max` | `restricted` | `unknown` | price `claude-mythos-5`; media `*`; trust `claude-mythos-5` |
 | `claude-opus-4-1` | `claude-opus-4-1-20250805` | `anthropic` / `claude-code` | `low`, `medium`, `high`, `max` | `deprecated` | `unknown` | price `claude-opus-4-1`; media `*`; trust `claude-opus-4-1` |
 | `claude-opus-4-5` | `claude-opus-4-5-20251101` | `anthropic` / `claude-code` | `low`, `medium`, `high`, `max` | `unsupported` | `unknown` | price `claude-opus-4-5`; media `*`; trust `claude-opus-4-5` |
 | `claude-opus-4-6` | — | `anthropic` / `claude-code` | `low`, `medium`, `high`, `max` | `unsupported` | `unknown` | price `claude-opus-4-6`; media `*`; trust `claude-opus-4-6` |

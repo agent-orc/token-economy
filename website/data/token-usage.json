@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAtUtc": "2026-07-26T20:27:02.651722+00:00",
+  "generatedAtUtc": "2026-08-08T16:12:53.842928+00:00",
   "priceCatalogPath": "src/TokenEconomy/catalog/model-prices.json",
   "byModel": {
     "source": {
@@ -10,10 +10,10 @@
       "completedAtUtc": "2026-07-25T12:32:35.9127773Z",
       "evidencePath": "benchmarks/results/document-to-text/curated-hard-cases-v1/20260725T120544879Z.json",
       "pricedAtUtc": "2026-07-25T12:05:44.879647Z",
-      "cases": 60,
+      "cases": 56,
       "casesPassed": 38,
       "casesWithUsage": 43,
-      "casesWithoutUsage": 17,
+      "casesWithoutUsage": 13,
       "usage": {
         "input": 108231,
         "output": 16978,
@@ -286,31 +286,6 @@
         }
       },
       {
-        "model": "claude-mythos-5",
-        "cases": 4,
-        "casesPassed": 0,
-        "casesWithUsage": 0,
-        "usage": {
-          "input": 0,
-          "output": 0,
-          "cacheRead": 0,
-          "cacheWrite": 0
-        },
-        "tokens": 0,
-        "cost": {
-          "status": "Resolved",
-          "currency": "USD",
-          "unconfirmed": false,
-          "totalUsd": 0.0,
-          "components": {
-            "input": 0.0,
-            "output": 0.0,
-            "cacheRead": 0.0,
-            "cacheWrite": 0.0
-          }
-        }
-      },
-      {
         "model": "gpt-5",
         "cases": 4,
         "casesPassed": 0,
@@ -371,10 +346,10 @@
       "completedAtUtc": "2026-07-25T12:32:35.9127773Z",
       "evidencePath": "benchmarks/results/document-to-text/curated-hard-cases-v1/20260725T120544879Z.json",
       "pricedAtUtc": "2026-07-25T12:05:44.879647Z",
-      "cases": 60,
+      "cases": 56,
       "casesPassed": 38,
       "casesWithUsage": 43,
-      "casesWithoutUsage": 17,
+      "casesWithoutUsage": 13,
       "usage": {
         "input": 108231,
         "output": 16978,
@@ -389,7 +364,7 @@
     "documentTypes": [
       {
         "documentType": "Pdf",
-        "cases": 15,
+        "cases": 14,
         "casesPassed": 9,
         "casesWithUsage": 10,
         "usage": {
@@ -402,7 +377,7 @@
       },
       {
         "documentType": "Word",
-        "cases": 15,
+        "cases": 14,
         "casesPassed": 10,
         "casesWithUsage": 11,
         "usage": {
@@ -415,7 +390,7 @@
       },
       {
         "documentType": "Spreadsheet",
-        "cases": 15,
+        "cases": 14,
         "casesPassed": 8,
         "casesWithUsage": 11,
         "usage": {
@@ -428,7 +403,7 @@
       },
       {
         "documentType": "Presentation",
-        "cases": 15,
+        "cases": 14,
         "casesPassed": 11,
         "casesWithUsage": 11,
         "usage": {
