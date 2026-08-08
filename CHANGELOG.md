@@ -5,6 +5,16 @@ SemVer; pre-1.0 the public API may still shift).
 
 ## [Unreleased]
 
+### Added
+
+- A versioned Quality Studio review-evidence stream for the `review` task
+  class: strict drop schema, append-only per-run importer, model/thinking/CLI/
+  aspect cohorts, confirmed-versus-dismissed finding metrics, provenance, and
+  conservative observational confidence gates. The generated routing knowledge
+  and efficiency matrix expose per-model review quality and evidence strength;
+  fixtures and sparse data remain `insufficientEvidence` and cannot produce a
+  `SuggestModel` candidate.
+
 ## [0.3.0] - 2026-08-09
 
 ### Changed

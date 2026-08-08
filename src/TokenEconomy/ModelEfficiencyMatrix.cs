@@ -61,6 +61,14 @@ public sealed class ModelEfficiencyMatrix
     /// <summary>The default matrix: the seeded profiles over <see cref="ModelPriceCatalog.Default"/>.</summary>
     public static ModelEfficiencyMatrix Default { get; } = new(ModelPriceCatalog.Default, ModelEfficiencySeed.Profiles());
 
+    /// <summary>Build the matrix from a policy snapshot composed with a chosen review-evidence report.</summary>
+    public static ModelEfficiencyMatrix FromKnowledge(
+        ModelRoutingKnowledgeBase knowledge, ModelPriceCatalog? catalog = null)
+    {
+        ArgumentNullException.ThrowIfNull(knowledge);
+        return new(catalog ?? ModelPriceCatalog.Default, ModelEfficiencySeed.Profiles(knowledge));
+    }
+
     /// <summary>The profile for a model id or alias, or null if the model has no profile. Case- and dot/dash-insensitive (via the catalog).</summary>
     public ModelEfficiencyProfile? Find(string? model)
     {
@@ -91,7 +99,7 @@ public sealed class ModelEfficiencyMatrix
     public Suitability? SuitabilityOf(string? model, TaskClass taskClass)
     {
         var profile = Find(model);
-        return profile is null ? null : EfficiencyPolicy.SuitabilityFor(profile.Tier, taskClass);
+        return profile is null ? null : SuitabilityFor(profile, taskClass);
     }
 
     /// <summary>
@@ -106,9 +114,9 @@ public sealed class ModelEfficiencyMatrix
         {
             var listing = _catalog.Find(profile.ModelId)!;   // validated in the constructor
             var breakdown = _catalog.ComputeCost(listing.ModelId, EfficiencyPolicy.CostReferenceUsage, atUtc);
-            var suitability = new Dictionary<TaskClass, Suitability>();
+            var suitability = new Dictionary<TaskClass, Suitability?>();
             foreach (var taskClass in Enum.GetValues<TaskClass>())
-                suitability[taskClass] = EfficiencyPolicy.SuitabilityFor(profile.Tier, taskClass);
+                suitability[taskClass] = SuitabilityFor(profile, taskClass);
 
             rows.Add(new ModelEfficiencyRow
             {
@@ -124,6 +132,7 @@ public sealed class ModelEfficiencyMatrix
                 RoutingStatus = profile.RoutingStatus,
                 EvidenceStatus = profile.EvidenceStatus,
                 Provisional = profile.Provisional,
+                ReviewQuality = profile.ReviewQuality,
                 CostUnconfirmed = breakdown.Unconfirmed,
                 Note = profile.Note,
             });
@@ -171,7 +180,11 @@ public sealed class ModelEfficiencyMatrix
             if (cli is null || !available.Contains(cli.Value))
                 continue;
 
-            candidates.Add(CreateSuggestion(listing.ModelId, cli.Value, profile, taskClass, budgetPressure, desiredEffort, atUtc));
+            var suitability = SuitabilityFor(profile, taskClass);
+            if (suitability is null)
+                continue;
+
+            candidates.Add(CreateSuggestion(listing.ModelId, cli.Value, profile, taskClass, budgetPressure, desiredEffort, suitability.Value, atUtc));
         }
 
         candidates.Sort(Compare);
@@ -199,8 +212,10 @@ public sealed class ModelEfficiencyMatrix
             return null;
         var cli = CliForVendor(listing.Vendor);
         if (cli is null) return null;
+        var suitability = SuitabilityFor(profile, taskClass);
+        if (suitability is null) return null;
         return CreateSuggestion(listing.ModelId, cli.Value, profile, taskClass, budgetPressure,
-            desiredEffort ?? EfficiencyPolicy.SuggestedEffort(taskClass, budgetPressure), atUtc);
+            desiredEffort ?? EfficiencyPolicy.SuggestedEffort(taskClass, budgetPressure), suitability.Value, atUtc);
     }
 
     private ModelSuggestion CreateSuggestion(
@@ -210,9 +225,9 @@ public sealed class ModelEfficiencyMatrix
         TaskClass taskClass,
         BudgetPressure budgetPressure,
         EffortLevel desiredEffort,
+        Suitability suitability,
         DateTime atUtc)
     {
-        var suitability = EfficiencyPolicy.SuitabilityFor(profile.Tier, taskClass);
         var breakdown = _catalog.ComputeCost(modelId, EfficiencyPolicy.CostReferenceUsage, atUtc);
         var cost = EfficiencyPolicy.ClassifyCost(breakdown.Total);
         var effort = ClampEffort(desiredEffort, profile.EffortLevels);
@@ -225,10 +240,11 @@ public sealed class ModelEfficiencyMatrix
             Suitability = suitability,
             SuggestedEffort = effort,
             Score = EfficiencyPolicy.Score(suitability, cost, budgetPressure),
-            Rationale = BuildRationale(modelId, taskClass, budgetPressure, profile.Tier, suitability, cost, effort),
+            Rationale = BuildRationale(modelId, taskClass, budgetPressure, profile.Tier, suitability, cost, effort, profile.ReviewQuality),
             CostUnconfirmed = breakdown.Unconfirmed,
             EvidenceStatus = profile.EvidenceStatus,
             Provisional = profile.Provisional,
+            ReviewQuality = taskClass == TaskClass.Review ? profile.ReviewQuality : null,
         };
     }
 
@@ -261,7 +277,8 @@ public sealed class ModelEfficiencyMatrix
 
     private static string BuildRationale(
         string modelId, TaskClass taskClass, BudgetPressure pressure,
-        CapabilityTier tier, Suitability suitability, CostClass cost, EffortLevel effort)
+        CapabilityTier tier, Suitability suitability, CostClass cost, EffortLevel effort,
+        ModelReviewQualitySummary? reviewQuality)
     {
         var task = TaskLabel(taskClass);
         var fit = suitability switch
@@ -282,7 +299,10 @@ public sealed class ModelEfficiencyMatrix
         };
         var tierWord = tier.ToString().ToLowerInvariant();
         var effortWord = effort.ToString().ToLowerInvariant();
-        return $"{modelId}: {tierWord} tier, {fit}; {costWord}{PressureClause(pressure, cost)}. Suggested effort: {effortWord}.";
+        var evidence = taskClass == TaskClass.Review && reviewQuality is not null
+            ? $" Based on {reviewQuality.RunCount} observational Quality Studio runs and {reviewQuality.AssessedFindingCount} sighted findings; this is not controlled evidence."
+            : "";
+        return $"{modelId}: {tierWord} tier, {fit}; {costWord}{PressureClause(pressure, cost)}. Suggested effort: {effortWord}.{evidence}";
     }
 
     /// <summary>The clause explaining how budget pressure weighed on this cost class (empty when budget is comfortable).</summary>
@@ -308,6 +328,14 @@ public sealed class ModelEfficiencyMatrix
         TaskClass.MechanicalChore => "mechanical-chore work",
         TaskClass.DocEdit => "doc-edit work",
         TaskClass.Research => "research work",
+        TaskClass.Review => "review work",
         _ => "this work",
     };
+
+    private static Suitability? SuitabilityFor(ModelEfficiencyProfile profile, TaskClass taskClass)
+        => taskClass == TaskClass.Review
+            ? profile.ReviewQuality is { EvidenceQuality: ReviewEvidenceQuality.ObservationalSupport } review
+                ? review.Suitability
+                : null
+            : EfficiencyPolicy.SuitabilityFor(profile.Tier, taskClass);
 }

@@ -21,6 +21,9 @@ public enum TaskClass
 
     /// <summary>Reading and analysing code or docs to answer a question or produce findings.</summary>
     Research,
+
+    /// <summary>Quality Studio review work whose suitability must come from retained review evidence.</summary>
+    Review,
 }
 
 /// <summary>

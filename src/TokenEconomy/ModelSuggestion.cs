@@ -40,6 +40,9 @@ public sealed record ModelSuggestion
 
     /// <summary>True when this suggestion is an explicitly provisional policy fact.</summary>
     public bool Provisional { get; init; }
+
+    /// <summary>The retained evidence-derived review quality, when the requested task is review.</summary>
+    public ModelReviewQualitySummary? ReviewQuality { get; init; }
 }
 
 /// <summary>
@@ -68,8 +71,11 @@ public sealed record ModelEfficiencyRow
     /// <summary>The reasoning-effort levels the model supports.</summary>
     public required IReadOnlyList<EffortLevel> EffortLevels { get; init; }
 
-    /// <summary>The model's suitability for each task class — the "matrix" cells for this row.</summary>
-    public required IReadOnlyDictionary<TaskClass, Suitability> Suitability { get; init; }
+    /// <summary>The model's suitability for each task class — the "matrix" cells for this row. Review remains null until its evidence gates pass.</summary>
+    public required IReadOnlyDictionary<TaskClass, Suitability?> Suitability { get; init; }
+
+    /// <summary>The model's review-quality evidence, including explicit insufficient-evidence state.</summary>
+    public ModelReviewQualitySummary? ReviewQuality { get; init; }
 
     /// <summary>True when the model is not generally selectable (see <see cref="ModelEfficiencyProfile.Restricted"/>).</summary>
     public bool Restricted { get; init; }

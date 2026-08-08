@@ -1,0 +1,20 @@
+{
+  "$schema": "../../schema/quality-studio-review-run.schema.json",
+  "schemaVersion": 1,
+  "sourceRunId": "qs-review-fixture-001",
+  "completedAtUtc": "2026-08-08T12:00:00Z",
+  "model": "gpt-5.6-sol",
+  "thinkingLevel": "medium",
+  "cli": "codex",
+  "reviewAspect": "correctness",
+  "scope": {
+    "filesReviewed": 12,
+    "findingsReported": 4
+  },
+  "outcomes": {
+    "confirmedFindings": 3,
+    "dismissedFindings": 1
+  },
+  "evidenceStatus": "observational",
+  "isFixture": true
+}

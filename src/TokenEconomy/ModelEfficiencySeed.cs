@@ -7,8 +7,10 @@ namespace TokenEconomy;
 /// </summary>
 internal static class ModelEfficiencySeed
 {
-    public static IReadOnlyList<ModelEfficiencyProfile> Profiles()
-        => ModelRoutingKnowledgeBase.Default.Models.Select(model => new ModelEfficiencyProfile
+    public static IReadOnlyList<ModelEfficiencyProfile> Profiles(ModelRoutingKnowledgeBase? knowledge = null)
+    {
+        knowledge ??= ModelRoutingKnowledgeBase.Default;
+        return knowledge.Models.Select(model => new ModelEfficiencyProfile
         {
             ModelId = model.PriceCatalogId,
             Tier = model.CapabilityTier,
@@ -20,7 +22,9 @@ internal static class ModelEfficiencySeed
             WorkflowRoles = model.WorkflowRoles,
             Provisional = model.Provisional,
             Note = model.Note,
+            ReviewQuality = knowledge.ReviewQualityFor(model.CanonicalId),
         }).ToArray();
+    }
 
     private static EffortLevel ToEffortLevel(string level) => level switch
     {

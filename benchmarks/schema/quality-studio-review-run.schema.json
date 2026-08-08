@@ -1,0 +1,58 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://agent-orchestrator.dev/token-economy/quality-studio-review-run.schema.json",
+  "title": "Quality Studio review-run drop artifact",
+  "description": "One observational Quality Studio review run. This is operational evidence, not a controlled model comparison.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "$schema",
+    "schemaVersion",
+    "sourceRunId",
+    "completedAtUtc",
+    "model",
+    "thinkingLevel",
+    "cli",
+    "reviewAspect",
+    "scope",
+    "evidenceStatus"
+  ],
+  "properties": {
+    "$schema": { "type": "string", "pattern": "quality-studio-review-run\\.schema\\.json$" },
+    "schemaVersion": { "const": 1 },
+    "sourceRunId": { "type": "string", "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]{0,127}$" },
+    "completedAtUtc": { "type": "string", "format": "date-time", "pattern": "Z$" },
+    "model": { "type": "string", "minLength": 1 },
+    "thinkingLevel": { "type": "string", "minLength": 1 },
+    "cli": { "enum": ["codex", "claude-code"] },
+    "reviewAspect": { "type": "string", "minLength": 1 },
+    "scope": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["filesReviewed", "findingsReported"],
+      "properties": {
+        "filesReviewed": { "type": "integer", "minimum": 1 },
+        "findingsReported": { "type": "integer", "minimum": 0 }
+      }
+    },
+    "outcomes": {
+      "description": "Optional Quality Studio sighting results. Omit the object when finding dispositions are unavailable; missing outcomes are not zeros.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["confirmedFindings", "dismissedFindings"],
+      "properties": {
+        "confirmedFindings": { "type": "integer", "minimum": 0 },
+        "dismissedFindings": { "type": "integer", "minimum": 0 }
+      }
+    },
+    "evidenceStatus": {
+      "description": "Uses the model-routing policy evidenceStatus vocabulary. Review-run history is observational by construction.",
+      "const": "observational"
+    },
+    "isFixture": {
+      "description": "Contract fixtures are retained but excluded from every model metric and suitability derivation.",
+      "type": "boolean",
+      "default": false
+    }
+  }
+}
