@@ -20,7 +20,7 @@ public enum PriceStatus
 }
 
 /// <summary>
-/// The result of <see cref="ModelPriceCatalog.ResolvePrice"/>: which entry (if any) applied, and
+/// The result of <see cref="ModelPriceCatalog.ResolvePrice(string, DateTime)"/>: which entry (if any) applied, and
 /// under what <see cref="Status"/>. When <see cref="Status"/> is not <see cref="PriceStatus.Resolved"/>,
 /// <see cref="Price"/> is null — the caller must branch on the status rather than assume a price.
 /// </summary>

@@ -68,6 +68,9 @@ public sealed class ModelEfficiencyMatrix
         return listing is not null && _byId.TryGetValue(listing.ModelId, out var profile) ? profile : null;
     }
 
+    /// <summary>The profile for a typed model id, or null if the model has no profile.</summary>
+    public ModelEfficiencyProfile? Find(ModelId model) => Find((string)model);
+
     /// <summary>The CLI that runs a model given its catalog vendor, or null when the vendor maps to no known CLI.</summary>
     public static Cli? CliForVendor(string? vendor) => vendor?.Trim().ToLowerInvariant() switch
     {
@@ -79,6 +82,9 @@ public sealed class ModelEfficiencyMatrix
     /// <summary>The CLI that runs <paramref name="model"/>, or null when the model is unknown or its vendor maps to no CLI.</summary>
     public Cli? CliOf(string? model) => CliForVendor(_catalog.Find(model)?.Vendor);
 
+    /// <summary>The CLI that runs a typed model id, or null when its vendor maps to no CLI.</summary>
+    public Cli? CliOf(ModelId model) => CliOf((string)model);
+
     /// <summary>
     /// The <see cref="CostClass"/> for <paramref name="model"/> at <paramref name="atUtc"/>, derived by
     /// costing <see cref="EfficiencyPolicy.CostReferenceUsage"/> through the pricing catalog. An unknown
@@ -87,12 +93,18 @@ public sealed class ModelEfficiencyMatrix
     public CostClass CostClassOf(string? model, DateTime atUtc)
         => EfficiencyPolicy.ClassifyCost(_catalog.ComputeCost(model, EfficiencyPolicy.CostReferenceUsage, atUtc).Total);
 
+    /// <summary>The derived cost class for a typed model id at a UTC instant.</summary>
+    public CostClass CostClassOf(ModelId model, DateTime atUtc) => CostClassOf((string)model, atUtc);
+
     /// <summary>The suitability of <paramref name="model"/> for <paramref name="taskClass"/>, or null when the model has no profile.</summary>
     public Suitability? SuitabilityOf(string? model, TaskClass taskClass)
     {
         var profile = Find(model);
         return profile is null ? null : EfficiencyPolicy.SuitabilityFor(profile.Tier, taskClass);
     }
+
+    /// <summary>The suitability of a typed model id for a task class, or null when it has no profile.</summary>
+    public Suitability? SuitabilityOf(ModelId model, TaskClass taskClass) => SuitabilityOf((string)model, taskClass);
 
     /// <summary>
     /// The full matrix as inspectable rows at <paramref name="atUtc"/> — one <see cref="ModelEfficiencyRow"/>
@@ -202,6 +214,15 @@ public sealed class ModelEfficiencyMatrix
         return CreateSuggestion(listing.ModelId, cli.Value, profile, taskClass, budgetPressure,
             desiredEffort ?? EfficiencyPolicy.SuggestedEffort(taskClass, budgetPressure), atUtc);
     }
+
+    /// <summary>Evaluate a typed model id through the same compatibility path as <see cref="SuggestModel"/>.</summary>
+    public ModelSuggestion? EvaluateModel(
+        ModelId model,
+        TaskClass taskClass,
+        BudgetPressure budgetPressure,
+        DateTime atUtc,
+        EffortLevel? desiredEffort = null)
+        => EvaluateModel((string)model, taskClass, budgetPressure, atUtc, desiredEffort);
 
     private ModelSuggestion CreateSuggestion(
         string modelId,

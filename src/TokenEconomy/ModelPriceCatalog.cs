@@ -3,7 +3,7 @@ namespace TokenEconomy;
 /// <summary>
 /// The single library of per-model API prices, with history, plus the pure cost API over it.
 /// A run's cost is computed with the price that was valid at the run's UTC timestamp
-/// (<see cref="ResolvePrice"/> / <see cref="ComputeCost"/>), so this replaces scattered hardcoded
+/// (<see cref="ResolvePrice(string, DateTime)"/> / <see cref="ComputeCost(string, TokenUsage, DateTime)"/>), so this replaces scattered hardcoded
 /// price tables with one deterministic, unit-tested source of truth.
 /// </summary>
 /// <remarks>
@@ -56,12 +56,18 @@ public sealed class ModelPriceCatalog
         return _byKey.TryGetValue(Normalize(model), out var listing) ? listing : null;
     }
 
+    /// <summary>Find the listing for a typed model id, or null if it is not in the catalog.</summary>
+    public ModelListing? Find(ModelId model) => Find((string)model);
+
     /// <summary>
     /// Returns the complete dated price development for a model, ordered by period start. An
     /// unknown model returns an empty sequence; consumers can render this directly as a price-over-time view.
     /// </summary>
     public IReadOnlyList<ModelPrice> PriceDevelopment(string? model)
         => Find(model)?.History.OrderBy(price => price.ValidFrom).ToArray() ?? [];
+
+    /// <summary>Returns the complete dated price development for a typed model id.</summary>
+    public IReadOnlyList<ModelPrice> PriceDevelopment(ModelId model) => PriceDevelopment((string)model);
 
     /// <summary>
     /// Resolve the price in effect for <paramref name="model"/> at <paramref name="atUtc"/> (a UTC instant).
@@ -79,6 +85,9 @@ public sealed class ModelPriceCatalog
             ? new PriceResolution { Status = PriceStatus.NoPriceForDate, ModelId = listing.ModelId }
             : new PriceResolution { Status = PriceStatus.Resolved, ModelId = listing.ModelId, Price = price };
     }
+
+    /// <summary>Resolve the price in effect for a typed model id at a UTC instant.</summary>
+    public PriceResolution ResolvePrice(ModelId model, DateTime atUtc) => ResolvePrice((string)model, atUtc);
 
     /// <summary>
     /// Compute the cost of <paramref name="usage"/> for <paramref name="model"/> at <paramref name="atUtc"/>.
@@ -113,12 +122,18 @@ public sealed class ModelPriceCatalog
         };
     }
 
+    /// <summary>Compute token cost for a typed model id at a UTC instant.</summary>
+    public CostBreakdown ComputeCost(ModelId model, TokenUsage usage, DateTime atUtc) => ComputeCost((string)model, usage, atUtc);
+
     /// <summary>
     /// Convenience cost API for callers that report only input and output tokens. The execution
     /// timestamp is mandatory because list prices are resolved from their dated validity period.
     /// </summary>
     public CostBreakdown Cost(string? model, long tokensIn, long tokensOut, DateTime executedAt)
         => ComputeCost(model, new TokenUsage(tokensIn, tokensOut), executedAt);
+
+    /// <summary>Compute input/output token cost for a typed model id at a UTC instant.</summary>
+    public CostBreakdown Cost(ModelId model, long tokensIn, long tokensOut, DateTime executedAt) => Cost((string)model, tokensIn, tokensOut, executedAt);
 
     /// <summary>Cost of a token count at a per-MTok rate. Non-positive counts cost nothing.</summary>
     private static decimal CostOf(long tokens, decimal ratePerMTok)

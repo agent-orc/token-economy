@@ -24,7 +24,7 @@ public sealed record ModelPrice
 
     /// <summary>
     /// Price per one million cache-read (cache-hit) tokens, or null when the model has no separate
-    /// cache-read rate. When null, <see cref="ModelPriceCatalog.ComputeCost"/> falls back to the
+    /// cache-read rate. When null, <see cref="ModelPriceCatalog.ComputeCost(string, TokenUsage, DateTime)"/> falls back to the
     /// input rate for cache-read tokens rather than dropping them silently.
     /// </summary>
     public decimal? CacheReadPerMTok { get; init; }
@@ -96,7 +96,7 @@ public sealed record ModelListing
 }
 
 /// <summary>
-/// Token counts for a single run or turn, as consumed by <see cref="ModelPriceCatalog.ComputeCost"/>.
+/// Token counts for a single run or turn, as consumed by <see cref="ModelPriceCatalog.ComputeCost(string, TokenUsage, DateTime)"/>.
 /// Every field is a raw non-negative token total (not per-MTok); negative values are treated as zero.
 /// </summary>
 /// <param name="Input">Fresh (non-cached) input tokens.</param>

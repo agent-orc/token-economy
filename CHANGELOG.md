@@ -5,6 +5,14 @@ SemVer; pre-1.0 the public API may still shift).
 
 ## [Unreleased]
 
+### Added
+
+- Strongly typed model identifiers through `ModelId` and the generated
+  `KnownModels` constants, with forwarding overloads across pricing and
+  efficiency APIs. A byte-identical generation test keeps the checked-in
+  constants synchronized with every canonical price-catalog entry while the
+  existing string and alias interoperability surface remains unchanged.
+
 ## [0.3.0] - 2026-08-09
 
 ### Changed
