@@ -14,8 +14,8 @@ public static class EfficiencyPolicy
 {
     // ---- suitability grid: capability tier × task class ----
 
-    /// <summary>How well a capability <paramref name="tier"/> fits a <paramref name="taskClass"/>.</summary>
-    public static Suitability SuitabilityFor(CapabilityTier tier, TaskClass taskClass) => tier switch
+    /// <summary>How well a capability <paramref name="tier"/> fits a <paramref name="taskClass"/>; review returns null because its fit is evidence-derived.</summary>
+    public static Suitability? SuitabilityFor(CapabilityTier tier, TaskClass taskClass) => tier switch
     {
         // Frontier: made for the hard stuff, wasteful on the easy stuff.
         CapabilityTier.Frontier => taskClass switch
@@ -23,6 +23,7 @@ public static class EfficiencyPolicy
             TaskClass.HeavyDesign => Suitability.Ideal,
             TaskClass.Feature => Suitability.Capable,
             TaskClass.Research => Suitability.Capable,
+            TaskClass.Review => null,
             TaskClass.MechanicalChore => Suitability.Overkill,
             TaskClass.DocEdit => Suitability.Overkill,
             _ => Suitability.Capable,
@@ -33,6 +34,7 @@ public static class EfficiencyPolicy
             TaskClass.HeavyDesign => Suitability.Capable,
             TaskClass.Feature => Suitability.Ideal,
             TaskClass.Research => Suitability.Ideal,
+            TaskClass.Review => null,
             TaskClass.MechanicalChore => Suitability.Capable,
             TaskClass.DocEdit => Suitability.Capable,
             _ => Suitability.Capable,
@@ -45,6 +47,7 @@ public static class EfficiencyPolicy
             TaskClass.HeavyDesign => Suitability.Underpowered,
             TaskClass.Feature => Suitability.Underpowered,
             TaskClass.Research => Suitability.Underpowered,
+            TaskClass.Review => null,
             _ => Suitability.Underpowered,
         },
         _ => Suitability.Underpowered,
@@ -127,6 +130,7 @@ public static class EfficiencyPolicy
         TaskClass.HeavyDesign => EffortLevel.High,
         TaskClass.Feature => EffortLevel.Medium,
         TaskClass.Research => EffortLevel.Medium,
+        TaskClass.Review => EffortLevel.Medium,
         TaskClass.MechanicalChore => EffortLevel.Low,
         TaskClass.DocEdit => EffortLevel.Low,
         _ => EffortLevel.Medium,
@@ -145,4 +149,5 @@ public static class EfficiencyPolicy
             effort -= 1;
         return effort;
     }
+
 }

@@ -30,8 +30,18 @@ public class EfficiencyPolicyTests
     {
         // No pair falls through to a surprising default — every cell of the matrix is defined.
         foreach (var tier in Enum.GetValues<CapabilityTier>())
-            foreach (var task in Enum.GetValues<TaskClass>())
-                Assert.True(Enum.IsDefined(EfficiencyPolicy.SuitabilityFor(tier, task)));
+            foreach (var task in Enum.GetValues<TaskClass>().Where(task => task != TaskClass.Review))
+            {
+                var suitability = EfficiencyPolicy.SuitabilityFor(tier, task);
+                Assert.True(suitability.HasValue && Enum.IsDefined(suitability.Value));
+            }
+    }
+
+    [Fact]
+    public void Review_suitability_is_not_inferred_from_capability_tier()
+    {
+        foreach (var tier in Enum.GetValues<CapabilityTier>())
+            Assert.Null(EfficiencyPolicy.SuitabilityFor(tier, TaskClass.Review));
     }
 
     // ---- cost-class buckets (derived, not duplicated numbers) ----
@@ -66,6 +76,7 @@ public class EfficiencyPolicyTests
     [InlineData(TaskClass.HeavyDesign, EffortLevel.High)]
     [InlineData(TaskClass.Feature, EffortLevel.Medium)]
     [InlineData(TaskClass.Research, EffortLevel.Medium)]
+    [InlineData(TaskClass.Review, EffortLevel.Medium)]
     [InlineData(TaskClass.MechanicalChore, EffortLevel.Low)]
     [InlineData(TaskClass.DocEdit, EffortLevel.Low)]
     public void BaseEffort_MapsTask(TaskClass task, EffortLevel expected)

@@ -8,6 +8,12 @@ classes that remain separate throughout the report:
 - observational Agent Studio task history, imported without changing the source
   `task.json` files and deduplicated by task key plus attempt number.
 
+Quality Studio review outcomes form a separate observational stream because
+their unit of evidence and quality signals are review-specific. Its drop
+contract, append-only importer, confidence gates, and per-model `review`
+projection are documented in
+[`quality-studio-review-evidence.md`](quality-studio-review-evidence.md).
+
 Run it from the repository root:
 
 ```powershell

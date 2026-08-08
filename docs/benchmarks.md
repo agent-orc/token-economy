@@ -6,6 +6,11 @@ The two sources meet only in the derived, versioned aggregation described in
 [`routing-evidence.md`](routing-evidence.md). Its report keeps controlled and
 observational cohorts in separate arrays and never rewrites either raw source.
 
+Quality Studio review history is another explicitly observational source. It
+uses a review-specific schema and importer because confirmed/dismissed findings
+are not interchangeable with benchmark success or Agent Studio task grades.
+See [`quality-studio-review-evidence.md`](quality-studio-review-evidence.md).
+
 ## Run the real example
 
 Prerequisites are .NET 10 and an authenticated Codex CLI that exposes the configured models. From the repository root:

@@ -187,6 +187,7 @@ public sealed record ModelRouteResolution
 public sealed class ModelRoutingKnowledgeBase
 {
     private const string ResourceName = "TokenEconomy.catalog.model-routing-policy.json";
+    private const string ReviewEvidenceResourceName = "TokenEconomy.catalog.review-evidence.json";
     private readonly Dictionary<string, ModelRoutingModel> _modelsByKey;
     private readonly Dictionary<string, ModelThinkingLevel> _thinkingById;
     private readonly Dictionary<string, ModelRoutingTier> _routesById;
@@ -207,6 +208,14 @@ public sealed class ModelRoutingKnowledgeBase
     public required RoutingWorkflowConstraints WorkflowConstraints { get; init; }
     public required RoutingReissueRules ReissueRules { get; init; }
     public required RoutingCatalogContracts CatalogContracts { get; init; }
+
+    /// <summary>The review-evidence version composed into this knowledge snapshot.</summary>
+    [JsonIgnore]
+    public string ReviewEvidenceVersion { get; private set; } = "review-evidence-unavailable";
+
+    /// <summary>Per-model Quality Studio review metrics; insufficient data retains a null suitability.</summary>
+    [JsonIgnore]
+    public IReadOnlyList<ModelReviewQualitySummary> ReviewQuality { get; private set; } = [];
 
     [JsonConstructor]
     [SetsRequiredMembers]
@@ -249,8 +258,13 @@ public sealed class ModelRoutingKnowledgeBase
         ValidateAndIndex();
     }
 
-    /// <summary>The embedded repository policy.</summary>
-    public static ModelRoutingKnowledgeBase Default { get; } = LoadDefault();
+    /// <summary>The embedded repository policy without any operational review-evidence composition.</summary>
+    public static ModelRoutingKnowledgeBase PolicyOnly { get; } = LoadPolicy();
+
+    /// <summary>The embedded repository policy composed with the committed review-evidence report.</summary>
+    public static ModelRoutingKnowledgeBase Default => DefaultKnowledge.Value;
+
+    private static Lazy<ModelRoutingKnowledgeBase> DefaultKnowledge { get; } = new(LoadDefault);
 
     /// <summary>Find a known model by canonical id or alias; unknown input returns null.</summary>
     public ModelRoutingModel? FindModel(string? model)
@@ -269,6 +283,24 @@ public sealed class ModelRoutingKnowledgeBase
         => FindRoute(routeId) is not { } route
             ? []
             : ProviderFallbacks.Where(fallback => fallback.ForRouteIds.Contains(route.Id, StringComparer.Ordinal)).ToArray();
+
+    /// <summary>Return the review-quality summary for a known model or alias.</summary>
+    public ModelReviewQualitySummary? ReviewQualityFor(string? model)
+        => FindModel(model) is { } canonical
+            ? ReviewQuality.FirstOrDefault(summary => summary.CanonicalModel == canonical.CanonicalId)
+            : null;
+
+    /// <summary>Compose a deterministic policy snapshot with one versioned Quality Studio evidence report.</summary>
+    public ModelRoutingKnowledgeBase WithReviewEvidence(ReviewEvidenceReport report)
+    {
+        ArgumentNullException.ThrowIfNull(report);
+        var copy = new ModelRoutingKnowledgeBase(
+            SchemaUri, SchemaVersion, PolicyVersion, EvidenceAsOfDate, Authority, Providers, ThinkingLevels,
+            Models, Routes, ProviderFallbacks, ScoringCriteria, HardFloors, WorkflowConstraints, ReissueRules,
+            CatalogContracts);
+        copy.AttachReviewEvidence(report);
+        return copy;
+    }
 
     /// <summary>
     /// Resolve a model and reasoning level canonically. Unsupported, restricted, deprecated, unknown,
@@ -396,7 +428,7 @@ public sealed class ModelRoutingKnowledgeBase
 
     private static string Normalize(string value) => value.Trim().ToLowerInvariant().Replace('.', '-');
 
-    private static ModelRoutingKnowledgeBase LoadDefault()
+    private static ModelRoutingKnowledgeBase LoadPolicy()
     {
         using var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream(ResourceName)
             ?? throw new InvalidOperationException($"Embedded routing policy '{ResourceName}' was not found.");
@@ -407,6 +439,36 @@ public sealed class ModelRoutingKnowledgeBase
         };
         return JsonSerializer.Deserialize<ModelRoutingKnowledgeBase>(stream, options)
             ?? throw new InvalidOperationException("Embedded routing policy contains no document.");
+    }
+
+    private static ModelRoutingKnowledgeBase LoadDefault()
+    {
+        using var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream(ReviewEvidenceResourceName)
+            ?? throw new InvalidOperationException($"Embedded review evidence '{ReviewEvidenceResourceName}' was not found.");
+        var options = QualityStudioReviewRunImporter.Options(writeIndented: false);
+        var report = JsonSerializer.Deserialize<ReviewEvidenceReport>(stream, options)
+            ?? throw new InvalidOperationException("Embedded review evidence contains no report.");
+        return PolicyOnly.WithReviewEvidence(report);
+    }
+
+    private void AttachReviewEvidence(ReviewEvidenceReport report)
+    {
+        if (report.SchemaVersion != ReviewEvidenceReport.CurrentSchemaVersion
+            || report.TaskClass != "review"
+            || report.EvidenceStatus != PolicyEvidenceStatus.Observational)
+            throw new InvalidOperationException("The review-evidence report is incompatible with this knowledge base.");
+        var byModel = report.ModelSummaries.ToDictionary(summary => summary.CanonicalModel, StringComparer.Ordinal);
+        if (byModel.Count != report.ModelSummaries.Count
+            || byModel.Keys.Except(Models.Select(model => model.CanonicalId), StringComparer.Ordinal).Any()
+            || Models.Any(model => !byModel.ContainsKey(model.CanonicalId)))
+            throw new InvalidOperationException("Review evidence must contain exactly one summary for every knowledge-base model.");
+        if (report.ModelSummaries.Any(summary => summary.TaskClass != "review"
+            || summary.EvidenceQuality == ReviewEvidenceQuality.InsufficientEvidence && summary.Suitability is not null
+            || summary.EvidenceQuality == ReviewEvidenceQuality.ObservationalSupport && summary.Suitability is null))
+            throw new InvalidOperationException("Review evidence contains a contradictory suitability or task-class claim.");
+
+        ReviewEvidenceVersion = report.EvidenceVersion;
+        ReviewQuality = Models.Select(model => byModel[model.CanonicalId]).ToArray();
     }
 }
 

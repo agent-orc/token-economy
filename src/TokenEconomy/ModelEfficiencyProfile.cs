@@ -49,4 +49,7 @@ public sealed record ModelEfficiencyProfile
 
     /// <summary>Optional human note explaining the tier choice or a routing caveat.</summary>
     public string? Note { get; init; }
+
+    /// <summary>Evidence-derived review quality; null means no review evidence was composed into this profile.</summary>
+    public ModelReviewQualitySummary? ReviewQuality { get; init; }
 }
