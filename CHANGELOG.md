@@ -7,6 +7,13 @@ SemVer; pre-1.0 the public API may still shift).
 
 ### Added
 
+- Four curated hard coding benchmark fixtures covering an off-by-one boundary,
+  Unicode normalization under a Turkish locale, a two-file wire-contract bug,
+  and an underspecified repair prompt. Each published setup runs three
+  repetitions across Sol, Terra, and Claude Sonnet 5; the coding invoker now
+  dispatches `claude-*` models to Claude Code while retaining Codex for the GPT
+  routes. Reports no longer manufacture a winner when every attempt fails.
+
 - An Agent Studio task-admission adapter that persists intake estimates, routes
   before every attempt with run-scoped quota evidence, consumes the newest
   classified reissue outcome, and records a complete immutable launch/wait

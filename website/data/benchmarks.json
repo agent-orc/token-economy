@@ -1,7 +1,259 @@
 {
   "schemaVersion": 2,
-  "generatedAtUtc": "2026-07-26T20:27:02.650097+00:00",
+  "generatedAtUtc": "2026-08-08T16:32:42.494936+00:00",
   "studies": [
+    {
+      "setupId": "curated-hard-coding-cross-file",
+      "runId": "20260808T162154930Z",
+      "startedAtUtc": "2026-08-08T16:21:54.930042Z",
+      "completedAtUtc": "2026-08-08T16:30:24.5806722Z",
+      "winner": "sol-medium",
+      "winnerReason": "Highest success rate; ties break on average tokens, duration, then variant id.",
+      "qualityDelta": 0.6666666666666666,
+      "costDeltaUsd": null,
+      "variants": [
+        {
+          "variantId": "sol-medium",
+          "runs": 3,
+          "successes": 3,
+          "successRate": 1,
+          "totalTokens": 624383,
+          "averageTokens": 208127.66666666666,
+          "totalCostUsd": null,
+          "averageDurationMs": 96469.33333333333,
+          "model": "gpt-5.6-sol",
+          "usage": {
+            "input": 98056,
+            "output": 9207,
+            "cacheRead": 517120,
+            "cacheWrite": 0
+          }
+        },
+        {
+          "variantId": "claude-sonnet-5-high",
+          "runs": 3,
+          "successes": 1,
+          "successRate": 0.3333333333333333,
+          "totalTokens": 396956,
+          "averageTokens": 132318.66666666666,
+          "totalCostUsd": 0.36964980000000003,
+          "averageDurationMs": 19822,
+          "model": "claude-sonnet-5",
+          "usage": {
+            "input": 24,
+            "output": 4463,
+            "cacheRead": 360416,
+            "cacheWrite": 32053
+          }
+        },
+        {
+          "variantId": "terra-medium",
+          "runs": 3,
+          "successes": 0,
+          "successRate": 0,
+          "totalTokens": 275260,
+          "averageTokens": 91753.33333333333,
+          "totalCostUsd": null,
+          "averageDurationMs": 53577,
+          "model": "gpt-5.6-terra",
+          "usage": {
+            "input": 29592,
+            "output": 6052,
+            "cacheRead": 239616,
+            "cacheWrite": 0
+          }
+        }
+      ]
+    },
+    {
+      "setupId": "curated-hard-coding-off-by-one",
+      "runId": "20260808T161705055Z",
+      "startedAtUtc": "2026-08-08T16:17:05.0550852Z",
+      "completedAtUtc": "2026-08-08T16:23:10.4159698Z",
+      "winner": "sol-medium",
+      "winnerReason": "Highest success rate; ties break on average tokens, duration, then variant id.",
+      "qualityDelta": 0,
+      "costDeltaUsd": null,
+      "variants": [
+        {
+          "variantId": "sol-medium",
+          "runs": 3,
+          "successes": 3,
+          "successRate": 1,
+          "totalTokens": 345020,
+          "averageTokens": 115006.66666666667,
+          "totalCostUsd": null,
+          "averageDurationMs": 77614.33333333333,
+          "model": "gpt-5.6-sol",
+          "usage": {
+            "input": 74779,
+            "output": 6817,
+            "cacheRead": 263424,
+            "cacheWrite": 0
+          }
+        },
+        {
+          "variantId": "claude-sonnet-5-high",
+          "runs": 3,
+          "successes": 3,
+          "successRate": 1,
+          "totalTokens": 423593,
+          "averageTokens": 141197.66666666666,
+          "totalCostUsd": 0.3358254,
+          "averageDurationMs": 15268,
+          "model": "claude-sonnet-5",
+          "usage": {
+            "input": 26,
+            "output": 2575,
+            "cacheRead": 391378,
+            "cacheWrite": 29614
+          }
+        },
+        {
+          "variantId": "terra-medium",
+          "runs": 3,
+          "successes": 0,
+          "successRate": 0,
+          "totalTokens": 174076,
+          "averageTokens": 58025.333333333336,
+          "totalCostUsd": null,
+          "averageDurationMs": 28890,
+          "model": "gpt-5.6-terra",
+          "usage": {
+            "input": 22679,
+            "output": 3173,
+            "cacheRead": 148224,
+            "cacheWrite": 0
+          }
+        }
+      ]
+    },
+    {
+      "setupId": "curated-hard-coding-underspecified",
+      "runId": "20260808T162707845Z",
+      "startedAtUtc": "2026-08-08T16:27:07.8459593Z",
+      "completedAtUtc": "2026-08-08T16:28:42.3938101Z",
+      "winner": null,
+      "winnerReason": "No successful cases; variants are ordered by tokens, duration, then variant id.",
+      "qualityDelta": 0,
+      "costDeltaUsd": null,
+      "variants": [
+        {
+          "variantId": "terra-medium",
+          "runs": 3,
+          "successes": 0,
+          "successRate": 0,
+          "totalTokens": 38967,
+          "averageTokens": 12989,
+          "totalCostUsd": null,
+          "averageDurationMs": 6770,
+          "model": "gpt-5.6-terra",
+          "usage": {
+            "input": 8691,
+            "output": 324,
+            "cacheRead": 29952,
+            "cacheWrite": 0
+          }
+        },
+        {
+          "variantId": "sol-medium",
+          "runs": 3,
+          "successes": 0,
+          "successRate": 0,
+          "totalTokens": 39140,
+          "averageTokens": 13046.666666666666,
+          "totalCostUsd": null,
+          "averageDurationMs": 10972.666666666666,
+          "model": "gpt-5.6-sol",
+          "usage": {
+            "input": 8691,
+            "output": 497,
+            "cacheRead": 29952,
+            "cacheWrite": 0
+          }
+        },
+        {
+          "variantId": "claude-sonnet-5-high",
+          "runs": 3,
+          "successes": 0,
+          "successRate": 0,
+          "totalTokens": 99044,
+          "averageTokens": 33014.666666666664,
+          "totalCostUsd": 0.2284785,
+          "averageDurationMs": 13759.666666666666,
+          "model": "claude-sonnet-5",
+          "usage": {
+            "input": 6,
+            "output": 3105,
+            "cacheRead": 69435,
+            "cacheWrite": 26498
+          }
+        }
+      ]
+    },
+    {
+      "setupId": "curated-hard-coding-unicode-locale",
+      "runId": "20260808T161855489Z",
+      "startedAtUtc": "2026-08-08T16:18:55.489331Z",
+      "completedAtUtc": "2026-08-08T16:24:23.2916626Z",
+      "winner": "sol-medium",
+      "winnerReason": "Highest success rate; ties break on average tokens, duration, then variant id.",
+      "qualityDelta": 0.3333333333333333,
+      "costDeltaUsd": null,
+      "variants": [
+        {
+          "variantId": "sol-medium",
+          "runs": 3,
+          "successes": 3,
+          "successRate": 1,
+          "totalTokens": 197132,
+          "averageTokens": 65710.66666666667,
+          "totalCostUsd": null,
+          "averageDurationMs": 51690.666666666664,
+          "model": "gpt-5.6-sol",
+          "usage": {
+            "input": 54273,
+            "output": 4619,
+            "cacheRead": 138240,
+            "cacheWrite": 0
+          }
+        },
+        {
+          "variantId": "terra-medium",
+          "runs": 3,
+          "successes": 2,
+          "successRate": 0.6666666666666666,
+          "totalTokens": 215448,
+          "averageTokens": 71816,
+          "totalCostUsd": null,
+          "averageDurationMs": 37605,
+          "model": "gpt-5.6-terra",
+          "usage": {
+            "input": 20818,
+            "output": 3142,
+            "cacheRead": 191488,
+            "cacheWrite": 0
+          }
+        },
+        {
+          "variantId": "claude-sonnet-5-high",
+          "runs": 3,
+          "successes": 0,
+          "successRate": 0,
+          "totalTokens": 393140,
+          "averageTokens": 131046.66666666667,
+          "totalCostUsd": 0.3542637,
+          "averageDurationMs": 19956.333333333332,
+          "model": "claude-sonnet-5",
+          "usage": {
+            "input": 24,
+            "output": 4049,
+            "cacheRead": 358419,
+            "cacheWrite": 30648
+          }
+        }
+      ]
+    },
     {
       "setupId": "palindrome-repair",
       "runId": "20260722T233105307Z",

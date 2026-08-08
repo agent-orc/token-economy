@@ -115,14 +115,18 @@ public sealed class BenchmarkRunner
                 AverageDurationMs = (decimal)group.Sum(c => c.DurationMs) / group.Count(),
             };
         }).OrderByDescending(v => v.SuccessRate).ThenBy(v => v.AverageTokens).ThenBy(v => v.AverageDurationMs).ThenBy(v => v.VariantId, StringComparer.Ordinal).ToList();
-        var winner = variants.Count == 0 ? null : variants[0].VariantId;
+        var winner = variants.Count == 0 || variants[0].Successes == 0 ? null : variants[0].VariantId;
         decimal? qualityDelta = variants.Count < 2 ? null : variants[0].SuccessRate - variants[1].SuccessRate;
         decimal? costDelta = variants.Count < 2 || variants[0].TotalCostUsd is null || variants[1].TotalCostUsd is null
             ? null : variants[0].TotalCostUsd - variants[1].TotalCostUsd;
         return new BenchmarkComparisonReport
         {
             SetupId = result.SetupId, RunId = result.RunId, Winner = winner,
-            WinnerReason = winner is null ? "No cases." : "Highest success rate; ties break on average tokens, duration, then variant id.",
+            WinnerReason = variants.Count == 0
+                ? "No cases."
+                : winner is null
+                    ? "No successful cases; variants are ordered by tokens, duration, then variant id."
+                    : "Highest success rate; ties break on average tokens, duration, then variant id.",
             Variants = variants, CostDeltaUsd = costDelta, QualityDelta = qualityDelta,
         };
     }

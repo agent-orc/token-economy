@@ -1,0 +1,56 @@
+{
+  "$schema": "../schema/setup.schema.json",
+  "schemaVersion": 1,
+  "id": "curated-hard-coding-underspecified",
+  "formatAttribution": {
+    "sources": [
+      {
+        "suite": "SWE-bench evaluation protocol",
+        "reference": "https://www.swebench.com/SWE-bench/guides/evaluation/",
+        "borrowed": [
+          "A fixed broken workspace is paired with a natural-language repair request.",
+          "An executable regression gate determines whether the task instance is resolved."
+        ]
+      },
+      {
+        "suite": "Aider polyglot harness",
+        "reference": "https://github.com/Aider-AI/aider/blob/main/benchmark/README.md",
+        "borrowed": [
+          "Every model receives the same compact exercise and language-native test command.",
+          "Repeated runs retain success, token, duration, and cost observations."
+        ]
+      }
+    ],
+    "deviations": [
+      {
+        "difference": "The repair request deliberately omits endpoint precedence and whitespace semantics that can be discovered from the fixture.",
+        "reason": "The case observes whether a one-turn model asks for clarification, guesses, or investigates repository evidence before answering."
+      },
+      {
+        "difference": "The final response replaces one source file and is evaluated outside a container.",
+        "reason": "The fixture is trusted repository input, and a single-turn response makes clarify-versus-assume behavior visible as a deterministic outcome."
+      }
+    ]
+  },
+  "task": {
+    "prompt": "A product report says only: 'Fix endpoint selection.' The current EndpointResolver.cs is: public static class EndpointResolver { public const string DefaultEndpoint = \"https://api.example.test\"; public static string Resolve(string? configured, string? environment) => environment ?? configured ?? DefaultEndpoint; } Do not use tools. Preserve the public API and return only the complete C# source for EndpointResolver.cs with no Markdown fence or explanation.",
+    "seedWorkspace": "benchmarks/fixtures/curated-hard-coding-underspecified",
+    "responseFile": "EndpointResolver.cs",
+    "taskClass": "bug",
+    "capability": "coding-underspecified-repair"
+  },
+  "variants": [
+    { "id": "sol-medium", "model": "gpt-5.6-sol", "thinkingLevel": "medium" },
+    { "id": "terra-medium", "model": "gpt-5.6-terra", "thinkingLevel": "medium" },
+    { "id": "claude-sonnet-5-high", "model": "claude-sonnet-5", "thinkingLevel": "high" }
+  ],
+  "repetitions": 3,
+  "invocationTimeoutSeconds": 180,
+  "successCriteria": {
+    "command": "dotnet",
+    "arguments": ["run", "--project", "Fixture.csproj", "-c", "Release"],
+    "expectedExitCode": 0,
+    "timeoutSeconds": 120
+  },
+  "costCaps": { "maxTotalTokensPerInvocation": 1000000 }
+}

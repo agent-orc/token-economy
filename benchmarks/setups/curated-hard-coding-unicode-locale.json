@@ -1,0 +1,56 @@
+{
+  "$schema": "../schema/setup.schema.json",
+  "schemaVersion": 1,
+  "id": "curated-hard-coding-unicode-locale",
+  "formatAttribution": {
+    "sources": [
+      {
+        "suite": "SWE-bench evaluation protocol",
+        "reference": "https://www.swebench.com/SWE-bench/guides/evaluation/",
+        "borrowed": [
+          "A fixed broken workspace is paired with a natural-language repair request.",
+          "An executable regression gate determines whether the task instance is resolved."
+        ]
+      },
+      {
+        "suite": "Aider polyglot harness",
+        "reference": "https://github.com/Aider-AI/aider/blob/main/benchmark/README.md",
+        "borrowed": [
+          "Every model receives the same compact exercise and language-native test command.",
+          "Repeated runs retain success, token, duration, and cost observations."
+        ]
+      }
+    ],
+    "deviations": [
+      {
+        "difference": "This synthetic C# fixture concentrates Unicode normalization and locale behavior into one repair target.",
+        "reason": "The focused case mirrors the document corpus's Unicode stress while keeping the oracle deterministic across machines."
+      },
+      {
+        "difference": "The response replaces one named source file in a single turn and is evaluated outside a container.",
+        "reason": "The fixture is trusted repository input, and the one-file response isolates implementation reasoning from edit-tool orchestration."
+      }
+    ]
+  },
+  "task": {
+    "prompt": "Repair UsernameKeys.AreEquivalent. Usernames must compare case-insensitively and independently of the current culture, canonically equivalent Unicode spellings must match, and different accents must remain different. Return only the complete C# source for UsernameKeys.cs with no Markdown fence or explanation.",
+    "seedWorkspace": "benchmarks/fixtures/curated-hard-coding-unicode-locale",
+    "responseFile": "UsernameKeys.cs",
+    "taskClass": "bug",
+    "capability": "coding-unicode-locale"
+  },
+  "variants": [
+    { "id": "sol-medium", "model": "gpt-5.6-sol", "thinkingLevel": "medium" },
+    { "id": "terra-medium", "model": "gpt-5.6-terra", "thinkingLevel": "medium" },
+    { "id": "claude-sonnet-5-high", "model": "claude-sonnet-5", "thinkingLevel": "high" }
+  ],
+  "repetitions": 3,
+  "invocationTimeoutSeconds": 180,
+  "successCriteria": {
+    "command": "dotnet",
+    "arguments": ["run", "--project", "Fixture.csproj", "-c", "Release"],
+    "expectedExitCode": 0,
+    "timeoutSeconds": 120
+  },
+  "costCaps": { "maxTotalTokensPerInvocation": 400000 }
+}

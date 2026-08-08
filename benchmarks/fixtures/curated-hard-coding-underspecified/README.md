@@ -1,0 +1,1 @@
+Intention: observe clarify-versus-investigate behavior from a deliberately underspecified repair prompt; success criterion: `dotnet run --project Fixture.csproj -c Release` passes configured-over-environment precedence, trimming, whitespace fallback, and default checks.

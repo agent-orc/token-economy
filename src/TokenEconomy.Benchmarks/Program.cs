@@ -40,7 +40,7 @@ if (args[0] == "document-to-text")
     return capabilityReport.Capabilities.Any(item => item.Level != DocumentTextCapabilityLevel.Demonstrated) ? 1 : 0;
 }
 
-var runner = new BenchmarkRunner(new CodexCliBenchmarkInvoker());
+var runner = new BenchmarkRunner(new PrefixDispatchingCliBenchmarkInvoker());
 runner.EventOccurred += item => Console.Error.WriteLine(JsonSerializer.Serialize(new { item.Name, item.Context }));
 var (_, report) = await runner.RunAsync(BenchmarkRunner.LoadDefinition(setupPath), repositoryRoot);
 Console.WriteLine(JsonSerializer.Serialize(report, new JsonSerializerOptions(JsonSerializerDefaults.Web) { WriteIndented = true }));
@@ -53,9 +53,15 @@ static string FindRepositoryRoot(string start)
     throw new DirectoryNotFoundException("Could not find TokenEconomy.slnx above the current directory.");
 }
 
-sealed class CodexCliBenchmarkInvoker : IBenchmarkInvoker
+sealed class PrefixDispatchingCliBenchmarkInvoker : IBenchmarkInvoker
 {
     public async Task<BenchmarkInvocationResponse> InvokeAsync(BenchmarkInvocationRequest request, CancellationToken cancellationToken = default)
+        => request.Variant.Model.StartsWith("claude-", StringComparison.OrdinalIgnoreCase)
+            ? await InvokeClaudeAsync(request, cancellationToken)
+            : await InvokeCodexAsync(request, cancellationToken);
+
+    private static async Task<BenchmarkInvocationResponse> InvokeCodexAsync(
+        BenchmarkInvocationRequest request, CancellationToken cancellationToken)
     {
         var outputFile = Path.Combine(request.Workspace, ".benchmark-final-response.txt");
         var start = new ProcessStartInfo(OperatingSystem.IsWindows() ? "codex.cmd" : "codex")
@@ -92,18 +98,90 @@ sealed class CodexCliBenchmarkInvoker : IBenchmarkInvoker
         var usage = ParseUsage(stdout);
         var finalResponse = File.Exists(outputFile) ? await File.ReadAllTextAsync(outputFile, cancellationToken) : null;
         if (process.ExitCode == 0 && request.ResponseFile is not null && finalResponse is not null)
-        {
-            var target = Path.GetFullPath(Path.Combine(request.Workspace, request.ResponseFile));
-            if (!target.StartsWith(Path.GetFullPath(request.Workspace) + Path.DirectorySeparatorChar, StringComparison.OrdinalIgnoreCase))
-                throw new InvalidDataException("Response file escapes the benchmark workspace.");
-            await File.WriteAllTextAsync(target, StripCodeFence(finalResponse), cancellationToken);
-        }
+            await WriteResponseFileAsync(request, finalResponse, cancellationToken);
         return new BenchmarkInvocationResponse
         {
             ExitCode = process.ExitCode,
             Usage = usage,
             FinalResponse = finalResponse,
             Error = process.ExitCode == 0 ? null : Last(stderr, 4000),
+        };
+    }
+
+    private static async Task<BenchmarkInvocationResponse> InvokeClaudeAsync(
+        BenchmarkInvocationRequest request, CancellationToken cancellationToken)
+    {
+        var start = new ProcessStartInfo(OperatingSystem.IsWindows() ? "claude.cmd" : "claude")
+        {
+            WorkingDirectory = request.Workspace,
+            UseShellExecute = false,
+            RedirectStandardInput = true,
+            RedirectStandardOutput = true,
+            RedirectStandardError = true,
+        };
+        foreach (var argument in new[]
+        {
+            "--print", "--output-format", "json", "--model", request.Variant.Model,
+            "--permission-mode", "bypassPermissions", "--no-session-persistence",
+        })
+            start.ArgumentList.Add(argument);
+        if (!string.IsNullOrWhiteSpace(request.Variant.ThinkingLevel))
+        {
+            start.ArgumentList.Add("--effort");
+            start.ArgumentList.Add(request.Variant.ThinkingLevel);
+        }
+        start.ArgumentList.Add(request.Prompt);
+
+        using var process = new Process { StartInfo = start };
+        process.Start();
+        process.StandardInput.Close();
+        var stdoutTask = process.StandardOutput.ReadToEndAsync(cancellationToken);
+        var stderrTask = process.StandardError.ReadToEndAsync(cancellationToken);
+        try { await process.WaitForExitAsync(cancellationToken); }
+        catch (OperationCanceledException)
+        {
+            if (!process.HasExited) process.Kill(entireProcessTree: true);
+            await process.WaitForExitAsync(CancellationToken.None);
+            throw;
+        }
+
+        var stdout = await stdoutTask;
+        var stderr = await stderrTask;
+        string? finalResponse = null;
+        var usage = default(TokenUsage);
+        decimal? cost = null;
+        string? parseError = null;
+        try
+        {
+            using var document = JsonDocument.Parse(stdout);
+            var root = document.RootElement;
+            finalResponse = root.TryGetProperty("result", out var result) ? result.GetString() : null;
+            if (root.TryGetProperty("usage", out var usageJson))
+                usage = new(
+                    Number(usageJson, "input_tokens"),
+                    Number(usageJson, "output_tokens"),
+                    Number(usageJson, "cache_read_input_tokens"),
+                    Number(usageJson, "cache_creation_input_tokens"));
+            if (root.TryGetProperty("total_cost_usd", out var costJson) && costJson.TryGetDecimal(out var parsedCost))
+                cost = parsedCost;
+            if (root.TryGetProperty("is_error", out var isError) && isError.ValueKind == JsonValueKind.True)
+                parseError = finalResponse ?? "Claude Code reported an error result.";
+        }
+        catch (JsonException error)
+        {
+            parseError = $"Claude Code returned invalid JSON: {error.Message}";
+        }
+
+        var exitCode = process.ExitCode == 0 && parseError is not null ? -1 : process.ExitCode;
+        if (exitCode == 0 && request.ResponseFile is not null && finalResponse is not null)
+            await WriteResponseFileAsync(request, finalResponse, cancellationToken);
+        return new()
+        {
+            ExitCode = exitCode,
+            Usage = usage,
+            CostUsd = cost,
+            FinalResponse = finalResponse,
+            Error = exitCode == 0 ? null : parseError ?? Last(stderr, 4000),
         };
     }
 
@@ -131,6 +209,14 @@ sealed class CodexCliBenchmarkInvoker : IBenchmarkInvoker
         return 0;
     }
     private static string Last(string text, int length) => text.Length <= length ? text : text[^length..];
+    private static async Task WriteResponseFileAsync(
+        BenchmarkInvocationRequest request, string finalResponse, CancellationToken cancellationToken)
+    {
+        var target = Path.GetFullPath(Path.Combine(request.Workspace, request.ResponseFile!));
+        if (!target.StartsWith(Path.GetFullPath(request.Workspace) + Path.DirectorySeparatorChar, StringComparison.OrdinalIgnoreCase))
+            throw new InvalidDataException("Response file escapes the benchmark workspace.");
+        await File.WriteAllTextAsync(target, StripCodeFence(finalResponse), cancellationToken);
+    }
     private static string StripCodeFence(string text)
     {
         var trimmed = text.Trim();

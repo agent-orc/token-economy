@@ -1,0 +1,56 @@
+{
+  "$schema": "../schema/setup.schema.json",
+  "schemaVersion": 1,
+  "id": "curated-hard-coding-off-by-one",
+  "formatAttribution": {
+    "sources": [
+      {
+        "suite": "SWE-bench evaluation protocol",
+        "reference": "https://www.swebench.com/SWE-bench/guides/evaluation/",
+        "borrowed": [
+          "A fixed broken workspace is paired with a natural-language repair request.",
+          "An executable regression gate determines whether the task instance is resolved."
+        ]
+      },
+      {
+        "suite": "Aider polyglot harness",
+        "reference": "https://github.com/Aider-AI/aider/blob/main/benchmark/README.md",
+        "borrowed": [
+          "Every model receives the same compact exercise and language-native test command.",
+          "Repeated runs retain success, token, duration, and cost observations."
+        ]
+      }
+    ],
+    "deviations": [
+      {
+        "difference": "This is a synthetic C# boundary-condition fixture rather than a public repository issue or Exercism exercise.",
+        "reason": "A tiny checked-in fixture makes the edge condition redistributable, deterministic, and fast enough for repeated routing comparisons."
+      },
+      {
+        "difference": "The response replaces one named source file in a single turn and is evaluated outside a container.",
+        "reason": "The fixture is trusted repository input, and the one-file response isolates implementation reasoning from edit-tool orchestration."
+      }
+    ]
+  },
+  "task": {
+    "prompt": "Repair RangePaginator.Page so it returns zero-based item indexes starting at offset, includes at most limit items, returns an empty page when offset is at or beyond totalItems, and rejects invalid arguments. Return only the complete C# source for RangePaginator.cs with no Markdown fence or explanation.",
+    "seedWorkspace": "benchmarks/fixtures/curated-hard-coding-off-by-one",
+    "responseFile": "RangePaginator.cs",
+    "taskClass": "bug",
+    "capability": "coding-off-by-one-boundary"
+  },
+  "variants": [
+    { "id": "sol-medium", "model": "gpt-5.6-sol", "thinkingLevel": "medium" },
+    { "id": "terra-medium", "model": "gpt-5.6-terra", "thinkingLevel": "medium" },
+    { "id": "claude-sonnet-5-high", "model": "claude-sonnet-5", "thinkingLevel": "high" }
+  ],
+  "repetitions": 3,
+  "invocationTimeoutSeconds": 180,
+  "successCriteria": {
+    "command": "dotnet",
+    "arguments": ["run", "--project", "Fixture.csproj", "-c", "Release"],
+    "expectedExitCode": 0,
+    "timeoutSeconds": 120
+  },
+  "costCaps": { "maxTotalTokensPerInvocation": 400000 }
+}

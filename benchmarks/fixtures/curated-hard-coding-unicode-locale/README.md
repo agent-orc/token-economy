@@ -1,0 +1,1 @@
+Intention: expose culture-sensitive casing plus missing Unicode normalization; success criterion: `dotnet run --project Fixture.csproj -c Release` passes canonical-equivalence and Turkish-locale checks without collapsing distinct accents.

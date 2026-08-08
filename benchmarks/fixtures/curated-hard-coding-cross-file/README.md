@@ -1,0 +1,1 @@
+Intention: require a reader repair that follows the contract implemented in a second production file; success criterion: `dotnet run --project Fixture.csproj -c Release` passes exact v2 wire-format, escaping, independent decoding, and round-trip checks.

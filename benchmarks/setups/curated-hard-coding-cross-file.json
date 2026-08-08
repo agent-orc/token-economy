@@ -1,0 +1,56 @@
+{
+  "$schema": "../schema/setup.schema.json",
+  "schemaVersion": 1,
+  "id": "curated-hard-coding-cross-file",
+  "formatAttribution": {
+    "sources": [
+      {
+        "suite": "SWE-bench evaluation protocol",
+        "reference": "https://www.swebench.com/SWE-bench/guides/evaluation/",
+        "borrowed": [
+          "A fixed broken workspace is paired with a natural-language repair request.",
+          "An executable regression gate determines whether the complete task instance is resolved."
+        ]
+      },
+      {
+        "suite": "Aider polyglot harness",
+        "reference": "https://github.com/Aider-AI/aider/blob/main/benchmark/README.md",
+        "borrowed": [
+          "Every model receives the same compact exercise and language-native test command.",
+          "Agentic edits and repeated runs retain success, token, duration, and cost observations."
+        ]
+      }
+    ],
+    "deviations": [
+      {
+        "difference": "This synthetic fixture requires one C# reader repair against a wire-format contract implemented in a second production file rather than a real repository patch.",
+        "reason": "It adds a controlled cross-file dependency without importing the size, licensing, or nondeterminism of an external repository."
+      },
+      {
+        "difference": "The final response replaces the reader source file in a single turn, and evaluation runs outside a container.",
+        "reason": "A response artifact keeps host edit-sandbox availability out of the measured variable; an external sandbox remains required for untrusted code."
+      }
+    ]
+  },
+  "task": {
+    "prompt": "Repair EnvelopeReader.cs so it follows the v2 wire-format contract implemented by EnvelopeWriter.cs: input starts with v2:, and every payload colon or backslash is escaped by a preceding backslash. Preserve the public API, reject non-v2 input and malformed trailing escapes, and return only the complete C# source for EnvelopeReader.cs with no Markdown fence or explanation.",
+    "seedWorkspace": "benchmarks/fixtures/curated-hard-coding-cross-file",
+    "responseFile": "EnvelopeReader.cs",
+    "taskClass": "bug",
+    "capability": "coding-cross-file-repair"
+  },
+  "variants": [
+    { "id": "sol-medium", "model": "gpt-5.6-sol", "thinkingLevel": "medium" },
+    { "id": "terra-medium", "model": "gpt-5.6-terra", "thinkingLevel": "medium" },
+    { "id": "claude-sonnet-5-high", "model": "claude-sonnet-5", "thinkingLevel": "high" }
+  ],
+  "repetitions": 3,
+  "invocationTimeoutSeconds": 240,
+  "successCriteria": {
+    "command": "dotnet",
+    "arguments": ["run", "--project", "Fixture.csproj", "-c", "Release"],
+    "expectedExitCode": 0,
+    "timeoutSeconds": 120
+  },
+  "costCaps": { "maxTotalTokensPerInvocation": 400000 }
+}

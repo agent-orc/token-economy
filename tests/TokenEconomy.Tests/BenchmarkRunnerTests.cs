@@ -38,6 +38,18 @@ public sealed class BenchmarkRunnerTests
         Assert.Equal(0.5m, report.QualityDelta);
     }
 
+    [Fact]
+    public void Compare_does_not_declare_a_winner_when_every_case_failed()
+    {
+        var result = new BenchmarkRunResult { SchemaVersion = 1, SetupId = "x", RunId = "y", StartedAtUtc = DateTime.UtcNow, CompletedAtUtc = DateTime.UtcNow,
+            Cases = [Case("cheap", false, 10), Case("expensive", false, 100)] };
+
+        var report = BenchmarkRunner.Compare(result);
+
+        Assert.Null(report.Winner);
+        Assert.StartsWith("No successful cases", report.WinnerReason, StringComparison.Ordinal);
+    }
+
     private static BenchmarkDefinition Definition() => new()
     {
         SchemaVersion = 1, Id = "test",
