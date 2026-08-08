@@ -7,6 +7,12 @@ SemVer; pre-1.0 the public API may still shift).
 
 ### Added
 
+- Strongly typed model identifiers through `ModelId` and the generated
+  `KnownModels` constants, with forwarding overloads across pricing and
+  efficiency APIs. A byte-identical generation test keeps the checked-in
+  constants synchronized with every canonical price-catalog entry while the
+  existing string and alias interoperability surface remains unchanged.
+
 - An Agent Studio task-admission adapter that persists intake estimates, routes
   before every attempt with run-scoped quota evidence, consumes the newest
   classified reissue outcome, and records a complete immutable launch/wait

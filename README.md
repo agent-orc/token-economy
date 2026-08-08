@@ -160,7 +160,7 @@ using TokenEconomy;
 
 // The seeded catalog: known Claude 4.x/5 and OpenAI gpt-5.x models.
 var breakdown = ModelPriceCatalog.Default.ComputeCost(
-    "claude-opus-4-8",
+    KnownModels.ClaudeOpus48,
     new TokenUsage(Input: 250_000, Output: 12_000, CacheRead: 40_000),
     DateTime.UtcNow);
 
@@ -173,6 +173,37 @@ else
 `Total` is `null` for an unknown or unpriced model, never `0` — a missing price
 is always explicit. Prices carry history, so a run at an earlier timestamp is
 costed with the rate that was valid then.
+
+### Typed model ids
+
+`KnownModels` exposes one `ModelId` constant for every canonical entry in the
+default catalog. Pricing and efficiency APIs accept these typed values directly,
+while `ModelId` converts implicitly to `string` for seamless use with existing
+callers:
+
+```csharp
+var model = KnownModels.ClaudeSonnet5;
+var price = ModelPriceCatalog.Default.ResolvePrice(model, DateTime.UtcNow);
+var fit = ModelEfficiencyMatrix.Default.SuitabilityOf(model, TaskClass.Feature);
+
+string providerModelId = model;
+var customModel = ModelId.Of("provider-model-id");
+```
+
+There is deliberately no implicit conversion from `string` to `ModelId`.
+Dynamic or custom ids must be explicit with `ModelId.Of(configurationValue)`.
+The existing string overloads remain unchanged for external input and preserve
+case-insensitive, dot/dash-insensitive, and alias lookup.
+
+The constants are generated from the catalog and checked in. Maintainers can
+regenerate them with:
+
+```bash
+dotnet run --project tools/KnownModelsGenerator -- src/TokenEconomy/KnownModels.g.cs
+```
+
+The test suite renders the file in memory and compares its bytes with the
+checked-in output, so a catalog change without regeneration fails CI.
 
 ### Selecting the correctness route
 
