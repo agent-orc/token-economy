@@ -1,0 +1,2 @@
+# Policy snapshots are byte-hashed and must match the canonical repository content.
+docs/system/domains/model-routing-policy.md text eol=lf
