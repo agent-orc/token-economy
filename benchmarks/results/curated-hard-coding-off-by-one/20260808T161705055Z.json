@@ -1,0 +1,173 @@
+{
+  "schemaVersion": 1,
+  "setupId": "curated-hard-coding-off-by-one",
+  "runId": "20260808T161705055Z",
+  "startedAtUtc": "2026-08-08T16:17:05.0550852Z",
+  "completedAtUtc": "2026-08-08T16:23:10.4159698Z",
+  "taskClass": "bug",
+  "capability": "coding-off-by-one-boundary",
+  "cases": [
+    {
+      "variantId": "sol-medium",
+      "model": "gpt-5.6-sol",
+      "thinkingLevel": "medium",
+      "repetition": 1,
+      "succeeded": true,
+      "invocationExitCode": 0,
+      "evaluationExitCode": 0,
+      "usage": {
+        "input": 20357,
+        "output": 2176,
+        "cacheRead": 89600,
+        "cacheWrite": 0
+      },
+      "costUsd": null,
+      "durationMs": 80394,
+      "failureReason": null
+    },
+    {
+      "variantId": "sol-medium",
+      "model": "gpt-5.6-sol",
+      "thinkingLevel": "medium",
+      "repetition": 2,
+      "succeeded": true,
+      "invocationExitCode": 0,
+      "evaluationExitCode": 0,
+      "usage": {
+        "input": 11913,
+        "output": 2298,
+        "cacheRead": 70144,
+        "cacheWrite": 0
+      },
+      "costUsd": null,
+      "durationMs": 84522,
+      "failureReason": null
+    },
+    {
+      "variantId": "sol-medium",
+      "model": "gpt-5.6-sol",
+      "thinkingLevel": "medium",
+      "repetition": 3,
+      "succeeded": true,
+      "invocationExitCode": 0,
+      "evaluationExitCode": 0,
+      "usage": {
+        "input": 42509,
+        "output": 2343,
+        "cacheRead": 103680,
+        "cacheWrite": 0
+      },
+      "costUsd": null,
+      "durationMs": 67927,
+      "failureReason": null
+    },
+    {
+      "variantId": "terra-medium",
+      "model": "gpt-5.6-terra",
+      "thinkingLevel": "medium",
+      "repetition": 1,
+      "succeeded": false,
+      "invocationExitCode": 0,
+      "evaluationExitCode": 134,
+      "usage": {
+        "input": 9075,
+        "output": 1131,
+        "cacheRead": 57088,
+        "cacheWrite": 0
+      },
+      "costUsd": null,
+      "durationMs": 30261,
+      "failureReason": "Success command exited 134; expected 0."
+    },
+    {
+      "variantId": "terra-medium",
+      "model": "gpt-5.6-terra",
+      "thinkingLevel": "medium",
+      "repetition": 2,
+      "succeeded": false,
+      "invocationExitCode": 0,
+      "evaluationExitCode": 134,
+      "usage": {
+        "input": 5243,
+        "output": 1018,
+        "cacheRead": 47104,
+        "cacheWrite": 0
+      },
+      "costUsd": null,
+      "durationMs": 28152,
+      "failureReason": "Success command exited 134; expected 0."
+    },
+    {
+      "variantId": "terra-medium",
+      "model": "gpt-5.6-terra",
+      "thinkingLevel": "medium",
+      "repetition": 3,
+      "succeeded": false,
+      "invocationExitCode": 0,
+      "evaluationExitCode": 1,
+      "usage": {
+        "input": 8361,
+        "output": 1024,
+        "cacheRead": 44032,
+        "cacheWrite": 0
+      },
+      "costUsd": null,
+      "durationMs": 28257,
+      "failureReason": "Success command exited 1; expected 0."
+    },
+    {
+      "variantId": "claude-sonnet-5-high",
+      "model": "claude-sonnet-5",
+      "thinkingLevel": "high",
+      "repetition": 1,
+      "succeeded": true,
+      "invocationExitCode": 0,
+      "evaluationExitCode": 0,
+      "usage": {
+        "input": 10,
+        "output": 922,
+        "cacheRead": 151922,
+        "cacheWrite": 9996
+      },
+      "costUsd": 0.1200876,
+      "durationMs": 16084,
+      "failureReason": null
+    },
+    {
+      "variantId": "claude-sonnet-5-high",
+      "model": "claude-sonnet-5",
+      "thinkingLevel": "high",
+      "repetition": 2,
+      "succeeded": true,
+      "invocationExitCode": 0,
+      "evaluationExitCode": 0,
+      "usage": {
+        "input": 8,
+        "output": 778,
+        "cacheRead": 119704,
+        "cacheWrite": 9746
+      },
+      "costUsd": 0.10675619999999998,
+      "durationMs": 14295,
+      "failureReason": null
+    },
+    {
+      "variantId": "claude-sonnet-5-high",
+      "model": "claude-sonnet-5",
+      "thinkingLevel": "high",
+      "repetition": 3,
+      "succeeded": true,
+      "invocationExitCode": 0,
+      "evaluationExitCode": 0,
+      "usage": {
+        "input": 8,
+        "output": 875,
+        "cacheRead": 119752,
+        "cacheWrite": 9872
+      },
+      "costUsd": 0.1089816,
+      "durationMs": 15425,
+      "failureReason": null
+    }
+  ]
+}
