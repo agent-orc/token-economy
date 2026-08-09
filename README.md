@@ -107,8 +107,10 @@ selection rubric, and a standalone `ai-patterns` handoff.
 
 - **Controlled A/B benchmarks** — versioned repository definitions execute the
   same task against model/effort variants in isolated workspaces, retain raw
-  append-only measurements, and derive deterministic comparison reports. See
-  [the benchmark guide](docs/benchmarks.md).
+  append-only measurements, and derive deterministic comparison reports. Start
+  with the [end-to-end benchmark methodology](benchmarks/README.md); the
+  [protocol background](docs/benchmarks.md) records the established-suite
+  influences.
 - **Upfront task complexity** — card/repository signals plus measured historical
   neighbours produce a versioned routing score, confidence, token/reissue
   forecast, and audit evidence. A host-supplied mini-model rubric is optional.
@@ -117,7 +119,8 @@ selection rubric, and a standalone `ai-patterns` handoff.
 - **Document-to-text benchmark** — a curated PDF/Word/spreadsheet/presentation
   hard-case corpus runs across every catalog model and derives evidence-linked,
   per-document-type capability records without turning failures into
-  unsupported claims. See [the benchmark guide](docs/benchmarks.md#document-to-text-capability-benchmark).
+  unsupported claims. See the
+  [capability-corpus methodology](benchmarks/README.md#anatomy-of-the-document-to-text-corpus).
 
 - **Native media capability catalog** — evidence-dated image, video, music,
   speech, and dictation rows for Codex, Antigravity, and Claude Code are pulled
