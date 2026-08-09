@@ -203,6 +203,10 @@
     footer .frow { display: flex; flex-wrap: wrap; gap: 8px 20px; align-items: center; }
     footer .sep { color: var(--border); }
     .pill { font-size: 0.78rem; color: var(--muted); border: 1px solid var(--border); border-radius: 999px; padding: 2px 9px; }
+    .pill.lifecycle-retired, .pill.lifecycle-deprecated {
+      color: var(--warn); border-color: color-mix(in srgb, var(--warn) 45%, var(--border));
+      background: color-mix(in srgb, var(--warn) 10%, var(--panel));
+    }
     .state { font-family: var(--mono); font-size: .78rem; font-weight: 700; letter-spacing: .04em; color: var(--ok); }
     .state.planned, .state.pending { color: var(--warn); }
     .data-note { color: var(--muted); font-size: .88rem; margin-top: 14px; }
@@ -685,21 +689,33 @@ var matrix  = ModelEfficiencyMatrix.Default;  <span class="cmt">// cost is deriv
       const escape = value => String(value).replace(/[&<>"']/g, char => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[char]);
       const number = value => new Intl.NumberFormat('en-US').format(value);
       const seconds = value => `${(value / 1000).toFixed(1)} s`;
+      const observedRange = (range, format) => range.minimum === range.maximum
+        ? format(range.minimum)
+        : `${format(range.minimum)}&ndash;${format(range.maximum)}`;
       const benchmarkHost = document.getElementById('benchmark-results');
       const usageHost = document.getElementById('usage-charts');
       const statusHost = document.getElementById('project-status');
+      const lifecycleBadge = item => {
+        if (!['retired', 'deprecated'].includes(item.lifecycleStatus)) return '';
+        const label = item.lifecycleStatus.toUpperCase();
+        const note = item.lifecycleNote ? ` title="${escape(item.lifecycleNote)}"` : '';
+        return ` <span class="pill lifecycle-${item.lifecycleStatus}"${note}>${label}</span>`;
+      };
+      const capabilityLevel = capability => capability.level === 'NotAttempted'
+        ? '<span class="state pending">NOT ATTEMPTED</span><br><span class="comment-note">Infrastructure failure</span>'
+        : escape(capability.level.replace(/([a-z])([A-Z])/g, '$1 $2'));
 
       fetch('data/benchmarks.json').then(response => response.ok ? response.json() : Promise.reject(response.status)).then(data => {
         if (!data.studies.length) { benchmarkHost.textContent = 'No published benchmark results yet.'; return; }
         benchmarkHost.innerHTML = data.studies.map(study => {
-          const variants = study.variants.map(variant => `<tr><td>${escape(variant.variantId)}${variant.variantId === study.winner ? ' <span class="state">WINNER</span>' : ''}</td><td class="num">${variant.successes} / ${variant.runs}</td><td class="num">${number(variant.averageTokens)}</td><td class="num">${seconds(variant.averageDurationMs)}</td><td>${variant.totalCostUsd === null ? 'Not supplied' : '$' + (variant.totalCostUsd / variant.runs).toFixed(4)}</td></tr>`).join('');
+          const variants = study.variants.map(variant => `<tr><td>${escape(variant.variantId)}${variant.variantId === study.winner ? ' <span class="state">WINNER</span>' : ''}<br><span class="comment-note">${escape(variant.model)}</span>${lifecycleBadge(variant)}</td><td class="num">${variant.successes} / ${variant.runs}</td><td class="num">${number(variant.averageTokens)}${variant.runs > 1 ? `<br><span class="comment-note">range ${observedRange(variant.tokenRange, number)}</span>` : ''}</td><td class="num">${seconds(variant.averageDurationMs)}${variant.runs > 1 ? `<br><span class="comment-note">range ${observedRange(variant.durationRangeMs, seconds)}</span>` : ''}</td><td>${variant.totalCostUsd === null ? 'Not supplied' : '$' + (variant.totalCostUsd / variant.runs).toFixed(4)}</td></tr>`).join('');
           const date = new Date(study.startedAtUtc).toISOString().replace('.000', '').replace(/:\d\d\.\d+Z$/, 'Z');
-          return `<h3>Published setup: ${escape(study.setupId)}</h3><p>Run <code>${escape(date)}</code>. Rankings use the documented success, tokens, duration, then variant-id tie-breaker.</p><div class="table-scroll"><table><thead><tr><th>Variant</th><th class="num">Success</th><th class="num">Avg. tokens</th><th class="num">Avg. duration</th><th>Cost</th></tr></thead><tbody>${variants}</tbody></table></div><div class="callout"><strong>Current result:</strong> <code>${escape(study.winner)}</code> — ${escape(study.winnerReason)} This result has ${study.variants[0].runs} repeat(s) per variant and does not establish a general performance difference.</div>`;
+          return `<h3>Published setup: ${escape(study.setupId)}</h3><p>Run <code>${escape(date)}</code>. Rankings use the documented success, tokens, duration, then variant-id tie-breaker.</p><div class="table-scroll"><table><thead><tr><th>Variant / model</th><th class="num">Success</th><th class="num">Avg. tokens</th><th class="num">Avg. duration</th><th>Cost</th></tr></thead><tbody>${variants}</tbody></table></div><div class="callout"><strong>Run result:</strong> <code>${escape(study.winner)}</code> — ${escape(study.winnerReason)} This result has ${study.variants[0].runs} repeat(s) per variant and does not establish a general performance difference.</div>`;
         }).join('') + (data.capabilityStudies || []).map(study => {
-          const rows = study.capabilities.map(capability => `<tr><td>${escape(capability.model)}</td><td>${escape(capability.documentType)}</td><td class="num">${capability.casesPassed} / ${capability.casesAttempted}</td><td>${escape(capability.level)}</td></tr>`).join('');
+          const rows = study.capabilities.map(capability => `<tr><td>${escape(capability.model)}${lifecycleBadge(capability)}</td><td>${escape(capability.documentType)}</td><td class="num">${capability.casesAttempted === 0 ? '&mdash;' : capability.casesPassed + ' / ' + capability.casesAttempted}</td><td class="num">${capability.infrastructureFailures || '&mdash;'}</td><td>${capabilityLevel(capability)}</td></tr>`).join('');
           const date = new Date(study.startedAtUtc).toISOString().replace('.000', '').replace(/:\d\d\.\d+Z$/, 'Z');
-          return `<h3>Published capability corpus: ${escape(study.corpusId)}</h3><p>Run <code>${escape(date)}</code>. Each row is one model/document-type attempt; “Not demonstrated” is limited to this corpus and does not mean unsupported.</p><div class="table-scroll"><table><thead><tr><th>Model</th><th>Document type</th><th class="num">Passed</th><th>Observed level</th></tr></thead><tbody>${rows}</tbody></table></div>`;
-        }).join('') + `<p class="data-note">Generated from ${data.studies.length} A/B study/studies and ${(data.capabilityStudies || []).length} capability corpus/corpora.</p>`;
+          return `<h3>Published capability corpus: ${escape(study.corpusId)}</h3><p>Run <code>${escape(date)}</code>. “Not demonstrated” means a completed extraction missed this corpus's oracle. “Not attempted — infrastructure failure” means the CLI or host failed before any capability result existed.</p><div class="table-scroll"><table><thead><tr><th>Model</th><th>Document type</th><th class="num">Passed</th><th class="num">Infrastructure</th><th>Observed level</th></tr></thead><tbody>${rows}</tbody></table></div>`;
+        }).join('') + `<p class="data-note">Generated from ${data.studies.length} A/B study/studies and ${(data.capabilityStudies || []).length} capability run(s).</p>`;
       }).catch(() => { benchmarkHost.textContent = 'Published benchmark data could not be loaded.'; });
 
       // ---- token-usage charts -------------------------------------------------
@@ -789,7 +805,7 @@ var matrix  = ModelEfficiencyMatrix.Default;  <span class="cmt">// cost is deriv
         const maxTurnTokens = Math.max(...session.turns.map(turn => turn.tokens));
 
         const modelChart = `<article class="chart-card wide"><h3>Tokens by model</h3>`
-          + `<p class="chart-kicker">One capability run, ${run.cases} cases: every model met the same four documents once. Bar length is total tokens; the segments are the four billed components.</p>`
+          + `<p class="chart-kicker">One capability run, ${run.cases} scheduled cases: every model received the same four documents once. ${run.infrastructureFailures} case(s) ended in infrastructure before a capability result. Bar length is total tokens; the segments are the four billed components.</p>`
           + withUsage.map(model => stackedBar(model.model, model.usage, model.tokens, maxModelTokens,
             `· ${model.casesPassed}/${model.cases} passed`)).join('')
           + legend
@@ -807,7 +823,7 @@ var matrix  = ModelEfficiencyMatrix.Default;  <span class="cmt">// cost is deriv
           + `</p></article>`;
 
         const classChart = `<article class="chart-card"><h3>Tokens by document class</h3>`
-          + `<p class="chart-kicker">The task class this run records: the same ${run.cases} attempts split by document class instead of by model, ${documentTypes[0].cases} per class.</p>`
+          + `<p class="chart-kicker">The task class this run records: the same ${run.cases} scheduled cases split by document class instead of by model, ${documentTypes[0].cases} per class.</p>`
           + documentTypes.map(type => stackedBar(type.documentType, type.usage, type.tokens, maxTypeTokens,
             `· ${type.casesPassed}/${type.cases} passed`)).join('')
           + legend
@@ -843,7 +859,7 @@ var matrix  = ModelEfficiencyMatrix.Default;  <span class="cmt">// cost is deriv
 
         const coverage = `<article class="chart-card wide"><h3>What these charts cannot tell you</h3>`
           + `<p class="chart-kicker">The gaps are part of the evidence.</p><div class="coverage-list">`
-          + `<div class="coverage-item"><strong>Not production traffic</strong><span>The model, class and cost charts are one ${run.cases}-case corpus run of ${compact(run.tokens)} tokens on ${escape(run.startedAtUtc.slice(0, 10))}. One attempt per model and class cannot rank models.</span></div>`
+          + `<div class="coverage-item"><strong>Not production traffic</strong><span>The model, class and cost charts are one ${run.cases}-case corpus run of ${compact(run.tokens)} tokens on ${escape(run.startedAtUtc.slice(0, 10))}; ${run.infrastructureFailures} case(s) produced no capability result. One scheduled case per model and class cannot rank models.</span></div>`
           + `<div class="coverage-item"><strong>No coding / test / review split</strong><span>No source in this repository labels tokens by that kind of activity. The published task classes are document class and card task type, so those are what the charts show.</span></div>`
           + `<div class="coverage-item"><strong>Per-attempt tokens are not recorded</strong><span>Reissue counts are measurable; which attempt burned which tokens is not. The retry chart therefore compares whole cards, not first tries against repairs.</span></div>`
           + `<div class="coverage-item"><strong>Unpriced stays unpriced</strong><span>${run.pricedModels} of the ${withUsage.length} models with recorded tokens have a catalog rate. ${unpriced.length ? `${unpriced.map(model => `<code>${escape(model.model)}</code>`).join(', ')} ${unpriced.length === 1 ? 'does' : 'do'} not, at this run's date` : 'Every one of them is priced'} — those tokens are charted, their dollars are not.</span></div>`

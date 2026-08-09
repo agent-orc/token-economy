@@ -66,6 +66,11 @@ public sealed record DocumentTextCaseResult
     public required string Model { get; init; }
     public required string CaseId { get; init; }
     public required DocumentType DocumentType { get; init; }
+    /// <summary>
+    /// Explicit in schema-version-2 results. <see cref="DocumentTextAttemptOutcome.Unclassified"/>
+    /// is retained only so append-only schema-version-1 evidence remains readable.
+    /// </summary>
+    public DocumentTextAttemptOutcome Outcome { get; init; }
     public required bool Succeeded { get; init; }
     public required int ExitCode { get; init; }
     public required TokenUsage Usage { get; init; }
@@ -75,6 +80,19 @@ public sealed record DocumentTextCaseResult
     public IReadOnlyList<string> MissingFragments { get; init; } = [];
     public IReadOnlyList<string> UnexpectedFragments { get; init; } = [];
     public string? FailureReason { get; init; }
+}
+
+/// <summary>
+/// Separates a completed extraction judged by the oracle from a transport or host failure that
+/// produced no capability evidence.
+/// </summary>
+[JsonConverter(typeof(JsonStringEnumConverter<DocumentTextAttemptOutcome>))]
+public enum DocumentTextAttemptOutcome
+{
+    Unclassified,
+    Passed,
+    CapabilityMiss,
+    InfrastructureFailure,
 }
 
 /// <summary>Append-only raw result from an all-model corpus run.</summary>
@@ -90,9 +108,10 @@ public sealed record DocumentTextBenchmarkResult
 }
 
 /// <summary>
-/// Evidence-derived capability for one canonical model and document type. A record with no successes
-/// explicitly says <see cref="DocumentTextCapabilityLevel.NotDemonstrated"/> rather than "unsupported":
-/// one controlled corpus cannot prove universal lack of support.
+/// Evidence-derived capability for one canonical model and document type. A completed record with no
+/// successes says <see cref="DocumentTextCapabilityLevel.NotDemonstrated"/> rather than "unsupported";
+/// infrastructure-only records say <see cref="DocumentTextCapabilityLevel.NotAttempted"/>. One
+/// controlled corpus cannot prove universal lack of support.
 /// </summary>
 public sealed record DocumentTextCapabilityRecord
 {
@@ -101,13 +120,15 @@ public sealed record DocumentTextCapabilityRecord
     public required DocumentTextCapabilityLevel Level { get; init; }
     public required int CasesAttempted { get; init; }
     public required int CasesPassed { get; init; }
-    public required decimal SuccessRate { get; init; }
+    public required int InfrastructureFailures { get; init; }
+    public required decimal? SuccessRate { get; init; }
     public required string EvidenceReference { get; init; }
 }
 
 [JsonConverter(typeof(JsonStringEnumConverter<DocumentTextCapabilityLevel>))]
 public enum DocumentTextCapabilityLevel
 {
+    NotAttempted,
     NotDemonstrated,
     Partial,
     Demonstrated,
@@ -209,16 +230,25 @@ public sealed class DocumentTextBenchmarkRunner
                         }
                     }
 
-                    var grade = Grade(response.ExtractedText, item.Definition);
-                    var failure = response.ExitCode != 0
+                    var infrastructureFailure = response.ExitCode != 0;
+                    var grade = infrastructureFailure
+                        ? (Missing: (IReadOnlyList<string>)[], Unexpected: (IReadOnlyList<string>)[], FailureReason: (string?)null)
+                        : Grade(response.ExtractedText, item.Definition);
+                    var failure = infrastructureFailure
                         ? response.Error ?? $"Extractor exited {response.ExitCode}."
                         : grade.FailureReason;
+                    var outcome = infrastructureFailure
+                        ? DocumentTextAttemptOutcome.InfrastructureFailure
+                        : failure is null
+                            ? DocumentTextAttemptOutcome.Passed
+                            : DocumentTextAttemptOutcome.CapabilityMiss;
                     timer.Stop();
                     var result = new DocumentTextCaseResult
                     {
                         Model = model,
                         CaseId = item.Definition.Id,
                         DocumentType = item.Definition.DocumentType,
+                        Outcome = outcome,
                         Succeeded = failure is null,
                         ExitCode = response.ExitCode,
                         Usage = response.Usage,
@@ -237,6 +267,7 @@ public sealed class DocumentTextBenchmarkRunner
                         ["model"] = model,
                         ["caseId"] = item.Definition.Id,
                         ["documentType"] = item.Definition.DocumentType.ToString(),
+                        ["outcome"] = outcome.ToString(),
                         ["succeeded"] = result.Succeeded,
                         ["durationMs"] = result.DurationMs,
                         ["failureReason"] = failure,
@@ -245,7 +276,7 @@ public sealed class DocumentTextBenchmarkRunner
 
             var raw = new DocumentTextBenchmarkResult
             {
-                SchemaVersion = 1,
+                SchemaVersion = 2,
                 CorpusId = corpus.Id,
                 RunId = runId,
                 StartedAtUtc = started,
@@ -277,18 +308,22 @@ public sealed class DocumentTextBenchmarkRunner
             .GroupBy(item => (item.Model, item.DocumentType))
             .Select(group =>
             {
-                var passed = group.Count(item => item.Succeeded);
-                var attempted = group.Count();
+                var infrastructureFailures = group.Count(IsInfrastructureFailure);
+                var attempted = group.Count() - infrastructureFailures;
+                var passed = group.Count(IsPassed);
                 return new DocumentTextCapabilityRecord
                 {
                     Model = group.Key.Model,
                     DocumentType = group.Key.DocumentType,
-                    Level = passed == 0 ? DocumentTextCapabilityLevel.NotDemonstrated
-                        : passed == attempted ? DocumentTextCapabilityLevel.Demonstrated
-                        : DocumentTextCapabilityLevel.Partial,
+                    Level = attempted == 0 ? DocumentTextCapabilityLevel.NotAttempted
+                        : passed == 0 ? DocumentTextCapabilityLevel.NotDemonstrated
+                        : passed == attempted && infrastructureFailures == 0
+                            ? DocumentTextCapabilityLevel.Demonstrated
+                            : DocumentTextCapabilityLevel.Partial,
                     CasesAttempted = attempted,
                     CasesPassed = passed,
-                    SuccessRate = (decimal)passed / attempted,
+                    InfrastructureFailures = infrastructureFailures,
+                    SuccessRate = attempted == 0 ? null : (decimal)passed / attempted,
                     EvidenceReference = evidenceReference,
                 };
             })
@@ -298,12 +333,20 @@ public sealed class DocumentTextBenchmarkRunner
 
         return new()
         {
-            SchemaVersion = 1,
+            SchemaVersion = 2,
             CorpusId = result.CorpusId,
             RunId = result.RunId,
             Capabilities = records,
         };
     }
+
+    private static bool IsInfrastructureFailure(DocumentTextCaseResult item) =>
+        item.Outcome == DocumentTextAttemptOutcome.InfrastructureFailure
+        || item.Outcome == DocumentTextAttemptOutcome.Unclassified && item.ExitCode != 0;
+
+    private static bool IsPassed(DocumentTextCaseResult item) =>
+        item.Outcome == DocumentTextAttemptOutcome.Passed
+        || item.Outcome == DocumentTextAttemptOutcome.Unclassified && item.Succeeded;
 
     private static (IReadOnlyList<string> Missing, IReadOnlyList<string> Unexpected, string? FailureReason) Grade(
         string? extracted, DocumentTextCorpusCase definition)

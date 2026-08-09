@@ -19,7 +19,15 @@ Prerequisites are .NET 10 and an authenticated Codex CLI that exposes the config
 dotnet run --project src/TokenEconomy.Benchmarks -- run benchmarks/setups/palindrome-repair.json
 ```
 
-The CLI invokes the exact same prompt once with `gpt-5.6-terra`/medium and once with `gpt-5.6-sol`/medium. Each invocation receives a fresh copy of `benchmarks/fixtures/palindrome-repair`; no case sees another case's output. For this small response-artifact task, the harness writes each model's final response to `task.responseFile`, then runs `dotnet run` against the repaired fixture to determine success. This keeps nested tool execution out of the measured variable.
+The CLI invokes the exact same prompt three times each with
+`gpt-5.6-terra`/medium, `gpt-5.6-sol`/medium, and the policy's
+`claude-sonnet-5`/high provider fallback. Model ids dispatch to Codex or Claude
+Code by provider prefix. Each invocation receives a fresh copy of
+`benchmarks/fixtures/palindrome-repair`; no case sees another case's output. For
+this small response-artifact task, the harness writes each model's final
+response to `task.responseFile`, then runs `dotnet run` against the repaired
+fixture to determine success. This keeps nested tool execution out of the
+measured variable.
 
 Raw output is written once to `benchmarks/results/palindrome-repair/<UTC-run-id>.json`. The adjacent `<UTC-run-id>.report.json` is derived from it. Existing paths are rejected, making result files append-only. Temporary workspaces are removed after collection.
 
@@ -94,9 +102,11 @@ Each run writes immutable raw evidence to
 type with attempted/passed counts, success rate, and a reference to the raw
 artifact. Raw evidence retains the extracted text, oracle misses, token usage,
 duration and errors. Each invocation has the corpus's explicit timeout. Levels
-are deliberately conservative: all cases passed is
-`Demonstrated`, some is `Partial`, and none is `NotDemonstrated`. The benchmark
-never infers universal "unsupported" from this finite corpus.
+are deliberately conservative: all completed cases passed is `Demonstrated`,
+some is `Partial`, and no completed case passed is `NotDemonstrated`. A CLI,
+authentication, timeout, or host failure is instead `NotAttempted`, with an
+explicit infrastructure-failure count and no fabricated success rate. The
+benchmark never infers universal "unsupported" from this finite corpus.
 
 Library hosts can provide another transport through `IDocumentTextExtractor`.
 Events use the stable `document_text_benchmark.*` prefix and include corpus,
