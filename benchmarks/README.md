@@ -142,6 +142,21 @@ Re-execution reproduces the checked-in definition, fixture isolation, and
 scoring method, but model output and timing are observations and need not be
 byte-identical to the historical run.
 
+To run the curated hard coding suite, execute its four sibling setups:
+
+```bash
+dotnet run --project src/TokenEconomy.Benchmarks -- run benchmarks/setups/curated-hard-coding-off-by-one.json
+dotnet run --project src/TokenEconomy.Benchmarks -- run benchmarks/setups/curated-hard-coding-unicode-locale.json
+dotnet run --project src/TokenEconomy.Benchmarks -- run benchmarks/setups/curated-hard-coding-cross-file.json
+dotnet run --project src/TokenEconomy.Benchmarks -- run benchmarks/setups/curated-hard-coding-underspecified.json
+```
+
+Each setup compares the policy's Sol, Terra, and Claude Sonnet 5 coding routes
+over three fresh-workspace repetitions. Separate setups keep each prompt,
+fixture tree, response target, and executable oracle explicit under schema
+version 1. Their checked-in raw runs and reports are published evidence, not
+general capability claims.
+
 To re-execute the capability corpus:
 
 ```bash
@@ -150,9 +165,9 @@ dotnet run --project src/TokenEconomy.Benchmarks -- document-to-text benchmarks/
 
 The invoker dispatch is intentionally explicit:
 
-- `run` constructs `CodexCliBenchmarkInvoker`, so every controlled variant is
-  sent through the authenticated `codex` CLI. A model family is not dispatched
-  to another CLI merely because of its name.
+- `run` constructs `PrefixDispatchingCliBenchmarkInvoker`. Models whose ids
+  start with `claude-` are sent through the authenticated `claude` CLI; all
+  other controlled variants are sent through `codex`.
 - `document-to-text` constructs `DocumentTextCliExtractor`. Models whose ids
   start with `claude-` are sent through the `claude` CLI; all other catalog
   models are sent through `codex`. Both CLIs are required for a complete
@@ -165,9 +180,10 @@ The controlled invocation timeout returns exit `-1` and a timeout failure. An
 evaluation timeout also returns `-1`. Exceeding a token cap does not truncate an
 invocation: the completed measurement is retained and marked unsuccessful
 before evaluation. A USD cap is enforced only when the invoker supplies
-`CostUsd`; unknown cost stays `null`, never zero. The included Codex invoker
-records CLI token usage but does not calculate USD cost. The document corpus has
-an invocation timeout but no token or USD cap in its schema.
+`CostUsd`; unknown cost stays `null`, never zero. The included dispatching
+invoker records Codex CLI token usage without calculating cost and retains
+Claude Code's reported usage and cost. The document corpus has an invocation
+timeout but no token or USD cap in its schema.
 
 The command exits non-zero when a controlled report has a variant with no
 successful repetition, or when any document capability record is not
@@ -191,6 +207,8 @@ duration, optional cost, and failure reason. The report derives success rate,
 total and average tokens, optional total cost, average duration, winner, and the
 first two ranked variants' quality/cost deltas. Ranking is highest success rate,
 then lowest average tokens, lowest average duration, and stable variant id.
+When every attempt failed, variants retain that ordering but the report declares
+no winner.
 
 Corpus raw cases retain extracted text, missing and unexpected oracle fragments,
 usage, cost, duration, exit, and failure. The capability sidecar groups by model
