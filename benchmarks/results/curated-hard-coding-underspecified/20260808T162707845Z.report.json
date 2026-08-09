@@ -1,0 +1,40 @@
+{
+  "setupId": "curated-hard-coding-underspecified",
+  "runId": "20260808T162707845Z",
+  "winner": null,
+  "winnerReason": "No successful cases; variants are ordered by tokens, duration, then variant id.",
+  "variants": [
+    {
+      "variantId": "terra-medium",
+      "runs": 3,
+      "successes": 0,
+      "successRate": 0,
+      "totalTokens": 38967,
+      "averageTokens": 12989,
+      "totalCostUsd": null,
+      "averageDurationMs": 6770
+    },
+    {
+      "variantId": "sol-medium",
+      "runs": 3,
+      "successes": 0,
+      "successRate": 0,
+      "totalTokens": 39140,
+      "averageTokens": 13046.666666666666666666666667,
+      "totalCostUsd": null,
+      "averageDurationMs": 10972.666666666666666666666667
+    },
+    {
+      "variantId": "claude-sonnet-5-high",
+      "runs": 3,
+      "successes": 0,
+      "successRate": 0,
+      "totalTokens": 99044,
+      "averageTokens": 33014.666666666666666666666667,
+      "totalCostUsd": 0.22847850000000001,
+      "averageDurationMs": 13759.666666666666666666666667
+    }
+  ],
+  "costDeltaUsd": null,
+  "qualityDelta": 0
+}
