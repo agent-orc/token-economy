@@ -1,104 +1,224 @@
 {
   "schemaVersion": 1,
-  "generatedAtUtc": "2026-08-08T16:12:53.842928+00:00",
+  "generatedAtUtc": "2026-08-09T10:01:12.202285+00:00",
   "priceCatalogPath": "src/TokenEconomy/catalog/model-prices.json",
   "byModel": {
     "source": {
       "corpusId": "curated-hard-cases-v1",
-      "runId": "20260725T120544879Z",
-      "startedAtUtc": "2026-07-25T12:05:44.879647Z",
-      "completedAtUtc": "2026-07-25T12:32:35.9127773Z",
-      "evidencePath": "benchmarks/results/document-to-text/curated-hard-cases-v1/20260725T120544879Z.json",
-      "pricedAtUtc": "2026-07-25T12:05:44.879647Z",
-      "cases": 56,
-      "casesPassed": 38,
-      "casesWithUsage": 43,
-      "casesWithoutUsage": 13,
+      "runId": "20260809T092430765Z",
+      "startedAtUtc": "2026-08-09T09:24:30.7656232Z",
+      "completedAtUtc": "2026-08-09T09:55:17.725575Z",
+      "evidencePath": "benchmarks/results/document-to-text/curated-hard-cases-v1/20260809T092430765Z.json",
+      "pricedAtUtc": "2026-08-09T09:24:30.7656232Z",
+      "cases": 72,
+      "casesPassed": 39,
+      "casesWithUsage": 62,
+      "casesWithoutUsage": 10,
       "usage": {
-        "input": 108231,
-        "output": 16978,
-        "cacheRead": 2869929,
-        "cacheWrite": 516884
+        "input": 534214,
+        "output": 50954,
+        "cacheRead": 5309366,
+        "cacheWrite": 299045
       },
-      "tokens": 3512022,
-      "failedCasesWithUsage": 5,
-      "failedCaseTokens": 360681,
-      "pricedModels": 9
+      "tokens": 6193579,
+      "failedCasesWithUsage": 23,
+      "failedCaseTokens": 2788918,
+      "infrastructureFailures": 10,
+      "pricedModels": 10
     },
     "models": [
       {
-        "model": "claude-opus-4-7",
+        "model": "claude-haiku-4-5",
         "cases": 4,
-        "casesPassed": 4,
+        "casesPassed": 2,
         "casesWithUsage": 4,
+        "infrastructureFailures": 0,
         "usage": {
-          "input": 37,
-          "output": 1424,
-          "cacheRead": 411120,
-          "cacheWrite": 76594
+          "input": 189,
+          "output": 8144,
+          "cacheRead": 715050,
+          "cacheWrite": 36771
         },
-        "tokens": 489175,
+        "tokens": 760154,
         "cost": {
           "status": "Resolved",
           "currency": "USD",
           "unconfirmed": false,
-          "totalUsd": 0.720058,
+          "totalUsd": 0.158378,
           "components": {
-            "input": 0.000185,
-            "output": 0.0356,
-            "cacheRead": 0.20556,
-            "cacheWrite": 0.478712
+            "input": 0.000189,
+            "output": 0.04072,
+            "cacheRead": 0.071505,
+            "cacheWrite": 0.045964
           }
+        }
+      },
+      {
+        "model": "gpt-5.6-luna",
+        "cases": 4,
+        "casesPassed": 0,
+        "casesWithUsage": 4,
+        "infrastructureFailures": 0,
+        "usage": {
+          "input": 111300,
+          "output": 4563,
+          "cacheRead": 590848,
+          "cacheWrite": 0
+        },
+        "tokens": 706711,
+        "cost": {
+          "status": "NoPriceForDate",
+          "totalUsd": null
         }
       },
       {
         "model": "claude-sonnet-5",
         "cases": 4,
-        "casesPassed": 4,
+        "casesPassed": 3,
         "casesWithUsage": 4,
+        "infrastructureFailures": 0,
         "usage": {
-          "input": 24,
-          "output": 1303,
-          "cacheRead": 409541,
-          "cacheWrite": 75726
+          "input": 38,
+          "output": 3004,
+          "cacheRead": 596775,
+          "cacheWrite": 30004
         },
-        "tokens": 486594,
+        "tokens": 629821,
         "cost": {
           "status": "Resolved",
           "currency": "USD",
           "unconfirmed": false,
-          "totalUsd": 0.284301,
+          "totalUsd": 0.224481,
           "components": {
-            "input": 4.8e-05,
-            "output": 0.01303,
-            "cacheRead": 0.081908,
-            "cacheWrite": 0.189315
+            "input": 7.6e-05,
+            "output": 0.03004,
+            "cacheRead": 0.119355,
+            "cacheWrite": 0.07501
           }
         }
       },
       {
-        "model": "claude-haiku-4-5",
+        "model": "gpt-5.6-sol",
         "cases": 4,
-        "casesPassed": 1,
+        "casesPassed": 0,
         "casesWithUsage": 4,
+        "infrastructureFailures": 0,
         "usage": {
-          "input": 98,
-          "output": 2084,
-          "cacheRead": 379556,
-          "cacheWrite": 45333
+          "input": 88679,
+          "output": 4546,
+          "cacheRead": 502016,
+          "cacheWrite": 0
         },
-        "tokens": 427071,
+        "tokens": 595241,
+        "cost": {
+          "status": "NoPriceForDate",
+          "totalUsd": null
+        }
+      },
+      {
+        "model": "gpt-5.4-mini",
+        "cases": 4,
+        "casesPassed": 0,
+        "casesWithUsage": 3,
+        "infrastructureFailures": 1,
+        "usage": {
+          "input": 135685,
+          "output": 9706,
+          "cacheRead": 329472,
+          "cacheWrite": 0
+        },
+        "tokens": 474863,
+        "cost": {
+          "status": "NoPriceForDate",
+          "totalUsd": null
+        }
+      },
+      {
+        "model": "gpt-5.5",
+        "cases": 4,
+        "casesPassed": 0,
+        "casesWithUsage": 3,
+        "infrastructureFailures": 1,
+        "usage": {
+          "input": 116664,
+          "output": 3961,
+          "cacheRead": 290688,
+          "cacheWrite": 0
+        },
+        "tokens": 411313,
+        "cost": {
+          "status": "NoPriceForDate",
+          "totalUsd": null
+        }
+      },
+      {
+        "model": "claude-opus-5",
+        "cases": 4,
+        "casesPassed": 4,
+        "casesWithUsage": 4,
+        "infrastructureFailures": 0,
+        "usage": {
+          "input": 11650,
+          "output": 3167,
+          "cacheRead": 359459,
+          "cacheWrite": 28238
+        },
+        "tokens": 402514,
         "cost": {
           "status": "Resolved",
           "currency": "USD",
           "unconfirmed": false,
-          "totalUsd": 0.10514,
+          "totalUsd": 0.493642,
           "components": {
-            "input": 9.8e-05,
-            "output": 0.01042,
-            "cacheRead": 0.037956,
-            "cacheWrite": 0.056666
+            "input": 0.05825,
+            "output": 0.079175,
+            "cacheRead": 0.17973,
+            "cacheWrite": 0.176488
           }
+        }
+      },
+      {
+        "model": "claude-opus-4-7",
+        "cases": 4,
+        "casesPassed": 4,
+        "casesWithUsage": 4,
+        "infrastructureFailures": 0,
+        "usage": {
+          "input": 37,
+          "output": 1678,
+          "cacheRead": 367655,
+          "cacheWrite": 31392
+        },
+        "tokens": 400762,
+        "cost": {
+          "status": "Resolved",
+          "currency": "USD",
+          "unconfirmed": false,
+          "totalUsd": 0.422162,
+          "components": {
+            "input": 0.000185,
+            "output": 0.04195,
+            "cacheRead": 0.183828,
+            "cacheWrite": 0.1962
+          }
+        }
+      },
+      {
+        "model": "gpt-5.6-terra",
+        "cases": 4,
+        "casesPassed": 0,
+        "casesWithUsage": 4,
+        "infrastructureFailures": 0,
+        "usage": {
+          "input": 34150,
+          "output": 3043,
+          "cacheRead": 243456,
+          "cacheWrite": 0
+        },
+        "tokens": 280649,
+        "cost": {
+          "status": "NoPriceForDate",
+          "totalUsd": null
         }
       },
       {
@@ -106,48 +226,24 @@
         "cases": 4,
         "casesPassed": 4,
         "casesWithUsage": 4,
+        "infrastructureFailures": 0,
         "usage": {
-          "input": 13704,
-          "output": 1396,
-          "cacheRead": 284906,
-          "cacheWrite": 55009
+          "input": 11908,
+          "output": 1819,
+          "cacheRead": 235905,
+          "cacheWrite": 21755
         },
-        "tokens": 355015,
+        "tokens": 271387,
         "cost": {
           "status": "Resolved",
           "currency": "USD",
           "unconfirmed": false,
-          "totalUsd": 1.179358,
+          "totalUsd": 0.717872,
           "components": {
-            "input": 0.13704,
-            "output": 0.0698,
-            "cacheRead": 0.284906,
-            "cacheWrite": 0.687612
-          }
-        }
-      },
-      {
-        "model": "claude-sonnet-4-6",
-        "cases": 4,
-        "casesPassed": 3,
-        "casesWithUsage": 4,
-        "usage": {
-          "input": 20,
-          "output": 1014,
-          "cacheRead": 238746,
-          "cacheWrite": 55823
-        },
-        "tokens": 295603,
-        "cost": {
-          "status": "Resolved",
-          "currency": "USD",
-          "unconfirmed": false,
-          "totalUsd": 0.29623,
-          "components": {
-            "input": 6e-05,
-            "output": 0.01521,
-            "cacheRead": 0.071624,
-            "cacheWrite": 0.209336
+            "input": 0.11908,
+            "output": 0.09095,
+            "cacheRead": 0.235905,
+            "cacheWrite": 0.271938
           }
         }
       },
@@ -156,23 +252,50 @@
         "cases": 4,
         "casesPassed": 4,
         "casesWithUsage": 4,
+        "infrastructureFailures": 0,
         "usage": {
-          "input": 14674,
-          "output": 1371,
-          "cacheRead": 241179,
-          "cacheWrite": 28613
+          "input": 11888,
+          "output": 1558,
+          "cacheRead": 197798,
+          "cacheWrite": 22108
         },
-        "tokens": 285837,
+        "tokens": 233352,
         "cost": {
           "status": "Resolved",
           "currency": "USD",
           "unconfirmed": false,
-          "totalUsd": 0.407066,
+          "totalUsd": 0.335464,
           "components": {
-            "input": 0.07337,
-            "output": 0.034275,
-            "cacheRead": 0.12059,
-            "cacheWrite": 0.178831
+            "input": 0.05944,
+            "output": 0.03895,
+            "cacheRead": 0.098899,
+            "cacheWrite": 0.138175
+          }
+        }
+      },
+      {
+        "model": "claude-sonnet-4-6",
+        "cases": 4,
+        "casesPassed": 3,
+        "casesWithUsage": 4,
+        "infrastructureFailures": 0,
+        "usage": {
+          "input": 19,
+          "output": 883,
+          "cacheRead": 193873,
+          "cacheWrite": 22909
+        },
+        "tokens": 217684,
+        "cost": {
+          "status": "Resolved",
+          "currency": "USD",
+          "unconfirmed": false,
+          "totalUsd": 0.157373,
+          "components": {
+            "input": 5.7e-05,
+            "output": 0.013245,
+            "cacheRead": 0.058162,
+            "cacheWrite": 0.085909
           }
         }
       },
@@ -181,80 +304,14 @@
         "cases": 4,
         "casesPassed": 4,
         "casesWithUsage": 4,
+        "infrastructureFailures": 0,
         "usage": {
-          "input": 13700,
-          "output": 1390,
-          "cacheRead": 240899,
-          "cacheWrite": 28239
+          "input": 11868,
+          "output": 1426,
+          "cacheRead": 181800,
+          "cacheWrite": 16525
         },
-        "tokens": 284228,
-        "cost": {
-          "status": "NoPriceForDate",
-          "totalUsd": null
-        }
-      },
-      {
-        "model": "claude-opus-4-5",
-        "cases": 4,
-        "casesPassed": 4,
-        "casesWithUsage": 4,
-        "usage": {
-          "input": 53,
-          "output": 1045,
-          "cacheRead": 177256,
-          "cacheWrite": 63995
-        },
-        "tokens": 242349,
-        "cost": {
-          "status": "Resolved",
-          "currency": "USD",
-          "unconfirmed": true,
-          "totalUsd": 0.514987,
-          "components": {
-            "input": 0.000265,
-            "output": 0.026125,
-            "cacheRead": 0.088628,
-            "cacheWrite": 0.399969
-          }
-        }
-      },
-      {
-        "model": "claude-opus-4-6",
-        "cases": 4,
-        "casesPassed": 4,
-        "casesWithUsage": 4,
-        "usage": {
-          "input": 18,
-          "output": 1022,
-          "cacheRead": 185670,
-          "cacheWrite": 55160
-        },
-        "tokens": 241870,
-        "cost": {
-          "status": "Resolved",
-          "currency": "USD",
-          "unconfirmed": false,
-          "totalUsd": 0.463225,
-          "components": {
-            "input": 9e-05,
-            "output": 0.02555,
-            "cacheRead": 0.092835,
-            "cacheWrite": 0.34475
-          }
-        }
-      },
-      {
-        "model": "gpt-5.5",
-        "cases": 4,
-        "casesPassed": 4,
-        "casesWithUsage": 4,
-        "usage": {
-          "input": 65855,
-          "output": 4047,
-          "cacheRead": 153600,
-          "cacheWrite": 0
-        },
-        "tokens": 223502,
+        "tokens": 211619,
         "cost": {
           "status": "NoPriceForDate",
           "totalUsd": null
@@ -263,25 +320,78 @@
       {
         "model": "claude-sonnet-4-5",
         "cases": 4,
-        "casesPassed": 2,
-        "casesWithUsage": 3,
+        "casesPassed": 3,
+        "casesWithUsage": 4,
+        "infrastructureFailures": 0,
         "usage": {
-          "input": 48,
-          "output": 882,
-          "cacheRead": 147456,
-          "cacheWrite": 32392
+          "input": 68,
+          "output": 1247,
+          "cacheRead": 171333,
+          "cacheWrite": 26871
         },
-        "tokens": 180778,
+        "tokens": 199519,
         "cost": {
           "status": "Resolved",
           "currency": "USD",
           "unconfirmed": true,
-          "totalUsd": 0.179081,
+          "totalUsd": 0.171075,
           "components": {
-            "input": 0.000144,
-            "output": 0.01323,
-            "cacheRead": 0.044237,
-            "cacheWrite": 0.12147
+            "input": 0.000204,
+            "output": 0.018705,
+            "cacheRead": 0.0514,
+            "cacheWrite": 0.100766
+          }
+        }
+      },
+      {
+        "model": "claude-opus-4-5",
+        "cases": 4,
+        "casesPassed": 4,
+        "casesWithUsage": 4,
+        "infrastructureFailures": 0,
+        "usage": {
+          "input": 53,
+          "output": 1054,
+          "cacheRead": 154111,
+          "cacheWrite": 44064
+        },
+        "tokens": 199282,
+        "cost": {
+          "status": "Resolved",
+          "currency": "USD",
+          "unconfirmed": true,
+          "totalUsd": 0.37907,
+          "components": {
+            "input": 0.000265,
+            "output": 0.02635,
+            "cacheRead": 0.077056,
+            "cacheWrite": 0.2754
+          }
+        }
+      },
+      {
+        "model": "claude-opus-4-6",
+        "cases": 4,
+        "casesPassed": 4,
+        "casesWithUsage": 4,
+        "infrastructureFailures": 0,
+        "usage": {
+          "input": 18,
+          "output": 1155,
+          "cacheRead": 179127,
+          "cacheWrite": 18408
+        },
+        "tokens": 198708,
+        "cost": {
+          "status": "Resolved",
+          "currency": "USD",
+          "unconfirmed": false,
+          "totalUsd": 0.233578,
+          "components": {
+            "input": 9e-05,
+            "output": 0.028875,
+            "cacheRead": 0.089564,
+            "cacheWrite": 0.11505
           }
         }
       },
@@ -290,6 +400,7 @@
         "cases": 4,
         "casesPassed": 0,
         "casesWithUsage": 0,
+        "infrastructureFailures": 4,
         "usage": {
           "input": 0,
           "output": 0,
@@ -307,23 +418,7 @@
         "cases": 4,
         "casesPassed": 0,
         "casesWithUsage": 0,
-        "usage": {
-          "input": 0,
-          "output": 0,
-          "cacheRead": 0,
-          "cacheWrite": 0
-        },
-        "tokens": 0,
-        "cost": {
-          "status": "NoPriceForDate",
-          "totalUsd": null
-        }
-      },
-      {
-        "model": "gpt-5.6",
-        "cases": 4,
-        "casesPassed": 0,
-        "casesWithUsage": 0,
+        "infrastructureFailures": 4,
         "usage": {
           "input": 0,
           "output": 0,
@@ -341,78 +436,83 @@
   "byDocumentType": {
     "source": {
       "corpusId": "curated-hard-cases-v1",
-      "runId": "20260725T120544879Z",
-      "startedAtUtc": "2026-07-25T12:05:44.879647Z",
-      "completedAtUtc": "2026-07-25T12:32:35.9127773Z",
-      "evidencePath": "benchmarks/results/document-to-text/curated-hard-cases-v1/20260725T120544879Z.json",
-      "pricedAtUtc": "2026-07-25T12:05:44.879647Z",
-      "cases": 56,
-      "casesPassed": 38,
-      "casesWithUsage": 43,
-      "casesWithoutUsage": 13,
+      "runId": "20260809T092430765Z",
+      "startedAtUtc": "2026-08-09T09:24:30.7656232Z",
+      "completedAtUtc": "2026-08-09T09:55:17.725575Z",
+      "evidencePath": "benchmarks/results/document-to-text/curated-hard-cases-v1/20260809T092430765Z.json",
+      "pricedAtUtc": "2026-08-09T09:24:30.7656232Z",
+      "cases": 72,
+      "casesPassed": 39,
+      "casesWithUsage": 62,
+      "casesWithoutUsage": 10,
       "usage": {
-        "input": 108231,
-        "output": 16978,
-        "cacheRead": 2869929,
-        "cacheWrite": 516884
+        "input": 534214,
+        "output": 50954,
+        "cacheRead": 5309366,
+        "cacheWrite": 299045
       },
-      "tokens": 3512022,
-      "failedCasesWithUsage": 5,
-      "failedCaseTokens": 360681,
-      "pricedModels": 9
+      "tokens": 6193579,
+      "failedCasesWithUsage": 23,
+      "failedCaseTokens": 2788918,
+      "infrastructureFailures": 10,
+      "pricedModels": 10
     },
     "documentTypes": [
       {
         "documentType": "Pdf",
-        "cases": 14,
-        "casesPassed": 9,
-        "casesWithUsage": 10,
+        "cases": 18,
+        "casesPassed": 11,
+        "casesWithUsage": 15,
+        "infrastructureFailures": 3,
         "usage": {
-          "input": 37272,
-          "output": 3836,
-          "cacheRead": 631802,
-          "cacheWrite": 239061
+          "input": 134426,
+          "output": 17891,
+          "cacheRead": 1551581,
+          "cacheWrite": 122868
         },
-        "tokens": 911971
+        "tokens": 1826766
       },
       {
         "documentType": "Word",
-        "cases": 14,
+        "cases": 18,
         "casesPassed": 10,
-        "casesWithUsage": 11,
+        "casesWithUsage": 16,
+        "infrastructureFailures": 2,
         "usage": {
-          "input": 14301,
-          "output": 3936,
-          "cacheRead": 620304,
-          "cacheWrite": 89981
+          "input": 190721,
+          "output": 12881,
+          "cacheRead": 1282327,
+          "cacheWrite": 58392
         },
-        "tokens": 728522
+        "tokens": 1544321
       },
       {
         "documentType": "Spreadsheet",
-        "cases": 14,
-        "casesPassed": 8,
-        "casesWithUsage": 11,
+        "cases": 18,
+        "casesPassed": 7,
+        "casesWithUsage": 16,
+        "infrastructureFailures": 2,
         "usage": {
-          "input": 25809,
-          "output": 3747,
-          "cacheRead": 677212,
-          "cacheWrite": 92434
+          "input": 133308,
+          "output": 10396,
+          "cacheRead": 1239640,
+          "cacheWrite": 58373
         },
-        "tokens": 799202
+        "tokens": 1441717
       },
       {
         "documentType": "Presentation",
-        "cases": 14,
+        "cases": 18,
         "casesPassed": 11,
-        "casesWithUsage": 11,
+        "casesWithUsage": 15,
+        "infrastructureFailures": 3,
         "usage": {
-          "input": 30849,
-          "output": 5459,
-          "cacheRead": 940611,
-          "cacheWrite": 95408
+          "input": 75759,
+          "output": 9786,
+          "cacheRead": 1235818,
+          "cacheWrite": 59412
         },
-        "tokens": 1072327
+        "tokens": 1380775
       }
     ]
   },

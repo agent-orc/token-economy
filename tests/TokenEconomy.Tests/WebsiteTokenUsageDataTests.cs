@@ -79,6 +79,76 @@ public class WebsiteTokenUsageDataTests
     }
 
     [Fact]
+    public void Published_palindrome_run_has_claude_and_observed_spread()
+    {
+        var benchmarks = LoadJson(Path.Combine(FindRepositoryRoot(), "website", "data", "benchmarks.json"));
+        var latest = benchmarks.GetProperty("studies").EnumerateArray()
+            .Where(study => study.GetProperty("setupId").GetString() == "palindrome-repair")
+            .OrderBy(study => study.GetProperty("startedAtUtc").GetDateTime())
+            .Last();
+        var variants = latest.GetProperty("variants").EnumerateArray().ToArray();
+
+        Assert.Contains(variants, variant =>
+            variant.GetProperty("model").GetString() == "claude-sonnet-5"
+            && variant.GetProperty("runs").GetInt32() >= 3);
+        Assert.All(variants, variant =>
+        {
+            Assert.True(variant.GetProperty("runs").GetInt32() >= 3);
+            Assert.True(
+                variant.GetProperty("tokenRange").GetProperty("maximum").GetInt64()
+                >= variant.GetProperty("tokenRange").GetProperty("minimum").GetInt64());
+            Assert.True(
+                variant.GetProperty("durationRangeMs").GetProperty("maximum").GetInt64()
+                >= variant.GetProperty("durationRangeMs").GetProperty("minimum").GetInt64());
+        });
+    }
+
+    [Fact]
+    public void Published_infrastructure_failures_are_not_capability_misses()
+    {
+        var benchmarks = LoadJson(Path.Combine(FindRepositoryRoot(), "website", "data", "benchmarks.json"));
+
+        foreach (var capability in benchmarks.GetProperty("capabilityStudies").EnumerateArray()
+                     .SelectMany(study => study.GetProperty("capabilities").EnumerateArray()))
+        {
+            var infrastructure = capability.GetProperty("infrastructureFailures").GetInt32();
+            if (infrastructure == 0) continue;
+
+            Assert.NotEqual("NotDemonstrated", capability.GetProperty("level").GetString());
+            if (capability.GetProperty("casesAttempted").GetInt32() == 0)
+            {
+                Assert.Equal("NotAttempted", capability.GetProperty("level").GetString());
+                Assert.Equal(JsonValueKind.Null, capability.GetProperty("successRate").ValueKind);
+            }
+        }
+    }
+
+    [Fact]
+    public void Published_capabilities_include_current_catalog_coverage_and_lifecycle()
+    {
+        var benchmarks = LoadJson(Path.Combine(FindRepositoryRoot(), "website", "data", "benchmarks.json"));
+        var latest = benchmarks.GetProperty("capabilityStudies").EnumerateArray()
+            .OrderBy(study => study.GetProperty("startedAtUtc").GetDateTime())
+            .Last();
+        var rows = latest.GetProperty("capabilities").EnumerateArray().ToArray();
+        var models = rows.Select(row => row.GetProperty("model").GetString()).Distinct().ToArray();
+
+        foreach (var model in new[]
+                 {
+                     "claude-opus-5", "gpt-5.6-luna", "gpt-5.6-terra", "gpt-5.4-mini",
+                     "gpt-5.6-sol", "gpt-5", "gpt-5-codex",
+                 })
+            Assert.Contains(model, models);
+        Assert.DoesNotContain("claude-mythos-5", models);
+
+        var retired = Assert.Single(
+            rows.Where(row => row.GetProperty("model").GetString() == "claude-opus-4-1"),
+            row => row.GetProperty("documentType").GetString() == "Pdf");
+        Assert.Equal("deprecated", retired.GetProperty("routingStatus").GetString());
+        Assert.Equal("retired", retired.GetProperty("lifecycleStatus").GetString());
+    }
+
+    [Fact]
     public void Published_model_cost_matches_ComputeCost_at_the_run_timestamp()
     {
         var byModel = LoadUsageData().GetProperty("byModel");

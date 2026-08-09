@@ -7,6 +7,13 @@ SemVer; pre-1.0 the public API may still shift).
 
 ### Changed
 
+- Coding A/B benchmarks now dispatch `claude-*` variants through Claude Code,
+  and the palindrome repair setup compares the policy's Sonnet 5/high fallback
+  with Terra/medium and Sol/medium over three repetitions each.
+- Document-to-text reports now separate CLI/host infrastructure failures from
+  completed capability misses. The website publishes those rows as not
+  attempted, annotates current routing lifecycle state, and flags the retired
+  Claude Opus 4.1 evidence.
 - Removed the unavailable Glasswing-only model from the pricing and routing
   catalogs and from all derived website and routing-evidence projections. Raw
   benchmark results remain unchanged as append-only historical evidence.

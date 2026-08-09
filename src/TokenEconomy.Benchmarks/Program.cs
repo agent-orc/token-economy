@@ -40,7 +40,8 @@ if (args[0] == "document-to-text")
     return capabilityReport.Capabilities.Any(item => item.Level != DocumentTextCapabilityLevel.Demonstrated) ? 1 : 0;
 }
 
-var runner = new BenchmarkRunner(new CodexCliBenchmarkInvoker());
+var runner = new BenchmarkRunner(new ModelPrefixBenchmarkInvoker(
+    new CodexCliBenchmarkInvoker(), new ClaudeCodeCliBenchmarkInvoker()));
 runner.EventOccurred += item => Console.Error.WriteLine(JsonSerializer.Serialize(new { item.Name, item.Context }));
 var (_, report) = await runner.RunAsync(BenchmarkRunner.LoadDefinition(setupPath), repositoryRoot);
 Console.WriteLine(JsonSerializer.Serialize(report, new JsonSerializerOptions(JsonSerializerDefaults.Web) { WriteIndented = true }));
@@ -53,6 +54,15 @@ static string FindRepositoryRoot(string start)
     throw new DirectoryNotFoundException("Could not find TokenEconomy.slnx above the current directory.");
 }
 
+sealed class ModelPrefixBenchmarkInvoker(IBenchmarkInvoker codex, IBenchmarkInvoker claude) : IBenchmarkInvoker
+{
+    public Task<BenchmarkInvocationResponse> InvokeAsync(
+        BenchmarkInvocationRequest request, CancellationToken cancellationToken = default) =>
+        request.Variant.Model.StartsWith("claude-", StringComparison.OrdinalIgnoreCase)
+            ? claude.InvokeAsync(request, cancellationToken)
+            : codex.InvokeAsync(request, cancellationToken);
+}
+
 sealed class CodexCliBenchmarkInvoker : IBenchmarkInvoker
 {
     public async Task<BenchmarkInvocationResponse> InvokeAsync(BenchmarkInvocationRequest request, CancellationToken cancellationToken = default)
@@ -62,7 +72,6 @@ sealed class CodexCliBenchmarkInvoker : IBenchmarkInvoker
         {
             WorkingDirectory = request.Workspace,
             UseShellExecute = false,
-            RedirectStandardInput = true,
             RedirectStandardOutput = true,
             RedirectStandardError = true,
         };
@@ -78,7 +87,6 @@ sealed class CodexCliBenchmarkInvoker : IBenchmarkInvoker
 
         using var process = new Process { StartInfo = start };
         process.Start();
-        process.StandardInput.Close();
         var stdoutTask = process.StandardOutput.ReadToEndAsync(cancellationToken);
         var stderrTask = process.StandardError.ReadToEndAsync(cancellationToken);
         try { await process.WaitForExitAsync(cancellationToken); }
@@ -103,7 +111,7 @@ sealed class CodexCliBenchmarkInvoker : IBenchmarkInvoker
             ExitCode = process.ExitCode,
             Usage = usage,
             FinalResponse = finalResponse,
-            Error = process.ExitCode == 0 ? null : Last(stderr, 4000),
+            Error = process.ExitCode == 0 ? null : Last(CodexJsonDiagnostics.Error(stdout) ?? stderr, 4000),
         };
     }
 
@@ -131,6 +139,137 @@ sealed class CodexCliBenchmarkInvoker : IBenchmarkInvoker
         return 0;
     }
     private static string Last(string text, int length) => text.Length <= length ? text : text[^length..];
+    private static string StripCodeFence(string text)
+    {
+        var trimmed = text.Trim();
+        if (!trimmed.StartsWith("```", StringComparison.Ordinal)) return trimmed;
+        var firstNewline = trimmed.IndexOf('\n');
+        var lastFence = trimmed.LastIndexOf("```", StringComparison.Ordinal);
+        return firstNewline >= 0 && lastFence > firstNewline ? trimmed[(firstNewline + 1)..lastFence].Trim() : trimmed;
+    }
+}
+
+static class CodexJsonDiagnostics
+{
+    public static string? Error(string jsonLines)
+    {
+        string? fallback = null;
+        foreach (var line in jsonLines.Split('\n', StringSplitOptions.RemoveEmptyEntries))
+            try
+            {
+                using var document = JsonDocument.Parse(line);
+                var root = document.RootElement;
+                if (root.TryGetProperty("type", out var type)
+                    && type.GetString() == "turn.failed"
+                    && root.TryGetProperty("error", out var failure)
+                    && failure.TryGetProperty("message", out var failureMessage))
+                    return failureMessage.GetString();
+                if (root.TryGetProperty("type", out type)
+                    && type.GetString() == "error"
+                    && root.TryGetProperty("message", out var message))
+                    fallback = message.GetString();
+                if (root.TryGetProperty("item", out var item)
+                    && item.TryGetProperty("type", out var itemType)
+                    && itemType.GetString() == "error"
+                    && item.TryGetProperty("message", out var itemMessage))
+                    fallback ??= itemMessage.GetString();
+            }
+            catch (JsonException) { }
+        return fallback;
+    }
+}
+
+sealed class ClaudeCodeCliBenchmarkInvoker : IBenchmarkInvoker
+{
+    public async Task<BenchmarkInvocationResponse> InvokeAsync(
+        BenchmarkInvocationRequest request, CancellationToken cancellationToken = default)
+    {
+        var start = new ProcessStartInfo(OperatingSystem.IsWindows() ? "claude.cmd" : "claude")
+        {
+            WorkingDirectory = request.Workspace,
+            UseShellExecute = false,
+            RedirectStandardOutput = true,
+            RedirectStandardError = true,
+        };
+        foreach (var argument in new[]
+        {
+            "--print", "--output-format", "json", "--model", request.Variant.Model,
+            "--permission-mode", "bypassPermissions", "--no-session-persistence",
+        })
+            start.ArgumentList.Add(argument);
+        if (!string.IsNullOrWhiteSpace(request.Variant.ThinkingLevel))
+        {
+            start.ArgumentList.Add("--effort");
+            start.ArgumentList.Add(request.Variant.ThinkingLevel);
+        }
+        start.ArgumentList.Add(request.Prompt);
+
+        using var process = new Process { StartInfo = start };
+        process.Start();
+        var stdoutTask = process.StandardOutput.ReadToEndAsync(cancellationToken);
+        var stderrTask = process.StandardError.ReadToEndAsync(cancellationToken);
+        try { await process.WaitForExitAsync(cancellationToken); }
+        catch (OperationCanceledException)
+        {
+            if (!process.HasExited) process.Kill(entireProcessTree: true);
+            await process.WaitForExitAsync(CancellationToken.None);
+            throw;
+        }
+
+        var stdout = await stdoutTask;
+        var stderr = await stderrTask;
+        var parsed = Parse(stdout);
+        var exitCode = process.ExitCode == 0 && parsed.IsError ? 1 : process.ExitCode;
+        if (exitCode == 0 && request.ResponseFile is not null && parsed.FinalResponse is not null)
+        {
+            var target = Path.GetFullPath(Path.Combine(request.Workspace, request.ResponseFile));
+            if (!target.StartsWith(Path.GetFullPath(request.Workspace) + Path.DirectorySeparatorChar, StringComparison.OrdinalIgnoreCase))
+                throw new InvalidDataException("Response file escapes the benchmark workspace.");
+            await File.WriteAllTextAsync(target, StripCodeFence(parsed.FinalResponse), cancellationToken);
+        }
+        return new()
+        {
+            ExitCode = exitCode,
+            Usage = parsed.Usage,
+            CostUsd = parsed.CostUsd,
+            FinalResponse = parsed.FinalResponse,
+            Error = exitCode == 0 ? null : Last(
+                string.IsNullOrWhiteSpace(stderr) ? parsed.FinalResponse ?? "Claude Code invocation failed." : stderr,
+                4000),
+        };
+    }
+
+    private static (TokenUsage Usage, decimal? CostUsd, string? FinalResponse, bool IsError) Parse(string json)
+    {
+        if (string.IsNullOrWhiteSpace(json)) return (default, null, null, false);
+        try
+        {
+            using var document = JsonDocument.Parse(json);
+            var root = document.RootElement;
+            var usage = root.TryGetProperty("usage", out var usageJson)
+                ? new TokenUsage(
+                    Number(usageJson, "input_tokens"),
+                    Number(usageJson, "output_tokens"),
+                    Number(usageJson, "cache_read_input_tokens"),
+                    Number(usageJson, "cache_creation_input_tokens"))
+                : default;
+            decimal? cost = root.TryGetProperty("total_cost_usd", out var costJson)
+                && costJson.TryGetDecimal(out var amount) ? amount : null;
+            var response = root.TryGetProperty("result", out var result) ? result.GetString() : null;
+            var isError = root.TryGetProperty("is_error", out var error) && error.ValueKind == JsonValueKind.True;
+            return (usage, cost, response, isError);
+        }
+        catch (JsonException)
+        {
+            return (default, null, null, false);
+        }
+    }
+
+    private static long Number(JsonElement value, string name) =>
+        value.TryGetProperty(name, out var item) && item.TryGetInt64(out var number) ? number : 0;
+
+    private static string Last(string text, int length) => text.Length <= length ? text : text[^length..];
+
     private static string StripCodeFence(string text)
     {
         var trimmed = text.Trim();
@@ -175,7 +314,8 @@ sealed class DocumentTextCliExtractor : IDocumentTextExtractor
                 ExitCode = processResult.ExitCode,
                 Usage = ParseCodexUsage(processResult.Stdout),
                 ExtractedText = text,
-                Error = processResult.ExitCode == 0 ? null : Last(processResult.Stderr, 4000),
+                Error = processResult.ExitCode == 0 ? null
+                    : Last(CodexJsonDiagnostics.Error(processResult.Stdout) ?? processResult.Stderr, 4000),
             };
         }
         finally
@@ -231,7 +371,6 @@ sealed class DocumentTextCliExtractor : IDocumentTextExtractor
     {
         WorkingDirectory = workingDirectory,
         UseShellExecute = false,
-        RedirectStandardInput = true,
         RedirectStandardOutput = true,
         RedirectStandardError = true,
     };
@@ -241,7 +380,6 @@ sealed class DocumentTextCliExtractor : IDocumentTextExtractor
     {
         using var process = new Process { StartInfo = start };
         process.Start();
-        process.StandardInput.Close();
         var stdoutTask = process.StandardOutput.ReadToEndAsync(cancellationToken);
         var stderrTask = process.StandardError.ReadToEndAsync(cancellationToken);
         try { await process.WaitForExitAsync(cancellationToken); }
