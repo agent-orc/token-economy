@@ -51,6 +51,7 @@ public sealed class DocumentTextBenchmarkTests
             Assert.Equal(2, report.Capabilities.Count);
             Assert.Equal(DocumentTextCapabilityLevel.Demonstrated, report.Capabilities.Single(item => item.Model == "model-a").Level);
             Assert.Equal(DocumentTextCapabilityLevel.NotDemonstrated, report.Capabilities.Single(item => item.Model == "model-b").Level);
+            Assert.All(report.Capabilities, item => Assert.Equal(0, item.InfrastructureFailures));
             Assert.Equal(" LEFT   column\nRight column ", result.Cases.Single(item => item.Model == "model-a").ExtractedText);
             Assert.All(report.Capabilities, item => Assert.Equal("benchmarks/results/document-to-text/hard-cases/run-1.json", item.EvidenceReference));
             Assert.Contains("document_text_benchmark.run.started", events);
@@ -89,6 +90,51 @@ public sealed class DocumentTextBenchmarkTests
         Assert.Equal(0.5m, pdf.SuccessRate);
         var word = Assert.Single(report.Capabilities, item => item.DocumentType == DocumentType.Word);
         Assert.Equal(DocumentTextCapabilityLevel.Demonstrated, word.Level);
+    }
+
+    [Fact]
+    public void Capability_report_does_not_turn_infrastructure_failures_into_capability_misses()
+    {
+        var result = new DocumentTextBenchmarkResult
+        {
+            SchemaVersion = 2,
+            CorpusId = "x",
+            RunId = "r",
+            StartedAtUtc = DateTime.UtcNow,
+            CompletedAtUtc = DateTime.UtcNow,
+            Models = ["m"],
+            Cases =
+            [
+                new()
+                {
+                    Model = "m", CaseId = "pdf-1", DocumentType = DocumentType.Pdf,
+                    Outcome = DocumentTextAttemptOutcome.InfrastructureFailure,
+                    Succeeded = false, ExitCode = -1, Usage = default, DurationMs = 1,
+                    FailureReason = "CLI host failed before extraction.",
+                },
+            ],
+        };
+
+        var capability = Assert.Single(
+            DocumentTextBenchmarkRunner.BuildCapabilityReport(result, "results/r.json").Capabilities);
+
+        Assert.Equal(DocumentTextCapabilityLevel.NotAttempted, capability.Level);
+        Assert.Equal(0, capability.CasesAttempted);
+        Assert.Equal(0, capability.CasesPassed);
+        Assert.Equal(1, capability.InfrastructureFailures);
+        Assert.Null(capability.SuccessRate);
+    }
+
+    [Fact]
+    public void Default_target_list_contains_new_catalog_models_and_excludes_restricted_mythos()
+    {
+        var models = ModelPriceCatalog.Default.Listings.Select(item => item.ModelId).ToArray();
+
+        Assert.Contains("claude-opus-5", models);
+        Assert.Contains("gpt-5.6-luna", models);
+        Assert.Contains("gpt-5.6-terra", models);
+        Assert.Contains("gpt-5.4-mini", models);
+        Assert.DoesNotContain("claude-mythos-5", models);
     }
 
     [Fact]
@@ -145,6 +191,7 @@ public sealed class DocumentTextBenchmarkTests
         Model = "m",
         CaseId = id,
         DocumentType = type,
+        Outcome = succeeded ? DocumentTextAttemptOutcome.Passed : DocumentTextAttemptOutcome.CapabilityMiss,
         Succeeded = succeeded,
         ExitCode = 0,
         Usage = default,

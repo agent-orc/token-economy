@@ -63,9 +63,10 @@
   },
   "variants": [
     { "id": "terra-medium", "model": "gpt-5.6-terra", "thinkingLevel": "medium" },
-    { "id": "sol-medium", "model": "gpt-5.6-sol", "thinkingLevel": "medium" }
+    { "id": "sol-medium", "model": "gpt-5.6-sol", "thinkingLevel": "medium" },
+    { "id": "claude-sonnet-5-high", "model": "claude-sonnet-5", "thinkingLevel": "high" }
   ],
-  "repetitions": 1,
+  "repetitions": 3,
   "invocationTimeoutSeconds": 90,
   "successCriteria": {
     "command": "dotnet",

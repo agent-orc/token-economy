@@ -1,0 +1,40 @@
+{
+  "setupId": "palindrome-repair",
+  "runId": "20260809T092240107Z",
+  "winner": "terra-medium",
+  "winnerReason": "Highest success rate; ties break on average tokens, duration, then variant id.",
+  "variants": [
+    {
+      "variantId": "terra-medium",
+      "runs": 3,
+      "successes": 3,
+      "successRate": 1,
+      "totalTokens": 38984,
+      "averageTokens": 12994.666666666666666666666667,
+      "totalCostUsd": null,
+      "averageDurationMs": 9834.666666666666666666666667
+    },
+    {
+      "variantId": "sol-medium",
+      "runs": 3,
+      "successes": 3,
+      "successRate": 1,
+      "totalTokens": 39153,
+      "averageTokens": 13051,
+      "totalCostUsd": null,
+      "averageDurationMs": 15028
+    },
+    {
+      "variantId": "claude-sonnet-5-high",
+      "runs": 3,
+      "successes": 3,
+      "successRate": 1,
+      "totalTokens": 96334,
+      "averageTokens": 32111.333333333333333333333333,
+      "totalCostUsd": 0.18986649999999998,
+      "averageDurationMs": 6105.6666666666666666666666667
+    }
+  ],
+  "costDeltaUsd": null,
+  "qualityDelta": 0
+}
