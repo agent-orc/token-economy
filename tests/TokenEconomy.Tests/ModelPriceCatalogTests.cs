@@ -113,11 +113,49 @@ public class ModelPriceCatalogTests
     [Fact]
     public void KnownButUnpriced_ResolvesToNoPriceForDate_NotZero()
     {
-        var breakdown = ModelPriceCatalog.Default.ComputeCost("gpt-5.6", new TokenUsage(1_000, 1_000), Now);
+        var breakdown = ModelPriceCatalog.Default.ComputeCost("gpt-5.5", new TokenUsage(1_000, 1_000), Now);
         Assert.Equal(PriceStatus.NoPriceForDate, breakdown.Status);
-        Assert.Equal("gpt-5.6-sol", breakdown.ModelId);   // alias resolved; model WAS found, just not priced
+        Assert.Equal("gpt-5.5", breakdown.ModelId);   // model WAS found, just not priced
         Assert.False(breakdown.HasPrice);
         Assert.Null(breakdown.Total);
+    }
+
+    [Fact]
+    public void ComputeCost_Gpt56Sol_UsesPublishedStandardRates()
+    {
+        var breakdown = ModelPriceCatalog.Default.ComputeCost(
+            "gpt-5.6",
+            new TokenUsage(Input: 1_000_000, Output: 1_000_000, CacheRead: 1_000_000, CacheWrite: 1_000_000),
+            new DateTime(2026, 8, 9, 0, 0, 0, DateTimeKind.Utc));
+
+        Assert.Equal(PriceStatus.Resolved, breakdown.Status);
+        Assert.Equal("gpt-5.6-sol", breakdown.ModelId);
+        Assert.Equal(5.00m, breakdown.InputCost);
+        Assert.Equal(30.00m, breakdown.OutputCost);
+        Assert.Equal(0.50m, breakdown.CacheReadCost);
+        Assert.Equal(6.25m, breakdown.CacheWriteCost);
+        Assert.Equal(41.75m, breakdown.Total);
+        Assert.False(breakdown.Unconfirmed);
+    }
+
+    [Fact]
+    public void Gpt56PriceChanges_ResolveAcrossTheJuly30Boundary()
+    {
+        var changedAt = new DateTime(2026, 7, 30, 0, 0, 0, DateTimeKind.Utc);
+
+        var terraBefore = ModelPriceCatalog.Default.ResolvePrice("gpt-5.6-terra", changedAt.AddTicks(-1)).Price!;
+        var terraAfter = ModelPriceCatalog.Default.ResolvePrice("gpt-5.6-terra", changedAt).Price!;
+        Assert.Equal((2.50m, 15.00m, 0.25m, 3.125m),
+            (terraBefore.InputPerMTok, terraBefore.OutputPerMTok, terraBefore.CacheReadPerMTok, terraBefore.CacheWritePerMTok));
+        Assert.Equal((2.00m, 12.00m, 0.20m, 2.50m),
+            (terraAfter.InputPerMTok, terraAfter.OutputPerMTok, terraAfter.CacheReadPerMTok, terraAfter.CacheWritePerMTok));
+
+        var lunaBefore = ModelPriceCatalog.Default.ResolvePrice("gpt-5.6-luna", changedAt.AddTicks(-1)).Price!;
+        var lunaAfter = ModelPriceCatalog.Default.ResolvePrice("gpt-5.6-luna", changedAt).Price!;
+        Assert.Equal((1.00m, 6.00m, 0.10m, 1.25m),
+            (lunaBefore.InputPerMTok, lunaBefore.OutputPerMTok, lunaBefore.CacheReadPerMTok, lunaBefore.CacheWritePerMTok));
+        Assert.Equal((0.20m, 1.20m, 0.02m, 0.25m),
+            (lunaAfter.InputPerMTok, lunaAfter.OutputPerMTok, lunaAfter.CacheReadPerMTok, lunaAfter.CacheWritePerMTok));
     }
 
     [Fact]

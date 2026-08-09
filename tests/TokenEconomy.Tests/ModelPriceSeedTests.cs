@@ -58,17 +58,81 @@ public class ModelPriceSeedTests
     }
 
     [Theory]
-    [InlineData("gpt-5.6")]
     [InlineData("gpt-5.5")]
     [InlineData("gpt-5")]
     [InlineData("gpt-5-codex")]
-    public void Gpt5Family_IsKnownButUnpriced(string model)
+    public void RemainingGpt5Placeholders_AreKnownButUnpriced(string model)
     {
         var listing = Catalog.Find(model);
         Assert.NotNull(listing);
         Assert.Equal("openai", listing!.Vendor);
         Assert.Empty(listing.History);   // present, but no invented number
         Assert.NotNull(listing.Note);
+    }
+
+    [Theory]
+    [InlineData("gpt-5.6-sol", 5.00, 30.00, 0.50, 6.25)]
+    [InlineData("gpt-5.6-terra", 2.00, 12.00, 0.20, 2.50)]
+    [InlineData("gpt-5.6-luna", 0.20, 1.20, 0.02, 0.25)]
+    public void ConfirmedGpt56Models_HaveCurrentPublishedStandardRates(
+        string model, double input, double output, double cacheRead, double cacheWrite)
+    {
+        var price = Catalog.ResolvePrice(model, new DateTime(2026, 8, 9, 0, 0, 0, DateTimeKind.Utc)).Price;
+
+        Assert.NotNull(price);
+        Assert.Equal((decimal)input, price!.InputPerMTok);
+        Assert.Equal((decimal)output, price.OutputPerMTok);
+        Assert.Equal((decimal)cacheRead, price.CacheReadPerMTok);
+        Assert.Equal((decimal)cacheWrite, price.CacheWritePerMTok);
+        Assert.False(price.Unconfirmed);
+        Assert.Contains("https://", price.Source);
+        Assert.Contains("retrieved 2026-08-09", price.Source);
+    }
+
+    [Fact]
+    public void Gpt54Mini_HasPublishedRates_AndNoSeparateCacheWriteRate()
+    {
+        var price = Catalog.ResolvePrice("gpt-5.4-mini", new DateTime(2026, 8, 9, 0, 0, 0, DateTimeKind.Utc)).Price!;
+
+        Assert.Equal(0.75m, price.InputPerMTok);
+        Assert.Equal(4.50m, price.OutputPerMTok);
+        Assert.Equal(0.075m, price.CacheReadPerMTok);
+        Assert.Null(price.CacheWritePerMTok);
+        Assert.Equal(
+            0.75m,
+            Catalog.ComputeCost("gpt-5.4-mini", new TokenUsage(0, 0, CacheWrite: 1_000_000),
+                new DateTime(2026, 8, 9, 0, 0, 0, DateTimeKind.Utc)).CacheWriteCost);
+        Assert.False(price.Unconfirmed);
+    }
+
+    [Fact]
+    public void ConfirmedOpenAiHistory_StartsAtPublishedLaunchDates()
+    {
+        Assert.Equal(
+            new DateTime(2026, 6, 26, 0, 0, 0, DateTimeKind.Utc),
+            Catalog.PriceDevelopment("gpt-5.6-sol").Single().ValidFrom);
+        Assert.Equal(
+            [
+                new DateTime(2026, 6, 26, 0, 0, 0, DateTimeKind.Utc),
+                new DateTime(2026, 7, 30, 0, 0, 0, DateTimeKind.Utc),
+            ],
+            Catalog.PriceDevelopment("gpt-5.6-terra").Select(price => price.ValidFrom));
+        Assert.Equal(
+            [
+                new DateTime(2026, 6, 26, 0, 0, 0, DateTimeKind.Utc),
+                new DateTime(2026, 7, 30, 0, 0, 0, DateTimeKind.Utc),
+            ],
+            Catalog.PriceDevelopment("gpt-5.6-luna").Select(price => price.ValidFrom));
+        Assert.Equal(
+            new DateTime(2026, 3, 17, 0, 0, 0, DateTimeKind.Utc),
+            Catalog.PriceDevelopment("gpt-5.4-mini").Single().ValidFrom);
+
+        foreach (var id in new[] { "gpt-5.6-sol", "gpt-5.6-terra", "gpt-5.6-luna", "gpt-5.4-mini" })
+            foreach (var price in Catalog.PriceDevelopment(id))
+            {
+                Assert.Contains("https://", price.Source);
+                Assert.Contains("retrieved 2026-08-09", price.Source);
+            }
     }
 
     [Fact]

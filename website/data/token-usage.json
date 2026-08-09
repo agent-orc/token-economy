@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAtUtc": "2026-08-08T16:12:53.842928+00:00",
+  "generatedAtUtc": "2026-08-09T11:45:20.787541+00:00",
   "priceCatalogPath": "src/TokenEconomy/catalog/model-prices.json",
   "byModel": {
     "source": {
@@ -332,8 +332,16 @@
         },
         "tokens": 0,
         "cost": {
-          "status": "NoPriceForDate",
-          "totalUsd": null
+          "status": "Resolved",
+          "currency": "USD",
+          "unconfirmed": false,
+          "totalUsd": 0.0,
+          "components": {
+            "input": 0.0,
+            "output": 0.0,
+            "cacheRead": 0.0,
+            "cacheWrite": 0.0
+          }
         }
       }
     ]

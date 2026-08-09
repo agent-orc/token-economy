@@ -77,10 +77,21 @@ public class ModelEfficiencySeedTests
         Assert.DoesNotContain(EffortLevel.High, haiku.EffortLevels);
     }
 
-    [Fact]
-    public void GptFamily_RunsOnCodex_AndIsUnpricedHenceUnknownCost()
+    [Theory]
+    [InlineData("gpt-5.6-luna", CostClass.Economy)]
+    [InlineData("gpt-5.6-terra", CostClass.Standard)]
+    [InlineData("gpt-5.6-sol", CostClass.Premium)]
+    [InlineData("gpt-5.4-mini", CostClass.Economy)]
+    public void PricedGptFamily_RunsOnCodex_WithCatalogDerivedCost(string id, CostClass expected)
     {
-        foreach (var id in new[] { "gpt-5.6-luna", "gpt-5.6-terra", "gpt-5.6-sol", "gpt-5.4-mini", "gpt-5.5", "gpt-5", "gpt-5-codex" })
+        Assert.Equal(Cli.Codex, Matrix.CliOf(id));
+        Assert.Equal(expected, Matrix.CostClassOf(id, Now));
+    }
+
+    [Fact]
+    public void RemainingGptPlaceholders_RunOnCodex_AndRetainUnknownCost()
+    {
+        foreach (var id in new[] { "gpt-5.5", "gpt-5", "gpt-5-codex" })
         {
             Assert.Equal(Cli.Codex, Matrix.CliOf(id));
             Assert.Equal(CostClass.Unknown, Matrix.CostClassOf(id, Now));

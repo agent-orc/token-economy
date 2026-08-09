@@ -81,7 +81,7 @@ public class ProviderQuotaDashboardTests
 
     [Theory]
     [InlineData("never-seen-model", SnapshotCostStatus.Unknown)]
-    [InlineData("gpt-5.6-sol", SnapshotCostStatus.Unpriced)]
+    [InlineData("gpt-5.5", SnapshotCostStatus.Unpriced)]
     public void BuildSnapshot_UnknownOrUnpricedCostIsNeverHealthy(string model, SnapshotCostStatus expected)
     {
         var row = BuildSingle(

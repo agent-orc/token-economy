@@ -7,6 +7,11 @@ SemVer; pre-1.0 the public API may still shift).
 
 ### Added
 
+- Confirmed standard API list-price histories for GPT-5.6 Sol, Terra, and Luna,
+  including the 2026-07-30 Terra and Luna reductions, plus GPT-5.4 mini pricing.
+  Every entry carries official OpenAI source URLs and retrieval dates, and a
+  regression test now costs a representative GPT-5.6 Sol run.
+
 - A versioned Quality Studio review-evidence stream for the `review` task
   class: strict drop schema, append-only per-run importer, model/thinking/CLI/
   aspect cohorts, confirmed-versus-dismissed finding metrics, provenance, and
