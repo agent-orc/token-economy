@@ -5,6 +5,8 @@ SemVer; pre-1.0 the public API may still shift).
 
 ## [Unreleased]
 
+## [0.3.0] - 2026-08-09
+
 ### Changed
 
 - Removed the unavailable Glasswing-only model from the pricing and routing
@@ -159,5 +161,6 @@ public release.
   `Unconfirmed` or left unpriced rather than invented.
 - Dependency-free core targeting `net10.0`; ships XML docs and a symbol package.
 
-[Unreleased]: https://github.com/agent-orc/token-economy/compare/v0.2.0...HEAD
+[Unreleased]: https://github.com/agent-orc/token-economy/compare/v0.3.0...HEAD
+[0.3.0]: https://github.com/agent-orc/token-economy/compare/v0.2.0...v0.3.0
 [0.2.0]: https://github.com/agent-orc/token-economy/releases/tag/v0.2.0
