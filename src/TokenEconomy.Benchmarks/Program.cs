@@ -302,20 +302,28 @@ sealed class DocumentTextCliExtractor : IDocumentTextExtractor
             foreach (var argument in new[]
             {
                 "--ask-for-approval", "never", "exec", "--json", "--ephemeral", "--skip-git-repo-check",
-                "--sandbox", "read-only", "-C", directory, "-m", request.Model,
+                // The benchmark host is the isolation boundary for this trusted, checked-in corpus.
+                // A nested Codex sandbox is not portable to Windows clean homes or Linux workers
+                // that cannot create a second network namespace.
+                "--sandbox", "danger-full-access", "-C", directory, "-m", request.Model,
                 "--output-last-message", outputFile, Prompt(Path.GetFileName(request.DocumentPath)),
             })
                 start.ArgumentList.Add(argument);
 
             var processResult = await RunAsync(start, cancellationToken);
             var text = File.Exists(outputFile) ? await File.ReadAllTextAsync(outputFile, cancellationToken) : null;
+            var infrastructureError = CodexInfrastructureError(processResult.Stdout, processResult.Stderr);
+            var exitCode = processResult.ExitCode == 0 && infrastructureError is not null
+                ? -1
+                : processResult.ExitCode;
             return new()
             {
-                ExitCode = processResult.ExitCode,
+                ExitCode = exitCode,
                 Usage = ParseCodexUsage(processResult.Stdout),
                 ExtractedText = text,
-                Error = processResult.ExitCode == 0 ? null
-                    : Last(CodexJsonDiagnostics.Error(processResult.Stdout) ?? processResult.Stderr, 4000),
+                Error = exitCode == 0 ? null
+                    : Last(CodexJsonDiagnostics.Error(processResult.Stdout)
+                        ?? infrastructureError ?? processResult.Stderr, 4000),
             };
         }
         finally
@@ -340,11 +348,14 @@ sealed class DocumentTextCliExtractor : IDocumentTextExtractor
         var processResult = await RunAsync(start, cancellationToken);
         string? text = null;
         var usage = default(TokenUsage);
+        var isError = false;
         try
         {
             using var document = JsonDocument.Parse(processResult.Stdout);
             var root = document.RootElement;
             text = root.TryGetProperty("result", out var result) ? result.GetString() : null;
+            isError = root.TryGetProperty("is_error", out var error)
+                && error.ValueKind == JsonValueKind.True;
             if (root.TryGetProperty("usage", out var usageJson))
                 usage = new(
                     Number(usageJson, "input_tokens"),
@@ -353,12 +364,17 @@ sealed class DocumentTextCliExtractor : IDocumentTextExtractor
                     Number(usageJson, "cache_creation_input_tokens"));
         }
         catch (JsonException) when (processResult.ExitCode != 0) { }
+        var exitCode = processResult.ExitCode == 0 && isError ? 1 : processResult.ExitCode;
         return new()
         {
-            ExitCode = processResult.ExitCode,
+            ExitCode = exitCode,
             Usage = usage,
             ExtractedText = text,
-            Error = processResult.ExitCode == 0 ? null : Last(processResult.Stderr, 4000),
+            Error = exitCode == 0 ? null : Last(
+                string.IsNullOrWhiteSpace(processResult.Stderr)
+                    ? text ?? "Claude Code invocation failed."
+                    : processResult.Stderr,
+                4000),
         };
     }
 
@@ -374,6 +390,20 @@ sealed class DocumentTextCliExtractor : IDocumentTextExtractor
         RedirectStandardOutput = true,
         RedirectStandardError = true,
     };
+
+    private static string? CodexInfrastructureError(string stdout, string stderr)
+    {
+        var diagnostics = stdout + "\n" + stderr;
+        foreach (var marker in new[]
+        {
+            "Refusing to create helper binaries under temporary dir",
+            "fs sandbox helper failed",
+            "bwrap: loopback: Failed RTM_NEWADDR",
+        })
+            if (diagnostics.Contains(marker, StringComparison.OrdinalIgnoreCase))
+                return marker;
+        return null;
+    }
 
     private static async Task<(int ExitCode, string Stdout, string Stderr)> RunAsync(
         ProcessStartInfo start, CancellationToken cancellationToken)

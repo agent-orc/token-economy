@@ -1,0 +1,1475 @@
+{
+  "schemaVersion": 2,
+  "corpusId": "curated-hard-cases-v1",
+  "runId": "20260810T131256052Z",
+  "startedAtUtc": "2026-08-10T13:12:56.0527079Z",
+  "completedAtUtc": "2026-08-10T13:20:18.398243Z",
+  "models": [
+    "claude-fable-5",
+    "claude-opus-5",
+    "claude-sonnet-5",
+    "claude-opus-4-8",
+    "claude-opus-4-7",
+    "claude-opus-4-6",
+    "claude-opus-4-5",
+    "claude-opus-4-1",
+    "claude-sonnet-4-6",
+    "claude-sonnet-4-5",
+    "claude-haiku-4-5",
+    "gpt-5.6-luna",
+    "gpt-5.6-terra",
+    "gpt-5.6-sol",
+    "gpt-5.4-mini",
+    "gpt-5.5",
+    "gpt-5",
+    "gpt-5-codex"
+  ],
+  "cases": [
+    {
+      "model": "claude-fable-5",
+      "caseId": "pdf-two-column-reading-order",
+      "documentType": "Pdf",
+      "outcome": "InfrastructureFailure",
+      "succeeded": false,
+      "exitCode": 1,
+      "usage": {
+        "input": 0,
+        "output": 0,
+        "cacheRead": 0,
+        "cacheWrite": 0
+      },
+      "extractedText": "Not logged in \u00B7 Please run /login",
+      "costUsd": null,
+      "durationMs": 1720,
+      "missingFragments": [],
+      "unexpectedFragments": [],
+      "failureReason": ""
+    },
+    {
+      "model": "claude-fable-5",
+      "caseId": "word-header-table-hidden-revision",
+      "documentType": "Word",
+      "outcome": "InfrastructureFailure",
+      "succeeded": false,
+      "exitCode": 1,
+      "usage": {
+        "input": 0,
+        "output": 0,
+        "cacheRead": 0,
+        "cacheWrite": 0
+      },
+      "extractedText": "Not logged in \u00B7 Please run /login",
+      "costUsd": null,
+      "durationMs": 1697,
+      "missingFragments": [],
+      "unexpectedFragments": [],
+      "failureReason": ""
+    },
+    {
+      "model": "claude-fable-5",
+      "caseId": "spreadsheet-formula-hidden-sheet",
+      "documentType": "Spreadsheet",
+      "outcome": "InfrastructureFailure",
+      "succeeded": false,
+      "exitCode": 1,
+      "usage": {
+        "input": 0,
+        "output": 0,
+        "cacheRead": 0,
+        "cacheWrite": 0
+      },
+      "extractedText": "Not logged in \u00B7 Please run /login",
+      "costUsd": null,
+      "durationMs": 1697,
+      "missingFragments": [],
+      "unexpectedFragments": [],
+      "failureReason": ""
+    },
+    {
+      "model": "claude-fable-5",
+      "caseId": "presentation-slide-order-notes",
+      "documentType": "Presentation",
+      "outcome": "InfrastructureFailure",
+      "succeeded": false,
+      "exitCode": 1,
+      "usage": {
+        "input": 0,
+        "output": 0,
+        "cacheRead": 0,
+        "cacheWrite": 0
+      },
+      "extractedText": "Not logged in \u00B7 Please run /login",
+      "costUsd": null,
+      "durationMs": 1829,
+      "missingFragments": [],
+      "unexpectedFragments": [],
+      "failureReason": ""
+    },
+    {
+      "model": "claude-opus-5",
+      "caseId": "pdf-two-column-reading-order",
+      "documentType": "Pdf",
+      "outcome": "InfrastructureFailure",
+      "succeeded": false,
+      "exitCode": 1,
+      "usage": {
+        "input": 0,
+        "output": 0,
+        "cacheRead": 0,
+        "cacheWrite": 0
+      },
+      "extractedText": "Not logged in \u00B7 Please run /login",
+      "costUsd": null,
+      "durationMs": 2333,
+      "missingFragments": [],
+      "unexpectedFragments": [],
+      "failureReason": ""
+    },
+    {
+      "model": "claude-opus-5",
+      "caseId": "word-header-table-hidden-revision",
+      "documentType": "Word",
+      "outcome": "InfrastructureFailure",
+      "succeeded": false,
+      "exitCode": 1,
+      "usage": {
+        "input": 0,
+        "output": 0,
+        "cacheRead": 0,
+        "cacheWrite": 0
+      },
+      "extractedText": "Not logged in \u00B7 Please run /login",
+      "costUsd": null,
+      "durationMs": 2289,
+      "missingFragments": [],
+      "unexpectedFragments": [],
+      "failureReason": ""
+    },
+    {
+      "model": "claude-opus-5",
+      "caseId": "spreadsheet-formula-hidden-sheet",
+      "documentType": "Spreadsheet",
+      "outcome": "InfrastructureFailure",
+      "succeeded": false,
+      "exitCode": 1,
+      "usage": {
+        "input": 0,
+        "output": 0,
+        "cacheRead": 0,
+        "cacheWrite": 0
+      },
+      "extractedText": "Not logged in \u00B7 Please run /login",
+      "costUsd": null,
+      "durationMs": 2469,
+      "missingFragments": [],
+      "unexpectedFragments": [],
+      "failureReason": ""
+    },
+    {
+      "model": "claude-opus-5",
+      "caseId": "presentation-slide-order-notes",
+      "documentType": "Presentation",
+      "outcome": "InfrastructureFailure",
+      "succeeded": false,
+      "exitCode": 1,
+      "usage": {
+        "input": 0,
+        "output": 0,
+        "cacheRead": 0,
+        "cacheWrite": 0
+      },
+      "extractedText": "Not logged in \u00B7 Please run /login",
+      "costUsd": null,
+      "durationMs": 2601,
+      "missingFragments": [],
+      "unexpectedFragments": [],
+      "failureReason": ""
+    },
+    {
+      "model": "claude-sonnet-5",
+      "caseId": "pdf-two-column-reading-order",
+      "documentType": "Pdf",
+      "outcome": "InfrastructureFailure",
+      "succeeded": false,
+      "exitCode": 1,
+      "usage": {
+        "input": 0,
+        "output": 0,
+        "cacheRead": 0,
+        "cacheWrite": 0
+      },
+      "extractedText": "Not logged in \u00B7 Please run /login",
+      "costUsd": null,
+      "durationMs": 2690,
+      "missingFragments": [],
+      "unexpectedFragments": [],
+      "failureReason": ""
+    },
+    {
+      "model": "claude-sonnet-5",
+      "caseId": "word-header-table-hidden-revision",
+      "documentType": "Word",
+      "outcome": "InfrastructureFailure",
+      "succeeded": false,
+      "exitCode": 1,
+      "usage": {
+        "input": 0,
+        "output": 0,
+        "cacheRead": 0,
+        "cacheWrite": 0
+      },
+      "extractedText": "Not logged in \u00B7 Please run /login",
+      "costUsd": null,
+      "durationMs": 1866,
+      "missingFragments": [],
+      "unexpectedFragments": [],
+      "failureReason": ""
+    },
+    {
+      "model": "claude-sonnet-5",
+      "caseId": "spreadsheet-formula-hidden-sheet",
+      "documentType": "Spreadsheet",
+      "outcome": "InfrastructureFailure",
+      "succeeded": false,
+      "exitCode": 1,
+      "usage": {
+        "input": 0,
+        "output": 0,
+        "cacheRead": 0,
+        "cacheWrite": 0
+      },
+      "extractedText": "Not logged in \u00B7 Please run /login",
+      "costUsd": null,
+      "durationMs": 2283,
+      "missingFragments": [],
+      "unexpectedFragments": [],
+      "failureReason": ""
+    },
+    {
+      "model": "claude-sonnet-5",
+      "caseId": "presentation-slide-order-notes",
+      "documentType": "Presentation",
+      "outcome": "InfrastructureFailure",
+      "succeeded": false,
+      "exitCode": 1,
+      "usage": {
+        "input": 0,
+        "output": 0,
+        "cacheRead": 0,
+        "cacheWrite": 0
+      },
+      "extractedText": "Not logged in \u00B7 Please run /login",
+      "costUsd": null,
+      "durationMs": 3508,
+      "missingFragments": [],
+      "unexpectedFragments": [],
+      "failureReason": ""
+    },
+    {
+      "model": "claude-opus-4-8",
+      "caseId": "pdf-two-column-reading-order",
+      "documentType": "Pdf",
+      "outcome": "InfrastructureFailure",
+      "succeeded": false,
+      "exitCode": 1,
+      "usage": {
+        "input": 0,
+        "output": 0,
+        "cacheRead": 0,
+        "cacheWrite": 0
+      },
+      "extractedText": "Not logged in \u00B7 Please run /login",
+      "costUsd": null,
+      "durationMs": 2316,
+      "missingFragments": [],
+      "unexpectedFragments": [],
+      "failureReason": ""
+    },
+    {
+      "model": "claude-opus-4-8",
+      "caseId": "word-header-table-hidden-revision",
+      "documentType": "Word",
+      "outcome": "InfrastructureFailure",
+      "succeeded": false,
+      "exitCode": 1,
+      "usage": {
+        "input": 0,
+        "output": 0,
+        "cacheRead": 0,
+        "cacheWrite": 0
+      },
+      "extractedText": "Not logged in \u00B7 Please run /login",
+      "costUsd": null,
+      "durationMs": 1950,
+      "missingFragments": [],
+      "unexpectedFragments": [],
+      "failureReason": ""
+    },
+    {
+      "model": "claude-opus-4-8",
+      "caseId": "spreadsheet-formula-hidden-sheet",
+      "documentType": "Spreadsheet",
+      "outcome": "InfrastructureFailure",
+      "succeeded": false,
+      "exitCode": 1,
+      "usage": {
+        "input": 0,
+        "output": 0,
+        "cacheRead": 0,
+        "cacheWrite": 0
+      },
+      "extractedText": "Not logged in \u00B7 Please run /login",
+      "costUsd": null,
+      "durationMs": 2168,
+      "missingFragments": [],
+      "unexpectedFragments": [],
+      "failureReason": ""
+    },
+    {
+      "model": "claude-opus-4-8",
+      "caseId": "presentation-slide-order-notes",
+      "documentType": "Presentation",
+      "outcome": "InfrastructureFailure",
+      "succeeded": false,
+      "exitCode": 1,
+      "usage": {
+        "input": 0,
+        "output": 0,
+        "cacheRead": 0,
+        "cacheWrite": 0
+      },
+      "extractedText": "Not logged in \u00B7 Please run /login",
+      "costUsd": null,
+      "durationMs": 1796,
+      "missingFragments": [],
+      "unexpectedFragments": [],
+      "failureReason": ""
+    },
+    {
+      "model": "claude-opus-4-7",
+      "caseId": "pdf-two-column-reading-order",
+      "documentType": "Pdf",
+      "outcome": "InfrastructureFailure",
+      "succeeded": false,
+      "exitCode": 1,
+      "usage": {
+        "input": 0,
+        "output": 0,
+        "cacheRead": 0,
+        "cacheWrite": 0
+      },
+      "extractedText": "Not logged in \u00B7 Please run /login",
+      "costUsd": null,
+      "durationMs": 1735,
+      "missingFragments": [],
+      "unexpectedFragments": [],
+      "failureReason": ""
+    },
+    {
+      "model": "claude-opus-4-7",
+      "caseId": "word-header-table-hidden-revision",
+      "documentType": "Word",
+      "outcome": "InfrastructureFailure",
+      "succeeded": false,
+      "exitCode": 1,
+      "usage": {
+        "input": 0,
+        "output": 0,
+        "cacheRead": 0,
+        "cacheWrite": 0
+      },
+      "extractedText": "Not logged in \u00B7 Please run /login",
+      "costUsd": null,
+      "durationMs": 1718,
+      "missingFragments": [],
+      "unexpectedFragments": [],
+      "failureReason": ""
+    },
+    {
+      "model": "claude-opus-4-7",
+      "caseId": "spreadsheet-formula-hidden-sheet",
+      "documentType": "Spreadsheet",
+      "outcome": "InfrastructureFailure",
+      "succeeded": false,
+      "exitCode": 1,
+      "usage": {
+        "input": 0,
+        "output": 0,
+        "cacheRead": 0,
+        "cacheWrite": 0
+      },
+      "extractedText": "Not logged in \u00B7 Please run /login",
+      "costUsd": null,
+      "durationMs": 1645,
+      "missingFragments": [],
+      "unexpectedFragments": [],
+      "failureReason": ""
+    },
+    {
+      "model": "claude-opus-4-7",
+      "caseId": "presentation-slide-order-notes",
+      "documentType": "Presentation",
+      "outcome": "InfrastructureFailure",
+      "succeeded": false,
+      "exitCode": 1,
+      "usage": {
+        "input": 0,
+        "output": 0,
+        "cacheRead": 0,
+        "cacheWrite": 0
+      },
+      "extractedText": "Not logged in \u00B7 Please run /login",
+      "costUsd": null,
+      "durationMs": 1650,
+      "missingFragments": [],
+      "unexpectedFragments": [],
+      "failureReason": ""
+    },
+    {
+      "model": "claude-opus-4-6",
+      "caseId": "pdf-two-column-reading-order",
+      "documentType": "Pdf",
+      "outcome": "InfrastructureFailure",
+      "succeeded": false,
+      "exitCode": 1,
+      "usage": {
+        "input": 0,
+        "output": 0,
+        "cacheRead": 0,
+        "cacheWrite": 0
+      },
+      "extractedText": "Not logged in \u00B7 Please run /login",
+      "costUsd": null,
+      "durationMs": 1618,
+      "missingFragments": [],
+      "unexpectedFragments": [],
+      "failureReason": ""
+    },
+    {
+      "model": "claude-opus-4-6",
+      "caseId": "word-header-table-hidden-revision",
+      "documentType": "Word",
+      "outcome": "InfrastructureFailure",
+      "succeeded": false,
+      "exitCode": 1,
+      "usage": {
+        "input": 0,
+        "output": 0,
+        "cacheRead": 0,
+        "cacheWrite": 0
+      },
+      "extractedText": "Not logged in \u00B7 Please run /login",
+      "costUsd": null,
+      "durationMs": 1891,
+      "missingFragments": [],
+      "unexpectedFragments": [],
+      "failureReason": ""
+    },
+    {
+      "model": "claude-opus-4-6",
+      "caseId": "spreadsheet-formula-hidden-sheet",
+      "documentType": "Spreadsheet",
+      "outcome": "InfrastructureFailure",
+      "succeeded": false,
+      "exitCode": 1,
+      "usage": {
+        "input": 0,
+        "output": 0,
+        "cacheRead": 0,
+        "cacheWrite": 0
+      },
+      "extractedText": "Not logged in \u00B7 Please run /login",
+      "costUsd": null,
+      "durationMs": 1848,
+      "missingFragments": [],
+      "unexpectedFragments": [],
+      "failureReason": ""
+    },
+    {
+      "model": "claude-opus-4-6",
+      "caseId": "presentation-slide-order-notes",
+      "documentType": "Presentation",
+      "outcome": "InfrastructureFailure",
+      "succeeded": false,
+      "exitCode": 1,
+      "usage": {
+        "input": 0,
+        "output": 0,
+        "cacheRead": 0,
+        "cacheWrite": 0
+      },
+      "extractedText": "Not logged in \u00B7 Please run /login",
+      "costUsd": null,
+      "durationMs": 1919,
+      "missingFragments": [],
+      "unexpectedFragments": [],
+      "failureReason": ""
+    },
+    {
+      "model": "claude-opus-4-5",
+      "caseId": "pdf-two-column-reading-order",
+      "documentType": "Pdf",
+      "outcome": "InfrastructureFailure",
+      "succeeded": false,
+      "exitCode": 1,
+      "usage": {
+        "input": 0,
+        "output": 0,
+        "cacheRead": 0,
+        "cacheWrite": 0
+      },
+      "extractedText": "Not logged in \u00B7 Please run /login",
+      "costUsd": null,
+      "durationMs": 1517,
+      "missingFragments": [],
+      "unexpectedFragments": [],
+      "failureReason": ""
+    },
+    {
+      "model": "claude-opus-4-5",
+      "caseId": "word-header-table-hidden-revision",
+      "documentType": "Word",
+      "outcome": "InfrastructureFailure",
+      "succeeded": false,
+      "exitCode": 1,
+      "usage": {
+        "input": 0,
+        "output": 0,
+        "cacheRead": 0,
+        "cacheWrite": 0
+      },
+      "extractedText": "Not logged in \u00B7 Please run /login",
+      "costUsd": null,
+      "durationMs": 1524,
+      "missingFragments": [],
+      "unexpectedFragments": [],
+      "failureReason": ""
+    },
+    {
+      "model": "claude-opus-4-5",
+      "caseId": "spreadsheet-formula-hidden-sheet",
+      "documentType": "Spreadsheet",
+      "outcome": "InfrastructureFailure",
+      "succeeded": false,
+      "exitCode": 1,
+      "usage": {
+        "input": 0,
+        "output": 0,
+        "cacheRead": 0,
+        "cacheWrite": 0
+      },
+      "extractedText": "Not logged in \u00B7 Please run /login",
+      "costUsd": null,
+      "durationMs": 1447,
+      "missingFragments": [],
+      "unexpectedFragments": [],
+      "failureReason": ""
+    },
+    {
+      "model": "claude-opus-4-5",
+      "caseId": "presentation-slide-order-notes",
+      "documentType": "Presentation",
+      "outcome": "InfrastructureFailure",
+      "succeeded": false,
+      "exitCode": 1,
+      "usage": {
+        "input": 0,
+        "output": 0,
+        "cacheRead": 0,
+        "cacheWrite": 0
+      },
+      "extractedText": "Not logged in \u00B7 Please run /login",
+      "costUsd": null,
+      "durationMs": 1444,
+      "missingFragments": [],
+      "unexpectedFragments": [],
+      "failureReason": ""
+    },
+    {
+      "model": "claude-opus-4-1",
+      "caseId": "pdf-two-column-reading-order",
+      "documentType": "Pdf",
+      "outcome": "InfrastructureFailure",
+      "succeeded": false,
+      "exitCode": 1,
+      "usage": {
+        "input": 0,
+        "output": 0,
+        "cacheRead": 0,
+        "cacheWrite": 0
+      },
+      "extractedText": "Not logged in \u00B7 Please run /login",
+      "costUsd": null,
+      "durationMs": 1521,
+      "missingFragments": [],
+      "unexpectedFragments": [],
+      "failureReason": ""
+    },
+    {
+      "model": "claude-opus-4-1",
+      "caseId": "word-header-table-hidden-revision",
+      "documentType": "Word",
+      "outcome": "InfrastructureFailure",
+      "succeeded": false,
+      "exitCode": 1,
+      "usage": {
+        "input": 0,
+        "output": 0,
+        "cacheRead": 0,
+        "cacheWrite": 0
+      },
+      "extractedText": "Not logged in \u00B7 Please run /login",
+      "costUsd": null,
+      "durationMs": 1577,
+      "missingFragments": [],
+      "unexpectedFragments": [],
+      "failureReason": ""
+    },
+    {
+      "model": "claude-opus-4-1",
+      "caseId": "spreadsheet-formula-hidden-sheet",
+      "documentType": "Spreadsheet",
+      "outcome": "InfrastructureFailure",
+      "succeeded": false,
+      "exitCode": 1,
+      "usage": {
+        "input": 0,
+        "output": 0,
+        "cacheRead": 0,
+        "cacheWrite": 0
+      },
+      "extractedText": "Not logged in \u00B7 Please run /login",
+      "costUsd": null,
+      "durationMs": 1601,
+      "missingFragments": [],
+      "unexpectedFragments": [],
+      "failureReason": ""
+    },
+    {
+      "model": "claude-opus-4-1",
+      "caseId": "presentation-slide-order-notes",
+      "documentType": "Presentation",
+      "outcome": "InfrastructureFailure",
+      "succeeded": false,
+      "exitCode": 1,
+      "usage": {
+        "input": 0,
+        "output": 0,
+        "cacheRead": 0,
+        "cacheWrite": 0
+      },
+      "extractedText": "Not logged in \u00B7 Please run /login",
+      "costUsd": null,
+      "durationMs": 1377,
+      "missingFragments": [],
+      "unexpectedFragments": [],
+      "failureReason": ""
+    },
+    {
+      "model": "claude-sonnet-4-6",
+      "caseId": "pdf-two-column-reading-order",
+      "documentType": "Pdf",
+      "outcome": "InfrastructureFailure",
+      "succeeded": false,
+      "exitCode": 1,
+      "usage": {
+        "input": 0,
+        "output": 0,
+        "cacheRead": 0,
+        "cacheWrite": 0
+      },
+      "extractedText": "Not logged in \u00B7 Please run /login",
+      "costUsd": null,
+      "durationMs": 1558,
+      "missingFragments": [],
+      "unexpectedFragments": [],
+      "failureReason": ""
+    },
+    {
+      "model": "claude-sonnet-4-6",
+      "caseId": "word-header-table-hidden-revision",
+      "documentType": "Word",
+      "outcome": "InfrastructureFailure",
+      "succeeded": false,
+      "exitCode": 1,
+      "usage": {
+        "input": 0,
+        "output": 0,
+        "cacheRead": 0,
+        "cacheWrite": 0
+      },
+      "extractedText": "Not logged in \u00B7 Please run /login",
+      "costUsd": null,
+      "durationMs": 1432,
+      "missingFragments": [],
+      "unexpectedFragments": [],
+      "failureReason": ""
+    },
+    {
+      "model": "claude-sonnet-4-6",
+      "caseId": "spreadsheet-formula-hidden-sheet",
+      "documentType": "Spreadsheet",
+      "outcome": "InfrastructureFailure",
+      "succeeded": false,
+      "exitCode": 1,
+      "usage": {
+        "input": 0,
+        "output": 0,
+        "cacheRead": 0,
+        "cacheWrite": 0
+      },
+      "extractedText": "Not logged in \u00B7 Please run /login",
+      "costUsd": null,
+      "durationMs": 1424,
+      "missingFragments": [],
+      "unexpectedFragments": [],
+      "failureReason": ""
+    },
+    {
+      "model": "claude-sonnet-4-6",
+      "caseId": "presentation-slide-order-notes",
+      "documentType": "Presentation",
+      "outcome": "InfrastructureFailure",
+      "succeeded": false,
+      "exitCode": 1,
+      "usage": {
+        "input": 0,
+        "output": 0,
+        "cacheRead": 0,
+        "cacheWrite": 0
+      },
+      "extractedText": "Not logged in \u00B7 Please run /login",
+      "costUsd": null,
+      "durationMs": 1309,
+      "missingFragments": [],
+      "unexpectedFragments": [],
+      "failureReason": ""
+    },
+    {
+      "model": "claude-sonnet-4-5",
+      "caseId": "pdf-two-column-reading-order",
+      "documentType": "Pdf",
+      "outcome": "InfrastructureFailure",
+      "succeeded": false,
+      "exitCode": 1,
+      "usage": {
+        "input": 0,
+        "output": 0,
+        "cacheRead": 0,
+        "cacheWrite": 0
+      },
+      "extractedText": "Not logged in \u00B7 Please run /login",
+      "costUsd": null,
+      "durationMs": 1338,
+      "missingFragments": [],
+      "unexpectedFragments": [],
+      "failureReason": ""
+    },
+    {
+      "model": "claude-sonnet-4-5",
+      "caseId": "word-header-table-hidden-revision",
+      "documentType": "Word",
+      "outcome": "InfrastructureFailure",
+      "succeeded": false,
+      "exitCode": 1,
+      "usage": {
+        "input": 0,
+        "output": 0,
+        "cacheRead": 0,
+        "cacheWrite": 0
+      },
+      "extractedText": "Not logged in \u00B7 Please run /login",
+      "costUsd": null,
+      "durationMs": 1482,
+      "missingFragments": [],
+      "unexpectedFragments": [],
+      "failureReason": ""
+    },
+    {
+      "model": "claude-sonnet-4-5",
+      "caseId": "spreadsheet-formula-hidden-sheet",
+      "documentType": "Spreadsheet",
+      "outcome": "InfrastructureFailure",
+      "succeeded": false,
+      "exitCode": 1,
+      "usage": {
+        "input": 0,
+        "output": 0,
+        "cacheRead": 0,
+        "cacheWrite": 0
+      },
+      "extractedText": "Not logged in \u00B7 Please run /login",
+      "costUsd": null,
+      "durationMs": 1588,
+      "missingFragments": [],
+      "unexpectedFragments": [],
+      "failureReason": ""
+    },
+    {
+      "model": "claude-sonnet-4-5",
+      "caseId": "presentation-slide-order-notes",
+      "documentType": "Presentation",
+      "outcome": "InfrastructureFailure",
+      "succeeded": false,
+      "exitCode": 1,
+      "usage": {
+        "input": 0,
+        "output": 0,
+        "cacheRead": 0,
+        "cacheWrite": 0
+      },
+      "extractedText": "Not logged in \u00B7 Please run /login",
+      "costUsd": null,
+      "durationMs": 1401,
+      "missingFragments": [],
+      "unexpectedFragments": [],
+      "failureReason": ""
+    },
+    {
+      "model": "claude-haiku-4-5",
+      "caseId": "pdf-two-column-reading-order",
+      "documentType": "Pdf",
+      "outcome": "InfrastructureFailure",
+      "succeeded": false,
+      "exitCode": 1,
+      "usage": {
+        "input": 0,
+        "output": 0,
+        "cacheRead": 0,
+        "cacheWrite": 0
+      },
+      "extractedText": "Not logged in \u00B7 Please run /login",
+      "costUsd": null,
+      "durationMs": 1472,
+      "missingFragments": [],
+      "unexpectedFragments": [],
+      "failureReason": ""
+    },
+    {
+      "model": "claude-haiku-4-5",
+      "caseId": "word-header-table-hidden-revision",
+      "documentType": "Word",
+      "outcome": "InfrastructureFailure",
+      "succeeded": false,
+      "exitCode": 1,
+      "usage": {
+        "input": 0,
+        "output": 0,
+        "cacheRead": 0,
+        "cacheWrite": 0
+      },
+      "extractedText": "Not logged in \u00B7 Please run /login",
+      "costUsd": null,
+      "durationMs": 1346,
+      "missingFragments": [],
+      "unexpectedFragments": [],
+      "failureReason": ""
+    },
+    {
+      "model": "claude-haiku-4-5",
+      "caseId": "spreadsheet-formula-hidden-sheet",
+      "documentType": "Spreadsheet",
+      "outcome": "InfrastructureFailure",
+      "succeeded": false,
+      "exitCode": 1,
+      "usage": {
+        "input": 0,
+        "output": 0,
+        "cacheRead": 0,
+        "cacheWrite": 0
+      },
+      "extractedText": "Not logged in \u00B7 Please run /login",
+      "costUsd": null,
+      "durationMs": 1318,
+      "missingFragments": [],
+      "unexpectedFragments": [],
+      "failureReason": ""
+    },
+    {
+      "model": "claude-haiku-4-5",
+      "caseId": "presentation-slide-order-notes",
+      "documentType": "Presentation",
+      "outcome": "InfrastructureFailure",
+      "succeeded": false,
+      "exitCode": 1,
+      "usage": {
+        "input": 0,
+        "output": 0,
+        "cacheRead": 0,
+        "cacheWrite": 0
+      },
+      "extractedText": "Not logged in \u00B7 Please run /login",
+      "costUsd": null,
+      "durationMs": 1321,
+      "missingFragments": [],
+      "unexpectedFragments": [],
+      "failureReason": ""
+    },
+    {
+      "model": "gpt-5.6-luna",
+      "caseId": "pdf-two-column-reading-order",
+      "documentType": "Pdf",
+      "outcome": "Passed",
+      "succeeded": true,
+      "exitCode": 0,
+      "usage": {
+        "input": 4676,
+        "output": 346,
+        "cacheRead": 30976,
+        "cacheWrite": 0
+      },
+      "extractedText": "Left column heading\nAlpha precedes beta.\nRight column heading\nGamma closes the page.",
+      "costUsd": null,
+      "durationMs": 17614,
+      "missingFragments": [],
+      "unexpectedFragments": [],
+      "failureReason": null
+    },
+    {
+      "model": "gpt-5.6-luna",
+      "caseId": "word-header-table-hidden-revision",
+      "documentType": "Word",
+      "outcome": "Passed",
+      "succeeded": true,
+      "exitCode": 0,
+      "usage": {
+        "input": 4653,
+        "output": 592,
+        "cacheRead": 30976,
+        "cacheWrite": 0
+      },
+      "extractedText": "Quarterly board packet\n\nNorthwind renewal decision\n\nOwner | Am\u00E9lie Zhao\nDecision | Renew at \u20AC1.25M\n\nApproved 24 July 2026",
+      "costUsd": null,
+      "durationMs": 17865,
+      "missingFragments": [],
+      "unexpectedFragments": [],
+      "failureReason": null
+    },
+    {
+      "model": "gpt-5.6-luna",
+      "caseId": "spreadsheet-formula-hidden-sheet",
+      "documentType": "Spreadsheet",
+      "outcome": "CapabilityMiss",
+      "succeeded": false,
+      "exitCode": 0,
+      "usage": {
+        "input": 4592,
+        "output": 330,
+        "cacheRead": 30976,
+        "cacheWrite": 0
+      },
+      "extractedText": "Quarter | Revenue (\u20AC)\nQ1 | 1250000\nQ2 | 1500000\nTotal | 2750000",
+      "costUsd": null,
+      "durationMs": 13085,
+      "missingFragments": [
+        "Revenue r\u00E9sum\u00E9"
+      ],
+      "unexpectedFragments": [],
+      "failureReason": "Extraction oracle failed: 1 required fragment(s) missing, 0 forbidden fragment(s) present."
+    },
+    {
+      "model": "gpt-5.6-luna",
+      "caseId": "presentation-slide-order-notes",
+      "documentType": "Presentation",
+      "outcome": "Passed",
+      "succeeded": true,
+      "exitCode": 0,
+      "usage": {
+        "input": 4651,
+        "output": 354,
+        "cacheRead": 30976,
+        "cacheWrite": 0
+      },
+      "extractedText": "Launch readiness\n1. Security review complete\n2. Berlin pilot \u2014 31 July\n\nDecision: proceed\nOwner: Zo\u00EB Fa\u00DFbinder",
+      "costUsd": null,
+      "durationMs": 13417,
+      "missingFragments": [],
+      "unexpectedFragments": [],
+      "failureReason": null
+    },
+    {
+      "model": "gpt-5.6-terra",
+      "caseId": "pdf-two-column-reading-order",
+      "documentType": "Pdf",
+      "outcome": "Passed",
+      "succeeded": true,
+      "exitCode": 0,
+      "usage": {
+        "input": 11122,
+        "output": 851,
+        "cacheRead": 82176,
+        "cacheWrite": 0
+      },
+      "extractedText": "Left column heading\nAlpha precedes beta.\nRight column heading\nGamma closes the page.",
+      "costUsd": null,
+      "durationMs": 31843,
+      "missingFragments": [],
+      "unexpectedFragments": [],
+      "failureReason": null
+    },
+    {
+      "model": "gpt-5.6-terra",
+      "caseId": "word-header-table-hidden-revision",
+      "documentType": "Word",
+      "outcome": "Passed",
+      "succeeded": true,
+      "exitCode": 0,
+      "usage": {
+        "input": 6933,
+        "output": 389,
+        "cacheRead": 32000,
+        "cacheWrite": 0
+      },
+      "extractedText": "Quarterly board packet\nNorthwind renewal decision\nOwner | Am\u00E9lie Zhao\nDecision | Renew at \u20AC1.25M\nApproved 24 July 2026",
+      "costUsd": null,
+      "durationMs": 13723,
+      "missingFragments": [],
+      "unexpectedFragments": [],
+      "failureReason": null
+    },
+    {
+      "model": "gpt-5.6-terra",
+      "caseId": "spreadsheet-formula-hidden-sheet",
+      "documentType": "Spreadsheet",
+      "outcome": "Passed",
+      "succeeded": true,
+      "exitCode": 0,
+      "usage": {
+        "input": 5261,
+        "output": 296,
+        "cacheRead": 34048,
+        "cacheWrite": 0
+      },
+      "extractedText": "Revenue r\u00E9sum\u00E9\n\nQuarter | Revenue (\u20AC)\nQ1 | 1250000\nQ2 | 1500000\nTotal | 2750000",
+      "costUsd": null,
+      "durationMs": 11389,
+      "missingFragments": [],
+      "unexpectedFragments": [],
+      "failureReason": null
+    },
+    {
+      "model": "gpt-5.6-terra",
+      "caseId": "presentation-slide-order-notes",
+      "documentType": "Presentation",
+      "outcome": "Passed",
+      "succeeded": true,
+      "exitCode": 0,
+      "usage": {
+        "input": 3631,
+        "output": 188,
+        "cacheRead": 22016,
+        "cacheWrite": 0
+      },
+      "extractedText": "Launch readiness\n1. Security review complete\n2. Berlin pilot \u2014 31 July\nDecision: proceed\nOwner: Zo\u00EB Fa\u00DFbinder",
+      "costUsd": null,
+      "durationMs": 9011,
+      "missingFragments": [],
+      "unexpectedFragments": [],
+      "failureReason": null
+    },
+    {
+      "model": "gpt-5.6-sol",
+      "caseId": "pdf-two-column-reading-order",
+      "documentType": "Pdf",
+      "outcome": "Passed",
+      "succeeded": true,
+      "exitCode": 0,
+      "usage": {
+        "input": 7065,
+        "output": 292,
+        "cacheRead": 32000,
+        "cacheWrite": 0
+      },
+      "extractedText": "Left column heading\nAlpha precedes beta.\nRight column heading\nGamma closes the page.",
+      "costUsd": null,
+      "durationMs": 18518,
+      "missingFragments": [],
+      "unexpectedFragments": [],
+      "failureReason": null
+    },
+    {
+      "model": "gpt-5.6-sol",
+      "caseId": "word-header-table-hidden-revision",
+      "documentType": "Word",
+      "outcome": "Passed",
+      "succeeded": true,
+      "exitCode": 0,
+      "usage": {
+        "input": 3777,
+        "output": 228,
+        "cacheRead": 22016,
+        "cacheWrite": 0
+      },
+      "extractedText": "Quarterly board packet\n\nNorthwind renewal decision\n\nOwner    Am\u00E9lie Zhao\nDecision    Renew at \u20AC1.25M\n\nApproved 24 July 2026",
+      "costUsd": null,
+      "durationMs": 9693,
+      "missingFragments": [],
+      "unexpectedFragments": [],
+      "failureReason": null
+    },
+    {
+      "model": "gpt-5.6-sol",
+      "caseId": "spreadsheet-formula-hidden-sheet",
+      "documentType": "Spreadsheet",
+      "outcome": "Passed",
+      "succeeded": true,
+      "exitCode": 0,
+      "usage": {
+        "input": 3879,
+        "output": 202,
+        "cacheRead": 22016,
+        "cacheWrite": 0
+      },
+      "extractedText": "Revenue r\u00E9sum\u00E9\nQuarter\tRevenue (\u20AC)\nQ1\t1250000\nQ2\t1500000\nTotal\t2750000",
+      "costUsd": null,
+      "durationMs": 13724,
+      "missingFragments": [],
+      "unexpectedFragments": [],
+      "failureReason": null
+    },
+    {
+      "model": "gpt-5.6-sol",
+      "caseId": "presentation-slide-order-notes",
+      "documentType": "Presentation",
+      "outcome": "Passed",
+      "succeeded": true,
+      "exitCode": 0,
+      "usage": {
+        "input": 4716,
+        "output": 275,
+        "cacheRead": 34048,
+        "cacheWrite": 0
+      },
+      "extractedText": "Launch readiness\n1. Security review complete\n2. Berlin pilot \u2014 31 July\n\nDecision: proceed\nOwner: Zo\u00EB Fa\u00DFbinder",
+      "costUsd": null,
+      "durationMs": 16316,
+      "missingFragments": [],
+      "unexpectedFragments": [],
+      "failureReason": null
+    },
+    {
+      "model": "gpt-5.4-mini",
+      "caseId": "pdf-two-column-reading-order",
+      "documentType": "Pdf",
+      "outcome": "Passed",
+      "succeeded": true,
+      "exitCode": 0,
+      "usage": {
+        "input": 9843,
+        "output": 1158,
+        "cacheRead": 36864,
+        "cacheWrite": 0
+      },
+      "extractedText": "Left column heading\nAlpha precedes beta.\nRight column heading\nGamma closes the page.",
+      "costUsd": null,
+      "durationMs": 25358,
+      "missingFragments": [],
+      "unexpectedFragments": [],
+      "failureReason": null
+    },
+    {
+      "model": "gpt-5.4-mini",
+      "caseId": "word-header-table-hidden-revision",
+      "documentType": "Word",
+      "outcome": "Passed",
+      "succeeded": true,
+      "exitCode": 0,
+      "usage": {
+        "input": 7407,
+        "output": 564,
+        "cacheRead": 15104,
+        "cacheWrite": 0
+      },
+      "extractedText": "Quarterly board packet\n\nNorthwind renewal decision\n\nOwner\tAm\u00E9lie Zhao\nDecision\tRenew at \u20AC1.25M\n\nApproved 24 July 2026",
+      "costUsd": null,
+      "durationMs": 13652,
+      "missingFragments": [],
+      "unexpectedFragments": [],
+      "failureReason": null
+    },
+    {
+      "model": "gpt-5.4-mini",
+      "caseId": "spreadsheet-formula-hidden-sheet",
+      "documentType": "Spreadsheet",
+      "outcome": "CapabilityMiss",
+      "succeeded": false,
+      "exitCode": 0,
+      "usage": {
+        "input": 7786,
+        "output": 379,
+        "cacheRead": 15104,
+        "cacheWrite": 0
+      },
+      "extractedText": "Quarter Revenue (\u20AC)\nQ1 1250000\nQ2 1500000\nTotal 2750000",
+      "costUsd": null,
+      "durationMs": 11786,
+      "missingFragments": [
+        "Revenue r\u00E9sum\u00E9"
+      ],
+      "unexpectedFragments": [],
+      "failureReason": "Extraction oracle failed: 1 required fragment(s) missing, 0 forbidden fragment(s) present."
+    },
+    {
+      "model": "gpt-5.4-mini",
+      "caseId": "presentation-slide-order-notes",
+      "documentType": "Presentation",
+      "outcome": "Passed",
+      "succeeded": true,
+      "exitCode": 0,
+      "usage": {
+        "input": 2055,
+        "output": 568,
+        "cacheRead": 31872,
+        "cacheWrite": 0
+      },
+      "extractedText": "Launch readiness\n1. Security review complete\n2. Berlin pilot \u2014 31 July\nDecision: proceed\nOwner: Zo\u00EB Fa\u00DFbinder",
+      "costUsd": null,
+      "durationMs": 24152,
+      "missingFragments": [],
+      "unexpectedFragments": [],
+      "failureReason": null
+    },
+    {
+      "model": "gpt-5.5",
+      "caseId": "pdf-two-column-reading-order",
+      "documentType": "Pdf",
+      "outcome": "Passed",
+      "succeeded": true,
+      "exitCode": 0,
+      "usage": {
+        "input": 19336,
+        "output": 622,
+        "cacheRead": 20608,
+        "cacheWrite": 0
+      },
+      "extractedText": "Left column heading\nAlpha precedes beta.\n\nRight column heading\nGamma closes the page.",
+      "costUsd": null,
+      "durationMs": 21631,
+      "missingFragments": [],
+      "unexpectedFragments": [],
+      "failureReason": null
+    },
+    {
+      "model": "gpt-5.5",
+      "caseId": "word-header-table-hidden-revision",
+      "documentType": "Word",
+      "outcome": "Passed",
+      "succeeded": true,
+      "exitCode": 0,
+      "usage": {
+        "input": 11979,
+        "output": 373,
+        "cacheRead": 26752,
+        "cacheWrite": 0
+      },
+      "extractedText": "Quarterly board packet\nNorthwind renewal decision\nOwner\tAm\u00E9lie Zhao\nDecision\tRenew at \u20AC1.25M\nApproved 24 July 2026",
+      "costUsd": null,
+      "durationMs": 30698,
+      "missingFragments": [],
+      "unexpectedFragments": [],
+      "failureReason": null
+    },
+    {
+      "model": "gpt-5.5",
+      "caseId": "spreadsheet-formula-hidden-sheet",
+      "documentType": "Spreadsheet",
+      "outcome": "CapabilityMiss",
+      "succeeded": false,
+      "exitCode": 0,
+      "usage": {
+        "input": 9879,
+        "output": 333,
+        "cacheRead": 16128,
+        "cacheWrite": 0
+      },
+      "extractedText": "Quarter\tRevenue (\u20AC)\nQ1\t1250000\nQ2\t1500000\nTotal\t2750000",
+      "costUsd": null,
+      "durationMs": 11954,
+      "missingFragments": [
+        "Revenue r\u00E9sum\u00E9"
+      ],
+      "unexpectedFragments": [],
+      "failureReason": "Extraction oracle failed: 1 required fragment(s) missing, 0 forbidden fragment(s) present."
+    },
+    {
+      "model": "gpt-5.5",
+      "caseId": "presentation-slide-order-notes",
+      "documentType": "Presentation",
+      "outcome": "Passed",
+      "succeeded": true,
+      "exitCode": 0,
+      "usage": {
+        "input": 3545,
+        "output": 497,
+        "cacheRead": 35968,
+        "cacheWrite": 0
+      },
+      "extractedText": "Launch readiness\n1. Security review complete\n2. Berlin pilot \u2014 31 July\n\nDecision: proceed\nOwner: Zo\u00EB Fa\u00DFbinder",
+      "costUsd": null,
+      "durationMs": 17572,
+      "missingFragments": [],
+      "unexpectedFragments": [],
+      "failureReason": null
+    },
+    {
+      "model": "gpt-5",
+      "caseId": "pdf-two-column-reading-order",
+      "documentType": "Pdf",
+      "outcome": "InfrastructureFailure",
+      "succeeded": false,
+      "exitCode": 1,
+      "usage": {
+        "input": 0,
+        "output": 0,
+        "cacheRead": 0,
+        "cacheWrite": 0
+      },
+      "extractedText": null,
+      "costUsd": null,
+      "durationMs": 3356,
+      "missingFragments": [],
+      "unexpectedFragments": [],
+      "failureReason": "{\u0022type\u0022:\u0022error\u0022,\u0022status\u0022:400,\u0022error\u0022:{\u0022type\u0022:\u0022invalid_request_error\u0022,\u0022message\u0022:\u0022The \u0027gpt-5\u0027 model is not supported when using Codex with a ChatGPT account.\u0022}}"
+    },
+    {
+      "model": "gpt-5",
+      "caseId": "word-header-table-hidden-revision",
+      "documentType": "Word",
+      "outcome": "InfrastructureFailure",
+      "succeeded": false,
+      "exitCode": 1,
+      "usage": {
+        "input": 0,
+        "output": 0,
+        "cacheRead": 0,
+        "cacheWrite": 0
+      },
+      "extractedText": null,
+      "costUsd": null,
+      "durationMs": 2639,
+      "missingFragments": [],
+      "unexpectedFragments": [],
+      "failureReason": "{\u0022type\u0022:\u0022error\u0022,\u0022status\u0022:400,\u0022error\u0022:{\u0022type\u0022:\u0022invalid_request_error\u0022,\u0022message\u0022:\u0022The \u0027gpt-5\u0027 model is not supported when using Codex with a ChatGPT account.\u0022}}"
+    },
+    {
+      "model": "gpt-5",
+      "caseId": "spreadsheet-formula-hidden-sheet",
+      "documentType": "Spreadsheet",
+      "outcome": "InfrastructureFailure",
+      "succeeded": false,
+      "exitCode": 1,
+      "usage": {
+        "input": 0,
+        "output": 0,
+        "cacheRead": 0,
+        "cacheWrite": 0
+      },
+      "extractedText": null,
+      "costUsd": null,
+      "durationMs": 2538,
+      "missingFragments": [],
+      "unexpectedFragments": [],
+      "failureReason": "{\u0022type\u0022:\u0022error\u0022,\u0022status\u0022:400,\u0022error\u0022:{\u0022type\u0022:\u0022invalid_request_error\u0022,\u0022message\u0022:\u0022The \u0027gpt-5\u0027 model is not supported when using Codex with a ChatGPT account.\u0022}}"
+    },
+    {
+      "model": "gpt-5",
+      "caseId": "presentation-slide-order-notes",
+      "documentType": "Presentation",
+      "outcome": "InfrastructureFailure",
+      "succeeded": false,
+      "exitCode": 1,
+      "usage": {
+        "input": 0,
+        "output": 0,
+        "cacheRead": 0,
+        "cacheWrite": 0
+      },
+      "extractedText": null,
+      "costUsd": null,
+      "durationMs": 4002,
+      "missingFragments": [],
+      "unexpectedFragments": [],
+      "failureReason": "{\u0022type\u0022:\u0022error\u0022,\u0022status\u0022:400,\u0022error\u0022:{\u0022type\u0022:\u0022invalid_request_error\u0022,\u0022message\u0022:\u0022The \u0027gpt-5\u0027 model is not supported when using Codex with a ChatGPT account.\u0022}}"
+    },
+    {
+      "model": "gpt-5-codex",
+      "caseId": "pdf-two-column-reading-order",
+      "documentType": "Pdf",
+      "outcome": "InfrastructureFailure",
+      "succeeded": false,
+      "exitCode": 1,
+      "usage": {
+        "input": 0,
+        "output": 0,
+        "cacheRead": 0,
+        "cacheWrite": 0
+      },
+      "extractedText": null,
+      "costUsd": null,
+      "durationMs": 1925,
+      "missingFragments": [],
+      "unexpectedFragments": [],
+      "failureReason": "{\u0022type\u0022:\u0022error\u0022,\u0022status\u0022:400,\u0022error\u0022:{\u0022type\u0022:\u0022invalid_request_error\u0022,\u0022message\u0022:\u0022The \u0027gpt-5-codex\u0027 model is not supported when using Codex with a ChatGPT account.\u0022}}"
+    },
+    {
+      "model": "gpt-5-codex",
+      "caseId": "word-header-table-hidden-revision",
+      "documentType": "Word",
+      "outcome": "InfrastructureFailure",
+      "succeeded": false,
+      "exitCode": 1,
+      "usage": {
+        "input": 0,
+        "output": 0,
+        "cacheRead": 0,
+        "cacheWrite": 0
+      },
+      "extractedText": null,
+      "costUsd": null,
+      "durationMs": 1983,
+      "missingFragments": [],
+      "unexpectedFragments": [],
+      "failureReason": "{\u0022type\u0022:\u0022error\u0022,\u0022status\u0022:400,\u0022error\u0022:{\u0022type\u0022:\u0022invalid_request_error\u0022,\u0022message\u0022:\u0022The \u0027gpt-5-codex\u0027 model is not supported when using Codex with a ChatGPT account.\u0022}}"
+    },
+    {
+      "model": "gpt-5-codex",
+      "caseId": "spreadsheet-formula-hidden-sheet",
+      "documentType": "Spreadsheet",
+      "outcome": "InfrastructureFailure",
+      "succeeded": false,
+      "exitCode": 1,
+      "usage": {
+        "input": 0,
+        "output": 0,
+        "cacheRead": 0,
+        "cacheWrite": 0
+      },
+      "extractedText": null,
+      "costUsd": null,
+      "durationMs": 2467,
+      "missingFragments": [],
+      "unexpectedFragments": [],
+      "failureReason": "{\u0022type\u0022:\u0022error\u0022,\u0022status\u0022:400,\u0022error\u0022:{\u0022type\u0022:\u0022invalid_request_error\u0022,\u0022message\u0022:\u0022The \u0027gpt-5-codex\u0027 model is not supported when using Codex with a ChatGPT account.\u0022}}"
+    },
+    {
+      "model": "gpt-5-codex",
+      "caseId": "presentation-slide-order-notes",
+      "documentType": "Presentation",
+      "outcome": "InfrastructureFailure",
+      "succeeded": false,
+      "exitCode": 1,
+      "usage": {
+        "input": 0,
+        "output": 0,
+        "cacheRead": 0,
+        "cacheWrite": 0
+      },
+      "extractedText": null,
+      "costUsd": null,
+      "durationMs": 2117,
+      "missingFragments": [],
+      "unexpectedFragments": [],
+      "failureReason": "{\u0022type\u0022:\u0022error\u0022,\u0022status\u0022:400,\u0022error\u0022:{\u0022type\u0022:\u0022invalid_request_error\u0022,\u0022message\u0022:\u0022The \u0027gpt-5-codex\u0027 model is not supported when using Codex with a ChatGPT account.\u0022}}"
+    }
+  ]
+}
