@@ -93,8 +93,13 @@ case-insensitive and whitespace-insensitive.
 
 The CLI selects Claude Code for `claude-*` models and Codex for other catalog
 models. Both CLIs must be installed and authenticated to complete an all-model
-run. A missing or gated model is retained as a failed attempt, not silently
-removed from the matrix.
+run. The Codex route runs without a nested CLI sandbox because the checked-in
+corpus is trusted and Windows clean homes and externally isolated Linux workers
+cannot reliably host another sandbox layer. The benchmark host is therefore the
+isolation boundary; do not run an untrusted corpus without an external sandbox.
+The harness consumes the host-provided `CODEX_HOME` unchanged. A missing or
+gated model is retained as a failed attempt, not silently removed from the
+matrix.
 
 Each run writes immutable raw evidence to
 `benchmarks/results/document-to-text/<corpus>/<run>.json` and an adjacent
