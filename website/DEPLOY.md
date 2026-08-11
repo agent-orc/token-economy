@@ -96,12 +96,12 @@ The workflow fails fast with a clear message if any secret is missing.
 
 ## Preview locally
 
-No build, no dependencies — open the file or serve the folder:
+The page loads three generated JSON artifacts with `fetch()`, so preview it through a
+local HTTP server. Opening `index.html` through `file://` intentionally shows a
+visible data-unavailable message for those sections.
 
 ```bash
-# simplest: open website/index.html in a browser
-# or serve the subpath exactly as production does:
-python3 -m http.server 8080 --directory website
+python -m http.server 8080 --directory website
 # → http://localhost:8080/
 ```
 

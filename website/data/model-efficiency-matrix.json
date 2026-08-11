@@ -1,0 +1,502 @@
+{
+  "schemaVersion": 1,
+  "generatedAtUtc": "2026-08-11T07:13:02.247005+00:00",
+  "asOfUtc": "2026-08-11T00:00:00Z",
+  "source": "ModelEfficiencyMatrix.Default.Describe(asOfUtc)",
+  "rows": [
+    {
+      "modelId": "gpt-5.6-luna",
+      "vendor": "openai",
+      "cli": "codex",
+      "tier": "light",
+      "costClass": "economy",
+      "effortLevels": [
+        "minimal",
+        "low",
+        "medium",
+        "high",
+        "xHigh",
+        "ultra"
+      ],
+      "suitability": {
+        "heavyDesign": "underpowered",
+        "feature": "underpowered",
+        "mechanicalChore": "ideal",
+        "docEdit": "ideal",
+        "research": "underpowered",
+        "review": null
+      },
+      "restricted": false,
+      "deprecated": false,
+      "costUnconfirmed": false,
+      "selectionStatus": "selectable",
+      "evidenceStatus": "provisional",
+      "provisional": true
+    },
+    {
+      "modelId": "gpt-5.6-terra",
+      "vendor": "openai",
+      "cli": "codex",
+      "tier": "balanced",
+      "costClass": "standard",
+      "effortLevels": [
+        "minimal",
+        "low",
+        "medium",
+        "high",
+        "xHigh",
+        "ultra"
+      ],
+      "suitability": {
+        "heavyDesign": "capable",
+        "feature": "ideal",
+        "mechanicalChore": "capable",
+        "docEdit": "capable",
+        "research": "ideal",
+        "review": null
+      },
+      "restricted": false,
+      "deprecated": false,
+      "costUnconfirmed": false,
+      "selectionStatus": "selectable",
+      "evidenceStatus": "provisional",
+      "provisional": true
+    },
+    {
+      "modelId": "gpt-5.6-sol",
+      "vendor": "openai",
+      "cli": "codex",
+      "tier": "frontier",
+      "costClass": "premium",
+      "effortLevels": [
+        "minimal",
+        "low",
+        "medium",
+        "high",
+        "xHigh",
+        "ultra"
+      ],
+      "suitability": {
+        "heavyDesign": "ideal",
+        "feature": "capable",
+        "mechanicalChore": "overkill",
+        "docEdit": "overkill",
+        "research": "capable",
+        "review": null
+      },
+      "restricted": false,
+      "deprecated": false,
+      "costUnconfirmed": false,
+      "selectionStatus": "selectable",
+      "evidenceStatus": "observational",
+      "provisional": false
+    },
+    {
+      "modelId": "gpt-5.4-mini",
+      "vendor": "openai",
+      "cli": "codex",
+      "tier": "light",
+      "costClass": "economy",
+      "effortLevels": [
+        "low",
+        "medium",
+        "high"
+      ],
+      "suitability": {
+        "heavyDesign": "underpowered",
+        "feature": "underpowered",
+        "mechanicalChore": "ideal",
+        "docEdit": "ideal",
+        "research": "underpowered",
+        "review": null
+      },
+      "restricted": false,
+      "deprecated": false,
+      "costUnconfirmed": false,
+      "selectionStatus": "selectable",
+      "evidenceStatus": "provisional",
+      "provisional": true
+    },
+    {
+      "modelId": "claude-sonnet-5",
+      "vendor": "anthropic",
+      "cli": "claude",
+      "tier": "frontier",
+      "costClass": "standard",
+      "effortLevels": [
+        "low",
+        "medium",
+        "high",
+        "xHigh",
+        "max"
+      ],
+      "suitability": {
+        "heavyDesign": "ideal",
+        "feature": "capable",
+        "mechanicalChore": "overkill",
+        "docEdit": "overkill",
+        "research": "capable",
+        "review": null
+      },
+      "restricted": false,
+      "deprecated": false,
+      "costUnconfirmed": false,
+      "selectionStatus": "fallbackOnly",
+      "evidenceStatus": "provisional",
+      "provisional": true
+    },
+    {
+      "modelId": "claude-opus-4-1",
+      "vendor": "anthropic",
+      "cli": "claude",
+      "tier": "frontier",
+      "costClass": "unknown",
+      "effortLevels": [
+        "low",
+        "medium",
+        "high",
+        "max"
+      ],
+      "suitability": {
+        "heavyDesign": "ideal",
+        "feature": "capable",
+        "mechanicalChore": "overkill",
+        "docEdit": "overkill",
+        "research": "capable",
+        "review": null
+      },
+      "restricted": false,
+      "deprecated": true,
+      "costUnconfirmed": false,
+      "selectionStatus": "deprecated",
+      "evidenceStatus": "unknown",
+      "provisional": false
+    },
+    {
+      "modelId": "claude-fable-5",
+      "vendor": "anthropic",
+      "cli": "claude",
+      "tier": "frontier",
+      "costClass": "premium",
+      "effortLevels": [
+        "low",
+        "medium",
+        "high",
+        "xHigh",
+        "max"
+      ],
+      "suitability": {
+        "heavyDesign": "ideal",
+        "feature": "capable",
+        "mechanicalChore": "overkill",
+        "docEdit": "overkill",
+        "research": "capable",
+        "review": null
+      },
+      "restricted": false,
+      "deprecated": false,
+      "costUnconfirmed": false,
+      "selectionStatus": "unsupported",
+      "evidenceStatus": "unknown",
+      "provisional": false
+    },
+    {
+      "modelId": "claude-opus-5",
+      "vendor": "anthropic",
+      "cli": "claude",
+      "tier": "frontier",
+      "costClass": "premium",
+      "effortLevels": [
+        "low",
+        "medium",
+        "high",
+        "max"
+      ],
+      "suitability": {
+        "heavyDesign": "ideal",
+        "feature": "capable",
+        "mechanicalChore": "overkill",
+        "docEdit": "overkill",
+        "research": "capable",
+        "review": null
+      },
+      "restricted": false,
+      "deprecated": false,
+      "costUnconfirmed": false,
+      "selectionStatus": "unsupported",
+      "evidenceStatus": "unknown",
+      "provisional": false
+    },
+    {
+      "modelId": "claude-opus-4-8",
+      "vendor": "anthropic",
+      "cli": "claude",
+      "tier": "frontier",
+      "costClass": "premium",
+      "effortLevels": [
+        "low",
+        "medium",
+        "high",
+        "max"
+      ],
+      "suitability": {
+        "heavyDesign": "ideal",
+        "feature": "capable",
+        "mechanicalChore": "overkill",
+        "docEdit": "overkill",
+        "research": "capable",
+        "review": null
+      },
+      "restricted": false,
+      "deprecated": false,
+      "costUnconfirmed": false,
+      "selectionStatus": "unsupported",
+      "evidenceStatus": "unknown",
+      "provisional": false
+    },
+    {
+      "modelId": "claude-opus-4-7",
+      "vendor": "anthropic",
+      "cli": "claude",
+      "tier": "frontier",
+      "costClass": "premium",
+      "effortLevels": [
+        "low",
+        "medium",
+        "high",
+        "max"
+      ],
+      "suitability": {
+        "heavyDesign": "ideal",
+        "feature": "capable",
+        "mechanicalChore": "overkill",
+        "docEdit": "overkill",
+        "research": "capable",
+        "review": null
+      },
+      "restricted": false,
+      "deprecated": false,
+      "costUnconfirmed": false,
+      "selectionStatus": "unsupported",
+      "evidenceStatus": "unknown",
+      "provisional": false
+    },
+    {
+      "modelId": "claude-opus-4-6",
+      "vendor": "anthropic",
+      "cli": "claude",
+      "tier": "frontier",
+      "costClass": "premium",
+      "effortLevels": [
+        "low",
+        "medium",
+        "high",
+        "max"
+      ],
+      "suitability": {
+        "heavyDesign": "ideal",
+        "feature": "capable",
+        "mechanicalChore": "overkill",
+        "docEdit": "overkill",
+        "research": "capable",
+        "review": null
+      },
+      "restricted": false,
+      "deprecated": false,
+      "costUnconfirmed": false,
+      "selectionStatus": "unsupported",
+      "evidenceStatus": "unknown",
+      "provisional": false
+    },
+    {
+      "modelId": "claude-opus-4-5",
+      "vendor": "anthropic",
+      "cli": "claude",
+      "tier": "frontier",
+      "costClass": "premium",
+      "effortLevels": [
+        "low",
+        "medium",
+        "high",
+        "max"
+      ],
+      "suitability": {
+        "heavyDesign": "ideal",
+        "feature": "capable",
+        "mechanicalChore": "overkill",
+        "docEdit": "overkill",
+        "research": "capable",
+        "review": null
+      },
+      "restricted": false,
+      "deprecated": false,
+      "costUnconfirmed": true,
+      "selectionStatus": "unsupported",
+      "evidenceStatus": "unknown",
+      "provisional": false
+    },
+    {
+      "modelId": "claude-sonnet-4-6",
+      "vendor": "anthropic",
+      "cli": "claude",
+      "tier": "balanced",
+      "costClass": "standard",
+      "effortLevels": [
+        "low",
+        "medium",
+        "high",
+        "xHigh",
+        "max"
+      ],
+      "suitability": {
+        "heavyDesign": "capable",
+        "feature": "ideal",
+        "mechanicalChore": "capable",
+        "docEdit": "capable",
+        "research": "ideal",
+        "review": null
+      },
+      "restricted": false,
+      "deprecated": false,
+      "costUnconfirmed": false,
+      "selectionStatus": "unsupported",
+      "evidenceStatus": "unknown",
+      "provisional": false
+    },
+    {
+      "modelId": "claude-sonnet-4-5",
+      "vendor": "anthropic",
+      "cli": "claude",
+      "tier": "balanced",
+      "costClass": "standard",
+      "effortLevels": [
+        "low",
+        "medium",
+        "high",
+        "xHigh",
+        "max"
+      ],
+      "suitability": {
+        "heavyDesign": "capable",
+        "feature": "ideal",
+        "mechanicalChore": "capable",
+        "docEdit": "capable",
+        "research": "ideal",
+        "review": null
+      },
+      "restricted": false,
+      "deprecated": false,
+      "costUnconfirmed": true,
+      "selectionStatus": "unsupported",
+      "evidenceStatus": "unknown",
+      "provisional": false
+    },
+    {
+      "modelId": "claude-haiku-4-5",
+      "vendor": "anthropic",
+      "cli": "claude",
+      "tier": "light",
+      "costClass": "economy",
+      "effortLevels": [
+        "low",
+        "medium"
+      ],
+      "suitability": {
+        "heavyDesign": "underpowered",
+        "feature": "underpowered",
+        "mechanicalChore": "ideal",
+        "docEdit": "ideal",
+        "research": "underpowered",
+        "review": null
+      },
+      "restricted": false,
+      "deprecated": false,
+      "costUnconfirmed": false,
+      "selectionStatus": "unsupported",
+      "evidenceStatus": "unknown",
+      "provisional": false
+    },
+    {
+      "modelId": "gpt-5.5",
+      "vendor": "openai",
+      "cli": "codex",
+      "tier": "balanced",
+      "costClass": "unknown",
+      "effortLevels": [
+        "minimal",
+        "low",
+        "medium",
+        "high",
+        "xHigh"
+      ],
+      "suitability": {
+        "heavyDesign": "capable",
+        "feature": "ideal",
+        "mechanicalChore": "capable",
+        "docEdit": "capable",
+        "research": "ideal",
+        "review": null
+      },
+      "restricted": false,
+      "deprecated": false,
+      "costUnconfirmed": false,
+      "selectionStatus": "unsupported",
+      "evidenceStatus": "unknown",
+      "provisional": false
+    },
+    {
+      "modelId": "gpt-5",
+      "vendor": "openai",
+      "cli": "codex",
+      "tier": "balanced",
+      "costClass": "unknown",
+      "effortLevels": [
+        "minimal",
+        "low",
+        "medium",
+        "high",
+        "xHigh"
+      ],
+      "suitability": {
+        "heavyDesign": "capable",
+        "feature": "ideal",
+        "mechanicalChore": "capable",
+        "docEdit": "capable",
+        "research": "ideal",
+        "review": null
+      },
+      "restricted": false,
+      "deprecated": false,
+      "costUnconfirmed": false,
+      "selectionStatus": "unsupported",
+      "evidenceStatus": "unknown",
+      "provisional": false
+    },
+    {
+      "modelId": "gpt-5-codex",
+      "vendor": "openai",
+      "cli": "codex",
+      "tier": "frontier",
+      "costClass": "unknown",
+      "effortLevels": [
+        "low",
+        "medium",
+        "high"
+      ],
+      "suitability": {
+        "heavyDesign": "ideal",
+        "feature": "capable",
+        "mechanicalChore": "overkill",
+        "docEdit": "overkill",
+        "research": "capable",
+        "review": null
+      },
+      "restricted": false,
+      "deprecated": false,
+      "costUnconfirmed": false,
+      "selectionStatus": "unsupported",
+      "evidenceStatus": "unknown",
+      "provisional": false
+    }
+  ]
+}
