@@ -7,6 +7,12 @@ SemVer; pre-1.0 the public API may still shift).
 
 ### Added
 
+- Strongly typed model identifiers through `ModelId` and the generated
+  `KnownModels` constants, with forwarding overloads across pricing and
+  efficiency APIs. A byte-identical generation test keeps the checked-in
+  constants synchronized with every canonical price-catalog entry while the
+  existing string and alias interoperability surface remains unchanged.
+
 - Confirmed standard API list-price histories for GPT-5.6 Sol, Terra, and Luna,
   including the 2026-07-30 Terra and Luna reductions, plus GPT-5.4 mini pricing.
   Every entry carries official OpenAI source URLs and retrieval dates, and a

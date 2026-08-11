@@ -479,11 +479,13 @@ var usage   = new TokenUsage(Input: 1_000_000, Output: 200_000);
 var intro    = new DateTime(2026, 7, 10, 0, 0, 0, DateTimeKind.Utc);
 var standard = new DateTime(2026, 10, 1, 0, 0, 0, DateTimeKind.Utc);
 
-catalog.ComputeCost("claude-sonnet-5", usage, intro).Total;    <span class="cmt">// 4.00 (introductory rate)</span>
-catalog.ComputeCost("claude-sonnet-5", usage, standard).Total; <span class="cmt">// 6.00 (standard rate, from 2026-09-01)</span></code></pre>
+catalog.ComputeCost(KnownModels.ClaudeSonnet5, usage, intro).Total;    <span class="cmt">// 4.00 (introductory rate)</span>
+catalog.ComputeCost(KnownModels.ClaudeSonnet5, usage, standard).Total; <span class="cmt">// 6.00 (standard rate, from 2026-09-01)</span></code></pre>
 
-        <p class="comment-note">Model ids and aliases resolve case- and dot/dash-insensitively, so
-        <code>claude-opus-4.8</code>, <code>gpt-5-6</code>, and dated snapshots all match their
+        <p class="comment-note"><code>KnownModels</code> exposes the canonical catalog ids as typed
+        constants. The retained string overloads remain the interoperability path for configuration,
+        aliases, and external input; they resolve case- and dot/dash-insensitively, so
+        <code>claude-opus-4.8</code>, <code>gpt-5-6</code>, and dated snapshots still match their
         canonical listing.</p>
       </div>
     </section>
@@ -502,7 +504,7 @@ catalog.ComputeCost("claude-sonnet-5", usage, standard).Total; <span class="cmt"
         <pre><code>using TokenEconomy;
 
 var breakdown = ModelPriceCatalog.Default.ComputeCost(
-    "claude-opus-4-8",
+    KnownModels.ClaudeOpus48,
     new TokenUsage(Input: 250_000, Output: 12_000, CacheRead: 40_000),
     DateTime.UtcNow);
 
@@ -555,7 +557,14 @@ var ranked = ModelEfficiencyMatrix.Default.SuggestModel(
 var best = ranked[0];  <span class="cmt">// empty list ⇒ nothing available: wait, don't launch</span>
 Console.WriteLine($"{best.ModelId} @ {best.SuggestedEffort} — {best.Rationale}");
 <span class="cmt">// claude-sonnet-5 @ Medium — claude-sonnet-5: balanced tier, an ideal match for</span>
-<span class="cmt">// feature work; standard cost — moderate spend under tight pressure. Suggested effort: medium.</span></code></pre>
+<span class="cmt">// feature work; standard cost — moderate spend under tight pressure. Suggested effort: medium.</span>
+
+<span class="cmt">// The explicit-model path uses the same compatibility calculation and a typed id.</span>
+var sonnet = ModelEfficiencyMatrix.Default.EvaluateModel(
+    KnownModels.ClaudeSonnet5,
+    TaskClass.Feature,
+    BudgetPressure.Tight,
+    DateTime.UtcNow);</code></pre>
 
         <div class="callout">
           <strong>Capability fit leads; budget pressure tips the balance</strong> toward cheaper
@@ -621,7 +630,11 @@ dotnet add package TokenEconomy --version 0.2.0</code></pre>
 
 <span class="cmt">// The seeded catalog: known Claude 4.x/5 and OpenAI gpt-5.x models.</span>
 var catalog = ModelPriceCatalog.Default;
-var matrix  = ModelEfficiencyMatrix.Default;  <span class="cmt">// cost is derived from the same catalog</span></code></pre>
+var matrix  = ModelEfficiencyMatrix.Default;  <span class="cmt">// cost is derived from the same catalog</span>
+var model   = KnownModels.ClaudeSonnet5;
+
+var listing = catalog.Find(model);
+var profile = matrix.Find(model);</code></pre>
         <p class="comment-note">Building your own set? Construct a <code>ModelPriceCatalog</code> from
         your own <code>ModelListing</code>s and a <code>ModelEfficiencyMatrix</code> from your own
         profiles over it.</p>
