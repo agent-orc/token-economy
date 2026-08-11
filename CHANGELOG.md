@@ -19,6 +19,12 @@ SemVer; pre-1.0 the public API may still shift).
 
 ### Added
 
+- Four curated hard coding benchmark fixtures covering an off-by-one boundary,
+  Unicode normalization under a Turkish locale, a two-file wire-contract bug,
+  and an underspecified repair prompt. Each published setup runs three
+  repetitions across Sol, Terra, and Claude Sonnet 5. Reports no longer
+  manufacture a winner when every attempt fails.
+
 - Strongly typed model identifiers through `ModelId` and the generated
   `KnownModels` constants, with forwarding overloads across pricing and
   efficiency APIs. A byte-identical generation test keeps the checked-in

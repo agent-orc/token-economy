@@ -1,0 +1,173 @@
+{
+  "schemaVersion": 1,
+  "setupId": "curated-hard-coding-underspecified",
+  "runId": "20260808T162707845Z",
+  "startedAtUtc": "2026-08-08T16:27:07.8459593Z",
+  "completedAtUtc": "2026-08-08T16:28:42.3938101Z",
+  "taskClass": "bug",
+  "capability": "coding-underspecified-repair",
+  "cases": [
+    {
+      "variantId": "sol-medium",
+      "model": "gpt-5.6-sol",
+      "thinkingLevel": "medium",
+      "repetition": 1,
+      "succeeded": false,
+      "invocationExitCode": 0,
+      "evaluationExitCode": 1,
+      "usage": {
+        "input": 2897,
+        "output": 270,
+        "cacheRead": 9984,
+        "cacheWrite": 0
+      },
+      "costUsd": null,
+      "durationMs": 16783,
+      "failureReason": "Success command exited 1; expected 0."
+    },
+    {
+      "variantId": "sol-medium",
+      "model": "gpt-5.6-sol",
+      "thinkingLevel": "medium",
+      "repetition": 2,
+      "succeeded": false,
+      "invocationExitCode": 0,
+      "evaluationExitCode": 1,
+      "usage": {
+        "input": 2897,
+        "output": 114,
+        "cacheRead": 9984,
+        "cacheWrite": 0
+      },
+      "costUsd": null,
+      "durationMs": 8809,
+      "failureReason": "Success command exited 1; expected 0."
+    },
+    {
+      "variantId": "sol-medium",
+      "model": "gpt-5.6-sol",
+      "thinkingLevel": "medium",
+      "repetition": 3,
+      "succeeded": false,
+      "invocationExitCode": 0,
+      "evaluationExitCode": 1,
+      "usage": {
+        "input": 2897,
+        "output": 113,
+        "cacheRead": 9984,
+        "cacheWrite": 0
+      },
+      "costUsd": null,
+      "durationMs": 7326,
+      "failureReason": "Success command exited 1; expected 0."
+    },
+    {
+      "variantId": "terra-medium",
+      "model": "gpt-5.6-terra",
+      "thinkingLevel": "medium",
+      "repetition": 1,
+      "succeeded": false,
+      "invocationExitCode": 0,
+      "evaluationExitCode": 1,
+      "usage": {
+        "input": 2897,
+        "output": 101,
+        "cacheRead": 9984,
+        "cacheWrite": 0
+      },
+      "costUsd": null,
+      "durationMs": 6604,
+      "failureReason": "Success command exited 1; expected 0."
+    },
+    {
+      "variantId": "terra-medium",
+      "model": "gpt-5.6-terra",
+      "thinkingLevel": "medium",
+      "repetition": 2,
+      "succeeded": false,
+      "invocationExitCode": 0,
+      "evaluationExitCode": 1,
+      "usage": {
+        "input": 2897,
+        "output": 113,
+        "cacheRead": 9984,
+        "cacheWrite": 0
+      },
+      "costUsd": null,
+      "durationMs": 6850,
+      "failureReason": "Success command exited 1; expected 0."
+    },
+    {
+      "variantId": "terra-medium",
+      "model": "gpt-5.6-terra",
+      "thinkingLevel": "medium",
+      "repetition": 3,
+      "succeeded": false,
+      "invocationExitCode": 0,
+      "evaluationExitCode": 1,
+      "usage": {
+        "input": 2897,
+        "output": 110,
+        "cacheRead": 9984,
+        "cacheWrite": 0
+      },
+      "costUsd": null,
+      "durationMs": 6856,
+      "failureReason": "Success command exited 1; expected 0."
+    },
+    {
+      "variantId": "claude-sonnet-5-high",
+      "model": "claude-sonnet-5",
+      "thinkingLevel": "high",
+      "repetition": 1,
+      "succeeded": false,
+      "invocationExitCode": 0,
+      "evaluationExitCode": 1,
+      "usage": {
+        "input": 2,
+        "output": 1111,
+        "cacheRead": 23145,
+        "cacheWrite": 8704
+      },
+      "costUsd": 0.07653750000000001,
+      "durationMs": 14462,
+      "failureReason": "Success command exited 1; expected 0."
+    },
+    {
+      "variantId": "claude-sonnet-5-high",
+      "model": "claude-sonnet-5",
+      "thinkingLevel": "high",
+      "repetition": 2,
+      "succeeded": false,
+      "invocationExitCode": 0,
+      "evaluationExitCode": 1,
+      "usage": {
+        "input": 2,
+        "output": 829,
+        "cacheRead": 23145,
+        "cacheWrite": 8897
+      },
+      "costUsd": 0.0734505,
+      "durationMs": 10788,
+      "failureReason": "Success command exited 1; expected 0."
+    },
+    {
+      "variantId": "claude-sonnet-5-high",
+      "model": "claude-sonnet-5",
+      "thinkingLevel": "high",
+      "repetition": 3,
+      "succeeded": false,
+      "invocationExitCode": 0,
+      "evaluationExitCode": 1,
+      "usage": {
+        "input": 2,
+        "output": 1165,
+        "cacheRead": 23145,
+        "cacheWrite": 8897
+      },
+      "costUsd": 0.0784905,
+      "durationMs": 16029,
+      "failureReason": "Success command exited 1; expected 0."
+    }
+  ]
+}

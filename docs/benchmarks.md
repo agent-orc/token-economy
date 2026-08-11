@@ -13,7 +13,7 @@ See [`quality-studio-review-evidence.md`](quality-studio-review-evidence.md).
 
 ## Run the real example
 
-Prerequisites are .NET 10 and an authenticated Codex CLI that exposes the configured models. From the repository root:
+Prerequisites are .NET 10 and the authenticated CLI required by each configured model. From the repository root:
 
 ```powershell
 dotnet run --project src/TokenEconomy.Benchmarks -- run benchmarks/setups/palindrome-repair.json
@@ -31,7 +31,22 @@ measured variable.
 
 Raw output is written once to `benchmarks/results/palindrome-repair/<UTC-run-id>.json`. The adjacent `<UTC-run-id>.report.json` is derived from it. Existing paths are rejected, making result files append-only. Temporary workspaces are removed after collection.
 
-Each raw case records the selected model and effort, repetition, invocation and evaluation exits, success, token counts, duration, optional USD cost, and failure reason. A report aggregates success rate (quality), tokens, duration, and cost when the invoker can supply one. The winner has the highest success rate; ties use average tokens, duration, then stable variant id. `qualityDelta` and `costDeltaUsd` compare the first two ranked variants. Cost remains `null` when no authoritative price is available—it is never guessed.
+Each raw case records the selected model and effort, repetition, invocation and evaluation exits, success, token counts, duration, optional USD cost, and failure reason. A report aggregates success rate (quality), tokens, duration, and cost when the invoker can supply one. The winner has the highest success rate; ties use average tokens, duration, then stable variant id. If every attempt failed, the report declares no winner. `qualityDelta` and `costDeltaUsd` compare the first two ranked variants. Cost remains `null` when no authoritative price is available—it is never guessed.
+
+## Curated hard coding cases
+
+The curated coding suite is four schema-v1 sibling setups so every deliberately awkward fixture owns its own prompt and executable `successCriteria` without changing the established setup contract:
+
+```powershell
+dotnet run --project src/TokenEconomy.Benchmarks -- run benchmarks/setups/curated-hard-coding-off-by-one.json
+dotnet run --project src/TokenEconomy.Benchmarks -- run benchmarks/setups/curated-hard-coding-unicode-locale.json
+dotnet run --project src/TokenEconomy.Benchmarks -- run benchmarks/setups/curated-hard-coding-cross-file.json
+dotnet run --project src/TokenEconomy.Benchmarks -- run benchmarks/setups/curated-hard-coding-underspecified.json
+```
+
+Every setup runs three repetitions of the active coding routes `gpt-5.6-sol`/medium, `gpt-5.6-terra`/medium, and `claude-sonnet-5`/high. The fixtures target an end-boundary off-by-one error, culture-independent Unicode normalization, a reader bug whose wire contract lives in a second production file, and an intentionally underspecified endpoint-selection report. Each fixture README states its intention and exact native success command in one line. The first three prompts specify the required behavior; the fourth embeds only the broken source and terse product report, making clarify-versus-assume behavior observable without depending on edit-tool availability.
+
+The checked-in runs under `benchmarks/results/curated-hard-coding-*` are the first published measurements. They are small routing-calibration cohorts, not broad coding-capability claims. A nonzero benchmark command exit means at least one configured variant recorded no successful attempt; the raw result and derived report are still written and retained.
 
 ## Established-suite anchors
 
