@@ -7,6 +7,12 @@ SemVer; pre-1.0 the public API may still shift).
 
 ### Changed
 
+- The public website now leads with typed `SuggestModel` usage and a generated
+  `ModelEfficiencyMatrix.Describe` table, explains the six canonical complexity
+  criteria and dated chart provenance, highlights code without dependencies,
+  and exposes visible `file://` data fallbacks. The project-status and quota-cap
+  plan sections were removed, and the footer now links to the family hub and
+  central imprint/privacy page.
 - Coding A/B benchmarks now dispatch `claude-*` variants through Claude Code,
   and the palindrome repair setup compares the policy's Sonnet 5/high fallback
   with Terra/medium and Sol/medium over three repetitions each.

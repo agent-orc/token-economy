@@ -38,6 +38,11 @@
       --series-cache-read: #eb6834;
       --series-cache-write: #1baf7a;
       --series-output: #eda100;
+      --token-keyword: #6f42c1;
+      --token-type: #0969da;
+      --token-string: #087f5b;
+      --token-number: #b54708;
+      --token-comment: #657187;
       --mono: ui-monospace, "SF Mono", "Cascadia Code", "JetBrains Mono", Menlo, Consolas, monospace;
       --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
     }
@@ -61,6 +66,11 @@
         --series-cache-read: #d95926;
         --series-cache-write: #199e70;
         --series-output: #c98500;
+        --token-keyword: #c9a7ff;
+        --token-type: #79b8ff;
+        --token-string: #8bd5b0;
+        --token-number: #ffab70;
+        --token-comment: #8b98ad;
       }
     }
 
@@ -150,6 +160,7 @@
     .pillar h3 { margin-top: 0; }
     .pillar .ico { font-family: var(--mono); font-weight: 700; color: var(--accent); font-size: 1.1rem; margin-bottom: 6px; }
     .pillar p { color: var(--muted); font-size: 0.96rem; margin: 6px 0 0; }
+    .pillar-links { display: flex; flex-wrap: wrap; gap: 8px 16px; margin-top: 14px; font-size: .88rem; font-weight: 600; }
 
     /* code */
     pre {
@@ -163,6 +174,11 @@
       padding: 1px 6px; border-radius: 6px; font-size: 0.86em; color: var(--code-text);
     }
     .cmt { color: var(--muted); }
+    .tok-keyword { color: var(--token-keyword); font-weight: 600; }
+    .tok-type { color: var(--token-type); }
+    .tok-string { color: var(--token-string); }
+    .tok-number { color: var(--token-number); }
+    .tok-comment { color: var(--token-comment); font-style: italic; }
     .comment-note { font-size: 0.9rem; color: var(--muted); }
 
     /* table */
@@ -172,6 +188,13 @@
     th { color: var(--muted); font-weight: 600; font-size: 0.82rem; text-transform: uppercase; letter-spacing: 0.03em; }
     td.num, th.num { text-align: right; font-family: var(--mono); }
     tbody tr:last-child td { border-bottom: none; }
+    .matrix-table { min-width: 1080px; }
+    .matrix-table td { vertical-align: top; }
+    .matrix-table .model-id { font-family: var(--mono); font-weight: 600; white-space: nowrap; }
+    .matrix-table .efforts { font-family: var(--mono); font-size: .82rem; }
+    .fit { font-size: .82rem; white-space: nowrap; }
+    .fit-ideal { color: var(--ok); font-weight: 600; }
+    .fit-underpowered { color: var(--warn); }
 
     /* callout — full symmetric border only; no coloured left accent bar (style hard rule) */
     .callout {
@@ -296,15 +319,13 @@
       <span class="brand"><span class="mark">¢</span> Token Economy</span>
       <nav>
         <a href="#why">Why</a>
-        <a href="#concepts">Concepts</a>
+        <a href="#suggest">SuggestModel</a>
+        <a href="#install">Install</a>
+        <a href="#cost-api">Cost&nbsp;API</a>
+        <a href="#concepts">Model&nbsp;recommendation</a>
         <a href="#usage">Usage</a>
         <a href="#benchmarks">Benchmarks</a>
-        <a href="#status">Status</a>
-        <a href="#pricing-history">Pricing&nbsp;history</a>
-        <a href="#cost-api">Cost&nbsp;API</a>
-        <a href="#suggest">SuggestModel</a>
-        <a class="nav-collapse" href="cap-forecast/index.html">Cap&nbsp;forecast</a>
-        <a href="#install">Install</a>
+        <a href="#family">Family</a>
         <a class="nav-collapse" href="https://github.com/agent-orc/token-economy">GitHub</a>
       </nav>
     </div>
@@ -320,8 +341,7 @@
         <p class="lead">
           One tested source of truth for model <strong>pricing (with history)</strong>,
           run-<strong>cost computation</strong>, and token-efficiency
-          <strong>model selection</strong> — so a coding agent knows what a run costs and
-          which model buys the most for its tokens.
+          <strong>model selection</strong> for LLM coding-agent systems.
         </p>
         <div class="cta">
           <a class="btn" href="#install">Get started</a>
@@ -336,10 +356,8 @@
       <div class="wrap">
         <h2>What it does &amp; why</h2>
         <p class="sub">
-          Coding-agent orchestrators need to answer two money questions precisely: <em>what did that
-          run cost?</em> and <em>which model should run this next?</em> Hardcoded, half-null price
-          tables scattered across services answer both badly. Token Economy replaces them with one
-          deterministic, unit-tested library.
+          Token Economy provides one deterministic, unit-tested library for dated model prices,
+          run-cost calculation, and model selection.
         </p>
         <div class="pillars">
           <div class="pillar">
@@ -348,6 +366,7 @@
             <p>Per-model price entries keyed by <code>ValidFrom</code>. A run is costed with the
             price valid <em>at the run's UTC timestamp</em>. Historic entries are kept, never
             overwritten.</p>
+            <div class="pillar-links"><a href="#pricing-history">API</a><a href="https://github.com/agent-orc/token-economy/blob/main/src/TokenEconomy/ModelPriceCatalog.cs">Code ↗</a></div>
           </div>
           <div class="pillar">
             <div class="ico">02</div>
@@ -355,6 +374,7 @@
             <p><code>ComputeCost(model, usage, atUtc)</code> → a deterministic per-component
             breakdown and total. An unknown or unpriced model returns an <em>explicit</em> unknown —
             never a silent&nbsp;$0.</p>
+            <div class="pillar-links"><a href="#cost-api">API</a><a href="https://github.com/agent-orc/token-economy/blob/main/src/TokenEconomy/CostBreakdown.cs">Code ↗</a></div>
           </div>
           <div class="pillar">
             <div class="ico">03</div>
@@ -362,208 +382,34 @@
             <p><code>SuggestModel(…)</code> ranks the models available right now for a task under
             budget pressure, each with a one-line rationale. Cost class is <em>derived</em> from the
             catalog, never restated.</p>
+            <div class="pillar-links"><a href="#suggest">API</a><a href="https://github.com/agent-orc/token-economy/blob/main/src/TokenEconomy/ModelEfficiencyMatrix.cs">Code ↗</a></div>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- ================= CONCEPTS ================= -->
-    <section id="concepts">
-      <div class="wrap">
-        <h2>From task to evidence</h2>
-        <p class="sub">Token Economy separates a routing recommendation from an observed result. That distinction keeps a cheap-looking model from being treated as a good choice without evidence.</p>
-        <div class="pillars">
-          <div class="pillar"><div class="ico">01 / ESTIMATE</div><h3>Describe the work before launch</h3><p><code>TaskComplexityEstimator</code> turns observable card and repository signals into a versioned complexity band, confidence, predicted tokens, duration, reissues, and inspectable evidence. It estimates expected work, not business importance.</p></div>
-          <div class="pillar"><div class="ico">02 / ROUTE</div><h3>Choose transparently</h3><p><code>SuggestModel</code> combines task fit, derived cost class, and availability into ranked choices with an auditable rationale. An orchestrator decides whether and how to act on that recommendation.</p></div>
-          <div class="pillar"><div class="ico">03 / OBSERVE</div><h3>Measure the outcome</h3><p>Controlled A/B setups record success, token use, duration, and authoritative cost when available. Operational history can retain the same outcome signals for later calibration.</p></div>
-        </div>
-        <h3>What informs a complexity estimate</h3>
-        <p>Its evidence is deliberately pre-launch: touched surface and dependency fan-out, novelty, constraint density, specification ambiguity, required reading, and verification cost. Actual changed files, tool calls, and review feedback are outcomes for later calibration, not inputs that would leak the answer into the estimate.</p>
-        <div class="callout"><strong>The learning loop is deliberately closed but not automatic:</strong> task features &rarr; complexity estimate and model choice &rarr; observed tokens, duration, reissues, and outcome &rarr; reclassification or updated policy. Historical neighbours can inform a new estimate; the optional host-supplied mini-model assessment is capped and the library never calls a provider itself.</div>
-        <p class="comment-note">The included 30-card fixtures validate the pipeline, while the repository's <code>results/complexity-backtest</code> snapshot reports a real-card observational replay. Its cohort and measurement limitations—and weak current accuracy—make it calibration evidence, not a routing-readiness or causal model-comparison claim. See the <a href="https://github.com/agent-orc/token-economy/blob/main/docs/concepts/upfront-task-complexity.md">complexity design and backtest contract</a>.</p>
-      </div>
-    </section>
-
-    <!-- ================= TOKEN USAGE ================= -->
-    <section id="usage">
-      <div class="wrap">
-        <h2>Token usage, made visible</h2>
-        <p class="sub">Where the tokens actually went: per model, per task class, per retry, and across one
-        measured session. Every bar is computed from checked-in evidence in this repository — measured runs,
-        real card history, and list prices resolved from the dated catalog. Nothing here is illustrative,
-        and an unpriced model stays unpriced.</p>
-        <div id="usage-charts" aria-live="polite">
-          <p class="comment-note">Loading published token evidence&hellip;</p>
-        </div>
-        <p class="comment-note">Source: <code>website/data/token-usage.json</code>, generated by
-        <code>scripts/generate-website-data.py</code> from the append-only cases under
-        <code>benchmarks/results/</code>, the card backtest snapshot in <code>results/</code>, and the
-        session analysis in <code>docs/analyses/</code>. Dollar figures are list prices from
-        <code>src/TokenEconomy/catalog/model-prices.json</code> resolved at each run's own timestamp; a
-        unit test re-costs the published file through <code>ComputeCost</code> so the site cannot drift
-        from the library. The four token components are mutually exclusive — cache reads are never added
-        to input a second time.</p>
-      </div>
-    </section>
-
-    <!-- ================= BENCHMARKS ================= -->
-    <section id="benchmarks">
-      <div class="wrap">
-        <h2>Benchmarks</h2>
-        <p class="sub">Published runs are controlled local comparisons: each variant receives the same prompt and a fresh fixture, then a deterministic command evaluates the response. They are not provider-wide capability claims.</p>
-        <h3>How these studies map to established benchmarks</h3>
-        <p>This harness borrows the test-verified repair shape of <a href="https://www.swebench.com/">SWE-bench</a> and the focused function-correctness shape of <a href="https://github.com/openai/human-eval">HumanEval</a>. Its fixtures are local, deliberately small, and versioned for routing calibration; they are <strong>not</strong> SWE-bench or HumanEval submissions, and their results are not comparable to either leaderboard.</p>
-        <div class="table-scroll"><table><thead><tr><th>Local study shape</th><th>Established reference</th><th>What carries over</th><th>What does not</th></tr></thead><tbody><tr><td>Repository repair with a deterministic test command</td><td>SWE-bench</td><td>A reproducible starting repository, a stated task, and test-verified evaluation.</td><td>Task distribution, repository scale, and leaderboard comparability.</td></tr><tr><td>Focused response-artifact correctness</td><td>HumanEval</td><td>A small, deterministic correctness target for comparing variants.</td><td>HumanEval problems, pass@k protocol, and capability claims.</td></tr><tr><td>Document-to-text hard cases</td><td>None claimed</td><td>Versioned inputs and explicit positive/negative extraction oracles.</td><td>A general document-understanding benchmark or support guarantee.</td></tr></tbody></table></div>
-        <div id="benchmark-results" aria-live="polite"><p class="comment-note">Loading published benchmark evidence…</p></div>
-        <p class="comment-note">The raw run and derived report are append-only JSON. The displayed table is rendered from a deployable projection generated from those files. To add a study, commit a setup in <code>benchmarks/setups/</code>, its minimal fixture, and generated raw + report files in <code>benchmarks/results/</code>; then run <code>python scripts/generate-website-data.py</code>. See <a href="https://github.com/agent-orc/token-economy/blob/main/docs/benchmarks.md">the benchmark protocol on GitHub</a>.</p>
-      </div>
-    </section>
-
-    <!-- ================= STATUS ================= -->
-    <section id="status">
-      <div class="wrap">
-        <h2>Project status</h2>
-        <p class="sub">A precise snapshot of what this repository currently contains. Status is intentionally narrower than a product roadmap and is rendered from the versioned site status record.</p>
-        <div class="pillars" id="project-status" aria-live="polite"><p class="comment-note">Loading project status…</p></div>
-        <p class="comment-note">Benchmark results measure the specified setup at the recorded time. They do not silently alter <code>SuggestModel</code>, publish raw operational data, or claim provider limits.</p>
-      </div>
-    </section>
-
-    <!-- ================= PRICING HISTORY ================= -->
-    <section id="pricing-history">
-      <div class="wrap">
-        <h2>Prices have history</h2>
-        <p class="sub">
-          Each model carries a list of <code>ModelPrice</code> entries, each effective from a
-          <code>ValidFrom</code> instant (inclusive, UTC). Resolution picks the entry with the
-          greatest <code>ValidFrom</code> that is not after the run's timestamp — so a run last month
-          is costed at last month's rate, even after a price change. A change <em>adds</em> a new
-          entry; it never edits the old one.
-        </p>
-
-        <p>The seeded catalog captures a real, dated change: <strong>Claude Sonnet 5</strong> runs on
-        an introductory rate now and switches to standard pricing on <code>2026-09-01 (UTC)</code>.
-        The <em>same run, same model</em> is priced differently on either side of that boundary:</p>
-
-        <div class="table-scroll">
-          <table>
-            <thead>
-              <tr>
-                <th>Run timestamp (UTC)</th>
-                <th>Price entry in effect</th>
-                <th class="num">Input /MTok</th>
-                <th class="num">Output /MTok</th>
-                <th class="num">Cost of 1M in + 200K out</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>2026-07-10</td>
-                <td>Introductory</td>
-                <td class="num">$2.00</td>
-                <td class="num">$10.00</td>
-                <td class="num">$4.00</td>
-              </tr>
-              <tr>
-                <td>2026-10-01</td>
-                <td>Standard</td>
-                <td class="num">$3.00</td>
-                <td class="num">$15.00</td>
-                <td class="num">$6.00</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-
-        <pre><code>using TokenEconomy;
-
-var catalog = ModelPriceCatalog.Default;
-var usage   = new TokenUsage(Input: 1_000_000, Output: 200_000);
-
-var intro    = new DateTime(2026, 7, 10, 0, 0, 0, DateTimeKind.Utc);
-var standard = new DateTime(2026, 10, 1, 0, 0, 0, DateTimeKind.Utc);
-
-catalog.ComputeCost(KnownModels.ClaudeSonnet5, usage, intro).Total;    <span class="cmt">// 4.00 (introductory rate)</span>
-catalog.ComputeCost(KnownModels.ClaudeSonnet5, usage, standard).Total; <span class="cmt">// 6.00 (standard rate, from 2026-09-01)</span></code></pre>
-
-        <p class="comment-note"><code>KnownModels</code> exposes the canonical catalog ids as typed
-        constants. The retained string overloads remain the interoperability path for configuration,
-        aliases, and external input; they resolve case- and dot/dash-insensitively, so
-        <code>claude-opus-4.8</code>, <code>gpt-5-6</code>, and dated snapshots still match their
-        canonical listing.</p>
-      </div>
-    </section>
-
-    <!-- ================= COST API ================= -->
-    <section id="cost-api">
-      <div class="wrap">
-        <h2>Cost API</h2>
-        <p class="sub">
-          Feed a <code>TokenUsage</code> and a UTC instant to <code>ComputeCost</code>; get back a
-          <code>CostBreakdown</code> with per-component costs and a nullable <code>Total</code>.
-          Cache tokens are priced with Anthropic's documented economics — cache-read at 0.1&times;
-          input, cache-write at 1.25&times; input (5-minute TTL).
-        </p>
-
-        <pre><code>using TokenEconomy;
-
-var breakdown = ModelPriceCatalog.Default.ComputeCost(
-    KnownModels.ClaudeOpus48,
-    new TokenUsage(Input: 250_000, Output: 12_000, CacheRead: 40_000),
-    DateTime.UtcNow);
-
-if (breakdown.HasPrice)
-    Console.WriteLine($"{breakdown.Total} {breakdown.Currency}");  <span class="cmt">// ≈ 1.57 USD</span>
-else
-    Console.WriteLine(breakdown.Status);  <span class="cmt">// UnknownModel or NoPriceForDate — never a silent $0</span></code></pre>
-
-        <div class="callout">
-          <strong>Missing prices are explicit, never zero.</strong> An unknown id resolves to
-          <code>PriceStatus.UnknownModel</code>; a known-but-unpriced model to
-          <code>PriceStatus.NoPriceForDate</code>. In both cases <code>CostBreakdown.Total</code> is
-          <code>null</code> — a missing price can never masquerade as a free run.
-        </div>
-
-        <h3>The breakdown</h3>
-        <ul class="tight">
-          <li><code>InputCost</code> / <code>OutputCost</code> / <code>CacheReadCost</code> /
-            <code>CacheWriteCost</code> — per-component decimals.</li>
-          <li><code>Total</code> — the sum, or <code>null</code> when no price applied.</li>
-          <li><code>HasPrice</code> — true only when a concrete price was used.</li>
-          <li><code>Unconfirmed</code> — true when the applied rate is a not-yet-confirmed
-            placeholder, so callers can surface the caveat instead of trusting it silently.</li>
-        </ul>
-        <p class="comment-note">Need only the rate, not a cost? <code>ResolvePrice(model, atUtc)</code>
-        returns the <code>ModelPrice</code> in effect (or the reason none applied) without any token
-        counts.</p>
-      </div>
-    </section>
-
-    <!-- ================= SUGGEST MODEL ================= -->
+    <!-- ================= SUGGEST MODEL / MATRIX ================= -->
     <section id="suggest">
       <div class="wrap">
-        <h2>Picking a model — <code>SuggestModel</code></h2>
+        <h2>Model selection — <code>SuggestModel</code></h2>
         <p class="sub">
-          The <em>selection</em> axis: given a task class, the current budget pressure, and the CLIs
-          that have quota right now, rank the models you could actually launch — best first — each
-          with a score, a suggested reasoning effort, and an auditable rationale string.
+          Provide a task class, budget pressure, available CLIs, and a UTC instant. The API returns
+          the eligible models in ranked order with a score, reasoning effort, and rationale.
         </p>
 
-        <pre><code>using TokenEconomy;
+        <pre><code data-language="csharp">using TokenEconomy;
 
-<span class="cmt">// A plain feature, budget getting tight, only the Claude CLI has quota right now.</span>
+// A feature task under tight budget pressure; only Claude is available.
 var ranked = ModelEfficiencyMatrix.Default.SuggestModel(
     TaskClass.Feature,
     BudgetPressure.Tight,
     availableClis: [Cli.Claude],
     atUtc: DateTime.UtcNow);
 
-var best = ranked[0];  <span class="cmt">// empty list ⇒ nothing available: wait, don't launch</span>
+var best = ranked[0]; // An empty list means no eligible model is available.
 Console.WriteLine($"{best.ModelId} @ {best.SuggestedEffort} — {best.Rationale}");
-<span class="cmt">// claude-sonnet-5 @ Medium — claude-sonnet-5: balanced tier, an ideal match for</span>
-<span class="cmt">// feature work; standard cost — moderate spend under tight pressure. Suggested effort: medium.</span>
 
-<span class="cmt">// The explicit-model path uses the same compatibility calculation and a typed id.</span>
+// The explicit-model API accepts a typed model id.
 var sonnet = ModelEfficiencyMatrix.Default.EvaluateModel(
     KnownModels.ClaudeSonnet5,
     TaskClass.Feature,
@@ -571,51 +417,19 @@ var sonnet = ModelEfficiencyMatrix.Default.EvaluateModel(
     DateTime.UtcNow);</code></pre>
 
         <div class="callout">
-          <strong>Capability fit leads; budget pressure tips the balance</strong> toward cheaper
-          models (a downshift) — but never lets an underpowered model outrank a capable one.
-          Restricted (private-project) and deprecated models are never suggested, and a CLI that
-          isn't in your available set drops out with no launch attempt. An <strong>empty result means
-          "wait"</strong>, not "launch something bad".
+          <strong>Capability fit remains a requirement.</strong> Budget pressure changes the order
+          among eligible models. Restricted, deprecated, unavailable, and incompatible models are
+          excluded. An empty result means wait.
         </div>
 
-        <h3>How it decides</h3>
-        <ul class="tight">
-          <li><strong>Task class</strong> — <code>HeavyDesign</code>, <code>Feature</code>,
-            <code>MechanicalChore</code>, <code>DocEdit</code>, <code>Research</code>.</li>
-          <li><strong>Capability tier</strong> — <code>Light</code> / <code>Balanced</code> /
-            <code>Frontier</code>, rated against the task into a <code>Suitability</code>.</li>
-          <li><strong>Cost class</strong> — <code>Economy</code> / <code>Standard</code> /
-            <code>Premium</code>, <em>derived</em> by costing a fixed reference workload through the
-            pricing catalog. An unpriced model is <code>Unknown</code>, never a guessed band — and
-            because the derivation runs through price history, cost class tracks changes over time.</li>
-          <li><strong>Rationale</strong> — a one-line English string meant to travel verbatim into
-            the orchestrator's decision event and transparency view.</li>
-        </ul>
-        <p class="comment-note"><code>Describe(atUtc)</code> renders the whole matrix as inspectable
-        rows — tier, cost class, effort levels, and suitability for every task class. The matrix is
-        data + pure functions; the <em>policy</em> of when to downshift, throttle, or wait stays in
-        the caller's admission algorithm, by design.</p>
-      </div>
-    </section>
-
-    <!-- ================= CAP FORECAST PLAN ================= -->
-    <section id="forecast-plan">
-      <div class="wrap">
-        <h2>Forecast each task against the five-hour cap</h2>
-        <p class="sub">
-          A research plan for estimating every candidate model's share of one effective five-hour
-          quota window — with a prediction range, confidence, calibration age, and current headroom
-          shown separately. It tackles the hard parts: opaque provider limits, rolling windows,
-          parser glitches, and unknown task demand.
-        </p>
-        <div class="callout">
-          <strong>Plan only — operator GO required.</strong> The concept and proposed slices are
-          documented for review; no estimator, card metric, or admission behavior is implemented.
-        </div>
-        <div class="cta">
-          <a class="btn secondary" href="cap-forecast/index.html">Explore the visual plan</a>
-          <a href="https://github.com/agent-orc/token-economy/blob/main/docs/concepts/cap-forecast-per-task.md">Read the canonical Markdown ↗</a>
-        </div>
+        <h3>Token-efficiency matrix</h3>
+        <p><code>ModelEfficiencyMatrix.Default.Describe(asOfUtc)</code> returns the tier, dated cost
+        class, supported effort levels, and suitability for each task class. The table below is a
+        checked projection of that API result.</p>
+        <div id="matrix-results" aria-live="polite"><p class="comment-note">Loading the token-efficiency matrix&hellip;</p></div>
+        <p class="comment-note">Source: <code>website/data/model-efficiency-matrix.json</code>,
+        generated through the .NET <code>Describe</code> API by
+        <code>scripts/generate-website-data.py</code> and checked in CI with <code>--check</code>.</p>
       </div>
     </section>
 
@@ -625,23 +439,169 @@ var sonnet = ModelEfficiencyMatrix.Default.EvaluateModel(
         <h2>Install</h2>
         <p class="sub">Dependency-free, targets <code>net10.0</code>, ships XML docs and a symbol
         package. Apache-2.0.</p>
-        <pre><code><span class="cmt"># package reference</span>
+        <pre><code data-language="shell"># package reference
 dotnet add package TokenEconomy
 
-<span class="cmt"># or pin a version</span>
-dotnet add package TokenEconomy --version 0.2.0</code></pre>
-        <pre><code>using TokenEconomy;
+# or pin a version
+dotnet add package TokenEconomy --version 0.3.1</code></pre>
+        <pre><code data-language="csharp">using TokenEconomy;
 
-<span class="cmt">// The seeded catalog: known Claude 4.x/5 and OpenAI gpt-5.x models.</span>
 var catalog = ModelPriceCatalog.Default;
-var matrix  = ModelEfficiencyMatrix.Default;  <span class="cmt">// cost is derived from the same catalog</span>
+var matrix  = ModelEfficiencyMatrix.Default;
 var model   = KnownModels.ClaudeSonnet5;
 
 var listing = catalog.Find(model);
 var profile = matrix.Find(model);</code></pre>
-        <p class="comment-note">Building your own set? Construct a <code>ModelPriceCatalog</code> from
-        your own <code>ModelListing</code>s and a <code>ModelEfficiencyMatrix</code> from your own
-        profiles over it.</p>
+        <p class="comment-note">For a custom catalog, construct a
+        <code>ModelPriceCatalog</code> from <code>ModelListing</code> values and a
+        <code>ModelEfficiencyMatrix</code> from matching profiles.</p>
+      </div>
+    </section>
+
+    <!-- ================= COST API ================= -->
+    <section id="cost-api">
+      <div class="wrap">
+        <h2>Cost API</h2>
+        <p class="sub">
+          Provide a <code>TokenUsage</code> value and a UTC instant to <code>ComputeCost</code>. The
+          result is a <code>CostBreakdown</code> with component costs and a nullable total.
+        </p>
+
+        <pre><code data-language="csharp">using TokenEconomy;
+
+var breakdown = ModelPriceCatalog.Default.ComputeCost(
+    KnownModels.ClaudeOpus48,
+    new TokenUsage(Input: 250_000, Output: 12_000, CacheRead: 40_000),
+    DateTime.UtcNow);
+
+if (breakdown.HasPrice)
+    Console.WriteLine($"{breakdown.Total} {breakdown.Currency}"); // approximately 1.57 USD
+else
+    Console.WriteLine(breakdown.Status); // UnknownModel or NoPriceForDate</code></pre>
+
+        <div class="callout">
+          <strong>Missing prices are explicit.</strong> An unknown id returns
+          <code>PriceStatus.UnknownModel</code>; a known model without a price for the requested date
+          returns <code>PriceStatus.NoPriceForDate</code>. In both cases
+          <code>CostBreakdown.Total</code> is <code>null</code>.
+        </div>
+
+        <h3>The breakdown</h3>
+        <ul class="tight">
+          <li><code>InputCost</code>, <code>OutputCost</code>, <code>CacheReadCost</code>, and
+            <code>CacheWriteCost</code> contain the component values.</li>
+          <li><code>Total</code> is the sum, or <code>null</code> when no price applies.</li>
+          <li><code>HasPrice</code> is true only when a concrete price was used.</li>
+          <li><code>Unconfirmed</code> identifies a provisional catalog rate.</li>
+        </ul>
+
+        <h3 id="pricing-history">Prices have history</h3>
+        <p>Each <code>ModelPrice</code> is effective from a <code>ValidFrom</code> UTC instant.
+        Resolution selects the most recent entry that applies to the run timestamp. New prices add
+        entries; they do not replace historical entries.</p>
+        <p>The seeded catalog records Claude Sonnet 5 introductory pricing followed by standard
+        pricing from <code>2026-09-01 (UTC)</code>:</p>
+
+        <div class="table-scroll">
+          <table>
+            <thead><tr><th>Run timestamp (UTC)</th><th>Price entry</th><th class="num">Input /MTok</th><th class="num">Output /MTok</th><th class="num">1M input + 200K output</th></tr></thead>
+            <tbody>
+              <tr><td>2026-07-10</td><td>Introductory</td><td class="num">$2.00</td><td class="num">$10.00</td><td class="num">$4.00</td></tr>
+              <tr><td>2026-10-01</td><td>Standard</td><td class="num">$3.00</td><td class="num">$15.00</td><td class="num">$6.00</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <pre><code data-language="csharp">using TokenEconomy;
+
+var catalog = ModelPriceCatalog.Default;
+var usage = new TokenUsage(Input: 1_000_000, Output: 200_000);
+var intro = new DateTime(2026, 7, 10, 0, 0, 0, DateTimeKind.Utc);
+var standard = new DateTime(2026, 10, 1, 0, 0, 0, DateTimeKind.Utc);
+
+catalog.ComputeCost(KnownModels.ClaudeSonnet5, usage, intro).Total;    // 4.00
+catalog.ComputeCost(KnownModels.ClaudeSonnet5, usage, standard).Total; // 6.00</code></pre>
+
+        <p class="comment-note"><code>KnownModels</code> provides typed canonical ids. String
+        overloads remain available for configuration and external input. Use
+        <code>ResolvePrice(model, atUtc)</code> when only the effective rate is needed.</p>
+      </div>
+    </section>
+
+    <!-- ================= MODEL RECOMMENDATION ================= -->
+    <section id="concepts">
+      <div class="wrap">
+        <h2>Model recommendation</h2>
+        <p class="sub">Token Economy keeps a model recommendation separate from the measured
+        outcome used to evaluate it.</p>
+        <div class="pillars">
+          <div class="pillar"><div class="ico">01 / ESTIMATE</div><h3>Describe the work before launch</h3><p><code>TaskComplexityEstimator</code> applies intake evidence to a versioned complexity worksheet and produces a band, confidence, point forecasts, and inspectable evidence.</p></div>
+          <div class="pillar"><div class="ico">02 / RECOMMEND</div><h3>Compare eligible models</h3><p><code>SuggestModel</code> combines task fit, derived cost class, and availability into ranked choices with an auditable rationale. The caller decides whether to act on the recommendation.</p></div>
+          <div class="pillar"><div class="ico">03 / OBSERVE</div><h3>Measure the outcome</h3><p>Controlled A/B setups record success, token use, duration, and authoritative cost when available. Operational history retains outcome signals for later calibration.</p></div>
+        </div>
+
+        <h3>What determines the complexity band</h3>
+        <p>The band is calculated from the six weighted worksheet criteria:</p>
+        <ul class="tight">
+          <li><strong>Correctness risk</strong> — behavioral, contract, security, concurrency, and data-loss exposure.</li>
+          <li><strong>Expected scope</strong> — anticipated changed lines and affected subsystems.</li>
+          <li><strong>Context demand</strong> — adjacent contracts, historical behavior, and cross-system invariants that must be read.</li>
+          <li><strong>Task uncertainty</strong> — from mechanical work to unknown cause or derived requirements.</li>
+          <li><strong>Empirical confidence</strong> — the quality and coverage of comparable historical evidence.</li>
+          <li><strong>Quota and cost headroom</strong> — current availability, without lowering a correctness floor.</li>
+        </ul>
+        <p>Actual changed files, tool calls, and review feedback are outcomes for later calibration,
+        not inputs that would leak the answer into the estimate.</p>
+        <p>The separate forecast-only intake features—touched surface, novelty, constraint density,
+        specification ambiguity, required reading, and verification cost—inform the token, duration,
+        and reissue point forecasts. They do not determine the complexity band.</p>
+        <div class="callout"><strong>Observed results do not update policy automatically.</strong>
+        Historical neighbours may inform later estimates. The optional host-supplied assessment is
+        capped, and this library does not call a model provider.</div>
+        <p class="comment-note">The 30-card fixtures validate pipeline mechanics. The checked
+        <code>results/complexity-backtest</code> snapshot is an observational replay with limited
+        measurement coverage and weak current accuracy. It is calibration evidence, not proof of
+        automated-selection readiness or a causal model comparison. See the
+        <a href="https://github.com/agent-orc/token-economy/blob/main/docs/concepts/upfront-task-complexity.md">complexity design and backtest contract</a>.</p>
+      </div>
+    </section>
+
+    <!-- ================= TOKEN USAGE ================= -->
+    <section id="usage">
+      <div class="wrap">
+        <h2>Token usage, made visible</h2>
+        <p class="sub">The charts show token and list-price aggregates by model, document class,
+        card task class, measured reissue count, and session turn. Unpriced usage remains unpriced.</p>
+        <div id="usage-charts" aria-live="polite">
+          <p class="comment-note">Loading published token evidence&hellip;</p>
+        </div>
+        <div class="callout">
+          <strong>Snapshot provenance — as of 2026-07-25.</strong>
+          <ul class="tight">
+            <li>Document-to-text capability run, dated <time datetime="2026-07-25">2026-07-25</time>.</li>
+            <li>30-card live-orchestrator backtest snapshot, dated <time datetime="2026-07-25">2026-07-25</time>.</li>
+            <li>Three-turn session trace, dated <time datetime="2026-07-11">2026-07-11</time>, documented in <a href="https://github.com/agent-orc/token-economy/blob/main/docs/analyses/long-vs-short-session-cost.md"><code>docs/analyses/long-vs-short-session-cost.md</code></a>.</li>
+          </ul>
+          <p>These are dated snapshots, not a live feed. <code>scripts/generate-website-data.py</code>
+          generates the projection, and CI checks it with <code>--check</code>.</p>
+        </div>
+        <p class="comment-note">Source: <code>website/data/token-usage.json</code>. Dollar figures
+        use the list price valid at each run timestamp. A unit test recalculates published costs
+        through <code>ComputeCost</code>. The token components are mutually exclusive; cache reads
+        are not added to input a second time.</p>
+      </div>
+    </section>
+
+    <!-- ================= BENCHMARKS ================= -->
+    <section id="benchmarks">
+      <div class="wrap">
+        <h2>Benchmarks</h2>
+        <p class="sub">Published runs are controlled local comparisons: each variant receives the same prompt and a fresh fixture, then a deterministic command evaluates the response. They are not provider-wide capability claims.</p>
+        <h3>How these studies map to established benchmarks</h3>
+        <p>This harness borrows the test-verified repair shape of <a href="https://www.swebench.com/">SWE-bench</a> and the focused function-correctness shape of <a href="https://github.com/openai/human-eval">HumanEval</a>. Its fixtures are local, deliberately small, and versioned for model-selection calibration; they are <strong>not</strong> SWE-bench or HumanEval submissions, and their results are not comparable to either leaderboard.</p>
+        <div class="table-scroll"><table><thead><tr><th>Local study shape</th><th>Established reference</th><th>What carries over</th><th>What does not</th></tr></thead><tbody><tr><td>Repository repair with a deterministic test command</td><td>SWE-bench</td><td>A reproducible starting repository, a stated task, and test-verified evaluation.</td><td>Task distribution, repository scale, and leaderboard comparability.</td></tr><tr><td>Focused response-artifact correctness</td><td>HumanEval</td><td>A small, deterministic correctness target for comparing variants.</td><td>HumanEval problems, pass@k protocol, and capability claims.</td></tr><tr><td>Document-to-text hard cases</td><td>None claimed</td><td>Versioned inputs and explicit positive/negative extraction oracles.</td><td>A general document-understanding benchmark or support guarantee.</td></tr></tbody></table></div>
+        <div id="benchmark-results" aria-live="polite"><p class="comment-note">Loading published benchmark evidence…</p></div>
+        <p class="comment-note">The raw run and derived report are append-only JSON. The displayed table is rendered from a deployable projection generated from those files. To add a study, commit a setup in <code>benchmarks/setups/</code>, its minimal fixture, and generated raw + report files in <code>benchmarks/results/</code>; then run <code>python scripts/generate-website-data.py</code>. See <a href="https://github.com/agent-orc/token-economy/blob/main/benchmarks/README.md">the benchmark protocol on GitHub</a>.</p>
       </div>
     </section>
 
@@ -686,9 +646,11 @@ var profile = matrix.Find(model);</code></pre>
         <span class="sep">·</span>
         <a href="https://github.com/agent-orc/token-economy/blob/main/CHANGELOG.md">Changelog</a>
         <span class="sep">·</span>
-        <a href="cap-forecast/index.html">Cap forecast plan</a>
-        <span class="sep">·</span>
         <a href="https://github.com/agent-orc/token-economy/blob/main/docs/PUBLISHING.md">Publishing</a>
+        <span class="sep">·</span>
+        <a href="https://agent-orchestrator.dev/">Part of Agent Orchestrator</a>
+        <span class="sep">·</span>
+        <a href="https://agent-orchestrator.dev/imprint/">Imprint &amp; privacy</a>
       </p>
       <p style="margin-top:10px; color:var(--muted)">
         Token economics for LLM coding agents. © 2026 Robert Mischke. Prices in the seeded catalog are
@@ -707,7 +669,75 @@ var profile = matrix.Find(model);</code></pre>
         : `${format(range.minimum)}&ndash;${format(range.maximum)}`;
       const benchmarkHost = document.getElementById('benchmark-results');
       const usageHost = document.getElementById('usage-charts');
-      const statusHost = document.getElementById('project-status');
+      const matrixHost = document.getElementById('matrix-results');
+      const fileProtocolFailure = { fileProtocol: true };
+      const fetchJson = path => location.protocol === 'file:'
+        ? Promise.reject(fileProtocolFailure)
+        : fetch(path).then(response => response.ok ? response.json() : Promise.reject(response.status));
+      const showDataError = (host, label, error) => {
+        if (error === fileProtocolFailure) {
+          host.innerHTML = '<div class="callout"><strong>Data unavailable under <code>file://</code>.</strong> '
+            + `Serve <code>website/</code> with <code>python -m http.server</code> to load the ${label}.</div>`;
+          return;
+        }
+        host.textContent = `${label[0].toUpperCase()}${label.slice(1)} could not be loaded.`;
+      };
+
+      // Small zero-dependency tokenizer for the static C# and shell examples.
+      const csharpKeywords = new Set([
+        'as', 'break', 'case', 'class',
+        'const', 'continue', 'default', 'do',
+        'else', 'enum', 'false', 'for',
+        'foreach', 'if', 'in', 'is',
+        'namespace', 'new', 'null', 'public',
+        'record', 'return', 'static', 'struct',
+        'switch', 'this', 'true', 'using',
+        'var', 'while',
+      ]);
+      const csharpTypes = new Set([
+        'BudgetPressure', 'Cli', 'Console',
+        'CostBreakdown', 'DateTime', 'DateTimeKind',
+        'KnownModels', 'ModelEfficiencyMatrix',
+        'ModelPriceCatalog', 'TaskClass',
+        'TokenEconomy', 'TokenUsage',
+      ]);
+      const shellKeywords = new Set(['case', 'do', 'done', 'elif', 'else', 'esac', 'fi', 'for', 'if', 'in', 'then', 'while']);
+      const shellCommands = new Set(['add', 'dotnet', 'package']);
+      const expressions = {
+        csharp: /(?<comment>\/\/[^\n]*|\/\*[\s\S]*?\*\/)|(?<string>\$?@"(?:[^"]|"")*"|\$?"(?:\\.|[^"\\])*"|'(?:\\.|[^'\\])*')|(?<number>\b(?:0x[\da-f]+|\d[\d_]*(?:\.\d+)?)\b)|(?<word>@?[A-Za-z_]\w*)/gi,
+        shell: /(?<comment>#[^\n]*)|(?<string>"(?:\\.|[^"\\])*"|'[^']*')|(?<number>\b\d[\d.]*\b)|(?<word>[A-Za-z_][\w-]*)/g,
+      };
+      const tokenClass = (groups, language, value) => {
+        if (groups.comment) return 'tok-comment';
+        if (groups.string) return 'tok-string';
+        if (groups.number) return 'tok-number';
+        if (!groups.word) return '';
+        if (language === 'csharp') {
+          if (csharpKeywords.has(value)) return 'tok-keyword';
+          if (csharpTypes.has(value) || /^[A-Z]/.test(value)) return 'tok-type';
+        } else {
+          if (shellKeywords.has(value)) return 'tok-keyword';
+          if (shellCommands.has(value) || /^[A-Z]/.test(value)) return 'tok-type';
+        }
+        return '';
+      };
+      const highlight = code => {
+        const language = code.dataset.language;
+        const expression = expressions[language];
+        if (!expression) return;
+        const source = code.textContent;
+        let output = '';
+        let cursor = 0;
+        expression.lastIndex = 0;
+        for (const match of source.matchAll(expression)) {
+          output += escape(source.slice(cursor, match.index));
+          const cls = tokenClass(match.groups, language, match[0]);
+          output += cls ? `<span class="${cls}">${escape(match[0])}</span>` : escape(match[0]);
+          cursor = match.index + match[0].length;
+        }
+        code.innerHTML = output + escape(source.slice(cursor));
+      };
+      document.querySelectorAll('pre code[data-language]').forEach(highlight);
       const lifecycleBadge = item => {
         if (!['retired', 'deprecated'].includes(item.lifecycleStatus)) return '';
         const label = item.lifecycleStatus.toUpperCase();
@@ -718,7 +748,37 @@ var profile = matrix.Find(model);</code></pre>
         ? '<span class="state pending">NOT ATTEMPTED</span><br><span class="comment-note">Infrastructure failure</span>'
         : escape(capability.level.replace(/([a-z])([A-Z])/g, '$1 $2'));
 
-      fetch('data/benchmarks.json').then(response => response.ok ? response.json() : Promise.reject(response.status)).then(data => {
+      const humanize = value => String(value).replace(/([a-z])([A-Z])/g, '$1 $2').replace(/^./, letter => letter.toUpperCase());
+      const matrixClasses = [
+        ['heavyDesign', 'Heavy design'],
+        ['feature', 'Feature'],
+        ['mechanicalChore', 'Mechanical'],
+        ['docEdit', 'Docs'],
+        ['research', 'Research'],
+        ['review', 'Review'],
+      ];
+      const fitCell = value => value === null
+        ? '<td class="fit">&mdash;</td>'
+        : `<td class="fit fit-${escape(value.toLowerCase())}">${escape(humanize(value))}</td>`;
+
+      fetchJson('data/model-efficiency-matrix.json').then(data => {
+        const head = matrixClasses.map(([, label]) => `<th>${label}</th>`).join('');
+        const rows = data.rows.map(row => {
+          const status = humanize(row.selectionStatus)
+            + (row.provisional ? ' · provisional' : '')
+            + (row.costUnconfirmed ? ' · price unconfirmed' : '');
+          const fits = matrixClasses.map(([key]) => fitCell(row.suitability[key])).join('');
+          return `<tr><td class="model-id">${escape(row.modelId)}</td><td>${escape(humanize(row.tier))}</td>`
+            + `<td>${escape(humanize(row.costClass))}</td><td class="efforts">${row.effortLevels.map(humanize).map(escape).join(' / ')}</td>`
+            + `<td>${escape(status)}</td>${fits}</tr>`;
+        }).join('');
+        matrixHost.innerHTML = `<div class="table-scroll"><table class="matrix-table"><thead><tr>`
+          + `<th>Model</th><th>Tier</th><th>Cost</th><th>Effort levels</th><th>Selection status</th>${head}`
+          + `</tr></thead><tbody>${rows}</tbody></table></div>`
+          + `<p class="data-note">As of ${escape(data.asOfUtc.slice(0, 10))} UTC · ${data.rows.length} model profiles · cost class derived from the dated catalog.</p>`;
+      }).catch(error => showDataError(matrixHost, 'model-efficiency matrix data', error));
+
+      fetchJson('data/benchmarks.json').then(data => {
         if (!data.studies.length) { benchmarkHost.textContent = 'No published benchmark results yet.'; return; }
         benchmarkHost.innerHTML = data.studies.map(study => {
           const variants = study.variants.map(variant => `<tr><td>${escape(variant.variantId)}${variant.variantId === study.winner ? ' <span class="state">WINNER</span>' : ''}<br><span class="comment-note">${escape(variant.model)}</span>${lifecycleBadge(variant)}</td><td class="num">${variant.successes} / ${variant.runs}</td><td class="num">${number(variant.averageTokens)}${variant.runs > 1 ? `<br><span class="comment-note">range ${observedRange(variant.tokenRange, number)}</span>` : ''}</td><td class="num">${seconds(variant.averageDurationMs)}${variant.runs > 1 ? `<br><span class="comment-note">range ${observedRange(variant.durationRangeMs, seconds)}</span>` : ''}</td><td>${variant.totalCostUsd === null ? 'Not supplied' : '$' + (variant.totalCostUsd / variant.runs).toFixed(4)}</td></tr>`).join('');
@@ -729,7 +789,7 @@ var profile = matrix.Find(model);</code></pre>
           const date = new Date(study.startedAtUtc).toISOString().replace('.000', '').replace(/:\d\d\.\d+Z$/, 'Z');
           return `<h3>Published capability corpus: ${escape(study.corpusId)}</h3><p>Run <code>${escape(date)}</code>. “Not demonstrated” means a completed extraction missed this corpus's oracle. “Not attempted — infrastructure failure” means the CLI or host failed before any capability result existed.</p><div class="table-scroll"><table><thead><tr><th>Model</th><th>Document type</th><th class="num">Passed</th><th class="num">Infrastructure</th><th>Observed level</th></tr></thead><tbody>${rows}</tbody></table></div>`;
         }).join('') + `<p class="data-note">Generated from ${data.studies.length} A/B study/studies and ${(data.capabilityStudies || []).length} capability run(s).</p>`;
-      }).catch(() => { benchmarkHost.textContent = 'Published benchmark data could not be loaded.'; });
+      }).catch(error => showDataError(benchmarkHost, 'published benchmark data', error));
 
       // ---- token-usage charts -------------------------------------------------
       // One shared tooltip element, delegated: every mark carries its numbers in
@@ -796,7 +856,7 @@ var profile = matrix.Find(model);</code></pre>
         + `<thead><tr>${head.map(cell => `<th${cell.startsWith('#') ? ' class="num"' : ''}>${cell.replace(/^#/, '')}</th>`).join('')}</tr></thead>`
         + `<tbody>${rows.map(row => `<tr>${row.map(cell => `<td${typeof cell === 'object' ? ' class="num"' : ''}>${typeof cell === 'object' ? cell.n : escape(cell)}</td>`).join('')}</tr>`).join('')}</tbody></table></div>`;
 
-      fetch('data/token-usage.json').then(response => response.ok ? response.json() : Promise.reject(response.status)).then(data => {
+      fetchJson('data/token-usage.json').then(data => {
         const run = data.byModel.source;
         const withUsage = data.byModel.models.filter(model => model.tokens > 0);
         const withoutUsage = data.byModel.models.filter(model => model.tokens === 0);
@@ -903,11 +963,7 @@ var profile = matrix.Find(model);</code></pre>
           + metric(usd(pricedTotal, 2), `list price of the ${run.pricedModels} priced models' tokens, at the run date`)
           + metric(share(run.failedCaseTokens, run.tokens), `of those tokens went to the ${run.failedCasesWithUsage} failed attempts`)
           + `</div><div class="chart-grid">${modelChart}${costChart}${classChart}${taskChart}${reissueChart}${sessionChart}${coverage}</div>${tables}`;
-      }).catch(() => { usageHost.textContent = 'Published token evidence could not be loaded.'; });
-
-      fetch('data/site-status.json').then(response => response.ok ? response.json() : Promise.reject(response.status)).then(data => {
-        statusHost.innerHTML = data.items.map(item => `<div class="pillar"><div class="state ${escape(item.state)}">${escape(item.state.toUpperCase())}</div><h3>${escape(item.title)}</h3><p>${escape(item.detail)}</p></div>`).join('') + `<p class="data-note">Status record as of ${escape(data.asOf)}.</p>`;
-      }).catch(() => { statusHost.textContent = 'Project status data could not be loaded.'; });
+      }).catch(error => showDataError(usageHost, 'published token evidence', error));
     })();
   </script>
 

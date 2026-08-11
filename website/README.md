@@ -3,18 +3,18 @@
 The static marketing + documentation site for **Token Economy**, served at
 <https://agent-orchestrator.dev/token-economy/>.
 
-- **Plain static HTML with a checked data step.** `index.html` has inline CSS
-  and a data-URI favicon. `scripts/generate-website-data.py` writes two
+- **Plain static HTML with a checked data step.** `index.html` has inline CSS,
+  inline JavaScript, and a data-URI favicon. `scripts/generate-website-data.py` writes three
   artifacts — `website/data/benchmarks.json` (published studies) and
-  `website/data/token-usage.json` (the chart aggregates) — and CI rejects stale
-  data for both.
+  `website/data/token-usage.json` (the chart aggregates), plus
+  `website/data/model-efficiency-matrix.json` (the checked
+  `ModelEfficiencyMatrix.Describe` projection) — and CI rejects stale data.
 - **English**, light/dark theme-aware, responsive.
-- Content: what/why, a complexity-estimation and closed learning-loop explainer,
-  token-usage charts and published benchmark summaries rendered from the append-only JSON evidence in
-  `benchmarks/results/`, an honest implementation/plan status snapshot, the pricing-history explainer, the cost API, a
-  `SuggestModel` preview, install, and family links — all describing the real
-  `TokenEconomy` API — plus the clearly labelled, plan-only cap-forecast
-explainers under [`cap-forecast/`](cap-forecast/index.html).
+- Content: what/why, a rendered token-efficiency matrix and `SuggestModel`
+  example, install, the dated cost API, a complexity-estimation explainer,
+  token-usage charts, published benchmark summaries, and family links. The
+  generated sections describe the real `TokenEconomy` API and checked-in
+  evidence.
 
 The token-usage charts (per model, per task class, per measured reissue count,
 and one measured session over time) read `token-usage.json` only. That file is
@@ -34,12 +34,11 @@ not add result rows to `index.html` by hand. Follow the
 [end-to-end benchmark methodology](../benchmarks/README.md) for fixture and
 oracle requirements, execution, immutable artifacts, statistics, and the full
 publication checklist.
-Update `website/data/site-status.json` for an honest status change.
-
 Editing: change the relevant HTML page and push to `main`; CI deploys the whole
 directory recursively (see [`DEPLOY.md`](DEPLOY.md)). Every page remains
-self-contained. Preview locally with `python3 -m http.server --directory
-website` or by opening a page directly.
+self-contained. Preview locally with `python -m http.server --directory
+website`; the generated-data sections intentionally show a visible fallback
+under `file://`.
 
 The provider availability page is a deterministic contract example rather
 than live telemetry. It mirrors `ProviderAvailabilitySnapshot`: provider/CLI

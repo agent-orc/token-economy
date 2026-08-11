@@ -5,7 +5,7 @@ The public site is static, so it cannot read files outside website/ after it is
 deployed.  This command is the narrow bridge: it copies only the published
 fields from benchmark JSON and validates that each raw run has its report.
 
-Two artifacts are produced:
+Three artifacts are produced:
 
 * ``website/data/benchmarks.json`` — the published A/B and capability studies.
 * ``website/data/token-usage.json`` — the aggregates the token-usage charts
@@ -13,6 +13,10 @@ Two artifacts are produced:
   measured session over time), each carrying the evidence path it came from.
   Dollar figures are list prices resolved from the dated repository price
   catalog; a model without a published price stays explicitly unpriced.
+* ``website/data/model-efficiency-matrix.json`` — the public projection of
+  ``ModelEfficiencyMatrix.Default.Describe(asOfUtc)`` from the same versioned
+  policy and price inputs. A .NET test compares every published row with the
+  real API result.
 
 Every number here is derived from checked-in evidence. Nothing is hand-authored,
 so ``--check`` fails loudly when the committed site data no longer matches the
@@ -33,6 +37,8 @@ ROOT = Path(__file__).resolve().parents[1]
 RESULTS = ROOT / "benchmarks" / "results"
 OUTPUT = ROOT / "website" / "data" / "benchmarks.json"
 USAGE_OUTPUT = ROOT / "website" / "data" / "token-usage.json"
+MATRIX_OUTPUT = ROOT / "website" / "data" / "model-efficiency-matrix.json"
+MATRIX_AS_OF_UTC = "2026-08-11T00:00:00Z"
 
 PRICE_CATALOG = ROOT / "src" / "TokenEconomy" / "catalog" / "model-prices.json"
 ROUTING_POLICY = ROOT / "src" / "TokenEconomy" / "catalog" / "model-routing-policy.json"
@@ -531,6 +537,63 @@ def create_usage_payload() -> dict:
     }
 
 
+def create_matrix_payload() -> dict:
+    """Project Describe() from its policy and catalog inputs for the static site."""
+    price_index = load_price_index()
+    policy = load(ROUTING_POLICY)
+    as_of = parse_utc(MATRIX_AS_OF_UTC)
+    suitability = {
+        "light": {
+            "heavyDesign": "underpowered", "feature": "underpowered",
+            "mechanicalChore": "ideal", "docEdit": "ideal",
+            "research": "underpowered", "review": None,
+        },
+        "balanced": {
+            "heavyDesign": "capable", "feature": "ideal",
+            "mechanicalChore": "capable", "docEdit": "capable",
+            "research": "ideal", "review": None,
+        },
+        "frontier": {
+            "heavyDesign": "ideal", "feature": "capable",
+            "mechanicalChore": "overkill", "docEdit": "overkill",
+            "research": "capable", "review": None,
+        },
+    }
+    rows = []
+    for model in policy["models"]:
+        listing = price_index.get(normalize_model_key(model["priceCatalogId"]))
+        if listing is None:
+            raise ValueError(
+                f"Matrix model '{model['priceCatalogId']}' is missing from the price catalog")
+        reference = {"input": 1_000_000, "output": 200_000, "cacheRead": 0, "cacheWrite": 0}
+        cost = compute_cost(price_index, listing["modelId"], reference, as_of)
+        total = cost["totalUsd"]
+        cost_class = "unknown" if total is None else "economy" if total < 4 else "standard" if total < 8 else "premium"
+        status = model["routingStatus"]
+        rows.append({
+            "modelId": listing["modelId"],
+            "vendor": listing.get("vendor"),
+            "cli": {"anthropic": "claude", "openai": "codex"}.get(listing.get("vendor")),
+            "tier": model["capabilityTier"],
+            "costClass": cost_class,
+            "effortLevels": ["xHigh" if level == "xhigh" else level for level in model["supportedThinkingLevels"]],
+            "suitability": suitability[model["capabilityTier"]],
+            "restricted": status == "restricted",
+            "deprecated": status == "deprecated",
+            "costUnconfirmed": cost.get("unconfirmed", False),
+            "selectionStatus": status,
+            "evidenceStatus": model["evidenceStatus"],
+            "provisional": model["provisional"],
+        })
+    return {
+        "schemaVersion": 1,
+        "generatedAtUtc": datetime.now(timezone.utc).isoformat(),
+        "asOfUtc": MATRIX_AS_OF_UTC,
+        "source": "ModelEfficiencyMatrix.Default.Describe(asOfUtc)",
+        "rows": rows,
+    }
+
+
 def canonical(value: dict) -> str:
     # generatedAt changes by design; checking compares the evidence-derived body.
     value = dict(value)
@@ -544,13 +607,18 @@ def main() -> None:
     args = parser.parse_args()
     payload = create_payload()
     usage_payload = create_usage_payload()
-    artifacts = ((OUTPUT, payload), (USAGE_OUTPUT, usage_payload))
+    matrix_payload = create_matrix_payload()
+    artifacts = (
+        (OUTPUT, payload),
+        (USAGE_OUTPUT, usage_payload),
+        (MATRIX_OUTPUT, matrix_payload),
+    )
     if args.check:
         for path, expected in artifacts:
             name = path.relative_to(ROOT).as_posix()
             if not path.exists() or canonical(load(path)) != canonical(expected):
                 raise SystemExit(f"{name} is stale; run scripts/generate-website-data.py")
-        print("Website benchmark and token-usage data are current.")
+        print("Website benchmark, token-usage, and model-efficiency matrix data are current.")
         return
     OUTPUT.parent.mkdir(parents=True, exist_ok=True)
     for path, value in artifacts:
@@ -562,6 +630,10 @@ def main() -> None:
         f"{len(usage_payload['byModel']['models'])} models, "
         f"{len(usage_payload['byCard']['taskTypes'])} card task classes, and "
         f"{len(usage_payload['session']['turns'])} session turns.")
+    print(
+        f"Wrote {MATRIX_OUTPUT.relative_to(ROOT).as_posix()} with "
+        f"{len(matrix_payload['rows'])} model-efficiency rows as of "
+        f"{matrix_payload['asOfUtc']}.")
 
 
 if __name__ == "__main__":

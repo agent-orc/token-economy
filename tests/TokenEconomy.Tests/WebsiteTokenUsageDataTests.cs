@@ -17,6 +17,48 @@ public class WebsiteTokenUsageDataTests
     private const int MoneyDecimals = 6;
 
     [Fact]
+    public void Published_efficiency_matrix_matches_Describe()
+    {
+        var root = FindRepositoryRoot();
+        var published = LoadJson(Path.Combine(root, "website", "data", "model-efficiency-matrix.json"));
+        var asOf = published.GetProperty("asOfUtc").GetDateTime().ToUniversalTime();
+        var expected = ModelEfficiencyMatrix.Default.Describe(asOf);
+        var rows = published.GetProperty("rows").EnumerateArray().ToArray();
+
+        Assert.Equal("ModelEfficiencyMatrix.Default.Describe(asOfUtc)", published.GetProperty("source").GetString());
+        Assert.Equal(expected.Count, rows.Length);
+        foreach (var (actual, row) in expected.Zip(rows))
+        {
+            Assert.Equal(actual.ModelId, row.GetProperty("modelId").GetString());
+            Assert.Equal(actual.Vendor, row.GetProperty("vendor").GetString());
+            Assert.Equal(NullableEnumName(actual.Cli), row.GetProperty("cli").ValueKind == JsonValueKind.Null ? null : row.GetProperty("cli").GetString());
+            Assert.Equal(actual.Tier.ToString(), row.GetProperty("tier").GetString(), ignoreCase: true);
+            Assert.Equal(actual.CostClass.ToString(), row.GetProperty("costClass").GetString(), ignoreCase: true);
+            Assert.Equal(
+                actual.EffortLevels.Select(level => JsonNamingPolicy.CamelCase.ConvertName(level.ToString())),
+                row.GetProperty("effortLevels").EnumerateArray().Select(level => level.GetString()));
+
+            var suitability = row.GetProperty("suitability");
+            foreach (var taskClass in Enum.GetValues<TaskClass>())
+            {
+                var key = JsonNamingPolicy.CamelCase.ConvertName(taskClass.ToString());
+                var expectedFit = actual.Suitability[taskClass]?.ToString();
+                var value = suitability.GetProperty(key);
+                Assert.Equal(expectedFit, value.ValueKind == JsonValueKind.Null ? null : value.GetString(), ignoreCase: true);
+            }
+            Assert.Equal(actual.Restricted, row.GetProperty("restricted").GetBoolean());
+            Assert.Equal(actual.Deprecated, row.GetProperty("deprecated").GetBoolean());
+            Assert.Equal(actual.CostUnconfirmed, row.GetProperty("costUnconfirmed").GetBoolean());
+            Assert.Equal(JsonNamingPolicy.CamelCase.ConvertName(actual.RoutingStatus.ToString()), row.GetProperty("selectionStatus").GetString());
+            Assert.Equal(JsonNamingPolicy.CamelCase.ConvertName(actual.EvidenceStatus.ToString()), row.GetProperty("evidenceStatus").GetString());
+            Assert.Equal(actual.Provisional, row.GetProperty("provisional").GetBoolean());
+        }
+    }
+
+    private static string? NullableEnumName<T>(T? value) where T : struct, Enum
+        => value is null ? null : JsonNamingPolicy.CamelCase.ConvertName(value.Value.ToString());
+
+    [Fact]
     public void Published_model_usage_matches_the_raw_capability_run()
     {
         var usage = LoadUsageData();
