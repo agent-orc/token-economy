@@ -35,7 +35,8 @@ OUTPUT = ROOT / "website" / "data" / "benchmarks.json"
 USAGE_OUTPUT = ROOT / "website" / "data" / "token-usage.json"
 
 PRICE_CATALOG = ROOT / "src" / "TokenEconomy" / "catalog" / "model-prices.json"
-DOCUMENT_RUN = RESULTS / "document-to-text" / "curated-hard-cases-v1" / "20260725T120544879Z.json"
+ROUTING_POLICY = ROOT / "src" / "TokenEconomy" / "catalog" / "model-routing-policy.json"
+DOCUMENT_RESULTS = RESULTS / "document-to-text" / "curated-hard-cases-v1"
 CARD_BACKTEST = ROOT / "results" / "complexity-backtest" / "agent-studio-30-card-backtest.json"
 SESSION_ANALYSIS = ROOT / "docs" / "analyses" / "long-vs-short-session-cost.md"
 
@@ -50,6 +51,7 @@ def load(path: Path) -> dict:
 
 def create_payload() -> dict:
     price_index = load_price_index()
+    routing_index = load_routing_index()
     studies = []
     capability_studies = []
     for raw_path in sorted(RESULTS.rglob("*.json")):
@@ -76,11 +78,15 @@ def create_payload() -> dict:
                     "output": 0,
                     "cacheRead": 0,
                     "cacheWrite": 0,
+                    "tokenSamples": [],
+                    "durationSamplesMs": [],
                 })
                 if aggregate["model"] != case["model"]:
                     raise ValueError(f"Variant maps to multiple models in {raw_path.relative_to(ROOT)}")
                 for component in ("input", "output", "cacheRead", "cacheWrite"):
                     aggregate[component] += usage[component]
+                aggregate["tokenSamples"].append(total_tokens(usage))
+                aggregate["durationSamplesMs"].append(case["durationMs"])
 
             variants = []
             for variant in report["variants"]:
@@ -88,8 +94,19 @@ def create_payload() -> dict:
                 if raw_variant is None:
                     raise ValueError(f"Report variant missing raw cases in {raw_path.relative_to(ROOT)}")
                 projected = dict(variant)
-                projected["model"] = raw_variant.pop("model")
-                projected["usage"] = raw_variant
+                projected["model"] = raw_variant["model"]
+                projected["usage"] = {
+                    component: raw_variant[component] for component in COMPONENTS
+                }
+                projected["tokenRange"] = {
+                    "minimum": min(raw_variant["tokenSamples"]),
+                    "maximum": max(raw_variant["tokenSamples"]),
+                }
+                projected["durationRangeMs"] = {
+                    "minimum": min(raw_variant["durationSamplesMs"]),
+                    "maximum": max(raw_variant["durationSamplesMs"]),
+                }
+                projected.update(model_annotation(projected["model"], routing_index))
                 variants.append(projected)
             studies.append({
                 "setupId": raw["setupId"], "runId": raw["runId"],
@@ -108,14 +125,14 @@ def create_payload() -> dict:
                 # Raw benchmark evidence is append-only, but the public projection
                 # must not present models absent from the current catalog as real
                 # capability measurements.
-                "capabilities": [
-                    row for row in capabilities["capabilities"]
-                    if normalize_model_key(row["model"]) in price_index
-                ],
+                "capabilities": project_capabilities(
+                    raw, capabilities, price_index, routing_index),
             })
         else:
             raise ValueError(f"Missing derived result for {raw_path.relative_to(ROOT)}")
-    return {"schemaVersion": 2, "generatedAtUtc": datetime.now(timezone.utc).isoformat(), "studies": studies, "capabilityStudies": capability_studies}
+    studies.sort(key=lambda study: study["startedAtUtc"], reverse=True)
+    capability_studies.sort(key=lambda study: study["startedAtUtc"], reverse=True)
+    return {"schemaVersion": 3, "generatedAtUtc": datetime.now(timezone.utc).isoformat(), "studies": studies, "capabilityStudies": capability_studies}
 
 
 # ---------------------------------------------------------------------------
@@ -146,6 +163,91 @@ def load_price_index() -> dict[str, dict]:
         for key in [listing["modelId"], *listing.get("aliases", [])]:
             index[normalize_model_key(key)] = listing
     return index
+
+
+def load_routing_index() -> dict[str, dict]:
+    """Current policy status by canonical model id and alias.
+
+    Benchmark evidence remains dated and append-only. Lifecycle annotations are
+    deliberately current so a historical success cannot make a retired model
+    appear selectable on the public site.
+    """
+    index: dict[str, dict] = {}
+    today = datetime.now(timezone.utc).date()
+    for model in load(ROUTING_POLICY)["models"]:
+        status = model["routingStatus"]
+        lifecycle = None
+        retirement = re.search(r"\bRetires\s+(\d{4}-\d{2}-\d{2})\b", model.get("note", ""), re.I)
+        if status == "deprecated":
+            lifecycle = "retired" if retirement and datetime.fromisoformat(retirement.group(1)).date() <= today \
+                else "deprecated"
+        annotation = {
+            "canonicalModel": model["canonicalId"],
+            "routingStatus": status,
+            "lifecycleStatus": lifecycle,
+            "lifecycleNote": model.get("note") if lifecycle else None,
+        }
+        for key in [model["canonicalId"], *model.get("aliases", [])]:
+            index[normalize_model_key(key)] = annotation
+    return index
+
+
+def model_annotation(model: str, routing_index: dict[str, dict]) -> dict:
+    annotation = routing_index.get(normalize_model_key(model))
+    if annotation is None:
+        raise ValueError(f"Published model '{model}' is missing from the routing policy")
+    return dict(annotation)
+
+
+def infrastructure_failure(case: dict) -> bool:
+    outcome = case.get("outcome")
+    return outcome == "InfrastructureFailure" or (outcome is None and case["exitCode"] != 0)
+
+
+def project_capabilities(
+        raw: dict, capabilities: dict, price_index: dict[str, dict],
+        routing_index: dict[str, dict]) -> list[dict]:
+    """Re-derive public levels so legacy CLI crashes cannot read as misses."""
+    raw_groups: dict[tuple[str, str], list[dict]] = {}
+    for case in raw["cases"]:
+        raw_groups.setdefault((case["model"], case["documentType"]), []).append(case)
+
+    projected = []
+    for row in capabilities["capabilities"]:
+        if normalize_model_key(row["model"]) not in price_index:
+            continue
+        cases = raw_groups.get((row["model"], row["documentType"]), [])
+        if not cases:
+            raise ValueError(
+                f"Capability row has no raw cases: {row['model']} / {row['documentType']}")
+        infrastructure = sum(1 for case in cases if infrastructure_failure(case))
+        attempted_cases = [case for case in cases if not infrastructure_failure(case)]
+        passed = sum(1 for case in attempted_cases if case["succeeded"])
+        attempted = len(attempted_cases)
+        if attempted == 0:
+            level = "NotAttempted"
+            success_rate = None
+        elif passed == 0:
+            level = "NotDemonstrated"
+            success_rate = 0
+        elif passed == attempted and infrastructure == 0:
+            level = "Demonstrated"
+            success_rate = 1
+        else:
+            level = "Partial"
+            success_rate = passed / attempted
+
+        item = dict(row)
+        item.update({
+            "level": level,
+            "casesAttempted": attempted,
+            "casesPassed": passed,
+            "infrastructureFailures": infrastructure,
+            "successRate": success_rate,
+        })
+        item.update(model_annotation(item["model"], routing_index))
+        projected.append(item)
+    return projected
 
 
 def money(value: Decimal) -> float:
@@ -200,19 +302,30 @@ def total_tokens(usage: dict[str, int]) -> int:
     return sum(usage[component] for component in COMPONENTS)
 
 
+def latest_document_run() -> Path:
+    candidates = [
+        path for path in DOCUMENT_RESULTS.glob("*.json")
+        if not path.name.endswith((".capabilities.json", ".report.json"))
+    ]
+    if not candidates:
+        raise ValueError(f"No document benchmark run found below {DOCUMENT_RESULTS.relative_to(ROOT)}")
+    return max(candidates, key=lambda path: path.stem)
+
+
 def create_document_usage(index: dict[str, dict]) -> tuple[dict, dict]:
     """Per-model and per-document-type usage from the capability corpus run.
 
     This is the widest measured slice in the repository: every model attempts
     every document class once, so model and task class are directly comparable.
     """
-    run = load(DOCUMENT_RUN)
+    document_run = latest_document_run()
+    run = load(document_run)
     cases = [
         case for case in run["cases"]
         if normalize_model_key(case["model"]) in index
     ]
     priced_at = parse_utc(run["startedAtUtc"])
-    evidence = str(DOCUMENT_RUN.relative_to(ROOT)).replace("\\", "/")
+    evidence = str(document_run.relative_to(ROOT)).replace("\\", "/")
 
     by_model: dict[str, dict] = {}
     by_type: dict[str, dict] = {}
@@ -222,11 +335,16 @@ def create_document_usage(index: dict[str, dict]) -> tuple[dict, dict]:
     for case in cases:
         recorded = total_tokens(case["usage"]) > 0
         without_usage += 0 if recorded else 1
+        failed_infrastructure = infrastructure_failure(case)
         for group, key in ((by_model, case["model"]), (by_type, case["documentType"])):
-            bucket = group.setdefault(key, {"cases": 0, "casesPassed": 0, "casesWithUsage": 0, "usage": empty_usage()})
+            bucket = group.setdefault(key, {
+                "cases": 0, "casesPassed": 0, "casesWithUsage": 0,
+                "infrastructureFailures": 0, "usage": empty_usage(),
+            })
             bucket["cases"] += 1
             bucket["casesPassed"] += 1 if case["succeeded"] else 0
             bucket["casesWithUsage"] += 1 if recorded else 0
+            bucket["infrastructureFailures"] += 1 if failed_infrastructure else 0
             add_usage(bucket["usage"], case["usage"])
         if not case["succeeded"] and recorded:
             failed_with_usage += 1
@@ -267,6 +385,7 @@ def create_document_usage(index: dict[str, dict]) -> tuple[dict, dict]:
         "usage": run_usage, "tokens": total_tokens(run_usage),
         "failedCasesWithUsage": failed_with_usage,
         "failedCaseTokens": total_tokens(failed_usage),
+        "infrastructureFailures": sum(1 for case in cases if infrastructure_failure(case)),
         "pricedModels": sum(
             1 for row in models if row["cost"]["status"] == "Resolved" and row["tokens"] > 0),
     }
