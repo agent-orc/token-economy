@@ -1,0 +1,4 @@
+# Policy snapshots are byte-hashed and must match the canonical repository content.
+docs/system/domains/model-routing-policy.md text eol=lf
+# Generated source is byte-compared with its LF-rendered catalog projection.
+src/TokenEconomy/KnownModels.g.cs text eol=lf
