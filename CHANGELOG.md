@@ -13,6 +13,13 @@ SemVer; pre-1.0 the public API may still shift).
   constants synchronized with every canonical price-catalog entry while the
   existing string and alias interoperability surface remains unchanged.
 
+- Four curated hard coding benchmark fixtures covering an off-by-one boundary,
+  Unicode normalization under a Turkish locale, a two-file wire-contract bug,
+  and an underspecified repair prompt. Each published setup runs three
+  repetitions across Sol, Terra, and Claude Sonnet 5; the coding invoker now
+  dispatches `claude-*` models to Claude Code while retaining Codex for the GPT
+  routes. Reports no longer manufacture a winner when every attempt fails.
+
 - Confirmed standard API list-price histories for GPT-5.6 Sol, Terra, and Luna,
   including the 2026-07-30 Terra and Luna reductions, plus GPT-5.4 mini pricing.
   Every entry carries official OpenAI source URLs and retrieval dates, and a

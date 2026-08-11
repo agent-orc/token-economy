@@ -1,0 +1,40 @@
+{
+  "setupId": "curated-hard-coding-cross-file",
+  "runId": "20260808T162154930Z",
+  "winner": "sol-medium",
+  "winnerReason": "Highest success rate; ties break on average tokens, duration, then variant id.",
+  "variants": [
+    {
+      "variantId": "sol-medium",
+      "runs": 3,
+      "successes": 3,
+      "successRate": 1,
+      "totalTokens": 624383,
+      "averageTokens": 208127.66666666666666666666667,
+      "totalCostUsd": null,
+      "averageDurationMs": 96469.33333333333333333333333
+    },
+    {
+      "variantId": "claude-sonnet-5-high",
+      "runs": 3,
+      "successes": 1,
+      "successRate": 0.3333333333333333333333333333,
+      "totalTokens": 396956,
+      "averageTokens": 132318.66666666666666666666667,
+      "totalCostUsd": 0.36964980000000001,
+      "averageDurationMs": 19822
+    },
+    {
+      "variantId": "terra-medium",
+      "runs": 3,
+      "successes": 0,
+      "successRate": 0,
+      "totalTokens": 275260,
+      "averageTokens": 91753.33333333333333333333333,
+      "totalCostUsd": null,
+      "averageDurationMs": 53577
+    }
+  ],
+  "costDeltaUsd": null,
+  "qualityDelta": 0.6666666666666666666666666667
+}
