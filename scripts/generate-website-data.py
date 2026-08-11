@@ -5,7 +5,7 @@ The public site is static, so it cannot read files outside website/ after it is
 deployed.  This command is the narrow bridge: it copies only the published
 fields from benchmark JSON and validates that each raw run has its report.
 
-Two artifacts are produced:
+Three artifacts are produced:
 
 * ``website/data/benchmarks.json`` — the published A/B and capability studies.
 * ``website/data/token-usage.json`` — the aggregates the token-usage charts
@@ -13,6 +13,9 @@ Two artifacts are produced:
   measured session over time), each carrying the evidence path it came from.
   Dollar figures are list prices resolved from the dated repository price
   catalog; a model without a published price stays explicitly unpriced.
+* ``website/data/model-efficiency-matrix.json`` — the rows returned by
+  ``ModelEfficiencyMatrix.Default.Describe`` at a declared UTC instant. The
+  small .NET exporter keeps this projection on the library's real code path.
 
 Every number here is derived from checked-in evidence. Nothing is hand-authored,
 so ``--check`` fails loudly when the committed site data no longer matches the
@@ -24,6 +27,8 @@ import argparse
 import json
 import re
 import statistics
+import subprocess
+import tempfile
 from datetime import datetime, timezone
 from decimal import Decimal, ROUND_HALF_EVEN
 from pathlib import Path
@@ -33,6 +38,9 @@ ROOT = Path(__file__).resolve().parents[1]
 RESULTS = ROOT / "benchmarks" / "results"
 OUTPUT = ROOT / "website" / "data" / "benchmarks.json"
 USAGE_OUTPUT = ROOT / "website" / "data" / "token-usage.json"
+MATRIX_OUTPUT = ROOT / "website" / "data" / "model-efficiency-matrix.json"
+MATRIX_EXPORTER = ROOT / "tools" / "WebsiteMatrixDataExporter" / "WebsiteMatrixDataExporter.csproj"
+MATRIX_AS_OF_UTC = "2026-08-11T00:00:00Z"
 
 PRICE_CATALOG = ROOT / "src" / "TokenEconomy" / "catalog" / "model-prices.json"
 ROUTING_POLICY = ROOT / "src" / "TokenEconomy" / "catalog" / "model-routing-policy.json"
@@ -531,6 +539,30 @@ def create_usage_payload() -> dict:
     }
 
 
+def create_matrix_payload() -> dict:
+    """Export the public matrix through ModelEfficiencyMatrix.Describe itself."""
+    with tempfile.TemporaryDirectory(prefix="token-economy-website-matrix-") as directory:
+        output = Path(directory) / "model-efficiency-matrix.json"
+        command = [
+            "dotnet", "run", "--project", str(MATRIX_EXPORTER),
+            "--configuration", "Release", "--verbosity", "quiet", "--",
+            MATRIX_AS_OF_UTC, str(output),
+        ]
+        try:
+            completed = subprocess.run(
+                command, cwd=ROOT, check=True, capture_output=True, text=True)
+        except FileNotFoundError as error:
+            raise SystemExit(
+                "dotnet is required to generate website/data/model-efficiency-matrix.json") from error
+        except subprocess.CalledProcessError as error:
+            detail = error.stderr.strip() or error.stdout.strip() or "unknown exporter failure"
+            raise SystemExit(f"Model-efficiency matrix export failed: {detail}") from error
+        if not output.exists():
+            detail = completed.stderr.strip() or completed.stdout.strip()
+            raise SystemExit(f"Model-efficiency matrix exporter wrote no artifact: {detail}")
+        return load(output)
+
+
 def canonical(value: dict) -> str:
     # generatedAt changes by design; checking compares the evidence-derived body.
     value = dict(value)
@@ -544,13 +576,18 @@ def main() -> None:
     args = parser.parse_args()
     payload = create_payload()
     usage_payload = create_usage_payload()
-    artifacts = ((OUTPUT, payload), (USAGE_OUTPUT, usage_payload))
+    matrix_payload = create_matrix_payload()
+    artifacts = (
+        (OUTPUT, payload),
+        (USAGE_OUTPUT, usage_payload),
+        (MATRIX_OUTPUT, matrix_payload),
+    )
     if args.check:
         for path, expected in artifacts:
             name = path.relative_to(ROOT).as_posix()
             if not path.exists() or canonical(load(path)) != canonical(expected):
                 raise SystemExit(f"{name} is stale; run scripts/generate-website-data.py")
-        print("Website benchmark and token-usage data are current.")
+        print("Website benchmark, token-usage, and model-efficiency matrix data are current.")
         return
     OUTPUT.parent.mkdir(parents=True, exist_ok=True)
     for path, value in artifacts:
@@ -562,6 +599,9 @@ def main() -> None:
         f"{len(usage_payload['byModel']['models'])} models, "
         f"{len(usage_payload['byCard']['taskTypes'])} card task classes, and "
         f"{len(usage_payload['session']['turns'])} session turns.")
+    print(
+        f"Wrote {MATRIX_OUTPUT.relative_to(ROOT).as_posix()} with "
+        f"{len(matrix_payload['rows'])} ModelEfficiencyMatrix.Describe row(s).")
 
 
 if __name__ == "__main__":

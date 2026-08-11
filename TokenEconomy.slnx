@@ -10,5 +10,6 @@
     <Project Path="tools/KnownModelsGenerator/KnownModelsGenerator.csproj" />
     <Project Path="tools/ModelRoutingKnowledgeReport/ModelRoutingKnowledgeReport.csproj" />
     <Project Path="tools/QualityStudioReviewEvidence/QualityStudioReviewEvidence.csproj" />
+    <Project Path="tools/WebsiteMatrixDataExporter/WebsiteMatrixDataExporter.csproj" />
   </Folder>
 </Solution>

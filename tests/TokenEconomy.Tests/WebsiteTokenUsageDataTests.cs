@@ -256,7 +256,42 @@ public class WebsiteTokenUsageDataTests
             Sum(turns.Select(turn => ReadUsage(turn.GetProperty("usage")))));
     }
 
+    [Fact]
+    public void Published_model_efficiency_matrix_matches_Describe_at_its_snapshot_time()
+    {
+        var root = FindRepositoryRoot();
+        var published = LoadJson(Path.Combine(root, "website", "data", "model-efficiency-matrix.json"));
+        var asOfUtc = published.GetProperty("asOfUtc").GetDateTime().ToUniversalTime();
+        var actual = ModelEfficiencyMatrix.Default.Describe(asOfUtc);
+        var rows = published.GetProperty("rows").EnumerateArray().ToArray();
+
+        Assert.Equal("ModelEfficiencyMatrix.Default.Describe(asOfUtc)",
+            published.GetProperty("generatedFrom").GetString());
+        Assert.Equal(actual.Count, rows.Length);
+        foreach (var expected in actual)
+        {
+            var row = Assert.Single(rows, item =>
+                item.GetProperty("modelId").GetString() == expected.ModelId);
+            Assert.Equal(expected.Vendor, row.GetProperty("vendor").GetString());
+            Assert.Equal(expected.Cli?.ToString(), ReadNullableString(row.GetProperty("cli")));
+            Assert.Equal(expected.Tier.ToString(), row.GetProperty("tier").GetString());
+            Assert.Equal(expected.CostClass.ToString(), row.GetProperty("costClass").GetString());
+            Assert.Equal(expected.Restricted, row.GetProperty("restricted").GetBoolean());
+            Assert.Equal(expected.Deprecated, row.GetProperty("deprecated").GetBoolean());
+            Assert.Equal(
+                expected.EffortLevels.Select(level => level.ToString()),
+                row.GetProperty("effortLevels").EnumerateArray().Select(level => level.GetString()));
+
+            var suitability = row.GetProperty("suitability");
+            foreach (var pair in expected.Suitability)
+                Assert.Equal(pair.Value?.ToString(), ReadNullableString(suitability.GetProperty(pair.Key.ToString())));
+        }
+    }
+
     private static decimal Round(decimal value) => Math.Round(value, MoneyDecimals, MidpointRounding.ToEven);
+
+    private static string? ReadNullableString(JsonElement value)
+        => value.ValueKind == JsonValueKind.Null ? null : value.GetString();
 
     private static long Total(TokenUsage usage) => usage.Input + usage.Output + usage.CacheRead + usage.CacheWrite;
 
