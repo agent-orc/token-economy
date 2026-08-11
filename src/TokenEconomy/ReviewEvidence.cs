@@ -466,6 +466,8 @@ public sealed class ReviewEvidencePipeline
     private static bool IsWithin(string candidate, string directory)
     {
         var relative = Path.GetRelativePath(directory, candidate);
+        // Different Windows volumes produce an absolute path, never a descendant path.
+        if (Path.IsPathRooted(relative)) return false;
         return relative == "." || relative != ".."
             && !relative.StartsWith(".." + Path.DirectorySeparatorChar, StringComparison.Ordinal);
     }
