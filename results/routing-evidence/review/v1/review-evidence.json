@@ -407,6 +407,58 @@
       "provenance": []
     },
     {
+      "canonicalModel": "gpt-5.5-cyber-preview",
+      "taskClass": "review",
+      "runCount": 0,
+      "filesReviewed": 0,
+      "findingsReported": 0,
+      "outcomeAvailableRunCount": 0,
+      "confirmedFindings": 0,
+      "dismissedFindings": 0,
+      "assessedFindingCount": 0,
+      "findingOutcomeCoverage": null,
+      "findingConfirmationRate": null,
+      "thinkingLevels": [],
+      "reviewAspects": [],
+      "observedThrough": null,
+      "evidenceStatus": "unknown",
+      "evidenceQuality": "insufficientEvidence",
+      "suitability": null,
+      "gateFailures": [
+        "run count 0 is below 20",
+        "assessed finding count 0 is below 20",
+        "finding outcome coverage is unavailable or below the declared gate",
+        "finding confirmation rate is unavailable"
+      ],
+      "provenance": []
+    },
+    {
+      "canonicalModel": "gpt-5.5-pro",
+      "taskClass": "review",
+      "runCount": 0,
+      "filesReviewed": 0,
+      "findingsReported": 0,
+      "outcomeAvailableRunCount": 0,
+      "confirmedFindings": 0,
+      "dismissedFindings": 0,
+      "assessedFindingCount": 0,
+      "findingOutcomeCoverage": null,
+      "findingConfirmationRate": null,
+      "thinkingLevels": [],
+      "reviewAspects": [],
+      "observedThrough": null,
+      "evidenceStatus": "unknown",
+      "evidenceQuality": "insufficientEvidence",
+      "suitability": null,
+      "gateFailures": [
+        "run count 0 is below 20",
+        "assessed finding count 0 is below 20",
+        "finding outcome coverage is unavailable or below the declared gate",
+        "finding confirmation rate is unavailable"
+      ],
+      "provenance": []
+    },
+    {
       "canonicalModel": "gpt-5.6-luna",
       "taskClass": "review",
       "runCount": 0,

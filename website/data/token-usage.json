@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAtUtc": "2026-08-10T13:21:04.761654+00:00",
+  "generatedAtUtc": "2026-08-11T12:13:06.979709+00:00",
   "priceCatalogPath": "src/TokenEconomy/catalog/model-prices.json",
   "byModel": {
     "source": {
@@ -24,7 +24,7 @@
       "failedCasesWithUsage": 3,
       "failedCaseTokens": 85507,
       "infrastructureFailures": 52,
-      "pricedModels": 4
+      "pricedModels": 5
     },
     "models": [
       {
@@ -67,8 +67,16 @@
         },
         "tokens": 146020,
         "cost": {
-          "status": "NoPriceForDate",
-          "totalUsd": null
+          "status": "Resolved",
+          "currency": "USD",
+          "unconfirmed": false,
+          "totalUsd": 0.328173,
+          "components": {
+            "input": 0.223695,
+            "output": 0.05475,
+            "cacheRead": 0.049728,
+            "cacheWrite": 0.0
+          }
         }
       },
       {
@@ -487,7 +495,7 @@
       "failedCasesWithUsage": 3,
       "failedCaseTokens": 85507,
       "infrastructureFailures": 52,
-      "pricedModels": 4
+      "pricedModels": 5
     },
     "documentTypes": [
       {

@@ -84,7 +84,9 @@ Supported reasoning is resolved per concrete model. A vocabulary entry does not 
 | `gpt-5` | — | `openai` / `codex` | `minimal`, `low`, `medium`, `high`, `xhigh` | `unsupported` | `unknown` | insufficient evidence | `unknown` / `insufficientEvidence` | price `gpt-5`; media `*`; trust `gpt-5` |
 | `gpt-5-codex` | — | `openai` / `codex` | `low`, `medium`, `high` | `unsupported` | `unknown` | insufficient evidence | `unknown` / `insufficientEvidence` | price `gpt-5-codex`; media `*`; trust `gpt-5-codex` |
 | `gpt-5.4-mini` | `mini` | `openai` / `codex` | `low`, `medium`, `high` | `selectable` | `provisional` | insufficient evidence | `unknown` / `insufficientEvidence` | price `gpt-5.4-mini`; media `*`; trust `gpt-5.4-mini` |
-| `gpt-5.5` | — | `openai` / `codex` | `minimal`, `low`, `medium`, `high`, `xhigh` | `unsupported` | `unknown` | insufficient evidence | `unknown` / `insufficientEvidence` | price `gpt-5.5`; media `*`; trust `gpt-5.5` |
+| `gpt-5.5` | `gpt-5.5-2026-04-23` | `openai` / `codex` | `minimal`, `low`, `medium`, `high`, `xhigh` | `unsupported` | `unknown` | insufficient evidence | `unknown` / `insufficientEvidence` | price `gpt-5.5`; media `*`; trust `gpt-5.5` |
+| `gpt-5.5-cyber-preview` | `gpt-5.5-cyber` | `openai` / `codex` | `minimal`, `low`, `medium`, `high`, `xhigh` | `restricted` | `unknown` | insufficient evidence | `unknown` / `insufficientEvidence` | price `gpt-5.5-cyber-preview`; media `*`; trust `gpt-5.5-cyber-preview` |
+| `gpt-5.5-pro` | `gpt-5.5-pro-2026-04-23` | `openai` / `codex` | `medium`, `high`, `xhigh` | `unsupported` | `unknown` | insufficient evidence | `unknown` / `insufficientEvidence` | price `gpt-5.5-pro`; media `*`; trust `gpt-5.5-pro` |
 | `gpt-5.6-luna` | `luna` | `openai` / `codex` | `minimal`, `low`, `medium`, `high`, `xhigh`, `ultra` | `selectable` | `provisional` | insufficient evidence | `unknown` / `insufficientEvidence` | price `gpt-5.6-luna`; media `*`; trust `gpt-5.6-luna` |
 | `gpt-5.6-sol` | `gpt-5.6`, `sol` | `openai` / `codex` | `minimal`, `low`, `medium`, `high`, `xhigh`, `ultra` | `selectable` | `observational` | insufficient evidence | `unknown` / `insufficientEvidence` | price `gpt-5.6-sol`; media `*`; trust `gpt-5.6-sol` |
 | `gpt-5.6-terra` | `terra` | `openai` / `codex` | `minimal`, `low`, `medium`, `high`, `xhigh`, `ultra` | `selectable` | `provisional` | insufficient evidence | `unknown` / `insufficientEvidence` | price `gpt-5.6-terra`; media `*`; trust `gpt-5.6-terra` |
@@ -108,6 +110,8 @@ Supported reasoning is resolved per concrete model. A vocabulary entry does not 
 | `gpt-5-codex` | insufficient evidence | 0 | 0 | 0 | — | — | — | `unknown` / `insufficientEvidence` |
 | `gpt-5.4-mini` | insufficient evidence | 0 | 0 | 0 | — | — | — | `unknown` / `insufficientEvidence` |
 | `gpt-5.5` | insufficient evidence | 0 | 0 | 0 | — | — | — | `unknown` / `insufficientEvidence` |
+| `gpt-5.5-cyber-preview` | insufficient evidence | 0 | 0 | 0 | — | — | — | `unknown` / `insufficientEvidence` |
+| `gpt-5.5-pro` | insufficient evidence | 0 | 0 | 0 | — | — | — | `unknown` / `insufficientEvidence` |
 | `gpt-5.6-luna` | insufficient evidence | 0 | 0 | 0 | — | — | — | `unknown` / `insufficientEvidence` |
 | `gpt-5.6-sol` | insufficient evidence | 0 | 0 | 0 | — | — | — | `unknown` / `insufficientEvidence` |
 | `gpt-5.6-terra` | insufficient evidence | 0 | 0 | 0 | — | — | — | `unknown` / `insufficientEvidence` |

@@ -58,7 +58,6 @@ public class ModelPriceSeedTests
     }
 
     [Theory]
-    [InlineData("gpt-5.5")]
     [InlineData("gpt-5")]
     [InlineData("gpt-5-codex")]
     public void RemainingGpt5Placeholders_AreKnownButUnpriced(string model)
@@ -68,6 +67,33 @@ public class ModelPriceSeedTests
         Assert.Equal("openai", listing!.Vendor);
         Assert.Empty(listing.History);   // present, but no invented number
         Assert.NotNull(listing.Note);
+    }
+
+    [Theory]
+    [InlineData("gpt-5.5", 5.00, 30.00, 0.50)]
+    [InlineData("gpt-5.5-pro", 30.00, 180.00, null)]
+    [InlineData("gpt-5.5-cyber-preview", 12.50, 75.00, 1.25)]
+    public void ConfirmedGpt55Family_HasPublishedStandardRates(
+        string model, double input, double output, double? cacheRead)
+    {
+        var price = Catalog.ResolvePrice(model, new DateTime(2026, 8, 11, 0, 0, 0, DateTimeKind.Utc)).Price;
+
+        Assert.NotNull(price);
+        Assert.Equal((decimal)input, price!.InputPerMTok);
+        Assert.Equal((decimal)output, price.OutputPerMTok);
+        Assert.Equal(cacheRead is null ? null : (decimal)cacheRead.Value, price.CacheReadPerMTok);
+        Assert.Null(price.CacheWritePerMTok);
+        Assert.False(price.Unconfirmed);
+        Assert.Contains("https://", price.Source);
+        Assert.Contains("retrieved 2026-08-11", price.Source);
+    }
+
+    [Fact]
+    public void Gpt55Family_AliasesResolveToTheirPublishedListings()
+    {
+        Assert.Equal("gpt-5.5", Catalog.Find("GPT-5.5-2026-04-23")?.ModelId);
+        Assert.Equal("gpt-5.5-pro", Catalog.Find("gpt-5.5-pro-2026-04-23")?.ModelId);
+        Assert.Equal("gpt-5.5-cyber-preview", Catalog.Find("GPT-5.5-CYBER")?.ModelId);
     }
 
     [Theory]
@@ -126,12 +152,28 @@ public class ModelPriceSeedTests
         Assert.Equal(
             new DateTime(2026, 3, 17, 0, 0, 0, DateTimeKind.Utc),
             Catalog.PriceDevelopment("gpt-5.4-mini").Single().ValidFrom);
+        Assert.Equal(
+            new DateTime(2026, 4, 24, 0, 0, 0, DateTimeKind.Utc),
+            Catalog.PriceDevelopment("gpt-5.5").Single().ValidFrom);
+        Assert.Equal(
+            new DateTime(2026, 4, 24, 0, 0, 0, DateTimeKind.Utc),
+            Catalog.PriceDevelopment("gpt-5.5-pro").Single().ValidFrom);
+        Assert.Equal(
+            new DateTime(2026, 5, 7, 0, 0, 0, DateTimeKind.Utc),
+            Catalog.PriceDevelopment("gpt-5.5-cyber-preview").Single().ValidFrom);
 
         foreach (var id in new[] { "gpt-5.6-sol", "gpt-5.6-terra", "gpt-5.6-luna", "gpt-5.4-mini" })
             foreach (var price in Catalog.PriceDevelopment(id))
             {
                 Assert.Contains("https://", price.Source);
                 Assert.Contains("retrieved 2026-08-09", price.Source);
+            }
+
+        foreach (var id in new[] { "gpt-5.5", "gpt-5.5-pro", "gpt-5.5-cyber-preview" })
+            foreach (var price in Catalog.PriceDevelopment(id))
+            {
+                Assert.Contains("https://", price.Source);
+                Assert.Contains("retrieved 2026-08-11", price.Source);
             }
     }
 

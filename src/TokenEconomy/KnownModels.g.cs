@@ -54,6 +54,12 @@ public static class KnownModels
     /// <summary>The canonical <c>gpt-5.5</c> model id.</summary>
     public static readonly ModelId Gpt55 = ModelId.Of("gpt-5.5");
 
+    /// <summary>The canonical <c>gpt-5.5-pro</c> model id.</summary>
+    public static readonly ModelId Gpt55Pro = ModelId.Of("gpt-5.5-pro");
+
+    /// <summary>The canonical <c>gpt-5.5-cyber-preview</c> model id.</summary>
+    public static readonly ModelId Gpt55CyberPreview = ModelId.Of("gpt-5.5-cyber-preview");
+
     /// <summary>The canonical <c>gpt-5</c> model id.</summary>
     public static readonly ModelId Gpt5 = ModelId.Of("gpt-5");
 

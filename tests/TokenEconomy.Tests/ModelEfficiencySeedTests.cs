@@ -82,6 +82,9 @@ public class ModelEfficiencySeedTests
     [InlineData("gpt-5.6-terra", CostClass.Standard)]
     [InlineData("gpt-5.6-sol", CostClass.Premium)]
     [InlineData("gpt-5.4-mini", CostClass.Economy)]
+    [InlineData("gpt-5.5", CostClass.Premium)]
+    [InlineData("gpt-5.5-pro", CostClass.Premium)]
+    [InlineData("gpt-5.5-cyber-preview", CostClass.Premium)]
     public void PricedGptFamily_RunsOnCodex_WithCatalogDerivedCost(string id, CostClass expected)
     {
         Assert.Equal(Cli.Codex, Matrix.CliOf(id));
@@ -91,7 +94,7 @@ public class ModelEfficiencySeedTests
     [Fact]
     public void RemainingGptPlaceholders_RunOnCodex_AndRetainUnknownCost()
     {
-        foreach (var id in new[] { "gpt-5.5", "gpt-5", "gpt-5-codex" })
+        foreach (var id in new[] { "gpt-5", "gpt-5-codex" })
         {
             Assert.Equal(Cli.Codex, Matrix.CliOf(id));
             Assert.Equal(CostClass.Unknown, Matrix.CostClassOf(id, Now));

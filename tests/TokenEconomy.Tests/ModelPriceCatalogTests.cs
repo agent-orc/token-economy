@@ -113,10 +113,39 @@ public class ModelPriceCatalogTests
     [Fact]
     public void KnownButUnpriced_ResolvesToNoPriceForDate_NotZero()
     {
-        var breakdown = ModelPriceCatalog.Default.ComputeCost("gpt-5.5", new TokenUsage(1_000, 1_000), Now);
+        var breakdown = ModelPriceCatalog.Default.ComputeCost("gpt-5", new TokenUsage(1_000, 1_000), Now);
         Assert.Equal(PriceStatus.NoPriceForDate, breakdown.Status);
-        Assert.Equal("gpt-5.5", breakdown.ModelId);   // model WAS found, just not priced
+        Assert.Equal("gpt-5", breakdown.ModelId);   // model WAS found, just not priced
         Assert.False(breakdown.HasPrice);
+        Assert.Null(breakdown.Total);
+    }
+
+    [Fact]
+    public void Gpt55_UppercaseRecordedId_ResolvesToCanonicalPublishedPrice()
+    {
+        var breakdown = ModelPriceCatalog.Default.ComputeCost(
+            " GPT-5.5 ",
+            new TokenUsage(Input: 10_000_000, Output: 800_000),
+            new DateTime(2026, 8, 11, 0, 0, 0, DateTimeKind.Utc));
+
+        Assert.Equal(PriceStatus.Resolved, breakdown.Status);
+        Assert.Equal("gpt-5.5", breakdown.ModelId);
+        Assert.Equal(50.00m, breakdown.InputCost);
+        Assert.Equal(24.00m, breakdown.OutputCost);
+        Assert.Equal(74.00m, breakdown.Total);
+        Assert.False(breakdown.Unconfirmed);
+    }
+
+    [Fact]
+    public void Gpt55_BeforeApiRelease_RemainsNoPriceForDate()
+    {
+        var breakdown = ModelPriceCatalog.Default.ComputeCost(
+            "GPT-5.5",
+            new TokenUsage(1_000, 1_000),
+            new DateTime(2026, 4, 23, 23, 59, 59, DateTimeKind.Utc));
+
+        Assert.Equal(PriceStatus.NoPriceForDate, breakdown.Status);
+        Assert.Equal("gpt-5.5", breakdown.ModelId);
         Assert.Null(breakdown.Total);
     }
 

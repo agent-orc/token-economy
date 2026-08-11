@@ -52,6 +52,31 @@ public class AgentStudioTaskStorageImporterTests
     }
 
     [Fact]
+    public void Parse_UppercaseRecordedGpt55Id_ResolvesCanonicalDollarCost()
+    {
+        using var json = System.Text.Json.JsonDocument.Parse("""
+            { "id":"recorded-gpt-55", "actualModel":"GPT-5.5", "cliType":"codex",
+              "completedAt":"2026-08-11T12:00:00Z",
+              "tokenSummary": { "inputTokens":10000000, "outputTokens":800000 } }
+            """);
+
+        var record = new AgentStudioTaskStorageImporter().Parse(json.RootElement);
+
+        Assert.Equal("gpt-5.5", record.Model);
+        Assert.Equal("gpt-5.5", record.ActualModel);
+        Assert.Equal("openai", record.Provider);
+        Assert.Equal(10_800_000, record.Usage.Input + record.Usage.Output);
+        Assert.Equal(PriceStatus.Resolved, record.CostStatus);
+        Assert.Equal(74.00m, record.CostEstimate);
+        Assert.Equal("USD", record.Currency);
+
+        var view = Assert.Single(ModelRunViews.ByModelOverTime([record]));
+        Assert.Equal("gpt-5.5", view.Model);
+        Assert.Equal(74.00m, view.CostEstimate);
+        Assert.True(view.CostStatus.IsFullyPriced);
+    }
+
+    [Fact]
     public void Parse_UsesStableUnknownTimestampWhenTaskHasNoTimestamp()
     {
         using var json = System.Text.Json.JsonDocument.Parse("""

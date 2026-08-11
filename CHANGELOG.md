@@ -7,6 +7,11 @@ SemVer; pre-1.0 the public API may still shift).
 
 ### Changed
 
+- GPT-5.5 recorded usage now resolves case- and dot/dash-insensitively to
+  confirmed standard API list-price history instead of remaining unknown.
+  GPT-5.5 Pro and the limited-preview GPT-5.5 Cyber variant are also cataloged
+  with official launch dates, callable aliases, source URLs, and explicit
+  short-context/cache-write caveats.
 - The public website now leads with typed `SuggestModel` usage and a generated
   `ModelEfficiencyMatrix.Describe` table, explains the six canonical complexity
   criteria and dated chart provenance, highlights code without dependencies,

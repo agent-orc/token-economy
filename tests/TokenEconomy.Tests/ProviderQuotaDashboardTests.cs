@@ -81,7 +81,7 @@ public class ProviderQuotaDashboardTests
 
     [Theory]
     [InlineData("never-seen-model", SnapshotCostStatus.Unknown)]
-    [InlineData("gpt-5.5", SnapshotCostStatus.Unpriced)]
+    [InlineData("gpt-5", SnapshotCostStatus.Unpriced)]
     public void BuildSnapshot_UnknownOrUnpricedCostIsNeverHealthy(string model, SnapshotCostStatus expected)
     {
         var row = BuildSingle(
@@ -93,6 +93,17 @@ public class ProviderQuotaDashboardTests
         var html = ProviderQuotaDashboardHtmlRenderer.RenderSnapshot(new(DecisionAt, TimeSpan.FromHours(1), TimeSpan.FromMinutes(15), [row]));
         Assert.DoesNotContain("$0", html, StringComparison.OrdinalIgnoreCase);
         Assert.Contains(expected == SnapshotCostStatus.Unknown ? "Unknown model cost" : "Unpriced at decision time", html);
+    }
+
+    [Fact]
+    public void BuildSnapshot_Gpt55HasPublishedListPrice()
+    {
+        var row = BuildSingle(
+            new("openai", "codex", ProviderCliAvailability.Available, DecisionAt.AddMinutes(-1), ["GPT-5.5"]),
+            new("openai", "codex", "five-hour", 10, 1_000, DecisionAt.AddMinutes(-1), DecisionAt.AddHours(2)));
+
+        Assert.Equal(SnapshotCostStatus.Priced, row.Cost.Status);
+        Assert.Equal(PriceStatus.Resolved, Assert.Single(row.Cost.Models).PriceStatus);
     }
 
     [Fact]
