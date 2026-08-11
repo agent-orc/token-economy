@@ -186,6 +186,47 @@ public class WebsiteTokenUsageDataTests
             Sum(turns.Select(turn => ReadUsage(turn.GetProperty("usage")))));
     }
 
+    [Fact]
+    public void Published_model_efficiency_matrix_matches_Describe()
+    {
+        var published = LoadJson(Path.Combine(
+            FindRepositoryRoot(), "website", "data", "model-efficiency-matrix.json"));
+        var atUtc = published.GetProperty("asOfUtc").GetDateTime().ToUniversalTime();
+        Assert.Equal(
+            ModelRoutingKnowledgeBase.Default.PolicyVersion.ToString("yyyy-MM-dd"),
+            published.GetProperty("policyVersion").GetString());
+
+        var expected = ModelEfficiencyMatrix.Default.Describe(atUtc);
+        var rows = published.GetProperty("rows").EnumerateArray().ToArray();
+        Assert.Equal(expected.Count, rows.Length);
+
+        foreach (var source in expected)
+        {
+            var row = rows.Single(item => item.GetProperty("modelId").GetString() == source.ModelId);
+            Assert.Equal(source.Vendor, row.GetProperty("vendor").GetString());
+            Assert.Equal(source.Cli?.ToString(), ReadNullableString(row.GetProperty("cli")));
+            Assert.Equal(source.Tier.ToString(), row.GetProperty("tier").GetString());
+            Assert.Equal(source.CostClass.ToString(), row.GetProperty("costClass").GetString());
+            Assert.Equal(
+                source.EffortLevels.Select(level => level.ToString()),
+                row.GetProperty("effortLevels").EnumerateArray().Select(level => level.GetString()));
+
+            var suitability = row.GetProperty("suitability");
+            foreach (var taskClass in Enum.GetValues<TaskClass>())
+                Assert.Equal(
+                    source.Suitability[taskClass]?.ToString(),
+                    ReadNullableString(suitability.GetProperty(taskClass.ToString())));
+
+            Assert.Equal(source.Restricted, row.GetProperty("restricted").GetBoolean());
+            Assert.Equal(source.Deprecated, row.GetProperty("deprecated").GetBoolean());
+            Assert.Equal(source.CostUnconfirmed, row.GetProperty("costUnconfirmed").GetBoolean());
+            Assert.Equal(source.RoutingStatus.ToString(), row.GetProperty("selectionStatus").GetString());
+            Assert.Equal(source.EvidenceStatus.ToString(), row.GetProperty("evidenceStatus").GetString());
+            Assert.Equal(source.Provisional, row.GetProperty("provisional").GetBoolean());
+            Assert.Equal(source.Note, ReadNullableString(row.GetProperty("note")));
+        }
+    }
+
     private static decimal Round(decimal value) => Math.Round(value, MoneyDecimals, MidpointRounding.ToEven);
 
     private static long Total(TokenUsage usage) => usage.Input + usage.Output + usage.CacheRead + usage.CacheWrite;
@@ -206,6 +247,9 @@ public class WebsiteTokenUsageDataTests
 
     private static JsonElement LoadUsageData()
         => LoadJson(Path.Combine(FindRepositoryRoot(), "website", "data", "token-usage.json"));
+
+    private static string? ReadNullableString(JsonElement value)
+        => value.ValueKind == JsonValueKind.Null ? null : value.GetString();
 
     private static JsonElement LoadJson(string path)
         => JsonDocument.Parse(File.ReadAllText(path)).RootElement.Clone();

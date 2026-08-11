@@ -5,7 +5,7 @@ The public site is static, so it cannot read files outside website/ after it is
 deployed.  This command is the narrow bridge: it copies only the published
 fields from benchmark JSON and validates that each raw run has its report.
 
-Two artifacts are produced:
+Three artifacts are produced:
 
 * ``website/data/benchmarks.json`` — the published A/B and capability studies.
 * ``website/data/token-usage.json`` — the aggregates the token-usage charts
@@ -13,6 +13,9 @@ Two artifacts are produced:
   measured session over time), each carrying the evidence path it came from.
   Dollar figures are list prices resolved from the dated repository price
   catalog; a model without a published price stays explicitly unpriced.
+* ``website/data/model-efficiency-matrix.json`` — the public projection of
+  ``ModelEfficiencyMatrix.Describe()`` at the review's dated snapshot. The
+  .NET test suite compares every projected cell with the library API.
 
 Every number here is derived from checked-in evidence. Nothing is hand-authored,
 so ``--check`` fails loudly when the committed site data no longer matches the
@@ -33,14 +36,18 @@ ROOT = Path(__file__).resolve().parents[1]
 RESULTS = ROOT / "benchmarks" / "results"
 OUTPUT = ROOT / "website" / "data" / "benchmarks.json"
 USAGE_OUTPUT = ROOT / "website" / "data" / "token-usage.json"
+MATRIX_OUTPUT = ROOT / "website" / "data" / "model-efficiency-matrix.json"
 
 PRICE_CATALOG = ROOT / "src" / "TokenEconomy" / "catalog" / "model-prices.json"
+MODEL_POLICY = ROOT / "src" / "TokenEconomy" / "catalog" / "model-routing-policy.json"
+REVIEW_EVIDENCE = ROOT / "results" / "routing-evidence" / "review" / "v1" / "review-evidence.json"
 DOCUMENT_RUN = RESULTS / "document-to-text" / "curated-hard-cases-v1" / "20260725T120544879Z.json"
 CARD_BACKTEST = ROOT / "results" / "complexity-backtest" / "agent-studio-30-card-backtest.json"
 SESSION_ANALYSIS = ROOT / "docs" / "analyses" / "long-vs-short-session-cost.md"
 
 COMPONENTS = ("input", "output", "cacheRead", "cacheWrite")
 CENT_MICRO = Decimal("0.000001")
+MATRIX_AS_OF_UTC = datetime(2026, 8, 8, tzinfo=timezone.utc)
 
 
 def load(path: Path) -> dict:
@@ -412,6 +419,119 @@ def create_usage_payload() -> dict:
     }
 
 
+# ---------------------------------------------------------------------------
+# Public projection of ModelEfficiencyMatrix.Describe(). The source policy is
+# already the machine-readable input to the .NET matrix; this build keeps the
+# website dependency-free, while WebsiteTokenUsageDataTests compares every
+# generated field with Describe() so changes to the library cannot drift here.
+# ---------------------------------------------------------------------------
+
+
+ENUM_NAMES = {
+    "minimal": "Minimal", "low": "Low", "medium": "Medium", "high": "High",
+    "xhigh": "XHigh", "ultra": "Ultra", "max": "Max",
+    "light": "Light", "balanced": "Balanced", "frontier": "Frontier",
+    "selectable": "Selectable", "fallbackOnly": "FallbackOnly",
+    "unsupported": "Unsupported", "restricted": "Restricted", "deprecated": "Deprecated",
+    "unknown": "Unknown", "provisional": "Provisional", "observational": "Observational",
+    "observed": "Observed", "correctnessFloor": "CorrectnessFloor",
+    "underpowered": "Underpowered", "overkill": "Overkill",
+    "capable": "Capable", "ideal": "Ideal",
+}
+
+TASK_CLASSES = ("HeavyDesign", "Feature", "MechanicalChore", "DocEdit", "Research", "Review")
+
+
+def enum_name(value: str) -> str:
+    try:
+        return ENUM_NAMES[value]
+    except KeyError as error:
+        raise ValueError(f"Unknown matrix enum value '{value}'") from error
+
+
+def suitability_for(tier: str, task_class: str) -> str | None:
+    if task_class == "Review":
+        return None
+    grid = {
+        "frontier": {
+            "HeavyDesign": "Ideal", "Feature": "Capable", "MechanicalChore": "Overkill",
+            "DocEdit": "Overkill", "Research": "Capable",
+        },
+        "balanced": {
+            "HeavyDesign": "Capable", "Feature": "Ideal", "MechanicalChore": "Capable",
+            "DocEdit": "Capable", "Research": "Ideal",
+        },
+        "light": {
+            "HeavyDesign": "Underpowered", "Feature": "Underpowered", "MechanicalChore": "Ideal",
+            "DocEdit": "Ideal", "Research": "Underpowered",
+        },
+    }
+    try:
+        return grid[tier][task_class]
+    except KeyError as error:
+        raise ValueError(f"No suitability cell for tier '{tier}' and task '{task_class}'") from error
+
+
+def cost_class(total: float | None) -> str:
+    if total is None:
+        return "Unknown"
+    if total < 4:
+        return "Economy"
+    if total < 8:
+        return "Standard"
+    return "Premium"
+
+
+def create_matrix_payload() -> dict:
+    policy = load(MODEL_POLICY)
+    price_index = load_price_index()
+    review_by_model = {
+        row["canonicalModel"]: row for row in load(REVIEW_EVIDENCE)["modelSummaries"]
+    }
+    reference_usage = {"input": 1_000_000, "output": 200_000, "cacheRead": 0, "cacheWrite": 0}
+    rows = []
+    for model in policy["models"]:
+        listing = price_index.get(normalize_model_key(model["priceCatalogId"]))
+        if listing is None:
+            raise ValueError(f"Matrix model '{model['priceCatalogId']}' is absent from the price catalog")
+        breakdown = compute_cost(price_index, listing["modelId"], reference_usage, MATRIX_AS_OF_UTC)
+        review = review_by_model.get(model["canonicalId"])
+        review_suitability = None
+        if review and review["evidenceQuality"] == "observationalSupport":
+            review_suitability = enum_name(review["suitability"])
+        suitability = {
+            task: review_suitability if task == "Review" else suitability_for(model["capabilityTier"], task)
+            for task in TASK_CLASSES
+        }
+        cli = {"anthropic": "Claude", "openai": "Codex"}.get(listing.get("vendor"))
+        rows.append({
+            "modelId": listing["modelId"],
+            "vendor": listing.get("vendor"),
+            "cli": cli,
+            "tier": enum_name(model["capabilityTier"]),
+            "costClass": cost_class(breakdown["totalUsd"]),
+            "effortLevels": [enum_name(level) for level in model["supportedThinkingLevels"]],
+            "suitability": suitability,
+            "restricted": model["routingStatus"] == "restricted",
+            "deprecated": model["routingStatus"] == "deprecated",
+            "costUnconfirmed": bool(breakdown.get("unconfirmed", False)),
+            "selectionStatus": enum_name(model["routingStatus"]),
+            "evidenceStatus": enum_name(model["evidenceStatus"]),
+            "provisional": bool(model["provisional"]),
+            "note": model.get("note"),
+        })
+    return {
+        "schemaVersion": 1,
+        "generatedAtUtc": datetime.now(timezone.utc).isoformat(),
+        "asOfUtc": MATRIX_AS_OF_UTC.isoformat().replace("+00:00", "Z"),
+        "policyVersion": policy["policyVersion"],
+        "source": "ModelEfficiencyMatrix.Describe(DateTime)",
+        "referenceUsage": reference_usage,
+        "taskClasses": list(TASK_CLASSES),
+        "rows": rows,
+    }
+
+
 def canonical(value: dict) -> str:
     # generatedAt changes by design; checking compares the evidence-derived body.
     value = dict(value)
@@ -425,13 +545,14 @@ def main() -> None:
     args = parser.parse_args()
     payload = create_payload()
     usage_payload = create_usage_payload()
-    artifacts = ((OUTPUT, payload), (USAGE_OUTPUT, usage_payload))
+    matrix_payload = create_matrix_payload()
+    artifacts = ((OUTPUT, payload), (USAGE_OUTPUT, usage_payload), (MATRIX_OUTPUT, matrix_payload))
     if args.check:
         for path, expected in artifacts:
             name = path.relative_to(ROOT).as_posix()
             if not path.exists() or canonical(load(path)) != canonical(expected):
                 raise SystemExit(f"{name} is stale; run scripts/generate-website-data.py")
-        print("Website benchmark and token-usage data are current.")
+        print("Website benchmark, token-usage, and model-efficiency data are current.")
         return
     OUTPUT.parent.mkdir(parents=True, exist_ok=True)
     for path, value in artifacts:
@@ -443,6 +564,9 @@ def main() -> None:
         f"{len(usage_payload['byModel']['models'])} models, "
         f"{len(usage_payload['byCard']['taskTypes'])} card task classes, and "
         f"{len(usage_payload['session']['turns'])} session turns.")
+    print(
+        f"Wrote {MATRIX_OUTPUT.relative_to(ROOT).as_posix()} with "
+        f"{len(matrix_payload['rows'])} matrix rows at {matrix_payload['asOfUtc']}.")
 
 
 if __name__ == "__main__":

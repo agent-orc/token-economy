@@ -96,14 +96,16 @@ The workflow fails fast with a clear message if any secret is missing.
 
 ## Preview locally
 
-No build, no dependencies — open the file or serve the folder:
+Serve the folder over HTTP so the generated JSON artifacts can load:
 
 ```bash
-# simplest: open website/index.html in a browser
-# or serve the subpath exactly as production does:
-python3 -m http.server 8080 --directory website
+python -m http.server 8080 --directory website
 # → http://localhost:8080/
 ```
+
+Opening `website/index.html` through `file://` still shows the static content,
+but browsers block the three generated-data requests. Each affected section
+then displays a visible local-preview instruction instead of an empty state.
 
 ## What deploys
 
