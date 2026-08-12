@@ -5,7 +5,7 @@ The public site is static, so it cannot read files outside website/ after it is
 deployed.  This command is the narrow bridge: it copies only the published
 fields from benchmark JSON and validates that each raw run has its report.
 
-Three artifacts are produced:
+Four artifacts are produced:
 
 * ``website/data/benchmarks.json`` — the published A/B and capability studies.
 * ``website/data/token-usage.json`` — the aggregates the token-usage charts
@@ -17,6 +17,9 @@ Three artifacts are produced:
   ``ModelEfficiencyMatrix.Default.Describe(asOfUtc)`` from the same versioned
   policy and price inputs. A .NET test compares every published row with the
   real API result.
+* ``website/data/task-class-recommendations.json`` — the versioned taxonomy,
+  study-backed route, evidence, outcome cost, and downgrade boundary exposed
+  by ``TaskClassRecommendationCatalog``.
 
 Every number here is derived from checked-in evidence. Nothing is hand-authored,
 so ``--check`` fails loudly when the committed site data no longer matches the
@@ -38,10 +41,12 @@ RESULTS = ROOT / "benchmarks" / "results"
 OUTPUT = ROOT / "website" / "data" / "benchmarks.json"
 USAGE_OUTPUT = ROOT / "website" / "data" / "token-usage.json"
 MATRIX_OUTPUT = ROOT / "website" / "data" / "model-efficiency-matrix.json"
+RECOMMENDATIONS_OUTPUT = ROOT / "website" / "data" / "task-class-recommendations.json"
 MATRIX_AS_OF_UTC = "2026-08-11T00:00:00Z"
 
 PRICE_CATALOG = ROOT / "src" / "TokenEconomy" / "catalog" / "model-prices.json"
 ROUTING_POLICY = ROOT / "src" / "TokenEconomy" / "catalog" / "model-routing-policy.json"
+TASK_CLASS_RECOMMENDATIONS = ROOT / "src" / "TokenEconomy" / "catalog" / "task-class-recommendations.json"
 DOCUMENT_RESULTS = RESULTS / "document-to-text" / "curated-hard-cases-v1"
 CARD_BACKTEST = ROOT / "results" / "complexity-backtest" / "agent-studio-30-card-backtest.json"
 SESSION_ANALYSIS = ROOT / "docs" / "analyses" / "long-vs-short-session-cost.md"
@@ -100,6 +105,9 @@ def create_payload() -> dict:
                 if raw_variant is None:
                     raise ValueError(f"Report variant missing raw cases in {raw_path.relative_to(ROOT)}")
                 projected = dict(variant)
+                projected["averageOutcomeScore"] = variant.get("averageOutcomeScore")
+                projected["averageMetrics"] = variant.get("averageMetrics", {})
+                projected["costPerSuccessfulOutcomeUsd"] = variant.get("costPerSuccessfulOutcomeUsd")
                 projected["model"] = raw_variant["model"]
                 projected["usage"] = {
                     component: raw_variant[component] for component in COMPONENTS
@@ -118,6 +126,7 @@ def create_payload() -> dict:
                 "setupId": raw["setupId"], "runId": raw["runId"],
                 "startedAtUtc": raw["startedAtUtc"], "completedAtUtc": raw["completedAtUtc"],
                 "winner": report["winner"], "winnerReason": report["winnerReason"],
+                "primaryMetric": report.get("primaryMetric"),
                 "qualityDelta": report["qualityDelta"], "costDeltaUsd": report["costDeltaUsd"],
                 "variants": variants,
             })
@@ -547,16 +556,25 @@ def create_matrix_payload() -> dict:
             "heavyDesign": "underpowered", "feature": "underpowered",
             "mechanicalChore": "ideal", "docEdit": "ideal",
             "research": "underpowered", "review": None,
+            "htmlUiImplementation": "underpowered", "sourceCodeReview": "underpowered",
+            "securityAssessment": "underpowered", "redundancyDetection": "underpowered",
+            "graphicalQualityJudgment": None, "consistencyChecking": None,
         },
         "balanced": {
             "heavyDesign": "capable", "feature": "ideal",
             "mechanicalChore": "capable", "docEdit": "capable",
             "research": "ideal", "review": None,
+            "htmlUiImplementation": "capable", "sourceCodeReview": "ideal",
+            "securityAssessment": "underpowered", "redundancyDetection": "capable",
+            "graphicalQualityJudgment": None, "consistencyChecking": None,
         },
         "frontier": {
             "heavyDesign": "ideal", "feature": "capable",
             "mechanicalChore": "overkill", "docEdit": "overkill",
             "research": "capable", "review": None,
+            "htmlUiImplementation": "ideal", "sourceCodeReview": "overkill",
+            "securityAssessment": "ideal", "redundancyDetection": "ideal",
+            "graphicalQualityJudgment": None, "consistencyChecking": None,
         },
     }
     rows = []
@@ -594,6 +612,56 @@ def create_matrix_payload() -> dict:
     }
 
 
+def create_recommendation_payload() -> dict:
+    """Validate and publish the library's task-class recommendation source."""
+    document = load(TASK_CLASS_RECOMMENDATIONS)
+    price_index = load_price_index()
+    for recommendation in document["recommendations"]:
+        if recommendation["status"] not in {"controlledPilot", "controlledCodingEvidence"}:
+            continue
+        raw_paths = [
+            ROOT / line["reference"] for line in recommendation["evidence"]
+            if line["evidenceKind"] == "controlled" and line["reference"].endswith(".json")
+        ]
+        if len(raw_paths) != recommendation["scenarioCount"]:
+            raise ValueError(f"{recommendation['id']} scenario count disagrees with controlled evidence")
+        runs = [load(path) for path in raw_paths]
+        cases = [case for run in runs for case in run["cases"]]
+        if len(cases) != recommendation["attemptCount"]:
+            raise ValueError(f"{recommendation['id']} attempt count disagrees with controlled evidence")
+        route = recommendation["recommended"]
+        selected = [
+            (run, case) for run in runs for case in run["cases"]
+            if case["model"] == route["model"]
+            and (case.get("thinkingLevel") or "").lower().replace("-", "")
+                == route["thinkingLevel"].lower().replace("-", "")
+        ]
+        successes = sum(1 for _run, case in selected if case["succeeded"])
+        measured_rate = successes / len(selected) if selected else None
+        if measured_rate is None or abs(measured_rate - recommendation["outcomeRate"]) > 0.000001:
+            raise ValueError(f"{recommendation['id']} outcome rate disagrees with controlled evidence")
+        cost = recommendation.get("costPerSuccessfulOutcome")
+        if cost and cost["amountUsd"] is not None:
+            total = Decimal(0)
+            for run, case in selected:
+                if case.get("costUsd") is not None:
+                    total += Decimal(str(case["costUsd"]))
+                else:
+                    priced = compute_cost(
+                        price_index, case["model"], case["usage"], parse_utc(run["startedAtUtc"]))
+                    if priced["status"] != "Resolved":
+                        raise ValueError(f"{recommendation['id']} contains unpriced controlled usage")
+                    total += Decimal(str(priced["totalUsd"]))
+            measured_cost = money(total / successes) if successes else None
+            if measured_cost != cost["amountUsd"]:
+                raise ValueError(
+                    f"{recommendation['id']} cost/outcome {cost['amountUsd']} disagrees with {measured_cost}")
+    payload = dict(document)
+    payload["generatedAtUtc"] = datetime.now(timezone.utc).isoformat()
+    payload["source"] = str(TASK_CLASS_RECOMMENDATIONS.relative_to(ROOT)).replace("\\", "/")
+    return payload
+
+
 def canonical(value: dict) -> str:
     # generatedAt changes by design; checking compares the evidence-derived body.
     value = dict(value)
@@ -608,17 +676,19 @@ def main() -> None:
     payload = create_payload()
     usage_payload = create_usage_payload()
     matrix_payload = create_matrix_payload()
+    recommendation_payload = create_recommendation_payload()
     artifacts = (
         (OUTPUT, payload),
         (USAGE_OUTPUT, usage_payload),
         (MATRIX_OUTPUT, matrix_payload),
+        (RECOMMENDATIONS_OUTPUT, recommendation_payload),
     )
     if args.check:
         for path, expected in artifacts:
             name = path.relative_to(ROOT).as_posix()
             if not path.exists() or canonical(load(path)) != canonical(expected):
                 raise SystemExit(f"{name} is stale; run scripts/generate-website-data.py")
-        print("Website benchmark, token-usage, and model-efficiency matrix data are current.")
+        print("Website benchmark, token-usage, model-efficiency matrix, and task-class recommendation data are current.")
         return
     OUTPUT.parent.mkdir(parents=True, exist_ok=True)
     for path, value in artifacts:
@@ -634,6 +704,9 @@ def main() -> None:
         f"Wrote {MATRIX_OUTPUT.relative_to(ROOT).as_posix()} with "
         f"{len(matrix_payload['rows'])} model-efficiency rows as of "
         f"{matrix_payload['asOfUtc']}.")
+    print(
+        f"Wrote {RECOMMENDATIONS_OUTPUT.relative_to(ROOT).as_posix()} with "
+        f"{len(recommendation_payload['recommendations'])} task classes.")
 
 
 if __name__ == "__main__":

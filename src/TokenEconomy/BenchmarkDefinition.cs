@@ -60,6 +60,18 @@ public sealed record BenchmarkSuccessCriteria
     public IReadOnlyList<string> Arguments { get; init; } = [];
     public int ExpectedExitCode { get; init; }
     public int TimeoutSeconds { get; init; } = 120;
+    /// <summary>
+    /// Optional JSON object written by the evaluator after the invocation. Numeric properties are
+    /// retained as outcome metrics on the raw case. The path is relative to the isolated workspace.
+    /// </summary>
+    public string? MetricsFile { get; init; }
+    /// <summary>
+    /// Metric used to rank variants after pass rate. This makes a defect-recall or jury-quality
+    /// study compare the measured outcome instead of falling back immediately to token count.
+    /// </summary>
+    public string? PrimaryMetric { get; init; }
+    /// <summary>Whether a larger primary metric is better. Defaults to true.</summary>
+    public bool HigherPrimaryMetricIsBetter { get; init; } = true;
 }
 
 public sealed record BenchmarkCostCaps
@@ -98,6 +110,10 @@ public sealed record BenchmarkCaseResult
     public decimal? CostUsd { get; init; }
     public required long DurationMs { get; init; }
     public string? FailureReason { get; init; }
+    /// <summary>Evaluator-owned, scenario-specific numeric outcomes retained in raw evidence.</summary>
+    public IReadOnlyDictionary<string, decimal> Metrics { get; init; } = new Dictionary<string, decimal>();
+    /// <summary>The declared primary metric copied from <see cref="Metrics"/>, when available.</summary>
+    public decimal? OutcomeScore { get; init; }
 }
 
 public sealed record BenchmarkRunResult
@@ -109,6 +125,8 @@ public sealed record BenchmarkRunResult
     public required DateTime CompletedAtUtc { get; init; }
     public string? TaskClass { get; init; }
     public string? Capability { get; init; }
+    public string? PrimaryMetric { get; init; }
+    public bool HigherPrimaryMetricIsBetter { get; init; } = true;
     public required IReadOnlyList<BenchmarkCaseResult> Cases { get; init; }
 }
 
@@ -121,7 +139,10 @@ public sealed record BenchmarkVariantComparison
     public required long TotalTokens { get; init; }
     public required decimal AverageTokens { get; init; }
     public decimal? TotalCostUsd { get; init; }
+    public decimal? CostPerSuccessfulOutcomeUsd { get; init; }
     public required decimal AverageDurationMs { get; init; }
+    public decimal? AverageOutcomeScore { get; init; }
+    public required IReadOnlyDictionary<string, decimal> AverageMetrics { get; init; }
 }
 
 public sealed record BenchmarkComparisonReport
@@ -133,4 +154,5 @@ public sealed record BenchmarkComparisonReport
     public required IReadOnlyList<BenchmarkVariantComparison> Variants { get; init; }
     public decimal? CostDeltaUsd { get; init; }
     public decimal? QualityDelta { get; init; }
+    public string? PrimaryMetric { get; init; }
 }

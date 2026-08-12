@@ -1,7 +1,634 @@
 {
   "schemaVersion": 3,
-  "generatedAtUtc": "2026-08-11T07:13:50.708590+00:00",
+  "generatedAtUtc": "2026-08-12T09:06:19.081457+00:00",
   "studies": [
+    {
+      "setupId": "html-ui-billing-onboarding",
+      "runId": "20260812T084429463Z",
+      "startedAtUtc": "2026-08-12T08:44:29.4633049Z",
+      "completedAtUtc": "2026-08-12T08:51:44.4027416Z",
+      "winner": "sol-medium",
+      "winnerReason": "Highest success rate; ties break on average qualityScore, tokens, duration, then variant id.",
+      "primaryMetric": "qualityScore",
+      "qualityDelta": 0,
+      "costDeltaUsd": 0.1351422,
+      "variants": [
+        {
+          "variantId": "sol-medium",
+          "runs": 1,
+          "successes": 1,
+          "successRate": 1,
+          "totalTokens": 18695,
+          "averageTokens": 18695,
+          "totalCostUsd": 0.196197,
+          "costPerSuccessfulOutcomeUsd": 0.196197,
+          "averageDurationMs": 131340,
+          "averageOutcomeScore": 0.865,
+          "averageMetrics": {
+            "qualityScore": 0.865,
+            "juryScore": 82,
+            "checklistPassRate": 1.0,
+            "criticalDefectCount": 0,
+            "majorDefectCount": 1,
+            "verificationTokens": 15404
+          },
+          "model": "gpt-5.6-sol",
+          "usage": {
+            "input": 2805,
+            "output": 5906,
+            "cacheRead": 9984,
+            "cacheWrite": 0
+          },
+          "tokenRange": {
+            "minimum": 18695,
+            "maximum": 18695
+          },
+          "durationRangeMs": {
+            "minimum": 131340,
+            "maximum": 131340
+          },
+          "canonicalModel": "gpt-5.6-sol",
+          "routingStatus": "selectable",
+          "lifecycleStatus": null,
+          "lifecycleNote": null
+        },
+        {
+          "variantId": "terra-medium",
+          "runs": 1,
+          "successes": 1,
+          "successRate": 1,
+          "totalTokens": 17243,
+          "averageTokens": 17243,
+          "totalCostUsd": 0.0610548,
+          "costPerSuccessfulOutcomeUsd": 0.0610548,
+          "averageDurationMs": 132713,
+          "averageOutcomeScore": 0.76,
+          "averageMetrics": {
+            "qualityScore": 0.76,
+            "juryScore": 68,
+            "checklistPassRate": 1.0,
+            "criticalDefectCount": 0,
+            "majorDefectCount": 2,
+            "verificationTokens": 16351
+          },
+          "model": "gpt-5.6-terra",
+          "usage": {
+            "input": 2805,
+            "output": 4454,
+            "cacheRead": 9984,
+            "cacheWrite": 0
+          },
+          "tokenRange": {
+            "minimum": 17243,
+            "maximum": 17243
+          },
+          "durationRangeMs": {
+            "minimum": 132713,
+            "maximum": 132713
+          },
+          "canonicalModel": "gpt-5.6-terra",
+          "routingStatus": "selectable",
+          "lifecycleStatus": null,
+          "lifecycleNote": null
+        },
+        {
+          "variantId": "sol-xhigh",
+          "runs": 1,
+          "successes": 0,
+          "successRate": 0,
+          "totalTokens": 20240,
+          "averageTokens": 20240,
+          "totalCostUsd": 0.245847,
+          "costPerSuccessfulOutcomeUsd": null,
+          "averageDurationMs": 170837,
+          "averageOutcomeScore": 0.715,
+          "averageMetrics": {
+            "qualityScore": 0.715,
+            "juryScore": 62,
+            "checklistPassRate": 1.0,
+            "criticalDefectCount": 1,
+            "majorDefectCount": 1,
+            "verificationTokens": 15593
+          },
+          "model": "gpt-5.6-sol",
+          "usage": {
+            "input": 2673,
+            "output": 7583,
+            "cacheRead": 9984,
+            "cacheWrite": 0
+          },
+          "tokenRange": {
+            "minimum": 20240,
+            "maximum": 20240
+          },
+          "durationRangeMs": {
+            "minimum": 170837,
+            "maximum": 170837
+          },
+          "canonicalModel": "gpt-5.6-sol",
+          "routingStatus": "selectable",
+          "lifecycleStatus": null,
+          "lifecycleNote": null
+        }
+      ]
+    },
+    {
+      "setupId": "html-ui-incident-console",
+      "runId": "20260812T083546713Z",
+      "startedAtUtc": "2026-08-12T08:35:46.7133658Z",
+      "completedAtUtc": "2026-08-12T08:44:20.0210682Z",
+      "winner": "sol-medium",
+      "winnerReason": "Highest success rate; ties break on average qualityScore, tokens, duration, then variant id.",
+      "primaryMetric": "qualityScore",
+      "qualityDelta": 0,
+      "costDeltaUsd": 0.117678,
+      "variants": [
+        {
+          "variantId": "sol-medium",
+          "runs": 1,
+          "successes": 1,
+          "successRate": 1,
+          "totalTokens": 19698,
+          "averageTokens": 19698,
+          "totalCostUsd": 0.229712,
+          "costPerSuccessfulOutcomeUsd": 0.229712,
+          "averageDurationMs": 156066,
+          "averageOutcomeScore": 0.97,
+          "averageMetrics": {
+            "qualityScore": 0.97,
+            "juryScore": 96,
+            "checklistPassRate": 1.0,
+            "criticalDefectCount": 0,
+            "majorDefectCount": 0,
+            "verificationTokens": 15670
+          },
+          "model": "gpt-5.6-sol",
+          "usage": {
+            "input": 2668,
+            "output": 7046,
+            "cacheRead": 9984,
+            "cacheWrite": 0
+          },
+          "tokenRange": {
+            "minimum": 19698,
+            "maximum": 19698
+          },
+          "durationRangeMs": {
+            "minimum": 156066,
+            "maximum": 156066
+          },
+          "canonicalModel": "gpt-5.6-sol",
+          "routingStatus": "selectable",
+          "lifecycleStatus": null,
+          "lifecycleNote": null
+        },
+        {
+          "variantId": "terra-medium",
+          "runs": 1,
+          "successes": 1,
+          "successRate": 1,
+          "totalTokens": 48932,
+          "averageTokens": 48932,
+          "totalCostUsd": 0.112034,
+          "costPerSuccessfulOutcomeUsd": 0.112034,
+          "averageDurationMs": 160686,
+          "averageOutcomeScore": 0.9625,
+          "averageMetrics": {
+            "qualityScore": 0.9625,
+            "juryScore": 95,
+            "checklistPassRate": 1.0,
+            "criticalDefectCount": 0,
+            "majorDefectCount": 0,
+            "verificationTokens": 15295
+          },
+          "model": "gpt-5.6-terra",
+          "usage": {
+            "input": 9755,
+            "output": 7177,
+            "cacheRead": 32000,
+            "cacheWrite": 0
+          },
+          "tokenRange": {
+            "minimum": 48932,
+            "maximum": 48932
+          },
+          "durationRangeMs": {
+            "minimum": 160686,
+            "maximum": 160686
+          },
+          "canonicalModel": "gpt-5.6-terra",
+          "routingStatus": "selectable",
+          "lifecycleStatus": null,
+          "lifecycleNote": null
+        },
+        {
+          "variantId": "sol-xhigh",
+          "runs": 1,
+          "successes": 1,
+          "successRate": 1,
+          "totalTokens": 21176,
+          "averageTokens": 21176,
+          "totalCostUsd": 0.274002,
+          "costPerSuccessfulOutcomeUsd": 0.274002,
+          "averageDurationMs": 196515,
+          "averageOutcomeScore": 0.925,
+          "averageMetrics": {
+            "qualityScore": 0.925,
+            "juryScore": 90,
+            "checklistPassRate": 1.0,
+            "criticalDefectCount": 0,
+            "majorDefectCount": 1,
+            "verificationTokens": 15732
+          },
+          "model": "gpt-5.6-sol",
+          "usage": {
+            "input": 2670,
+            "output": 8522,
+            "cacheRead": 9984,
+            "cacheWrite": 0
+          },
+          "tokenRange": {
+            "minimum": 21176,
+            "maximum": 21176
+          },
+          "durationRangeMs": {
+            "minimum": 196515,
+            "maximum": 196515
+          },
+          "canonicalModel": "gpt-5.6-sol",
+          "routingStatus": "selectable",
+          "lifecycleStatus": null,
+          "lifecycleNote": null
+        }
+      ]
+    },
+    {
+      "setupId": "source-code-review-tenant-transfer-v2",
+      "runId": "20260812T083344557Z",
+      "startedAtUtc": "2026-08-12T08:33:44.557664Z",
+      "completedAtUtc": "2026-08-12T08:35:29.4657144Z",
+      "winner": "terra-medium",
+      "winnerReason": "Highest success rate; ties break on average severityWeightedRecall, tokens, duration, then variant id.",
+      "primaryMetric": "severityWeightedRecall",
+      "qualityDelta": 0,
+      "costDeltaUsd": -0.062759,
+      "variants": [
+        {
+          "variantId": "terra-medium",
+          "runs": 1,
+          "successes": 1,
+          "successRate": 1,
+          "totalTokens": 39948,
+          "averageTokens": 39948,
+          "totalCostUsd": 0.031076,
+          "costPerSuccessfulOutcomeUsd": 0.031076,
+          "averageDurationMs": 26586,
+          "averageOutcomeScore": 1.0,
+          "averageMetrics": {
+            "seededDefectRecall": 1.0,
+            "severityWeightedRecall": 1.0,
+            "findingPrecision": 1.0,
+            "falsePositiveCount": 0
+          },
+          "model": "gpt-5.6-terra",
+          "usage": {
+            "input": 7070,
+            "output": 878,
+            "cacheRead": 32000,
+            "cacheWrite": 0
+          },
+          "tokenRange": {
+            "minimum": 39948,
+            "maximum": 39948
+          },
+          "durationRangeMs": {
+            "minimum": 26586,
+            "maximum": 26586
+          },
+          "canonicalModel": "gpt-5.6-terra",
+          "routingStatus": "selectable",
+          "lifecycleStatus": null,
+          "lifecycleNote": null
+        },
+        {
+          "variantId": "sol-xhigh",
+          "runs": 1,
+          "successes": 1,
+          "successRate": 1,
+          "totalTokens": 40557,
+          "averageTokens": 40557,
+          "totalCostUsd": 0.093835,
+          "costPerSuccessfulOutcomeUsd": 0.093835,
+          "averageDurationMs": 42482,
+          "averageOutcomeScore": 1.0,
+          "averageMetrics": {
+            "seededDefectRecall": 1.0,
+            "severityWeightedRecall": 1.0,
+            "findingPrecision": 1.0,
+            "falsePositiveCount": 0
+          },
+          "model": "gpt-5.6-sol",
+          "usage": {
+            "input": 7155,
+            "output": 1402,
+            "cacheRead": 32000,
+            "cacheWrite": 0
+          },
+          "tokenRange": {
+            "minimum": 40557,
+            "maximum": 40557
+          },
+          "durationRangeMs": {
+            "minimum": 42482,
+            "maximum": 42482
+          },
+          "canonicalModel": "gpt-5.6-sol",
+          "routingStatus": "selectable",
+          "lifecycleStatus": null,
+          "lifecycleNote": null
+        },
+        {
+          "variantId": "sol-medium",
+          "runs": 1,
+          "successes": 0,
+          "successRate": 0,
+          "totalTokens": 27120,
+          "averageTokens": 27120,
+          "totalCostUsd": 0.062028,
+          "costPerSuccessfulOutcomeUsd": null,
+          "averageDurationMs": 35819,
+          "averageOutcomeScore": 0.733333,
+          "averageMetrics": {
+            "seededDefectRecall": 0.8,
+            "severityWeightedRecall": 0.733333,
+            "findingPrecision": 0.8,
+            "falsePositiveCount": 1
+          },
+          "model": "gpt-5.6-sol",
+          "usage": {
+            "input": 4084,
+            "output": 1020,
+            "cacheRead": 22016,
+            "cacheWrite": 0
+          },
+          "tokenRange": {
+            "minimum": 27120,
+            "maximum": 27120
+          },
+          "durationRangeMs": {
+            "minimum": 35819,
+            "maximum": 35819
+          },
+          "canonicalModel": "gpt-5.6-sol",
+          "routingStatus": "selectable",
+          "lifecycleStatus": null,
+          "lifecycleNote": null
+        }
+      ]
+    },
+    {
+      "setupId": "source-code-review-tenant-cache-v2",
+      "runId": "20260812T082910114Z",
+      "startedAtUtc": "2026-08-12T08:29:10.114677Z",
+      "completedAtUtc": "2026-08-12T08:33:37.0455084Z",
+      "winner": "terra-medium",
+      "winnerReason": "Highest success rate; ties break on average severityWeightedRecall, tokens, duration, then variant id.",
+      "primaryMetric": "severityWeightedRecall",
+      "qualityDelta": 0,
+      "costDeltaUsd": -0.0930984,
+      "variants": [
+        {
+          "variantId": "terra-medium",
+          "runs": 1,
+          "successes": 1,
+          "successRate": 1,
+          "totalTokens": 40049,
+          "averageTokens": 40049,
+          "totalCostUsd": 0.0297916,
+          "costPerSuccessfulOutcomeUsd": 0.0297916,
+          "averageDurationMs": 51930,
+          "averageOutcomeScore": 1.0,
+          "averageMetrics": {
+            "seededDefectRecall": 1.0,
+            "severityWeightedRecall": 1.0,
+            "findingPrecision": 0.625,
+            "falsePositiveCount": 3
+          },
+          "model": "gpt-5.6-terra",
+          "usage": {
+            "input": 4903,
+            "output": 1098,
+            "cacheRead": 34048,
+            "cacheWrite": 0
+          },
+          "tokenRange": {
+            "minimum": 40049,
+            "maximum": 40049
+          },
+          "durationRangeMs": {
+            "minimum": 51930,
+            "maximum": 51930
+          },
+          "canonicalModel": "gpt-5.6-terra",
+          "routingStatus": "selectable",
+          "lifecycleStatus": null,
+          "lifecycleNote": null
+        },
+        {
+          "variantId": "sol-medium",
+          "runs": 1,
+          "successes": 1,
+          "successRate": 1,
+          "totalTokens": 42453,
+          "averageTokens": 42453,
+          "totalCostUsd": 0.12289,
+          "costPerSuccessfulOutcomeUsd": 0.12289,
+          "averageDurationMs": 73563,
+          "averageOutcomeScore": 1.0,
+          "averageMetrics": {
+            "seededDefectRecall": 1.0,
+            "severityWeightedRecall": 1.0,
+            "findingPrecision": 0.555556,
+            "falsePositiveCount": 4
+          },
+          "model": "gpt-5.6-sol",
+          "usage": {
+            "input": 8268,
+            "output": 2185,
+            "cacheRead": 32000,
+            "cacheWrite": 0
+          },
+          "tokenRange": {
+            "minimum": 42453,
+            "maximum": 42453
+          },
+          "durationRangeMs": {
+            "minimum": 73563,
+            "maximum": 73563
+          },
+          "canonicalModel": "gpt-5.6-sol",
+          "routingStatus": "selectable",
+          "lifecycleStatus": null,
+          "lifecycleNote": null
+        },
+        {
+          "variantId": "sol-xhigh",
+          "runs": 1,
+          "successes": 1,
+          "successRate": 1,
+          "totalTokens": 59440,
+          "averageTokens": 59440,
+          "totalCostUsd": 0.235593,
+          "costPerSuccessfulOutcomeUsd": 0.235593,
+          "averageDurationMs": 141397,
+          "averageOutcomeScore": 1.0,
+          "averageMetrics": {
+            "seededDefectRecall": 1.0,
+            "severityWeightedRecall": 1.0,
+            "findingPrecision": 0.625,
+            "falsePositiveCount": 3
+          },
+          "model": "gpt-5.6-sol",
+          "usage": {
+            "input": 19311,
+            "output": 4033,
+            "cacheRead": 36096,
+            "cacheWrite": 0
+          },
+          "tokenRange": {
+            "minimum": 59440,
+            "maximum": 59440
+          },
+          "durationRangeMs": {
+            "minimum": 141397,
+            "maximum": 141397
+          },
+          "canonicalModel": "gpt-5.6-sol",
+          "routingStatus": "selectable",
+          "lifecycleStatus": null,
+          "lifecycleNote": null
+        }
+      ]
+    },
+    {
+      "setupId": "source-code-review-tenant-transfer",
+      "runId": "20260812T081739638Z",
+      "startedAtUtc": "2026-08-12T08:17:39.6380088Z",
+      "completedAtUtc": "2026-08-12T08:21:36.8141692Z",
+      "winner": null,
+      "winnerReason": "No successful cases; variants are ordered by tokens, duration, then variant id.",
+      "primaryMetric": "severityWeightedRecall",
+      "qualityDelta": 0,
+      "costDeltaUsd": -0.226898,
+      "variants": [
+        {
+          "variantId": "terra-medium",
+          "runs": 1,
+          "successes": 0,
+          "successRate": 0,
+          "totalTokens": 98696,
+          "averageTokens": 98696,
+          "totalCostUsd": 0.061054,
+          "costPerSuccessfulOutcomeUsd": null,
+          "averageDurationMs": 29597,
+          "averageOutcomeScore": 0.0,
+          "averageMetrics": {
+            "seededDefectRecall": 0.0,
+            "severityWeightedRecall": 0.0,
+            "findingPrecision": 0,
+            "falsePositiveCount": 0
+          },
+          "model": "gpt-5.6-terra",
+          "usage": {
+            "input": 18685,
+            "output": 651,
+            "cacheRead": 79360,
+            "cacheWrite": 0
+          },
+          "tokenRange": {
+            "minimum": 98696,
+            "maximum": 98696
+          },
+          "durationRangeMs": {
+            "minimum": 29597,
+            "maximum": 29597
+          },
+          "canonicalModel": "gpt-5.6-terra",
+          "routingStatus": "selectable",
+          "lifecycleStatus": null,
+          "lifecycleNote": null
+        },
+        {
+          "variantId": "sol-medium",
+          "runs": 1,
+          "successes": 0,
+          "successRate": 0,
+          "totalTokens": 232153,
+          "averageTokens": 232153,
+          "totalCostUsd": 0.287952,
+          "costPerSuccessfulOutcomeUsd": null,
+          "averageDurationMs": 78279,
+          "averageOutcomeScore": 0.0,
+          "averageMetrics": {
+            "seededDefectRecall": 0.0,
+            "severityWeightedRecall": 0.0,
+            "findingPrecision": 0,
+            "falsePositiveCount": 0
+          },
+          "model": "gpt-5.6-sol",
+          "usage": {
+            "input": 27214,
+            "output": 1675,
+            "cacheRead": 203264,
+            "cacheWrite": 0
+          },
+          "tokenRange": {
+            "minimum": 232153,
+            "maximum": 232153
+          },
+          "durationRangeMs": {
+            "minimum": 78279,
+            "maximum": 78279
+          },
+          "canonicalModel": "gpt-5.6-sol",
+          "routingStatus": "selectable",
+          "lifecycleStatus": null,
+          "lifecycleNote": null
+        },
+        {
+          "variantId": "sol-xhigh",
+          "runs": 1,
+          "successes": 0,
+          "successRate": 0,
+          "totalTokens": 578069,
+          "averageTokens": 578069,
+          "totalCostUsd": 0.589763,
+          "costPerSuccessfulOutcomeUsd": null,
+          "averageDurationMs": 129263,
+          "averageOutcomeScore": null,
+          "averageMetrics": {},
+          "model": "gpt-5.6-sol",
+          "usage": {
+            "input": 45995,
+            "output": 3178,
+            "cacheRead": 528896,
+            "cacheWrite": 0
+          },
+          "tokenRange": {
+            "minimum": 578069,
+            "maximum": 578069
+          },
+          "durationRangeMs": {
+            "minimum": 129263,
+            "maximum": 129263
+          },
+          "canonicalModel": "gpt-5.6-sol",
+          "routingStatus": "selectable",
+          "lifecycleStatus": null,
+          "lifecycleNote": null
+        }
+      ]
+    },
     {
       "setupId": "palindrome-repair",
       "runId": "20260809T092240107Z",
@@ -9,6 +636,7 @@
       "completedAtUtc": "2026-08-09T09:24:13.042625Z",
       "winner": "terra-medium",
       "winnerReason": "Highest success rate; ties break on average tokens, duration, then variant id.",
+      "primaryMetric": null,
       "qualityDelta": 0,
       "costDeltaUsd": null,
       "variants": [
@@ -21,6 +649,9 @@
           "averageTokens": 12994.666666666666,
           "totalCostUsd": null,
           "averageDurationMs": 9834.666666666666,
+          "averageOutcomeScore": null,
+          "averageMetrics": {},
+          "costPerSuccessfulOutcomeUsd": null,
           "model": "gpt-5.6-terra",
           "usage": {
             "input": 8343,
@@ -50,6 +681,9 @@
           "averageTokens": 13051,
           "totalCostUsd": null,
           "averageDurationMs": 15028,
+          "averageOutcomeScore": null,
+          "averageMetrics": {},
+          "costPerSuccessfulOutcomeUsd": null,
           "model": "gpt-5.6-sol",
           "usage": {
             "input": 18339,
@@ -79,6 +713,9 @@
           "averageTokens": 32111.333333333332,
           "totalCostUsd": 0.1898665,
           "averageDurationMs": 6105.666666666667,
+          "averageOutcomeScore": null,
+          "averageMetrics": {},
+          "costPerSuccessfulOutcomeUsd": null,
           "model": "claude-sonnet-5",
           "usage": {
             "input": 6,
@@ -108,6 +745,7 @@
       "completedAtUtc": "2026-08-08T16:28:42.3938101Z",
       "winner": null,
       "winnerReason": "No successful cases; variants are ordered by tokens, duration, then variant id.",
+      "primaryMetric": null,
       "qualityDelta": 0,
       "costDeltaUsd": null,
       "variants": [
@@ -120,6 +758,9 @@
           "averageTokens": 12989,
           "totalCostUsd": null,
           "averageDurationMs": 6770,
+          "averageOutcomeScore": null,
+          "averageMetrics": {},
+          "costPerSuccessfulOutcomeUsd": null,
           "model": "gpt-5.6-terra",
           "usage": {
             "input": 8691,
@@ -149,6 +790,9 @@
           "averageTokens": 13046.666666666666,
           "totalCostUsd": null,
           "averageDurationMs": 10972.666666666666,
+          "averageOutcomeScore": null,
+          "averageMetrics": {},
+          "costPerSuccessfulOutcomeUsd": null,
           "model": "gpt-5.6-sol",
           "usage": {
             "input": 8691,
@@ -178,6 +822,9 @@
           "averageTokens": 33014.666666666664,
           "totalCostUsd": 0.2284785,
           "averageDurationMs": 13759.666666666666,
+          "averageOutcomeScore": null,
+          "averageMetrics": {},
+          "costPerSuccessfulOutcomeUsd": null,
           "model": "claude-sonnet-5",
           "usage": {
             "input": 6,
@@ -207,6 +854,7 @@
       "completedAtUtc": "2026-08-08T16:30:24.5806722Z",
       "winner": "sol-medium",
       "winnerReason": "Highest success rate; ties break on average tokens, duration, then variant id.",
+      "primaryMetric": null,
       "qualityDelta": 0.6666666666666666,
       "costDeltaUsd": null,
       "variants": [
@@ -219,6 +867,9 @@
           "averageTokens": 208127.66666666666,
           "totalCostUsd": null,
           "averageDurationMs": 96469.33333333333,
+          "averageOutcomeScore": null,
+          "averageMetrics": {},
+          "costPerSuccessfulOutcomeUsd": null,
           "model": "gpt-5.6-sol",
           "usage": {
             "input": 98056,
@@ -248,6 +899,9 @@
           "averageTokens": 132318.66666666666,
           "totalCostUsd": 0.36964980000000003,
           "averageDurationMs": 19822,
+          "averageOutcomeScore": null,
+          "averageMetrics": {},
+          "costPerSuccessfulOutcomeUsd": null,
           "model": "claude-sonnet-5",
           "usage": {
             "input": 24,
@@ -277,6 +931,9 @@
           "averageTokens": 91753.33333333333,
           "totalCostUsd": null,
           "averageDurationMs": 53577,
+          "averageOutcomeScore": null,
+          "averageMetrics": {},
+          "costPerSuccessfulOutcomeUsd": null,
           "model": "gpt-5.6-terra",
           "usage": {
             "input": 29592,
@@ -306,6 +963,7 @@
       "completedAtUtc": "2026-08-08T16:24:23.2916626Z",
       "winner": "sol-medium",
       "winnerReason": "Highest success rate; ties break on average tokens, duration, then variant id.",
+      "primaryMetric": null,
       "qualityDelta": 0.3333333333333333,
       "costDeltaUsd": null,
       "variants": [
@@ -318,6 +976,9 @@
           "averageTokens": 65710.66666666667,
           "totalCostUsd": null,
           "averageDurationMs": 51690.666666666664,
+          "averageOutcomeScore": null,
+          "averageMetrics": {},
+          "costPerSuccessfulOutcomeUsd": null,
           "model": "gpt-5.6-sol",
           "usage": {
             "input": 54273,
@@ -347,6 +1008,9 @@
           "averageTokens": 71816,
           "totalCostUsd": null,
           "averageDurationMs": 37605,
+          "averageOutcomeScore": null,
+          "averageMetrics": {},
+          "costPerSuccessfulOutcomeUsd": null,
           "model": "gpt-5.6-terra",
           "usage": {
             "input": 20818,
@@ -376,6 +1040,9 @@
           "averageTokens": 131046.66666666667,
           "totalCostUsd": 0.3542637,
           "averageDurationMs": 19956.333333333332,
+          "averageOutcomeScore": null,
+          "averageMetrics": {},
+          "costPerSuccessfulOutcomeUsd": null,
           "model": "claude-sonnet-5",
           "usage": {
             "input": 24,
@@ -405,6 +1072,7 @@
       "completedAtUtc": "2026-08-08T16:23:10.4159698Z",
       "winner": "sol-medium",
       "winnerReason": "Highest success rate; ties break on average tokens, duration, then variant id.",
+      "primaryMetric": null,
       "qualityDelta": 0,
       "costDeltaUsd": null,
       "variants": [
@@ -417,6 +1085,9 @@
           "averageTokens": 115006.66666666667,
           "totalCostUsd": null,
           "averageDurationMs": 77614.33333333333,
+          "averageOutcomeScore": null,
+          "averageMetrics": {},
+          "costPerSuccessfulOutcomeUsd": null,
           "model": "gpt-5.6-sol",
           "usage": {
             "input": 74779,
@@ -446,6 +1117,9 @@
           "averageTokens": 141197.66666666666,
           "totalCostUsd": 0.3358254,
           "averageDurationMs": 15268,
+          "averageOutcomeScore": null,
+          "averageMetrics": {},
+          "costPerSuccessfulOutcomeUsd": null,
           "model": "claude-sonnet-5",
           "usage": {
             "input": 26,
@@ -475,6 +1149,9 @@
           "averageTokens": 58025.333333333336,
           "totalCostUsd": null,
           "averageDurationMs": 28890,
+          "averageOutcomeScore": null,
+          "averageMetrics": {},
+          "costPerSuccessfulOutcomeUsd": null,
           "model": "gpt-5.6-terra",
           "usage": {
             "input": 22679,
@@ -504,6 +1181,7 @@
       "completedAtUtc": "2026-07-22T23:31:40.002624Z",
       "winner": "sol-medium",
       "winnerReason": "Highest success rate; ties break on average tokens, duration, then variant id.",
+      "primaryMetric": null,
       "qualityDelta": 0,
       "costDeltaUsd": null,
       "variants": [
@@ -516,6 +1194,9 @@
           "averageTokens": 13550,
           "totalCostUsd": null,
           "averageDurationMs": 18538,
+          "averageOutcomeScore": null,
+          "averageMetrics": {},
+          "costPerSuccessfulOutcomeUsd": null,
           "model": "gpt-5.6-sol",
           "usage": {
             "input": 3339,
@@ -545,6 +1226,9 @@
           "averageTokens": 13668,
           "totalCostUsd": null,
           "averageDurationMs": 16004,
+          "averageOutcomeScore": null,
+          "averageMetrics": {},
+          "costPerSuccessfulOutcomeUsd": null,
           "model": "gpt-5.6-terra",
           "usage": {
             "input": 3035,

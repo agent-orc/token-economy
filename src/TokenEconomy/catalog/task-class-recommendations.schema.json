@@ -1,0 +1,85 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://agent-orchestrator.dev/token-economy/task-class-recommendations.schema.json",
+  "title": "Token Economy task-class recommendations",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "taxonomyVersion", "rationaleVersion", "evidenceAsOfDate", "recommendations"],
+  "properties": {
+    "schemaVersion": { "const": 1 },
+    "taxonomyVersion": { "type": "string", "minLength": 1 },
+    "rationaleVersion": { "type": "string", "minLength": 1 },
+    "evidenceAsOfDate": { "type": "string", "format": "date" },
+    "recommendations": {
+      "type": "array",
+      "minItems": 12,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["taskClass", "id", "label", "family", "definition", "outcomeMeasure", "benchmarkStatus", "status", "recommended", "downgradeWhen", "neverDowngradeWhen", "rationale", "rationaleVersion", "evidenceVersion", "scenarioCount", "attemptCount", "outcomeRate", "costPerSuccessfulOutcome", "evidence"],
+        "properties": {
+          "taskClass": { "type": "string", "minLength": 1 },
+          "id": { "type": "string", "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$" },
+          "label": { "type": "string", "minLength": 1 },
+          "family": { "enum": ["coding", "implementation", "review", "judgment"] },
+          "definition": { "type": "string", "minLength": 1 },
+          "outcomeMeasure": { "type": "string", "minLength": 1 },
+          "benchmarkStatus": { "type": "string", "minLength": 1 },
+          "status": { "enum": ["controlledPilot", "controlledCodingEvidence", "policyBaseline"] },
+          "recommended": { "$ref": "#/$defs/route" },
+          "downgrade": { "oneOf": [{ "$ref": "#/$defs/route" }, { "type": "null" }] },
+          "downgradeWhen": { "type": "array", "items": { "type": "string", "minLength": 1 } },
+          "neverDowngradeWhen": { "type": "array", "items": { "type": "string", "minLength": 1 } },
+          "rationale": { "type": "string", "minLength": 1 },
+          "rationaleVersion": { "type": "string", "minLength": 1 },
+          "evidenceVersion": { "type": "string", "minLength": 1 },
+          "scenarioCount": { "type": "integer", "minimum": 0 },
+          "attemptCount": { "type": "integer", "minimum": 0 },
+          "outcomeRate": { "type": ["number", "null"], "minimum": 0, "maximum": 1 },
+          "costPerSuccessfulOutcome": {
+            "oneOf": [
+              { "type": "null" },
+              {
+                "type": "object",
+                "additionalProperties": false,
+                "required": ["amountUsd", "pricedAtUtc", "includesVerification", "note"],
+                "properties": {
+                  "amountUsd": { "type": ["number", "null"], "minimum": 0 },
+                  "pricedAtUtc": { "type": "string", "format": "date-time" },
+                  "includesVerification": { "type": "boolean" },
+                  "note": { "type": "string", "minLength": 1 }
+                }
+              }
+            ]
+          },
+          "evidence": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["evidenceKind", "reference", "summary"],
+              "properties": {
+                "evidenceKind": { "type": "string", "minLength": 1 },
+                "reference": { "type": "string", "minLength": 1 },
+                "summary": { "type": "string", "minLength": 1 }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "$defs": {
+    "route": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["routeId", "model", "thinkingLevel"],
+      "properties": {
+        "routeId": { "type": "string", "minLength": 1 },
+        "model": { "type": "string", "minLength": 1 },
+        "thinkingLevel": { "enum": ["minimal", "low", "medium", "high", "xHigh", "ultra", "max"] }
+      }
+    }
+  }
+}

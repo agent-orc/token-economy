@@ -300,6 +300,13 @@ public sealed class RoutingEvidenceAggregator
         "research" or "analysis" or "investigation" => "research",
         "design" or "architecture" or "heavy-design" => "heavy-design",
         "document-to-text" => "document-to-text",
+        "review" or "quality-studio-review" => "review",
+        "html" or "ui" or "html-ui" or "html-ui-implementation" => "html-ui-implementation",
+        "source-review" or "code-review" or "source-code-review" => "source-code-review",
+        "security" or "security-review" or "security-assessment" => "security-assessment",
+        "redundancy" or "redundancy-detection" => "redundancy-detection",
+        "graphical-quality" or "graphical-quality-judgment" => "graphical-quality-judgment",
+        "consistency" or "consistency-checking" => "consistency-checking",
         _ => null,
     };
     private static string? Value(string? value) => string.IsNullOrWhiteSpace(value) ? null : value.Trim().ToLowerInvariant();

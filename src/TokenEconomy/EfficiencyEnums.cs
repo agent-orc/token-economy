@@ -24,6 +24,24 @@ public enum TaskClass
 
     /// <summary>Quality Studio review work whose suitability must come from retained review evidence.</summary>
     Review,
+
+    /// <summary>Implementing a browser-rendered interface from product and visual requirements.</summary>
+    HtmlUiImplementation,
+
+    /// <summary>Reviewing source code for seeded or production defects without implementing a change.</summary>
+    SourceCodeReview,
+
+    /// <summary>Assessing source, configuration, or architecture for exploitable security weaknesses.</summary>
+    SecurityAssessment,
+
+    /// <summary>Finding duplicated, overlapping, dead, or needlessly repeated implementation.</summary>
+    RedundancyDetection,
+
+    /// <summary>Judging visual hierarchy, polish, layout, and graphical defects in rendered output.</summary>
+    GraphicalQualityJudgment,
+
+    /// <summary>Checking repeated fields, behavior, terminology, or presentation for contradictions.</summary>
+    ConsistencyChecking,
 }
 
 /// <summary>

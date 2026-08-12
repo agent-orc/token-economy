@@ -13,6 +13,10 @@ public class SuggestModelTests
     [InlineData(TaskClass.Feature, "gpt-5.6-terra", EffortLevel.Medium)]
     [InlineData(TaskClass.MechanicalChore, "gpt-5.6-luna", EffortLevel.Low)]
     [InlineData(TaskClass.DocEdit, "gpt-5.6-luna", EffortLevel.Low)]
+    [InlineData(TaskClass.HtmlUiImplementation, "gpt-5.6-sol", EffortLevel.Medium)]
+    [InlineData(TaskClass.SourceCodeReview, "gpt-5.6-terra", EffortLevel.Medium)]
+    [InlineData(TaskClass.SecurityAssessment, "gpt-5.6-sol", EffortLevel.XHigh)]
+    [InlineData(TaskClass.RedundancyDetection, "gpt-5.6-sol", EffortLevel.Medium)]
     public void CompatibilityRanking_UsesPolicyQualifiedCoreModels(TaskClass task, string expectedModel, EffortLevel expectedEffort)
     {
         var top = Matrix.SuggestModel(task, BudgetPressure.Comfortable, [Cli.Codex], Now)[0];
@@ -20,6 +24,12 @@ public class SuggestModelTests
         Assert.Equal(expectedModel, top.ModelId);
         Assert.Equal(expectedEffort, top.SuggestedEffort);
     }
+
+    [Theory]
+    [InlineData(TaskClass.GraphicalQualityJudgment)]
+    [InlineData(TaskClass.ConsistencyChecking)]
+    public void Bounded_decision_classes_require_task_class_recommendation_api(TaskClass task)
+        => Assert.Empty(Matrix.SuggestModel(task, BudgetPressure.Comfortable, [Cli.Codex], Now));
 
     [Fact]
     public void UnsupportedDeprecatedAndRoleExceptionModels_AreNeverCoreSuggestions()

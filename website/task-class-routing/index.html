@@ -1,0 +1,160 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Task-class model studies — Token Economy</title>
+  <meta name="description" content="Evidence-backed model and thinking-level recommendations by task class, with outcome cost and policy-safe downgrade boundaries.">
+  <link rel="canonical" href="https://agent-orchestrator.dev/token-economy/task-class-routing/">
+  <style>
+    :root {
+      --bg: #ffffff; --bg-alt: #f5f7fb; --panel: #ffffff; --border: #e2e8f0;
+      --text: #1a2233; --muted: #5a6577; --accent: #2f6df0; --accent-soft: #eaf1ff;
+      --ok: #167a4a; --warn: #9a6b00; --code-bg: #f6f8fc; --code-text: #24324a;
+      --space-1: .25rem; --space-2: .5rem; --space-3: .75rem; --space-4: 1rem;
+      --space-5: 1.25rem; --space-6: 1.5rem; --space-8: 2rem; --space-10: 2.5rem;
+      --space-12: 3rem; --radius-sm: .4rem; --radius-md: .75rem;
+      --mono: ui-monospace, "SF Mono", "Cascadia Code", Menlo, Consolas, monospace;
+      --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root { --bg: #0f1420; --bg-alt: #131a29; --panel: #161d2c; --border: #26314a;
+        --text: #e6ebf5; --muted: #98a3ba; --accent: #6ea0ff; --accent-soft: #16233f;
+        --ok: #4cc38a; --warn: #e0b341; --code-bg: #0c111b; --code-text: #d3ddef; }
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; font-family: var(--sans); background: var(--bg); color: var(--text); line-height: 1.6; }
+    a { color: var(--accent); text-decoration: none; } a:hover { text-decoration: underline; }
+    code, pre { font-family: var(--mono); }
+    .wrap { width: min(72rem, calc(100% - var(--space-8))); margin-inline: auto; }
+    header { border-bottom: .0625rem solid var(--border); background: var(--bg); }
+    header .wrap { min-height: 3.625rem; display: flex; align-items: center; gap: var(--space-5); }
+    .brand { color: var(--text); font-weight: 700; } nav { margin-left: auto; display: flex; gap: var(--space-5); }
+    .hero { padding-block: var(--space-12); background: var(--bg-alt); }
+    .eyebrow { color: var(--accent); font: 700 .78rem/1 var(--mono); letter-spacing: .08em; text-transform: uppercase; }
+    h1 { max-width: 50rem; margin: var(--space-3) 0 var(--space-4); font-size: clamp(2rem, 6vw, 3.5rem); line-height: 1.08; letter-spacing: -.03em; }
+    h2 { margin: 0 0 var(--space-3); font-size: 1.65rem; } h3 { margin: 0 0 var(--space-2); font-size: 1.08rem; }
+    .lead, .sub, .muted { color: var(--muted); } .lead { max-width: 48rem; font-size: 1.08rem; }
+    section { padding-block: var(--space-10); border-top: .0625rem solid var(--border); }
+    .summary { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-4); margin-top: var(--space-8); }
+    .card { border: .0625rem solid var(--border); border-radius: var(--radius-md); background: var(--panel); padding: var(--space-5); }
+    .metric { display: block; font: 700 1.45rem/1.2 var(--mono); margin-bottom: var(--space-1); }
+    .callout { border-left: .25rem solid var(--accent); background: var(--accent-soft); padding: var(--space-4) var(--space-5); margin-block: var(--space-6); }
+    .table-scroll { overflow-x: auto; margin-top: var(--space-6); }
+    table { width: 100%; border-collapse: collapse; font-size: .9rem; }
+    #catalog table { min-width: 68rem; }
+    th, td { text-align: left; vertical-align: top; padding: var(--space-3); border-bottom: .0625rem solid var(--border); }
+    th { color: var(--muted); font-size: .74rem; letter-spacing: .05em; text-transform: uppercase; }
+    td.route { white-space: nowrap; font-family: var(--mono); font-weight: 700; }
+    .status { display: inline-block; border: .0625rem solid var(--border); border-radius: var(--radius-sm); padding: var(--space-1) var(--space-2); font: 700 .72rem/1.2 var(--mono); }
+    .status.pilot, .status.controlled { color: var(--ok); } .status.policy { color: var(--warn); }
+    ul { margin: var(--space-2) 0 0; padding-left: var(--space-5); } li + li { margin-top: var(--space-1); }
+    .pilots, .slices { display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--space-4); margin-top: var(--space-6); }
+    .evidence { font-size: .88rem; } .evidence code { overflow-wrap: anywhere; }
+    pre { background: var(--code-bg); color: var(--code-text); border: .0625rem solid var(--border); border-radius: var(--radius-md); padding: var(--space-4); overflow-x: auto; }
+    footer { padding-block: var(--space-8); color: var(--muted); border-top: .0625rem solid var(--border); }
+    @media (max-width: 50rem) { .summary, .pilots, .slices { grid-template-columns: 1fr; } nav { gap: var(--space-3); } .optional { display: none; } }
+  </style>
+</head>
+<body>
+  <header><div class="wrap"><a class="brand" href="../">¢ Token Economy</a><nav><a href="#recommendations">Recommendations</a><a href="#method">Method</a><a class="optional" href="#slices">Next slices</a></nav></div></header>
+  <main>
+    <div class="hero"><div class="wrap">
+      <span class="eyebrow">Task-class studies · evidence as of 2026-08-12</span>
+      <h1>Which model and thinking level—measured, not guessed.</h1>
+      <p class="lead">A versioned taxonomy for card creation, with controlled outcomes where they exist, explicit policy baselines where they do not, list-price cost per successful outcome, and downgrade boundaries that never cross the canonical correctness floors.</p>
+      <div class="summary">
+        <div class="card"><span class="metric">12</span><span class="muted">published task classes</span></div>
+        <div class="card"><span class="metric">2 + coding</span><span class="muted">new pilots plus the retained hard-coding suite</span></div>
+        <div class="card"><span class="metric">v1</span><span class="muted">taxonomy and study protocol</span></div>
+      </div>
+    </div></div>
+
+    <section id="recommendations"><div class="wrap">
+      <h2>Recommendation catalog</h2>
+      <p class="sub">The route is the class prior exposed by <code>TaskClassRecommendationCatalog</code>. Agent Studio must still run the concrete card through <code>ModelRouter</code>; uncertainty, hard floors, semantic reissues, availability, and explicit operator pins remain authoritative.</p>
+      <div class="callout"><strong>Read “policy baseline” literally.</strong> It is the safest current prior from the canonical routing policy, not a study winner. Only rows marked controlled pilot/evidence have comparable retained outcomes.</div>
+      <div id="catalog" aria-live="polite"><p class="muted">Loading checked recommendation data…</p></div>
+    </div></section>
+
+    <section id="method"><div class="wrap">
+      <h2>First two task-class studies</h2>
+      <div class="pilots">
+        <article class="card">
+          <h3>HTML/UI implementation → Sol/medium</h3>
+          <p>Two independent pages, three routes, desktop and mobile rendering. Every artifact passed deterministic markup/content checks, then a fixed Sol/xhigh jury—blinded to the producing route—applied the same defect checklist.</p>
+          <ul>
+            <li>Sol/medium: 2/2 passed; mean quality <strong>0.9175</strong>.</li>
+            <li>Terra/medium: 2/2 passed; mean quality <strong>0.86125</strong>.</li>
+            <li>Sol/xhigh: 1/2 passed; mean quality <strong>0.82</strong>; one critical defect.</li>
+          </ul>
+          <p class="muted">Subject cost/outcome: $0.212954. Jury verification added 31,074 measured tokens across the two recommended-route cases, but the pilot did not retain their component split; jury dollar cost is therefore unknown, not $0.</p>
+        </article>
+        <article class="card">
+          <h3>Source-code review → Terra/medium</h3>
+          <p>Two bounded C# snapshots, ten hidden seeded defects, and a line/semantic oracle. Ranking uses pass rate, severity-weighted recall, precision, then cost.</p>
+          <ul>
+            <li>Terra/medium: 2/2 passed; <strong>10/10</strong> defects; $0.030434/outcome.</li>
+            <li>Sol/xhigh: 2/2 passed; <strong>10/10</strong> defects; $0.164714/outcome.</li>
+            <li>Sol/medium: 1/2 passed; <strong>9/10</strong> defects.</li>
+          </ul>
+          <p class="muted">This supports Terra only for bounded review. Security boundaries still require Sol/xhigh; ambiguous or broad authorizing reviews remain at least Sol/medium.</p>
+        </article>
+      </div>
+      <div class="callout"><strong>QS dossier line reused, not overclaimed.</strong> For both <code>gpt-5.6-terra</code> and <code>gpt-5.6-sol</code>, the committed Quality Studio aggregate has 0 eligible operational runs and <code>insufficientEvidence</code>. Confirmed/dismissed QS findings would measure precision over emitted findings, not missed-defect recall, so the QS line remains observational and separate from the seeded ranking.</div>
+      <h3>Library API</h3>
+      <pre><code>var advice = TaskClassRecommendationCatalog.Default
+    .Recommend(TaskClass.HtmlUiImplementation);
+
+Console.WriteLine($"{advice.Recommended.Model} / {advice.Recommended.ThinkingLevel}");
+Console.WriteLine(advice.RationaleVersion); // persist with the Agent Studio card
+
+// At launch, route the concrete card as usual. The class prior cannot lower
+// ModelRouter's uncertainty score, correctness floor, or semantic promotion.</code></pre>
+      <p class="evidence">Protocols: <a href="https://github.com/agent-orc/token-economy/blob/main/benchmarks/task-class-studies/html-ui-v1.json">HTML/UI study</a> · <a href="https://github.com/agent-orc/token-economy/blob/main/benchmarks/task-class-studies/source-code-review-v1.json">source-review study</a> · <a href="https://github.com/agent-orc/token-economy/blob/main/docs/system/domains/model-routing-policy.md">canonical routing policy</a> · <a href="https://github.com/agent-orc/token-economy/blob/main/docs/concepts/delegation-economy.md">delegation economy</a></p>
+    </div></section>
+
+    <section id="slices"><div class="wrap">
+      <h2>Slice plan for the remaining classes</h2>
+      <p class="sub">Each slice keeps controlled and observational inputs separate, prices subject and verification work at the run date, and uses at least five scenarios and twenty attempts per route before qualification.</p>
+      <div class="slices">
+        <article class="card"><h3>1 · Security assessment</h3><p>Seed authn/authz, injection, secret, and unsafe-remediation cases. Score severity-weighted recall and unsafe advice. Sol/xhigh remains the hard floor throughout.</p></article>
+        <article class="card"><h3>2 · Redundancy detection</h3><p>Known clone pairs plus intentional variants. Score semantic-duplicate recall, precision, and false merge suggestions across one- and multi-subsystem corpora.</p></article>
+        <article class="card"><h3>3 · Graphical-quality judgment</h3><p>Human-calibrate the defect checklist, randomize blinded screenshot order, and compare Mini/high with stronger jurors using agreement and pairwise ranking accuracy.</p></article>
+        <article class="card"><h3>4 · Consistency checking</h3><p>Hide invariant manifests across schemas, prose, and UI states. Score contradiction recall/precision and separate compact bounded checks from open-ended research.</p></article>
+        <article class="card"><h3>5 · Coding classes</h3><p>Expand feature evidence and add heavy design, mechanical chore, docs, and research suites with native tests, factual keys, review grades, and semantic-reissue outcomes.</p></article>
+        <article class="card"><h3>Qualification and calibration</h3><p>Minimum 20 attempts per route, five scenarios, 70% outcome coverage, and at most 10% semantic reissue. Add human/jury agreement gates where judgment is subjective.</p></article>
+      </div>
+    </div></section>
+  </main>
+  <footer><div class="wrap">Token Economy · task-class taxonomy <code>task-class-taxonomy-v1</code> · rationale <code>task-class-rationale-2026-08-12</code></div></footer>
+  <script>
+    (() => {
+      const host = document.getElementById('catalog');
+      const escape = value => String(value).replace(/[&<>"']/g, char => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[char]));
+      const status = value => value === 'controlledPilot' ? ['pilot', 'controlled pilot']
+        : value === 'controlledCodingEvidence' ? ['controlled', 'controlled coding evidence'] : ['policy', 'policy baseline'];
+      fetch('../data/task-class-recommendations.json').then(response => {
+        if (!response.ok) throw new Error(`HTTP ${response.status}`);
+        return response.json();
+      }).then(data => {
+        const rows = data.recommendations.map(item => {
+          const [cls, label] = status(item.status);
+          const cost = item.costPerSuccessfulOutcome?.amountUsd == null ? 'Not measured'
+            : `$${Number(item.costPerSuccessfulOutcome.amountUsd).toFixed(6)}${item.costPerSuccessfulOutcome.includesVerification ? ' incl. verification' : ' subject only'}`;
+          const downgrade = item.downgrade ? `<code>${escape(item.downgrade.model)} / ${escape(item.downgrade.thinkingLevel)}</code><ul>${item.downgradeWhen.map(rule => `<li>${escape(rule)}</li>`).join('')}</ul>`
+            : `<span class="muted">No lower studied/policy route</span>`;
+          const evidence = item.evidence.map(line => `<li><code>${escape(line.evidenceKind)}</code> — ${escape(line.summary)}</li>`).join('');
+          return `<tr><td><strong>${escape(item.label)}</strong><br><span class="muted">${escape(item.definition)}</span></td>`
+            + `<td class="route">${escape(item.recommended.model)}<br>${escape(item.recommended.thinkingLevel)}</td>`
+            + `<td><span class="status ${cls}">${label}</span><br>${escape(item.benchmarkStatus)}<ul class="evidence">${evidence}</ul></td>`
+            + `<td>${escape(cost)}${item.outcomeRate == null ? '' : `<br><span class="muted">${Math.round(item.outcomeRate * 100)}% recommended-route pass rate · ${item.scenarioCount} scenarios</span>`}</td>`
+            + `<td>${downgrade}<ul>${item.neverDowngradeWhen.map(rule => `<li>${escape(rule)}</li>`).join('')}</ul></td></tr>`;
+        }).join('');
+        host.innerHTML = `<div class="table-scroll"><table><thead><tr><th>Task class</th><th>Recommended route</th><th>Evidence</th><th>Cost / successful outcome</th><th>Downgrade boundary</th></tr></thead><tbody>${rows}</tbody></table></div>`
+          + `<p class="muted">Generated from <code>${escape(data.source)}</code>; taxonomy <code>${escape(data.taxonomyVersion)}</code>, rationale <code>${escape(data.rationaleVersion)}</code>.</p>`;
+      }).catch(error => { host.innerHTML = `<div class="callout"><strong>Data unavailable in this preview.</strong> Serve <code>website/</code> over HTTP to load the checked projection. ${escape(error.message)}</div>`; });
+    })();
+  </script>
+</body>
+</html>

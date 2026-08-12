@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAtUtc": "2026-08-11T12:13:06.981327+00:00",
+  "generatedAtUtc": "2026-08-12T09:06:19.084103+00:00",
   "asOfUtc": "2026-08-11T00:00:00Z",
   "source": "ModelEfficiencyMatrix.Default.Describe(asOfUtc)",
   "rows": [
@@ -24,7 +24,13 @@
         "mechanicalChore": "ideal",
         "docEdit": "ideal",
         "research": "underpowered",
-        "review": null
+        "review": null,
+        "htmlUiImplementation": "underpowered",
+        "sourceCodeReview": "underpowered",
+        "securityAssessment": "underpowered",
+        "redundancyDetection": "underpowered",
+        "graphicalQualityJudgment": null,
+        "consistencyChecking": null
       },
       "restricted": false,
       "deprecated": false,
@@ -53,7 +59,13 @@
         "mechanicalChore": "capable",
         "docEdit": "capable",
         "research": "ideal",
-        "review": null
+        "review": null,
+        "htmlUiImplementation": "capable",
+        "sourceCodeReview": "ideal",
+        "securityAssessment": "underpowered",
+        "redundancyDetection": "capable",
+        "graphicalQualityJudgment": null,
+        "consistencyChecking": null
       },
       "restricted": false,
       "deprecated": false,
@@ -82,7 +94,13 @@
         "mechanicalChore": "overkill",
         "docEdit": "overkill",
         "research": "capable",
-        "review": null
+        "review": null,
+        "htmlUiImplementation": "ideal",
+        "sourceCodeReview": "overkill",
+        "securityAssessment": "ideal",
+        "redundancyDetection": "ideal",
+        "graphicalQualityJudgment": null,
+        "consistencyChecking": null
       },
       "restricted": false,
       "deprecated": false,
@@ -108,7 +126,13 @@
         "mechanicalChore": "ideal",
         "docEdit": "ideal",
         "research": "underpowered",
-        "review": null
+        "review": null,
+        "htmlUiImplementation": "underpowered",
+        "sourceCodeReview": "underpowered",
+        "securityAssessment": "underpowered",
+        "redundancyDetection": "underpowered",
+        "graphicalQualityJudgment": null,
+        "consistencyChecking": null
       },
       "restricted": false,
       "deprecated": false,
@@ -136,7 +160,13 @@
         "mechanicalChore": "overkill",
         "docEdit": "overkill",
         "research": "capable",
-        "review": null
+        "review": null,
+        "htmlUiImplementation": "ideal",
+        "sourceCodeReview": "overkill",
+        "securityAssessment": "ideal",
+        "redundancyDetection": "ideal",
+        "graphicalQualityJudgment": null,
+        "consistencyChecking": null
       },
       "restricted": false,
       "deprecated": false,
@@ -163,7 +193,13 @@
         "mechanicalChore": "overkill",
         "docEdit": "overkill",
         "research": "capable",
-        "review": null
+        "review": null,
+        "htmlUiImplementation": "ideal",
+        "sourceCodeReview": "overkill",
+        "securityAssessment": "ideal",
+        "redundancyDetection": "ideal",
+        "graphicalQualityJudgment": null,
+        "consistencyChecking": null
       },
       "restricted": false,
       "deprecated": true,
@@ -191,7 +227,13 @@
         "mechanicalChore": "overkill",
         "docEdit": "overkill",
         "research": "capable",
-        "review": null
+        "review": null,
+        "htmlUiImplementation": "ideal",
+        "sourceCodeReview": "overkill",
+        "securityAssessment": "ideal",
+        "redundancyDetection": "ideal",
+        "graphicalQualityJudgment": null,
+        "consistencyChecking": null
       },
       "restricted": false,
       "deprecated": false,
@@ -218,7 +260,13 @@
         "mechanicalChore": "overkill",
         "docEdit": "overkill",
         "research": "capable",
-        "review": null
+        "review": null,
+        "htmlUiImplementation": "ideal",
+        "sourceCodeReview": "overkill",
+        "securityAssessment": "ideal",
+        "redundancyDetection": "ideal",
+        "graphicalQualityJudgment": null,
+        "consistencyChecking": null
       },
       "restricted": false,
       "deprecated": false,
@@ -245,7 +293,13 @@
         "mechanicalChore": "overkill",
         "docEdit": "overkill",
         "research": "capable",
-        "review": null
+        "review": null,
+        "htmlUiImplementation": "ideal",
+        "sourceCodeReview": "overkill",
+        "securityAssessment": "ideal",
+        "redundancyDetection": "ideal",
+        "graphicalQualityJudgment": null,
+        "consistencyChecking": null
       },
       "restricted": false,
       "deprecated": false,
@@ -272,7 +326,13 @@
         "mechanicalChore": "overkill",
         "docEdit": "overkill",
         "research": "capable",
-        "review": null
+        "review": null,
+        "htmlUiImplementation": "ideal",
+        "sourceCodeReview": "overkill",
+        "securityAssessment": "ideal",
+        "redundancyDetection": "ideal",
+        "graphicalQualityJudgment": null,
+        "consistencyChecking": null
       },
       "restricted": false,
       "deprecated": false,
@@ -299,7 +359,13 @@
         "mechanicalChore": "overkill",
         "docEdit": "overkill",
         "research": "capable",
-        "review": null
+        "review": null,
+        "htmlUiImplementation": "ideal",
+        "sourceCodeReview": "overkill",
+        "securityAssessment": "ideal",
+        "redundancyDetection": "ideal",
+        "graphicalQualityJudgment": null,
+        "consistencyChecking": null
       },
       "restricted": false,
       "deprecated": false,
@@ -326,7 +392,13 @@
         "mechanicalChore": "overkill",
         "docEdit": "overkill",
         "research": "capable",
-        "review": null
+        "review": null,
+        "htmlUiImplementation": "ideal",
+        "sourceCodeReview": "overkill",
+        "securityAssessment": "ideal",
+        "redundancyDetection": "ideal",
+        "graphicalQualityJudgment": null,
+        "consistencyChecking": null
       },
       "restricted": false,
       "deprecated": false,
@@ -354,7 +426,13 @@
         "mechanicalChore": "capable",
         "docEdit": "capable",
         "research": "ideal",
-        "review": null
+        "review": null,
+        "htmlUiImplementation": "capable",
+        "sourceCodeReview": "ideal",
+        "securityAssessment": "underpowered",
+        "redundancyDetection": "capable",
+        "graphicalQualityJudgment": null,
+        "consistencyChecking": null
       },
       "restricted": false,
       "deprecated": false,
@@ -382,7 +460,13 @@
         "mechanicalChore": "capable",
         "docEdit": "capable",
         "research": "ideal",
-        "review": null
+        "review": null,
+        "htmlUiImplementation": "capable",
+        "sourceCodeReview": "ideal",
+        "securityAssessment": "underpowered",
+        "redundancyDetection": "capable",
+        "graphicalQualityJudgment": null,
+        "consistencyChecking": null
       },
       "restricted": false,
       "deprecated": false,
@@ -407,7 +491,13 @@
         "mechanicalChore": "ideal",
         "docEdit": "ideal",
         "research": "underpowered",
-        "review": null
+        "review": null,
+        "htmlUiImplementation": "underpowered",
+        "sourceCodeReview": "underpowered",
+        "securityAssessment": "underpowered",
+        "redundancyDetection": "underpowered",
+        "graphicalQualityJudgment": null,
+        "consistencyChecking": null
       },
       "restricted": false,
       "deprecated": false,
@@ -435,7 +525,13 @@
         "mechanicalChore": "capable",
         "docEdit": "capable",
         "research": "ideal",
-        "review": null
+        "review": null,
+        "htmlUiImplementation": "capable",
+        "sourceCodeReview": "ideal",
+        "securityAssessment": "underpowered",
+        "redundancyDetection": "capable",
+        "graphicalQualityJudgment": null,
+        "consistencyChecking": null
       },
       "restricted": false,
       "deprecated": false,
@@ -461,7 +557,13 @@
         "mechanicalChore": "overkill",
         "docEdit": "overkill",
         "research": "capable",
-        "review": null
+        "review": null,
+        "htmlUiImplementation": "ideal",
+        "sourceCodeReview": "overkill",
+        "securityAssessment": "ideal",
+        "redundancyDetection": "ideal",
+        "graphicalQualityJudgment": null,
+        "consistencyChecking": null
       },
       "restricted": false,
       "deprecated": false,
@@ -489,7 +591,13 @@
         "mechanicalChore": "overkill",
         "docEdit": "overkill",
         "research": "capable",
-        "review": null
+        "review": null,
+        "htmlUiImplementation": "ideal",
+        "sourceCodeReview": "overkill",
+        "securityAssessment": "ideal",
+        "redundancyDetection": "ideal",
+        "graphicalQualityJudgment": null,
+        "consistencyChecking": null
       },
       "restricted": true,
       "deprecated": false,
@@ -517,7 +625,13 @@
         "mechanicalChore": "capable",
         "docEdit": "capable",
         "research": "ideal",
-        "review": null
+        "review": null,
+        "htmlUiImplementation": "capable",
+        "sourceCodeReview": "ideal",
+        "securityAssessment": "underpowered",
+        "redundancyDetection": "capable",
+        "graphicalQualityJudgment": null,
+        "consistencyChecking": null
       },
       "restricted": false,
       "deprecated": false,
@@ -543,7 +657,13 @@
         "mechanicalChore": "overkill",
         "docEdit": "overkill",
         "research": "capable",
-        "review": null
+        "review": null,
+        "htmlUiImplementation": "ideal",
+        "sourceCodeReview": "overkill",
+        "securityAssessment": "ideal",
+        "redundancyDetection": "ideal",
+        "graphicalQualityJudgment": null,
+        "consistencyChecking": null
       },
       "restricted": false,
       "deprecated": false,

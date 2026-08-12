@@ -1,0 +1,94 @@
+{
+  "schemaVersion": 1,
+  "setupId": "html-ui-incident-console",
+  "runId": "20260812T083546713Z",
+  "startedAtUtc": "2026-08-12T08:35:46.7133658Z",
+  "completedAtUtc": "2026-08-12T08:44:20.0210682Z",
+  "taskClass": "html-ui-implementation",
+  "capability": "rendered-result-quality",
+  "primaryMetric": "qualityScore",
+  "higherPrimaryMetricIsBetter": true,
+  "cases": [
+    {
+      "variantId": "terra-medium",
+      "model": "gpt-5.6-terra",
+      "thinkingLevel": "medium",
+      "repetition": 1,
+      "succeeded": true,
+      "invocationExitCode": 0,
+      "evaluationExitCode": 0,
+      "usage": {
+        "input": 9755,
+        "output": 7177,
+        "cacheRead": 32000,
+        "cacheWrite": 0
+      },
+      "costUsd": 0.11203400,
+      "durationMs": 160686,
+      "failureReason": null,
+      "metrics": {
+        "qualityScore": 0.9625,
+        "juryScore": 95,
+        "checklistPassRate": 1.0,
+        "criticalDefectCount": 0,
+        "majorDefectCount": 0,
+        "verificationTokens": 15295
+      },
+      "outcomeScore": 0.9625
+    },
+    {
+      "variantId": "sol-medium",
+      "model": "gpt-5.6-sol",
+      "thinkingLevel": "medium",
+      "repetition": 1,
+      "succeeded": true,
+      "invocationExitCode": 0,
+      "evaluationExitCode": 0,
+      "usage": {
+        "input": 2668,
+        "output": 7046,
+        "cacheRead": 9984,
+        "cacheWrite": 0
+      },
+      "costUsd": 0.22971200,
+      "durationMs": 156066,
+      "failureReason": null,
+      "metrics": {
+        "qualityScore": 0.97,
+        "juryScore": 96,
+        "checklistPassRate": 1.0,
+        "criticalDefectCount": 0,
+        "majorDefectCount": 0,
+        "verificationTokens": 15670
+      },
+      "outcomeScore": 0.97
+    },
+    {
+      "variantId": "sol-xhigh",
+      "model": "gpt-5.6-sol",
+      "thinkingLevel": "xhigh",
+      "repetition": 1,
+      "succeeded": true,
+      "invocationExitCode": 0,
+      "evaluationExitCode": 0,
+      "usage": {
+        "input": 2670,
+        "output": 8522,
+        "cacheRead": 9984,
+        "cacheWrite": 0
+      },
+      "costUsd": 0.27400200,
+      "durationMs": 196515,
+      "failureReason": null,
+      "metrics": {
+        "qualityScore": 0.925,
+        "juryScore": 90,
+        "checklistPassRate": 1.0,
+        "criticalDefectCount": 0,
+        "majorDefectCount": 1,
+        "verificationTokens": 15732
+      },
+      "outcomeScore": 0.925
+    }
+  ]
+}

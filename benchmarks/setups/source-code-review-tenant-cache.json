@@ -1,0 +1,48 @@
+{
+  "$schema": "../schema/setup.schema.json",
+  "schemaVersion": 1,
+  "id": "source-code-review-tenant-cache-v2",
+  "formatAttribution": {
+    "sources": [
+      {
+        "suite": "NIST Software Assurance Reference Dataset",
+        "reference": "https://samate.nist.gov/SARD/",
+        "borrowed": ["known-defect corpus shape", "weakness-specific ground truth", "false-positive-aware evaluation"]
+      }
+    ],
+    "deviations": [
+      {
+        "difference": "The fixture is a small synthetic C# review target rather than a SARD test case.",
+        "reason": "A second independent scenario measures multi-tenant and asynchronous cache review without leaking the oracle."
+      },
+      {
+        "difference": "A finding matches by file, line neighborhood, and semantic keywords instead of a tool-specific alert taxonomy.",
+        "reason": "The same response contract must work for general-purpose reviewing models without exposing seed identifiers."
+      }
+    ]
+  },
+  "task": {
+    "prompt": "Perform static source analysis of TenantCache.cs itself against the behavioral contract in README.md. This is a deliberately flawed snapshot, not a git-diff review: ignore git status, read both files, and inspect the actual implementation line by line for concrete contract violations. Do not modify files. Return only JSON with this shape: {\"findings\":[{\"file\":\"path\",\"line\":1,\"severity\":\"critical|high|medium|low\",\"title\":\"short title\",\"summary\":\"why this is a defect\",\"evidence\":\"specific behavior\"}]}. Report every supported actionable defect, but do not invent style findings; line is the most relevant source line.",
+    "seedWorkspace": "benchmarks/fixtures/source-code-review-tenant-cache",
+    "responseFile": "review.json",
+    "taskClass": "source-code-review",
+    "capability": "seeded-defect-detection"
+  },
+  "variants": [
+    { "id": "terra-medium", "model": "gpt-5.6-terra", "thinkingLevel": "medium" },
+    { "id": "sol-medium", "model": "gpt-5.6-sol", "thinkingLevel": "medium" },
+    { "id": "sol-xhigh", "model": "gpt-5.6-sol", "thinkingLevel": "xhigh" }
+  ],
+  "repetitions": 1,
+  "invocationTimeoutSeconds": 300,
+  "successCriteria": {
+    "command": "python3",
+    "arguments": ["{repositoryRoot}/benchmarks/evaluators/evaluate_source_review.py", "{workspace}", "tenant-cache"],
+    "expectedExitCode": 0,
+    "timeoutSeconds": 30,
+    "metricsFile": "benchmark-metrics.json",
+    "primaryMetric": "severityWeightedRecall",
+    "higherPrimaryMetricIsBetter": true
+  },
+  "costCaps": { "maxTotalTokensPerInvocation": 800000 }
+}

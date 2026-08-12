@@ -1,0 +1,88 @@
+{
+  "schemaVersion": 1,
+  "setupId": "source-code-review-tenant-cache-v2",
+  "runId": "20260812T082910114Z",
+  "startedAtUtc": "2026-08-12T08:29:10.114677Z",
+  "completedAtUtc": "2026-08-12T08:33:37.0455084Z",
+  "taskClass": "source-code-review",
+  "capability": "seeded-defect-detection",
+  "primaryMetric": "severityWeightedRecall",
+  "higherPrimaryMetricIsBetter": true,
+  "cases": [
+    {
+      "variantId": "terra-medium",
+      "model": "gpt-5.6-terra",
+      "thinkingLevel": "medium",
+      "repetition": 1,
+      "succeeded": true,
+      "invocationExitCode": 0,
+      "evaluationExitCode": 0,
+      "usage": {
+        "input": 4903,
+        "output": 1098,
+        "cacheRead": 34048,
+        "cacheWrite": 0
+      },
+      "costUsd": 0.02979160,
+      "durationMs": 51930,
+      "failureReason": null,
+      "metrics": {
+        "seededDefectRecall": 1.0,
+        "severityWeightedRecall": 1.0,
+        "findingPrecision": 0.625,
+        "falsePositiveCount": 3
+      },
+      "outcomeScore": 1.0
+    },
+    {
+      "variantId": "sol-medium",
+      "model": "gpt-5.6-sol",
+      "thinkingLevel": "medium",
+      "repetition": 1,
+      "succeeded": true,
+      "invocationExitCode": 0,
+      "evaluationExitCode": 0,
+      "usage": {
+        "input": 8268,
+        "output": 2185,
+        "cacheRead": 32000,
+        "cacheWrite": 0
+      },
+      "costUsd": 0.12289000,
+      "durationMs": 73563,
+      "failureReason": null,
+      "metrics": {
+        "seededDefectRecall": 1.0,
+        "severityWeightedRecall": 1.0,
+        "findingPrecision": 0.555556,
+        "falsePositiveCount": 4
+      },
+      "outcomeScore": 1.0
+    },
+    {
+      "variantId": "sol-xhigh",
+      "model": "gpt-5.6-sol",
+      "thinkingLevel": "xhigh",
+      "repetition": 1,
+      "succeeded": true,
+      "invocationExitCode": 0,
+      "evaluationExitCode": 0,
+      "usage": {
+        "input": 19311,
+        "output": 4033,
+        "cacheRead": 36096,
+        "cacheWrite": 0
+      },
+      "costUsd": 0.23559300,
+      "durationMs": 141397,
+      "failureReason": null,
+      "metrics": {
+        "seededDefectRecall": 1.0,
+        "severityWeightedRecall": 1.0,
+        "findingPrecision": 0.625,
+        "falsePositiveCount": 3
+      },
+      "outcomeScore": 1.0
+    }
+  ]
+}

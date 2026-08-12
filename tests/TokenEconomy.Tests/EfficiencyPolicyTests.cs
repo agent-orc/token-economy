@@ -30,7 +30,8 @@ public class EfficiencyPolicyTests
     {
         // No pair falls through to a surprising default — every cell of the matrix is defined.
         foreach (var tier in Enum.GetValues<CapabilityTier>())
-            foreach (var task in Enum.GetValues<TaskClass>().Where(task => task != TaskClass.Review))
+            foreach (var task in Enum.GetValues<TaskClass>().Where(task => task is not
+                (TaskClass.Review or TaskClass.GraphicalQualityJudgment or TaskClass.ConsistencyChecking)))
             {
                 var suitability = EfficiencyPolicy.SuitabilityFor(tier, task);
                 Assert.True(suitability.HasValue && Enum.IsDefined(suitability.Value));
@@ -42,6 +43,16 @@ public class EfficiencyPolicyTests
     {
         foreach (var tier in Enum.GetValues<CapabilityTier>())
             Assert.Null(EfficiencyPolicy.SuitabilityFor(tier, TaskClass.Review));
+    }
+
+    [Fact]
+    public void Bounded_judgment_suitability_comes_from_the_recommendation_catalog()
+    {
+        foreach (var tier in Enum.GetValues<CapabilityTier>())
+        {
+            Assert.Null(EfficiencyPolicy.SuitabilityFor(tier, TaskClass.GraphicalQualityJudgment));
+            Assert.Null(EfficiencyPolicy.SuitabilityFor(tier, TaskClass.ConsistencyChecking));
+        }
     }
 
     // ---- cost-class buckets (derived, not duplicated numbers) ----

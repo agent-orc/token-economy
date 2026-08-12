@@ -1,0 +1,71 @@
+{
+  "setupId": "html-ui-incident-console",
+  "runId": "20260812T083546713Z",
+  "winner": "sol-medium",
+  "winnerReason": "Highest success rate; ties break on average qualityScore, tokens, duration, then variant id.",
+  "variants": [
+    {
+      "variantId": "sol-medium",
+      "runs": 1,
+      "successes": 1,
+      "successRate": 1,
+      "totalTokens": 19698,
+      "averageTokens": 19698,
+      "totalCostUsd": 0.22971200,
+      "costPerSuccessfulOutcomeUsd": 0.22971200,
+      "averageDurationMs": 156066,
+      "averageOutcomeScore": 0.97,
+      "averageMetrics": {
+        "qualityScore": 0.97,
+        "juryScore": 96,
+        "checklistPassRate": 1.0,
+        "criticalDefectCount": 0,
+        "majorDefectCount": 0,
+        "verificationTokens": 15670
+      }
+    },
+    {
+      "variantId": "terra-medium",
+      "runs": 1,
+      "successes": 1,
+      "successRate": 1,
+      "totalTokens": 48932,
+      "averageTokens": 48932,
+      "totalCostUsd": 0.11203400,
+      "costPerSuccessfulOutcomeUsd": 0.11203400,
+      "averageDurationMs": 160686,
+      "averageOutcomeScore": 0.9625,
+      "averageMetrics": {
+        "qualityScore": 0.9625,
+        "juryScore": 95,
+        "checklistPassRate": 1.0,
+        "criticalDefectCount": 0,
+        "majorDefectCount": 0,
+        "verificationTokens": 15295
+      }
+    },
+    {
+      "variantId": "sol-xhigh",
+      "runs": 1,
+      "successes": 1,
+      "successRate": 1,
+      "totalTokens": 21176,
+      "averageTokens": 21176,
+      "totalCostUsd": 0.27400200,
+      "costPerSuccessfulOutcomeUsd": 0.27400200,
+      "averageDurationMs": 196515,
+      "averageOutcomeScore": 0.925,
+      "averageMetrics": {
+        "qualityScore": 0.925,
+        "juryScore": 90,
+        "checklistPassRate": 1.0,
+        "criticalDefectCount": 0,
+        "majorDefectCount": 1,
+        "verificationTokens": 15732
+      }
+    }
+  ],
+  "costDeltaUsd": 0.11767800,
+  "qualityDelta": 0,
+  "primaryMetric": "qualityScore"
+}

@@ -1,0 +1,71 @@
+{
+  "setupId": "html-ui-billing-onboarding",
+  "runId": "20260812T084429463Z",
+  "winner": "sol-medium",
+  "winnerReason": "Highest success rate; ties break on average qualityScore, tokens, duration, then variant id.",
+  "variants": [
+    {
+      "variantId": "sol-medium",
+      "runs": 1,
+      "successes": 1,
+      "successRate": 1,
+      "totalTokens": 18695,
+      "averageTokens": 18695,
+      "totalCostUsd": 0.19619700,
+      "costPerSuccessfulOutcomeUsd": 0.19619700,
+      "averageDurationMs": 131340,
+      "averageOutcomeScore": 0.865,
+      "averageMetrics": {
+        "qualityScore": 0.865,
+        "juryScore": 82,
+        "checklistPassRate": 1.0,
+        "criticalDefectCount": 0,
+        "majorDefectCount": 1,
+        "verificationTokens": 15404
+      }
+    },
+    {
+      "variantId": "terra-medium",
+      "runs": 1,
+      "successes": 1,
+      "successRate": 1,
+      "totalTokens": 17243,
+      "averageTokens": 17243,
+      "totalCostUsd": 0.06105480,
+      "costPerSuccessfulOutcomeUsd": 0.06105480,
+      "averageDurationMs": 132713,
+      "averageOutcomeScore": 0.76,
+      "averageMetrics": {
+        "qualityScore": 0.76,
+        "juryScore": 68,
+        "checklistPassRate": 1.0,
+        "criticalDefectCount": 0,
+        "majorDefectCount": 2,
+        "verificationTokens": 16351
+      }
+    },
+    {
+      "variantId": "sol-xhigh",
+      "runs": 1,
+      "successes": 0,
+      "successRate": 0,
+      "totalTokens": 20240,
+      "averageTokens": 20240,
+      "totalCostUsd": 0.24584700,
+      "costPerSuccessfulOutcomeUsd": null,
+      "averageDurationMs": 170837,
+      "averageOutcomeScore": 0.715,
+      "averageMetrics": {
+        "qualityScore": 0.715,
+        "juryScore": 62,
+        "checklistPassRate": 1.0,
+        "criticalDefectCount": 1,
+        "majorDefectCount": 1,
+        "verificationTokens": 15593
+      }
+    }
+  ],
+  "costDeltaUsd": 0.13514220,
+  "qualityDelta": 0,
+  "primaryMetric": "qualityScore"
+}

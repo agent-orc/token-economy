@@ -6,6 +6,7 @@
   "additionalProperties": false,
   "required": ["schemaVersion", "id", "formatAttribution", "task", "variants", "successCriteria"],
   "properties": {
+    "$schema": { "type": "string", "minLength": 1 },
     "schemaVersion": { "const": 1 },
     "id": { "type": "string", "minLength": 1 },
     "formatAttribution": {
@@ -45,7 +46,7 @@
     "variants": { "type": "array", "minItems": 2, "items": { "type": "object", "additionalProperties": false, "required": ["id", "model"], "properties": { "id": { "type": "string", "minLength": 1 }, "model": { "type": "string", "minLength": 1 }, "thinkingLevel": { "type": "string" } } } },
     "repetitions": { "type": "integer", "minimum": 1, "default": 1 },
     "invocationTimeoutSeconds": { "type": "integer", "minimum": 1, "default": 300 },
-    "successCriteria": { "type": "object", "additionalProperties": false, "required": ["command"], "properties": { "command": { "type": "string", "minLength": 1 }, "arguments": { "type": "array", "items": { "type": "string" } }, "expectedExitCode": { "type": "integer", "default": 0 }, "timeoutSeconds": { "type": "integer", "minimum": 1, "default": 120 } } },
+    "successCriteria": { "type": "object", "additionalProperties": false, "required": ["command"], "properties": { "command": { "type": "string", "minLength": 1 }, "arguments": { "type": "array", "items": { "type": "string" } }, "expectedExitCode": { "type": "integer", "default": 0 }, "timeoutSeconds": { "type": "integer", "minimum": 1, "default": 120 }, "metricsFile": { "type": "string", "minLength": 1 }, "primaryMetric": { "type": "string", "minLength": 1 }, "higherPrimaryMetricIsBetter": { "type": "boolean", "default": true } } },
     "costCaps": { "type": "object", "additionalProperties": false, "properties": { "maxTotalTokensPerInvocation": { "type": "integer", "minimum": 1 }, "maxUsdPerInvocation": { "type": "number", "exclusiveMinimum": 0 } } }
   }
 }

@@ -1,0 +1,53 @@
+{
+  "$schema": "../schema/setup.schema.json",
+  "schemaVersion": 1,
+  "id": "html-ui-incident-console",
+  "formatAttribution": {
+    "sources": [
+      {
+        "suite": "Web Content Accessibility Guidelines 2.2",
+        "reference": "https://www.w3.org/TR/WCAG22/",
+        "borrowed": ["semantic and perceivable interface checks", "viewport-independent usability expectations"]
+      },
+      {
+        "suite": "Judging LLM-as-a-Judge with MT-Bench and Chatbot Arena",
+        "reference": "https://arxiv.org/abs/2306.05685",
+        "borrowed": ["fixed judge prompt", "structured rubric", "judge identity held constant across variants"]
+      }
+    ],
+    "deviations": [
+      {
+        "difference": "The artifact is a generated local UI rather than a WCAG conformance target or conversational answer.",
+        "reason": "The study needs rendered desktop/mobile quality signals while retaining an explicit non-conformance disclaimer."
+      },
+      {
+        "difference": "One fixed jury model scores screenshots alongside deterministic markup checks.",
+        "reason": "This pilot makes subjective quality measurable; later slices add human calibration and multiple blinded jurors."
+      }
+    ]
+  },
+  "task": {
+    "prompt": "Create a polished, self-contained index.html for Northstar, an incident-operations console. Include a compact product header; page title 'Incident console'; an 'Active incidents' summary; a visually dominant incident named 'API latency' with severity, elapsed time, services, owner state, and an 'Assign owner' action; smaller secondary incidents; service-health indicators; and 'Recent activity'. Make the hierarchy calm and operational rather than decorative. It must work at 1440x1000 and 390x844, use semantic HTML, labels and visible focus styles, avoid horizontal overflow, use no external assets or network requests, and define a small CSS custom-property token scale for colors, spacing, and radii. Return only the complete HTML document.",
+    "seedWorkspace": "benchmarks/fixtures/html-ui-incident-console",
+    "responseFile": "index.html",
+    "taskClass": "html-ui-implementation",
+    "capability": "rendered-result-quality"
+  },
+  "variants": [
+    { "id": "terra-medium", "model": "gpt-5.6-terra", "thinkingLevel": "medium" },
+    { "id": "sol-medium", "model": "gpt-5.6-sol", "thinkingLevel": "medium" },
+    { "id": "sol-xhigh", "model": "gpt-5.6-sol", "thinkingLevel": "xhigh" }
+  ],
+  "repetitions": 1,
+  "invocationTimeoutSeconds": 360,
+  "successCriteria": {
+    "command": "python3",
+    "arguments": ["{repositoryRoot}/benchmarks/evaluators/evaluate_html_ui.py", "{workspace}", "incident-console"],
+    "expectedExitCode": 0,
+    "timeoutSeconds": 420,
+    "metricsFile": "benchmark-metrics.json",
+    "primaryMetric": "qualityScore",
+    "higherPrimaryMetricIsBetter": true
+  },
+  "costCaps": { "maxTotalTokensPerInvocation": 500000 }
+}

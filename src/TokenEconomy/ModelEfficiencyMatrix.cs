@@ -350,6 +350,12 @@ public sealed class ModelEfficiencyMatrix
         TaskClass.DocEdit => "doc-edit work",
         TaskClass.Research => "research work",
         TaskClass.Review => "review work",
+        TaskClass.HtmlUiImplementation => "HTML/UI implementation",
+        TaskClass.SourceCodeReview => "source-code review",
+        TaskClass.SecurityAssessment => "security assessment",
+        TaskClass.RedundancyDetection => "redundancy detection",
+        TaskClass.GraphicalQualityJudgment => "graphical-quality judgment",
+        TaskClass.ConsistencyChecking => "consistency checking",
         _ => "this work",
     };
 

@@ -686,6 +686,13 @@ public sealed class ModelRouter
         "mechanical-chore" => TaskClass.MechanicalChore,
         "doc-edit" => TaskClass.DocEdit,
         "research" => TaskClass.Research,
+        "review" => TaskClass.Review,
+        "html-ui-implementation" => TaskClass.HtmlUiImplementation,
+        "source-code-review" => TaskClass.SourceCodeReview,
+        "security-assessment" => TaskClass.SecurityAssessment,
+        "redundancy-detection" => TaskClass.RedundancyDetection,
+        "graphical-quality-judgment" => TaskClass.GraphicalQualityJudgment,
+        "consistency-checking" => TaskClass.ConsistencyChecking,
         _ => TaskClass.Feature,
     };
 
@@ -696,6 +703,13 @@ public sealed class ModelRouter
         "doc" or "docs" or "documentation" or "doc-edit" => "doc-edit",
         "research" or "analysis" or "investigation" => "research",
         "design" or "architecture" or "heavy-design" => "heavy-design",
+        "review" or "quality-studio-review" => "review",
+        "html" or "ui" or "html-ui" or "html-ui-implementation" => "html-ui-implementation",
+        "source-review" or "code-review" or "source-code-review" => "source-code-review",
+        "security" or "security-review" or "security-assessment" => "security-assessment",
+        "redundancy" or "redundancy-detection" => "redundancy-detection",
+        "graphical-quality" or "graphical-quality-judgment" => "graphical-quality-judgment",
+        "consistency" or "consistency-checking" => "consistency-checking",
         _ => null,
     };
 

@@ -54,21 +54,28 @@ public sealed class BenchmarkRunner
                 int? evaluationExit = null;
                 if (failure is null && definition.CostCaps?.MaxTotalTokensPerInvocation is { } tokenCap && totalTokens > tokenCap)
                     failure = $"Token cap exceeded ({totalTokens} > {tokenCap}).";
-                if (failure is null && definition.CostCaps?.MaxUsdPerInvocation is { } usdCap && response.CostUsd is { } cost && cost > usdCap)
-                    failure = $"Cost cap exceeded ({cost} > {usdCap} USD).";
+                if (failure is null && definition.CostCaps?.MaxUsdPerInvocation is { } usdCap && response.CostUsd is { } reportedCost && reportedCost > usdCap)
+                    failure = $"Cost cap exceeded ({reportedCost} > {usdCap} USD).";
                 if (failure is null)
                 {
-                    evaluationExit = await EvaluateAsync(definition.SuccessCriteria, workspace, cancellationToken);
+                    evaluationExit = await EvaluateAsync(definition.SuccessCriteria, workspace, repositoryRoot, cancellationToken);
                     if (evaluationExit != definition.SuccessCriteria.ExpectedExitCode)
                         failure = $"Success command exited {evaluationExit}; expected {definition.SuccessCriteria.ExpectedExitCode}.";
                 }
+                var metrics = ReadMetrics(definition.SuccessCriteria.MetricsFile, workspace);
+                var outcomeScore = definition.SuccessCriteria.PrimaryMetric is { } primaryMetric
+                    && metrics.TryGetValue(primaryMetric, out var primaryValue)
+                        ? primaryValue
+                        : (decimal?)null;
+                var cost = response.CostUsd ?? ResolveCatalogCost(response.Usage, variant.Model, started);
                 timer.Stop();
                 cases.Add(new()
                 {
                     VariantId = variant.Id, Model = variant.Model, ThinkingLevel = variant.ThinkingLevel,
                     Repetition = repetition, Succeeded = failure is null, InvocationExitCode = response.ExitCode,
-                    EvaluationExitCode = evaluationExit, Usage = response.Usage, CostUsd = response.CostUsd,
-                    DurationMs = timer.ElapsedMilliseconds, FailureReason = failure,
+                    EvaluationExitCode = evaluationExit, Usage = response.Usage, CostUsd = cost,
+                    DurationMs = timer.ElapsedMilliseconds, FailureReason = failure, Metrics = metrics,
+                    OutcomeScore = outcomeScore,
                 });
                 EventOccurred?.Invoke(new("benchmark.case.completed", new Dictionary<string, object?>
                 { ["setupId"] = definition.Id, ["runId"] = runId, ["variantId"] = variant.Id, ["repetition"] = repetition,
@@ -80,7 +87,10 @@ public sealed class BenchmarkRunner
             {
                 SchemaVersion = 1, SetupId = definition.Id, RunId = runId,
                 StartedAtUtc = started, CompletedAtUtc = DateTime.UtcNow,
-                TaskClass = definition.Task.TaskClass, Capability = definition.Task.Capability, Cases = cases,
+                TaskClass = definition.Task.TaskClass, Capability = definition.Task.Capability,
+                PrimaryMetric = definition.SuccessCriteria.PrimaryMetric,
+                HigherPrimaryMetricIsBetter = definition.SuccessCriteria.HigherPrimaryMetricIsBetter,
+                Cases = cases,
             };
             var report = Compare(result);
             await WriteNewAsync(resultPath, result, cancellationToken);
@@ -106,15 +116,31 @@ public sealed class BenchmarkRunner
         var variants = result.Cases.GroupBy(c => c.VariantId).Select(group =>
         {
             var tokens = group.Sum(c => c.Usage.Input + c.Usage.Output + c.Usage.CacheRead + c.Usage.CacheWrite);
+            var costsAvailable = group.All(c => c.CostUsd is not null);
+            var totalCost = costsAvailable ? group.Sum(c => c.CostUsd!.Value) : (decimal?)null;
+            var successful = group.Count(c => c.Succeeded);
+            var metricNames = group.SelectMany(c => c.Metrics.Keys).Distinct(StringComparer.Ordinal);
+            var averageMetrics = metricNames.ToDictionary(
+                name => name,
+                name => group.Where(c => c.Metrics.ContainsKey(name)).Average(c => c.Metrics[name]),
+                StringComparer.Ordinal);
             return new BenchmarkVariantComparison
             {
-                VariantId = group.Key, Runs = group.Count(), Successes = group.Count(c => c.Succeeded),
-                SuccessRate = (decimal)group.Count(c => c.Succeeded) / group.Count(), TotalTokens = tokens,
+                VariantId = group.Key, Runs = group.Count(), Successes = successful,
+                SuccessRate = (decimal)successful / group.Count(), TotalTokens = tokens,
                 AverageTokens = (decimal)tokens / group.Count(),
-                TotalCostUsd = group.All(c => c.CostUsd is not null) ? group.Sum(c => c.CostUsd!.Value) : null,
+                TotalCostUsd = totalCost,
+                CostPerSuccessfulOutcomeUsd = totalCost is not null && successful > 0 ? totalCost / successful : null,
                 AverageDurationMs = (decimal)group.Sum(c => c.DurationMs) / group.Count(),
+                AverageOutcomeScore = group.Any(c => c.OutcomeScore is not null)
+                    ? group.Where(c => c.OutcomeScore is not null).Average(c => c.OutcomeScore!.Value)
+                    : null,
+                AverageMetrics = averageMetrics,
             };
-        }).OrderByDescending(v => v.SuccessRate).ThenBy(v => v.AverageTokens).ThenBy(v => v.AverageDurationMs).ThenBy(v => v.VariantId, StringComparer.Ordinal).ToList();
+        }).OrderByDescending(v => v.SuccessRate)
+            .ThenBy(v => v, new OutcomeScoreComparer(result.HigherPrimaryMetricIsBetter))
+            .ThenBy(v => v.AverageTokens).ThenBy(v => v.AverageDurationMs)
+            .ThenBy(v => v.VariantId, StringComparer.Ordinal).ToList();
         var winner = variants.Count == 0 || variants[0].Successes == 0 ? null : variants[0].VariantId;
         decimal? qualityDelta = variants.Count < 2 ? null : variants[0].SuccessRate - variants[1].SuccessRate;
         decimal? costDelta = variants.Count < 2 || variants[0].TotalCostUsd is null || variants[1].TotalCostUsd is null
@@ -125,9 +151,14 @@ public sealed class BenchmarkRunner
             WinnerReason = variants.Count == 0
                 ? "No cases."
                 : winner is null
-                    ? "No successful cases; variants are ordered by tokens, duration, then variant id."
-                    : "Highest success rate; ties break on average tokens, duration, then variant id.",
+                    ? result.PrimaryMetric is null
+                        ? "No successful cases; variants are ordered by tokens, duration, then variant id."
+                        : $"No successful cases; variants are ordered by average {result.PrimaryMetric}, tokens, duration, then variant id."
+                    : result.PrimaryMetric is null
+                        ? "Highest success rate; ties break on average tokens, duration, then variant id."
+                        : $"Highest success rate; ties break on average {result.PrimaryMetric}, tokens, duration, then variant id.",
             Variants = variants, CostDeltaUsd = costDelta, QualityDelta = qualityDelta,
+            PrimaryMetric = result.PrimaryMetric,
         };
     }
 
@@ -153,6 +184,8 @@ public sealed class BenchmarkRunner
         if (value.Repetitions < 1) throw new InvalidDataException("Repetitions must be at least one.");
         if (value.InvocationTimeoutSeconds < 1) throw new InvalidDataException("Invocation timeout must be at least one second.");
         if (value.Variants.Select(v => v.Id).Distinct(StringComparer.Ordinal).Count() != value.Variants.Count) throw new InvalidDataException("Variant ids must be unique.");
+        if (value.SuccessCriteria.PrimaryMetric is not null && value.SuccessCriteria.MetricsFile is null)
+            throw new InvalidDataException("A primary metric requires successCriteria.metricsFile.");
     }
 
     private static string ResolveWithin(string root, string relative)
@@ -170,21 +203,66 @@ public sealed class BenchmarkRunner
         foreach (var directory in Directory.EnumerateDirectories(source)) CopyDirectory(directory, Path.Combine(destination, Path.GetFileName(directory)));
     }
 
-    private static async Task<int> EvaluateAsync(BenchmarkSuccessCriteria criteria, string workspace, CancellationToken cancellationToken)
+    private static async Task<int> EvaluateAsync(
+        BenchmarkSuccessCriteria criteria, string workspace, string repositoryRoot, CancellationToken cancellationToken)
     {
         using var timeout = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
         timeout.CancelAfter(TimeSpan.FromSeconds(criteria.TimeoutSeconds));
         using var process = new Process { StartInfo = new(criteria.Command) { WorkingDirectory = workspace, UseShellExecute = false } };
-        foreach (var argument in criteria.Arguments) process.StartInfo.ArgumentList.Add(argument);
+        foreach (var argument in criteria.Arguments)
+            process.StartInfo.ArgumentList.Add(argument
+                .Replace("{workspace}", workspace, StringComparison.Ordinal)
+                .Replace("{repositoryRoot}", repositoryRoot, StringComparison.Ordinal));
         process.Start();
         try { await process.WaitForExitAsync(timeout.Token); return process.ExitCode; }
         catch (OperationCanceledException) when (!cancellationToken.IsCancellationRequested) { process.Kill(entireProcessTree: true); return -1; }
+    }
+
+    private static IReadOnlyDictionary<string, decimal> ReadMetrics(string? relativePath, string workspace)
+    {
+        if (relativePath is null) return new Dictionary<string, decimal>();
+        var path = ResolveWithin(workspace, relativePath);
+        if (!File.Exists(path)) return new Dictionary<string, decimal>();
+        using var document = JsonDocument.Parse(File.ReadAllText(path));
+        if (document.RootElement.ValueKind != JsonValueKind.Object)
+            throw new InvalidDataException($"Benchmark metrics must be a JSON object: {relativePath}");
+        var metrics = new Dictionary<string, decimal>(StringComparer.Ordinal);
+        foreach (var property in document.RootElement.EnumerateObject())
+        {
+            if (property.Value.ValueKind != JsonValueKind.Number || !property.Value.TryGetDecimal(out var value))
+                throw new InvalidDataException($"Benchmark metric '{property.Name}' must be numeric.");
+            metrics.Add(property.Name, value);
+        }
+        return metrics;
+    }
+
+    private static decimal? ResolveCatalogCost(TokenUsage usage, string model, DateTime atUtc)
+    {
+        var totalTokens = usage.Input + usage.Output + usage.CacheRead + usage.CacheWrite;
+        if (totalTokens <= 0) return null;
+        var cost = ModelPriceCatalog.Default.ComputeCost(model, usage, atUtc);
+        return cost.HasPrice ? cost.Total : null;
     }
 
     private static async Task WriteNewAsync<T>(string path, T value, CancellationToken cancellationToken)
     {
         await using var stream = new FileStream(path, FileMode.CreateNew, FileAccess.Write, FileShare.Read);
         await JsonSerializer.SerializeAsync(stream, value, Json, cancellationToken);
+    }
+
+    private sealed class OutcomeScoreComparer(bool higherIsBetter) : IComparer<BenchmarkVariantComparison>
+    {
+        public int Compare(BenchmarkVariantComparison? left, BenchmarkVariantComparison? right)
+        {
+            if (ReferenceEquals(left, right)) return 0;
+            if (left is null) return 1;
+            if (right is null) return -1;
+            if (left.AverageOutcomeScore is null) return right.AverageOutcomeScore is null ? 0 : 1;
+            if (right.AverageOutcomeScore is null) return -1;
+            return higherIsBetter
+                ? right.AverageOutcomeScore.Value.CompareTo(left.AverageOutcomeScore.Value)
+                : left.AverageOutcomeScore.Value.CompareTo(right.AverageOutcomeScore.Value);
+        }
     }
 }
 

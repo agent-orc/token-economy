@@ -1,0 +1,39 @@
+{
+  "$schema": "study.schema.json",
+  "schemaVersion": 1,
+  "studyVersion": "source-code-review-study-v1",
+  "taskClass": "source-code-review",
+  "status": "pilotComplete",
+  "scenarios": [
+    "benchmarks/setups/source-code-review-tenant-transfer-v2.json",
+    "benchmarks/setups/source-code-review-tenant-cache.json"
+  ],
+  "variants": [
+    { "id": "terra-medium", "model": "gpt-5.6-terra", "thinkingLevel": "medium" },
+    { "id": "sol-medium", "model": "gpt-5.6-sol", "thinkingLevel": "medium" },
+    { "id": "sol-xhigh", "model": "gpt-5.6-sol", "thinkingLevel": "xhigh" }
+  ],
+  "outcome": {
+    "primaryMetric": "severityWeightedRecall",
+    "measures": ["seededDefectRecall", "findingPrecision", "falsePositiveCount"],
+    "passRule": "at least 60% seeded-defect recall, at least 50% finding precision, and all critical seeds detected",
+    "rankingRule": "pass rate, mean severityWeightedRecall, mean findingPrecision, list-price cost, duration, stable variant id"
+  },
+  "qualificationGate": {
+    "minimumAttemptsPerVariant": 20,
+    "minimumScenarioCount": 5,
+    "minimumOutcomeCoverage": 0.70,
+    "maximumSemanticReissueRate": 0.10
+  },
+  "evidenceInputs": [
+    { "kind": "controlled", "reference": "benchmarks/results/source-code-review-tenant-transfer-v2/", "use": "hidden seeded-defect recall and precision" },
+    { "kind": "controlled", "reference": "benchmarks/results/source-code-review-tenant-cache-v2/", "use": "second defect mix and isolation/reliability coverage" },
+    { "kind": "observational", "reference": "results/routing-evidence/review/v1/review-evidence.json", "use": "per-model QS precision context only; excluded from recall and controlled ranking" }
+  ],
+  "limitations": [
+    "The pilot has two small synthetic C# files and cannot establish repository-scale review ability.",
+    "The original tenant-transfer run is excluded because its diff-oriented prompt failed to identify the supplied snapshot as the review subject and its Sol/xhigh attempt exceeded the then-active measurement cap.",
+    "Keyword and line-neighborhood matching can undercount a semantically correct finding expressed far from the seeded line.",
+    "QS confirmed/dismissed findings measure sighted-finding precision and cannot reveal missed defects."
+  ]
+}

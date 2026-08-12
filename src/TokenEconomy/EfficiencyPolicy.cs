@@ -14,7 +14,7 @@ public static class EfficiencyPolicy
 {
     // ---- suitability grid: capability tier × task class ----
 
-    /// <summary>How well a capability <paramref name="tier"/> fits a <paramref name="taskClass"/>; review returns null because its fit is evidence-derived.</summary>
+    /// <summary>How well a capability <paramref name="tier"/> fits a <paramref name="taskClass"/>; legacy Quality Studio review returns null because its fit is evidence-derived.</summary>
     public static Suitability? SuitabilityFor(CapabilityTier tier, TaskClass taskClass) => tier switch
     {
         // Frontier: made for the hard stuff, wasteful on the easy stuff.
@@ -24,6 +24,12 @@ public static class EfficiencyPolicy
             TaskClass.Feature => Suitability.Capable,
             TaskClass.Research => Suitability.Capable,
             TaskClass.Review => null,
+            TaskClass.HtmlUiImplementation => Suitability.Ideal,
+            TaskClass.SourceCodeReview => Suitability.Overkill,
+            TaskClass.SecurityAssessment => Suitability.Ideal,
+            TaskClass.RedundancyDetection => Suitability.Ideal,
+            TaskClass.GraphicalQualityJudgment => null,
+            TaskClass.ConsistencyChecking => null,
             TaskClass.MechanicalChore => Suitability.Overkill,
             TaskClass.DocEdit => Suitability.Overkill,
             _ => Suitability.Capable,
@@ -35,6 +41,12 @@ public static class EfficiencyPolicy
             TaskClass.Feature => Suitability.Ideal,
             TaskClass.Research => Suitability.Ideal,
             TaskClass.Review => null,
+            TaskClass.HtmlUiImplementation => Suitability.Capable,
+            TaskClass.SourceCodeReview => Suitability.Ideal,
+            TaskClass.SecurityAssessment => Suitability.Underpowered,
+            TaskClass.RedundancyDetection => Suitability.Capable,
+            TaskClass.GraphicalQualityJudgment => null,
+            TaskClass.ConsistencyChecking => null,
             TaskClass.MechanicalChore => Suitability.Capable,
             TaskClass.DocEdit => Suitability.Capable,
             _ => Suitability.Capable,
@@ -48,6 +60,12 @@ public static class EfficiencyPolicy
             TaskClass.Feature => Suitability.Underpowered,
             TaskClass.Research => Suitability.Underpowered,
             TaskClass.Review => null,
+            TaskClass.HtmlUiImplementation => Suitability.Underpowered,
+            TaskClass.SourceCodeReview => Suitability.Underpowered,
+            TaskClass.SecurityAssessment => Suitability.Underpowered,
+            TaskClass.RedundancyDetection => Suitability.Underpowered,
+            TaskClass.GraphicalQualityJudgment => null,
+            TaskClass.ConsistencyChecking => null,
             _ => Suitability.Underpowered,
         },
         _ => Suitability.Underpowered,
@@ -131,6 +149,12 @@ public static class EfficiencyPolicy
         TaskClass.Feature => EffortLevel.Medium,
         TaskClass.Research => EffortLevel.Medium,
         TaskClass.Review => EffortLevel.Medium,
+        TaskClass.HtmlUiImplementation => EffortLevel.Medium,
+        TaskClass.SourceCodeReview => EffortLevel.Medium,
+        TaskClass.SecurityAssessment => EffortLevel.XHigh,
+        TaskClass.RedundancyDetection => EffortLevel.Medium,
+        TaskClass.GraphicalQualityJudgment => EffortLevel.High,
+        TaskClass.ConsistencyChecking => EffortLevel.High,
         TaskClass.MechanicalChore => EffortLevel.Low,
         TaskClass.DocEdit => EffortLevel.Low,
         _ => EffortLevel.Medium,

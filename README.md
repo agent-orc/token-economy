@@ -111,6 +111,13 @@ selection rubric, and a standalone `ai-patterns` handoff.
   with the [end-to-end benchmark methodology](benchmarks/README.md); the
   [protocol background](docs/benchmarks.md) records the established-suite
   influences.
+- **Study-backed task-class advice** —
+  `TaskClassRecommendationCatalog.Default.Recommend(taskClass)` returns the
+  model, thinking level, rationale version, evidence, measured cost per outcome,
+  and downgrade boundary used at card creation. The published
+  [task-class studies](docs/task-class-routing-studies.md) cover the complete
+  taxonomy and the first controlled HTML/UI and source-review pilots; the
+  concrete card still goes through `ModelRouter` so correctness floors win.
 - **Upfront task complexity** — card/repository signals plus measured historical
   neighbours produce a versioned routing score, confidence, token/reissue
   forecast, and audit evidence. A host-supplied mini-model rubric is optional.
