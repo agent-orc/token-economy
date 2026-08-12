@@ -1,0 +1,60 @@
+{
+  "setupId": "source-code-review-tenant-transfer",
+  "runId": "20260812T081739638Z",
+  "winner": null,
+  "winnerReason": "No successful cases; variants are ordered by tokens, duration, then variant id.",
+  "variants": [
+    {
+      "variantId": "terra-medium",
+      "runs": 1,
+      "successes": 0,
+      "successRate": 0,
+      "totalTokens": 98696,
+      "averageTokens": 98696,
+      "totalCostUsd": 0.06105400,
+      "costPerSuccessfulOutcomeUsd": null,
+      "averageDurationMs": 29597,
+      "averageOutcomeScore": 0.0,
+      "averageMetrics": {
+        "seededDefectRecall": 0.0,
+        "severityWeightedRecall": 0.0,
+        "findingPrecision": 0,
+        "falsePositiveCount": 0
+      }
+    },
+    {
+      "variantId": "sol-medium",
+      "runs": 1,
+      "successes": 0,
+      "successRate": 0,
+      "totalTokens": 232153,
+      "averageTokens": 232153,
+      "totalCostUsd": 0.28795200,
+      "costPerSuccessfulOutcomeUsd": null,
+      "averageDurationMs": 78279,
+      "averageOutcomeScore": 0.0,
+      "averageMetrics": {
+        "seededDefectRecall": 0.0,
+        "severityWeightedRecall": 0.0,
+        "findingPrecision": 0,
+        "falsePositiveCount": 0
+      }
+    },
+    {
+      "variantId": "sol-xhigh",
+      "runs": 1,
+      "successes": 0,
+      "successRate": 0,
+      "totalTokens": 578069,
+      "averageTokens": 578069,
+      "totalCostUsd": 0.58976300,
+      "costPerSuccessfulOutcomeUsd": null,
+      "averageDurationMs": 129263,
+      "averageOutcomeScore": null,
+      "averageMetrics": {}
+    }
+  ],
+  "costDeltaUsd": -0.22689800,
+  "qualityDelta": 0,
+  "primaryMetric": "severityWeightedRecall"
+}

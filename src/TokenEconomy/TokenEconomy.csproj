@@ -20,6 +20,7 @@
     <None Include="..\..\README.md" Pack="true" PackagePath="\" />
     <EmbeddedResource Include="catalog\media-capabilities.json" />
     <EmbeddedResource Include="catalog\model-routing-policy.json" />
+    <EmbeddedResource Include="catalog\task-class-recommendations.json" />
     <EmbeddedResource Include="catalog\model-prices.json" />
     <EmbeddedResource Include="..\..\results\routing-evidence\review\v1\review-evidence.json"
                       Condition="Exists('..\..\results\routing-evidence\review\v1\review-evidence.json')"

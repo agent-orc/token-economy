@@ -5,6 +5,13 @@ SemVer; pre-1.0 the public API may still shift).
 
 ## [Unreleased]
 
+- Added a versioned 12-class task taxonomy and public
+  `TaskClassRecommendationCatalog` for Agent Studio card creation, including
+  model, thinking level, rationale/evidence versions, outcome cost, and
+  policy-safe downgrade boundaries. Published controlled HTML/UI and
+  source-code-review pilots, retained QS observational context separately, and
+  added the English task-class studies website with the remaining slice plan.
+
 ### Changed
 
 - GPT-5.5 recorded usage now resolves case- and dot/dash-insensitively to

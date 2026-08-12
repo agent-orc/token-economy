@@ -355,3 +355,26 @@ attributing a miss to model capability:
 Keep both categories visible. Removing failed rows after observing them changes
 the experiment; combining infrastructure failure with semantic failure changes
 the claim.
+
+## Task-class studies
+
+Task-class studies compose sibling benchmark setups under
+`benchmarks/task-class-studies/`. The v1 study schema declares comparable
+routes, scenarios, primary and supporting outcomes, a pass/ranking rule,
+qualification gates, evidence inputs, and limitations.
+
+- HTML/UI implementation renders desktop and mobile screenshots, applies a
+  deterministic markup/content checklist, and uses one fixed jury route blinded
+  to the producing route. The raw case retains jury quality, checklist rate,
+  defect counts, and verification tokens.
+- Source-code review scores hidden seeded defects by recall,
+  severity-weighted recall, finding precision, and false positives. Oracle data
+  stays outside the copied subject workspace.
+
+The two 2026-08-12 pilots are retained under `benchmarks/results/html-ui-*` and
+`benchmarks/results/source-code-review-*-v2`. They are class-routing pilots,
+not qualification: five scenarios and 20 attempts per route are the minimum
+gate. Quality Studio dossier metrics remain a separate observational evidence
+line because confirmed/dismissed findings cannot measure review recall. The
+full results and remaining-class plan are published in
+[`docs/task-class-routing-studies.md`](../docs/task-class-routing-studies.md).

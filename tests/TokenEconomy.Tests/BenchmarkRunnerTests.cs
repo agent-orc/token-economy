@@ -50,6 +50,28 @@ public sealed class BenchmarkRunnerTests
         Assert.StartsWith("No successful cases", report.WinnerReason, StringComparison.Ordinal);
     }
 
+    [Fact]
+    public void Compare_uses_declared_outcome_metric_before_tokens_and_reports_cost_per_success()
+    {
+        var result = new BenchmarkRunResult
+        {
+            SchemaVersion = 1, SetupId = "quality", RunId = "run", StartedAtUtc = DateTime.UtcNow,
+            CompletedAtUtc = DateTime.UtcNow, PrimaryMetric = "recall",
+            Cases =
+            [
+                Case("cheap", true, 10) with { OutcomeScore = 0.6m, Metrics = new Dictionary<string, decimal> { ["recall"] = 0.6m }, CostUsd = 0.1m },
+                Case("quality", true, 20) with { OutcomeScore = 0.9m, Metrics = new Dictionary<string, decimal> { ["recall"] = 0.9m }, CostUsd = 0.2m },
+            ],
+        };
+
+        var report = BenchmarkRunner.Compare(result);
+
+        Assert.Equal("quality", report.Winner);
+        Assert.Equal("recall", report.PrimaryMetric);
+        Assert.Equal(0.2m, report.Variants[0].CostPerSuccessfulOutcomeUsd);
+        Assert.Equal(0.9m, report.Variants[0].AverageMetrics["recall"]);
+    }
+
     private static BenchmarkDefinition Definition() => new()
     {
         SchemaVersion = 1, Id = "test",

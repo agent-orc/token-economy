@@ -1,0 +1,94 @@
+{
+  "schemaVersion": 1,
+  "setupId": "html-ui-billing-onboarding",
+  "runId": "20260812T084429463Z",
+  "startedAtUtc": "2026-08-12T08:44:29.4633049Z",
+  "completedAtUtc": "2026-08-12T08:51:44.4027416Z",
+  "taskClass": "html-ui-implementation",
+  "capability": "rendered-result-quality",
+  "primaryMetric": "qualityScore",
+  "higherPrimaryMetricIsBetter": true,
+  "cases": [
+    {
+      "variantId": "terra-medium",
+      "model": "gpt-5.6-terra",
+      "thinkingLevel": "medium",
+      "repetition": 1,
+      "succeeded": true,
+      "invocationExitCode": 0,
+      "evaluationExitCode": 0,
+      "usage": {
+        "input": 2805,
+        "output": 4454,
+        "cacheRead": 9984,
+        "cacheWrite": 0
+      },
+      "costUsd": 0.06105480,
+      "durationMs": 132713,
+      "failureReason": null,
+      "metrics": {
+        "qualityScore": 0.76,
+        "juryScore": 68,
+        "checklistPassRate": 1.0,
+        "criticalDefectCount": 0,
+        "majorDefectCount": 2,
+        "verificationTokens": 16351
+      },
+      "outcomeScore": 0.76
+    },
+    {
+      "variantId": "sol-medium",
+      "model": "gpt-5.6-sol",
+      "thinkingLevel": "medium",
+      "repetition": 1,
+      "succeeded": true,
+      "invocationExitCode": 0,
+      "evaluationExitCode": 0,
+      "usage": {
+        "input": 2805,
+        "output": 5906,
+        "cacheRead": 9984,
+        "cacheWrite": 0
+      },
+      "costUsd": 0.19619700,
+      "durationMs": 131340,
+      "failureReason": null,
+      "metrics": {
+        "qualityScore": 0.865,
+        "juryScore": 82,
+        "checklistPassRate": 1.0,
+        "criticalDefectCount": 0,
+        "majorDefectCount": 1,
+        "verificationTokens": 15404
+      },
+      "outcomeScore": 0.865
+    },
+    {
+      "variantId": "sol-xhigh",
+      "model": "gpt-5.6-sol",
+      "thinkingLevel": "xhigh",
+      "repetition": 1,
+      "succeeded": false,
+      "invocationExitCode": 0,
+      "evaluationExitCode": 1,
+      "usage": {
+        "input": 2673,
+        "output": 7583,
+        "cacheRead": 9984,
+        "cacheWrite": 0
+      },
+      "costUsd": 0.24584700,
+      "durationMs": 170837,
+      "failureReason": "Success command exited 1; expected 0.",
+      "metrics": {
+        "qualityScore": 0.715,
+        "juryScore": 62,
+        "checklistPassRate": 1.0,
+        "criticalDefectCount": 1,
+        "majorDefectCount": 1,
+        "verificationTokens": 15593
+      },
+      "outcomeScore": 0.715
+    }
+  ]
+}

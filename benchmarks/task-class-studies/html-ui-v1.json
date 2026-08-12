@@ -1,0 +1,44 @@
+{
+  "$schema": "study.schema.json",
+  "schemaVersion": 1,
+  "studyVersion": "html-ui-study-v1",
+  "taskClass": "html-ui-implementation",
+  "status": "pilotComplete",
+  "scenarios": [
+    "benchmarks/setups/html-ui-incident-console.json",
+    "benchmarks/setups/html-ui-billing-onboarding.json"
+  ],
+  "variants": [
+    { "id": "terra-medium", "model": "gpt-5.6-terra", "thinkingLevel": "medium" },
+    { "id": "sol-medium", "model": "gpt-5.6-sol", "thinkingLevel": "medium" },
+    { "id": "sol-xhigh", "model": "gpt-5.6-sol", "thinkingLevel": "xhigh" }
+  ],
+  "outcome": {
+    "primaryMetric": "qualityScore",
+    "measures": ["juryScore", "checklistPassRate", "criticalDefectCount", "majorDefectCount", "verificationTokens", "juryInputTokens", "juryOutputTokens", "juryCacheReadTokens"],
+    "passRule": "qualityScore >= 0.75, all deterministic checks pass, and the blinded jury reports no critical defect",
+    "rankingRule": "pass rate, mean qualityScore, total subject plus jury list-price cost, duration, stable variant id"
+  },
+  "jury": {
+    "model": "gpt-5.6-sol",
+    "thinkingLevel": "xhigh",
+    "blinded": true,
+    "checklist": ["content completeness", "visual hierarchy and primary action", "spacing and alignment", "desktop/mobile fit", "legibility and contrast", "interaction affordance", "observable labels and focus affordance"]
+  },
+  "qualificationGate": {
+    "minimumAttemptsPerVariant": 20,
+    "minimumScenarioCount": 5,
+    "minimumOutcomeCoverage": 0.70,
+    "maximumSemanticReissueRate": 0.10
+  },
+  "evidenceInputs": [
+    { "kind": "controlled", "reference": "benchmarks/results/html-ui-incident-console/", "use": "append-only subject usage and rendered quality outcomes" },
+    { "kind": "controlled", "reference": "benchmarks/results/html-ui-billing-onboarding/", "use": "independent visual genre and responsive outcome" },
+    { "kind": "observational", "reference": "docs/system/domains/model-routing-policy.md", "use": "correctness floors and provisional-policy caveat only; never merged into jury scores" }
+  ],
+  "limitations": [
+    "The pilot uses two synthetic pages and one fixed jury model, so it cannot validate universal frontend quality.",
+    "The jury sees screenshots but cannot prove keyboard behavior or WCAG conformance.",
+    "Human calibration, randomized presentation order, and a second jury are required before qualification."
+  ]
+}

@@ -75,7 +75,14 @@ sealed class CodexCliBenchmarkInvoker : IBenchmarkInvoker
             RedirectStandardOutput = true,
             RedirectStandardError = true,
         };
-        foreach (var argument in new[] { "--ask-for-approval", "never", "exec", "--json", "--ephemeral", "--skip-git-repo-check", "--sandbox", "workspace-write", "-C", request.Workspace, "-m", request.Variant.Model })
+        foreach (var argument in new[]
+        {
+            "--ask-for-approval", "never", "exec", "--json", "--ephemeral", "--skip-git-repo-check",
+            // The benchmark host is the isolation boundary for trusted checked-in fixtures. Nested
+            // bubblewrap cannot create its network namespace on some workers and would otherwise
+            // turn every source-reading study into an empty, invalid review.
+            "--sandbox", "danger-full-access", "-C", request.Workspace, "-m", request.Variant.Model,
+        })
             start.ArgumentList.Add(argument);
         if (!string.IsNullOrWhiteSpace(request.Variant.ThinkingLevel))
         {

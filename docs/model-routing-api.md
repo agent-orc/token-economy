@@ -24,6 +24,21 @@ routing components. It does not replace them:
 The authoritative behavior remains
 [`docs/system/domains/model-routing-policy.md`](system/domains/model-routing-policy.md).
 
+## Task-class card-creation prior
+
+`TaskClassRecommendationCatalog.Default.Recommend(taskClass)` exposes the
+versioned taxonomy recommendation used when Agent Studio creates a card. The
+result includes model, thinking level, rationale/evidence versions, retained
+evidence lines, cost per successful outcome when measured, and explicit
+downgrade/no-downgrade conditions. HTML/UI implementation and source-code
+review use controlled pilot results; rows without a comparable study say
+`PolicyBaseline` rather than implying a measured winner.
+
+This prior does not replace `ModelRouter.Route` at attempt admission. The
+concrete score, uncertainty, hard floors, semantic promotion, capacity, and
+operator pin still decide the launch route. See
+[`task-class-routing-studies.md`](task-class-routing-studies.md).
+
 ## Evaluation order
 
 The router is pure and deterministic. It performs no probes, launches, writes,

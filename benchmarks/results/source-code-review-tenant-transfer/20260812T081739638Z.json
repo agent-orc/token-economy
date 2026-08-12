@@ -1,0 +1,83 @@
+{
+  "schemaVersion": 1,
+  "setupId": "source-code-review-tenant-transfer",
+  "runId": "20260812T081739638Z",
+  "startedAtUtc": "2026-08-12T08:17:39.6380088Z",
+  "completedAtUtc": "2026-08-12T08:21:36.8141692Z",
+  "taskClass": "source-code-review",
+  "capability": "seeded-defect-detection",
+  "primaryMetric": "severityWeightedRecall",
+  "higherPrimaryMetricIsBetter": true,
+  "cases": [
+    {
+      "variantId": "terra-medium",
+      "model": "gpt-5.6-terra",
+      "thinkingLevel": "medium",
+      "repetition": 1,
+      "succeeded": false,
+      "invocationExitCode": 0,
+      "evaluationExitCode": 1,
+      "usage": {
+        "input": 18685,
+        "output": 651,
+        "cacheRead": 79360,
+        "cacheWrite": 0
+      },
+      "costUsd": 0.06105400,
+      "durationMs": 29597,
+      "failureReason": "Success command exited 1; expected 0.",
+      "metrics": {
+        "seededDefectRecall": 0.0,
+        "severityWeightedRecall": 0.0,
+        "findingPrecision": 0,
+        "falsePositiveCount": 0
+      },
+      "outcomeScore": 0.0
+    },
+    {
+      "variantId": "sol-medium",
+      "model": "gpt-5.6-sol",
+      "thinkingLevel": "medium",
+      "repetition": 1,
+      "succeeded": false,
+      "invocationExitCode": 0,
+      "evaluationExitCode": 1,
+      "usage": {
+        "input": 27214,
+        "output": 1675,
+        "cacheRead": 203264,
+        "cacheWrite": 0
+      },
+      "costUsd": 0.28795200,
+      "durationMs": 78279,
+      "failureReason": "Success command exited 1; expected 0.",
+      "metrics": {
+        "seededDefectRecall": 0.0,
+        "severityWeightedRecall": 0.0,
+        "findingPrecision": 0,
+        "falsePositiveCount": 0
+      },
+      "outcomeScore": 0.0
+    },
+    {
+      "variantId": "sol-xhigh",
+      "model": "gpt-5.6-sol",
+      "thinkingLevel": "xhigh",
+      "repetition": 1,
+      "succeeded": false,
+      "invocationExitCode": 0,
+      "evaluationExitCode": null,
+      "usage": {
+        "input": 45995,
+        "output": 3178,
+        "cacheRead": 528896,
+        "cacheWrite": 0
+      },
+      "costUsd": 0.58976300,
+      "durationMs": 129263,
+      "failureReason": "Token cap exceeded (578069 \u003E 500000).",
+      "metrics": {},
+      "outcomeScore": null
+    }
+  ]
+}

@@ -323,6 +323,7 @@
         <a href="#install">Install</a>
         <a href="#cost-api">Cost&nbsp;API</a>
         <a href="#model-recommendation">Model&nbsp;recommendation</a>
+        <a href="task-class-routing/">Task&nbsp;studies</a>
         <a href="#usage">Usage</a>
         <a href="#benchmarks">Benchmarks</a>
         <a href="#family">Family</a>
@@ -534,6 +535,9 @@ catalog.ComputeCost(KnownModels.ClaudeSonnet5, usage, standard).Total; // 6.00</
         <h2>Model recommendation</h2>
         <p class="sub">Token Economy keeps a model recommendation separate from the measured
         outcome used to evaluate it.</p>
+        <div class="callout"><strong>New: study-backed task-class routing.</strong> See the
+        <a href="task-class-routing/">published taxonomy, HTML/UI and source-review pilots, outcome
+        costs, and policy-safe downgrade boundaries</a>.</div>
         <div class="pillars">
           <div class="pillar"><div class="ico">01 / ESTIMATE</div><h3>Describe the work before launch</h3><p><code>TaskComplexityEstimator</code> applies intake evidence to a versioned complexity worksheet and produces a band, confidence, point forecasts, and inspectable evidence.</p></div>
           <div class="pillar"><div class="ico">02 / RECOMMEND</div><h3>Compare eligible models</h3><p><code>SuggestModel</code> combines task fit, derived cost class, and availability into ranked choices with an auditable rationale. The caller decides whether to act on the recommendation.</p></div>
@@ -762,6 +766,12 @@ catalog.ComputeCost(KnownModels.ClaudeSonnet5, usage, standard).Total; // 6.00</
         ['docEdit', 'Docs'],
         ['research', 'Research'],
         ['review', 'Review'],
+        ['htmlUiImplementation', 'HTML/UI'],
+        ['sourceCodeReview', 'Code review'],
+        ['securityAssessment', 'Security'],
+        ['redundancyDetection', 'Redundancy'],
+        ['graphicalQualityJudgment', 'Visual judgment'],
+        ['consistencyChecking', 'Consistency'],
       ];
       const fitCell = value => value === null
         ? '<td class="fit">&mdash;</td>'
@@ -787,10 +797,10 @@ catalog.ComputeCost(KnownModels.ClaudeSonnet5, usage, standard).Total; // 6.00</
       fetchJson('data/benchmarks.json').then(data => {
         if (!data.studies.length) { benchmarkHost.textContent = 'No published benchmark results yet.'; return; }
         benchmarkHost.innerHTML = data.studies.map(study => {
-          const variants = study.variants.map(variant => `<tr><td>${escape(variant.variantId)}${variant.variantId === study.winner ? ' <span class="state">WINNER</span>' : ''}<br><span class="comment-note">${escape(variant.model)}</span>${lifecycleBadge(variant)}</td><td class="num">${variant.successes} / ${variant.runs}</td><td class="num">${number(variant.averageTokens)}${variant.runs > 1 ? `<br><span class="comment-note">range ${observedRange(variant.tokenRange, number)}</span>` : ''}</td><td class="num">${seconds(variant.averageDurationMs)}${variant.runs > 1 ? `<br><span class="comment-note">range ${observedRange(variant.durationRangeMs, seconds)}</span>` : ''}</td><td>${variant.totalCostUsd === null ? 'Not supplied' : '$' + (variant.totalCostUsd / variant.runs).toFixed(4)}</td></tr>`).join('');
+          const variants = study.variants.map(variant => `<tr><td>${escape(variant.variantId)}${variant.variantId === study.winner ? ' <span class="state">WINNER</span>' : ''}<br><span class="comment-note">${escape(variant.model)}</span>${lifecycleBadge(variant)}</td><td class="num">${variant.successes} / ${variant.runs}</td><td class="num">${variant.averageOutcomeScore == null ? '—' : Number(variant.averageOutcomeScore).toFixed(4)}</td><td class="num">${number(variant.averageTokens)}${variant.runs > 1 ? `<br><span class="comment-note">range ${observedRange(variant.tokenRange, number)}</span>` : ''}</td><td class="num">${seconds(variant.averageDurationMs)}${variant.runs > 1 ? `<br><span class="comment-note">range ${observedRange(variant.durationRangeMs, seconds)}</span>` : ''}</td><td>${variant.costPerSuccessfulOutcomeUsd == null ? 'Unknown / no success' : '$' + Number(variant.costPerSuccessfulOutcomeUsd).toFixed(4)}</td></tr>`).join('');
           const date = new Date(study.startedAtUtc).toISOString().replace('.000', '').replace(/:\d\d\.\d+Z$/, 'Z');
           const outcome = study.winner === null ? 'No successful variant' : `<code>${escape(study.winner)}</code>`;
-          return `<h3>Published setup: ${escape(study.setupId)}</h3><p>Run <code>${escape(date)}</code>. Rankings use the documented success, tokens, duration, then variant-id tie-breaker.</p><div class="table-scroll"><table><thead><tr><th>Variant / model</th><th class="num">Success</th><th class="num">Avg. tokens</th><th class="num">Avg. duration</th><th>Cost</th></tr></thead><tbody>${variants}</tbody></table></div><div class="callout"><strong>Run result:</strong> ${outcome} — ${escape(study.winnerReason)} This result has ${study.variants[0].runs} repeat(s) per variant and does not establish a general performance difference.</div>`;
+          return `<h3>Published setup: ${escape(study.setupId)}</h3><p>Run <code>${escape(date)}</code>. ${escape(study.winnerReason)}</p><div class="table-scroll"><table><thead><tr><th>Variant / model</th><th class="num">Success</th><th class="num">Outcome score</th><th class="num">Avg. tokens</th><th class="num">Avg. duration</th><th>Cost / success</th></tr></thead><tbody>${variants}</tbody></table></div><div class="callout"><strong>Run result:</strong> ${outcome}. This result has ${study.variants[0].runs} repeat(s) per variant and does not establish a general performance difference.</div>`;
         }).join('') + (data.capabilityStudies || []).map(study => {
           const rows = study.capabilities.map(capability => `<tr><td>${escape(capability.model)}${lifecycleBadge(capability)}</td><td>${escape(capability.documentType)}</td><td class="num">${capability.casesAttempted === 0 ? '&mdash;' : capability.casesPassed + ' / ' + capability.casesAttempted}</td><td class="num">${capability.infrastructureFailures || '&mdash;'}</td><td>${capabilityLevel(capability)}</td></tr>`).join('');
           const date = new Date(study.startedAtUtc).toISOString().replace('.000', '').replace(/:\d\d\.\d+Z$/, 'Z');
