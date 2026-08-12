@@ -345,6 +345,8 @@ public sealed class ModelEfficiencyMatrix
     private static string TaskLabel(TaskClass taskClass) => taskClass switch
     {
         TaskClass.HeavyDesign => "heavy-design work",
+        TaskClass.Planning => "planning work",
+        TaskClass.DecisionMaking => "decision-making work",
         TaskClass.Feature => "feature work",
         TaskClass.MechanicalChore => "mechanical-chore work",
         TaskClass.DocEdit => "doc-edit work",

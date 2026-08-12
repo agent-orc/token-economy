@@ -1,7 +1,7 @@
 # Task-class routing studies
 
-Version: `task-class-taxonomy-v1`  
-Rationale: `task-class-rationale-2026-08-12`  
+Version: `task-class-taxonomy-v2`
+Rationale: `task-class-rationale-2026-08-12`
 Evidence through: 2026-08-12
 
 Token Economy answers “which model and thinking level for this task class?”
@@ -11,7 +11,13 @@ concrete card still goes through `ModelRouter`, so the score, uncertainty,
 correctness floors, semantic reissues, run-scoped capacity, and operator pins
 remain authoritative.
 
-The library contract is `TaskClassRecommendationCatalog.Default.Recommend`.
+The library contract is `TaskClassRecommendationCatalog.Default.Recommend`;
+it returns a ranked set whose order is stable for serialization but is not a
+quota-derived winner. `TaskClassRecommendationCatalog.Select` separately uses
+a fresh quota snapshot to choose within that set. Unknown or stale quota keeps
+the result recommendation-only. A downgrade is not selection from the set: it
+requires a new concrete-card policy evaluation and cannot cross a correctness
+floor.
 The public website view is
 [`website/task-class-routing/index.html`](../website/task-class-routing/index.html),
 generated from the same embedded recommendation catalog.
@@ -21,6 +27,8 @@ generated from the same embedded recommendation catalog.
 | Family | Class | Outcome unit |
 | --- | --- | --- |
 | Coding | Heavy design | Executable contracts, substantive grade, semantic reissue |
+| Judgment | Planning | Executable plan, dependency/constraint coverage, expert acceptance |
+| Judgment | Decision-making | Blinded expert agreement and downstream decision quality |
 | Coding | Feature and bug implementation | Native fixture pass rate |
 | Coding | Mechanical chore | Exact diff and deterministic regression |
 | Coding | Documentation edit | Fact, link, and terminology checklist |
@@ -53,6 +61,11 @@ same defect checklist; the producing route is not named.
 An outcome passes at `qualityScore >= 0.75`, only when every deterministic
 check passes and the jury reports no critical defect. Ranking is pass rate,
 mean quality, cost, duration, then stable route ID.
+
+The registered candidate matrix also contains `gpt-5.5`/medium and
+`gpt-5.4-mini`/high. They are marked `scheduled`, not silently counted as
+failed or described as measured. This keeps GPT-5.5-and-below in the next
+identical-scenario wave without rewriting the immutable three-route pilot.
 
 | Route | Passed | Mean quality | Critical defects | Subject list-price cost | Reading |
 | --- | ---: | ---: | ---: | ---: | --- |
@@ -91,6 +104,10 @@ finding precision, and false positives.
 An outcome passes at 60% recall and 50% precision only when all critical seeds
 are found. Ranking is pass rate, severity-weighted recall, precision, cost,
 duration, then stable route ID.
+
+The registered candidate matrix also schedules `gpt-5.5`/medium and
+`gpt-5.4-mini`/high against the same hidden manifests. No result is claimed for
+either candidate until immutable attempts exist.
 
 | Route | Passed | Seeds found | Mean precision | Subject list-price cost | Reading |
 | --- | ---: | ---: | ---: | ---: | --- |
@@ -146,6 +163,9 @@ classes also require human/jury calibration and randomized blinded order.
    and UI states; separate bounded checks from open-ended research.
 5. Existing coding classes: expand feature evidence and add heavy design,
    mechanical, docs, and research scenarios with native/factual oracles.
+6. Planning and Decision-Making: build separate realistic corpora with blinded
+   expert ground truth and strong routes as the ideal floor; do not collapse
+   consequential choices into the Mini bounded-label exception.
 
 This follows delegation economy: select the cheapest route that cleared the
 measured outcome, include verification and retry cost, and move upward when the

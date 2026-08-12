@@ -12,7 +12,7 @@
     "evidenceAsOfDate": { "type": "string", "format": "date" },
     "recommendations": {
       "type": "array",
-      "minItems": 12,
+      "minItems": 14,
       "items": {
         "type": "object",
         "additionalProperties": false,
@@ -27,6 +27,11 @@
           "benchmarkStatus": { "type": "string", "minLength": 1 },
           "status": { "enum": ["controlledPilot", "controlledCodingEvidence", "policyBaseline"] },
           "recommended": { "$ref": "#/$defs/route" },
+          "equivalentRoutes": {
+            "type": "array",
+            "items": { "$ref": "#/$defs/route" },
+            "uniqueItems": true
+          },
           "downgrade": { "oneOf": [{ "$ref": "#/$defs/route" }, { "type": "null" }] },
           "downgradeWhen": { "type": "array", "items": { "type": "string", "minLength": 1 } },
           "neverDowngradeWhen": { "type": "array", "items": { "type": "string", "minLength": 1 } },

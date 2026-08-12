@@ -5,10 +5,12 @@ SemVer; pre-1.0 the public API may still shift).
 
 ## [Unreleased]
 
-- Added a versioned 12-class task taxonomy and public
+- Added a versioned 14-class task taxonomy and public
   `TaskClassRecommendationCatalog` for Agent Studio card creation, including
-  model, thinking level, rationale/evidence versions, outcome cost, and
-  policy-safe downgrade boundaries. Published controlled HTML/UI and
+  ranked equivalent model/thinking sets, separate quota-aware selection,
+  strong-ideal Planning and Decision-Making semantics, rationale/evidence
+  versions, outcome cost, and policy-safe downgrade boundaries. Added
+  retry-aware tokens/cost-per-accepted-outcome calculations. Published controlled HTML/UI and
   source-code-review pilots, retained QS observational context separately, and
   added the English task-class studies website with the remaining slice plan.
 

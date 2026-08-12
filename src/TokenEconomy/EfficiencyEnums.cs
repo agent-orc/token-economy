@@ -10,6 +10,12 @@ public enum TaskClass
     /// <summary>Architecture, non-trivial refactors, hard problem-solving — needs the strongest reasoning.</summary>
     HeavyDesign,
 
+    /// <summary>Producing a multi-step course of action under dependencies, uncertainty, constraints, or trade-offs.</summary>
+    Planning,
+
+    /// <summary>Selecting among materially different alternatives whose downstream consequences matter.</summary>
+    DecisionMaking,
+
     /// <summary>Implementing a feature or a normal bug fix — the everyday coding workload.</summary>
     Feature,
 

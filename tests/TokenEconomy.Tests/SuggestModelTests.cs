@@ -10,6 +10,8 @@ public class SuggestModelTests
 
     [Theory]
     [InlineData(TaskClass.HeavyDesign, "gpt-5.6-sol", EffortLevel.High)]
+    [InlineData(TaskClass.Planning, "gpt-5.6-sol", EffortLevel.Medium)]
+    [InlineData(TaskClass.DecisionMaking, "gpt-5.6-sol", EffortLevel.Medium)]
     [InlineData(TaskClass.Feature, "gpt-5.6-terra", EffortLevel.Medium)]
     [InlineData(TaskClass.MechanicalChore, "gpt-5.6-luna", EffortLevel.Low)]
     [InlineData(TaskClass.DocEdit, "gpt-5.6-luna", EffortLevel.Low)]

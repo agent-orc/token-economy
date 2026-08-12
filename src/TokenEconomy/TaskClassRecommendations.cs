@@ -19,12 +19,52 @@ public enum TaskClassRecommendationStatus
     PolicyBaseline,
 }
 
+/// <summary>How strongly the catalog can claim that every member of a recommendation set is equivalent.</summary>
+public enum TaskClassEquivalenceStatus
+{
+    Demonstrated,
+    Provisional,
+    Singleton,
+    InsufficientEvidence,
+}
+
+/// <summary>The terminal state of quota-aware selection over an unchanged recommendation set.</summary>
+public enum TaskClassSelectionDisposition
+{
+    Selected,
+    RecommendationOnly,
+    Wait,
+}
+
 /// <summary>A model and thinking-level pair exposed to card-creation callers.</summary>
 public sealed record TaskClassRouteRecommendation
 {
     public string RouteId { get; init; } = "";
     public ModelId Model { get; init; }
     public EffortLevel ThinkingLevel { get; init; }
+    public Cli Cli { get; init; }
+    public int Rank { get; init; }
+    public PolicyEvidenceStatus EvidenceStatus { get; init; }
+    public bool Provisional { get; init; }
+    public decimal? CostPerSuccessfulOutcomeUsd { get; init; }
+    public decimal? RetryAdjustedCostPerOutcomeUsd { get; init; }
+    public decimal? TokensPerSuccessfulOutcome { get; init; }
+}
+
+/// <summary>Why a route was removed while selecting from an otherwise unchanged recommendation set.</summary>
+public sealed record TaskClassCandidateElimination(
+    TaskClassRouteRecommendation Candidate,
+    string Reason);
+
+/// <summary>Pure quota-aware selection result. The full quota-independent set is always retained.</summary>
+public sealed record TaskClassSelectionResult
+{
+    public required TaskClassSelectionDisposition Disposition { get; init; }
+    public required TaskClassRecommendation Recommendation { get; init; }
+    public TaskClassRouteRecommendation? Selected { get; init; }
+    public required IReadOnlyList<TaskClassCandidateElimination> Eliminated { get; init; }
+    public required DateTime EvaluatedAtUtc { get; init; }
+    public required string Reason { get; init; }
 }
 
 /// <summary>Dated cost per measured successful outcome. Null is retained when usage or pricing is unavailable.</summary>
@@ -55,7 +95,17 @@ public sealed record TaskClassRecommendation
     public string OutcomeMeasure { get; init; } = "";
     public string BenchmarkStatus { get; init; } = "";
     public TaskClassRecommendationStatus Status { get; init; }
-    public TaskClassRouteRecommendation Recommended { get; init; } = new();
+    /// <summary>
+    /// Evidence-qualified routes in stable rank order. Rank is used only after quota headroom and
+    /// observed efficiency; recommendation itself does not consume quota and does not select index zero.
+    /// </summary>
+    public IReadOnlyList<TaskClassRouteRecommendation> Candidates { get; init; } = [];
+    public TaskClassEquivalenceStatus Equivalence { get; init; }
+    public CapabilityTier MinimumCapability { get; init; }
+    public IReadOnlyList<string> UncertaintyReasons { get; init; } = [];
+
+    /// <summary>Compatibility projection for callers that have not yet migrated to <see cref="Candidates"/>.</summary>
+    public TaskClassRouteRecommendation Recommended => Candidates[0];
     public TaskClassRouteRecommendation? Downgrade { get; init; }
     public IReadOnlyList<string> DowngradeWhen { get; init; } = [];
     public IReadOnlyList<string> NeverDowngradeWhen { get; init; } = [];
@@ -112,6 +162,87 @@ public sealed class TaskClassRecommendationCatalog
             ? recommendation
             : throw new ArgumentOutOfRangeException(nameof(taskClass), taskClass, "Unknown task class.");
 
+    /// <summary>
+    /// Choose one member of an already-qualified set from current provider quota evidence. Unknown,
+    /// stale, missing, or suspicious quota returns <see cref="TaskClassSelectionDisposition.RecommendationOnly"/>;
+    /// constrained known quota returns <see cref="TaskClassSelectionDisposition.Wait"/>. This method
+    /// never introduces a downgrade or a route outside <see cref="TaskClassRecommendation.Candidates"/>.
+    /// </summary>
+    public TaskClassSelectionResult Select(
+        TaskClassRecommendation recommendation,
+        ProviderAvailabilitySnapshot quotaState,
+        DateTime atUtc)
+    {
+        ArgumentNullException.ThrowIfNull(recommendation);
+        ArgumentNullException.ThrowIfNull(quotaState);
+        if (atUtc.Kind != DateTimeKind.Utc)
+            throw new ArgumentException("atUtc must be UTC.", nameof(atUtc));
+        if (!_byClass.TryGetValue(recommendation.TaskClass, out var retained)
+            || retained.RationaleVersion != recommendation.RationaleVersion
+            || !retained.Candidates.SequenceEqual(recommendation.Candidates))
+            throw new ArgumentException("Recommendation does not belong to this catalog version.", nameof(recommendation));
+        if (recommendation.Candidates.Count == 0)
+            return Selection(TaskClassSelectionDisposition.Wait, recommendation, null, [], atUtc,
+                "The evidence-qualified recommendation set is empty; price cannot invent a safe route.");
+        if (quotaState.DecisionAtUtc > atUtc
+            || atUtc - quotaState.DecisionAtUtc > quotaState.MaximumObservationAge)
+            return Selection(TaskClassSelectionDisposition.RecommendationOnly, recommendation, null, [], atUtc,
+                "Quota snapshot is future-dated or stale; recommendation is retained without a concrete selection.");
+
+        var eligible = new List<(TaskClassRouteRecommendation Route, decimal Headroom, int WarningRank)>();
+        var eliminated = new List<TaskClassCandidateElimination>();
+        foreach (var candidate in recommendation.Candidates)
+        {
+            var model = ModelRoutingKnowledgeBase.Default.FindModel(candidate.Model.Value)!;
+            var provider = quotaState.Providers.SingleOrDefault(row =>
+                string.Equals(row.Provider, model.ProviderId, StringComparison.OrdinalIgnoreCase)
+                && CliMatches(row.CliType, candidate.Cli));
+            if (provider is null || provider.Freshness != SnapshotFreshness.Fresh
+                || provider.WarningState == AvailabilityWarningState.Unknown
+                || provider.Availability == ProviderCliAvailability.Unknown
+                || provider.QuotaWindows.Count == 0
+                || provider.QuotaWindows.Any(window => window.Freshness != SnapshotFreshness.Fresh
+                    || window.WarningState == AvailabilityWarningState.Unknown || window.Usage is null
+                    || window.Usage.LimitTokens <= 0 || window.Usage.UsedTokens < 0
+                    || window.Usage.HeadroomTokens < 0))
+                return Selection(TaskClassSelectionDisposition.RecommendationOnly, recommendation, null,
+                    eliminated, atUtc,
+                    $"Quota evidence for {candidate.Model}/{candidate.ThinkingLevel} is missing, stale, suspicious, or unknown.");
+            if (provider.Availability == ProviderCliAvailability.Unavailable
+                || provider.WarningState == AvailabilityWarningState.Critical
+                || provider.QuotaWindows.Any(window => window.WarningState == AvailabilityWarningState.Critical))
+            {
+                eliminated.Add(new(candidate, provider.Availability == ProviderCliAvailability.Unavailable
+                    ? provider.AvailabilityDetail ?? "Provider CLI is unavailable."
+                    : "At least one provider quota window is critical or exhausted."));
+                continue;
+            }
+
+            var headroom = provider.QuotaWindows.Min(window =>
+                window.Usage!.LimitTokens == 0 ? 0m
+                    : 100m * window.Usage.HeadroomTokens / window.Usage.LimitTokens);
+            var warningRank = provider.QuotaWindows.Any(window => window.WarningState == AvailabilityWarningState.Warning) ? 1 : 0;
+            eligible.Add((candidate, headroom, warningRank));
+        }
+
+        var selected = eligible.OrderBy(item => item.WarningRank)
+            .ThenByDescending(item => item.Headroom)
+            .ThenBy(item => item.Route.RetryAdjustedCostPerOutcomeUsd is null ? 1 : 0)
+            .ThenBy(item => item.Route.RetryAdjustedCostPerOutcomeUsd)
+            .ThenBy(item => item.Route.CostPerSuccessfulOutcomeUsd is null ? 1 : 0)
+            .ThenBy(item => item.Route.CostPerSuccessfulOutcomeUsd)
+            .ThenBy(item => item.Route.TokensPerSuccessfulOutcome is null ? 1 : 0)
+            .ThenBy(item => item.Route.TokensPerSuccessfulOutcome)
+            .ThenBy(item => item.Route.Rank)
+            .ThenBy(item => item.Route.Model.Value, StringComparer.Ordinal)
+            .FirstOrDefault();
+        return selected.Route is null
+            ? Selection(TaskClassSelectionDisposition.Wait, recommendation, null, eliminated, atUtc,
+                "Every equivalent route is unavailable or at a critical quota boundary; wait rather than cross the class floor.")
+            : Selection(TaskClassSelectionDisposition.Selected, recommendation, selected.Route, eliminated, atUtc,
+                $"Selected {selected.Route.Model}/{Thinking(selected.Route.ThinkingLevel)} from the unchanged set using fresh quota headroom, then measured efficiency and stable rank.");
+    }
+
     private static TaskClassRecommendationCatalog LoadEmbedded()
     {
         using var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream(ResourceName)
@@ -132,6 +263,16 @@ public sealed class TaskClassRecommendationCatalog
     private static TaskClassRecommendation ParseRecommendation(JsonElement item)
     {
         var cost = item.GetProperty("costPerSuccessfulOutcome");
+        var primary = Route(item.GetProperty("recommended"), 0,
+            item.GetProperty("status").GetString() == "policyBaseline" ? PolicyEvidenceStatus.Provisional : PolicyEvidenceStatus.Observed,
+            cost.ValueKind == JsonValueKind.Null || cost.GetProperty("amountUsd").ValueKind == JsonValueKind.Null
+                ? null : cost.GetProperty("amountUsd").GetDecimal());
+        var equivalent = item.TryGetProperty("equivalentRoutes", out var equivalents)
+            ? equivalents.EnumerateArray().Select((route, index) => Route(route, index + 1, PolicyEvidenceStatus.Provisional, null)).ToArray()
+            : [];
+        var candidates = new[] { primary }.Concat(equivalent).ToArray();
+        var minimumCapability = candidates.Select(candidate =>
+            ModelRoutingKnowledgeBase.Default.FindModel(candidate.Model.Value)!.CapabilityTier).Min();
         return new()
         {
             TaskClass = EnumValue<TaskClass>(item, "taskClass"),
@@ -142,9 +283,14 @@ public sealed class TaskClassRecommendationCatalog
             OutcomeMeasure = Text(item, "outcomeMeasure"),
             BenchmarkStatus = Text(item, "benchmarkStatus"),
             Status = EnumValue<TaskClassRecommendationStatus>(item, "status"),
-            Recommended = Route(item.GetProperty("recommended")),
+            Candidates = candidates,
+            Equivalence = candidates.Length == 1 ? TaskClassEquivalenceStatus.Singleton : TaskClassEquivalenceStatus.Provisional,
+            MinimumCapability = minimumCapability,
+            UncertaintyReasons = candidates.Length == 1
+                ? ["No task-qualified equivalent provider route is retained in this rationale version."]
+                : ["Equivalent-provider membership is provisional until a task-local non-inferiority gate passes."],
             Downgrade = item.GetProperty("downgrade").ValueKind == JsonValueKind.Null
-                ? null : Route(item.GetProperty("downgrade")),
+                ? null : Route(item.GetProperty("downgrade"), 0, PolicyEvidenceStatus.Provisional, null),
             DowngradeWhen = Strings(item, "downgradeWhen"),
             NeverDowngradeWhen = Strings(item, "neverDowngradeWhen"),
             Rationale = Text(item, "rationale"),
@@ -171,12 +317,23 @@ public sealed class TaskClassRecommendationCatalog
         };
     }
 
-    private static TaskClassRouteRecommendation Route(JsonElement item) => new()
+    private static TaskClassRouteRecommendation Route(
+        JsonElement item, int rank, PolicyEvidenceStatus evidenceStatus, decimal? retryAdjustedCost)
     {
-        RouteId = Text(item, "routeId"),
-        Model = ModelId.Of(Text(item, "model")),
-        ThinkingLevel = EnumValue<EffortLevel>(item, "thinkingLevel"),
-    };
+        var model = ModelId.Of(Text(item, "model"));
+        return new()
+        {
+            RouteId = Text(item, "routeId"),
+            Model = model,
+            ThinkingLevel = EnumValue<EffortLevel>(item, "thinkingLevel"),
+            Cli = ModelEfficiencyMatrix.Default.CliOf(model)
+                ?? throw new InvalidDataException($"Recommendation model '{model}' has no known CLI."),
+            Rank = rank,
+            EvidenceStatus = evidenceStatus,
+            Provisional = evidenceStatus == PolicyEvidenceStatus.Provisional,
+            CostPerSuccessfulOutcomeUsd = retryAdjustedCost,
+        };
+    }
 
     private static T EnumValue<T>(JsonElement item, string property) where T : struct, Enum
         => Enum.TryParse<T>(Text(item, property), ignoreCase: true, out var value)
@@ -195,7 +352,10 @@ public sealed class TaskClassRecommendationCatalog
         var knowledge = ModelRoutingKnowledgeBase.Default;
         foreach (var recommendation in recommendations)
         {
-            ValidateRoute(knowledge, recommendation.Recommended, recommendation.Id);
+            if (recommendation.Candidates.Count == 0)
+                throw new InvalidDataException($"Recommendation '{recommendation.Id}' has no candidates.");
+            foreach (var route in recommendation.Candidates)
+                ValidateRoute(knowledge, route, recommendation.Id);
             if (recommendation.Downgrade is { } downgrade)
                 ValidateRoute(knowledge, downgrade, recommendation.Id);
             if (recommendation.Status == TaskClassRecommendationStatus.ControlledPilot
@@ -207,10 +367,14 @@ public sealed class TaskClassRecommendationCatalog
     private static void ValidateRoute(
         ModelRoutingKnowledgeBase knowledge, TaskClassRouteRecommendation route, string recommendationId)
     {
-        var policyRoute = knowledge.FindRoute(route.RouteId)
-            ?? throw new InvalidDataException($"Recommendation '{recommendationId}' uses unknown route '{route.RouteId}'.");
-        if (policyRoute.ModelId != (string)route.Model
-            || !string.Equals(policyRoute.ThinkingLevel, Thinking(route.ThinkingLevel), StringComparison.Ordinal))
+        var policyRoute = knowledge.FindRoute(route.RouteId);
+        var fallback = knowledge.ProviderFallbacks.SingleOrDefault(item => item.Id == route.RouteId);
+        if (policyRoute is null && fallback is null)
+            throw new InvalidDataException($"Recommendation '{recommendationId}' uses unknown route '{route.RouteId}'.");
+        var model = policyRoute?.ModelId ?? fallback!.ModelId;
+        var thinking = policyRoute?.ThinkingLevel ?? fallback!.ThinkingLevel;
+        if (model != (string)route.Model
+            || !string.Equals(thinking, Thinking(route.ThinkingLevel), StringComparison.Ordinal))
             throw new InvalidDataException($"Recommendation '{recommendationId}' disagrees with canonical route '{route.RouteId}'.");
     }
 
@@ -231,6 +395,30 @@ public sealed class TaskClassRecommendationCatalog
         public DateOnly EvidenceAsOfDate { get; init; }
         public IReadOnlyList<TaskClassRecommendation> Recommendations { get; init; } = [];
     }
+
+    private static bool CliMatches(string cliType, Cli cli) => cli switch
+    {
+        Cli.Codex => string.Equals(cliType, "codex", StringComparison.OrdinalIgnoreCase),
+        Cli.Claude => string.Equals(cliType, "claude", StringComparison.OrdinalIgnoreCase)
+            || string.Equals(cliType, "claude-code", StringComparison.OrdinalIgnoreCase),
+        _ => false,
+    };
+
+    private static TaskClassSelectionResult Selection(
+        TaskClassSelectionDisposition disposition,
+        TaskClassRecommendation recommendation,
+        TaskClassRouteRecommendation? selected,
+        IReadOnlyList<TaskClassCandidateElimination> eliminated,
+        DateTime atUtc,
+        string reason) => new()
+        {
+            Disposition = disposition,
+            Recommendation = recommendation,
+            Selected = selected,
+            Eliminated = eliminated.ToArray(),
+            EvaluatedAtUtc = atUtc,
+            Reason = reason,
+        };
 }
 
 #pragma warning restore CS1591

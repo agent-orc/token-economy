@@ -9,6 +9,8 @@ public class EfficiencyPolicyTests
 
     [Theory]
     [InlineData(CapabilityTier.Frontier, TaskClass.HeavyDesign, Suitability.Ideal)]
+    [InlineData(CapabilityTier.Frontier, TaskClass.Planning, Suitability.Ideal)]
+    [InlineData(CapabilityTier.Frontier, TaskClass.DecisionMaking, Suitability.Ideal)]
     [InlineData(CapabilityTier.Frontier, TaskClass.Feature, Suitability.Capable)]
     [InlineData(CapabilityTier.Frontier, TaskClass.MechanicalChore, Suitability.Overkill)]
     [InlineData(CapabilityTier.Frontier, TaskClass.DocEdit, Suitability.Overkill)]
@@ -20,6 +22,10 @@ public class EfficiencyPolicyTests
     [InlineData(CapabilityTier.Light, TaskClass.MechanicalChore, Suitability.Ideal)]
     [InlineData(CapabilityTier.Light, TaskClass.DocEdit, Suitability.Ideal)]
     [InlineData(CapabilityTier.Light, TaskClass.HeavyDesign, Suitability.Underpowered)]
+    [InlineData(CapabilityTier.Balanced, TaskClass.Planning, Suitability.Underpowered)]
+    [InlineData(CapabilityTier.Balanced, TaskClass.DecisionMaking, Suitability.Underpowered)]
+    [InlineData(CapabilityTier.Light, TaskClass.Planning, Suitability.Underpowered)]
+    [InlineData(CapabilityTier.Light, TaskClass.DecisionMaking, Suitability.Underpowered)]
     [InlineData(CapabilityTier.Light, TaskClass.Feature, Suitability.Underpowered)]
     [InlineData(CapabilityTier.Light, TaskClass.Research, Suitability.Underpowered)]
     public void SuitabilityFor_MapsTierAndTask(CapabilityTier tier, TaskClass task, Suitability expected)
@@ -85,6 +91,8 @@ public class EfficiencyPolicyTests
 
     [Theory]
     [InlineData(TaskClass.HeavyDesign, EffortLevel.High)]
+    [InlineData(TaskClass.Planning, EffortLevel.Medium)]
+    [InlineData(TaskClass.DecisionMaking, EffortLevel.Medium)]
     [InlineData(TaskClass.Feature, EffortLevel.Medium)]
     [InlineData(TaskClass.Research, EffortLevel.Medium)]
     [InlineData(TaskClass.Review, EffortLevel.Medium)]

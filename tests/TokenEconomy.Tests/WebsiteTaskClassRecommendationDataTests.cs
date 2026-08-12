@@ -23,10 +23,18 @@ public sealed class WebsiteTaskClassRecommendationDataTests
         foreach (var recommendation in catalog.Recommendations)
         {
             var row = Assert.Single(rows, row => row.GetProperty("id").GetString() == recommendation.Id);
-            Assert.Equal(recommendation.Recommended.Model.Value,
-                row.GetProperty("recommended").GetProperty("model").GetString());
-            Assert.Equal(Thinking(recommendation.Recommended.ThinkingLevel),
-                row.GetProperty("recommended").GetProperty("thinkingLevel").GetString());
+            var publishedCandidates = new[] { row.GetProperty("recommended") }
+                .Concat(row.TryGetProperty("equivalentRoutes", out var equivalents)
+                    ? equivalents.EnumerateArray().ToArray() : [])
+                .ToArray();
+            Assert.Equal(recommendation.Candidates.Count, publishedCandidates.Length);
+            for (var index = 0; index < publishedCandidates.Length; index++)
+            {
+                Assert.Equal(recommendation.Candidates[index].Model.Value,
+                    publishedCandidates[index].GetProperty("model").GetString());
+                Assert.Equal(Thinking(recommendation.Candidates[index].ThinkingLevel),
+                    publishedCandidates[index].GetProperty("thinkingLevel").GetString());
+            }
             Assert.Equal(recommendation.EvidenceVersion, row.GetProperty("evidenceVersion").GetString());
         }
     }

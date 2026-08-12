@@ -13,6 +13,13 @@
     { "id": "sol-medium", "model": "gpt-5.6-sol", "thinkingLevel": "medium" },
     { "id": "sol-xhigh", "model": "gpt-5.6-sol", "thinkingLevel": "xhigh" }
   ],
+  "candidateMatrix": [
+    { "id": "gpt-5.4-mini-high", "model": "gpt-5.4-mini", "thinkingLevel": "high", "measurementStatus": "scheduled" },
+    { "id": "gpt-5.5-medium", "model": "gpt-5.5", "thinkingLevel": "medium", "measurementStatus": "scheduled" },
+    { "id": "terra-medium", "model": "gpt-5.6-terra", "thinkingLevel": "medium", "measurementStatus": "measuredPilot" },
+    { "id": "sol-medium", "model": "gpt-5.6-sol", "thinkingLevel": "medium", "measurementStatus": "measuredPilot" },
+    { "id": "sol-xhigh", "model": "gpt-5.6-sol", "thinkingLevel": "xhigh", "measurementStatus": "measuredPilot" }
+  ],
   "outcome": {
     "primaryMetric": "severityWeightedRecall",
     "measures": ["seededDefectRecall", "findingPrecision", "falsePositiveCount"],

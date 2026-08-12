@@ -39,7 +39,7 @@
     .summary { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-4); margin-top: var(--space-8); }
     .card { border: .0625rem solid var(--border); border-radius: var(--radius-md); background: var(--panel); padding: var(--space-5); }
     .metric { display: block; font: 700 1.45rem/1.2 var(--mono); margin-bottom: var(--space-1); }
-    .callout { border-left: .25rem solid var(--accent); background: var(--accent-soft); padding: var(--space-4) var(--space-5); margin-block: var(--space-6); }
+    .callout { border: .0625rem solid var(--border); border-radius: var(--radius-md); background: var(--accent-soft); padding: var(--space-4) var(--space-5); margin-block: var(--space-6); }
     .table-scroll { overflow-x: auto; margin-top: var(--space-6); }
     table { width: 100%; border-collapse: collapse; font-size: .9rem; }
     #catalog table { min-width: 68rem; }
@@ -64,15 +64,16 @@
       <h1>Which model and thinking level—measured, not guessed.</h1>
       <p class="lead">A versioned taxonomy for card creation, with controlled outcomes where they exist, explicit policy baselines where they do not, list-price cost per successful outcome, and downgrade boundaries that never cross the canonical correctness floors.</p>
       <div class="summary">
-        <div class="card"><span class="metric">12</span><span class="muted">published task classes</span></div>
+        <div class="card"><span class="metric">14</span><span class="muted">published task classes</span></div>
         <div class="card"><span class="metric">2 + coding</span><span class="muted">new pilots plus the retained hard-coding suite</span></div>
-        <div class="card"><span class="metric">v1</span><span class="muted">taxonomy and study protocol</span></div>
+        <div class="card"><span class="metric">v2</span><span class="muted">set-valued taxonomy contract</span></div>
       </div>
     </div></div>
 
     <section id="recommendations"><div class="wrap">
       <h2>Recommendation catalog</h2>
-      <p class="sub">The route is the class prior exposed by <code>TaskClassRecommendationCatalog</code>. Agent Studio must still run the concrete card through <code>ModelRouter</code>; uncertainty, hard floors, semantic reissues, availability, and explicit operator pins remain authoritative.</p>
+      <p class="sub">Each row is a quota-independent ranked set exposed by <code>TaskClassRecommendationCatalog</code>. Agent Studio may choose within the set only from fresh quota state, then must still run the concrete card through <code>ModelRouter</code>; uncertainty, hard floors, semantic reissues, and explicit operator pins remain authoritative.</p>
+      <div class="callout"><strong>Planning and Decision-Making are strong-ideal.</strong> Their sets contain strong routes only. Quota can choose a provider peer; it cannot make a smaller tier ideal or turn a consequential decision into the bounded Mini role exception.</div>
       <div class="callout"><strong>Read “policy baseline” literally.</strong> It is the safest current prior from the canonical routing policy, not a study winner. Only rows marked controlled pilot/evidence have comparable retained outcomes.</div>
       <div id="catalog" aria-live="polite"><p class="muted">Loading checked recommendation data…</p></div>
     </div></section>
@@ -101,13 +102,19 @@
           <p class="muted">This supports Terra only for bounded review. Security boundaries still require Sol/xhigh; ambiguous or broad authorizing reviews remain at least Sol/medium.</p>
         </article>
       </div>
+      <p class="muted">The next identical-scenario matrix explicitly includes <code>gpt-5.5</code>/medium and <code>gpt-5.4-mini</code>/high. They are scheduled candidates, not measured pilot results; the published recommendations do not infer success from catalog presence.</p>
       <div class="callout"><strong>QS dossier line reused, not overclaimed.</strong> For both <code>gpt-5.6-terra</code> and <code>gpt-5.6-sol</code>, the committed Quality Studio aggregate has 0 eligible operational runs and <code>insufficientEvidence</code>. Confirmed/dismissed QS findings would measure precision over emitted findings, not missed-defect recall, so the QS line remains observational and separate from the seeded ranking.</div>
       <h3>Library API</h3>
       <pre><code>var advice = TaskClassRecommendationCatalog.Default
     .Recommend(TaskClass.HtmlUiImplementation);
 
-Console.WriteLine($"{advice.Recommended.Model} / {advice.Recommended.ThinkingLevel}");
+foreach (var route in advice.Candidates)
+    Console.WriteLine($"{route.Model} / {route.ThinkingLevel}");
 Console.WriteLine(advice.RationaleVersion); // persist with the Agent Studio card
+
+var selection = TaskClassRecommendationCatalog.Default
+    .Select(advice, currentQuotaSnapshot, DateTime.UtcNow);
+// Unknown/stale quota => RecommendationOnly and Selected == null.
 
 // At launch, route the concrete card as usual. The class prior cannot lower
 // ModelRouter's uncertainty score, correctness floor, or semantic promotion.</code></pre>
@@ -127,7 +134,7 @@ Console.WriteLine(advice.RationaleVersion); // persist with the Agent Studio car
       </div>
     </div></section>
   </main>
-  <footer><div class="wrap">Token Economy · task-class taxonomy <code>task-class-taxonomy-v1</code> · rationale <code>task-class-rationale-2026-08-12</code></div></footer>
+  <footer><div class="wrap">Token Economy · task-class taxonomy <code>task-class-taxonomy-v2</code> · rationale <code>task-class-rationale-2026-08-12</code></div></footer>
   <script>
     (() => {
       const host = document.getElementById('catalog');
@@ -144,14 +151,17 @@ Console.WriteLine(advice.RationaleVersion); // persist with the Agent Studio car
             : `$${Number(item.costPerSuccessfulOutcome.amountUsd).toFixed(6)}${item.costPerSuccessfulOutcome.includesVerification ? ' incl. verification' : ' subject only'}`;
           const downgrade = item.downgrade ? `<code>${escape(item.downgrade.model)} / ${escape(item.downgrade.thinkingLevel)}</code><ul>${item.downgradeWhen.map(rule => `<li>${escape(rule)}</li>`).join('')}</ul>`
             : `<span class="muted">No lower studied/policy route</span>`;
+          const candidates = [item.recommended, ...(item.equivalentRoutes || [])];
+          const set = candidates.map(route => `${escape(route.model)}<br>${escape(route.thinkingLevel)}`).join('<hr>');
+          const equivalence = candidates.length > 1 ? 'provisional peers' : 'singleton';
           const evidence = item.evidence.map(line => `<li><code>${escape(line.evidenceKind)}</code> — ${escape(line.summary)}</li>`).join('');
           return `<tr><td><strong>${escape(item.label)}</strong><br><span class="muted">${escape(item.definition)}</span></td>`
-            + `<td class="route">${escape(item.recommended.model)}<br>${escape(item.recommended.thinkingLevel)}</td>`
+            + `<td class="route">${set}<br><span class="muted">${equivalence}</span></td>`
             + `<td><span class="status ${cls}">${label}</span><br>${escape(item.benchmarkStatus)}<ul class="evidence">${evidence}</ul></td>`
             + `<td>${escape(cost)}${item.outcomeRate == null ? '' : `<br><span class="muted">${Math.round(item.outcomeRate * 100)}% recommended-route pass rate · ${item.scenarioCount} scenarios</span>`}</td>`
             + `<td>${downgrade}<ul>${item.neverDowngradeWhen.map(rule => `<li>${escape(rule)}</li>`).join('')}</ul></td></tr>`;
         }).join('');
-        host.innerHTML = `<div class="table-scroll"><table><thead><tr><th>Task class</th><th>Recommended route</th><th>Evidence</th><th>Cost / successful outcome</th><th>Downgrade boundary</th></tr></thead><tbody>${rows}</tbody></table></div>`
+        host.innerHTML = `<div class="table-scroll"><table><thead><tr><th>Task class</th><th>Recommended set</th><th>Evidence</th><th>Cost / successful outcome</th><th>Downgrade boundary</th></tr></thead><tbody>${rows}</tbody></table></div>`
           + `<p class="muted">Generated from <code>${escape(data.source)}</code>; taxonomy <code>${escape(data.taxonomyVersion)}</code>, rationale <code>${escape(data.rationaleVersion)}</code>.</p>`;
       }).catch(error => { host.innerHTML = `<div class="callout"><strong>Data unavailable in this preview.</strong> Serve <code>website/</code> over HTTP to load the checked projection. ${escape(error.message)}</div>`; });
     })();

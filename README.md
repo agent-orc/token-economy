@@ -113,8 +113,11 @@ selection rubric, and a standalone `ai-patterns` handoff.
   influences.
 - **Study-backed task-class advice** —
   `TaskClassRecommendationCatalog.Default.Recommend(taskClass)` returns the
-  model, thinking level, rationale version, evidence, measured cost per outcome,
-  and downgrade boundary used at card creation. The published
+  ranked equivalent model/thinking set, rationale version, evidence, measured
+  cost per outcome, and downgrade boundary used at card creation; a separate
+  `Select(set, quotaState, atUtc)` chooses concretely only from fresh quota
+  evidence. `OutcomeEfficiency.ComputeObserved` calculates tokens per accepted
+  outcome and retry-adjusted dated list-price cost. The published
   [task-class studies](docs/task-class-routing-studies.md) cover the complete
   taxonomy and the first controlled HTML/UI and source-review pilots; the
   concrete card still goes through `ModelRouter` so correctness floors win.

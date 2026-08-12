@@ -21,6 +21,8 @@ public static class EfficiencyPolicy
         CapabilityTier.Frontier => taskClass switch
         {
             TaskClass.HeavyDesign => Suitability.Ideal,
+            TaskClass.Planning => Suitability.Ideal,
+            TaskClass.DecisionMaking => Suitability.Ideal,
             TaskClass.Feature => Suitability.Capable,
             TaskClass.Research => Suitability.Capable,
             TaskClass.Review => null,
@@ -38,6 +40,8 @@ public static class EfficiencyPolicy
         CapabilityTier.Balanced => taskClass switch
         {
             TaskClass.HeavyDesign => Suitability.Capable,
+            TaskClass.Planning => Suitability.Underpowered,
+            TaskClass.DecisionMaking => Suitability.Underpowered,
             TaskClass.Feature => Suitability.Ideal,
             TaskClass.Research => Suitability.Ideal,
             TaskClass.Review => null,
@@ -57,6 +61,8 @@ public static class EfficiencyPolicy
             TaskClass.MechanicalChore => Suitability.Ideal,
             TaskClass.DocEdit => Suitability.Ideal,
             TaskClass.HeavyDesign => Suitability.Underpowered,
+            TaskClass.Planning => Suitability.Underpowered,
+            TaskClass.DecisionMaking => Suitability.Underpowered,
             TaskClass.Feature => Suitability.Underpowered,
             TaskClass.Research => Suitability.Underpowered,
             TaskClass.Review => null,
@@ -146,6 +152,8 @@ public static class EfficiencyPolicy
     public static EffortLevel BaseEffort(TaskClass taskClass) => taskClass switch
     {
         TaskClass.HeavyDesign => EffortLevel.High,
+        TaskClass.Planning => EffortLevel.Medium,
+        TaskClass.DecisionMaking => EffortLevel.Medium,
         TaskClass.Feature => EffortLevel.Medium,
         TaskClass.Research => EffortLevel.Medium,
         TaskClass.Review => EffortLevel.Medium,

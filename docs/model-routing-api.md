@@ -27,12 +27,30 @@ The authoritative behavior remains
 ## Task-class card-creation prior
 
 `TaskClassRecommendationCatalog.Default.Recommend(taskClass)` exposes the
-versioned taxonomy recommendation used when Agent Studio creates a card. The
-result includes model, thinking level, rationale/evidence versions, retained
-evidence lines, cost per successful outcome when measured, and explicit
-downgrade/no-downgrade conditions. HTML/UI implementation and source-code
-review use controlled pilot results; rows without a comparable study say
-`PolicyBaseline` rather than implying a measured winner.
+versioned taxonomy recommendation set used when Agent Studio creates a card.
+`Candidates` is a stable ranked set of model/thinking pairs, not a hidden
+quota winner; it retains equivalence status, rationale/evidence versions,
+uncertainty, measured cost per outcome, and explicit downgrade/no-downgrade
+conditions. A singleton is valid and means that no task-qualified provider peer
+is known. HTML/UI implementation and source-code review use controlled pilot
+results; rows without a comparable study say `PolicyBaseline` rather than
+implying a measured winner. Planning and Decision-Making always have a strong
+minimum capability and no smaller cost downgrade.
+
+`TaskClassRecommendationCatalog.Select(set, quotaState, atUtc)` is the separate
+pure selection step. It chooses only from `set.Candidates`, first by fresh quota
+headroom and then by retained retry/cost/token evidence and stable rank. Missing,
+stale, suspicious, or incomplete quota produces `RecommendationOnly` with no
+selected route; fully known exhausted capacity produces `Wait`. Selection never
+introduces the catalog's separately documented downgrade route. A downgrade is
+a new concrete-card policy evaluation through `ModelRouter`, so score windows
+and correctness floors are applied again.
+
+`OutcomeEfficiency.ComputeObserved(...)` supplies tokens per accepted outcome,
+dated list-price cost per accepted delivery, initial cost, retry-adjusted cost,
+retry uplift, coverage, and explicit unknown reasons. Failed semantic and
+substrate attempts both contribute measured spend. Missing usage or price data
+keeps complete-cohort metrics null rather than turning them into zero.
 
 This prior does not replace `ModelRouter.Route` at attempt admission. The
 concrete score, uncertainty, hard floors, semantic promotion, capacity, and

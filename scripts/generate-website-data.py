@@ -553,7 +553,7 @@ def create_matrix_payload() -> dict:
     as_of = parse_utc(MATRIX_AS_OF_UTC)
     suitability = {
         "light": {
-            "heavyDesign": "underpowered", "feature": "underpowered",
+            "heavyDesign": "underpowered", "planning": "underpowered", "decisionMaking": "underpowered", "feature": "underpowered",
             "mechanicalChore": "ideal", "docEdit": "ideal",
             "research": "underpowered", "review": None,
             "htmlUiImplementation": "underpowered", "sourceCodeReview": "underpowered",
@@ -561,7 +561,7 @@ def create_matrix_payload() -> dict:
             "graphicalQualityJudgment": None, "consistencyChecking": None,
         },
         "balanced": {
-            "heavyDesign": "capable", "feature": "ideal",
+            "heavyDesign": "capable", "planning": "underpowered", "decisionMaking": "underpowered", "feature": "ideal",
             "mechanicalChore": "capable", "docEdit": "capable",
             "research": "ideal", "review": None,
             "htmlUiImplementation": "capable", "sourceCodeReview": "ideal",
@@ -569,7 +569,7 @@ def create_matrix_payload() -> dict:
             "graphicalQualityJudgment": None, "consistencyChecking": None,
         },
         "frontier": {
-            "heavyDesign": "ideal", "feature": "capable",
+            "heavyDesign": "ideal", "planning": "ideal", "decisionMaking": "ideal", "feature": "capable",
             "mechanicalChore": "overkill", "docEdit": "overkill",
             "research": "capable", "review": None,
             "htmlUiImplementation": "ideal", "sourceCodeReview": "overkill",

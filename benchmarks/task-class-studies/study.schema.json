@@ -26,6 +26,21 @@
         }
       }
     },
+    "candidateMatrix": {
+      "type": "array",
+      "minItems": 2,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "model", "thinkingLevel", "measurementStatus"],
+        "properties": {
+          "id": { "type": "string", "minLength": 1 },
+          "model": { "type": "string", "minLength": 1 },
+          "thinkingLevel": { "type": "string", "minLength": 1 },
+          "measurementStatus": { "enum": ["measuredPilot", "scheduled"] }
+        }
+      }
+    },
     "outcome": {
       "type": "object",
       "additionalProperties": false,
