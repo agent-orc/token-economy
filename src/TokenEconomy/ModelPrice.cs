@@ -82,6 +82,15 @@ public sealed record ModelListing
     /// <summary>Canonical model identifier (as passed to <c>--model &lt;id&gt;</c>).</summary>
     public required string ModelId { get; init; }
 
+    /// <summary>
+    /// Human-readable label for UI presentation (e.g. <c>"Claude Sonnet 5"</c>). Every listing in
+    /// <see cref="ModelPriceCatalog.Default"/> carries one (enforced by
+    /// <c>ModelPriceSeedTests.EveryListing_HasADisplayName</c>) so a consumer never has to fall back
+    /// to a raw id, or maintain its own partial copy of this mapping. Null on host-supplied listings
+    /// that do not need one (e.g. ad hoc test catalogs).
+    /// </summary>
+    public string? DisplayName { get; init; }
+
     /// <summary>Alternate ids that resolve to this listing (dated snapshots, spelling variants, …). Matched case- and dot/dash-insensitively.</summary>
     public IReadOnlyList<string> Aliases { get; init; } = [];
 

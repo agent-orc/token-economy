@@ -5,6 +5,25 @@ SemVer; pre-1.0 the public API may still shift).
 
 ## [Unreleased]
 
+### Changed
+
+- Claude Sonnet 4.6 now carries its confirmed dated-snapshot alias
+  (`claude-sonnet-4-6-20260301`), matching the id recording CLIs actually
+  report; previously only the bare `claude-sonnet-4-6` id resolved, so a
+  recorded run under the dated id fell through to `UnknownModel` even though
+  the model was fully priced. Claude Opus 5, Claude Sonnet 5, and Claude
+  Sonnet 4.6 now cite a dated official Anthropic pricing source (URL +
+  retrieval date), the same evidentiary bar as the GPT-5.5 family (TE-41). No
+  dated-snapshot alias is registered yet for Claude Opus 5 or Claude Sonnet 5
+  — none has been observed failing resolution — but the catalog entries now
+  document where to add one if that changes (TE-44). The routing policy's
+  `claude-sonnet-4-6` alias list and the generated
+  `docs/model-routing-knowledge.md` report now mirror the new alias.
+- Every catalog listing now carries a `DisplayName` (e.g. `"Claude Sonnet 5"`,
+  `"GPT-5.6 Sol"`), so a consumer can render a friendly model label straight
+  from `ModelPriceCatalog.Default.Find(model)` instead of maintaining its own
+  partial, drifting naming table (TE-44).
+
 - Added a versioned 14-class task taxonomy and public
   `TaskClassRecommendationCatalog` for Agent Studio card creation, including
   ranked equivalent model/thinking sets, separate quota-aware selection,
