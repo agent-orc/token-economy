@@ -37,6 +37,15 @@ public class ModelPriceSeedTests
                 Assert.Equal(listing.ModelId, Catalog.Find(alias)?.ModelId);
     }
 
+    [Fact]
+    public void EveryListing_HasADisplayName()
+    {
+        // A consumer resolving cost through this catalog can always render a friendly label from
+        // the same lookup instead of falling back to a raw id or maintaining its own naming table.
+        foreach (var listing in Catalog.Listings)
+            Assert.False(string.IsNullOrWhiteSpace(listing.DisplayName), $"{listing.ModelId} has no DisplayName");
+    }
+
     [Theory]
     [InlineData("claude-fable-5", 10.00, 50.00)]
     [InlineData("claude-opus-5", 5.00, 25.00)]
@@ -174,6 +183,41 @@ public class ModelPriceSeedTests
             {
                 Assert.Contains("https://", price.Source);
                 Assert.Contains("retrieved 2026-08-11", price.Source);
+            }
+    }
+
+    [Theory]
+    [InlineData("claude-opus-5", "Claude Opus 5")]
+    [InlineData("claude-sonnet-5", "Claude Sonnet 5")]
+    [InlineData("claude-sonnet-4-6", "Claude Sonnet 4.6")]
+    public void ClaudeFiveFamily_HasTheCanonicalDisplayName(string model, string expectedDisplayName)
+        => Assert.Equal(expectedDisplayName, Catalog.Find(model)?.DisplayName);
+
+    [Fact]
+    public void ClaudeSonnet46_DatedSnapshotAlias_ResolvesToTheBareListing()
+    {
+        // Recording CLIs report the dated snapshot id, not the bare one; without this alias
+        // ComputeCost resolves to UnknownModel and a "Recorded model usage" panel shows $0/Unknown
+        // even though the model is fully priced under its bare id.
+        Assert.Equal("claude-sonnet-4-6", Catalog.Find("claude-sonnet-4-6-20260301")?.ModelId);
+
+        var breakdown = Catalog.ComputeCost(
+            "claude-sonnet-4-6-20260301",
+            new TokenUsage(Input: 1_000_000, Output: 200_000),
+            new DateTime(2026, 8, 18, 0, 0, 0, DateTimeKind.Utc));
+
+        Assert.Equal(PriceStatus.Resolved, breakdown.Status);
+        Assert.Equal(6.00m, breakdown.Total);
+    }
+
+    [Fact]
+    public void ClaudeFiveFamily_HasADatedOfficialSource()
+    {
+        foreach (var id in new[] { "claude-opus-5", "claude-sonnet-5", "claude-sonnet-4-6" })
+            foreach (var price in Catalog.PriceDevelopment(id))
+            {
+                Assert.Contains("https://www.anthropic.com/pricing", price.Source);
+                Assert.Contains("retrieved 2026-08-18", price.Source);
             }
     }
 

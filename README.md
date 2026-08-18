@@ -56,7 +56,9 @@ selection rubric, and a standalone `ai-patterns` handoff.
 
 - **Pricing catalog with history** — per-model price entries keyed by
   `ValidFrom`; a run's cost is computed with the prices valid *at the run's
-  timestamp*. Historic entries are kept, never overwritten.
+  timestamp*. Historic entries are kept, never overwritten. Every listing also
+  carries a canonical `DisplayName`, so a consumer never has to maintain its
+  own partial, drifting model-label table.
 - **Cost API** — `ComputeCost(model, usage, atUtc)` → deterministic
   breakdown + total; unknown models return an explicit unknown, never a
   silent zero.
