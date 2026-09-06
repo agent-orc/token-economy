@@ -1,0 +1,145 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://agent-orchestrator.dev/token-economy/model-migrations.v1.schema.json",
+  "title": "Token Economy model migration catalog v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["$schema", "schemaVersion", "catalogVersion", "evidenceAsOfDate", "defaultStrategy", "authority", "costClassOrder", "migrations", "taskClassRecommendations"],
+  "properties": {
+    "$schema": { "const": "model-migrations.v1.schema.json" },
+    "schemaVersion": { "const": 1 },
+    "catalogVersion": { "type": "string", "format": "date" },
+    "evidenceAsOfDate": { "type": "string", "format": "date" },
+    "defaultStrategy": { "const": "latestInFamily" },
+    "authority": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["rules", "routingPolicy", "priceCatalog"],
+      "properties": {
+        "rules": { "type": "string", "minLength": 1 },
+        "routingPolicy": { "type": "string", "minLength": 1 },
+        "priceCatalog": { "type": "string", "minLength": 1 }
+      }
+    },
+    "costClassOrder": {
+      "type": "array",
+      "prefixItems": [{ "const": "economy" }, { "const": "standard" }, { "const": "premium" }],
+      "items": false,
+      "minItems": 3,
+      "maxItems": 3
+    },
+    "migrations": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/$defs/migration" }
+    },
+    "taskClassRecommendations": {
+      "type": "array",
+      "minItems": 5,
+      "maxItems": 5,
+      "items": { "$ref": "#/$defs/taskClassRecommendation" }
+    }
+  },
+  "$defs": {
+    "costClass": { "enum": ["economy", "standard", "premium", "unknown"] },
+    "generationOrder": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["from", "to"],
+      "properties": {
+        "from": { "type": "integer", "minimum": 0 },
+        "to": { "type": "integer", "minimum": 0 }
+      }
+    },
+    "evidence": {
+      "oneOf": [
+        { "const": "none" },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["kind", "reference", "conclusion", "summary"],
+          "properties": {
+            "kind": { "enum": ["controlledBenchmark", "abTest"] },
+            "reference": { "type": "string", "minLength": 1 },
+            "conclusion": { "enum": ["noRegression", "regression", "inconclusive"] },
+            "summary": { "type": "string", "minLength": 1 }
+          }
+        }
+      ]
+    },
+    "migration": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["from", "to", "family", "vendor", "generationOrder", "costClassFrom", "costClassTo", "ladderCompatible", "contextChange", "evidence", "safeAuto", "since", "note"],
+      "properties": {
+        "from": { "type": "string", "minLength": 1 },
+        "to": { "type": "string", "minLength": 1 },
+        "family": { "enum": ["claude-opus", "claude-sonnet", "claude-haiku", "gpt", "gpt-mini"] },
+        "vendor": { "enum": ["anthropic", "openai"] },
+        "generationOrder": { "$ref": "#/$defs/generationOrder" },
+        "costClassFrom": { "$ref": "#/$defs/costClass" },
+        "costClassTo": { "$ref": "#/$defs/costClass" },
+        "ladderCompatible": { "type": "boolean" },
+        "contextChange": { "enum": ["same", "increase", "decrease", "unknown"] },
+        "evidence": { "$ref": "#/$defs/evidence" },
+        "safeAuto": { "type": "boolean" },
+        "since": { "type": "string", "format": "date" },
+        "note": { "type": "string", "minLength": 1 }
+      },
+      "allOf": [
+        {
+          "if": { "properties": { "safeAuto": { "const": true } }, "required": ["safeAuto"] },
+          "then": {
+            "properties": {
+              "ladderCompatible": { "const": true },
+              "evidence": {
+                "type": "object",
+                "properties": { "conclusion": { "const": "noRegression" } },
+                "required": ["conclusion"]
+              }
+            },
+            "anyOf": [
+              { "properties": { "costClassFrom": { "const": "economy" }, "costClassTo": { "const": "economy" } } },
+              { "properties": { "costClassFrom": { "const": "standard" }, "costClassTo": { "enum": ["economy", "standard"] } } },
+              { "properties": { "costClassFrom": { "const": "premium" }, "costClassTo": { "enum": ["economy", "standard", "premium"] } } }
+            ]
+          }
+        }
+      ]
+    },
+    "route": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["routeId", "model", "thinkingLevel", "when"],
+      "properties": {
+        "routeId": { "type": "string", "minLength": 1 },
+        "model": { "type": "string", "minLength": 1 },
+        "thinkingLevel": { "enum": ["minimal", "low", "medium", "high", "xhigh", "ultra", "max"] },
+        "when": { "type": "string", "minLength": 1 }
+      }
+    },
+    "quotaAlternative": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["routeId", "model", "thinkingLevel", "forRouteIds", "provisional"],
+      "properties": {
+        "routeId": { "type": "string", "minLength": 1 },
+        "model": { "type": "string", "minLength": 1 },
+        "thinkingLevel": { "enum": ["minimal", "low", "medium", "high", "xhigh", "ultra", "max"] },
+        "forRouteIds": { "type": "array", "minItems": 1, "uniqueItems": true, "items": { "type": "string", "minLength": 1 } },
+        "provisional": { "type": "boolean" }
+      }
+    },
+    "taskClassRecommendation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["taskClass", "recommendedModelSet", "quotaAwareAlternative", "note"],
+      "properties": {
+        "taskClass": { "enum": ["chore", "feature", "bug", "dossier", "mechanical"] },
+        "recommendedModelSet": { "type": "array", "minItems": 1, "uniqueItems": true, "items": { "$ref": "#/$defs/route" } },
+        "quotaAwareAlternative": { "oneOf": [{ "$ref": "#/$defs/quotaAlternative" }, { "type": "null" }] },
+        "note": { "type": "string", "minLength": 1 }
+      }
+    }
+  }
+}

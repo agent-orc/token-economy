@@ -5,6 +5,15 @@ SemVer; pre-1.0 the public API may still shift).
 
 ## [Unreleased]
 
+### Added
+
+- Added the schema-backed `model-migrations.v1.json` catalog for Agent Studio's
+  `latestInFamily` strategy. It records Claude Opus 4.5-4.8 to Opus 5, Claude
+  Sonnet 4.5/4.6 to Sonnet 5, GPT-5.5 to GPT-5.6 Sol, Haiku and Mini retention,
+  and proposal-only GPT-6 Astra, with cost classes, reasoning-ladder and
+  context compatibility, repository evidence, safe-auto gates, and the five
+  Agent Studio task-class route sets plus quota-aware alternatives (TE-45).
+
 ### Changed
 
 - Claude Sonnet 4.6 now carries its confirmed dated-snapshot alias
