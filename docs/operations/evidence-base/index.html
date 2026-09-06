@@ -1,0 +1,1273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>TokenEconomy evidence base | Concept dossier</title>
+<style>:root{color-scheme:light;--surface-1:#fcfcfb;--surface-2:#f2f1ee;--surface-3:#e9e8e3;--ink-1:#0b0b0b;--ink-2:#52514e;--ink-3:#8a8983;--line:#d8d6cf;--develop:#2a78d6;--accent-soft:#eaf1fb}@media (prefers-color-scheme:dark){:root{color-scheme:dark;--surface-1:#1a1a19;--surface-2:#232322;--surface-3:#2c2c2a;--ink-1:#fff;--ink-2:#c3c2b7;--ink-3:#8a8983;--line:#3d3d3a;--develop:#3987e5;--accent-soft:#1e2a3a}}*{box-sizing:border-box}body{margin:0;padding:0 0 80px;background:var(--surface-1);color:var(--ink-1);font:16px/1.6 system-ui,"Segoe UI",sans-serif}main{max-width:1080px;margin:0 auto;padding:0 28px}header.page{border-bottom:1px solid var(--line);padding:44px 0 26px;margin-bottom:8px}.kicker{font-size:13px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3);margin:0 0 10px}h1{font-size:34px;line-height:1.2;margin:0 0 12px}.lede{font-size:18px;color:var(--ink-2);max-width:62ch;margin:0}h2{font-size:24px;margin:56px 0 6px;scroll-margin-top:20px}h3{font-size:18px;margin:34px 0 4px}p,li{max-width:76ch}.box{border:1px solid var(--line);border-radius:10px;background:var(--surface-2);padding:18px 22px;margin:20px 0}.box.accent{background:var(--accent-soft);border-color:color-mix(in srgb,var(--develop) 30%,var(--line))}.box h4{margin:0 0 8px;font-size:15px}table{border-collapse:collapse;width:100%;margin:18px 0;font-size:14.5px}th,td{text-align:left;padding:9px 12px;border-bottom:1px solid var(--line);vertical-align:top}th{font-size:12.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-3)}code{font:13px/1.5 ui-monospace,Consolas,monospace;background:var(--surface-3);border-radius:4px;padding:1px 5px}pre{background:var(--surface-3);border-radius:8px;padding:12px 16px;overflow:auto}pre code{background:none;padding:0}.chapter{border-top:1px solid var(--line);margin-top:40px;padding-top:8px}.src{font-size:12.5px;color:var(--ink-3);margin:12px 0 0}ul{padding-left:22px}li{margin:5px 0}a{color:var(--develop)}</style>
+</head>
+<body>
+<main>
+<header class="page">
+  <p class="kicker">Concept dossier · Token Economy</p>
+  <h1>TokenEconomy evidence base</h1>
+  <p class="lede">Decision-ready dossier connecting external model-efficiency research and the retained TokenEconomy benchmarks: evidence gaps, set-valued recommendations, quota-aware selection, and computable outcome-efficiency metrics.</p>
+</header>
+<nav class="box" aria-label="Contents"><h4>Contents</h4><ul><li><a href="#index">index</a></li><li><a href="#evidence-map">evidence map</a></li><li><a href="#studies">studies</a></li><li><a href="#efficiency-metrics">efficiency metrics</a></li><li><a href="#recommendation-semantics">recommendation semantics</a></li></ul></nav>
+<p class="src">This page is rendered from the Markdown chapters in this folder; the Markdown files remain the editable source.</p>
+<section id="index" class="chapter"><p class="src">Source: <code>index.md</code></p>
+<h1>TokenEconomy evidence base</h1>
+<p>Status: decision-pending</p>
+<p>Phase: decision-ready</p>
+<p>Evidence reviewed through: 2026-08-12</p>
+<p>Source card: TE-43</p>
+<h2>Decision in one page</h2>
+<p>TokenEconomy should recommend the least expensive <strong>evidence-qualified set</strong>
+that clears the task&#39;s correctness floor. It should not pretend that every task
+needs a flagship model, or that one leaderboard identifies a universal winner.</p>
+<p>The proposed decisions are:</p>
+<ol>
+<li>Add <code>Planning</code> and <code>DecisionMaking</code> as explicit task classes. Their <code>Ideal</code>
+suitability is the strong capability band. Cost or quota must not make a
+smaller band ideal for these classes.</li>
+<li>Make recommendation and selection separate operations. Recommendation
+returns a set of task-equivalent model-and-thinking routes without consulting
+run-scoped quota. Selection may choose one route only when the caller supplies
+current, trustworthy quota state.</li>
+<li>Treat <code>MechanicalChore</code>, <code>DocEdit</code>, tightly scoped local repair, and bounded
+structured transformations as the principal smaller-model territory. The
+claim is conditional on a clear contract and deterministic verification.
+Only simple local repair currently has direct, if very small, TokenEconomy
+comparison data; the other smaller-model defaults remain provisional.</li>
+<li>Keep demanding cross-file implementation, open-ended research, real pull
+request review, visual or interactive frontend work, planning, and
+consequential decision-making at a strong floor until task-local evidence
+establishes a non-inferior smaller set.</li>
+<li>Add outcome metrics over retained attempts: billed tokens per accepted
+outcome, estimated list-price cost per accepted delivery, observed
+retry-adjusted cost, retry uplift, and an evidence-gated expected cost to
+acceptance. All cost calculations must use the attempt timestamp and the
+shipped pricing catalog.</li>
+</ol>
+<p>These decisions extend rather than silently replace the canonical
+<a href="../../system/domains/model-routing-policy.md">model-routing policy</a>. TE-42 or a
+later policy card must version any executable policy change.</p>
+<h2>Why this is the defensible boundary</h2>
+<p>Realistic evaluations point in both directions.</p>
+<ul>
+<li>SWE-Bench Pro, SWE-Lancer, METR time horizons, PaperBench, and RE-Bench show
+that long, ambiguous, multi-step work remains materially harder than short,
+well-specified work. SWE-Lancer also shows a large improvement from higher
+reasoning effort on its implementation track and incomplete performance on
+managerial choices.</li>
+<li>Aider&#39;s polyglot benchmark contains an observed tie between a mini model and a
+flagship model after two attempts, at substantially different list-price
+spend. FrugalGPT and RouteLLM show that learned routing can preserve aggregate
+quality while sending many requests to cheaper models.</li>
+<li>Those efficiency results do not validate blanket down-routing. They use
+exercises or general question-answering distributions, and their success
+depends on a verifier or a router calibrated to the target distribution.</li>
+<li>Code-review and frontend suites show particularly low absolute performance
+and strong sensitivity to context and scaffolding. These classes should not
+inherit conclusions from function-level coding tests.</li>
+</ul>
+<p>The evidence therefore supports task-specific sets and measured outcomes. It
+does not support one global model order.</p>
+<h2>Confidence of the proposed defaults</h2>
+<table>
+<thead>
+<tr>
+<th>Proposed default</th>
+<th>Confidence</th>
+<th>Basis</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Planning is strong-ideal</td>
+<td>Moderate</td>
+<td>Direct planning and managerial-choice evaluations show persistent failure; TokenEconomy has no controlled planning comparison.</td>
+</tr>
+<tr>
+<td>Decision-making is strong-ideal</td>
+<td>Moderate</td>
+<td>SWE-Lancer has 724 real proposal-selection tasks and a 99% validation agreement, but it is one repository and vendor-authored.</td>
+</tr>
+<tr>
+<td>Hard cross-file implementation needs strong models</td>
+<td>Moderate</td>
+<td>Large external repository benchmarks agree with TokenEconomy&#39;s small hard-case suite.</td>
+</tr>
+<tr>
+<td>Simple local repair can use a smaller/balanced set</td>
+<td>Low to moderate</td>
+<td>All three tested routes passed the current three-repeat palindrome case; one fixture cannot establish general equivalence.</td>
+</tr>
+<tr>
+<td>Mechanical chores and doc edits are smaller-ideal</td>
+<td>Low</td>
+<td>Sensible cost/risk policy and indirect routing evidence; no controlled TokenEconomy cohort yet.</td>
+</tr>
+<tr>
+<td>Real PR review should keep a strong floor</td>
+<td>Moderate</td>
+<td>Two recent PR-review suites show low recall and context sensitivity; TokenEconomy has no non-fixture review evidence.</td>
+</tr>
+<tr>
+<td>Visual or interactive frontend work needs strong capability</td>
+<td>Moderate</td>
+<td>Three external suites cover real pages or visual JavaScript issues; no TokenEconomy HTML/model comparison exists.</td>
+</tr>
+<tr>
+<td>Set-valued recommendation is preferable to a total order</td>
+<td>Moderate to high</td>
+<td>Routing research shows heterogeneous per-query winners; review and coding suites contain close or tied results.</td>
+</tr>
+</tbody></table>
+<h2>Terms used in this dossier</h2>
+<p><strong>Strong</strong> means the highest capability band required by the task, represented
+by the current Sol routes or a separately qualified provider peer. It is a
+capability floor, not a hard-coded vendor.</p>
+<p><strong>Smaller</strong> means a balanced or light route, including the GPT-5.5 tier and
+below when a concrete model is selectable and qualified. Mentioning a cataloged
+model here does not change its routing status.</p>
+<p><strong>Equivalent</strong> means that the available task-local evidence cannot distinguish
+a candidate from the best qualified candidate beyond a declared
+non-inferiority margin. Sharing a capability label is not enough.</p>
+<p><strong>Accepted delivery</strong> means one task delivery that passed its declared external
+gate or received an explicit human acceptance outcome. A model&#39;s self-report is
+not acceptance.</p>
+<h2>Dossier contents</h2>
+<ul>
+<li><a href="studies.md">Study collection</a>: 16 external studies, suites, and independent
+leaderboards with methodology ratings and transfer limits.</li>
+<li><a href="evidence-map.md">Evidence map</a>: claim-by-task mapping to external evidence,
+TokenEconomy evidence, and explicit gaps.</li>
+<li><a href="recommendation-semantics.md">Recommendation semantics</a>: task-class defaults,
+equivalence, set-valued results, and quota-aware selection.</li>
+<li><a href="efficiency-metrics.md">Efficiency metrics</a>: input contract, formulas, null
+semantics, and proposed pure-library surface.</li>
+</ul>
+<h2>Decisions requested</h2>
+<p>The operator can approve these independently:</p>
+<ol>
+<li>Approve the strong-ideal semantics for <code>Planning</code> and <code>DecisionMaking</code>.</li>
+<li>Approve recommendation sets as the quota-independent API result and concrete
+selection as a separate quota-aware function.</li>
+<li>Approve the conditional smaller-model territory and its explicit
+provisional labels.</li>
+<li>Approve the efficiency metric definitions and require attempt-level inputs
+before implementation.</li>
+<li>Commission the gap-closing benchmark wave listed in the evidence map before
+any named model is declared equivalent for review, planning, decisions, or
+HTML/frontend work.</li>
+</ol>
+<h2>Non-claims</h2>
+<p>This dossier does not rank every catalog model, certify current vendor claims,
+or make external benchmark scores interchangeable with TokenEconomy task
+outcomes. It does not supersede correctness floors, convert missing prices to
+zero, or infer that a model failure caused an infrastructure failure. External
+results are transfer evidence; model qualification still requires comparable,
+retained local cohorts.</p>
+
+</section>
+<section id="evidence-map" class="chapter"><p class="src">Source: <code>evidence-map.md</code></p>
+<h1>Evidence map</h1>
+<p>This map distinguishes external transfer evidence, TokenEconomy measurements,
+and policy intuition. “Supported” never means universal; it means the cited
+evidence is sufficiently aligned to inform the stated claim.</p>
+<h2>TokenEconomy evidence register</h2>
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Retained evidence</th>
+<th>What it can support</th>
+<th>Main limit</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>O01</td>
+<td><a href="../../../benchmarks/results/palindrome-repair/20260809T092240107Z.report.json"><code>palindrome-repair</code> 2026-08-09 report</a></td>
+<td>One simple local repair: Terra/medium, Sol/medium, and Claude Sonnet 5/high each passed 3/3. Terra used slightly fewer average tokens than Sol.</td>
+<td>One synthetic fixture and three repeats per route; no equivalence interval; only Claude cost was present in the raw report.</td>
+</tr>
+<tr>
+<td>O02</td>
+<td>Three specified <a href="../../../benchmarks/results/">curated hard coding reports</a> for off-by-one, Unicode locale, and cross-file repair</td>
+<td>Across nine attempts per route, Sol/medium passed 9/9, Terra/medium 2/9, and Claude Sonnet 5/high 4/9. This favors the strong route on these deliberately awkward cases.</td>
+<td>Three synthetic C# fixtures; no blinded task sample; catalog cost was missing for two routes in the reports.</td>
+</tr>
+<tr>
+<td>O03</td>
+<td><a href="../../../benchmarks/results/curated-hard-coding-underspecified/20260808T162707845Z.report.json">Underspecified coding report</a></td>
+<td>Every route failed 0/3 under the deterministic gate. Stronger models do not repair an inadequate task contract automatically.</td>
+<td>One intentionally ambiguous fixture; its gate rewards a specific expected behavior.</td>
+</tr>
+<tr>
+<td>O04</td>
+<td><a href="../../system/domains/model-routing-policy.md#benchmark-basis">Canonical routing policy historical basis</a></td>
+<td>152 observational task records; the Sol/medium chore/feature cohort had 0/7 reissues and 5/5 known grades favorable. Two Mini/medium records were grade B without reissue.</td>
+<td>Observational, 33.9% grade coverage, mixed pipeline causes, final-route attribution, and no Luna cohort. It cannot validate causal model superiority.</td>
+</tr>
+<tr>
+<td>O05</td>
+<td><a href="../../quality-studio-review-evidence.md">Quality Studio review evidence</a></td>
+<td>Schema, provenance, and confidence-gate behavior for review evidence.</td>
+<td>Only fixture data; no real model qualifies. <code>SuggestModel(review, ...)</code> correctly returns no candidate.</td>
+</tr>
+<tr>
+<td>O06</td>
+<td><a href="../../benchmarks.md#document-to-text-capability-benchmark">Document-to-text methodology</a> and retained capability runs</td>
+<td>The harness can separate capability misses from infrastructure failures and retain model-by-format outcomes.</td>
+<td>One case per document type per run, unknown thinking levels, mixed infrastructure, and no qualifying cohort. It does not prove smaller-model equivalence.</td>
+</tr>
+<tr>
+<td>O07</td>
+<td><a href="../../../benchmarks/results/website-build/20260725T000000Z.report.json">Website-build evidence</a></td>
+<td>Generated website data is reproducible from retained inputs.</td>
+<td>It compares no models and says nothing about HTML-generation capability.</td>
+</tr>
+<tr>
+<td>O08</td>
+<td>No controlled Planning or Decision-Making benchmark</td>
+<td>Nothing yet.</td>
+<td>The requested strong-ideal rule is an operator risk decision backed only by external transfer evidence.</td>
+</tr>
+<tr>
+<td>O09</td>
+<td><a href="../../../src/TokenEconomy/ModelPriceCatalog.cs"><code>ModelPriceCatalog</code></a>, <a href="../../../src/TokenEconomy/CostBreakdown.cs"><code>CostBreakdown</code></a>, and <a href="../../../src/TokenEconomy/catalog/model-prices.json">v0.3.2 price data</a></td>
+<td>Date-aware list-price costing by fresh input, output, cache read, and cache write; explicit unknown/unpriced status.</td>
+<td>Price is not capability, actual invoice cost, subscription quota value, latency, or retry probability.</td>
+</tr>
+</tbody></table>
+<p>The <code>../../../benchmarks/results/</code> link for O02 is intentionally a directory
+because the evidence is three immutable sibling reports, not one synthesized
+artifact. The counts above are a dossier calculation and do not rewrite those
+raw reports.</p>
+<h2>Claim map</h2>
+<table>
+<thead>
+<tr>
+<th>Task class</th>
+<th>Claim under consideration</th>
+<th>External evidence</th>
+<th>Own evidence</th>
+<th>State</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>Planning</code></td>
+<td>Strong models are <code>Ideal</code>; smaller bands are below the default floor.</td>
+<td>E02 managerial proposals; E10 long/messy task reliability; E13 deterministic planning failures.</td>
+<td><strong>None: O08.</strong></td>
+<td><strong>Provisional policy decision.</strong> Good risk basis, no local model comparison.</td>
+</tr>
+<tr>
+<td><code>DecisionMaking</code></td>
+<td>Strong models are <code>Ideal</code>, including technical proposal and architecture choices.</td>
+<td>E02 has 724 real manager decisions, 99% validation agreement, and no tested model reached majority accuracy on the full set.</td>
+<td><strong>None: O08.</strong></td>
+<td><strong>Provisional policy decision.</strong> Strongest aligned external evidence in the dossier; one-repository/vendor caveat remains.</td>
+</tr>
+<tr>
+<td><code>HeavyDesign</code></td>
+<td>Strong capability is the minimum for broad architecture or multi-subsystem design.</td>
+<td>E01, E10, E11, E12.</td>
+<td>O04 supplies only observational policy support.</td>
+<td><strong>Provisional.</strong> No design-artifact benchmark with accepted outcomes.</td>
+</tr>
+<tr>
+<td><code>Feature</code> — demanding</td>
+<td>Strong routes outperform smaller routes on cross-file, long-horizon, or context-heavy implementation.</td>
+<td>E01–E03; E02 UI/UX slice; E07 for visual repositories.</td>
+<td>O02 favors Sol 9/9 over Terra 2/9 and Claude fallback 4/9.</td>
+<td><strong>Supported for a conservative floor</strong>, not a universal named-model rank.</td>
+</tr>
+<tr>
+<td><code>Feature</code> — simple local repair</td>
+<td>A balanced/smaller set can be equally good as a strong route when scope and verification are tight.</td>
+<td>E04 observed smaller/flagship equality after two attempts; E14–E15 show task-conditioned routing.</td>
+<td>O01 observed 3/3 for all three routes.</td>
+<td><strong>Provisional.</strong> Direct local evidence is one fixture; “equal” is not statistically established.</td>
+</tr>
+<tr>
+<td>Unclear or underspecified bug</td>
+<td>Buying a stronger model is insufficient when requirements or the gate are missing.</td>
+<td>E01 deliberately adds human-written requirements; E03 documents ambiguous/grader-broken issues.</td>
+<td>O03: all three routes failed all repetitions.</td>
+<td><strong>Supported.</strong> Improve task evidence before repeated escalation.</td>
+</tr>
+<tr>
+<td><code>MechanicalChore</code></td>
+<td>Smaller/light models are <code>Ideal</code>; a flagship is usually overkill.</td>
+<td>E14–E15 are indirect evidence that cheap models handle a large simple-query share.</td>
+<td><strong>None.</strong> O04 has no controlled model comparison for chores.</td>
+<td><strong>Intuition / policy hypothesis.</strong> This is the clearest current evidence gap behind an existing recommendation.</td>
+</tr>
+<tr>
+<td><code>DocEdit</code></td>
+<td>Smaller/light models are <code>Ideal</code> for bounded prose edits.</td>
+<td>No study here evaluates repository documentation acceptance. E14 is only an indirect query-routing analogy.</td>
+<td><strong>None.</strong></td>
+<td><strong>Intuition only.</strong> Do not describe this as benchmark-proven.</td>
+</tr>
+<tr>
+<td><code>Research</code> — open-ended</td>
+<td>Strong models are <code>Ideal</code> for synthesis that requires experiment planning, code, and iterative correction.</td>
+<td>E10–E12.</td>
+<td><strong>None.</strong></td>
+<td><strong>Externally supported, locally unvalidated.</strong> Bounded lookup/summarization is not covered by this claim.</td>
+</tr>
+<tr>
+<td><code>Review</code> — real PR</td>
+<td>Keep a strong provisional floor; do not infer review quality from coding pass rate.</td>
+<td>E05–E06 show low recall, context sensitivity, and task-specific evaluation.</td>
+<td>O05 has no real runs.</td>
+<td><strong>Externally supported risk floor; named route is a gap.</strong></td>
+</tr>
+<tr>
+<td><code>Review</code> — equivalence set</td>
+<td>Several models can be recommendation peers rather than a forced total order.</td>
+<td>E06 reports its top four statistically indistinguishable.</td>
+<td><strong>None.</strong></td>
+<td><strong>Semantics supported; concrete membership unknown.</strong></td>
+</tr>
+<tr>
+<td>Visual/interactive HTML and frontend</td>
+<td>Use strong multimodal/coding capability and rendered behavior checks.</td>
+<td>E02 UI/UX subset, E07–E09.</td>
+<td><strong>None: O07 is only a data-build check.</strong></td>
+<td><strong>Externally supported, locally unvalidated.</strong></td>
+</tr>
+<tr>
+<td>Static template HTML</td>
+<td>A smaller model may be equally good under screenshot, DOM, accessibility, and interaction gates.</td>
+<td>E08 covers static screenshot reproduction but does not establish small-model parity; E09 separates static from harder levels.</td>
+<td><strong>None.</strong></td>
+<td><strong>Hypothesis.</strong> No current basis for “equally well.”</td>
+</tr>
+<tr>
+<td>Bounded structured pipeline decision</td>
+<td>A smaller model can serve when evidence is compact, output is parseable, and the call cannot cross a risk floor.</td>
+<td>E14–E15 support bounded routing/classification generally.</td>
+<td>O04 has two favorable Mini/medium observations, the wrong size and setting for validation.</td>
+<td><strong>Provisional role exception.</strong> Preserve the current ambiguity/destructive-action promotion rule.</td>
+</tr>
+<tr>
+<td>Document-to-text transform</td>
+<td>Smaller models serve equally well.</td>
+<td>No aligned source in this collection.</td>
+<td>O06 is sparse and contains material model/format differences.</td>
+<td><strong>Not supported.</strong> Keep per-format qualification and explicit <code>NotAttempted</code>.</td>
+</tr>
+<tr>
+<td>Quota-aware concrete choice</td>
+<td>Quota should pick among capability-equivalent routes, never redefine capability.</td>
+<td>E14–E15 separate quality/candidate behavior from a later routing threshold, but do not study quota.</td>
+<td>O04 and the current router encode quota after the floor.</td>
+<td><strong>Design supported; quota benefit not empirically measured.</strong></td>
+</tr>
+<tr>
+<td>Cost efficiency</td>
+<td>Evaluate tokens and total attempt cost per accepted delivery, including retries.</td>
+<td>E02, E04, E14–E16.</td>
+<td>O01–O03 retain attempts/tokens; O09 can date-cost usage.</td>
+<td><strong>Supported metric direction.</strong> Cost coverage and acceptance semantics must remain explicit.</td>
+</tr>
+</tbody></table>
+<h2>What currently rests on intuition</h2>
+<p>The following claims must remain visibly provisional in product copy and API
+evidence fields:</p>
+<ul>
+<li>Luna/medium for trivial core work: the canonical policy already states that
+no Luna cohort existed in its historical benchmark.</li>
+<li>Terra/medium as the everyday sweet spot: historical observations have no
+known terminal grades, and the small controlled hard suite is unfavorable.</li>
+<li>Mini/high for bounded pipeline decisions: structurally sensible, but the two
+historical Mini records used medium thinking and do not validate this role.</li>
+<li>Smaller models for mechanical chores and doc edits: no controlled local
+comparison exists.</li>
+<li>Any named model for Planning, Decision-Making, Review, or HTML/frontend work:
+no task-local TokenEconomy qualification exists.</li>
+<li>Equivalence of specific current providers: provider fallback evidence remains
+small and observational. A shared tier label is not proof.</li>
+<li>Cost savings from quota-aware selection: the behavior is safe by construction,
+but no counterfactual replay measures accepted-delivery savings yet.</li>
+</ul>
+<h2>Priority evidence wave</h2>
+<ol>
+<li><strong>Planning and decisions.</strong> Build separate corpora: executable plan creation
+and technical proposal selection. Include realistic repository context,
+blinded expert ground truth, at least the current strong route and two
+smaller candidates, and pre-register a non-inferiority margin. Use a power
+calculation; the routing gate&#39;s 20-sample minimum is not automatically enough
+to prove equivalence.</li>
+<li><strong>Real pull-request review.</strong> Sample real PRs with adjudicated findings and
+clean diff/file-context conditions. Measure precision, recall, actionable
+finding acceptance, false-positive cost, and repeat aggregation. Fixture runs
+remain excluded.</li>
+<li><strong>HTML/frontend split.</strong> Benchmark static HTML, screenshot reproduction, and
+interactive behavior separately. Combine pixel/layout measures with DOM,
+accessibility, and Playwright gates; record human acceptance for visual
+differences that metrics cannot settle.</li>
+<li><strong>Small-work equivalence.</strong> Add mechanical chores, doc edits, and local
+repairs sampled from real repositories. Compare candidates with identical
+prompts/scaffolds and at least three stochastic repetitions, then estimate
+paired outcome differences rather than declaring a winner from averages.</li>
+<li><strong>Quota replay.</strong> Replay retained attempts through the proposed set selector
+with historical quota snapshots. Compare waits, unsafe-floor violations,
+accepted deliveries, tokens, and retry-adjusted cost against the current
+single recommendation. Do not synthesize healthy quota where the snapshot is
+absent or stale.</li>
+</ol>
+<p>Every wave should retain raw attempts, actual model/thinking route, scaffold
+version, task/capability, outcome classification, token components, duration,
+price status, execution timestamp, and source hash. Controlled and observational
+evidence remain separate.</p>
+
+</section>
+<section id="studies" class="chapter"><p class="src">Source: <code>studies.md</code></p>
+<h1>Study collection</h1>
+<p>Reviewed through 2026-08-12. References point to the paper, official benchmark
+site, or maintainer methodology rather than a secondary summary.</p>
+<h2>Rating method</h2>
+<p>The overall rating is a transfer-quality judgment for TokenEconomy, not a
+judgment of the authors.</p>
+<table>
+<thead>
+<tr>
+<th>Rating</th>
+<th>Meaning for this dossier</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>A</td>
+<td>Strong decision evidence: substantial sample, realistic outcomes, current method, and manageable bias.</td>
+</tr>
+<tr>
+<td>B</td>
+<td>Useful evidence with one material limitation or an indirect transfer to our task classes.</td>
+</tr>
+<tr>
+<td>C</td>
+<td>Context only: old models, artificial tasks, small macro sample, unvalidated judge, or strong conflict risk.</td>
+</tr>
+<tr>
+<td>D</td>
+<td>Do not use for a routing claim. No retained source in this collection has this rating.</td>
+</tr>
+</tbody></table>
+<p>Sample size is rated on the independent unit that can vary, not on the number of
+rubric rows derived from one task. Task realism distinguishes executable work in
+a repository from exercises, screenshots, or question answering. Recency is
+measured at the review date. Vendor bias records whether an organization that
+builds or sells evaluated models authored the evaluation; it does not imply
+misconduct.</p>
+<h2>Coding and software-engineering evaluations</h2>
+<h3>E01 — SWE-Bench Pro</h3>
+<p>Reference: Xiang Deng et al., 2025, <a href="https://arxiv.org/abs/2509.16941">SWE-Bench Pro: Can AI Agents Solve
+Long-Horizon Software Engineering Tasks</a>.</p>
+<p>What it measured: 1,865 human-verified problems from 41 maintained public,
+held-out, and commercial repositories. Tasks require multi-file patches under a
+unified SWE-Agent scaffold and pass human-reviewed tests. The public evaluation
+has 731 tasks; the commercial evaluation has 276. Top reported pass@1 remained
+below 25%, and smaller models were substantially less consistent across
+repositories and languages.</p>
+<p>Quality: <strong>A-</strong> — sample: large; realism: high; recency: current; vendor bias:
+moderate (Scale authors and operates evaluations, but is not the evaluated model
+provider). Strengths include held-out/private repositories, human augmentation,
+three-run flaky-test filtering, and a fixed scaffold. Limits include incomplete
+language coverage, private subsets that cannot be independently inspected, and
+scaffold-dependent results.</p>
+<p>Supports for our classes: strong support for a strong floor on demanding
+<code>Feature</code>, unclear bug, cross-file work, and <code>HeavyDesign</code>; evidence against
+using a small-model result from a compact exercise as a general coding route.
+It does not address prose, review comments, or planning-only deliverables.</p>
+<h3>E02 — SWE-Lancer</h3>
+<p>Reference: Samuel Miserendino et al., 2025, <a href="https://arxiv.org/abs/2502.12115">SWE-Lancer: Can Frontier LLMs Earn
+$1 Million from Real-World Freelance Software
+Engineering?</a>.</p>
+<p>What it measured: 1,488 paid freelance tasks from one full-stack repository:
+764 implementation tasks graded with triple-verified Playwright tests and 724
+manager tasks choosing among real technical proposals. The managerial ground
+truth had 99% agreement in an additional engineer validation. In the Diamond
+implementation subset, higher reasoning effort raised one model from 9.3% to
+16.5% pass@1. The paper also measured five-attempt API spend plus human fallback.</p>
+<p>Quality: <strong>A-</strong> — sample: large; realism: high; recency: current; vendor bias:
+high (OpenAI authored the benchmark and evaluated its models). Real payouts,
+hidden end-to-end tests, 100 professional annotators, a private holdout, and
+explicit cost repetitions are strong. Concentration in one repository,
+predominantly bug work, single-attempt main scores, and provider conflict limit
+generalization.</p>
+<p>Supports for our classes: the best direct external evidence for
+<code>DecisionMaking</code>; strong support for strong-ideal <code>Planning</code>/proposal evaluation,
+demanding implementation, retry-aware cost, and browser-verified frontend work.
+It also shows that more attempts can improve pass rate while changing total
+economics. It does not show that every decision needs a flagship; bounded
+classification remains a different class.</p>
+<h3>E03 — SWE-bench Original and Verified</h3>
+<p>References: Carlos Jimenez et al., 2024, <a href="https://arxiv.org/abs/2310.06770">SWE-bench: Can Language Models Resolve
+Real-World GitHub Issues?</a>; OpenAI and the
+SWE-bench authors, 2024, <a href="https://openai.com/index/introducing-swe-bench-verified/">Introducing SWE-bench
+Verified</a>; OpenAI,
+2026, <a href="https://openai.com/index/why-we-no-longer-evaluate-swe-bench-verified/">Why SWE-bench Verified no longer measures frontier coding
+capabilities</a>.</p>
+<p>What it measured: the original suite contains 2,294 issue-resolution tasks from
+12 Python repositories. Verified is a 500-task human-filtered subset. Patches
+are scored by fail-to-pass and pass-to-pass tests. A 2026 audit of 138
+frequently failed Verified tasks found material problem/test issues in at least
+59.4% of that audited slice.</p>
+<p>Quality: <strong>B</strong> for evaluation shape, <strong>C</strong> for current model ranking — sample:
+large; realism: high; recency: aging and now partly superseded; vendor bias:
+mixed (academic original, OpenAI co-produced Verified and its audit). Public
+repositories, reproducible containers, and executable tests are valuable.
+Contamination, Python concentration, benchmark saturation, and demonstrated
+grader defects prevent treating its leaderboard as current ground truth.</p>
+<p>Supports for our classes: strong methodological support for repository-level
+<code>Feature</code> and bug fixtures and for retaining regression tests. It supports our
+choice to prefer newer, held-out, task-local evidence. It should not qualify a
+current named model by itself.</p>
+<h3>E04 — Aider polyglot benchmark and leaderboard</h3>
+<p>References: Aider maintainers, <a href="https://aider.chat/docs/leaderboards/">leaderboard and per-run
+details</a> and <a href="https://github.com/Aider-AI/aider/blob/main/benchmark/README.md">benchmark
+harness</a>.</p>
+<p>What it measured: 225 challenging Exercism exercises across six languages,
+with native tests, edit-format correctness, two attempts, tokens, duration, and
+run cost. One published comparison reported the same 72.0% two-attempt score
+for o4-mini/high and Claude Opus 4 with 32K thinking, while recorded run cost
+was $19.64 versus $65.75; their first-attempt rates differed materially.</p>
+<p>Quality: <strong>B</strong> — sample: medium; realism: medium; recency: current as a living
+leaderboard; vendor bias: low. The runnable corpus and resource reporting are
+valuable. The tasks are compact exercises rather than repository work; model
+runs occur on different dates and sometimes use different edit formats; the
+leaderboard does not publish non-inferiority tests.</p>
+<p>Supports for our classes: direct evidence that a smaller model can be an
+economically equivalent candidate on a bounded coding distribution, and that
+pass@2 can hide a poor pass@1. It supports set-valued <code>Feature</code> candidates and
+retry-adjusted metrics, not a blanket small-model coding default.</p>
+<h2>Review evaluations</h2>
+<h3>E05 — SWRBench</h3>
+<p>Reference: Zhengran Zeng et al., 2026, <a href="https://arxiv.org/abs/2509.01494">Benchmarking and Studying the LLM-based
+Code Review</a> (PACMSE/FSE 2026).</p>
+<p>What it measured: review-comment generation over 1,000 manually verified GitHub
+pull requests with project context and structured ground truth. Its automated
+coverage evaluation reports about 90% agreement with human judgment. The study
+found low absolute performance and up to a 43.67% F1 improvement from
+multi-review aggregation.</p>
+<p>Quality: <strong>A-</strong> — sample: large; realism: high; recency: current; vendor bias:
+low. PR-level context, manual verification, publication review, and human judge
+validation are strengths. Ground truth remains limited to known issues, and an
+LLM-based evaluator can miss aspects not represented in the structure.</p>
+<p>Supports for our classes: strong evidence that <code>Review</code> is not interchangeable
+with code generation, that single-model review is not yet dependable, and that
+multiple independent review attempts may improve recall. It does not identify a
+TokenEconomy-qualified review route.</p>
+<h3>E06 — SWE-PRBench</h3>
+<p>Reference: 2026, <a href="https://arxiv.org/abs/2603.26130">SWE-PRBench: Benchmarking AI Code Review Quality Against Pull
+Request Feedback</a>.</p>
+<p>What it measured: eight frontier models reviewing 350 human-annotated pull
+requests under diff-only, file-context, and full-context conditions. The judge
+was validated at Cohen&#39;s kappa 0.75. Models detected only 15–31% of human-flagged
+issues in the diff-only configuration; the top four were statistically
+indistinguishable, and every tested model degraded with more supplied context.</p>
+<p>Quality: <strong>B</strong> — sample: medium; realism: high; recency: current; vendor bias:
+low. Human ground truth, frozen context ablations, and reported agreement are
+strong. It is a preprint, uses an LLM judge, and human review comments are an
+imperfect recall oracle.</p>
+<p>Supports for our classes: direct support for recommendation sets when several
+review models are indistinguishable, a strong provisional floor for real PR
+<code>Review</code>, compact task-relevant context, and explicit review recall/precision
+metrics. It argues against ranking review models from generic coding scores.</p>
+<h2>HTML and visual frontend evaluations</h2>
+<h3>E07 — SWE-bench Multimodal</h3>
+<p>Reference: John Yang et al., ICLR 2025, <a href="https://arxiv.org/abs/2410.03859">SWE-bench Multimodal: Do AI Systems
+Generalize to Visual Software Domains?</a>.</p>
+<p>What it measured: 619 real visual issues from 17 user-facing JavaScript
+repositories spanning JavaScript, TypeScript, HTML, and CSS. Expert validation
+found images necessary for 83.5% of instances. The leading tested system solved
+12%, versus 6% for the next system.</p>
+<p>Quality: <strong>A-</strong> — sample: large; realism: high; recency: recent; vendor bias:
+low. Real issues, executable repository work, expert visual-necessity checks,
+and peer review are strong. Results are tied to older systems and a particular
+agent interface; the task is visual issue repair, not greenfield page creation.</p>
+<p>Supports for our classes: strong evidence that visual frontend/HTML work needs
+its own capability evidence and currently warrants strong models plus visual
+verification. Text-only coding rank is not enough.</p>
+<h3>E08 — Design2Code</h3>
+<p>Reference: Chenglei Si et al., NAACL 2025, <a href="https://arxiv.org/abs/2403.03163">Design2Code: Benchmarking Multimodal
+Code Generation for Automated Front-End
+Engineering</a>.</p>
+<p>What it measured: screenshot-to-HTML/CSS generation for 484 manually curated,
+diverse real webpages. Automatic visual/content metrics were supplemented by
+human evaluation. Error analysis found persistent difficulty recalling visual
+elements and reproducing layouts.</p>
+<p>Quality: <strong>B+</strong> — sample: medium; realism: medium to high; recency: recent;
+vendor bias: low. Real pages, human validation, and peer review help. The
+single-page screenshot reconstruction task omits repository conventions,
+behavior, accessibility, maintainability, and backend integration.</p>
+<p>Supports for our classes: evidence for strong visual capability and rendered
+browser evaluation in HTML tasks. It does not support a model for ordinary
+hand-authored doc HTML or prove production code quality.</p>
+<h3>E09 — Vision2Web</h3>
+<p>Reference: Zehai He et al., 2026, <a href="https://arxiv.org/abs/2603.26648">Vision2Web: A Hierarchical Benchmark for
+Visual Website Development with Agent
+Verification</a>.</p>
+<p>What it measured: 193 real-site tasks across 16 categories, 918 prototype
+images, and 1,255 test cases, ranging from static UI reproduction through
+interactive multi-page and full-stack development. Evaluation combines a GUI
+agent verifier with a vision-language judge; current systems still struggled on
+the full-stack level.</p>
+<p>Quality: <strong>B-</strong> — sample: medium at the task level; realism: high; recency:
+current; vendor bias: moderate (model-producing organizations among authors).
+Hierarchical tasks and workflow tests are valuable. It is a recent preprint and
+partly judge-based, with only 193 independent tasks.</p>
+<p>Supports for our classes: current corroboration that static HTML and
+interactive/full-stack frontend work must be separated. Only the former is a
+candidate for smaller models after deterministic rendering and behavior gates.</p>
+<h2>Planning, decisions, and research</h2>
+<h3>E10 — METR task-completion time horizons</h3>
+<p>Reference: Thomas Kwa et al., NeurIPS 2025, <a href="https://arxiv.org/abs/2503.14499">Measuring AI Ability to Complete
+Long Tasks</a>.</p>
+<p>What it measured: 13 frontier models on 170 software and research tasks with
+skilled-human completion-time baselines. It estimates the human task duration
+at which an agent succeeds 50% of the time, and separately reports an 80%
+horizon roughly five times shorter. Longer and messier tasks were less reliable.</p>
+<p>Quality: <strong>B+</strong> — sample: medium; realism: medium to high; recency: current;
+vendor bias: low (independent nonprofit). Human time baselines, repeated model
+history, and explicit uncertainty are strengths. Tasks overrepresent clean,
+self-contained technical work; a time horizon is not a productivity forecast
+for a normal organization.</p>
+<p>Supports for our classes: strong support for escalating long, messy,
+open-ended <code>Planning</code>, <code>Research</code>, and implementation work, and for using a
+high-reliability outcome rather than any-success as the route target.</p>
+<h3>E11 — RE-Bench</h3>
+<p>Reference: Hjalmar Wijk et al., ICML 2025, <a href="https://proceedings.mlr.press/v267/wijk25a.html">RE-Bench: Evaluating Frontier AI
+R&amp;D Capabilities of Language Model Agents against Human
+Experts</a>.</p>
+<p>What it measured: seven novel open-ended ML research-engineering environments,
+with 71 eight-hour attempts from 61 human experts and public agent trajectories.
+Humans and agents used the same resources; agents were competitive at short
+budgets but humans continued improving over longer runs.</p>
+<p>Quality: <strong>B</strong> — sample: small at the environment level, rich at the attempt
+level; realism: high for ML research; recency: current; vendor bias: low. Novel
+tasks and faithful human comparison are strong. Seven environments cannot
+represent research generally, and best-of-k/scaffold choices affect results.</p>
+<p>Supports for our classes: direct support for strong <code>Research</code> and planning on
+novel, open-ended technical work, and for measuring retries/attempt budgets. It
+does not transfer to routine documentation research.</p>
+<h3>E12 — PaperBench</h3>
+<p>Reference: Giulio Starace et al., 2025, <a href="https://openai.com/index/paperbench/">PaperBench: Evaluating AI&#39;s Ability to
+Replicate AI Research</a>.</p>
+<p>What it measured: end-to-end replication of 20 ICML 2024 papers, decomposed into
+8,316 author-co-developed rubric items and graded by a separately evaluated LLM
+judge. The best tested agent scored 21.0% and did not beat the recruited ML PhD
+baseline.</p>
+<p>Quality: <strong>B-</strong> — sample: small at 20 independent papers; realism: high;
+recency: current; vendor bias: high (OpenAI authored and evaluated the suite).
+Author-created rubrics, runnable artifacts, and human baselines are valuable.
+The small, AI-specific domain and automated judge limit transfer.</p>
+<p>Supports for our classes: corroborates a strong floor for open-ended
+<code>Research</code>, research planning, and long artifact production. It does not
+justify strong models for bounded source lookup or summarization.</p>
+<h3>E13 — PlanBench</h3>
+<p>Reference: Karthik Valmeekam et al., <a href="https://arxiv.org/abs/2206.10498">PlanBench: An Extensible Benchmark for
+Evaluating Large Language Models on Planning and Reasoning about
+Change</a>.</p>
+<p>What it measured: automatically verified plan generation, optimal planning,
+replanning, reuse, and goal reformulation in Blocksworld. Principal model runs
+used 500 instances per task, with a 50-person human baseline. The evaluated 2022
+models performed poorly on plan generation and replanning.</p>
+<p>Quality: <strong>C+</strong> — sample: large generated sample but one domain; realism: low;
+recency: old model cohort; vendor bias: low. Deterministic plan validation and a
+human baseline are useful. Synthetic Blocksworld and obsolete models prevent a
+current model-tier conclusion.</p>
+<p>Supports for our classes: supports treating planning as a distinct capability
+with executable checks where possible. It is contextual, not current proof that
+one named strong model is sufficient.</p>
+<h2>Model-efficiency and independent comparison work</h2>
+<h3>E14 — FrugalGPT</h3>
+<p>Reference: Lingjiao Chen, Matei Zaharia, and James Zou, 2023, <a href="https://arxiv.org/abs/2305.05176">FrugalGPT: How to
+Use Large Language Models While Reducing Cost and Improving
+Performance</a>.</p>
+<p>What it measured: learned cascades over 12 APIs on three datasets with 10,000,
+2,400, and 7,982 examples. At matched aggregate accuracy, reported savings
+ranged from 59.2% to 98.3%; cheap models sometimes answered cases that the
+expensive model missed.</p>
+<p>Quality: <strong>B-</strong> — sample: large; realism: low to medium; recency: old model and
+price cohort; vendor bias: low. Held-out task splits and explicit price-quality
+optimization are strong. The tasks are classification and reading
+comprehension, not agentic coding; results require a trained confidence model.</p>
+<p>Supports for our classes: establishes that per-task or per-query routing can
+outperform a single global winner and supports retaining multiple candidates.
+It is indirect evidence for smaller <code>DocEdit</code>, <code>MechanicalChore</code>, or bounded
+transform routes, not proof of equivalence on those classes.</p>
+<h3>E15 — RouteLLM</h3>
+<p>Reference: Isaac Ong et al., 2024/2025, <a href="https://arxiv.org/abs/2406.18665">RouteLLM: Learning to Route LLMs with
+Preference Data</a>.</p>
+<p>What it measured: learned routing between a strong and weak model using human
+preference data, evaluated on MT-Bench, MMLU, and GSM8K. Maintainers report up
+to 85% cost reduction while retaining 95% of GPT-4 performance in one MT-Bench
+setting, with some transfer to different model pairs.</p>
+<p>Quality: <strong>B-</strong> — sample: medium to large depending on suite; realism: low for
+our tasks; recency: recent; vendor bias: low to moderate (academic collaboration
+with a serving provider). Reproducible code and explicit threshold calibration
+are strengths. Results are aggregate, pair-specific, and not about repository
+work or quota.</p>
+<p>Supports for our classes: supports separating qualification from selection and
+calibrating on the caller&#39;s task distribution. It does not support crossing a
+correctness floor or selecting from unknown quota.</p>
+<h3>E16 — Artificial Analysis</h3>
+<p>Reference: Artificial Analysis, 2026, <a href="https://artificialanalysis.ai/methodology/intelligence-benchmarking">Intelligence Index v4.1.1
+methodology</a>.</p>
+<p>What it measured: an independently executed composite of nine current agent,
+coding, reasoning, and knowledge evaluations, including 89 Terminal-Bench tasks
+with three repeats and 220 GDPval tasks. The service publishes capability,
+price, speed, and score-versus-cost views under one methodology.</p>
+<p>Quality: <strong>B</strong> — sample: mixed; realism: mixed; recency: current; vendor bias:
+low for model vendors but moderate commercial-methodology interest. Standardized
+independent runs, repeats on several components, and visible weights are useful.
+Some tasks and judges are proprietary, individual evaluations have wider
+uncertainty than the composite, and the index weights encode a product choice.</p>
+<p>Supports for our classes: useful triangulation for current capability and cost
+frontiers and a reminder to retain component scores. It must not replace
+task-local TokenEconomy qualification or turn a composite rank into a universal
+route.</p>
+<h2>Cross-study conclusions</h2>
+<ol>
+<li>Capability and cost form a task-conditioned frontier, not a single ranking.</li>
+<li>Attempt count, reasoning effort, scaffold, context, and verifier materially
+change both quality and spend.</li>
+<li>Realistic long-horizon, review, management, and frontend tasks remain far
+from saturated even when compact coding exercises look strong.</li>
+<li>Ties and statistically indistinguishable groups occur. A set is a more
+honest public result than a forced winner.</li>
+<li>External results define priors and benchmark shapes. Local controlled
+outcomes remain necessary to qualify a concrete TokenEconomy route.</li>
+</ol>
+
+</section>
+<section id="efficiency-metrics" class="chapter"><p class="src">Source: <code>efficiency-metrics.md</code></p>
+<h1>Efficiency metrics</h1>
+<p>The library should measure resources per accepted outcome, not tokens in
+isolation. A cheap failed attempt can be more expensive than a costly first-pass
+delivery once retries are included.</p>
+<p>This specification builds on the pricing catalog shipped in v0.3.1 and v0.3.2:</p>
+<ul>
+<li><a href="../../../src/TokenEconomy/ModelPrice.cs"><code>TokenUsage</code></a> retains fresh input,
+output, cache-read, and cache-write token categories;</li>
+<li><a href="../../../src/TokenEconomy/ModelPriceCatalog.cs"><code>ModelPriceCatalog.ComputeCost</code></a>
+resolves a model alias and the price period in effect at the attempt&#39;s UTC
+timestamp;</li>
+<li><a href="../../../src/TokenEconomy/CostBreakdown.cs"><code>CostBreakdown</code></a> returns component
+costs, currency, list-price caveat, and explicit price status; and</li>
+<li>the <a href="../../../src/TokenEconomy/catalog/model-prices.json">catalog</a> is
+append-only and includes the GPT-5.6/GPT-5.4 mini histories introduced in
+v0.3.1 and the GPT-5.5 histories added in v0.3.2.</li>
+</ul>
+<p>The new functions should compose these types. They must not duplicate rates or
+change <code>ComputeCost</code> semantics.</p>
+<h2>Unit of analysis</h2>
+<p>A <strong>delivery</strong> is one task or requested artifact. A delivery has one or more
+<strong>attempts</strong>. Exactly one terminal acceptance may be credited to a delivery.</p>
+<p>An attempt is accepted only when it passes the declared external success gate
+or receives an explicit human acceptance outcome. A response completed by the
+model is not enough. Semantic failures, substantive C/D reviews,
+infrastructure failures, cancellations, quota truncations, and missing delivery
+paths remain distinct classifications.</p>
+<p>Every attempt that consumed measurable tokens contributes to spend, regardless
+of why it failed. Infrastructure failures do not count against model quality,
+but their actual token and dollar cost still count against operational
+efficiency.</p>
+<h2>Required input</h2>
+<pre><code class="language-csharp">public sealed record DeliveryAttemptEfficiencyInput
+{
+    public required string DeliveryId { get; init; }
+    public required string AttemptId { get; init; }
+    public required int AttemptOrdinal { get; init; }
+    public required ModelId Model { get; init; }
+    public required DateTime ExecutedAtUtc { get; init; }
+    public TokenUsage? Usage { get; init; }
+    public required DeliveryOutcome Outcome { get; init; }
+    public required AttemptFailureClass FailureClass { get; init; }
+}
+</code></pre>
+<p>The names can align with existing routing-evidence types during implementation.
+The following semantics are required:</p>
+<ul>
+<li><code>DeliveryId</code> groups retries of the same requested outcome.</li>
+<li><code>AttemptId</code> is immutable and unique; exact replays deduplicate by this value.</li>
+<li><code>AttemptOrdinal</code> starts at one and cannot skip or repeat within a delivery.</li>
+<li><code>Model</code> records the actual route, not the card&#39;s configured route.</li>
+<li><code>ExecutedAtUtc</code> is mandatory because price history is date-sensitive.</li>
+<li><code>Usage = null</code> means unavailable. It is not four zero counts.</li>
+<li>Outcome and failure class preserve the existing difference between semantic
+quality and substrate failures.</li>
+</ul>
+<p>If a model-based verifier or review is part of the delivery&#39;s cost boundary, it
+must be recorded as its own attributed attempt/step and included explicitly.
+The API must expose which roles were included; it must not silently mix core and
+support calls.</p>
+<h2>Token basis</h2>
+<p>For a measured attempt <code>i</code>, define billed tokens as:</p>
+<pre><code class="language-text">T_i = max(0, Input_i)
+    + max(0, Output_i)
+    + max(0, CacheRead_i)
+    + max(0, CacheWrite_i)
+</code></pre>
+<p>This scalar is useful for throughput comparisons because the repository&#39;s
+<code>TokenUsage</code> categories are mutually costed components. The result should also
+retain the four component sums; two runs with the same scalar can have very
+different prices.</p>
+<p>Do not create “input-equivalent tokens” by applying price weights. That is a
+cost metric and would become stale when prices change.</p>
+<h2>Cost basis</h2>
+<p>For each measured attempt:</p>
+<pre><code class="language-csharp">var cost = catalog.ComputeCost(
+    attempt.Model,
+    attempt.Usage.Value,
+    attempt.ExecutedAtUtc);
+</code></pre>
+<p>Define <code>C_i = cost.Total</code> only when <code>cost.Status == PriceStatus.Resolved</code>.
+Aggregate cost is nullable if any included attempt has unavailable usage,
+unknown model, no price for its date, or a different currency. Return known
+partial cost and coverage as diagnostic fields, but never publish that partial
+sum as the total.</p>
+<p>An <code>Unconfirmed</code> component makes the aggregate unconfirmed. Every resolved
+aggregate retains the “estimated - list prices” caveat. Subscription fees,
+negotiated discounts, free credits, quota opportunity cost, human fallback, and
+verification labor are outside this catalog estimate unless the caller supplies
+them through a separately named cost source.</p>
+<h2>Computable metrics</h2>
+<p>Let:</p>
+<ul>
+<li><code>D</code> be the number of distinct started deliveries;</li>
+<li><code>A</code> be the number of distinct accepted deliveries;</li>
+<li><code>N</code> be the number of retained attempts;</li>
+<li><code>R</code> be attempts with ordinal greater than one;</li>
+<li><code>sum(T)</code> be tokens across all attempts, including failed retries; and</li>
+<li><code>sum(C)</code> be dated list-price cost across all attempts.</li>
+</ul>
+<h3>1. Tokens per accepted outcome</h3>
+<pre><code class="language-text">TokensPerAcceptedOutcome = sum(T) / A
+</code></pre>
+<p>Return null when <code>A == 0</code> or token coverage is incomplete. Also return component
+tokens per accepted outcome and <code>TokenCoverage = measured attempts / N</code>.</p>
+<p>This is the normative meaning of “tokens per outcome.” A companion
+<code>TokensPerStartedDelivery = sum(T) / D</code> is useful for capacity planning when the
+observation window contains unresolved deliveries.</p>
+<h3>2. Estimated list-price cost per accepted delivery</h3>
+<pre><code class="language-text">CostPerAcceptedDelivery = sum(C) / A
+</code></pre>
+<p>Return null when <code>A == 0</code> or cost coverage is incomplete. This metric includes
+the first attempt and every paid retry for both accepted and ultimately failed
+deliveries in the cohort. It answers how much model spend the system incurred
+for each accepted result it actually produced.</p>
+<p>The result must carry currency, price coverage, unconfirmed status, and the
+catalog list-price caveat.</p>
+<h3>3. Observed retry-adjusted cost</h3>
+<pre><code class="language-text">InitialCostPerStartedDelivery = sum(C where AttemptOrdinal == 1) / D
+
+RetryAdjustedCostPerStartedDelivery = sum(C) / D
+
+RetryCostUplift =
+    RetryAdjustedCostPerStartedDelivery / InitialCostPerStartedDelivery - 1
+</code></pre>
+<p>Return uplift as null if either aggregate is unavailable or the initial value is
+zero. This uses <code>D</code>, not <code>A</code>, so it answers the operational question: how much
+did retries add to the average task we admitted, including tasks that never
+reached acceptance?</p>
+<p>Also return:</p>
+<pre><code class="language-text">AttemptsPerStartedDelivery = N / D
+RetriesPerStartedDelivery = count(R) / D
+AttemptsPerAcceptedDelivery = N / A      // null when A == 0
+SemanticRetryRate = deliveries with a semantic retry / D
+</code></pre>
+<p>Substrate retries contribute to spend and attempt counts but not to
+<code>SemanticRetryRate</code>.</p>
+<h3>4. Expected retry-adjusted cost to acceptance</h3>
+<p>This forecast is separate from observed aggregates and must be evidence-gated.
+For a planned sequence of at most <code>K</code> routes, let <code>p_k</code> be the qualified
+acceptance probability and <code>c_k</code> the expected dated cost of attempt <code>k</code>.</p>
+<pre><code class="language-text">ExpectedAttemptCost =
+    sum from k=1..K of [c_k * product from j=1..k-1 of (1 - p_j)]
+
+ProbabilityAcceptedByK = 1 - product from k=1..K of (1 - p_k)
+</code></pre>
+<p>If a guaranteed fallback has separately supplied expected cost <code>F</code>, then:</p>
+<pre><code class="language-text">ExpectedCostToDeliveredOutcome =
+    ExpectedAttemptCost
+    + F * product from k=1..K of (1 - p_k)
+</code></pre>
+<p>For an unbounded stationary route with constant cost <code>c</code> and independent
+acceptance probability <code>p &gt; 0</code>, the familiar special case is <code>c / p</code>. The
+library should not use that shortcut for escalating routes, correlated retries,
+or capped attempts.</p>
+<p>Return an unknown forecast when probability evidence is below the comparable-
+cohort gate, when route/scaffold versions differ materially, or when any needed
+cost is unresolved. Do not substitute a global leaderboard pass rate.</p>
+<h3>5. Outcome efficiency comparison</h3>
+<p>To compare two routes or recommendation policies, return absolute and relative
+deltas only when both sides have compatible acceptance definitions and complete
+coverage:</p>
+<pre><code class="language-text">TokenDeltaPerAcceptedOutcome = candidate - baseline
+CostDeltaPerAcceptedDelivery = candidate - baseline
+RetryAdjustedCostRatio = candidate / baseline
+AcceptanceRateDelta = candidate acceptance rate - baseline acceptance rate
+</code></pre>
+<p>Do not choose a winner from cost alone. Present acceptance, severe false
+positives, semantic reissues, tokens, cost, and duration together. A route below
+the correctness floor is not on the efficiency frontier.</p>
+<h2>Proposed result shape</h2>
+<pre><code class="language-csharp">public sealed record OutcomeEfficiencyReport
+{
+    public required int DeliveriesStarted { get; init; }
+    public required int DeliveriesAccepted { get; init; }
+    public required int Attempts { get; init; }
+    public required int RetryAttempts { get; init; }
+
+    public long? TokensPerAcceptedOutcome { get; init; }
+    public long? TokensPerStartedDelivery { get; init; }
+    public decimal? CostPerAcceptedDelivery { get; init; }
+    public decimal? InitialCostPerStartedDelivery { get; init; }
+    public decimal? RetryAdjustedCostPerStartedDelivery { get; init; }
+    public decimal? RetryCostUplift { get; init; }
+
+    public required MetricCoverage TokenCoverage { get; init; }
+    public required MetricCoverage CostCoverage { get; init; }
+    public string? Currency { get; init; }
+    public bool Unconfirmed { get; init; }
+    public string? Caveat { get; init; }
+    public required IReadOnlyList&lt;string&gt; UnknownReasons { get; init; }
+}
+</code></pre>
+<p>Use <code>decimal</code> for cost and ratios derived from cost. Token component totals use
+<code>long</code>; per-outcome values may use <code>decimal</code> if the API must retain fractional
+averages. The final implementation should choose one rounding policy and return
+unrounded values from the core.</p>
+<p>Suggested pure functions:</p>
+<pre><code class="language-csharp">OutcomeEfficiencyReport ComputeObserved(
+    IEnumerable&lt;DeliveryAttemptEfficiencyInput&gt; attempts,
+    ModelPriceCatalog catalog,
+    EfficiencyScope scope);
+
+ExpectedOutcomeEfficiency Forecast(
+    IReadOnlyList&lt;PlannedAttempt&gt; attempts,
+    OptionalFallbackCost fallback);
+
+OutcomeEfficiencyComparison Compare(
+    OutcomeEfficiencyReport baseline,
+    OutcomeEfficiencyReport candidate);
+</code></pre>
+<p>These functions perform no probes, launches, filesystem writes, or quota
+mutation.</p>
+<h2>Edge cases that tests must pin</h2>
+<ul>
+<li>empty input, zero deliveries, and zero accepted deliveries;</li>
+<li>duplicate attempt IDs and non-contiguous ordinals;</li>
+<li>one delivery with several retries and only one credited acceptance;</li>
+<li>missing usage versus measured zero-token usage;</li>
+<li>negative token fields following the current clamp-to-zero cost behavior;</li>
+<li>alias resolution and typed <code>ModelId</code> overloads;</li>
+<li>price changes between attempts of the same delivery;</li>
+<li>unknown model, no price for date, and unconfirmed price;</li>
+<li>cache rate present versus documented input-rate fallback;</li>
+<li>mixed currency and partial cost coverage;</li>
+<li>infrastructure retry spend without a semantic quality penalty;</li>
+<li>model escalation across attempts;</li>
+<li>unresolved delivery at the end of the observation window;</li>
+<li>expected-cost forecast with <code>p = 0</code>, <code>p = 1</code>, capped attempts, and fallback;
+and</li>
+<li>deterministic replay with reordered input attempts.</li>
+</ul>
+<h2>Publication rule</h2>
+<p>Every published efficiency number must identify the task/capability cohort,
+acceptance definition, observation dates, attempt budget, included workflow
+roles, sample size, token coverage, price coverage, catalog version, and whether
+the figure is observed or forecast. Without those fields, show “insufficient
+evidence,” not a number that looks comparable.</p>
+
+</section>
+<section id="recommendation-semantics" class="chapter"><p class="src">Source: <code>recommendation-semantics.md</code></p>
+<h1>Recommendation semantics</h1>
+<p>This is a specification for TE-42 and a future library API. It is not an
+executable-policy change. The current
+<a href="../../system/domains/model-routing-policy.md">model-routing policy</a> remains
+authoritative until its versioned projection changes.</p>
+<h2>Separate three questions</h2>
+<p>TokenEconomy currently risks collapsing three different questions:</p>
+<ol>
+<li><strong>Capability:</strong> what minimum capability does the task require?</li>
+<li><strong>Recommendation:</strong> which routes are evidence-qualified and effectively
+equivalent for that task, independent of current capacity?</li>
+<li><strong>Selection:</strong> which one of those routes is usable now under a trustworthy
+quota snapshot?</li>
+</ol>
+<p>The library should answer them in that order. Price and quota may choose among
+routes that already clear the floor. They may not redefine the floor.</p>
+<h2>Task-class semantics</h2>
+<p>Add two first-class values:</p>
+<pre><code class="language-csharp">public enum TaskClass
+{
+    HeavyDesign,
+    Planning,
+    DecisionMaking,
+    Feature,
+    MechanicalChore,
+    DocEdit,
+    Research,
+    Review,
+}
+</code></pre>
+<p><code>Planning</code> produces or revises a multi-step course of action under dependencies,
+uncertainty, constraints, or trade-offs. <code>DecisionMaking</code> selects among
+meaningfully different alternatives whose downstream consequences matter. A
+request can carry both capabilities; the highest floor wins.</p>
+<p>A parseable label over compact structured evidence is not automatically
+<code>DecisionMaking</code>. It remains the existing <code>boundedPipelineDecision</code> workflow
+role only when all of the following hold:</p>
+<ul>
+<li>evidence is compact and bounded;</li>
+<li>output choices and schema are fixed;</li>
+<li>a deterministic or directly reviewable contract exists;</li>
+<li>the result cannot independently authorize a destructive, security,
+lane-affecting, or otherwise high-consequence action; and</li>
+<li>ambiguity promotes the call to a strong route.</li>
+</ul>
+<p>This preserves the current Mini/high role exception without allowing a caller
+to relabel consequential decisions as classification.</p>
+<h2>Ideal suitability by class</h2>
+<table>
+<thead>
+<tr>
+<th>Task class or capability</th>
+<th><code>Ideal</code> band</th>
+<th>Smaller band treatment</th>
+<th>Evidence state</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>Planning</code></td>
+<td><strong>Strong</strong></td>
+<td><code>Underpowered</code> by default</td>
+<td>Operator floor; external E02/E10/E13; no local cohort.</td>
+</tr>
+<tr>
+<td><code>DecisionMaking</code></td>
+<td><strong>Strong</strong></td>
+<td><code>Underpowered</code> by default</td>
+<td>Operator floor; external E02; no local cohort.</td>
+</tr>
+<tr>
+<td><code>HeavyDesign</code></td>
+<td><strong>Strong</strong></td>
+<td>At most <code>Capable</code> when scope is tightly bounded; never ideal by cost alone</td>
+<td>External E01/E10–E12; local evidence observational.</td>
+</tr>
+<tr>
+<td>Open-ended <code>Research</code></td>
+<td><strong>Strong</strong></td>
+<td>Smaller only after the task is narrowed to bounded retrieval or transformation</td>
+<td>External E10–E12; no local cohort.</td>
+</tr>
+<tr>
+<td>Real pull-request <code>Review</code></td>
+<td><strong>Strong, provisional</strong></td>
+<td>No smaller route may be called ideal until review-specific qualification</td>
+<td>External E05/E06; local O05 has no real runs.</td>
+</tr>
+<tr>
+<td>Visual or interactive frontend/HTML</td>
+<td><strong>Strong</strong></td>
+<td>Smaller is eligible only for a separately qualified static/template capability with rendered gates</td>
+<td>External E02/E07–E09; no local cohort.</td>
+</tr>
+<tr>
+<td>Demanding <code>Feature</code> or unclear bug</td>
+<td><strong>Strong</strong> when current score/floors require it</td>
+<td>A smaller band cannot cross the existing correctness or scope floor</td>
+<td>External E01–E03; local O02.</td>
+</tr>
+<tr>
+<td>Clear, one-subsystem <code>Feature</code></td>
+<td><strong>Balanced</strong></td>
+<td>Light only for a separately qualified local-repair capability</td>
+<td>Local O01 is favorable but sparse; O02 shows the boundary matters.</td>
+</tr>
+<tr>
+<td><code>MechanicalChore</code></td>
+<td><strong>Light or balanced</strong></td>
+<td>Eligible and preferred when verification is deterministic</td>
+<td>Provisional; indirect E14/E15, no local comparison.</td>
+</tr>
+<tr>
+<td><code>DocEdit</code></td>
+<td><strong>Light or balanced</strong></td>
+<td>Eligible and preferred for bounded prose changes</td>
+<td>Provisional intuition; no aligned benchmark.</td>
+</tr>
+<tr>
+<td>Bounded structured pipeline decision</td>
+<td><strong>Light role route</strong></td>
+<td>Eligible under the five conditions above</td>
+<td>Existing policy exception; very sparse local observations.</td>
+</tr>
+</tbody></table>
+<p>“GPT-5.5 tier and below” is therefore a candidate band for mechanical chores,
+bounded documentation changes, simple local repairs, and strictly bounded
+transforms. It is not automatically selectable: the concrete model/effort pair
+must be supported, unrestricted, task-qualified, and above every correctness
+floor. <code>gpt-5.5</code> being present in the price catalog does not change its current
+<code>unsupported</code> routing status.</p>
+<h2>Recommendation returns a set</h2>
+<p>The quota-independent result should be semantically unordered even if it uses a
+stable display order.</p>
+<pre><code class="language-csharp">public sealed record ModelRecommendationSet
+{
+    public required TaskClass TaskClass { get; init; }
+    public required CapabilityTier MinimumCapability { get; init; }
+    public required Suitability TargetSuitability { get; init; }
+    public required IReadOnlyList&lt;EquivalentRoute&gt; Candidates { get; init; }
+    public required EquivalenceStatus Equivalence { get; init; }
+    public required IReadOnlyList&lt;string&gt; EvidenceReferences { get; init; }
+    public required IReadOnlyList&lt;string&gt; UncertaintyReasons { get; init; }
+    public required string PolicyVersion { get; init; }
+}
+
+public sealed record EquivalentRoute
+{
+    public required ModelId Model { get; init; }
+    public required EffortLevel Thinking { get; init; }
+    public required Cli Cli { get; init; }
+    public required EvidenceStrength Evidence { get; init; }
+    public required ModelSuggestion Suggestion { get; init; }
+}
+
+public enum EquivalenceStatus
+{
+    Demonstrated,
+    Provisional,
+    Singleton,
+    InsufficientEvidence,
+}
+</code></pre>
+<p>Names are illustrative, but the semantics are normative:</p>
+<ul>
+<li><code>Candidates</code> contains model-and-thinking routes, not bare model families.</li>
+<li>A result may be a singleton. The API should expose this as an evidence or
+coverage limitation rather than pad the set with an underpowered model.</li>
+<li>Empty means no safe recommendation, not “pick the cheapest.”</li>
+<li>Stable ordering is for serialization only and must not imply that candidate
+zero is the selected route.</li>
+<li>The set retains policy, benchmark, trust, and price uncertainty for every
+candidate.</li>
+<li>Recommendation does not consume a quota snapshot and never contains a hidden
+quota-derived winner.</li>
+</ul>
+<h2>What counts as equivalent</h2>
+<p>Equivalence is task-class and capability specific. Two routes are
+<code>Demonstrated</code> equivalents only when:</p>
+<ol>
+<li>both independently clear the task&#39;s capability, workflow, trust, and
+correctness gates;</li>
+<li>outcomes came from comparable tasks, prompts, scaffolds, verification, and
+attempt budgets;</li>
+<li>the cohort passes the existing coverage gate and a pre-registered
+equivalence/non-inferiority test;</li>
+<li>the confidence interval for the paired quality difference stays within the
+declared practical margin; and</li>
+<li>no material secondary outcome such as false-positive severity, unsafe
+behavior, or semantic reissue rate crosses its own guardrail.</li>
+</ol>
+<p>For binary accepted-delivery outcomes, let <code>p_best - p_candidate</code> be the paired
+quality loss and <code>delta</code> the class-specific maximum acceptable loss. A candidate
+is non-inferior only when the upper confidence bound of that loss is at most
+<code>delta</code>. The dossier does not prescribe one global <code>delta</code>: five percentage
+points may be reasonable for reversible chores and unacceptable for security or
+data-loss work. The benchmark definition must declare it before results exist.</p>
+<p>Close point estimates, overlapping confidence intervals, a shared capability
+tier, or “no observed failures” in a tiny cohort do not prove equivalence.</p>
+<p>When controlled evidence is sparse, policy may return <code>Provisional</code> peers that
+all clear the same conservative floor. The uncertainty must be visible, and a
+provisional set must not be described as “equally good” in user-facing copy.</p>
+<h2>Quota-aware selection</h2>
+<p>Selection is a pure function over a recommendation set and a run-scoped quota
+snapshot:</p>
+<pre><code class="language-csharp">public static ModelSelectionResult Select(
+    ModelRecommendationSet recommendation,
+    ProviderAvailabilitySnapshot quota,
+    DateTime atUtc,
+    SelectionPolicy policy);
+</code></pre>
+<p>The evaluation order is:</p>
+<ol>
+<li>Validate that the snapshot is current and internally trustworthy at
+<code>atUtc</code>. Stale, missing, suspicious, or contradictory data is unknown, not
+healthy.</li>
+<li>Preserve the original recommendation set and capability floor in the result.</li>
+<li>Remove routes whose CLI or model is unavailable, restricted, deprecated, or
+workflow-incompatible.</li>
+<li>Remove routes whose known quota state cannot admit the projected attempt.</li>
+<li>Among the remaining equivalent routes, prefer sufficient headroom, then the
+lowest evidence-qualified expected retry-adjusted cost, then tokens per
+accepted outcome, then dated list-price estimate. Use canonical model and
+thinking identifiers only as the final deterministic tie-break.</li>
+<li>Return <code>Selected</code> with source and reason, or <code>Wait</code> when no candidate remains.</li>
+</ol>
+<p>An unknown quota snapshot does <strong>not</strong> authorize step 5. The result is
+<code>RecommendationOnly</code> with no selected route. A caller that cannot represent an
+unselected recommendation must not call this overload.</p>
+<p>If all equivalent candidates are constrained, <code>Select</code> returns <code>Wait</code>. The
+existing policy&#39;s narrowly allowed one-tier downgrade is a new policy
+evaluation, not selection from the original equivalent set. That reevaluation
+must retain the original recommendation, satisfy its five-point window and
+deterministic-verification requirements, and never cross a hard or semantic-
+reissue floor.</p>
+<h2>Result audit fields</h2>
+<p>Every concrete selection should retain:</p>
+<ul>
+<li>the full recommendation set and its equivalence status;</li>
+<li>the selected route, or null for recommendation-only/wait/override;</li>
+<li>task class, capability, score worksheet, and effective correctness floor;</li>
+<li>policy, knowledge, benchmark, trust, and equivalence-test versions;</li>
+<li>quota snapshot identity, observation time, freshness, and per-window state;</li>
+<li>selection source and eliminated-candidate reasons;</li>
+<li>dated cost status and retry-efficiency evidence used to choose; and</li>
+<li>operator pin plus the existing below-policy warning.</li>
+</ul>
+<p>Quota state remains attempt-scoped. Neither the recommendation set nor the
+selected route rewrites card configuration.</p>
+<h2>Compatibility path for TE-42</h2>
+<ol>
+<li>Add the two task classes and suitability rows without changing existing
+string values.</li>
+<li>Introduce <code>RecommendSet(...)</code> beside the existing <code>SuggestModel(...)</code> API.
+Keep the old method as a compatibility projection only if it can avoid
+inventing a winner; otherwise deprecate it with a clear migration path.</li>
+<li>Add the pure <code>Select(...)</code> operation and a result state for
+<code>RecommendationOnly</code>.</li>
+<li>Project existing explicitly declared provider fallbacks into provisional
+sets; do not infer peers from catalog adjacency.</li>
+<li>Add controlled equivalence evidence before changing a set from provisional
+to demonstrated.</li>
+<li>Version the canonical Markdown policy, JSON projection, generated knowledge,
+and tests together when executable defaults change.</li>
+</ol>
+<h2>Acceptance invariants</h2>
+<ul>
+<li><code>Planning</code> and <code>DecisionMaking</code> never return a smaller route as <code>Ideal</code>.</li>
+<li>Unknown quota never produces a concrete selection.</li>
+<li>Known cost cannot compensate for an unqualified capability.</li>
+<li>A recommendation set never contains a restricted, deprecated, or unsupported
+model/effort pair.</li>
+<li>A singleton is valid; an empty result is explicit.</li>
+<li>No selection crosses a hard correctness floor.</li>
+<li>Equivalent routes are traceable to task-local evidence or labeled
+provisional.</li>
+<li>Replaying identical recommendation, quota, catalog, and policy inputs returns
+the same result.</li>
+</ul>
+
+</section>
+</main>
+</body>
+</html>
