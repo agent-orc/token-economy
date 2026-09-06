@@ -1,0 +1,250 @@
+{
+  "$schema": "model-migrations.v1.schema.json",
+  "schemaVersion": 1,
+  "catalogVersion": "2026-09-06",
+  "evidenceAsOfDate": "2026-09-06",
+  "defaultStrategy": "latestInFamily",
+  "authority": {
+    "rules": "docs/model-migrations.md",
+    "routingPolicy": "docs/system/domains/model-routing-policy.md",
+    "priceCatalog": "src/TokenEconomy/catalog/model-prices.json"
+  },
+  "costClassOrder": ["economy", "standard", "premium"],
+  "migrations": [
+    {
+      "from": "claude-opus-4-8",
+      "to": "claude-opus-5",
+      "family": "claude-opus",
+      "vendor": "anthropic",
+      "generationOrder": { "from": 408, "to": 500 },
+      "costClassFrom": "premium",
+      "costClassTo": "premium",
+      "ladderCompatible": true,
+      "contextChange": "increase",
+      "evidence": {
+        "kind": "controlledBenchmark",
+        "reference": "benchmarks/results/document-to-text/curated-hard-cases-v1/20260809T092430765Z.json",
+        "conclusion": "noRegression",
+        "summary": "Opus 5 and Opus 4.8 each passed all four identical document-to-text cases."
+      },
+      "safeAuto": true,
+      "since": "2026-09-06",
+      "note": "Latest Opus-family successor with a compatible thinking ladder and a larger 1M context window. The consumer must still resolve a dated target price and current availability before launch."
+    },
+    {
+      "from": "claude-opus-4-7",
+      "to": "claude-opus-5",
+      "family": "claude-opus",
+      "vendor": "anthropic",
+      "generationOrder": { "from": 407, "to": 500 },
+      "costClassFrom": "premium",
+      "costClassTo": "premium",
+      "ladderCompatible": true,
+      "contextChange": "increase",
+      "evidence": {
+        "kind": "controlledBenchmark",
+        "reference": "benchmarks/results/document-to-text/curated-hard-cases-v1/20260809T092430765Z.json",
+        "conclusion": "noRegression",
+        "summary": "Opus 5 and Opus 4.7 each passed all four identical document-to-text cases."
+      },
+      "safeAuto": true,
+      "since": "2026-09-06",
+      "note": "Latest Opus-family successor with a compatible thinking ladder and a larger 1M context window. The consumer must still resolve a dated target price and current availability before launch."
+    },
+    {
+      "from": "claude-opus-4-6",
+      "to": "claude-opus-5",
+      "family": "claude-opus",
+      "vendor": "anthropic",
+      "generationOrder": { "from": 406, "to": 500 },
+      "costClassFrom": "premium",
+      "costClassTo": "premium",
+      "ladderCompatible": true,
+      "contextChange": "increase",
+      "evidence": {
+        "kind": "controlledBenchmark",
+        "reference": "benchmarks/results/document-to-text/curated-hard-cases-v1/20260809T092430765Z.json",
+        "conclusion": "noRegression",
+        "summary": "Opus 5 and Opus 4.6 each passed all four identical document-to-text cases."
+      },
+      "safeAuto": true,
+      "since": "2026-09-06",
+      "note": "Latest Opus-family successor with a compatible thinking ladder and a larger 1M context window. The consumer must still resolve a dated target price and current availability before launch."
+    },
+    {
+      "from": "claude-opus-4-5",
+      "to": "claude-opus-5",
+      "family": "claude-opus",
+      "vendor": "anthropic",
+      "generationOrder": { "from": 405, "to": 500 },
+      "costClassFrom": "premium",
+      "costClassTo": "premium",
+      "ladderCompatible": true,
+      "contextChange": "increase",
+      "evidence": {
+        "kind": "controlledBenchmark",
+        "reference": "benchmarks/results/document-to-text/curated-hard-cases-v1/20260809T092430765Z.json",
+        "conclusion": "noRegression",
+        "summary": "Opus 5 and Opus 4.5 each passed all four identical document-to-text cases."
+      },
+      "safeAuto": true,
+      "since": "2026-09-06",
+      "note": "Latest Opus-family successor with a compatible thinking ladder and a larger 1M context window. The consumer must still resolve a dated target price and current availability before launch."
+    },
+    {
+      "from": "claude-sonnet-4-6",
+      "to": "claude-sonnet-5",
+      "family": "claude-sonnet",
+      "vendor": "anthropic",
+      "generationOrder": { "from": 406, "to": 500 },
+      "costClassFrom": "standard",
+      "costClassTo": "standard",
+      "ladderCompatible": true,
+      "contextChange": "unknown",
+      "evidence": {
+        "kind": "controlledBenchmark",
+        "reference": "benchmarks/results/document-to-text/curated-hard-cases-v1/20260809T092430765Z.json",
+        "conclusion": "noRegression",
+        "summary": "Sonnet 5 and Sonnet 4.6 produced the same three passes and one capability miss on four identical document-to-text cases."
+      },
+      "safeAuto": true,
+      "since": "2026-09-06",
+      "note": "Latest Sonnet-family successor with a superset-compatible thinking ladder. The consumer must still resolve a dated target price and current availability before launch."
+    },
+    {
+      "from": "claude-sonnet-4-5",
+      "to": "claude-sonnet-5",
+      "family": "claude-sonnet",
+      "vendor": "anthropic",
+      "generationOrder": { "from": 405, "to": 500 },
+      "costClassFrom": "standard",
+      "costClassTo": "standard",
+      "ladderCompatible": true,
+      "contextChange": "unknown",
+      "evidence": {
+        "kind": "controlledBenchmark",
+        "reference": "benchmarks/results/document-to-text/curated-hard-cases-v1/20260809T092430765Z.json",
+        "conclusion": "noRegression",
+        "summary": "Sonnet 5 and Sonnet 4.5 produced the same three passes and one capability miss on four identical document-to-text cases."
+      },
+      "safeAuto": true,
+      "since": "2026-09-06",
+      "note": "Latest Sonnet-family successor with a superset-compatible thinking ladder. The consumer must still resolve a dated target price and current availability before launch."
+    },
+    {
+      "from": "claude-haiku-4-5",
+      "to": "claude-haiku-4-5",
+      "family": "claude-haiku",
+      "vendor": "anthropic",
+      "generationOrder": { "from": 405, "to": 405 },
+      "costClassFrom": "economy",
+      "costClassTo": "economy",
+      "ladderCompatible": true,
+      "contextChange": "same",
+      "evidence": "none",
+      "safeAuto": false,
+      "since": "2026-09-06",
+      "note": "No Haiku 5 successor is available; retain Haiku 4.5 and re-evaluate when a same-family successor is cataloged."
+    },
+    {
+      "from": "gpt-5.5",
+      "to": "gpt-5.6-sol",
+      "family": "gpt",
+      "vendor": "openai",
+      "generationOrder": { "from": 50500, "to": 50603 },
+      "costClassFrom": "premium",
+      "costClassTo": "premium",
+      "ladderCompatible": true,
+      "contextChange": "unknown",
+      "evidence": {
+        "kind": "controlledBenchmark",
+        "reference": "benchmarks/results/document-to-text/curated-hard-cases-v1/20260810T131256052Z.json",
+        "conclusion": "noRegression",
+        "summary": "GPT-5.6 Sol passed all four identical document-to-text cases; GPT-5.5 passed three and missed one."
+      },
+      "safeAuto": true,
+      "since": "2026-09-06",
+      "note": "Successor within the GPT family; Sol adds ultra to the GPT-5.5 reasoning ladder. The consumer must still resolve a dated target price and current availability before launch."
+    },
+    {
+      "from": "gpt-5.4-mini",
+      "to": "gpt-5.4-mini",
+      "family": "gpt-mini",
+      "vendor": "openai",
+      "generationOrder": { "from": 50401, "to": 50401 },
+      "costClassFrom": "economy",
+      "costClassTo": "economy",
+      "ladderCompatible": true,
+      "contextChange": "same",
+      "evidence": "none",
+      "safeAuto": false,
+      "since": "2026-09-06",
+      "note": "Retain GPT-5.4 Mini for bounded pipeline decisions over compact structured evidence; it is not a core-task fallback."
+    },
+    {
+      "from": "gpt-5.6-sol",
+      "to": "gpt-6-astra",
+      "family": "gpt",
+      "vendor": "openai",
+      "generationOrder": { "from": 50603, "to": 60001 },
+      "costClassFrom": "premium",
+      "costClassTo": "unknown",
+      "ladderCompatible": false,
+      "contextChange": "unknown",
+      "evidence": "none",
+      "safeAuto": false,
+      "since": "2026-09-06",
+      "note": "Proposal only: Astra is a new generation, adds max to a different reasoning ladder, has no repository benchmark, and has no dated price in the catalog."
+    }
+  ],
+  "taskClassRecommendations": [
+    {
+      "taskClass": "chore",
+      "recommendedModelSet": [
+        { "routeId": "terra-medium", "model": "gpt-5.6-terra", "thinkingLevel": "medium", "when": "Default for a clear, reversible chore that is not strictly mechanical." },
+        { "routeId": "sol-medium", "model": "gpt-5.6-sol", "thinkingLevel": "medium", "when": "Use when the score reaches 51 or the scope requires the Sol floor." },
+        { "routeId": "sol-xhigh", "model": "gpt-5.6-sol", "thinkingLevel": "xhigh", "when": "Use only when a correctness hard floor applies." }
+      ],
+      "quotaAwareAlternative": { "routeId": "claude-sonnet-5-high", "model": "claude-sonnet-5", "thinkingLevel": "high", "forRouteIds": ["terra-medium", "sol-medium"], "provisional": true },
+      "note": "A genuinely trivial mechanical chore uses the mechanical task-class view."
+    },
+    {
+      "taskClass": "feature",
+      "recommendedModelSet": [
+        { "routeId": "terra-medium", "model": "gpt-5.6-terra", "thinkingLevel": "medium", "when": "Clear reversible work inside one subsystem." },
+        { "routeId": "sol-medium", "model": "gpt-5.6-sol", "thinkingLevel": "medium", "when": "Demanding work, broad context, or two to three subsystems." },
+        { "routeId": "sol-xhigh", "model": "gpt-5.6-sol", "thinkingLevel": "xhigh", "when": "Use only when a correctness hard floor applies." }
+      ],
+      "quotaAwareAlternative": { "routeId": "claude-sonnet-5-high", "model": "claude-sonnet-5", "thinkingLevel": "high", "forRouteIds": ["terra-medium", "sol-medium"], "provisional": true },
+      "note": "Score the concrete feature before consulting quota; task class alone does not lower a floor."
+    },
+    {
+      "taskClass": "bug",
+      "recommendedModelSet": [
+        { "routeId": "terra-medium", "model": "gpt-5.6-terra", "thinkingLevel": "medium", "when": "Minimum route for an unclear bug; also suitable for a clear reversible local bug when its score permits." },
+        { "routeId": "sol-medium", "model": "gpt-5.6-sol", "thinkingLevel": "medium", "when": "Demanding investigation, broad context, or persistent/public contracts." },
+        { "routeId": "sol-xhigh", "model": "gpt-5.6-sol", "thinkingLevel": "xhigh", "when": "P0, security, distributed authority, concurrency, or credible data-loss risk." }
+      ],
+      "quotaAwareAlternative": { "routeId": "claude-sonnet-5-high", "model": "claude-sonnet-5", "thinkingLevel": "high", "forRouteIds": ["terra-medium", "sol-medium"], "provisional": true },
+      "note": "No provider fallback is declared for the Sol/xhigh correctness floor; wait or request an explicit override."
+    },
+    {
+      "taskClass": "dossier",
+      "recommendedModelSet": [
+        { "routeId": "sol-medium", "model": "gpt-5.6-sol", "thinkingLevel": "medium", "when": "Default for planning, synthesis, and broad-context analysis." },
+        { "routeId": "sol-xhigh", "model": "gpt-5.6-sol", "thinkingLevel": "xhigh", "when": "Use only when the dossier can authorize or shape correctness-critical work covered by a hard floor." }
+      ],
+      "quotaAwareAlternative": { "routeId": "claude-sonnet-5-high", "model": "claude-sonnet-5", "thinkingLevel": "high", "forRouteIds": ["sol-medium"], "provisional": true },
+      "note": "Dossier work is treated as strong-model planning/analysis, not as a bounded Mini decision."
+    },
+    {
+      "taskClass": "mechanical",
+      "recommendedModelSet": [
+        { "routeId": "luna-medium", "model": "gpt-5.6-luna", "thinkingLevel": "medium", "when": "Trivial, locally specified work with a small diff and deterministic verification." },
+        { "routeId": "terra-medium", "model": "gpt-5.6-terra", "thinkingLevel": "medium", "when": "Use when uncertainty or scope raises the score above the Luna band." }
+      ],
+      "quotaAwareAlternative": { "routeId": "claude-sonnet-5-high", "model": "claude-sonnet-5", "thinkingLevel": "high", "forRouteIds": ["terra-medium"], "provisional": true },
+      "note": "The policy declares no equivalent provider fallback for Luna; if the card remains in the Luna band and Luna is unavailable, wait instead of inventing a downgrade."
+    }
+  ]
+}
