@@ -257,6 +257,25 @@ and the deterministic generated public view. Unknown models or levels,
 unsupported combinations, restrictions, deprecations, and provisional evidence
 are returned explicitly by `ModelRoutingKnowledgeBase.Resolve`.
 
+### Migrating versioned model families
+
+Agent Studio can consume the versioned
+[`model-migrations.v1.json`](src/TokenEconomy/catalog/model-migrations.v1.json)
+catalog directly by repository path or raw URL. Its adjacent JSON Schema fixes
+the v1 contract, including generation order, derived cost-class movement,
+thinking-ladder compatibility, context change, repository evidence, and the
+`safeAuto` decision. The catalog also publishes the post-migration model sets
+and quota-aware alternative for `chore`, `feature`, `bug`, `dossier`, and
+`mechanical` cards.
+
+The default strategy is `latestInFamily`, but automatic application is gated:
+same family, newer generation, same or lower known cost class, compatible
+ladder, and comparable no-regression evidence are all required. The consuming
+orchestrator must also resolve the target's dated price and current CLI
+availability. It applies the migration to the attempt-local route without
+rewriting card configuration or overriding an explicit operator pin. See the
+[migration rules](docs/model-migrations.md).
+
 ## Status
 
 The pricing catalog + cost API were extracted from `CodingAgentRunner.Pricing`
@@ -272,7 +291,7 @@ handoff retained in
 
 | Path | What it holds |
 | --- | --- |
-| `src/TokenEconomy/` | The published library. `catalog/` holds the embedded price and media-capability JSON. |
+| `src/TokenEconomy/` | The published library. `catalog/` holds the embedded price, routing, migration, task-class, and media-capability JSON. |
 | `src/TokenEconomy.Benchmarks/` | CLI that executes the A/B and document-to-text benchmark runs. |
 | `tests/TokenEconomy.Tests/` | xUnit suite; also the guard that the website data cannot drift from the library. |
 | `benchmarks/` | Benchmark setups, fixtures and corpora, plus append-only raw results under `benchmarks/results/`. |
