@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
-  "id": "token-economy-evidence-base",
-  "key": "TE-43",
+  "id": "evidence-base",
+  "key": "TE-W1",
   "title": "TokenEconomy evidence base",
   "summary": "Decision-ready dossier connecting external model-efficiency research and coding, review, planning, decision, and frontend evaluations to TokenEconomy's retained benchmarks. It defines evidence gaps, set-valued recommendations, quota-aware selection, and computable outcome-efficiency metrics grounded in the v0.3.1/v0.3.2 pricing catalog.",
   "entrypoint": "index.md",
