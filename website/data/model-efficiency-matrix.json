@@ -1,9 +1,45 @@
 {
   "schemaVersion": 1,
-  "generatedAtUtc": "2026-08-12T14:22:51.951929+00:00",
+  "generatedAtUtc": "2026-09-11T07:18:09.815783+00:00",
   "asOfUtc": "2026-08-11T00:00:00Z",
   "source": "ModelEfficiencyMatrix.Default.Describe(asOfUtc)",
   "rows": [
+    {
+      "modelId": "gpt-6-astra",
+      "vendor": "openai",
+      "cli": "codex",
+      "tier": "frontier",
+      "costClass": "unknown",
+      "effortLevels": [
+        "low",
+        "medium",
+        "high",
+        "xHigh",
+        "max"
+      ],
+      "suitability": {
+        "heavyDesign": "ideal",
+        "planning": "ideal",
+        "decisionMaking": "ideal",
+        "feature": "capable",
+        "mechanicalChore": "overkill",
+        "docEdit": "overkill",
+        "research": "capable",
+        "review": null,
+        "htmlUiImplementation": "ideal",
+        "sourceCodeReview": "overkill",
+        "securityAssessment": "ideal",
+        "redundancyDetection": "ideal",
+        "graphicalQualityJudgment": null,
+        "consistencyChecking": null
+      },
+      "restricted": false,
+      "deprecated": false,
+      "costUnconfirmed": false,
+      "selectionStatus": "unsupported",
+      "evidenceStatus": "observed",
+      "provisional": false
+    },
     {
       "modelId": "gpt-5.6-luna",
       "vendor": "openai",

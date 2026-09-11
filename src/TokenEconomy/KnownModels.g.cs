@@ -39,6 +39,9 @@ public static class KnownModels
     /// <summary>The canonical <c>claude-haiku-4-5</c> model id.</summary>
     public static readonly ModelId ClaudeHaiku45 = ModelId.Of("claude-haiku-4-5");
 
+    /// <summary>The canonical <c>gpt-6-astra</c> model id.</summary>
+    public static readonly ModelId Gpt6Astra = ModelId.Of("gpt-6-astra");
+
     /// <summary>The canonical <c>gpt-5.6-luna</c> model id.</summary>
     public static readonly ModelId Gpt56Luna = ModelId.Of("gpt-5.6-luna");
 

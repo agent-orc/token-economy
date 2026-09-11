@@ -90,6 +90,7 @@ Supported reasoning is resolved per concrete model. A vocabulary entry does not 
 | `gpt-5.6-luna` | `luna` | `openai` / `codex` | `minimal`, `low`, `medium`, `high`, `xhigh`, `ultra` | `selectable` | `provisional` | insufficient evidence | `unknown` / `insufficientEvidence` | price `gpt-5.6-luna`; media `*`; trust `gpt-5.6-luna` |
 | `gpt-5.6-sol` | `gpt-5.6`, `sol` | `openai` / `codex` | `minimal`, `low`, `medium`, `high`, `xhigh`, `ultra` | `selectable` | `observational` | insufficient evidence | `unknown` / `insufficientEvidence` | price `gpt-5.6-sol`; media `*`; trust `gpt-5.6-sol` |
 | `gpt-5.6-terra` | `terra` | `openai` / `codex` | `minimal`, `low`, `medium`, `high`, `xhigh`, `ultra` | `selectable` | `provisional` | insufficient evidence | `unknown` / `insufficientEvidence` | price `gpt-5.6-terra`; media `*`; trust `gpt-5.6-terra` |
+| `gpt-6-astra` | `astra` | `openai` / `codex` | `low`, `medium`, `high`, `xhigh`, `max` | `unsupported` | `observed` | insufficient evidence | `unknown` / `insufficientEvidence` | price `gpt-6-astra`; media `*`; trust `gpt-6-astra` |
 
 ## Review quality (Quality Studio)
 
@@ -115,6 +116,7 @@ Supported reasoning is resolved per concrete model. A vocabulary entry does not 
 | `gpt-5.6-luna` | insufficient evidence | 0 | 0 | 0 | — | — | — | `unknown` / `insufficientEvidence` |
 | `gpt-5.6-sol` | insufficient evidence | 0 | 0 | 0 | — | — | — | `unknown` / `insufficientEvidence` |
 | `gpt-5.6-terra` | insufficient evidence | 0 | 0 | 0 | — | — | — | `unknown` / `insufficientEvidence` |
+| `gpt-6-astra` | insufficient evidence | 0 | 0 | 0 | — | — | — | `unknown` / `insufficientEvidence` |
 
 Quality Studio history is observational operational evidence, not a controlled A/B comparison. A finding confirmation rate is a precision signal over sighted findings; it does not measure missed findings or recall. Fixture runs validate only the ingestion contract and never contribute to model metrics. Until the declared run, assessed-finding, and outcome-coverage gates pass, the matrix retains a null review suitability and `SuggestModel(review, ...)` returns no candidate rather than inventing a fit.
 

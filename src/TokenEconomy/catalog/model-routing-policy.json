@@ -25,6 +25,22 @@
   ],
   "models": [
     {
+      "canonicalId": "gpt-6-astra",
+      "aliases": ["astra"],
+      "providerId": "openai",
+      "cliId": "codex",
+      "priceCatalogId": "gpt-6-astra",
+      "mediaCatalogModelId": "*",
+      "trustModelId": "gpt-6-astra",
+      "supportedThinkingLevels": ["low", "medium", "high", "xhigh", "max"],
+      "routingStatus": "unsupported",
+      "evidenceStatus": "observed",
+      "provisional": false,
+      "capabilityTier": "frontier",
+      "workflowRoles": [],
+      "note": "Known to the API, price catalog, and external benchmark catalog. External results do not add it to policy version 2026-07-24 or lower any correctness floor."
+    },
+    {
       "canonicalId": "gpt-5.6-luna",
       "aliases": ["luna"],
       "providerId": "openai",

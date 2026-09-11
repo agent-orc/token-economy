@@ -324,6 +324,7 @@
         <a href="#cost-api">Cost&nbsp;API</a>
         <a href="#model-recommendation">Model&nbsp;recommendation</a>
         <a href="task-class-routing/">Task&nbsp;studies</a>
+        <a href="model-benchmarks/">Price&nbsp;×&nbsp;quality</a>
         <a href="#usage">Usage</a>
         <a href="#benchmarks">Benchmarks</a>
         <a href="#family">Family</a>
@@ -600,6 +601,7 @@ catalog.ComputeCost(KnownModels.ClaudeSonnet5, usage, standard).Total; // 6.00</
     <section id="benchmarks">
       <div class="wrap">
         <h2>Benchmarks</h2>
+        <p><a href="model-benchmarks/"><strong>Open the external benchmark price-performance matrix →</strong></a></p>
         <p class="sub">Published runs are controlled local comparisons: each variant receives the same prompt and a fresh fixture, then a deterministic command evaluates the response. They are not provider-wide capability claims.</p>
         <h3>How these studies map to established benchmarks</h3>
         <p>This harness borrows the test-verified repair shape of <a href="https://www.swebench.com/">SWE-bench</a> and the focused function-correctness shape of <a href="https://github.com/openai/human-eval">HumanEval</a>. Its fixtures are local, deliberately small, and versioned for model-selection calibration; they are <strong>not</strong> SWE-bench or HumanEval submissions, and their results are not comparable to either leaderboard.</p>

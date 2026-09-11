@@ -23,6 +23,8 @@
     <EmbeddedResource Include="catalog\model-migrations.v1.json" />
     <EmbeddedResource Include="catalog\task-class-recommendations.json" />
     <EmbeddedResource Include="catalog\model-prices.json" />
+    <EmbeddedResource Include="catalog\benchmark-types.json" />
+    <EmbeddedResource Include="catalog\benchmark-results.json" />
     <EmbeddedResource Include="..\..\results\routing-evidence\review\v1\review-evidence.json"
                       Condition="Exists('..\..\results\routing-evidence\review\v1\review-evidence.json')"
                       LogicalName="TokenEconomy.catalog.review-evidence.json" />

@@ -113,6 +113,14 @@ selection rubric, and a standalone `ai-patterns` handoff.
   with the [end-to-end benchmark methodology](benchmarks/README.md); the
   [protocol background](docs/benchmarks.md) records the established-suite
   influences.
+- **External benchmark evidence and price-performance** — schema-backed,
+  append-only benchmark definitions and model/effort measurements share one
+  typed catalog with controlled setups. `ModelBenchmarkMatrix` returns raw or
+  weighted score cells, dated token prices, published task metrics, declared-
+  assumption cost, score per dollar, reference deltas, evidence age, and
+  ranked cheaper-and-at-least-as-good candidates. It recommends; it does not
+  route or weaken policy floors. See the [public matrix](website/model-benchmarks/)
+  and [refresh recipe](docs/benchmarks-research.md).
 - **Study-backed task-class advice** —
   `TaskClassRecommendationCatalog.Default.Recommend(taskClass)` returns the
   ranked equivalent model/thinking set, rationale version, evidence, measured
@@ -219,6 +227,32 @@ dotnet run --project tools/KnownModelsGenerator -- src/TokenEconomy/KnownModels.
 
 The test suite renders the file in memory and compares its bytes with the
 checked-in output, so a catalog change without regeneration fails CI.
+
+### Benchmark price-performance
+
+```csharp
+var assumption = new BenchmarkTokenAssumption(
+    InputTokensPerTask: 100_000,
+    OutputTokensPerTask: 10_000);
+var reference = new BenchmarkCellKey(KnownModels.Gpt56Sol, EffortLevel.High);
+
+var matrix = ModelBenchmarkMatrix.Default.Build(
+    "artificial-analysis-intelligence-index-v4.3",
+    assumption,
+    reference,
+    new DateTime(2026, 9, 11, 0, 0, 0, DateTimeKind.Utc));
+
+var candidates = ModelBenchmarkMatrix.Default.FindCandidates(
+    reference,
+    "artificial-analysis-intelligence-index-v4.3",
+    assumption,
+    matrix.AsOfUtc);
+```
+
+When the publisher supplies cost per task, that cost is used. Otherwise the
+declared token mix is costed through `ModelPriceCatalog`; benchmark evidence
+never duplicates token rates. Evidence more than 90 days old is retained and
+flagged stale.
 
 ### Selecting the correctness route
 
