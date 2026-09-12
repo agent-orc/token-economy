@@ -330,7 +330,7 @@
         <a href="#model-recommendation">Model&nbsp;recommendation</a>
         <a href="task-class-routing/">Task&nbsp;studies</a>
         <a href="model-benchmarks/">Price&nbsp;×&nbsp;quality</a>
-        <a class="nav-secondary" href="#usage">Usage</a>
+        <a class="nav-secondary" href="#usage">Cost&nbsp;example</a>
         <a href="#benchmarks">Benchmarks</a>
         <a href="#family">Family</a>
         <a class="nav-collapse" href="https://github.com/agent-orc/token-economy">GitHub</a>
@@ -576,29 +576,26 @@ catalog.ComputeCost(KnownModels.ClaudeSonnet5, usage, standard).Total; // 6.00</
       </div>
     </section>
 
-    <!-- ================= TOKEN USAGE ================= -->
+    <!-- ================= WORKED COST EXAMPLE ================= -->
     <section id="usage">
       <div class="wrap">
-        <h2>Token usage, made visible</h2>
-        <p class="sub">The charts show token and list-price aggregates by model, document class,
-        card task class, measured reissue count, and session turn. Unpriced usage remains unpriced.</p>
-        <div id="usage-charts" aria-live="polite">
-          <p class="comment-note">Loading published token evidence&hellip;</p>
+        <h2>One real run, costed by the library</h2>
+        <p class="sub">A worked example from checked-in usage evidence: the run reports tokens,
+        and <code>ComputeCost</code> applies the catalog price valid at the run's UTC timestamp.</p>
+        <div id="worked-cost-example" aria-live="polite">
+          <p class="comment-note">Loading the checked worked example&hellip;</p>
         </div>
         <div class="callout">
-          <strong>Snapshot provenance — as of 2026-07-25.</strong>
+          <strong>Data provenance.</strong>
           <ul class="tight">
-            <li>Document-to-text capability run, dated <time datetime="2026-07-25">2026-07-25</time>.</li>
-            <li>30-card live-orchestrator backtest snapshot, dated <time datetime="2026-07-25">2026-07-25</time>.</li>
-            <li>Three-turn session trace, dated <time datetime="2026-07-11">2026-07-11</time>, documented in <a href="https://github.com/agent-orc/token-economy/blob/main/docs/analyses/long-vs-short-session-cost.md"><code>docs/analyses/long-vs-short-session-cost.md</code></a>.</li>
+            <li>Worked example source: case <code>pdf-two-column-reading-order</code> in the
+              <a href="https://github.com/agent-orc/token-economy/blob/main/benchmarks/results/document-to-text/curated-hard-cases-v1/20260810T131256052Z.json">document-to-text run <code>20260810T131256052Z</code></a>.</li>
+            <li><a href="evidence/agent-studio-usage/">Usage evidence from an Agent Studio backtest, July 2026</a>
+              retains the by-model, document-class, card-task-class, reissue-count, and session-turn aggregates.</li>
           </ul>
-          <p>These are dated snapshots, not a live feed. <code>scripts/generate-website-data.py</code>
-          generates the projection, and CI checks it with <code>--check</code>.</p>
+          <p><code>scripts/generate-website-data.py</code> generates the worked example and the dated
+          evidence snapshots; CI checks the projection with <code>--check</code>.</p>
         </div>
-        <p class="comment-note">Source: <code>website/data/token-usage.json</code>. Dollar figures
-        use the list price valid at each run timestamp. A unit test recalculates published costs
-        through <code>ComputeCost</code>. The token components are mutually exclusive; cache reads
-        are not added to input a second time.</p>
       </div>
     </section>
 
@@ -679,7 +676,6 @@ catalog.ComputeCost(KnownModels.ClaudeSonnet5, usage, standard).Total; // 6.00</
         ? format(range.minimum)
         : `${format(range.minimum)}&ndash;${format(range.maximum)}`;
       const benchmarkHost = document.getElementById('benchmark-results');
-      const usageHost = document.getElementById('usage-charts');
       const matrixHost = document.getElementById('matrix-results');
       const fileProtocolFailure = { fileProtocol: true };
       const fetchJson = path => location.protocol === 'file:'
@@ -815,179 +811,37 @@ catalog.ComputeCost(KnownModels.ClaudeSonnet5, usage, standard).Total; // 6.00</
         }).join('') + `<p class="data-note">Generated from ${data.studies.length} A/B study/studies and ${(data.capabilityStudies || []).length} capability run(s).</p>`;
       }).catch(error => showDataError(benchmarkHost, 'published benchmark data', error));
 
-      // ---- token-usage charts -------------------------------------------------
-      // One shared tooltip element, delegated: every mark carries its numbers in
-      // data-tip as plain text, so nothing here can inject markup.
-      const tip = document.createElement('div');
-      tip.className = 'chart-tip';
-      document.body.appendChild(tip);
-      // Keep the tooltip inside the viewport: it is centred on the pointer, so a
-      // mark near either edge would otherwise push it off screen.
-      const moveTip = event => {
-        const half = tip.offsetWidth / 2 + 8;
-        tip.style.left = `${Math.min(Math.max(event.clientX, half), window.innerWidth - half)}px`;
-        tip.style.top = `${Math.max(event.clientY - 12, tip.offsetHeight + 8)}px`;
-      };
-      document.addEventListener('pointerover', event => {
-        const mark = event.target.closest('[data-tip]');
-        if (!mark) return;
-        tip.textContent = mark.dataset.tip;
-        tip.classList.add('on');
-        moveTip(event);
-      });
-      document.addEventListener('pointermove', event => { if (tip.classList.contains('on')) moveTip(event); });
-      document.addEventListener('pointerout', event => {
-        if (event.target.closest('[data-tip]')) tip.classList.remove('on');
-      });
-
-      const COMPONENTS = [
-        { key: 'input', label: 'Fresh input', cls: 's-input' },
-        { key: 'cacheRead', label: 'Cache read', cls: 's-cache-read' },
-        { key: 'cacheWrite', label: 'Cache write', cls: 's-cache-write' },
-        { key: 'output', label: 'Output', cls: 's-output' },
-      ];
-      const compact = value => value >= 1e6 ? `${(value / 1e6).toFixed(2)}M`
-        : value >= 1e4 ? `${Math.round(value / 1e3)}K` : number(value);
-      const usd = (value, digits = 4) => `$${value.toFixed(digits)}`;
-      const percent = value => `${(value * 100).toFixed(1)} %`;
-      const share = (part, whole) => whole > 0 ? percent(part / whole) : '—';
-      const width = (value, max) => `${max > 0 ? (value / max * 100).toFixed(3) : 0}%`;
-      // Two or more series always get a legend; identity never rests on hue alone.
-      const legend = `<div class="legend">${COMPONENTS
-        .map(component => `<span><i class="${component.cls}"></i>${component.label}</span>`).join('')}</div>`;
-      const metric = (value, label) => `<div class="metric"><strong>${value}</strong><span>${label}</span></div>`;
-      const clock = stamp => stamp.replace('T', ' ').replace('Z', ' UTC');
-      const cards = count => `${count} card${count === 1 ? '' : 's'}`;
-      const reissueLabel = bucket => `${bucket.reissues} reissue${bucket.reissues === '1' ? '' : 's'}`;
-
-      // A stacked magnitude bar: length is the total, segments are the components.
-      const stackedBar = (name, usage, tokens, max, note) => {
-        const segments = COMPONENTS.filter(component => usage[component.key] > 0).map(component =>
-          `<i class="${component.cls}" style="width:${width(usage[component.key], max)}" data-tip="${escape(name)} · ${component.label}\n${number(usage[component.key])} tokens · ${share(usage[component.key], tokens)} of this row"></i>`).join('');
-        const aria = `${name}: ${number(tokens)} tokens — ` + COMPONENTS
-          .map(component => `${component.label} ${number(usage[component.key])}`).join(', ');
-        return `<div class="bar-row"><div class="bar-head"><span>${escape(name)}${note ? ` <span style="color:var(--muted)">${escape(note)}</span>` : ''}</span><strong>${number(tokens)}</strong></div>`
-          + `<div class="bar" role="img" aria-label="${escape(aria)}">${segments}</div></div>`;
-      };
-
-      // One measure, one colour: no value-ramp across categories.
-      const singleBar = (name, value, max, valueLabel, tipText, note) =>
-        `<div class="bar-row"><div class="bar-head"><span>${escape(name)}${note ? ` <span style="color:var(--muted)">${escape(note)}</span>` : ''}</span><strong>${valueLabel}</strong></div>`
-        + `<div class="bar single" role="img" aria-label="${escape(`${name}: ${valueLabel}`)}">`
-        + `<i class="s-single" style="width:${width(value, max)}" data-tip="${escape(tipText)}"></i></div></div>`;
-
-      const table = (caption, head, rows) => `<h4>${caption}</h4><div class="table-scroll"><table>`
-        + `<thead><tr>${head.map(cell => `<th${cell.startsWith('#') ? ' class="num"' : ''}>${cell.replace(/^#/, '')}</th>`).join('')}</tr></thead>`
-        + `<tbody>${rows.map(row => `<tr>${row.map(cell => `<td${typeof cell === 'object' ? ' class="num"' : ''}>${typeof cell === 'object' ? cell.n : escape(cell)}</td>`).join('')}</tr>`).join('')}</tbody></table></div>`;
+      // ---- one checked ComputeCost example ------------------------------------
+      const workedExampleHost = document.getElementById('worked-cost-example');
+      const usd = (value, digits = 6) => `$${Number(value).toFixed(digits)}`;
+      const rate = value => `$${Number(value).toFixed(2)}`;
+      const calculationRow = (label, tokens, price, cost) =>
+        `<tr><td>${label}</td><td class="num">${number(tokens)}</td><td class="num">${rate(price)}</td>`
+        + `<td class="num">${number(tokens)} × ${rate(price)} / 1M</td><td class="num">${usd(cost)}</td></tr>`;
 
       fetchJson('data/token-usage.json').then(data => {
-        const run = data.byModel.source;
-        const withUsage = data.byModel.models.filter(model => model.tokens > 0);
-        const withoutUsage = data.byModel.models.filter(model => model.tokens === 0);
-        const priced = withUsage.filter(model => model.cost.status === 'Resolved')
-          .slice().sort((left, right) => right.cost.totalUsd - left.cost.totalUsd);
-        const unpriced = withUsage.filter(model => model.cost.status !== 'Resolved');
-        const pricedTotal = priced.reduce((sum, model) => sum + model.cost.totalUsd, 0);
-        const maxModelTokens = Math.max(...withUsage.map(model => model.tokens));
-        const maxCost = Math.max(...priced.map(model => model.cost.totalUsd));
-
-        const documentTypes = data.byDocumentType.documentTypes;
-        const maxTypeTokens = Math.max(...documentTypes.map(type => type.tokens));
-
-        const card = data.byCard;
-        const maxTaskTokens = Math.max(...card.taskTypes.map(type => type.tokens));
-        const maxBucketTokens = Math.max(...card.reissueBuckets.map(bucket => bucket.tokens));
-
-        const session = data.session;
-        const maxTurnTokens = Math.max(...session.turns.map(turn => turn.tokens));
-
-        const modelChart = `<article class="chart-card wide"><h3>Tokens by model</h3>`
-          + `<p class="chart-kicker">One capability run, ${run.cases} scheduled cases: every model received the same four documents once. ${run.infrastructureFailures} case(s) ended in infrastructure before a capability result. Bar length is total tokens; the segments are the four billed components.</p>`
-          + withUsage.map(model => stackedBar(model.model, model.usage, model.tokens, maxModelTokens,
-            `· ${model.casesPassed}/${model.cases} passed`)).join('')
-          + legend
-          + `<p class="chart-note">Cache traffic is ${share(run.usage.cacheRead + run.usage.cacheWrite, run.tokens)} of every token measured here; fresh input is ${share(run.usage.input, run.tokens)} and output ${share(run.usage.output, run.tokens)}. `
-          + (withoutUsage.length ? `A further ${withoutUsage.length} models — ${withoutUsage.map(model => `<code>${escape(model.model)}</code>`).join(', ')} — recorded no tokens at all because their CLI never reported usage. That is a missing measurement, not a frugal model, so they get no bar.` : '')
-          + `</p></article>`;
-
-        const costChart = `<article class="chart-card"><h3>List-price cost by model</h3>`
-          + `<p class="chart-kicker">The same tokens costed at the rate valid on ${escape(run.pricedAtUtc.slice(0, 10))} — the run's own date — through the dated catalog.</p>`
-          + priced.map(model => singleBar(model.model, model.cost.totalUsd, maxCost, usd(model.cost.totalUsd),
-            `${model.model}\n${usd(model.cost.totalUsd)} at list price\ncache write ${usd(model.cost.components.cacheWrite)} · cache read ${usd(model.cost.components.cacheRead)}\noutput ${usd(model.cost.components.output)} · fresh input ${usd(model.cost.components.input)}`,
-            model.cost.unconfirmed ? '· unconfirmed rate' : '')).join('')
-          + `<p class="chart-note">Same corpus, ${(Math.max(...priced.map(model => model.cost.totalUsd)) / Math.min(...priced.map(model => model.cost.totalUsd))).toFixed(0)}× spread in price: tier, not token count, decides the bill. `
-          + (unpriced.length ? `${unpriced.map(model => `<code>${escape(model.model)}</code>`).join(', ')} recorded tokens but ${unpriced.length === 1 ? 'has' : 'have'} no published rate in the catalog, so ${unpriced.length === 1 ? 'its' : 'their'} cost stays <em>unknown</em> — never a silent&nbsp;$0.` : '')
-          + `</p></article>`;
-
-        const classChart = `<article class="chart-card"><h3>Tokens by document class</h3>`
-          + `<p class="chart-kicker">The task class this run records: the same ${run.cases} scheduled cases split by document class instead of by model, ${documentTypes[0].cases} per class.</p>`
-          + documentTypes.map(type => stackedBar(type.documentType, type.usage, type.tokens, maxTypeTokens,
-            `· ${type.casesPassed}/${type.cases} passed`)).join('')
-          + legend
-          + `<p class="chart-note">Class shape differs mostly in cache write: ${escape(documentTypes.slice().sort((left, right) => right.usage.cacheWrite - left.usage.cacheWrite)[0].documentType)} re-primes the most context per attempt.</p></article>`;
-
-        const taskChart = `<article class="chart-card"><h3>Tokens by card task class</h3>`
-          + `<p class="chart-kicker">${card.source.cards} real orchestrator cards, grouped by their recorded task type. Raw reported totals, in tokens only.</p>`
-          + card.taskTypes.map(type => singleBar(type.taskType, type.tokens, maxTaskTokens, compact(type.tokens),
-            `${type.taskType}\n${cards(type.cards)} · ${number(type.tokens)} tokens\nmedian ${number(type.medianTokens)} per card · ${type.reissues} reissues`,
-            `· ${cards(type.cards)}`)).join('')
-          + `<p class="chart-note">This cohort has no coding/test/review split — the card type above is the only task label the source records. Its raw totals over-count cached Codex input, so they stay in tokens and are never converted to dollars.</p></article>`;
-
-        const reissueChart = `<article class="chart-card"><h3>Tokens by measured reissue count</h3>`
-          + `<p class="chart-kicker">${share(card.source.reissuedTokens, card.source.tokens)} of all card tokens sat on the ${card.source.reissuedCards} of ${card.source.cards} cards that needed at least one reissue.</p>`
-          + card.reissueBuckets.map(bucket => singleBar(reissueLabel(bucket), bucket.tokens, maxBucketTokens, compact(bucket.tokens),
-            `${reissueLabel(bucket)}\n${cards(bucket.cards)} · ${number(bucket.tokens)} tokens\n${share(bucket.tokens, card.source.tokens)} of the cohort`,
-            `· ${cards(bucket.cards)}`)).join('')
-          + `<p class="chart-note">A reissue here is <em>${escape(card.source.reissueMeasurement)}</em> — a measurable attempt proxy, not a semantic retry classification, and the token split between attempts is not recorded.</p></article>`;
-
-        const columns = session.turns.map(turn => {
-          const segments = COMPONENTS.filter(component => turn.usage[component.key] > 0).map(component =>
-            `<i class="${component.cls}" style="height:${width(turn.usage[component.key], turn.tokens)}" data-tip="Turn ${turn.turn} · ${component.label}\n${number(turn.usage[component.key])} tokens · ${share(turn.usage[component.key], turn.tokens)} of the turn"></i>`).join('');
-          const aria = `Turn ${turn.turn}, ${clock(turn.completedAtUtc)}: ${number(turn.tokens)} tokens, ${usd(turn.costUsd, 6)} at list price`;
-          return `<div class="column"><div class="cap">${number(turn.tokens)}</div><div class="plot">`
-            + `<div class="stack" style="height:${width(turn.tokens, maxTurnTokens)}" role="img" aria-label="${escape(aria)}">${segments}</div></div></div>`;
-        }).join('');
-        const sessionChart = `<article class="chart-card wide"><h3>One session over time</h3>`
-          + `<p class="chart-kicker">The repository's one measured multi-turn session: <code>${escape(session.source.model)}</code>, ${session.turns.length} turns across ${session.totals.spanHours} hours. Tokens per turn; the cost of the same turns is stated below rather than drawn on a second axis.</p>`
-          + `<div class="column-chart"><div class="columns">${columns}</div>`
-          + `<div class="column-axis">${session.turns.map(turn => `<div><strong>Turn ${turn.turn}</strong>${escape(clock(turn.completedAtUtc).slice(0, 16))}<br>${usd(turn.costUsd, 6)}</div>`).join('')}</div></div>`
-          + legend
-          + `<p class="chart-note">A stable ${number(session.turns[0].usage.cacheRead)}-token prefix was read from cache on every turn while cache creation grew from ${number(session.turns[0].usage.cacheWrite)} to ${number(session.turns.at(-1).usage.cacheWrite)} tokens: continuity is preserved, but state accumulates. Cache writes were ${percent(session.totals.cacheWriteCostShare)} of the session's ${usd(session.totals.costUsd, 6)} list price — treating “cached” as simply “cheap” would miss most of the bill. Three turns show the mechanism, not a fitted curve.</p></article>`;
-
-        const coverage = `<article class="chart-card wide"><h3>What these charts cannot tell you</h3>`
-          + `<p class="chart-kicker">The gaps are part of the evidence.</p><div class="coverage-list">`
-          + `<div class="coverage-item"><strong>Not production traffic</strong><span>The model, class and cost charts are one ${run.cases}-case corpus run of ${compact(run.tokens)} tokens on ${escape(run.startedAtUtc.slice(0, 10))}; ${run.infrastructureFailures} case(s) produced no capability result. One scheduled case per model and class cannot rank models.</span></div>`
-          + `<div class="coverage-item"><strong>No coding / test / review split</strong><span>No source in this repository labels tokens by that kind of activity. The published task classes are document class and card task type, so those are what the charts show.</span></div>`
-          + `<div class="coverage-item"><strong>Per-attempt tokens are not recorded</strong><span>Reissue counts are measurable; which attempt burned which tokens is not. The retry chart therefore compares whole cards, not first tries against repairs.</span></div>`
-          + `<div class="coverage-item"><strong>Unpriced stays unpriced</strong><span>${run.pricedModels} of the ${withUsage.length} models with recorded tokens have a catalog rate. ${unpriced.length ? `${unpriced.map(model => `<code>${escape(model.model)}</code>`).join(', ')} ${unpriced.length === 1 ? 'does' : 'do'} not, at this run's date` : 'Every one of them is priced'} — those tokens are charted, their dollars are not.</span></div>`
-          + `<div class="coverage-item"><strong>The session trace is not checked in</strong><span>Its turn table lives in <code>${escape(session.source.evidencePath)}</code> with the query, the session id <code>${escape(session.source.sessionId)}</code> and stable event ids; the raw bus responses are not part of this repository.</span></div>`
-          + `</div></article>`;
-
-        const tables = `<details class="table-view"><summary>Show every number as a table</summary>`
-          + table('Tokens and list price by model', ['Model', '#Cases passed', '#Fresh input', '#Cache read', '#Cache write', '#Output', '#Tokens', '#List price'],
-            data.byModel.models.map(model => [model.model, { n: `${model.casesPassed} / ${model.cases}` },
-              { n: number(model.usage.input) }, { n: number(model.usage.cacheRead) }, { n: number(model.usage.cacheWrite) },
-              { n: number(model.usage.output) }, { n: number(model.tokens) },
-              { n: model.cost.status === 'Resolved' && model.tokens > 0 ? usd(model.cost.totalUsd) : model.tokens === 0 ? 'no tokens recorded' : `unknown · ${escape(model.cost.status)}` }]))
-          + table('Tokens by document class', ['Class', '#Cases passed', '#Fresh input', '#Cache read', '#Cache write', '#Output', '#Tokens'],
-            documentTypes.map(type => [type.documentType, { n: `${type.casesPassed} / ${type.cases}` },
-              { n: number(type.usage.input) }, { n: number(type.usage.cacheRead) }, { n: number(type.usage.cacheWrite) },
-              { n: number(type.usage.output) }, { n: number(type.tokens) }]))
-          + table('Cards by task class and reissue count', ['Group', '#Cards', '#Tokens', '#Median per card'],
-            card.taskTypes.map(type => [type.taskType, { n: number(type.cards) }, { n: number(type.tokens) }, { n: number(type.medianTokens) }])
-              .concat(card.reissueBuckets.map(bucket => [reissueLabel(bucket), { n: number(bucket.cards) }, { n: number(bucket.tokens) }, { n: '—' }])))
-          + table('Session turns', ['Completed (UTC)', '#Fresh input', '#Cache read', '#Cache write', '#Output', '#Tokens', '#List price'],
-            session.turns.map(turn => [clock(turn.completedAtUtc), { n: number(turn.usage.input) }, { n: number(turn.usage.cacheRead) },
-              { n: number(turn.usage.cacheWrite) }, { n: number(turn.usage.output) }, { n: number(turn.tokens) }, { n: usd(turn.costUsd, 6) }]))
-          + `</details>`;
-
-        usageHost.innerHTML = `<div class="chart-summary">`
-          + metric(compact(run.tokens), `measured tokens · ${run.casesWithUsage} of ${run.cases} cases reported usage`)
-          + metric(withUsage.length, `models with recorded tokens · ${run.pricedModels} of them priced`)
-          + metric(usd(pricedTotal, 2), `list price of the ${run.pricedModels} priced models' tokens, at the run date`)
-          + metric(share(run.failedCaseTokens, run.tokens), `of those tokens went to the ${run.failedCasesWithUsage} failed attempts`)
-          + `</div><div class="chart-grid">${modelChart}${costChart}${classChart}${taskChart}${reissueChart}${sessionChart}${coverage}</div>${tables}`;
-      }).catch(error => showDataError(usageHost, 'published token evidence', error));
+        const example = data.workedExample;
+        const usage = example.usage;
+        const price = example.price;
+        const cost = example.cost;
+        workedExampleHost.innerHTML = `<article class="chart-card wide">`
+          + `<h3><code>${escape(example.model)}</code> · ${number(example.tokens)} recorded tokens</h3>`
+          + `<p class="chart-kicker">Run started <time datetime="${escape(example.atUtc)}">${escape(example.atUtc)}</time>. `
+          + `The selected catalog entry is valid from ${escape(price.validFromUtc)}.</p>`
+          + `<div class="table-scroll"><table><thead><tr><th>Component</th><th class="num">Tokens</th>`
+          + `<th class="num">USD / MTok</th><th class="num">Calculation</th><th class="num">Cost</th></tr></thead><tbody>`
+          + calculationRow('Input', usage.input, price.inputPerMTok, cost.components.input)
+          + calculationRow('Cache read', usage.cacheRead, price.cacheReadPerMTok, cost.components.cacheRead)
+          + calculationRow('Cache write', usage.cacheWrite, price.cacheWritePerMTok, cost.components.cacheWrite)
+          + calculationRow('Output', usage.output, price.outputPerMTok, cost.components.output)
+          + `<tr><th colspan="4">ComputeCost total</th><th class="num">${usd(cost.totalUsd)} USD</th></tr>`
+          + `</tbody></table></div>`
+          + `<p class="chart-note"><code>ComputeCost("${escape(example.model)}", usage, atUtc)</code> `
+          + `returns <strong>${usd(cost.totalUsd)} USD</strong>. If price history gains a newer entry, this result stays the same; `
+          + `the newer price applies only when its <code>ValidFrom</code> is on or before the requested run timestamp.</p>`
+          + `</article><p class="comment-note">This is a cost calculation. The library can recommend a model through `
+          + `<code>SuggestModel</code>; it does not route requests, and the caller decides whether to use that recommendation.</p>`;
+      }).catch(error => showDataError(workedExampleHost, 'worked cost example', error));
     })();
   </script>
 

@@ -1,7 +1,46 @@
 {
-  "schemaVersion": 1,
-  "generatedAtUtc": "2026-09-11T07:18:09.813171+00:00",
+  "schemaVersion": 2,
+  "generatedAtUtc": "2026-09-12T08:12:13.940678+00:00",
   "priceCatalogPath": "src/TokenEconomy/catalog/model-prices.json",
+  "workedExample": {
+    "source": {
+      "evidencePath": "benchmarks/results/document-to-text/curated-hard-cases-v1/20260810T131256052Z.json",
+      "corpusId": "curated-hard-cases-v1",
+      "runId": "20260810T131256052Z",
+      "caseId": "pdf-two-column-reading-order"
+    },
+    "model": "gpt-5.6-terra",
+    "atUtc": "2026-08-10T13:12:56.0527079Z",
+    "usage": {
+      "input": 11122,
+      "output": 851,
+      "cacheRead": 82176,
+      "cacheWrite": 0
+    },
+    "tokens": 94149,
+    "price": {
+      "status": "Resolved",
+      "currency": "USD",
+      "inputPerMTok": 2.0,
+      "outputPerMTok": 12.0,
+      "cacheReadPerMTok": 0.2,
+      "cacheWritePerMTok": 2.5,
+      "validFromUtc": "2026-07-30T00:00:00Z",
+      "unconfirmed": false
+    },
+    "cost": {
+      "status": "Resolved",
+      "currency": "USD",
+      "unconfirmed": false,
+      "totalUsd": 0.048891,
+      "components": {
+        "input": 0.022244,
+        "output": 0.010212,
+        "cacheRead": 0.016435,
+        "cacheWrite": 0.0
+      }
+    }
+  },
   "byModel": {
     "source": {
       "corpusId": "curated-hard-cases-v1",

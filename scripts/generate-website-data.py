@@ -8,11 +8,12 @@ fields from benchmark JSON and validates that each raw run has its report.
 Five artifacts are produced:
 
 * ``website/data/benchmarks.json`` — the published A/B and capability studies.
-* ``website/data/token-usage.json`` — the aggregates the token-usage charts
-  render (per model, per task class, per measured reissue count, and one
-  measured session over time), each carrying the evidence path it came from.
-  Dollar figures are list prices resolved from the dated repository price
-  catalog; a model without a published price stays explicitly unpriced.
+* ``website/data/token-usage.json`` — one worked ``ComputeCost`` example plus
+  the usage aggregates rendered on the Agent Studio evidence page (per model,
+  per task class, per measured reissue count, and one measured session over
+  time), each carrying the evidence path it came from. Dollar figures are list
+  prices resolved from the dated repository price catalog; a model without a
+  published price stays explicitly unpriced.
 * ``website/data/model-efficiency-matrix.json`` — the public projection of
   ``ModelEfficiencyMatrix.Default.Describe(asOfUtc)`` from the same versioned
   policy and price inputs. A .NET test compares every published row with the
@@ -57,6 +58,7 @@ BENCHMARK_RESULTS = ROOT / "src" / "TokenEconomy" / "catalog" / "benchmark-resul
 DOCUMENT_RESULTS = RESULTS / "document-to-text" / "curated-hard-cases-v1"
 CARD_BACKTEST = ROOT / "results" / "complexity-backtest" / "agent-studio-30-card-backtest.json"
 SESSION_ANALYSIS = ROOT / "docs" / "analyses" / "long-vs-short-session-cost.md"
+WORKED_EXAMPLE_CASE = ("gpt-5.6-terra", "pdf-two-column-reading-order")
 
 COMPONENTS = ("input", "output", "cacheRead", "cacheWrite")
 CENT_MICRO = Decimal("0.000001")
@@ -360,6 +362,43 @@ def latest_document_run() -> Path:
     return max(candidates, key=lambda path: path.stem)
 
 
+def create_worked_example(index: dict[str, dict]) -> dict:
+    """A single real case that demonstrates the library's dated cost path."""
+    document_run = latest_document_run()
+    run = load(document_run)
+    model, case_id = WORKED_EXAMPLE_CASE
+    case = next(
+        (
+            item for item in run["cases"]
+            if item["model"] == model and item["caseId"] == case_id
+        ),
+        None,
+    )
+    if case is None:
+        raise ValueError(f"Worked example case {model} / {case_id} is missing")
+
+    at_utc = parse_utc(run["startedAtUtc"])
+    cost = compute_cost(index, model, case["usage"], at_utc)
+    price = resolve_price(index, model, at_utc)
+    if cost["status"] != "Resolved" or price["status"] != "Resolved":
+        raise ValueError(f"Worked example model '{model}' has no price at {at_utc:%Y-%m-%d}")
+
+    return {
+        "source": {
+            "evidencePath": str(document_run.relative_to(ROOT)).replace("\\", "/"),
+            "corpusId": run["corpusId"],
+            "runId": run["runId"],
+            "caseId": case_id,
+        },
+        "model": model,
+        "atUtc": run["startedAtUtc"],
+        "usage": case["usage"],
+        "tokens": total_tokens(case["usage"]),
+        "price": price,
+        "cost": cost,
+    }
+
+
 def create_document_usage(index: dict[str, dict]) -> tuple[dict, dict]:
     """Per-model and per-document-type usage from the capability corpus run.
 
@@ -569,9 +608,10 @@ def create_usage_payload() -> dict:
     index = load_price_index()
     by_model, by_document_type = create_document_usage(index)
     return {
-        "schemaVersion": 1,
+        "schemaVersion": 2,
         "generatedAtUtc": datetime.now(timezone.utc).isoformat(),
         "priceCatalogPath": str(PRICE_CATALOG.relative_to(ROOT)).replace("\\", "/"),
+        "workedExample": create_worked_example(index),
         "byModel": by_model,
         "byDocumentType": by_document_type,
         "byCard": create_card_usage(),
