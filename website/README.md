@@ -6,7 +6,8 @@ The static marketing + documentation site for **Token Economy**, served at
 - **Plain static HTML with a checked data step.** `index.html` has inline CSS,
   inline JavaScript, and a data-URI favicon. `scripts/generate-website-data.py` writes five
   artifacts — `website/data/benchmarks.json` (published studies) and
-  `website/data/token-usage.json` (the chart aggregates), plus
+  `website/data/token-usage.json` (the checked worked example and retained
+  chart aggregates), plus
   `website/data/model-efficiency-matrix.json` (the checked
   `ModelEfficiencyMatrix.Describe` projection), plus
   `website/data/task-class-recommendations.json` (the checked public projection
@@ -16,13 +17,15 @@ The static marketing + documentation site for **Token Economy**, served at
   `model-benchmarks/` page and its candidate recommendations.
 - **English**, light/dark theme-aware, responsive.
 - Content: what/why, a rendered token-efficiency matrix and `SuggestModel`
-  example, install, the dated cost API, a complexity-estimation explainer,
-  token-usage charts, published benchmark summaries, and family links. The
-  generated sections describe the real `TokenEconomy` API and checked-in
-  evidence.
+  example, install, the dated cost API, a complexity-estimation explainer, one
+  real-run `ComputeCost` example, published benchmark summaries, and family
+  links. The generated sections describe the real `TokenEconomy` API and
+  checked-in evidence.
 
-The token-usage charts (per model, per task class, per measured reissue count,
-and one measured session over time) read `token-usage.json` only. That file is
+The library overview renders one raw case from `token-usage.json` as a dated
+`ComputeCost` calculation. The full token-usage charts (per model, per task
+class, per measured reissue count, and one measured session over time) live on
+the Agent Studio usage-evidence page and read the same file. The projection is
 derived from the capability run under `benchmarks/results/`, the card backtest
 snapshot in `results/complexity-backtest/`, the session table in
 `docs/analyses/long-vs-short-session-cost.md`, and list prices resolved from

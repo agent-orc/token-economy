@@ -31,6 +31,12 @@ SemVer; pre-1.0 the public API may still shift).
 
 ### Changed
 
+- Replaced the library website's Agent Studio usage-dashboard section with one
+  checked, dated `ComputeCost` example from a real document run. The complete
+  by-model, document-class, card-task-class, reissue-count, and session-turn
+  aggregates now live on a dedicated Agent Studio evidence subpage; their
+  generated source snapshots remain unchanged (TE-48).
+
 - Claude Sonnet 4.6 now carries its confirmed dated-snapshot alias
   (`claude-sonnet-4-6-20260301`), matching the id recording CLIs actually
   report; previously only the bare `claude-sonnet-4-6` id resolved, so a

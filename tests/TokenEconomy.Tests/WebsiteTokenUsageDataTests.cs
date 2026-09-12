@@ -224,6 +224,36 @@ public class WebsiteTokenUsageDataTests
     }
 
     [Fact]
+    public void Published_worked_example_matches_one_raw_case_and_ComputeCost()
+    {
+        var example = LoadUsageData().GetProperty("workedExample");
+        var source = example.GetProperty("source");
+        var run = LoadJson(Path.Combine(FindRepositoryRoot(), source.GetProperty("evidencePath").GetString()!));
+        var model = example.GetProperty("model").GetString()!;
+        var caseId = source.GetProperty("caseId").GetString();
+        var at = example.GetProperty("atUtc").GetDateTime().ToUniversalTime();
+        var rawCase = Assert.Single(run.GetProperty("cases").EnumerateArray(), item =>
+            item.GetProperty("model").GetString() == model &&
+            item.GetProperty("caseId").GetString() == caseId);
+        var usage = ReadUsage(example.GetProperty("usage"));
+
+        Assert.Equal(run.GetProperty("runId").GetString(), source.GetProperty("runId").GetString());
+        Assert.Equal(run.GetProperty("startedAtUtc").GetDateTime().ToUniversalTime(), at);
+        Assert.Equal(ReadUsage(rawCase.GetProperty("usage")), usage);
+        Assert.Equal(Total(usage), example.GetProperty("tokens").GetInt64());
+
+        var breakdown = ModelPriceCatalog.Default.ComputeCost(model, usage, at);
+        var publishedCost = example.GetProperty("cost");
+        Assert.True(breakdown.HasPrice);
+        Assert.Equal(breakdown.Status.ToString(), publishedCost.GetProperty("status").GetString());
+        Assert.Equal(Round(breakdown.Total!.Value), publishedCost.GetProperty("totalUsd").GetDecimal());
+        Assert.Equal(Round(breakdown.InputCost), publishedCost.GetProperty("components").GetProperty("input").GetDecimal());
+        Assert.Equal(Round(breakdown.CacheReadCost), publishedCost.GetProperty("components").GetProperty("cacheRead").GetDecimal());
+        Assert.Equal(Round(breakdown.CacheWriteCost), publishedCost.GetProperty("components").GetProperty("cacheWrite").GetDecimal());
+        Assert.Equal(Round(breakdown.OutputCost), publishedCost.GetProperty("components").GetProperty("output").GetDecimal());
+    }
+
+    [Fact]
     public void Published_document_classes_partition_the_same_run()
     {
         var usage = LoadUsageData();
