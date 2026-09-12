@@ -34,6 +34,7 @@ public class WebsiteTokenUsageDataTests
             Assert.Equal(NullableEnumName(actual.Cli), row.GetProperty("cli").ValueKind == JsonValueKind.Null ? null : row.GetProperty("cli").GetString());
             Assert.Equal(actual.Tier.ToString(), row.GetProperty("tier").GetString(), ignoreCase: true);
             Assert.Equal(actual.CostClass.ToString(), row.GetProperty("costClass").GetString(), ignoreCase: true);
+            AssertPublishedPriceMatchesCatalog(row, asOf);
             Assert.Equal(
                 actual.EffortLevels.Select(level => JsonNamingPolicy.CamelCase.ConvertName(level.ToString())),
                 row.GetProperty("effortLevels").EnumerateArray().Select(level => level.GetString()));
@@ -53,6 +54,52 @@ public class WebsiteTokenUsageDataTests
             Assert.Equal(JsonNamingPolicy.CamelCase.ConvertName(actual.EvidenceStatus.ToString()), row.GetProperty("evidenceStatus").GetString());
             Assert.Equal(actual.Provisional, row.GetProperty("provisional").GetBoolean());
         }
+    }
+
+    [Fact]
+    public void Every_catalog_model_priced_at_generation_has_a_known_website_cost_class()
+    {
+        var root = FindRepositoryRoot();
+        var published = LoadJson(Path.Combine(root, "website", "data", "model-efficiency-matrix.json"));
+        var generatedAt = published.GetProperty("generatedAtUtc").GetDateTime().ToUniversalTime();
+        var rows = published.GetProperty("rows").EnumerateArray()
+            .ToDictionary(row => row.GetProperty("modelId").GetString()!);
+
+        foreach (var listing in ModelPriceCatalog.Default.Listings)
+        {
+            if (ModelPriceCatalog.Default.ResolvePrice(listing.ModelId, generatedAt).Status != PriceStatus.Resolved)
+                continue;
+
+            Assert.True(rows.TryGetValue(listing.ModelId, out var row), $"Missing website row for {listing.ModelId}");
+            Assert.False(string.Equals(
+                "unknown", row.GetProperty("costClass").GetString(), StringComparison.OrdinalIgnoreCase));
+        }
+    }
+
+    private static void AssertPublishedPriceMatchesCatalog(JsonElement row, DateTime asOf)
+    {
+        var modelId = row.GetProperty("modelId").GetString()!;
+        var expected = ModelPriceCatalog.Default.ResolvePrice(modelId, asOf);
+        var actual = row.GetProperty("price");
+        if (expected.Price is null)
+        {
+            Assert.Equal("noPriceInCatalog", actual.GetProperty("status").GetString());
+            Assert.Equal("unknown", row.GetProperty("costClass").GetString(), ignoreCase: true);
+            return;
+        }
+
+        Assert.Equal("resolved", actual.GetProperty("status").GetString());
+        Assert.Equal(expected.Price.Currency, actual.GetProperty("currency").GetString());
+        Assert.Equal(expected.Price.InputPerMTok, actual.GetProperty("inputPerMTok").GetDecimal());
+        Assert.Equal(expected.Price.OutputPerMTok, actual.GetProperty("outputPerMTok").GetDecimal());
+        Assert.Equal(
+            expected.Price.CacheReadPerMTok ?? expected.Price.InputPerMTok,
+            actual.GetProperty("cachedInputPerMTok").GetDecimal());
+        Assert.Equal(
+            expected.Price.CacheReadPerMTok is null,
+            actual.GetProperty("cachedInputUsesInputFallback").GetBoolean());
+        Assert.Equal(expected.Price.ValidFrom, actual.GetProperty("validFromUtc").GetDateTime());
+        Assert.Equal(expected.Price.Unconfirmed, actual.GetProperty("unconfirmed").GetBoolean());
     }
 
     private static string? NullableEnumName<T>(T? value) where T : struct, Enum

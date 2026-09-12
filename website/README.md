@@ -21,6 +21,11 @@ The static marketing + documentation site for **Token Economy**, served at
   generated sections describe the real `TokenEconomy` API and checked-in
   evidence.
 
+The token-efficiency matrix carries the concrete input, output, and effective
+cached-input rates resolved from the dated catalog, alongside its derived cost
+class. Generation fails when a catalog model with a price valid at generation
+time would be published with an unknown cost class.
+
 The token-usage charts (per model, per task class, per measured reissue count,
 and one measured session over time) read `token-usage.json` only. That file is
 derived from the capability run under `benchmarks/results/`, the card backtest

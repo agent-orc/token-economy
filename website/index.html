@@ -188,13 +188,33 @@
     th { color: var(--muted); font-weight: 600; font-size: 0.82rem; text-transform: uppercase; letter-spacing: 0.03em; }
     td.num, th.num { text-align: right; font-family: var(--mono); }
     tbody tr:last-child td { border-bottom: none; }
-    .matrix-table { min-width: 1080px; }
+    .matrix-table { min-width: 1280px; }
     .matrix-table td { vertical-align: top; }
     .matrix-table .model-id { font-family: var(--mono); font-weight: 600; white-space: nowrap; }
     .matrix-table .efforts { font-family: var(--mono); font-size: .82rem; }
+    .price-cell { min-width: 184px; font-variant-numeric: tabular-nums; }
+    .price-line { display: flex; justify-content: space-between; gap: 12px; font-size: .8rem; }
+    .price-line span:first-child { color: var(--muted); }
+    .price-valid { display: block; color: var(--muted); font-size: .74rem; margin-top: 3px; }
+    .cost-chip, .status-chip {
+      display: inline-flex; align-items: center; border: 1px solid var(--border);
+      border-radius: 999px; padding: 2px 9px; font-size: .76rem; font-weight: 650;
+      line-height: 1.5; white-space: nowrap;
+    }
+    .cost-economy { color: var(--ok); border-color: color-mix(in srgb, var(--ok) 42%, var(--border)); background: color-mix(in srgb, var(--ok) 8%, var(--panel)); }
+    .cost-standard { color: var(--accent); border-color: color-mix(in srgb, var(--accent) 42%, var(--border)); background: color-mix(in srgb, var(--accent) 8%, var(--panel)); }
+    .cost-premium, .cost-unknown { color: var(--warn); border-color: color-mix(in srgb, var(--warn) 42%, var(--border)); background: color-mix(in srgb, var(--warn) 8%, var(--panel)); }
+    .status-note { display: block; color: var(--muted); font-size: .74rem; margin-top: 4px; }
     .fit { font-size: .82rem; white-space: nowrap; }
     .fit-ideal { color: var(--ok); font-weight: 600; }
     .fit-underpowered { color: var(--warn); }
+    .matrix-guide { border: 1px solid var(--border); border-radius: 10px; margin: 18px 0; padding: 12px 16px; background: var(--panel); }
+    .matrix-guide summary { cursor: pointer; color: var(--accent); font-weight: 600; }
+    .matrix-guide-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px 20px; margin-top: 14px; }
+    .matrix-guide-grid div { min-width: 0; }
+    .matrix-guide-grid strong { display: block; font-size: .88rem; margin-bottom: 2px; }
+    .matrix-guide-grid span { display: block; color: var(--muted); font-size: .82rem; }
+    @media (max-width: 680px) { .matrix-guide-grid { grid-template-columns: 1fr; } }
 
     /* callout — full symmetric border only; no coloured left accent bar (style hard rule) */
     .callout {
@@ -426,8 +446,20 @@ var sonnet = ModelEfficiencyMatrix.Default.EvaluateModel(
 
         <h3>Token-efficiency matrix</h3>
         <p><code>ModelEfficiencyMatrix.Default.Describe(asOfUtc)</code> returns the tier, dated cost
-        class, supported effort levels, and suitability for each task class. The table below is a
-        checked projection of that API result.</p>
+        class and concrete list prices, supported effort levels, and suitability for each task class.
+        The table below is a checked projection of that API result. The library recommends candidates;
+        the calling system decides whether and where to route work.</p>
+        <details class="matrix-guide" open>
+          <summary>How to read the matrix</summary>
+          <div class="matrix-guide-grid">
+            <div><strong>Tier</strong><span>Light, balanced, or frontier capability from the versioned routing policy. It is a maintained policy estimate, not a benchmark score.</span></div>
+            <div><strong>List price and cost class</strong><span>USD per million tokens at the stated valid-from date. Cost class uses the same 1M input + 200k output reference for every model: economy &lt; $4, standard &lt; $8, premium ≥ $8.</span></div>
+            <div><strong>Effort levels</strong><span>The reasoning-effort values accepted by that model. They describe compatibility; they are not a recommendation to use the maximum.</span></div>
+            <div><strong>Selection status</strong><span>Selectable models may be recommended for permitted roles. Fallback only requires an explicit fallback path; unsupported, restricted, and deprecated models are never recommended. Provisional means the policy fact is still a hypothesis awaiting stronger evidence.</span></div>
+            <div><strong>Task suitability</strong><span>Ideal is the intended fit; capable can handle the class; underpowered is below its capability need; overkill has more capacity than the class normally justifies. An em dash means no fit is published.</span></div>
+            <div><strong>Where the words come from</strong><span>Tier, effort, status, and provisional state come from <a href="https://github.com/agent-orc/token-economy/blob/main/src/TokenEconomy/catalog/model-routing-policy.json">model-routing-policy.json ↗</a>; suitability is computed from that tier by the library policy.</span></div>
+          </div>
+        </details>
         <div id="matrix-results" aria-live="polite"><p class="comment-note">Loading the token-efficiency matrix&hellip;</p></div>
         <p class="comment-note">Source: <code>website/data/model-efficiency-matrix.json</code>,
         generated by <code>scripts/generate-website-data.py</code>, checked in CI with
@@ -778,22 +810,34 @@ catalog.ComputeCost(KnownModels.ClaudeSonnet5, usage, standard).Total; // 6.00</
       const fitCell = value => value === null
         ? '<td class="fit">&mdash;</td>'
         : `<td class="fit fit-${escape(value.toLowerCase())}">${escape(humanize(value))}</td>`;
+      const catalogUrl = 'https://github.com/agent-orc/token-economy/blob/main/src/TokenEconomy/catalog/model-prices.json';
+      const priceNumber = value => `$${Number(value).toFixed(2)}`;
+      const priceCell = price => {
+        if (!price || price.status !== 'resolved') {
+          return `<td class="price-cell"><a href="${catalogUrl}">No price in catalog ↗</a></td>`;
+        }
+        const fallback = price.cachedInputUsesInputFallback ? ' title="No separate cached-input rate; the catalog applies the input rate."' : '';
+        return `<td class="price-cell"><span class="price-line"><span>Input</span><strong>${priceNumber(price.inputPerMTok)}</strong></span>`
+          + `<span class="price-line"><span>Output</span><strong>${priceNumber(price.outputPerMTok)}</strong></span>`
+          + `<span class="price-line"${fallback}><span>Cached input${price.cachedInputUsesInputFallback ? '*' : ''}</span><strong>${priceNumber(price.cachedInputPerMTok)}</strong></span>`
+          + `<span class="price-valid">USD / MTok · valid ${escape(price.validFromUtc.slice(0, 10))}</span></td>`;
+      };
+      const costCell = row => `<td><span class="cost-chip cost-${escape(row.costClass.toLowerCase())}">${escape(humanize(row.costClass))}</span></td>`;
 
       fetchJson('data/model-efficiency-matrix.json').then(data => {
-        const head = matrixClasses.map(([, label]) => `<th>${label}</th>`).join('');
+        const head = matrixClasses.map(([, label]) => `<th title="Suitability for ${escape(label.toLowerCase())} work">${label}</th>`).join('');
         const rows = data.rows.map(row => {
-          const status = humanize(row.selectionStatus)
-            + (row.provisional ? ' · provisional' : '')
-            + (row.costUnconfirmed ? ' · price unconfirmed' : '');
+          const statusNotes = [row.provisional ? 'provisional' : '', row.costUnconfirmed ? 'price unconfirmed' : ''].filter(Boolean);
           const fits = matrixClasses.map(([key]) => fitCell(row.suitability[key])).join('');
           return `<tr><td class="model-id">${escape(row.modelId)}</td><td>${escape(humanize(row.tier))}</td>`
-            + `<td>${escape(humanize(row.costClass))}</td><td class="efforts">${row.effortLevels.map(humanize).map(escape).join(' / ')}</td>`
-            + `<td>${escape(status)}</td>${fits}</tr>`;
+            + priceCell(row.price) + costCell(row)
+            + `<td class="efforts">${row.effortLevels.map(humanize).map(escape).join(' / ')}</td>`
+            + `<td><span class="status-chip">${escape(humanize(row.selectionStatus))}</span>${statusNotes.length ? `<span class="status-note">${escape(statusNotes.join(' · '))}</span>` : ''}</td>${fits}</tr>`;
         }).join('');
         matrixHost.innerHTML = `<div class="table-scroll"><table class="matrix-table"><thead><tr>`
-          + `<th>Model</th><th>Tier</th><th>Cost</th><th>Effort levels</th><th>Selection status</th>${head}`
+          + `<th>Model</th><th title="Maintained capability band">Tier</th><th title="Input, output, and cached-input list prices">List price / MTok</th><th title="Derived from a fixed reference workload">Cost class</th><th title="Supported reasoning-effort values">Effort levels</th><th title="Whether the library may recommend the model">Selection status</th>${head}`
           + `</tr></thead><tbody>${rows}</tbody></table></div>`
-          + `<p class="data-note">As of ${escape(data.asOfUtc.slice(0, 10))} UTC · ${data.rows.length} model profiles · cost class derived from the dated catalog.</p>`;
+          + `<p class="data-note">As of ${escape(data.asOfUtc.slice(0, 10))} UTC · ${data.rows.length} model profiles · prices and cost class derived from <a href="${catalogUrl}">${escape(data.priceCatalogPath)} ↗</a>. * Cached input uses the input rate where the catalog has no separate cache-read rate.</p>`;
       }).catch(error => showDataError(matrixHost, 'model-efficiency matrix data', error));
 
       fetchJson('data/benchmarks.json').then(data => {

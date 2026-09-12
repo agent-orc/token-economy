@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Token-efficiency matrix mockup — task-class first</title>
+  <meta name="robots" content="noindex,nofollow">
+  <link rel="stylesheet" href="mockup.css">
+</head>
+<body>
+  <header class="topbar">
+    <div class="shell">
+      <div class="brand"><span class="mark">¢</span> Token Economy <span class="mockup-label">Operator mockup · task-class first</span></div>
+      <button class="theme-toggle" id="theme-toggle" type="button">Toggle theme</button>
+    </div>
+  </header>
+
+  <main class="shell">
+    <span class="eyebrow">Variant 2 · task first</span>
+    <h1>Start with the work, then compare candidates.</h1>
+    <p class="lead">Choose a task class to see the policy-compatible model menu in fit-first order. These are library recommendations, not automatic routes; the calling system still applies correctness floors, availability, and operator choices.</p>
+
+    <section class="task-picker" aria-label="Task-class selector">
+      <label class="control">I need a model for
+        <select id="task-filter"></select>
+      </label>
+    </section>
+
+    <section id="recommendations" aria-live="polite"><p class="loading">Loading recommendations…</p></section>
+
+    <details class="secondary">
+      <summary>Browse the model list (secondary view)</summary>
+      <div class="model-cards" id="model-cards"></div>
+    </details>
+    <p class="provenance" id="provenance">Prices, model facts, and task fit load from the same checked website data used by the live matrix.</p>
+  </main>
+
+  <script>
+    (() => {
+      const root = document.documentElement;
+      const requestedTheme = new URLSearchParams(location.search).get('theme');
+      if (requestedTheme === 'light' || requestedTheme === 'dark') root.dataset.theme = requestedTheme;
+      document.getElementById('theme-toggle').addEventListener('click', () => {
+        const dark = root.dataset.theme === 'dark' || (!root.dataset.theme && matchMedia('(prefers-color-scheme: dark)').matches);
+        root.dataset.theme = dark ? 'light' : 'dark';
+      });
+
+      const escape = value => String(value).replace(/[&<>"']/g, char => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[char]);
+      const humanize = value => String(value).replace(/([a-z])([A-Z])/g, '$1 $2').replace(/^./, letter => letter.toUpperCase());
+      const money = value => `$${Number(value).toFixed(2)}`;
+      const catalogUrl = 'https://github.com/agent-orc/token-economy/blob/main/src/TokenEconomy/catalog/model-prices.json';
+      const tasks = [
+        ['heavyDesign', 'Heavy design', 'Architecture and broad design work with interacting constraints.'],
+        ['planning', 'Planning', 'Decomposition, sequencing, and risk-aware implementation planning.'],
+        ['decisionMaking', 'Decision making', 'Trade-off analysis where the recommendation needs explicit reasoning.'],
+        ['feature', 'Feature implementation', 'A well-specified feature with clear seams and verification.'],
+        ['mechanicalChore', 'Mechanical chore', 'Small, local, deterministic edits with an obvious check.'],
+        ['docEdit', 'Documentation edit', 'Focused public documentation or prose changes.'],
+        ['research', 'Research', 'Evidence gathering and synthesis across multiple sources.'],
+        ['review', 'General review', 'Broad review work; no fit is published until its evidence gates pass.'],
+        ['htmlUiImplementation', 'HTML/UI implementation', 'Frontend implementation where visual and behavioral details interact.'],
+        ['sourceCodeReview', 'Source-code review', 'Code-focused defect and maintainability review.'],
+        ['securityAssessment', 'Security assessment', 'Threat, boundary, and exploitability analysis.'],
+        ['redundancyDetection', 'Redundancy detection', 'Finding duplicate or unnecessary behavior across a codebase.'],
+        ['graphicalQualityJudgment', 'Graphical quality judgment', 'Visual-quality judgment; no fit is published until its evidence gates pass.'],
+        ['consistencyChecking', 'Consistency checking', 'Cross-surface consistency review; no fit is published until its evidence gates pass.']
+      ];
+      const fitRank = { ideal: 0, capable: 1, overkill: 2, underpowered: 3 };
+      const costRank = { economy: 0, standard: 1, premium: 2, unknown: 3 };
+      const fitCopy = {
+        ideal: 'Best capability fit', capable: 'Can handle this class',
+        overkill: 'More capability than normally needed', underpowered: 'Below the expected capability need'
+      };
+      const priceHtml = row => {
+        if (row.price.status !== 'resolved') return `<a href="${catalogUrl}">No price in catalog ↗</a>`;
+        return `<span class="num">${money(row.price.inputPerMTok)} in · ${money(row.price.outputPerMTok)} out · ${money(row.price.cachedInputPerMTok)} cached</span><span class="subvalue">USD / MTok · valid ${escape(row.price.validFromUtc.slice(0, 10))}</span>`;
+      };
+      const statusHtml = row => `<span class="status"><strong>${escape(humanize(row.selectionStatus))}</strong>${row.provisional ? '<br>Provisional' : ''}</span>`;
+      const candidatesFor = key => rows.filter(row => row.suitability[key] && ['selectable', 'fallbackOnly'].includes(row.selectionStatus)).sort((a, b) =>
+        fitRank[a.suitability[key]] - fitRank[b.suitability[key]]
+        || (a.selectionStatus === 'selectable' ? 0 : 1) - (b.selectionStatus === 'selectable' ? 0 : 1)
+        || costRank[a.costClass] - costRank[b.costClass]
+        || a.modelId.localeCompare(b.modelId));
+      const candidateRow = (row, key, index) => `<tr><td class="rank">${index + 1}</td>`
+        + `<td class="recommendation"><span class="chip ${escape(row.suitability[key])}">${escape(humanize(row.suitability[key]))}</span><span>${escape(fitCopy[row.suitability[key]])}</span></td>`
+        + `<td class="model">${escape(row.modelId)}</td><td>${escape(humanize(row.tier))}</td>`
+        + `<td>${priceHtml(row)}</td><td><span class="chip ${escape(row.costClass)}">${escape(humanize(row.costClass))}</span></td>`
+        + `<td>${escape(row.effortLevels.map(humanize).join(' · '))}</td><td>${statusHtml(row)}</td></tr>`;
+
+      let rows = [];
+      const filter = document.getElementById('task-filter');
+      const recommendations = document.getElementById('recommendations');
+      const render = () => {
+        const task = tasks.find(([key]) => key === filter.value);
+        const [key, label, description] = task;
+        const candidates = candidatesFor(key);
+        const body = candidates.length
+          ? `<div class="surface"><div class="table-scroll"><table><thead><tr><th>#</th><th>Recommendation</th><th>Model</th><th>Tier</th><th>List price</th><th>Cost</th><th>Supported effort</th><th>Status</th></tr></thead><tbody>${candidates.map((row, index) => candidateRow(row, key, index)).join('')}</tbody></table></div></div>`
+          : '<div class="surface"><p class="error">No task-fit recommendation is published for this class yet. The library does not infer one without evidence.</p></div>';
+        recommendations.innerHTML = `<div class="task-intro"><div><span class="eyebrow">Selected task class</span><h2>${escape(label)}</h2><p>${escape(description)}</p></div><span class="result-count">${candidates.length} policy-compatible candidate${candidates.length === 1 ? '' : 's'}</span></div>${body}`;
+      };
+      const renderModels = () => {
+        document.getElementById('model-cards').innerHTML = rows.map(row => `<article class="model-card"><span class="model">${escape(row.modelId)}</span><span class="chip ${escape(row.costClass)}">${escape(humanize(row.costClass))}</span> <span class="chip">${escape(humanize(row.tier))}</span><p>${priceHtml(row)}<br>${statusHtml(row)}</p></article>`).join('');
+      };
+      tasks.forEach(([key, label]) => filter.insertAdjacentHTML('beforeend', `<option value="${escape(key)}">${escape(label)}</option>`));
+      filter.addEventListener('change', render);
+      fetch('../../data/model-efficiency-matrix.json').then(response => response.ok ? response.json() : Promise.reject(response.status)).then(data => {
+        rows = data.rows;
+        document.getElementById('provenance').innerHTML = `As of ${escape(data.asOfUtc.slice(0, 10))} UTC · derived from <a href="${catalogUrl}">${escape(data.priceCatalogPath)} ↗</a> and <a href="https://github.com/agent-orc/token-economy/blob/main/${escape(data.routingPolicyPath)}">${escape(data.routingPolicyPath)} ↗</a>. Candidate order is suitability first, then selection status and derived cost class.`;
+        render();
+        renderModels();
+      }).catch(() => { recommendations.innerHTML = '<div class="surface"><p class="error">Matrix data could not be loaded. Serve the website directory over HTTP.</p></div>'; });
+    })();
+  </script>
+</body>
+</html>

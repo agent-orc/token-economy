@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Token-efficiency matrix mockup — compact icons</title>
+  <meta name="robots" content="noindex,nofollow">
+  <link rel="stylesheet" href="mockup.css">
+</head>
+<body>
+  <header class="topbar">
+    <div class="shell">
+      <div class="brand"><span class="mark">¢</span> Token Economy <span class="mockup-label">Operator mockup · compact icons</span></div>
+      <button class="theme-toggle" id="theme-toggle" type="button">Toggle theme</button>
+    </div>
+  </header>
+
+  <main class="shell">
+    <span class="eyebrow">Variant 1 · model first</span>
+    <h1>Compare the whole model menu at a glance.</h1>
+    <p class="lead">One row per model keeps price, capability, supported effort, and task fit together. The library recommends candidates from this policy-backed menu; the calling system makes the routing decision.</p>
+
+    <div class="controls" aria-label="Matrix filters">
+      <label class="control">Vendor
+        <select id="vendor-filter"><option value="all">All vendors</option></select>
+      </label>
+      <label class="control">Tier
+        <select id="tier-filter"><option value="all">All tiers</option></select>
+      </label>
+      <span class="result-count" id="result-count"></span>
+    </div>
+
+    <section class="surface" aria-label="Compact token-efficiency matrix">
+      <div class="table-scroll" id="matrix"><p class="loading">Loading matrix data…</p></div>
+      <div class="legend" aria-label="Suitability legend">
+        <strong>Task fit</strong>
+        <span class="legend-item"><span class="fit-icon ideal">★</span> Ideal</span>
+        <span class="legend-item"><span class="fit-icon capable">✓</span> Capable</span>
+        <span class="legend-item"><span class="fit-icon underpowered">↓</span> Underpowered</span>
+        <span class="legend-item"><span class="fit-icon overkill">↑</span> Overkill</span>
+        <span class="legend-item"><span class="fit-icon fit-none">—</span> Not published</span>
+      </div>
+    </section>
+    <p class="provenance" id="provenance">Prices, model facts, and task fit load from the same checked website data used by the live matrix.</p>
+  </main>
+
+  <script>
+    (() => {
+      const root = document.documentElement;
+      const requestedTheme = new URLSearchParams(location.search).get('theme');
+      if (requestedTheme === 'light' || requestedTheme === 'dark') root.dataset.theme = requestedTheme;
+      document.getElementById('theme-toggle').addEventListener('click', () => {
+        const dark = root.dataset.theme === 'dark' || (!root.dataset.theme && matchMedia('(prefers-color-scheme: dark)').matches);
+        root.dataset.theme = dark ? 'light' : 'dark';
+      });
+
+      const escape = value => String(value).replace(/[&<>"']/g, char => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[char]);
+      const humanize = value => String(value).replace(/([a-z])([A-Z])/g, '$1 $2').replace(/^./, letter => letter.toUpperCase());
+      const money = value => `$${Number(value).toFixed(2)}`;
+      const catalogUrl = 'https://github.com/agent-orc/token-economy/blob/main/src/TokenEconomy/catalog/model-prices.json';
+      const tasks = [
+        ['heavyDesign', 'Design', 'Heavy design'], ['planning', 'Plan', 'Planning'],
+        ['decisionMaking', 'Decide', 'Decision making'], ['feature', 'Feat.', 'Feature'],
+        ['mechanicalChore', 'Mech.', 'Mechanical chore'], ['docEdit', 'Docs', 'Documentation edit'],
+        ['research', 'Rsch.', 'Research'], ['review', 'Review', 'Review'],
+        ['htmlUiImplementation', 'UI', 'HTML/UI implementation'], ['sourceCodeReview', 'Code', 'Source-code review'],
+        ['securityAssessment', 'Sec.', 'Security assessment'], ['redundancyDetection', 'Redun.', 'Redundancy detection'],
+        ['graphicalQualityJudgment', 'Visual', 'Graphical quality judgment'], ['consistencyChecking', 'Cons.', 'Consistency checking']
+      ];
+      const effortOrder = ['minimal', 'low', 'medium', 'high', 'xHigh', 'ultra', 'max'];
+      const fitMeta = {
+        ideal: ['★', 'Ideal'], capable: ['✓', 'Capable'],
+        underpowered: ['↓', 'Underpowered'], overkill: ['↑', 'Overkill']
+      };
+      const fit = value => {
+        if (!value) return '<td class="fit-cell"><span class="fit-icon fit-none" title="Not published" aria-label="Not published">—</span></td>';
+        const [icon, label] = fitMeta[value];
+        return `<td class="fit-cell"><span class="fit-icon ${escape(value)}" title="${label}" aria-label="${label}">${icon}</span></td>`;
+      };
+      const price = (row, key) => row.price.status === 'resolved'
+        ? `<td class="num">${money(row.price[key])}</td>`
+        : `<td class="num"><a href="${catalogUrl}">No price</a></td>`;
+      const efforts = levels => {
+        const active = new Set(levels);
+        const dots = effortOrder.map(level => `<span class="effort-step ${active.has(level) ? 'on' : ''}" title="${escape(humanize(level))}">●</span>`).join('');
+        return `<div class="effort-scale" aria-label="Supported effort: ${levels.map(humanize).join(', ')}">${dots}</div><span class="effort-label">${escape(humanize(levels[0]))}–${escape(humanize(levels[levels.length - 1]))}</span>`;
+      };
+      const status = row => `<span class="status"><strong>${escape(humanize(row.selectionStatus))}</strong>${row.provisional ? '<br>Provisional evidence' : ''}</span>`;
+      const rowHtml = row => `<tr data-vendor="${escape(row.vendor)}" data-tier="${escape(row.tier)}">`
+        + `<td class="model">${escape(row.modelId)}</td><td>${escape(humanize(row.tier))}</td>`
+        + price(row, 'inputPerMTok') + price(row, 'outputPerMTok') + price(row, 'cachedInputPerMTok')
+        + `<td><span class="chip ${escape(row.costClass)}">${escape(humanize(row.costClass))}</span></td>`
+        + `<td>${efforts(row.effortLevels)}</td><td>${status(row)}</td>`
+        + tasks.map(([key]) => fit(row.suitability[key])).join('') + '</tr>';
+
+      let rows = [];
+      const matrix = document.getElementById('matrix');
+      const vendorFilter = document.getElementById('vendor-filter');
+      const tierFilter = document.getElementById('tier-filter');
+      const render = () => {
+        const visible = rows.filter(row => (vendorFilter.value === 'all' || row.vendor === vendorFilter.value)
+          && (tierFilter.value === 'all' || row.tier === tierFilter.value));
+        const taskHeaders = tasks.map(([, short, label]) => `<th class="task-head"><abbr title="${escape(label)}">${escape(short)}</abbr></th>`).join('');
+        matrix.innerHTML = `<table><thead><tr><th>Model</th><th>Tier</th><th class="num">Input</th><th class="num">Output</th><th class="num">Cached</th><th>Cost</th><th>Effort range</th><th>Status</th>${taskHeaders}</tr></thead><tbody>${visible.map(rowHtml).join('')}</tbody></table>`;
+        document.getElementById('result-count').textContent = `${visible.length} of ${rows.length} models · prices in USD / MTok`;
+      };
+      const addOptions = (select, values) => values.forEach(value => select.insertAdjacentHTML('beforeend', `<option value="${escape(value)}">${escape(humanize(value))}</option>`));
+      Promise.all([
+        fetch('../../data/model-efficiency-matrix.json').then(response => response.ok ? response.json() : Promise.reject(response.status))
+      ]).then(([data]) => {
+        rows = data.rows;
+        addOptions(vendorFilter, [...new Set(rows.map(row => row.vendor))].sort());
+        addOptions(tierFilter, [...new Set(rows.map(row => row.tier))].sort());
+        vendorFilter.addEventListener('change', render);
+        tierFilter.addEventListener('change', render);
+        document.getElementById('provenance').innerHTML = `As of ${escape(data.asOfUtc.slice(0, 10))} UTC · derived from <a href="${catalogUrl}">${escape(data.priceCatalogPath)} ↗</a> and <a href="https://github.com/agent-orc/token-economy/blob/main/${escape(data.routingPolicyPath)}">${escape(data.routingPolicyPath)} ↗</a>. Cost class uses a common 1M-input + 200k-output reference workload.`;
+        render();
+      }).catch(() => { matrix.innerHTML = '<p class="error">Matrix data could not be loaded. Serve the website directory over HTTP.</p>'; });
+    })();
+  </script>
+</body>
+</html>
