@@ -53,8 +53,9 @@ agent-orchestrator.dev {
 ```
 
 `handle_path` strips the `/token-economy` prefix, so `/token-economy/` serves
-`/srv/sites/token-economy/index.html`. The page inlines its CSS and favicon (no
-relative asset files), so it is robust under the subpath either way. Reload
+`/srv/sites/token-economy/index.html`. Page-specific styles and scripts are
+inline; the favicon is a data URI; and the shared navigation CSS and JavaScript
+are local files under that same path. Reload
 Caddy the way the meta-repo does (typically `sudo systemctl reload caddy` or
 `caddy reload`). A **content** redeploy needs no reload — only this initial route
 addition does.
@@ -96,18 +97,22 @@ The workflow fails fast with a clear message if any secret is missing.
 
 ## Preview locally
 
-The page loads three generated JSON artifacts with `fetch()`, so preview it through a
-local HTTP server. Opening `index.html` through `file://` intentionally shows a
-visible data-unavailable message for those sections.
+The pages load generated JSON artifacts with `fetch()`, so preview them through
+a local HTTP server. Opening `index.html` through `file://` intentionally shows
+a visible data-unavailable message for those sections.
 
 ```bash
-python -m http.server 8080 --directory website
-# → http://localhost:8080/
+preview_root="$(mktemp -d)"
+ln -s "$PWD/website" "$preview_root/token-economy"
+python3 -m http.server 8080 --directory "$preview_root"
+# → http://localhost:8080/token-economy/
 ```
 
 ## What deploys
 
-`rsync -az --delete` mirrors the **contents** of `website/` into
-`/srv/sites/token-economy/`, so the live site is always an exact copy of this
-folder on `main` — files removed here are removed on the VM. Keep the folder
-self-contained (no external requests) so it works offline and under the subpath.
+`rsync -az --delete` mirrors the publishable **contents** of `website/` into
+`/srv/sites/token-economy/`; repository documentation and the canonical
+`_includes/` source block are excluded. The live site otherwise matches the
+folder on `main`, and removed public files are removed on the VM. Keep the
+folder self-contained (no third-party asset requests) so it works offline and
+under the subpath.

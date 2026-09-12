@@ -31,6 +31,11 @@ SemVer; pre-1.0 the public API may still shift).
 
 ### Changed
 
+- Replaced the public website's eleven-link top bar with shared Library,
+  Evidence, and Project dropdowns; added keyboard and no-JavaScript fallbacks,
+  a narrow-screen accordion, and automated navigation-drift and local-link
+  checks across every static page (TE-50).
+
 - Claude Sonnet 4.6 now carries its confirmed dated-snapshot alias
   (`claude-sonnet-4-6-20260301`), matching the id recording CLIs actually
   report; previously only the bare `claude-sonnet-4-6` id resolved, so a
