@@ -50,7 +50,8 @@ public class SuggestModelTests
         var fallbackOnly = Matrix.SuggestModel(TaskClass.HeavyDesign, BudgetPressure.Comfortable, [Cli.Claude], Now);
 
         Assert.DoesNotContain(primaryAvailable, candidate => candidate.ModelId == "claude-sonnet-5");
-        Assert.Empty(fallbackOnly);
+        Assert.Contains(fallbackOnly, candidate => candidate.ModelId == "claude-fable-5-1");
+        Assert.DoesNotContain(fallbackOnly, candidate => candidate.ModelId == "claude-sonnet-5");
         Assert.Equal("claude-sonnet-5", Assert.Single(ModelRoutingKnowledgeBase.Default.FallbacksFor("sol-medium")).ModelId);
     }
 

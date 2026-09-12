@@ -1,0 +1,120 @@
+{
+  "schemaVersion": 1,
+  "asOfDate": "2026-09-12",
+  "comparisonPolicy": "Compare models or settings within the same study and metric. Different snapshots, prompts, filtering and judges do not form one ranking. Original score units are retained in the evidence catalog.",
+  "studies": [
+    {
+      "id": "coderabbit-astra-2026-09-04",
+      "title": "Astra, Sol and Opus 5: known-bug coverage",
+      "date": "2026-09-04",
+      "summary": "Astra catches the largest share of labeled bugs in this CodeRabbit study, including the cross-file subset. The study supports a coverage preference for Astra in this harness; it does not establish which model produces fewer false alarms.",
+      "metricDefinition": "Coverage is the share of labeled bugs caught with actionable comments. Overall and cross-file coverage are separate metrics.",
+      "limits": [
+        "PR and bug counts are not disclosed.",
+        "Reasoning effort, precision, judge identity and exact pipeline version are not disclosed.",
+        "No confidence intervals or repeat counts are reported."
+      ],
+      "sourceUrls": [
+        "https://www.coderabbit.ai/blog/gpt-6-astra-code-review-evaluation"
+      ],
+      "evidenceIds": [
+        "coderabbit-astra-2026-09-04-overall-coverage-gpt-6-astra",
+        "coderabbit-astra-2026-09-04-overall-coverage-gpt-5.6-sol",
+        "coderabbit-astra-2026-09-04-overall-coverage-claude-opus-5",
+        "coderabbit-astra-2026-09-04-cross-file-coverage-gpt-6-astra",
+        "coderabbit-astra-2026-09-04-cross-file-coverage-gpt-5.6-sol",
+        "coderabbit-astra-2026-09-04-cross-file-coverage-claude-opus-5"
+      ]
+    },
+    {
+      "id": "coderabbit-opus5-2026-07-24",
+      "title": "Opus 5: precision and coverage at high and xHigh",
+      "date": "2026-07-24",
+      "summary": "Within the senior-reviewer profile, xHigh yields higher actionable precision and slightly lower actionable coverage than high. This is an observed tradeoff across three repeated runs, not proof of a universal best effort.",
+      "metricDefinition": "Actionable coverage counts known issues found; actionable precision counts valid actionable comments. Full-stream metrics also include the wider comment stream and must be read separately.",
+      "limits": [
+        "The source table specifies 96 evaluation patterns and a three-run average; the number of PRs is not stated.",
+        "Prompt profiles and product filtering affect the result. The junior profile also changes the prompt and is not part of this effort comparison.",
+        "Judge identity, variance and per-review cost are not disclosed."
+      ],
+      "sourceUrls": [
+        "https://www.coderabbit.ai/blog/opus-5-model-review",
+        "https://www.coderabbit.ai/content/assets/opus-5-results-table.png"
+      ],
+      "evidenceIds": [
+        "coderabbit-opus5-2026-07-24-senior-actionable-coverage-claude-opus-5-high",
+        "coderabbit-opus5-2026-07-24-senior-actionable-coverage-claude-opus-5-xhigh",
+        "coderabbit-opus5-2026-07-24-senior-full-stream-coverage-claude-opus-5-high",
+        "coderabbit-opus5-2026-07-24-senior-full-stream-coverage-claude-opus-5-xhigh",
+        "coderabbit-opus5-2026-07-24-senior-actionable-precision-claude-opus-5-high",
+        "coderabbit-opus5-2026-07-24-senior-actionable-precision-claude-opus-5-xhigh",
+        "coderabbit-opus5-2026-07-24-senior-full-stream-precision-claude-opus-5-high",
+        "coderabbit-opus5-2026-07-24-senior-full-stream-precision-claude-opus-5-xhigh"
+      ]
+    },
+    {
+      "id": "coderabbit-fable51-2026-09-01",
+      "title": "Fable 5.1: two internal review settings",
+      "date": "2026-09-01",
+      "summary": "The lower internal setting has higher observed recall and precision and lower mean latency on these tasks. Increasing this pipeline setting did not improve the measured outcome; no statistical uncertainty is reported.",
+      "metricDefinition": "Recall counts the known issues with at least one valid comment. Precision is the share of final pipeline comments judged valid. Low and High name internal configurations, not established provider effort levels.",
+      "limits": [
+        "45 review tasks contain 105 known issue points.",
+        "The 92 review-file calls include retries and split-file batches; they are not independent trials.",
+        "No reliable token totals, judge identity or exact pipeline version are supplied. Historical model rows used different pipelines."
+      ],
+      "sourceUrls": [
+        "https://www.coderabbit.ai/blog/fable-5-1-model-review"
+      ],
+      "evidenceIds": [
+        "coderabbit-fable51-2026-09-01-low-recall-claude-fable-5-1",
+        "coderabbit-fable51-2026-09-01-low-precision-claude-fable-5-1",
+        "coderabbit-fable51-2026-09-01-high-recall-claude-fable-5-1",
+        "coderabbit-fable51-2026-09-01-high-precision-claude-fable-5-1"
+      ]
+    },
+    {
+      "id": "coderabbit-sol-2026-07-09",
+      "title": "Sol: coverage with a substantial comment burden",
+      "date": "2026-07-09",
+      "summary": "Sol catches many known issues in this review lane, but the reported actionable precision leaves substantial filtering work. This older snapshot cannot be ranked directly against the September studies.",
+      "metricDefinition": "Known-issue recall uses distinct issue hits. Actionable precision uses processed comments. The separately reported raw comment volume is not its denominator.",
+      "limits": [
+        "The 99 known error patterns are not a reported PR count.",
+        "Reasoning effort, repeat count, exact judge and pipeline version are unknown.",
+        "The production comparison is a model ensemble; adding a model lane does not measure that model alone."
+      ],
+      "sourceUrls": [
+        "https://www.coderabbit.ai/blog/gpt-5-6-sol-and-terra-benchmark"
+      ],
+      "evidenceIds": [
+        "coderabbit-sol-2026-07-09-recall-gpt-5.6-sol",
+        "coderabbit-sol-2026-07-09-precision-gpt-5.6-sol"
+      ]
+    },
+    {
+      "id": "kodus-light-v1-vendor-default",
+      "title": "Kodus replay: Luna and Terra with published finding counts",
+      "date": "2026-09-12",
+      "summary": "The pinned scorecards expose issue and finding counts for the same review replay. Luna has higher measured recall and precision than Terra here. Missing tool replies and judge-based matching limit what this says about live repository review.",
+      "metricDefinition": "Original micro recall and precision are ratios from 0 to 1. Recall counts matched known issues; precision counts findings judged true. Their numerators can differ when multiple findings match one issue.",
+      "limits": [
+        "September 12 is the first observed public snapshot date; source run and scoring timestamps are retained separately.",
+        "30 PRs and 95 human review goldens; one vendor-default replay per model, with unknown provider effort.",
+        "Haiku 4.5 matches findings to goldens. Incomplete goldens and unserved tool requests can affect results.",
+        "No exact Astra, Sol, Opus 5 or Fable 5.1 scorecards were found in the pinned repository tree."
+      ],
+      "sourceUrls": [
+        "https://github.com/kodustech/codereviewbench/blob/531297bf50e5f065e3888d7e07b55dcacbf8df64/scorecards/gpt-5.6-luna.json",
+        "https://www.codereviewbench.com/",
+        "https://github.com/kodustech/codereviewbench/blob/531297bf50e5f065e3888d7e07b55dcacbf8df64/scorecards/gpt-5.6-terra.json"
+      ],
+      "evidenceIds": [
+        "kodus-light-v1-vendor-default-recall-gpt-5.6-luna",
+        "kodus-light-v1-vendor-default-precision-gpt-5.6-luna",
+        "kodus-light-v1-vendor-default-recall-gpt-5.6-terra",
+        "kodus-light-v1-vendor-default-precision-gpt-5.6-terra"
+      ]
+    }
+  ]
+}

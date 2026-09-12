@@ -54,12 +54,23 @@
     pre { background: var(--code-bg); color: var(--code-text); border: .0625rem solid var(--border); border-radius: var(--radius-md); padding: var(--space-4); overflow-x: auto; }
     footer { padding-block: var(--space-8); color: var(--muted); border-top: .0625rem solid var(--border); }
     @media (max-width: 50rem) { .summary, .pilots, .slices { grid-template-columns: 1fr; } nav { gap: var(--space-3); } .optional { display: none; } }
+
+    h1 { max-width: 52rem; font-size: clamp(2rem, 5vw, 3rem); line-height: 1.15; }
+    .coverage { max-width: 48rem; padding-top: 16px; margin-top: 24px; border-top: 1px solid var(--border); font-size: .95rem; }
+    .eyebrow, th, .status { font-size: .875rem; }
+    .method-details { border: 1px solid var(--border); padding: 16px 20px; border-radius: 8px; margin: 20px 0; }
+    summary { cursor: pointer; color: var(--accent); font-weight: 600; }
+    .row-details { margin-top: 12px; font-size: .875rem; }
+    .row-details summary { font-weight: 400; }
+    a:focus-visible, summary:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+    #catalog table { min-width: 56rem; }
   </style>
   <link rel="stylesheet" href="/token-economy/navigation.css">
   <script src="/token-economy/navigation.js" defer></script>
 </head>
 <body>
 <!-- site-navigation:start -->
+<a class="site-skip-link" href="#main-content">Skip to content</a>
 <header class="site-header" data-site-navigation>
   <div class="site-family-bar">
     <a class="site-family-back" href="https://agent-orchestrator.dev/"><span aria-hidden="true">←</span> Agent Orchestrator</a>
@@ -69,31 +80,35 @@
     <button class="site-menu-button" type="button" aria-expanded="false" aria-controls="site-navigation-groups"><span>Menu</span><span class="site-menu-icon" aria-hidden="true"></span></button>
     <nav class="site-primary-nav" aria-label="Primary navigation">
       <div class="site-nav-groups" id="site-navigation-groups">
+        <a class="site-nav-direct" href="/token-economy/api/">API</a>
         <div class="site-nav-group">
-          <a class="site-nav-heading" href="/token-economy/#why" aria-haspopup="true" aria-expanded="false" aria-controls="site-nav-library">Library</a>
+          <button class="site-nav-heading" type="button" aria-expanded="false" aria-controls="site-nav-library">Guides</button>
           <ul class="site-nav-menu" id="site-nav-library">
-            <li><a href="/token-economy/#why">Why</a></li>
-            <li><a href="/token-economy/#suggest">SuggestModel</a></li>
+            <li><a href="/token-economy/#why">Overview</a></li>
+            <li><a href="/token-economy/#suggest">Model compatibility</a></li>
             <li><a href="/token-economy/#install">Install</a></li>
-            <li><a href="/token-economy/#cost-api">Cost API</a></li>
-            <li><a href="/token-economy/#model-recommendation">Model recommendation</a></li>
+            <li><a href="/token-economy/api/#costs">Calculate run costs</a></li>
+            <li><a href="/token-economy/api/#routing">Route an attempt</a></li>
+            <li><a href="/token-economy/#model-recommendation">Task complexity</a></li>
           </ul>
         </div>
         <div class="site-nav-group">
-          <a class="site-nav-heading" href="/token-economy/task-class-routing/" aria-haspopup="true" aria-expanded="false" aria-controls="site-nav-evidence">Evidence</a>
+          <button class="site-nav-heading" type="button" aria-expanded="false" aria-controls="site-nav-evidence">Research</button>
           <ul class="site-nav-menu" id="site-nav-evidence">
+            <li><a href="/token-economy/price-history/">Prices &amp; history</a></li>
             <li><a href="/token-economy/task-class-routing/">Task studies</a></li>
+            <li><a href="/token-economy/code-review/">Code review</a></li>
             <li><a href="/token-economy/model-benchmarks/">Price × quality</a></li>
             <li><a href="/token-economy/#benchmarks">Benchmarks</a></li>
-            <li><a href="/token-economy/evidence/agent-studio-usage/">Usage</a></li>
+            <li><a href="/token-economy/evidence/agent-studio-usage/">Usage evidence</a></li>
             <li><a href="/token-economy/cap-forecast/">Cap forecast</a></li>
             <li><a href="/token-economy/provider-quota-dashboard/">Quota snapshot</a></li>
           </ul>
         </div>
         <div class="site-nav-group">
-          <a class="site-nav-heading" href="/token-economy/#family" aria-haspopup="true" aria-expanded="false" aria-controls="site-nav-project">Project</a>
+          <button class="site-nav-heading" type="button" aria-expanded="false" aria-controls="site-nav-project">Project</button>
           <ul class="site-nav-menu" id="site-nav-project">
-            <li><a href="/token-economy/#family">Family</a></li>
+            <li><a href="/token-economy/#family">Related projects</a></li>
             <li><a href="https://github.com/agent-orc/token-economy">GitHub <span aria-hidden="true">↗</span></a></li>
           </ul>
         </div>
@@ -102,32 +117,28 @@
   </div>
 </header>
 <!-- site-navigation:end -->
-  <main>
+  <main id="main-content" tabindex="-1">
     <div class="hero"><div class="wrap">
-      <span class="eyebrow">Task-class studies · evidence as of 2026-08-12</span>
-      <h1>Which model and thinking level—measured, not guessed.</h1>
-      <p class="lead">A versioned taxonomy for card creation, with controlled outcomes where they exist, explicit policy baselines where they do not, list-price cost per successful outcome, and downgrade boundaries that never cross the canonical correctness floors.</p>
-      <div class="summary">
-        <div class="card"><span class="metric">14</span><span class="muted">published task classes</span></div>
-        <div class="card"><span class="metric">2 + coding</span><span class="muted">new pilots plus the retained hard-coding suite</span></div>
-        <div class="card"><span class="metric">v2</span><span class="muted">set-valued taxonomy contract</span></div>
-      </div>
+      <span class="eyebrow">Task studies · updated 12 August 2026</span>
+      <h1>Models and reasoning effort by task</h1>
+      <p class="lead">Compare model recommendations, reasoning effort, and measured outcomes for each task class. Rows without a matching study are marked Policy baseline.</p>
+      <p class="coverage">14 task classes. Pilot results cover HTML/UI, source review, and coding; other classes use policy recommendations.</p>
     </div></div>
 
     <section id="recommendations"><div class="wrap">
-      <h2>Recommendation catalog</h2>
-      <p class="sub">Each row is a quota-independent ranked set exposed by <code>TaskClassRecommendationCatalog</code>. Agent Studio may choose within the set only from fresh quota state, then must still run the concrete card through <code>ModelRouter</code>; uncertainty, hard floors, semantic reissues, and explicit operator pins remain authoritative.</p>
-      <div class="callout"><strong>Planning and Decision-Making are strong-ideal.</strong> Their sets contain strong routes only. Quota can choose a provider peer; it cannot make a smaller tier ideal or turn a consequential decision into the bounded Mini role exception.</div>
-      <div class="callout"><strong>Read “policy baseline” literally.</strong> It is the safest current prior from the canonical routing policy, not a study winner. Only rows marked controlled pilot/evidence have comparable retained outcomes.</div>
-      <div id="catalog" aria-live="polite"><p class="muted">Loading checked recommendation data…</p></div>
+      <h2>Find a model for your task</h2>
+      <p class="sub">Find your task class to see candidate models, reasoning effort, evidence, and permitted alternatives. Use the API section to apply these recommendations before a run.</p>
+      <p class="muted">Planning and consequential decisions require a strong model. Available quota may change the provider choice, but it does not lower that requirement.</p>
+      <p class="muted">Policy baseline means the recommendation follows the routing policy and has no matching controlled study. Rows marked Controlled pilot or Controlled evidence link to measured outcomes.</p>
+      <div id="catalog" data-pending-content aria-live="polite"><p class="muted">Loading task recommendations…</p></div>
     </div></section>
 
     <section id="method"><div class="wrap">
-      <h2>First two task-class studies</h2>
+      <h2>HTML/UI and source-review pilots</h2>
       <div class="pilots">
         <article class="card">
           <h3>HTML/UI implementation → Sol/medium</h3>
-          <p>Two independent pages, three routes, desktop and mobile rendering. Every artifact passed deterministic markup/content checks, then a fixed Sol/xhigh jury—blinded to the producing route—applied the same defect checklist.</p>
+          <p>Three model-and-effort combinations built two pages. We checked desktop and mobile output, then had Sol/xhigh assess screenshots against a fixed defect checklist without knowing which model produced them.</p>
           <ul>
             <li>Sol/medium: 2/2 passed; mean quality <strong>0.9175</strong>.</li>
             <li>Terra/medium: 2/2 passed; mean quality <strong>0.86125</strong>.</li>
@@ -137,7 +148,7 @@
         </article>
         <article class="card">
           <h3>Source-code review → Terra/medium</h3>
-          <p>Two bounded C# snapshots, ten hidden seeded defects, and a line/semantic oracle. Ranking uses pass rate, severity-weighted recall, precision, then cost.</p>
+          <p>Models reviewed two C# files containing ten hidden defects. We compared passed scenarios, severity-weighted defect recall, finding precision, and cost.</p>
           <ul>
             <li>Terra/medium: 2/2 passed; <strong>10/10</strong> defects; $0.030434/outcome.</li>
             <li>Sol/xhigh: 2/2 passed; <strong>10/10</strong> defects; $0.164714/outcome.</li>
@@ -147,8 +158,9 @@
         </article>
       </div>
       <p class="muted">The next identical-scenario matrix explicitly includes <code>gpt-5.5</code>/medium and <code>gpt-5.4-mini</code>/high. They are scheduled candidates, not measured pilot results; the published recommendations do not infer success from catalog presence.</p>
-      <div class="callout"><strong>QS dossier line reused, not overclaimed.</strong> For both <code>gpt-5.6-terra</code> and <code>gpt-5.6-sol</code>, the committed Quality Studio aggregate has 0 eligible operational runs and <code>insufficientEvidence</code>. Confirmed/dismissed QS findings would measure precision over emitted findings, not missed-defect recall, so the QS line remains observational and separate from the seeded ranking.</div>
-      <h3>Library API</h3>
+      <details class="method-details"><summary>Operational review evidence</summary><p>The Quality Studio dataset contains no eligible operational runs for Terra or Sol. Its confirmed findings cannot measure missed defects; the seeded-defect study supplies recall.</p></details>
+      <h3 id="library-api">Use these recommendations in C#</h3>
+      <p><a href="/token-economy/api/#task-advice">API guide: inputs, return fields, and empty results</a>. The host chooses among candidates using fresh quota, then calls <code>ModelRouter.Route</code> for the actual attempt. Task uncertainty, correctness floors, previous failures, and operator pins still apply.</p>
       <pre><code>var advice = TaskClassRecommendationCatalog.Default
     .Recommend(TaskClass.HtmlUiImplementation);
 
@@ -166,16 +178,16 @@ var selection = TaskClassRecommendationCatalog.Default
     </div></section>
 
     <section id="slices"><div class="wrap">
-      <h2>Slice plan for the remaining classes</h2>
-      <p class="sub">Each slice keeps controlled and observational inputs separate, prices subject and verification work at the run date, and uses at least five scenarios and twenty attempts per route before qualification.</p>
-      <div class="slices">
+      <h2>Studies still needed</h2>
+      <p class="sub">Each new study needs at least five scenarios and twenty attempts per model-and-effort combination. Results must include outcome coverage, repeat attempts, and dated costs.</p>
+      <details class="method-details"><summary>Planned studies and acceptance criteria</summary><div class="slices">
         <article class="card"><h3>1 · Security assessment</h3><p>Seed authn/authz, injection, secret, and unsafe-remediation cases. Score severity-weighted recall and unsafe advice. Sol/xhigh remains the hard floor throughout.</p></article>
         <article class="card"><h3>2 · Redundancy detection</h3><p>Known clone pairs plus intentional variants. Score semantic-duplicate recall, precision, and false merge suggestions across one- and multi-subsystem corpora.</p></article>
         <article class="card"><h3>3 · Graphical-quality judgment</h3><p>Human-calibrate the defect checklist, randomize blinded screenshot order, and compare Mini/high with stronger jurors using agreement and pairwise ranking accuracy.</p></article>
         <article class="card"><h3>4 · Consistency checking</h3><p>Hide invariant manifests across schemas, prose, and UI states. Score contradiction recall/precision and separate compact bounded checks from open-ended research.</p></article>
         <article class="card"><h3>5 · Coding classes</h3><p>Expand feature evidence and add heavy design, mechanical chore, docs, and research suites with native tests, factual keys, review grades, and semantic-reissue outcomes.</p></article>
         <article class="card"><h3>Qualification and calibration</h3><p>Minimum 20 attempts per route, five scenarios, 70% outcome coverage, and at most 10% semantic reissue. Add human/jury agreement gates where judgment is subjective.</p></article>
-      </div>
+      </div></details>
     </div></section>
   </main>
   <footer><div class="wrap">Token Economy · task-class taxonomy <code>task-class-taxonomy-v2</code> · rationale <code>task-class-rationale-2026-08-12</code></div></footer>
@@ -192,22 +204,22 @@ var selection = TaskClassRecommendationCatalog.Default
         const rows = data.recommendations.map(item => {
           const [cls, label] = status(item.status);
           const cost = item.costPerSuccessfulOutcome?.amountUsd == null ? 'Not measured'
-            : `$${Number(item.costPerSuccessfulOutcome.amountUsd).toFixed(6)}${item.costPerSuccessfulOutcome.includesVerification ? ' incl. verification' : ' subject only'}`;
+            : `$${Number(item.costPerSuccessfulOutcome.amountUsd).toFixed(6)}${item.costPerSuccessfulOutcome.includesVerification ? ' incl. verification' : ' model calls only'}`;
           const downgrade = item.downgrade ? `<code>${escape(item.downgrade.model)} / ${escape(item.downgrade.thinkingLevel)}</code><ul>${item.downgradeWhen.map(rule => `<li>${escape(rule)}</li>`).join('')}</ul>`
-            : `<span class="muted">No lower studied/policy route</span>`;
+            : `<span class="muted">No lower route allowed</span>`;
           const candidates = [item.recommended, ...(item.equivalentRoutes || [])];
           const set = candidates.map(route => `${escape(route.model)}<br>${escape(route.thinkingLevel)}`).join('<hr>');
-          const equivalence = candidates.length > 1 ? 'provisional peers' : 'singleton';
-          const evidence = item.evidence.map(line => `<li><code>${escape(line.evidenceKind)}</code> — ${escape(line.summary)}</li>`).join('');
-          return `<tr><td><strong>${escape(item.label)}</strong><br><span class="muted">${escape(item.definition)}</span></td>`
+          const equivalence = candidates.length > 1 ? 'Provider alternative · equivalence provisional' : 'One candidate';
+          const evidence = item.evidence.map(line => `<li><a href="https://github.com/agent-orc/token-economy/blob/main/${escape(line.reference)}">${escape(line.evidenceKind)} evidence ↗</a> — ${escape(line.summary)}</li>`).join('');
+          return `<tr id="${escape(item.id)}"><td><strong>${escape(item.label)}</strong><br><span class="muted">${escape(item.definition)}</span></td>`
             + `<td class="route">${set}<br><span class="muted">${equivalence}</span></td>`
-            + `<td><span class="status ${cls}">${label}</span><br>${escape(item.benchmarkStatus)}<ul class="evidence">${evidence}</ul></td>`
+            + `<td><span class="status ${cls}">${label}</span><br>${escape(item.benchmarkStatus)}<details class="row-details"><summary>Study sources</summary><ul class="evidence">${evidence}</ul></details></td>`
             + `<td>${escape(cost)}${item.outcomeRate == null ? '' : `<br><span class="muted">${Math.round(item.outcomeRate * 100)}% recommended-route pass rate · ${item.scenarioCount} scenarios</span>`}</td>`
-            + `<td>${downgrade}<ul>${item.neverDowngradeWhen.map(rule => `<li>${escape(rule)}</li>`).join('')}</ul></td></tr>`;
+            + `<td><details class="row-details"><summary>When a lower route is allowed</summary>${downgrade}<ul>${item.neverDowngradeWhen.map(rule => `<li>${escape(rule)}</li>`).join('')}</ul></details></td></tr>`;
         }).join('');
-        host.innerHTML = `<div class="table-scroll"><table><thead><tr><th>Task class</th><th>Recommended set</th><th>Evidence</th><th>Cost / successful outcome</th><th>Downgrade boundary</th></tr></thead><tbody>${rows}</tbody></table></div>`
-          + `<p class="muted">Generated from <code>${escape(data.source)}</code>; taxonomy <code>${escape(data.taxonomyVersion)}</code>, rationale <code>${escape(data.rationaleVersion)}</code>.</p>`;
-      }).catch(error => { host.innerHTML = `<div class="callout"><strong>Data unavailable in this preview.</strong> Serve <code>website/</code> over HTTP to load the checked projection. ${escape(error.message)}</div>`; });
+        host.innerHTML = `<div class="table-scroll"><table><thead><tr><th>Task class</th><th>Model / reasoning</th><th>Evidence</th><th>Cost / successful outcome</th><th>Lower-cost alternatives</th></tr></thead><tbody>${rows}</tbody></table></div>`
+          + `<p class="muted"><a href="../data/task-class-recommendations.json">Data snapshot (JSON)</a> · taxonomy <code>${escape(data.taxonomyVersion)}</code>, rationale <code>${escape(data.rationaleVersion)}</code>.</p>`;
+      }).catch(() => { host.innerHTML = '<p>Recommendations could not be loaded. <a href="../api/#task-advice">Read the API guide</a> or <a href="../data/task-class-recommendations.json">open the data snapshot</a>.</p>'; }).finally(() => { host.removeAttribute('data-pending-content'); document.dispatchEvent(new CustomEvent('site:content-ready')); });
     })();
   </script>
 </body>

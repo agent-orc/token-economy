@@ -1,8 +1,8 @@
 # Model Routing Policy
 
-Version: 2026-07-24
+Version: 2026-09-12
 
-Status: Canonical policy, initial hypothesis based on the 2026-07-23 historical benchmark
+Status: Token Economy policy with Astra and Fable 5.1 support; the four core tiers retain the 2026-07-24 Agent Studio policy and its 2026-07-23 historical evidence
 
 Owner: Pipeline and CLI domains
 
@@ -31,6 +31,44 @@ should explain when a pin is below the policy floor.
 `high` and `ultra` are supported reasoning levels but are not default core-task
 routes in this policy. Add a default tier only after controlled comparisons
 show a repeatable benefit over `medium` or `xhigh`.
+
+## Additional supported models
+
+`gpt-6-astra` (alias `astra`) is selectable through Codex for core tasks with
+`low`, `medium`, `high`, `xhigh`, or `max` reasoning. The 2026-09-12 Token Economy
+revision enables explicit model evaluation, compatibility comparison, and
+operator-pinned admission. It is a local support extension to the retained
+Agent Studio core policy, not a claim that the upstream document was updated.
+
+Support and evidence are separate facts. `selectable` means the model may be
+considered for its declared workflow. `provisional` means its routing fit has
+not been validated by a comparable local completion cohort. Astra has dated
+[external benchmark results](../../../src/TokenEconomy/catalog/benchmark-results.json)
+and [list prices](../../../src/TokenEconomy/catalog/model-prices.json), but no
+local completed-task or Quality Studio review cohort is retained here. An
+unavailable completion rate or review fit remains unknown; it is not 0% and
+does not mean the model cannot complete tasks.
+
+The automatic score ladder, hard floors, task-class recommendation sets, and
+declared provider fallbacks remain unchanged. Astra is not inserted as a
+default tier, inferred equivalent fallback, or automatic Sol migration.
+Compatibility ties retain the established core models before Astra. An
+explicit Astra pin is resolved against its supported reasoning ladder and
+current capacity; the result retains provisional and missing-evidence reasons
+and flags a pin below the policy recommendation.
+
+`claude-fable-5-1` is also selectable through Claude Code with `low`, `medium`,
+`high`, `xhigh`, and `max`. Anthropic's
+[model specifications](https://platform.claude.com/docs/en/models/fable-5-1/overview)
+confirm its September 1, 2026 release and dated token prices; its
+[effort documentation](https://platform.claude.com/docs/en/build-with-claude/effort)
+confirms all five levels and the provider default of `high`. Token Economy's
+task-based `SuggestedEffort` is a separate recommendation. Fable 5.1 has the
+same provisional local support boundary as Astra: explicit evaluation,
+compatibility comparison and operator pins are available, while the default
+core routes, local completion evidence and declared fallback equivalences are
+unchanged. Fable 5.1 appearing in a Claude-only compatibility menu does not
+qualify it as a fallback for an unavailable policy route.
 
 ## Weighted decision
 

@@ -1,0 +1,549 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Model prices and history — Token Economy</title>
+  <meta name="description" content="Dated prices for every catalog model, verified changes, caching rates, and the meaning of API-equivalent consumption on subscriptions.">
+  <link rel="canonical" href="https://agent-orchestrator.dev/token-economy/price-history/">
+
+  <!-- Open Graph / social -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Model prices and history — Token Economy">
+  <meta property="og:description" content="Current rates, price history, sources, and subscription consumption for all Token Economy catalog models.">
+  <meta property="og:url" content="https://agent-orchestrator.dev/token-economy/price-history/">
+
+  <!-- Self-contained inline SVG favicon (data URI) so the page has no external requests. -->
+  <link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2064%2064'%3E%3Crect%20width='64'%20height='64'%20rx='14'%20fill='%232f6df0'/%3E%3Ctext%20x='50%25'%20y='52%25'%20font-size='38'%20font-family='monospace'%20font-weight='700'%20fill='white'%20text-anchor='middle'%20dominant-baseline='middle'%3E%C2%A2%3C/text%3E%3C/svg%3E">
+
+  <style>
+    :root {
+      --bg: #ffffff;
+      --bg-alt: #f5f7fb;
+      --panel: #ffffff;
+      --border: #e2e8f0;
+      --text: #1a2233;
+      --muted: #5a6577;
+      --accent: #2f6df0;
+      --accent-soft: #eaf1ff;
+      --code-bg: #f6f8fc;
+      --code-text: #24324a;
+      --ok: #167a4a;
+      --warn: #9a6b00;
+      /* Chart series: the four token components, in stack order. Validated
+         categorical slots (blue → orange → aqua → yellow); each adjacent pair
+         clears the colour-vision-deficiency and normal-vision separation
+         floors, so a stacked bar stays readable without relying on hue alone. */
+      --series-input: #2a78d6;
+      --series-cache-read: #eb6834;
+      --series-cache-write: #1baf7a;
+      --series-output: #eda100;
+      --token-keyword: #6f42c1;
+      --token-type: #0969da;
+      --token-string: #087f5b;
+      --token-number: #b54708;
+      --token-comment: #657187;
+      --mono: ui-monospace, "SF Mono", "Cascadia Code", "JetBrains Mono", Menlo, Consolas, monospace;
+      --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #0f1420;
+        --bg-alt: #131a29;
+        --panel: #161d2c;
+        --border: #26314a;
+        --text: #e6ebf5;
+        --muted: #98a3ba;
+        --accent: #6ea0ff;
+        --accent-soft: #16233f;
+        --code-bg: #0c111b;
+        --code-text: #d3ddef;
+        --ok: #4cc38a;
+        --warn: #e0b341;
+        /* Re-stepped for the dark panel — the same four hues, chosen for the
+           dark surface rather than an automatic lightening of the light set. */
+        --series-input: #3987e5;
+        --series-cache-read: #d95926;
+        --series-cache-write: #199e70;
+        --series-output: #c98500;
+        --token-keyword: #c9a7ff;
+        --token-type: #79b8ff;
+        --token-string: #8bd5b0;
+        --token-number: #ffab70;
+        --token-comment: #8b98ad;
+      }
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: auto; }
+    body {
+      margin: 0;
+      font-family: var(--sans);
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    code, pre, kbd { font-family: var(--mono); }
+
+    .wrap { max-width: 1040px; margin: 0 auto; padding: 0 20px; }
+
+    .brand { font-weight: 700; letter-spacing: -0.02em; font-size: 1.05rem; display: flex; align-items: center; gap: 9px; white-space: nowrap; flex-shrink: 0; }
+    .brand .mark {
+      width: 22px; height: 22px; border-radius: 6px; background: var(--accent);
+      color: #fff; display: inline-grid; place-items: center; font-family: var(--mono);
+      font-weight: 700; font-size: 0.85rem;
+    }
+    /* ---- hero ---- */
+    .hero { padding: 56px 0 40px; }
+    .eyebrow {
+      display: inline-block; font-size: 0.78rem; font-weight: 600; letter-spacing: 0.08em;
+      text-transform: uppercase; color: var(--accent);
+      background: var(--accent-soft); padding: 4px 11px; border-radius: 999px; margin-bottom: 18px;
+    }
+    .hero h1 { font-size: clamp(2.1rem, 6vw, 3.2rem); line-height: 1.08; letter-spacing: -0.03em; margin: 0 0 14px; }
+    .hero .tagline { font-size: clamp(1.1rem, 3vw, 1.4rem); color: var(--muted); margin: 0 0 8px; }
+    .hero p.lead { font-size: 1.06rem; color: var(--muted); max-width: 640px; margin: 14px 0 28px; }
+    .cta { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; }
+    .btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 10px 18px; border-radius: 9px; font-weight: 600; font-size: 0.96rem;
+      border: 1px solid var(--accent); background: var(--accent); color: #fff;
+    }
+    .btn:hover { text-decoration: none; filter: brightness(1.06); }
+    .btn.secondary { background: transparent; color: var(--accent); }
+    .install {
+      display: inline-flex; align-items: center; gap: 10px;
+      font-family: var(--mono); font-size: 0.95rem;
+      background: var(--code-bg); border: 1px solid var(--border); color: var(--code-text);
+      padding: 10px 14px; border-radius: 9px;
+    }
+    .install .prompt { color: var(--muted); user-select: none; }
+
+    /* ---- sections ---- */
+    section { padding: 46px 0; border-top: 1px solid var(--border); }
+    section h2 { font-size: 1.6rem; letter-spacing: -0.02em; margin: 0 0 6px; }
+    section .sub { color: var(--muted); margin: 0 0 26px; max-width: 680px; }
+    h3 { font-size: 1.12rem; margin: 26px 0 8px; letter-spacing: -0.01em; }
+
+    /* pillars */
+    .pillars { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+    @media (max-width: 760px) { .pillars { grid-template-columns: 1fr; } }
+    .pillar {
+      background: var(--panel); border: 1px solid var(--border); border-radius: 12px; padding: 20px;
+    }
+    .pillar h3 { margin-top: 0; }
+    .pillar .ico { font-family: var(--mono); font-weight: 700; color: var(--accent); font-size: 1.1rem; margin-bottom: 6px; }
+    .pillar p { color: var(--muted); font-size: 0.96rem; margin: 6px 0 0; }
+    .pillar-links { display: flex; flex-wrap: wrap; gap: 8px 16px; margin-top: 14px; font-size: .88rem; font-weight: 600; }
+
+    /* code */
+    pre {
+      background: var(--code-bg); border: 1px solid var(--border); border-radius: 11px;
+      padding: 16px 18px; overflow-x: auto; font-size: 0.88rem; line-height: 1.55; color: var(--code-text);
+      margin: 14px 0;
+    }
+    pre code { color: inherit; }
+    :not(pre) > code {
+      background: var(--code-bg); border: 1px solid var(--border);
+      padding: 1px 6px; border-radius: 6px; font-size: 0.86em; color: var(--code-text);
+    }
+    .cmt { color: var(--muted); }
+    .tok-keyword { color: var(--token-keyword); font-weight: 600; }
+    .tok-type { color: var(--token-type); }
+    .tok-string { color: var(--token-string); }
+    .tok-number { color: var(--token-number); }
+    .tok-comment { color: var(--token-comment); font-style: italic; }
+    .comment-note { font-size: 0.9rem; color: var(--muted); }
+
+    /* table */
+    .table-scroll { overflow-x: auto; margin: 16px 0; }
+    table { border-collapse: collapse; width: 100%; font-size: 0.92rem; min-width: 520px; }
+    th, td { text-align: left; padding: 10px 13px; border-bottom: 1px solid var(--border); }
+    th { color: var(--muted); font-weight: 600; font-size: 0.82rem; text-transform: uppercase; letter-spacing: 0.03em; }
+    td.num, th.num { text-align: right; font-family: var(--mono); }
+    tbody tr:last-child td { border-bottom: none; }
+    .matrix-table { min-width: 1280px; }
+    .matrix-table td { vertical-align: top; }
+    .matrix-table .model-id { font-family: var(--mono); font-weight: 600; white-space: nowrap; }
+    .matrix-table .efforts { font-family: var(--mono); font-size: .82rem; }
+    .price-cell { min-width: 184px; font-variant-numeric: tabular-nums; }
+    .price-line { display: flex; justify-content: space-between; gap: 12px; font-size: .8rem; }
+    .price-line span:first-child { color: var(--muted); }
+    .price-valid { display: block; color: var(--muted); font-size: .74rem; margin-top: 3px; }
+    .cost-chip, .status-chip {
+      display: inline-flex; align-items: center; border: 1px solid var(--border);
+      border-radius: 999px; padding: 2px 9px; font-size: .76rem; font-weight: 650;
+      line-height: 1.5; white-space: nowrap;
+    }
+    .cost-economy { color: var(--ok); border-color: color-mix(in srgb, var(--ok) 42%, var(--border)); background: color-mix(in srgb, var(--ok) 8%, var(--panel)); }
+    .cost-standard { color: var(--accent); border-color: color-mix(in srgb, var(--accent) 42%, var(--border)); background: color-mix(in srgb, var(--accent) 8%, var(--panel)); }
+    .cost-premium, .cost-unknown { color: var(--warn); border-color: color-mix(in srgb, var(--warn) 42%, var(--border)); background: color-mix(in srgb, var(--warn) 8%, var(--panel)); }
+    .status-note { display: block; color: var(--muted); font-size: .74rem; margin-top: 4px; }
+    .fit { font-size: .82rem; white-space: nowrap; }
+    .fit-ideal { color: var(--ok); font-weight: 600; }
+    .fit-underpowered { color: var(--warn); }
+    .matrix-guide { border: 1px solid var(--border); border-radius: 10px; margin: 18px 0; padding: 12px 16px; background: var(--panel); }
+    .matrix-guide summary { cursor: pointer; color: var(--accent); font-weight: 600; }
+    .matrix-guide-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px 20px; margin-top: 14px; }
+    .matrix-guide-grid div { min-width: 0; }
+    .matrix-guide-grid strong { display: block; font-size: .88rem; margin-bottom: 2px; }
+    .matrix-guide-grid span { display: block; color: var(--muted); font-size: .82rem; }
+    @media (max-width: 680px) { .matrix-guide-grid { grid-template-columns: 1fr; } }
+
+    /* callout — full symmetric border only; no coloured left accent bar (style hard rule) */
+    .callout {
+      border: 1px solid var(--border); background: var(--accent-soft);
+      padding: 14px 18px; border-radius: 10px; margin: 18px 0; font-size: 0.96rem;
+    }
+    .callout strong { color: var(--text); }
+
+    /* family cards */
+    .family { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+    @media (max-width: 760px) { .family { grid-template-columns: 1fr; } }
+    .fcard {
+      display: block; background: var(--panel); border: 1px solid var(--border); border-radius: 12px;
+      padding: 18px; color: inherit;
+    }
+    .fcard:hover { border-color: var(--accent); text-decoration: none; }
+    .fcard .name { font-weight: 700; margin-bottom: 4px; }
+    .fcard .desc { color: var(--muted); font-size: 0.92rem; }
+    .fcard.self { border-style: dashed; }
+
+    ul.tight { margin: 10px 0; padding-left: 20px; }
+    ul.tight li { margin: 5px 0; color: var(--muted); }
+    ul.tight li code { color: var(--code-text); }
+
+    /* footer */
+    footer {
+      border-top: 1px solid var(--border); padding: 34px 0 60px; color: var(--muted); font-size: 0.9rem;
+    }
+    footer .frow { display: flex; flex-wrap: wrap; gap: 8px 20px; align-items: center; }
+    footer .sep { color: var(--border); }
+    .pill { font-size: 0.78rem; color: var(--muted); border: 1px solid var(--border); border-radius: 999px; padding: 2px 9px; }
+    .pill.lifecycle-retired, .pill.lifecycle-deprecated {
+      color: var(--warn); border-color: color-mix(in srgb, var(--warn) 45%, var(--border));
+      background: color-mix(in srgb, var(--warn) 10%, var(--panel));
+    }
+    .state { font-family: var(--mono); font-size: .78rem; font-weight: 700; letter-spacing: .04em; color: var(--ok); }
+    .state.planned, .state.pending { color: var(--warn); }
+    .data-note { color: var(--muted); font-size: .88rem; margin-top: 14px; }
+
+    /* ---- token-usage charts ----
+       Thin marks, no gridlines, values labelled directly on every row, and a
+       table view underneath: in light mode two of the four series sit below 3:1
+       against the panel, so the numbers — never the fill alone — carry the data. */
+    .chart-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+    .chart-card { background: var(--panel); border: 1px solid var(--border); border-radius: 12px; padding: 20px; min-width: 0; }
+    .chart-card.wide { grid-column: 1 / -1; }
+    .chart-card h3 { margin: 0 0 4px; font-size: 1.05rem; }
+    .chart-card .chart-kicker { color: var(--muted); font-size: .84rem; margin: 0 0 18px; }
+    .chart-note { color: var(--muted); font-size: .82rem; margin: 16px 0 0; }
+    .chart-note code { font-size: .95em; }
+
+    .bar-row { margin-top: 14px; }
+    .bar-row:first-child { margin-top: 0; }
+    .bar-head { display: flex; justify-content: space-between; gap: 12px; align-items: baseline; margin-bottom: 5px; font-size: .88rem; }
+    .bar-head span { overflow-wrap: anywhere; }
+    .bar-head strong { font-family: var(--mono); font-size: .82rem; font-variant-numeric: tabular-nums; white-space: nowrap; }
+    /* 2px of surface between segments does the separating — no strokes. */
+    .bar { display: flex; gap: 2px; height: 12px; }
+    .bar > i { display: block; min-width: 2px; }
+    .bar > i:last-child { border-radius: 0 4px 4px 0; }
+    .bar.single > i { border-radius: 0 4px 4px 0; }
+    i.s-input { background: var(--series-input); }
+    i.s-cache-read { background: var(--series-cache-read); }
+    i.s-cache-write { background: var(--series-cache-write); }
+    i.s-output { background: var(--series-output); }
+    i.s-single { background: var(--series-input); }
+
+    /* Columns over time: one measure (tokens) on one axis; the cost of the same
+       session is stated as a figure instead of a second, arbitrary y-scale. */
+    .column-chart { max-width: 560px; }
+    .columns { display: flex; align-items: flex-end; gap: 14px; border-bottom: 1px solid var(--border); }
+    .column { flex: 1 1 0; min-width: 0; }
+    /* A fixed plot height so each column's percentage height is exact — a flex
+       box would shrink the tallest column most and distort the encoding. */
+    .column .plot { height: 148px; display: flex; align-items: flex-end; }
+    /* Cap the column, don't fill the slot: the band's leftover space is air. */
+    .column .stack { display: flex; flex-direction: column-reverse; gap: 2px; width: 100%; max-width: 24px; margin: 0 auto; }
+    .column .stack > i { display: block; width: 100%; min-height: 2px; }
+    .column .stack > i:last-child { border-radius: 4px 4px 0 0; }
+    .column .cap { font-family: var(--mono); font-size: .74rem; font-variant-numeric: tabular-nums; text-align: center; margin-bottom: 5px; white-space: nowrap; }
+    .column-axis { display: flex; gap: 14px; margin-top: 8px; }
+    .column-axis div { flex: 1 1 0; min-width: 0; text-align: center; color: var(--muted); font-size: .76rem; }
+    .column-axis div strong { display: block; color: var(--text); font-weight: 600; }
+
+    .legend { display: flex; flex-wrap: wrap; gap: 8px 14px; margin-top: 18px; color: var(--muted); font-size: .8rem; }
+    .legend span { display: inline-flex; align-items: center; gap: 6px; }
+    .legend i { width: 9px; height: 9px; border-radius: 2px; display: inline-block; }
+
+    .coverage-list { display: grid; gap: 12px; }
+    .coverage-item { border-top: 1px solid var(--border); padding-top: 12px; }
+    .coverage-item:first-child { border-top: 0; padding-top: 0; }
+    .coverage-item strong { display: block; font-size: .92rem; }
+    .coverage-item span { color: var(--muted); font-size: .86rem; }
+
+    .chart-summary { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; margin: 0 0 16px; }
+    @media (max-width: 720px) { .chart-summary { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+    .metric { border: 1px solid var(--border); border-radius: 9px; padding: 10px 13px; min-width: 0; }
+    .metric strong { display: block; font-size: 1.2rem; font-weight: 600; letter-spacing: -0.01em; }
+    .metric span { display: block; color: var(--muted); font-size: .78rem; }
+
+    details.table-view { margin-top: 16px; border: 1px solid var(--border); border-radius: 10px; padding: 12px 16px; }
+    details.table-view summary { cursor: pointer; font-size: .9rem; color: var(--accent); }
+    details.table-view h4 { margin: 18px 0 0; font-size: .92rem; }
+    details.table-view table { min-width: 460px; }
+
+    .chart-tip {
+      position: fixed; z-index: 40; pointer-events: none; opacity: 0;
+      transform: translate(-50%, -100%); transition: opacity .08s linear;
+      background: var(--panel); color: var(--text); border: 1px solid var(--border);
+      border-radius: 8px; padding: 6px 10px; font-size: .8rem; line-height: 1.45;
+      box-shadow: 0 6px 18px rgb(0 0 0 / 18%); max-width: 240px; white-space: pre-line;
+    }
+    .chart-tip.on { opacity: 1; }
+    @media (prefers-reduced-motion: reduce) { .chart-tip { transition: none; } }
+    @media (max-width: 720px) { .chart-grid { grid-template-columns: 1fr; } }
+    .pillars > *, .family > * { min-width: 0; }
+    .install { max-width: 100%; overflow-wrap: anywhere; }
+    .example-output { margin: 18px 0; }
+    .example-output > strong { font-size: .875rem; color: var(--muted); }
+    .example-output pre { margin-top: 6px; background: var(--bg-alt); }
+    .matrix-table .efforts, .fit, th { font-size: .875rem; }
+    .price-line, .cost-chip, .status-chip { font-size: .875rem; }
+    .price-valid, .status-note { font-size: .8125rem; }
+    a:focus-visible, summary:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+  </style>
+  <link rel="stylesheet" href="/token-economy/navigation.css">
+  <script src="/token-economy/navigation.js" defer></script>
+<style>
+  .api-wrap { max-width: 1180px; margin: auto; padding: 0 24px; }
+  .docs-intro { max-width: 780px; padding: 48px 0 32px; }
+  .docs-intro h1 { font-size: clamp(2rem, 5vw, 3rem); line-height: 1.1; margin: 0 0 20px; letter-spacing: -.035em; }
+  .docs-intro .lead { font-size: 1.2rem; line-height: 1.5; }
+  .docs-intro .eyebrow { font-size: .875rem; letter-spacing: .035em; }
+  .docs-layout { display: grid; grid-template-columns: 200px minmax(0, 1fr); gap: 48px; align-items: start; }
+  .docs-toc { position: sticky; top: var(--site-header-offset, 7rem); max-height: calc(100dvh - var(--site-header-offset, 7rem)); overflow: auto; padding: 20px 0; border-top: 1px solid var(--border); }
+  .docs-toc strong { display: block; margin-bottom: 12px; font-size: .875rem; }
+  .docs-toc a { display: block; padding: 7px 0; font-size: .875rem; }
+  .docs-body { min-width: 0; }
+  .docs-body section { padding: 28px 0 36px; }
+  .docs-body h2 { font-size: 1.5rem; line-height: 1.3; margin-bottom: 18px; }
+  .docs-body p { max-width: 74ch; }
+  .docs-body td { vertical-align: top; }
+  .docs-body table { min-width: 480px; }
+  .docs-body th { font-size: .875rem; text-transform: none; letter-spacing: 0; }
+  .docs-body pre { font-size: .875rem; }
+  .signature { border-radius: 6px; }
+  .source-note { font-size: .875rem; color: var(--muted); }
+  .status-definitions > div { display: grid; grid-template-columns: 10rem 1fr; gap: 1rem; padding: 8px 0; border-bottom: 1px solid var(--border); }
+  .status-definitions dt { font-weight: 650; }
+  .status-definitions dd { margin: 0; }
+  @media (max-width: 850px) {
+    .docs-layout { grid-template-columns: minmax(0, 1fr); gap: 12px; }
+    .docs-toc { position: static; display: flex; flex-wrap: wrap; gap: 4px 20px; max-height: none; }
+    .docs-toc strong { width: 100%; margin: 0; }
+  }
+  @media (max-width: 480px) { .api-wrap { padding: 0 16px; } .status-definitions > div { grid-template-columns: 1fr; gap: 2px; } }
+</style>
+<style>
+  .pricing-lead { max-width: 760px; }
+  .price-summary { display:flex; flex-wrap:wrap; gap:10px 28px; margin:24px 0 0; color:var(--muted); }
+  .price-summary strong { color:var(--text); }
+  .pricing-toc { display:flex; flex-wrap:wrap; gap:12px 24px; border-block:1px solid var(--border); padding:18px 0; }
+  .pricing-section { padding:34px 0; }
+  .pricing-section > p, .pricing-section > ul { max-width:820px; }
+  .price-controls { display:flex; flex-wrap:wrap; align-items:end; gap:16px; margin:22px 0; }
+  .price-controls label { display:flex; flex-direction:column; gap:5px; font-size:.88rem; font-weight:600; }
+  .price-controls input, .price-controls select { min-height:42px; border:1px solid var(--border); border-radius:6px; background:var(--panel); color:var(--text); padding:8px 10px; font:inherit; max-width:100%; }
+  .price-controls input[type=search] { width:240px; }
+  .price-table { width:100%; border-collapse:collapse; min-width:840px; font-variant-numeric:tabular-nums; }
+  .price-table th { text-align:left; }
+  .price-table th, .price-table td { padding:13px 12px; border-bottom:1px solid var(--border); vertical-align:top; }
+  .price-table thead { background:var(--bg-alt); font-size:.82rem; }
+  .price-table tbody th { min-width:205px; font-weight:600; }
+  .price-table td { font-family:var(--mono); font-size:.88rem; white-space:nowrap; }
+  .price-table small { display:block; font:400 .76rem var(--sans); color:var(--muted); margin-top:4px; }
+  .price-table .model-id { overflow-wrap:anywhere; }
+  .table-scroll:focus-visible { outline:2px solid var(--accent); outline-offset:3px; }
+  .price-index { color:var(--accent); font-weight:700; }
+  .pricing-note { background:var(--bg-alt); border-left:3px solid var(--accent); padding:14px 18px; margin:18px 0; max-width:850px; }
+  .price-history { border-bottom:1px solid var(--border); padding:14px 0; }
+  .price-history > summary { cursor:pointer; padding:8px 0; font-weight:600; }
+  .price-history > summary small { font-weight:400; color:var(--muted); margin-left:10px; }
+  .price-history .price-table { min-width:710px; }
+  .price-history .period-note { font-family:var(--sans); white-space:normal; min-width:240px; }
+  .price-history .period-note p { margin:5px 0; }
+  .history-meta { color:var(--muted); font-size:.88rem; }
+  .pricing-events { padding-left:22px; }
+  .pricing-events li { margin:16px 0; max-width:850px; }
+  .pricing-events time { font-family:var(--mono); font-size:.86rem; color:var(--muted); }
+  .billing-table { min-width:680px; }
+  .billing-table td { font:inherit; white-space:normal; }
+  .billing-table th { min-width:160px !important; }
+  .sources-grid { columns:2 330px; padding-left:22px; }
+  .sources-grid li { margin:0 0 12px; break-inside:avoid; }
+  .pricing-archive { border:1px solid var(--border); border-radius:8px; padding:14px; margin-top:18px; }
+  .pricing-archive > summary { cursor:pointer; font-weight:600; }
+  .pricing-archive[open] > summary { margin-bottom:12px; }
+  .price-error { color:var(--warn); }
+  @media(max-width:600px) { .price-controls label { flex:1 1 140px; } .price-controls input[type=search] { width:100%; } .price-history > summary small { display:block; margin-left:18px; } }
+</style>
+</head><body>
+<!-- site-navigation:start -->
+<a class="site-skip-link" href="#main-content">Skip to content</a>
+<header class="site-header" data-site-navigation>
+  <div class="site-family-bar">
+    <a class="site-family-back" href="https://agent-orchestrator.dev/"><span aria-hidden="true">←</span> Agent Orchestrator</a>
+  </div>
+  <div class="site-header-main">
+    <a class="site-brand" href="/token-economy/" aria-label="Token Economy home"><span class="site-brand-mark" aria-hidden="true">¢</span><span>Token Economy</span></a>
+    <button class="site-menu-button" type="button" aria-expanded="false" aria-controls="site-navigation-groups"><span>Menu</span><span class="site-menu-icon" aria-hidden="true"></span></button>
+    <nav class="site-primary-nav" aria-label="Primary navigation">
+      <div class="site-nav-groups" id="site-navigation-groups">
+        <a class="site-nav-direct" href="/token-economy/api/">API</a>
+        <div class="site-nav-group">
+          <button class="site-nav-heading" type="button" aria-expanded="false" aria-controls="site-nav-library">Guides</button>
+          <ul class="site-nav-menu" id="site-nav-library">
+            <li><a href="/token-economy/#why">Overview</a></li>
+            <li><a href="/token-economy/#suggest">Model compatibility</a></li>
+            <li><a href="/token-economy/#install">Install</a></li>
+            <li><a href="/token-economy/api/#costs">Calculate run costs</a></li>
+            <li><a href="/token-economy/api/#routing">Route an attempt</a></li>
+            <li><a href="/token-economy/#model-recommendation">Task complexity</a></li>
+          </ul>
+        </div>
+        <div class="site-nav-group">
+          <button class="site-nav-heading" type="button" aria-expanded="false" aria-controls="site-nav-evidence">Research</button>
+          <ul class="site-nav-menu" id="site-nav-evidence">
+            <li><a href="/token-economy/price-history/">Prices &amp; history</a></li>
+            <li><a href="/token-economy/task-class-routing/">Task studies</a></li>
+            <li><a href="/token-economy/code-review/">Code review</a></li>
+            <li><a href="/token-economy/model-benchmarks/">Price × quality</a></li>
+            <li><a href="/token-economy/#benchmarks">Benchmarks</a></li>
+            <li><a href="/token-economy/evidence/agent-studio-usage/">Usage evidence</a></li>
+            <li><a href="/token-economy/cap-forecast/">Cap forecast</a></li>
+            <li><a href="/token-economy/provider-quota-dashboard/">Quota snapshot</a></li>
+          </ul>
+        </div>
+        <div class="site-nav-group">
+          <button class="site-nav-heading" type="button" aria-expanded="false" aria-controls="site-nav-project">Project</button>
+          <ul class="site-nav-menu" id="site-nav-project">
+            <li><a href="/token-economy/#family">Related projects</a></li>
+            <li><a href="https://github.com/agent-orc/token-economy">GitHub <span aria-hidden="true">↗</span></a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+  </div>
+</header>
+<!-- site-navigation:end -->
+
+<main class="api-wrap" id="main-content" tabindex="-1">
+  <div class="docs-intro">
+    <p class="eyebrow">Pricing research · reviewed 12 September 2026</p>
+    <h1>Model prices, with a history.</h1>
+    <p class="lead pricing-lead">See what each model costs, when its rates changed, and which source supports them. On a subscription, use these prices to compare consumption.</p>
+    <div class="price-summary" id="price-coverage" aria-live="polite">Loading catalog coverage…</div>
+  </div>
+  <nav class="pricing-toc" aria-label="Pricing contents">
+    <a href="#catalog">Compare prices</a><a href="#changes">What changed</a><a href="#history">Model histories</a><a href="#subscriptions">Subscriptions</a><a href="#method">Method &amp; API</a><a href="#sources">Sources</a>
+  </nav>
+  <section class="pricing-section" id="catalog">
+    <h2>Every catalog model, priced</h2>
+    <p>USD per million tokens, direct-provider standard tier. Anthropic cache writes use the 5-minute rate; OpenAI writes use the model’s applicable write rate. Model rows follow release date, newest first; archived models have their own collapsed table.</p>
+    <form class="price-controls" id="price-controls">
+      <label>Price date (UTC)<input id="price-date" type="date" min="2025-08-05" max="2026-09-12" value="2026-09-12" required></label>
+      <label>Provider<select id="price-provider"><option value="">All providers</option><option value="openai">OpenAI</option><option value="anthropic">Anthropic</option></select></label>
+      <label>Find a model<input type="search" id="price-search" placeholder="Name or model ID"></label>
+      <label>Index reference<select id="price-reference"></select></label>
+    </form>
+    <p class="pricing-note"><strong>Fixed token mix:</strong> 100,000 fresh input + 20,000 output tokens, no cache. The index divides each model’s estimated API cost by the selected reference cost. <strong>1× means equal API list-price cost for these token counts.</strong> It does not predict task success or subscription quota.</p>
+    <p id="price-basis" class="history-meta" aria-live="polite"></p>
+    <div id="price-table-host" data-pending-content><p>Loading prices…</p></div>
+    <p class="history-meta">A recorded price does not establish current API access. Restricted and retired models remain useful for pricing past runs. Context tiers, Fast, Batch, service fees and contract rates can change the amount; <a href="#method">see scope</a>.</p>
+    <p><a href="../data/price-history.json" download>Download all prices and sources (JSON)</a> · <a href="../api/#prices">Use the price lookup API</a></p>
+  </section>
+  <section class="pricing-section" id="changes">
+    <h2>The changes that matter</h2>
+    <ol class="pricing-events">
+      <li><time>2026-09-03</time> <strong>Astra launches at $10 input / $50 output.</strong> A new model price, alongside the earlier GPT-5.6 family. <a href="https://openai.com/index/gpt-6-astra/">OpenAI announcement</a></li>
+      <li><time>2026-09-01</time> <strong>Fable 5.1: $10 / $50, with $0.25 cache reads.</strong> Cache reads cost less than Fable 5’s $1 rate. <a href="https://platform.claude.com/docs/en/about-claude/pricing">Anthropic rate card</a></li>
+      <li><time>2026-08-21</time> <strong>Sol drops from $5 / $30 to $4 / $20.</strong> This promotion runs at least through 21 November. No automatic price reversion is recorded. <a href="https://developers.openai.com/api/docs/changelog#august-2026">Dated change notice</a></li>
+      <li><time>2026-08-10</time> <strong>Sonnet 5’s $2 / $10 becomes permanent.</strong> Anthropic cancelled the planned 1 September increase to $3 / $15. Its price history stays continuous from launch on 30 June. <a href="https://platform.claude.com/docs/en/release-notes/overview">Anthropic release notes</a></li>
+      <li><time>2026-07-30</time> <strong>Luna falls 80%; Terra falls 20%.</strong> Luna moves from $1 / $6 to $0.20 / $1.20; Terra from $2.50 / $15 to $2 / $12. <a href="https://developers.openai.com/api/docs/changelog#july-2026">OpenAI change notice</a></li>
+      <li><time>2026-03-13</time> <strong>Opus 4.6 and Sonnet 4.6 lose the long-context premium.</strong> Their base rates stay $5 / $25 and $3 / $15. This changes a context tier, not the standard short-context history. <a href="https://claude.com/blog/1m-context-ga">Anthropic announcement</a></li>
+    </ol>
+    <p>Opus 4.1, GPT-5 and GPT-5 Codex now also have sourced historical prices. Each model below links its rates and effective dates to the underlying evidence.</p>
+  </section>
+  <section class="pricing-section" id="history">
+    <h2>Open a model’s price history</h2>
+    <p>Effective dates describe the tariff. Review dates describe when we checked its evidence. Where a historical start is inferred from release, the row says so.</p>
+    <div id="price-history-host" data-pending-content><p>Loading histories…</p></div>
+  </section>
+  <section class="pricing-section" id="subscriptions">
+    <h2>Subscriptions: a relative consumption metric</h2>
+    <p>Measured tokens multiplied by API prices give an <strong>API-equivalent amount</strong>. Within an included subscription allowance, that amount helps compare workloads. It does not say what the run added to your bill or how much quota remains.</p>
+    <div class="table-scroll" tabindex="0" role="region" aria-label="Billing contexts"><table class="price-table billing-table"><thead><tr><th>How the run is paid for</th><th>What to display</th><th>Where the actual limit or charge comes from</th></tr></thead><tbody>
+      <tr><th>API key</th><td>Estimated API list-price cost</td><td>The provider’s usage and billing records, with the applied service tier and contract.</td></tr>
+      <tr><th>Included subscription usage</th><td>API-equivalent USD and a reference index</td><td>The plan’s usage meter and reset windows. Never convert this index into a quota percentage.</td></tr>
+      <tr><th>Additional credits or metered plan</th><td>Provider credits or metered spend; API-equivalent amount separately</td><td>The plan’s rate card and purchased-credit terms.</td></tr>
+    </tbody></table></div>
+    <h3>Codex and ChatGPT</h3>
+    <p>OpenAI publishes separate credit rates. For example, Astra Fast consumes 2.5× its standard credits; the credit unit has plan-dependent purchase terms. Included usage also depends on context, reasoning and tools. Use the account usage dashboard for the allowance. <a href="https://learn.chatgpt.com/docs/pricing">Codex pricing and credits</a></p>
+    <h3>Claude Code</h3>
+    <p>Claude Code estimates a session’s dollar amount locally. Pro and Max subscribers should read their plan usage meter for included consumption. <a href="https://code.claude.com/docs/en/costs">Claude Code cost reporting</a> describes the distinction. Model, effort and conversation length affect the allowance. <a href="https://support.claude.com/en/articles/11647753-how-do-usage-and-length-limits-work">Usage limits</a></p>
+    <p>If Claude usage credits are enabled beyond the included allowance, those runs are charged separately at standard API rates. <a href="https://support.claude.com/en/articles/12429409-manage-usage-credits-for-paid-claude-plans">Claude usage credits</a></p>
+    <p>The proposed separate monthly credit for Agent SDK and <code>claude -p</code> was paused on 15 June. Subscription-authenticated use still draws from the plan’s limits. The older announcement below the update is historical. <a href="https://support.claude.com/en/articles/15036540-use-the-claude-agent-sdk-with-your-claude-plan">Current Agent SDK plan guidance</a></p>
+    <h3>Compare consumption over time</h3>
+    <p>Keep one price snapshot fixed when measuring efficiency. The same Luna token counts became 80% cheaper on 30 July; the workload itself did not shrink. For cost estimates, use the tariff at execution time. For a consumption trend, price every run against the same reference date and retain success rate beside the amount.</p>
+    <p>A subscription fee divided by accepted tasks is a separate internal cost allocation. Do not add the API-equivalent amount to it: the latter represents a comparison, not another charge.</p>
+  </section>
+  <section class="pricing-section" id="method">
+    <h2>How the numbers are built</h2>
+    <p>The catalog stores direct-provider standard text-token rates in USD. The coverage claim means every model already in this repository’s catalog, including archived entries. It does not cover every model or deployment offered by either provider.</p>
+    <p><strong>Calculation:</strong> sum each disjoint token bucket × its price ÷ 1,000,000. Output includes reported billable reasoning tokens. Cache reads and writes must not also appear in fresh input.</p>
+    <ul>
+      <li><strong>Anthropic:</strong> the stored write rate is for 5-minute caching. The 1-hour rate is higher. Context premiums, Fast and US-only inference require their applicable rate card. <a href="https://platform.claude.com/docs/en/about-claude/pricing">Pricing and modifiers</a></li>
+      <li><strong>OpenAI:</strong> GPT-5.6 and later have a separate cache-write rate of 1.25× fresh input. Earlier models use the input rate for writes. Requests over 272K input tokens on applicable models use a different tier. Batch, Flex and Priority are separate. <a href="https://developers.openai.com/api/docs/pricing">API rates</a> · <a href="https://developers.openai.com/api/docs/guides/prompt-caching">Cache accounting</a></li>
+      <li><strong>Scope:</strong> this flat-rate API does not automatically calculate context tiers, caching TTLs, speed multipliers, tool/service charges, taxes or contract discounts. Supply matching custom prices when those apply.</li>
+    </ul>
+    <h3>Price lookup returns the applied rate and its evidence</h3>
+    <pre><code data-language="csharp">var catalog = ModelPriceCatalog.Default;
+var atUtc = new DateTime(2026, 9, 12, 0, 0, 0, DateTimeKind.Utc);
+var result = catalog.ResolvePrice(KnownModels.ClaudeSonnet5, atUtc);
+
+if (result.Price is { } price)
+{
+    Console.WriteLine($"{price.InputPerMTok} / {price.OutputPerMTok} USD per MTok");
+    Console.WriteLine($"Verified: {price.VerifiedOn}; date basis: {price.ValidFromBasis}");
+    foreach (var url in price.SourceUrls)
+        Console.WriteLine(url);
+}
+// Rates: 2 / 10. Every history entry carries its own provenance.
+var history = catalog.PriceDevelopment(KnownModels.ClaudeSonnet5);</code></pre>
+    <p><code>PriceDevelopment</code> returns the ordered price periods. <code>ResolvePrice</code> selects the applicable period; <code>ComputeCost</code> returns the component amounts and applied price. <code>NoPriceForDate</code> means the date has no supported price, not that the run was free. <a href="../api/#prices">Full API contract</a></p>
+    <p>Announced daily dates are represented at 00:00 UTC. The sources generally do not establish an intraday cutover. Real price changes append periods; corrections remove claims that never took effect, as with Sonnet 5’s cancelled increase. The repository history records those corrections.</p>
+    <p class="history-meta">Research reviewed 2026-09-12. Source confirmation and local routing qualification are separate: a verified price does not prove a model will succeed on a task.</p>
+  </section>
+  <section class="pricing-section" id="sources">
+    <h2>Sources and research record</h2>
+    <p>Rates use provider documentation and dated announcements. Each model history links the specific evidence for its periods; these are the main cross-checks.</p>
+    <ul class="sources-grid">
+      <li><a href="https://developers.openai.com/api/docs/pricing">OpenAI API pricing</a></li>
+      <li><a href="https://developers.openai.com/api/docs/changelog">OpenAI dated API changes</a></li>
+      <li><a href="https://developers.openai.com/api/docs/guides/prompt-caching">OpenAI caching contract</a></li>
+      <li><a href="https://platform.claude.com/docs/en/about-claude/pricing">Anthropic prices and tiers</a></li>
+      <li><a href="https://platform.claude.com/docs/en/release-notes/overview">Anthropic dated release notes</a></li>
+      <li><a href="https://learn.chatgpt.com/docs/pricing">Codex subscriptions and credit rates</a></li>
+      <li><a href="https://code.claude.com/docs/en/costs">Claude Code consumption reporting</a></li>
+      <li><a href="https://github.com/agent-orc/token-economy/blob/main/docs/price-history-research-2026-09-12.md">Research findings and remaining limits</a></li>
+    </ul>
+  </section>
+</main>
+<footer><div class="wrap"><p>Token Economy · <a href="../api/">API reference</a> · <a href="../">Model matrix</a></p></div></footer>
+<script src="prices.js" defer></script>
+</body></html>

@@ -1,0 +1,492 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Estimate task complexity with AGT — Token Economy</title>
+  <meta name="description" content="Build a pre-launch complexity estimate from AGT task inputs, compare the scoring rubric, and backtest estimates against historical outcomes.">
+  <link rel="canonical" href="https://agent-orchestrator.dev/token-economy/task-complexity/">
+
+  <!-- Open Graph / social -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Estimate task complexity with AGT — Token Economy">
+  <meta property="og:description" content="One tested source for model pricing (with history), run-cost computation, and token-efficiency model selection. .NET, dependency-free core.">
+  <meta property="og:url" content="https://agent-orchestrator.dev/token-economy/task-complexity/">
+
+  <!-- Self-contained inline SVG favicon (data URI) so the page has no external requests. -->
+  <link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2064%2064'%3E%3Crect%20width='64'%20height='64'%20rx='14'%20fill='%232f6df0'/%3E%3Ctext%20x='50%25'%20y='52%25'%20font-size='38'%20font-family='monospace'%20font-weight='700'%20fill='white'%20text-anchor='middle'%20dominant-baseline='middle'%3E%C2%A2%3C/text%3E%3C/svg%3E">
+
+  <style>
+    :root {
+      --bg: #ffffff;
+      --bg-alt: #f5f7fb;
+      --panel: #ffffff;
+      --border: #e2e8f0;
+      --text: #1a2233;
+      --muted: #5a6577;
+      --accent: #2f6df0;
+      --accent-soft: #eaf1ff;
+      --code-bg: #f6f8fc;
+      --code-text: #24324a;
+      --ok: #167a4a;
+      --warn: #9a6b00;
+      /* Chart series: the four token components, in stack order. Validated
+         categorical slots (blue → orange → aqua → yellow); each adjacent pair
+         clears the colour-vision-deficiency and normal-vision separation
+         floors, so a stacked bar stays readable without relying on hue alone. */
+      --series-input: #2a78d6;
+      --series-cache-read: #eb6834;
+      --series-cache-write: #1baf7a;
+      --series-output: #eda100;
+      --token-keyword: #6f42c1;
+      --token-type: #0969da;
+      --token-string: #087f5b;
+      --token-number: #b54708;
+      --token-comment: #657187;
+      --mono: ui-monospace, "SF Mono", "Cascadia Code", "JetBrains Mono", Menlo, Consolas, monospace;
+      --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #0f1420;
+        --bg-alt: #131a29;
+        --panel: #161d2c;
+        --border: #26314a;
+        --text: #e6ebf5;
+        --muted: #98a3ba;
+        --accent: #6ea0ff;
+        --accent-soft: #16233f;
+        --code-bg: #0c111b;
+        --code-text: #d3ddef;
+        --ok: #4cc38a;
+        --warn: #e0b341;
+        /* Re-stepped for the dark panel — the same four hues, chosen for the
+           dark surface rather than an automatic lightening of the light set. */
+        --series-input: #3987e5;
+        --series-cache-read: #d95926;
+        --series-cache-write: #199e70;
+        --series-output: #c98500;
+        --token-keyword: #c9a7ff;
+        --token-type: #79b8ff;
+        --token-string: #8bd5b0;
+        --token-number: #ffab70;
+        --token-comment: #8b98ad;
+      }
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: auto; }
+    body {
+      margin: 0;
+      font-family: var(--sans);
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    code, pre, kbd { font-family: var(--mono); }
+
+    .wrap { max-width: 1040px; margin: 0 auto; padding: 0 20px; }
+
+    .brand { font-weight: 700; letter-spacing: -0.02em; font-size: 1.05rem; display: flex; align-items: center; gap: 9px; white-space: nowrap; flex-shrink: 0; }
+    .brand .mark {
+      width: 22px; height: 22px; border-radius: 6px; background: var(--accent);
+      color: #fff; display: inline-grid; place-items: center; font-family: var(--mono);
+      font-weight: 700; font-size: 0.85rem;
+    }
+    /* ---- hero ---- */
+    .hero { padding: 56px 0 40px; }
+    .eyebrow {
+      display: inline-block; font-size: 0.78rem; font-weight: 600; letter-spacing: 0.08em;
+      text-transform: uppercase; color: var(--accent);
+      background: var(--accent-soft); padding: 4px 11px; border-radius: 999px; margin-bottom: 18px;
+    }
+    .hero h1 { font-size: clamp(2.1rem, 6vw, 3.2rem); line-height: 1.08; letter-spacing: -0.03em; margin: 0 0 14px; }
+    .hero .tagline { font-size: clamp(1.1rem, 3vw, 1.4rem); color: var(--muted); margin: 0 0 8px; }
+    .hero p.lead { font-size: 1.06rem; color: var(--muted); max-width: 640px; margin: 14px 0 28px; }
+    .cta { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; }
+    .btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 10px 18px; border-radius: 9px; font-weight: 600; font-size: 0.96rem;
+      border: 1px solid var(--accent); background: var(--accent); color: #fff;
+    }
+    .btn:hover { text-decoration: none; filter: brightness(1.06); }
+    .btn.secondary { background: transparent; color: var(--accent); }
+    .install {
+      display: inline-flex; align-items: center; gap: 10px;
+      font-family: var(--mono); font-size: 0.95rem;
+      background: var(--code-bg); border: 1px solid var(--border); color: var(--code-text);
+      padding: 10px 14px; border-radius: 9px;
+    }
+    .install .prompt { color: var(--muted); user-select: none; }
+
+    /* ---- sections ---- */
+    section { padding: 46px 0; border-top: 1px solid var(--border); }
+    section h2 { font-size: 1.6rem; letter-spacing: -0.02em; margin: 0 0 6px; }
+    section .sub { color: var(--muted); margin: 0 0 26px; max-width: 680px; }
+    h3 { font-size: 1.12rem; margin: 26px 0 8px; letter-spacing: -0.01em; }
+
+    /* pillars */
+    .pillars { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+    @media (max-width: 760px) { .pillars { grid-template-columns: 1fr; } }
+    .pillar {
+      background: var(--panel); border: 1px solid var(--border); border-radius: 12px; padding: 20px;
+    }
+    .pillar h3 { margin-top: 0; }
+    .pillar .ico { font-family: var(--mono); font-weight: 700; color: var(--accent); font-size: 1.1rem; margin-bottom: 6px; }
+    .pillar p { color: var(--muted); font-size: 0.96rem; margin: 6px 0 0; }
+    .pillar-links { display: flex; flex-wrap: wrap; gap: 8px 16px; margin-top: 14px; font-size: .88rem; font-weight: 600; }
+
+    /* code */
+    pre {
+      background: var(--code-bg); border: 1px solid var(--border); border-radius: 11px;
+      padding: 16px 18px; overflow-x: auto; font-size: 0.88rem; line-height: 1.55; color: var(--code-text);
+      margin: 14px 0;
+    }
+    pre code { color: inherit; }
+    :not(pre) > code {
+      background: var(--code-bg); border: 1px solid var(--border);
+      padding: 1px 6px; border-radius: 6px; font-size: 0.86em; color: var(--code-text);
+    }
+    .cmt { color: var(--muted); }
+    .tok-keyword { color: var(--token-keyword); font-weight: 600; }
+    .tok-type { color: var(--token-type); }
+    .tok-string { color: var(--token-string); }
+    .tok-number { color: var(--token-number); }
+    .tok-comment { color: var(--token-comment); font-style: italic; }
+    .comment-note { font-size: 0.9rem; color: var(--muted); }
+
+    /* table */
+    .table-scroll { overflow-x: auto; margin: 16px 0; }
+    table { border-collapse: collapse; width: 100%; font-size: 0.92rem; min-width: 520px; }
+    th, td { text-align: left; padding: 10px 13px; border-bottom: 1px solid var(--border); }
+    th { color: var(--muted); font-weight: 600; font-size: 0.82rem; text-transform: uppercase; letter-spacing: 0.03em; }
+    td.num, th.num { text-align: right; font-family: var(--mono); }
+    tbody tr:last-child td { border-bottom: none; }
+    .matrix-table { min-width: 1280px; }
+    .matrix-table td { vertical-align: top; }
+    .matrix-table .model-id { font-family: var(--mono); font-weight: 600; white-space: nowrap; }
+    .matrix-table .efforts { font-family: var(--mono); font-size: .82rem; }
+    .price-cell { min-width: 184px; font-variant-numeric: tabular-nums; }
+    .price-line { display: flex; justify-content: space-between; gap: 12px; font-size: .8rem; }
+    .price-line span:first-child { color: var(--muted); }
+    .price-valid { display: block; color: var(--muted); font-size: .74rem; margin-top: 3px; }
+    .cost-chip, .status-chip {
+      display: inline-flex; align-items: center; border: 1px solid var(--border);
+      border-radius: 999px; padding: 2px 9px; font-size: .76rem; font-weight: 650;
+      line-height: 1.5; white-space: nowrap;
+    }
+    .cost-economy { color: var(--ok); border-color: color-mix(in srgb, var(--ok) 42%, var(--border)); background: color-mix(in srgb, var(--ok) 8%, var(--panel)); }
+    .cost-standard { color: var(--accent); border-color: color-mix(in srgb, var(--accent) 42%, var(--border)); background: color-mix(in srgb, var(--accent) 8%, var(--panel)); }
+    .cost-premium, .cost-unknown { color: var(--warn); border-color: color-mix(in srgb, var(--warn) 42%, var(--border)); background: color-mix(in srgb, var(--warn) 8%, var(--panel)); }
+    .status-note { display: block; color: var(--muted); font-size: .74rem; margin-top: 4px; }
+    .fit { font-size: .82rem; white-space: nowrap; }
+    .fit-ideal { color: var(--ok); font-weight: 600; }
+    .fit-underpowered { color: var(--warn); }
+    .matrix-guide { border: 1px solid var(--border); border-radius: 10px; margin: 18px 0; padding: 12px 16px; background: var(--panel); }
+    .matrix-guide summary { cursor: pointer; color: var(--accent); font-weight: 600; }
+    .matrix-guide-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px 20px; margin-top: 14px; }
+    .matrix-guide-grid div { min-width: 0; }
+    .matrix-guide-grid strong { display: block; font-size: .88rem; margin-bottom: 2px; }
+    .matrix-guide-grid span { display: block; color: var(--muted); font-size: .82rem; }
+    @media (max-width: 680px) { .matrix-guide-grid { grid-template-columns: 1fr; } }
+
+    /* callout — full symmetric border only; no coloured left accent bar (style hard rule) */
+    .callout {
+      border: 1px solid var(--border); background: var(--accent-soft);
+      padding: 14px 18px; border-radius: 10px; margin: 18px 0; font-size: 0.96rem;
+    }
+    .callout strong { color: var(--text); }
+
+    /* family cards */
+    .family { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+    @media (max-width: 760px) { .family { grid-template-columns: 1fr; } }
+    .fcard {
+      display: block; background: var(--panel); border: 1px solid var(--border); border-radius: 12px;
+      padding: 18px; color: inherit;
+    }
+    .fcard:hover { border-color: var(--accent); text-decoration: none; }
+    .fcard .name { font-weight: 700; margin-bottom: 4px; }
+    .fcard .desc { color: var(--muted); font-size: 0.92rem; }
+    .fcard.self { border-style: dashed; }
+
+    ul.tight { margin: 10px 0; padding-left: 20px; }
+    ul.tight li { margin: 5px 0; color: var(--muted); }
+    ul.tight li code { color: var(--code-text); }
+
+    /* footer */
+    footer {
+      border-top: 1px solid var(--border); padding: 34px 0 60px; color: var(--muted); font-size: 0.9rem;
+    }
+    footer .frow { display: flex; flex-wrap: wrap; gap: 8px 20px; align-items: center; }
+    footer .sep { color: var(--border); }
+    .pill { font-size: 0.78rem; color: var(--muted); border: 1px solid var(--border); border-radius: 999px; padding: 2px 9px; }
+    .pill.lifecycle-retired, .pill.lifecycle-deprecated {
+      color: var(--warn); border-color: color-mix(in srgb, var(--warn) 45%, var(--border));
+      background: color-mix(in srgb, var(--warn) 10%, var(--panel));
+    }
+    .state { font-family: var(--mono); font-size: .78rem; font-weight: 700; letter-spacing: .04em; color: var(--ok); }
+    .state.planned, .state.pending { color: var(--warn); }
+    .data-note { color: var(--muted); font-size: .88rem; margin-top: 14px; }
+
+    /* ---- token-usage charts ----
+       Thin marks, no gridlines, values labelled directly on every row, and a
+       table view underneath: in light mode two of the four series sit below 3:1
+       against the panel, so the numbers — never the fill alone — carry the data. */
+    .chart-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+    .chart-card { background: var(--panel); border: 1px solid var(--border); border-radius: 12px; padding: 20px; min-width: 0; }
+    .chart-card.wide { grid-column: 1 / -1; }
+    .chart-card h3 { margin: 0 0 4px; font-size: 1.05rem; }
+    .chart-card .chart-kicker { color: var(--muted); font-size: .84rem; margin: 0 0 18px; }
+    .chart-note { color: var(--muted); font-size: .82rem; margin: 16px 0 0; }
+    .chart-note code { font-size: .95em; }
+
+    .bar-row { margin-top: 14px; }
+    .bar-row:first-child { margin-top: 0; }
+    .bar-head { display: flex; justify-content: space-between; gap: 12px; align-items: baseline; margin-bottom: 5px; font-size: .88rem; }
+    .bar-head span { overflow-wrap: anywhere; }
+    .bar-head strong { font-family: var(--mono); font-size: .82rem; font-variant-numeric: tabular-nums; white-space: nowrap; }
+    /* 2px of surface between segments does the separating — no strokes. */
+    .bar { display: flex; gap: 2px; height: 12px; }
+    .bar > i { display: block; min-width: 2px; }
+    .bar > i:last-child { border-radius: 0 4px 4px 0; }
+    .bar.single > i { border-radius: 0 4px 4px 0; }
+    i.s-input { background: var(--series-input); }
+    i.s-cache-read { background: var(--series-cache-read); }
+    i.s-cache-write { background: var(--series-cache-write); }
+    i.s-output { background: var(--series-output); }
+    i.s-single { background: var(--series-input); }
+
+    /* Columns over time: one measure (tokens) on one axis; the cost of the same
+       session is stated as a figure instead of a second, arbitrary y-scale. */
+    .column-chart { max-width: 560px; }
+    .columns { display: flex; align-items: flex-end; gap: 14px; border-bottom: 1px solid var(--border); }
+    .column { flex: 1 1 0; min-width: 0; }
+    /* A fixed plot height so each column's percentage height is exact — a flex
+       box would shrink the tallest column most and distort the encoding. */
+    .column .plot { height: 148px; display: flex; align-items: flex-end; }
+    /* Cap the column, don't fill the slot: the band's leftover space is air. */
+    .column .stack { display: flex; flex-direction: column-reverse; gap: 2px; width: 100%; max-width: 24px; margin: 0 auto; }
+    .column .stack > i { display: block; width: 100%; min-height: 2px; }
+    .column .stack > i:last-child { border-radius: 4px 4px 0 0; }
+    .column .cap { font-family: var(--mono); font-size: .74rem; font-variant-numeric: tabular-nums; text-align: center; margin-bottom: 5px; white-space: nowrap; }
+    .column-axis { display: flex; gap: 14px; margin-top: 8px; }
+    .column-axis div { flex: 1 1 0; min-width: 0; text-align: center; color: var(--muted); font-size: .76rem; }
+    .column-axis div strong { display: block; color: var(--text); font-weight: 600; }
+
+    .legend { display: flex; flex-wrap: wrap; gap: 8px 14px; margin-top: 18px; color: var(--muted); font-size: .8rem; }
+    .legend span { display: inline-flex; align-items: center; gap: 6px; }
+    .legend i { width: 9px; height: 9px; border-radius: 2px; display: inline-block; }
+
+    .coverage-list { display: grid; gap: 12px; }
+    .coverage-item { border-top: 1px solid var(--border); padding-top: 12px; }
+    .coverage-item:first-child { border-top: 0; padding-top: 0; }
+    .coverage-item strong { display: block; font-size: .92rem; }
+    .coverage-item span { color: var(--muted); font-size: .86rem; }
+
+    .chart-summary { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; margin: 0 0 16px; }
+    @media (max-width: 720px) { .chart-summary { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+    .metric { border: 1px solid var(--border); border-radius: 9px; padding: 10px 13px; min-width: 0; }
+    .metric strong { display: block; font-size: 1.2rem; font-weight: 600; letter-spacing: -0.01em; }
+    .metric span { display: block; color: var(--muted); font-size: .78rem; }
+
+    details.table-view { margin-top: 16px; border: 1px solid var(--border); border-radius: 10px; padding: 12px 16px; }
+    details.table-view summary { cursor: pointer; font-size: .9rem; color: var(--accent); }
+    details.table-view h4 { margin: 18px 0 0; font-size: .92rem; }
+    details.table-view table { min-width: 460px; }
+
+    .chart-tip {
+      position: fixed; z-index: 40; pointer-events: none; opacity: 0;
+      transform: translate(-50%, -100%); transition: opacity .08s linear;
+      background: var(--panel); color: var(--text); border: 1px solid var(--border);
+      border-radius: 8px; padding: 6px 10px; font-size: .8rem; line-height: 1.45;
+      box-shadow: 0 6px 18px rgb(0 0 0 / 18%); max-width: 240px; white-space: pre-line;
+    }
+    .chart-tip.on { opacity: 1; }
+    @media (prefers-reduced-motion: reduce) { .chart-tip { transition: none; } }
+    @media (max-width: 720px) { .chart-grid { grid-template-columns: 1fr; } }
+    .pillars > *, .family > * { min-width: 0; }
+    .install { max-width: 100%; overflow-wrap: anywhere; }
+    .example-output { margin: 18px 0; }
+    .example-output > strong { font-size: .875rem; color: var(--muted); }
+    .example-output pre { margin-top: 6px; background: var(--bg-alt); }
+    .matrix-table .efforts, .fit, th { font-size: .875rem; }
+    .price-line, .cost-chip, .status-chip { font-size: .875rem; }
+    .price-valid, .status-note { font-size: .8125rem; }
+    a:focus-visible, summary:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+  </style>
+  <link rel="stylesheet" href="/token-economy/navigation.css">
+  <script src="/token-economy/navigation.js" defer></script>
+<style>
+  .api-wrap { max-width: 1180px; margin: auto; padding: 0 24px; }
+  .docs-intro { max-width: 780px; padding: 48px 0 32px; }
+  .docs-intro h1 { font-size: clamp(2rem, 5vw, 3rem); line-height: 1.1; margin: 0 0 20px; letter-spacing: -.035em; }
+  .docs-intro .lead { font-size: 1.2rem; line-height: 1.5; }
+  .docs-intro .eyebrow { font-size: .875rem; letter-spacing: .035em; }
+  .docs-layout { display: grid; grid-template-columns: 200px minmax(0, 1fr); gap: 48px; align-items: start; }
+  .docs-toc { position: sticky; top: var(--site-header-offset, 7rem); max-height: calc(100dvh - var(--site-header-offset, 7rem)); overflow: auto; padding: 20px 0; border-top: 1px solid var(--border); }
+  .docs-toc strong { display: block; margin-bottom: 12px; font-size: .875rem; }
+  .docs-toc a { display: block; padding: 7px 0; font-size: .875rem; }
+  .docs-body { min-width: 0; }
+  .docs-body section { padding: 28px 0 36px; }
+  .docs-body h2 { font-size: 1.5rem; line-height: 1.3; margin-bottom: 18px; }
+  .docs-body p { max-width: 74ch; }
+  .docs-body td { vertical-align: top; }
+  .docs-body table { min-width: 480px; }
+  .docs-body th { font-size: .875rem; text-transform: none; letter-spacing: 0; }
+  .docs-body pre { font-size: .875rem; }
+  .signature { border-radius: 6px; }
+  .source-note { font-size: .875rem; color: var(--muted); }
+  .status-definitions > div { display: grid; grid-template-columns: 10rem 1fr; gap: 1rem; padding: 8px 0; border-bottom: 1px solid var(--border); }
+  .status-definitions dt { font-weight: 650; }
+  .status-definitions dd { margin: 0; }
+  @media (max-width: 850px) {
+    .docs-layout { grid-template-columns: minmax(0, 1fr); gap: 12px; }
+    .docs-toc { position: static; display: flex; flex-wrap: wrap; gap: 4px 20px; max-height: none; }
+    .docs-toc strong { width: 100%; margin: 0; }
+  }
+  @media (max-width: 480px) { .api-wrap { padding: 0 16px; } .status-definitions > div { grid-template-columns: 1fr; gap: 2px; } }
+</style></head><body><!-- site-navigation:start -->
+<a class="site-skip-link" href="#main-content">Skip to content</a>
+<header class="site-header" data-site-navigation>
+  <div class="site-family-bar">
+    <a class="site-family-back" href="https://agent-orchestrator.dev/"><span aria-hidden="true">←</span> Agent Orchestrator</a>
+  </div>
+  <div class="site-header-main">
+    <a class="site-brand" href="/token-economy/" aria-label="Token Economy home"><span class="site-brand-mark" aria-hidden="true">¢</span><span>Token Economy</span></a>
+    <button class="site-menu-button" type="button" aria-expanded="false" aria-controls="site-navigation-groups"><span>Menu</span><span class="site-menu-icon" aria-hidden="true"></span></button>
+    <nav class="site-primary-nav" aria-label="Primary navigation">
+      <div class="site-nav-groups" id="site-navigation-groups">
+        <a class="site-nav-direct" href="/token-economy/api/">API</a>
+        <div class="site-nav-group">
+          <button class="site-nav-heading" type="button" aria-expanded="false" aria-controls="site-nav-library">Guides</button>
+          <ul class="site-nav-menu" id="site-nav-library">
+            <li><a href="/token-economy/#why">Overview</a></li>
+            <li><a href="/token-economy/#suggest">Model compatibility</a></li>
+            <li><a href="/token-economy/#install">Install</a></li>
+            <li><a href="/token-economy/api/#costs">Calculate run costs</a></li>
+            <li><a href="/token-economy/api/#routing">Route an attempt</a></li>
+            <li><a href="/token-economy/#model-recommendation">Task complexity</a></li>
+          </ul>
+        </div>
+        <div class="site-nav-group">
+          <button class="site-nav-heading" type="button" aria-expanded="false" aria-controls="site-nav-evidence">Research</button>
+          <ul class="site-nav-menu" id="site-nav-evidence">
+            <li><a href="/token-economy/price-history/">Prices &amp; history</a></li>
+            <li><a href="/token-economy/task-class-routing/">Task studies</a></li>
+            <li><a href="/token-economy/code-review/">Code review</a></li>
+            <li><a href="/token-economy/model-benchmarks/">Price × quality</a></li>
+            <li><a href="/token-economy/#benchmarks">Benchmarks</a></li>
+            <li><a href="/token-economy/evidence/agent-studio-usage/">Usage evidence</a></li>
+            <li><a href="/token-economy/cap-forecast/">Cap forecast</a></li>
+            <li><a href="/token-economy/provider-quota-dashboard/">Quota snapshot</a></li>
+          </ul>
+        </div>
+        <div class="site-nav-group">
+          <button class="site-nav-heading" type="button" aria-expanded="false" aria-controls="site-nav-project">Project</button>
+          <ul class="site-nav-menu" id="site-nav-project">
+            <li><a href="/token-economy/#family">Related projects</a></li>
+            <li><a href="https://github.com/agent-orc/token-economy">GitHub <span aria-hidden="true">↗</span></a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+  </div>
+</header>
+<!-- site-navigation:end -->
+
+<main class="api-wrap" id="main-content" tabindex="-1">
+<div class="docs-intro"><p class="eyebrow">AGT integration · C# · estimate and backtest</p><h1>Estimate the work before routing it.</h1><p class="lead">Use the task’s intake facts to score risk and scope. Use completed AGT runs to estimate consumption and check how well those forecasts hold up.</p><p>The estimator is deterministic. It does not inspect a repository, query AGT or call a model. Your host gathers the evidence and retains the original snapshot.</p></div>
+<div class="docs-layout"><nav class="docs-toc" aria-label="Complexity contents"><strong>In this guide</strong><a href="#example">Complete example</a><a href="#inputs">Where inputs come from</a><a href="#rubric">How to score complexity</a><a href="#comparison">Compare similar work</a><a href="#history">Use AGT history</a><a href="#backtest">Estimate vs outcome</a><a href="#evidence">Current evidence</a></nav><div class="docs-body">
+<section id="example"><h2>Start with an intake worksheet</h2><p>This example describes a bounded feature spanning two components. The five supplied scores have concrete reasons; empirical uncertainty comes from the estimator.</p><pre><code data-language="csharp" data-example="complexity-intake">using TokenEconomy;
+
+// An illustrative AGT intake, saved before the first implementation run.
+var card = new ComplexityCard
+{
+    TaskKey = &quot;DEMO-42&quot;,
+    Prompt = &quot;Add a saved provider filter to the task list.&quot;,
+    Project = &quot;Agent Studio&quot;,
+    Area = &quot;task-list&quot;,
+    TaskType = &quot;feature&quot;,
+    AcceptanceCriteria = [&quot;The chosen provider survives reload.&quot;,
+                          &quot;Reset restores the unfiltered list.&quot;],
+    ReferencedFiles = [&quot;frontend/task-list.ts&quot;, &quot;frontend/filter-store.ts&quot;],
+    ReferencedSubsystems = [&quot;task-list&quot;, &quot;filter-state&quot;],
+    ExpectedChangedLines = 120,
+    RoutingSignals = new ComplexityRoutingSignals
+    {
+        CorrectnessRisk = 12,      // Reversible behavior; acceptance checks exist.
+        ExpectedScope = 8,         // 51-200 expected lines / two components.
+        ContextDemand = 8,         // One adjacent state contract to read.
+        TaskUncertainty = 6,       // A specified feature.
+        QuotaAndCostHeadroom = 5   // Current run has comfortable headroom.
+    }
+};
+
+var estimate = new TaskComplexityEstimator().Estimate(card);
+Console.WriteLine($&quot;{estimate.Score}/100 -&gt; {estimate.Level}&quot;);
+Console.WriteLine($&quot;Confidence: {estimate.Confidence:F2}&quot;);
+Console.WriteLine(estimate.ScoreEvidence);
+foreach (var dimension in estimate.Dimensions)
+    Console.WriteLine($&quot;{dimension.Name}: {dimension.Evidence}&quot;);
+// 49/100 -&gt; Standard
+// Confidence: 0.55 (the no-history cap; not a success probability)
+
+var estimates = new InMemoryTaskComplexityEstimateStore();
+estimates.Upsert(estimate); // Replace with durable host storage in production.</code></pre><p><a href="intake-example.cs">Download the complete example</a> · <a href="../api/#routing">Pass the saved estimate into task admission</a></p><p>Read <code>Score</code>, <code>Level</code> and <code>HardFloors</code> for routing. Each criterion retains its points and evidence. <code>TokenForecast</code>, <code>DurationForecast</code> and <code>ReissueForecast</code> expose <code>LowerBound</code>, <code>Expected</code>, <code>UpperBound</code> and <code>Evidence</code>; duration is a <code>TimeSpan</code>, and reissues are an expected count. <code>ConfidenceEvidence</code> explains the confidence value, <code>HistoricalEvidence</code> reports measurement coverage, and <code>Neighbours</code> identifies comparable cards.</p></section>
+<section id="inputs"><h2>Where the values come from in AGT</h2><p>At task admission, fetch the task detail and save an immutable intake snapshot with its capture time and source references. A later edit to the card must not change the input used to judge the earlier estimate.</p><div class="table-scroll"><table><thead><tr><th>Estimator input</th><th>Source before launch</th><th>How to fill it</th></tr></thead><tbody>
+<tr><td><code>TaskKey</code>, <code>Project</code>, <code>TaskType</code></td><td>AGT task identity and authored classification</td><td>Use the stable key, project and type. Keep area/subsystem names consistent across cards.</td></tr>
+<tr><td><code>Prompt</code>, <code>EpicContext</code></td><td>Task detail <code>promptMarkdown</code> and relevant epic requirements</td><td>Freeze the version available at admission. Keep later prompt extensions out of this estimate.</td></tr>
+<tr><td><code>AcceptanceCriteria</code></td><td>Authored acceptance checks</td><td>Extract actual pass/fail conditions. Every bullet in a prompt is not necessarily an acceptance criterion.</td></tr>
+<tr><td><code>ReferencedFiles</code>, <code>ReferencedSubsystems</code></td><td>Files named in the request and a short repository inspection</td><td>List the expected implementation surface. Exclude generated files. Do not substitute the final diff.</td></tr>
+<tr><td><code>ExpectedChangedLines</code></td><td>An intake estimate of handwritten code change</td><td>Use the rubric’s range: up to 50, 51–200, 201–500, or over 500. Record the evidence behind the estimate.</td></tr>
+<tr><td><code>DependencyFanOut</code>, <code>RepositoryFileCount</code></td><td>Repository metadata available then</td><td>Optional forecast inputs. Repository size does not set the routing complexity band.</td></tr>
+<tr><td><code>RoutingSignals</code>, <code>HardFloorTriggers</code></td><td>Intake review and current capacity snapshot</td><td>Assign points using the anchors below; retain the reason. Security/authority facts can enforce a minimum band.</td></tr>
+</tbody></table></div><p>AGT’s live and archive lists identify cards. The detail endpoint supplies their text and classification; <code>GET /api/tasks/{key}/runs</code> supplies recorded runs. The existing report tool reads <code>GET /api/tasks</code>, <code>GET /api/tasks/archive</code> and <code>GET /api/tasks/{key}</code>. These are AGT endpoints, separate from this in-process library.</p><p><a href="agt-intake.cs"><strong>Download a complete C# reader for the AGT task API →</strong></a> It reads the authored body and classification, leaves unknown scope fields unset, runs the estimator and saves the intake plus estimate to a new JSON file. Call it before admission; add reviewed scope and risk evidence from the worksheet.</p>
+<p><strong>Missing information stays missing.</strong> Leave optional fields unset and expose the missing intake evidence. Automatic fallback rules are deliberately simple, including English keyword matching. For German or ambiguous requests, use the structured worksheet and explicit reasons; do not assume the prompt parser understood the task.</p></section>
+<section id="rubric"><h2>A shared 100-point rubric</h2><p>Use the same anchors across tasks. Each value is a number of policy points, not a percentage or an estimated token count.</p><div class="table-scroll"><table><thead><tr><th>Criterion</th><th>Max</th><th>Anchors</th></tr></thead><tbody>
+<tr><td>Correctness risk</td><td>35</td><td><strong>0</strong> prose; <strong>12</strong> reversible behavior with checks; <strong>24</strong> persistent state, public protocol or unclear bug; <strong>35</strong> authority, security or credible data loss.</td></tr>
+<tr><td>Expected scope</td><td>20</td><td><strong>0</strong> up to 50 lines / one subsystem; <strong>8</strong> 51–200 / two; <strong>14</strong> 201–500 / three; <strong>20</strong> over 500 / four or more. Use the higher applicable anchor.</td></tr>
+<tr><td>Context demand</td><td>20</td><td><strong>0</strong> exact file and behavior; <strong>8</strong> adjacent contract; <strong>14</strong> several layers or historical behavior; <strong>20</strong> broad history or cross-repository invariants.</td></tr>
+<tr><td>Task uncertainty</td><td>10</td><td><strong>0</strong> mechanical; <strong>3</strong> clear refactor/docs; <strong>6</strong> specified feature or bug; <strong>10</strong> unknown root cause or requirements to derive.</td></tr>
+<tr><td>Empirical uncertainty</td><td>10</td><td>Computed from comparable history: <strong>0</strong> strong cohort; <strong>3</strong> at least five favorable cases; <strong>6</strong> sparse/mixed; <strong>10</strong> absent or unfavorable. The API field is named <code>EmpiricalConfidence</code>: higher points mean more uncertainty.</td></tr>
+<tr><td>Quota/cost headroom</td><td>5</td><td><strong>5</strong> comfortable; <strong>3</strong> nearing a cap; <strong>0</strong> unavailable. This is a policy input, not inherent task difficulty; compare tasks under the same value.</td></tr>
+</tbody></table></div><p>The sum maps to <strong>0–20 Trivial</strong>, <strong>over 20–50 Standard</strong>, <strong>over 50–69 Demanding</strong>, and <strong>over 69–100 Critical</strong>. Hard floors apply afterwards without changing the score: a small security-boundary edit still requires Critical; a public protocol change requires at least Demanding.</p><p>The current default ladder is Luna/Medium, Terra/Medium, Sol/Medium, Sol/XHigh. The band and correctness floor guide the router; they do not prove that a particular model is empirically best. <a href="../api/#routing">Routing contract</a> · <a href="../model-benchmarks/">Model benchmarks</a></p></section>
+<section id="comparison"><h2>What makes one task more complex than another?</h2><p>Change one intake fact at a time. These examples use no historical cohort and the same comfortable headroom.</p><div class="table-scroll"><table><thead><tr><th>Task</th><th>Risk + scope + context + uncertainty + history + quota</th><th>Result</th></tr></thead><tbody>
+<tr><td>Mechanical copy change in one known file</td><td>0 + 0 + 0 + 0 + 10 + 5</td><td>15 · Trivial</td></tr>
+<tr><td>The two-component feature above</td><td>12 + 8 + 8 + 6 + 10 + 5</td><td>49 · Standard</td></tr>
+<tr><td>Same scope, changing a public protocol</td><td>24 + 8 + 8 + 6 + 10 + 5</td><td>61 · Demanding</td></tr>
+<tr><td>Same scope, changing a security boundary</td><td>35 + 8 + 8 + 6 + 10 + 5</td><td>72 · Critical</td></tr>
+</tbody></table></div><p>For historical neighbours, the estimator weights matching project (20%), area (24%), task type (16%), subsystem overlap (12%), file-extension overlap (10%), prompt length similarity (8%) and forecast-feature similarity (10%). It retains up to 20 cards above similarity 0.41; the closest five influence forecasts, weighted by similarity squared.</p><p>This is a transparent heuristic, not semantic understanding. Review the returned <code>Neighbours</code>. For model efficiency comparisons, additionally hold task class, scenario, model/effort, acceptance oracle and telemetry definition constant. The estimator does not automatically control all these factors for you.</p><p><code>Confidence</code> describes input and history support. It is not a calibrated probability of success. Forecast bounds are heuristic envelopes, not 95% prediction intervals. An optional <code>LlmComplexityAssessment</code> can affect forecasts and confidence; it cannot rewrite the canonical score or hard floors.</p></section>
+<section id="history"><h2>Turn completed AGT attempts into comparison data</h2><p>Import an exported task-storage directory with <code>AgentStudioTaskStorageImporter</code>, then call <code>ComplexityHistory.FromRunRecords</code>. Records are deduplicated by task key and attempt; the result has one sample per card.</p><pre><code data-language="csharp">var store = new InMemoryAgentStudioRunStore();
+var importer = new AgentStudioTaskStorageImporter();
+importer.ImportDirectory(exportedTaskStoragePath, store);
+
+var coverage = ComplexityBacktester.MeasureCoverage(store.Records);
+var history = ComplexityHistory.FromRunRecords(store.Records);
+var estimate = new TaskComplexityEstimator().Estimate(intakeCard, history);</code></pre><p><code>exportedTaskStoragePath</code> is your read-only AGT export; <code>intakeCard</code> is the frozen card shown above. The importer reads <code>task.json</code> records. It does not automatically turn a live API detail response into the storage format or reconstruct an old prompt version.</p><p><strong>For a historical backtest, replace each sample’s card with its retained pre-launch intake.</strong> The conversion helper uses imported card fields and cannot verify when they were authored. If an old task has no such snapshot, label it a retrospective reconstruction and keep it out of claims about pre-launch accuracy.</p><h3>Recovering a historical intake from AGT</h3><div class="table-scroll"><table><thead><tr><th>Read</th><th>Use</th></tr></thead><tbody>
+<tr><td><code>GET /api/tasks/{key}/runs</code></td><td>Read each run’s <code>index</code>, <code>startedAt</code>, <code>endedAt</code>, <code>durationSeconds</code>, <code>model</code>, <code>thinkingLevel</code> and <code>contextRef</code>.</td></tr>
+<tr><td><code>GET /api/tasks/{key}/runs/{index}/context</code></td><td>When retained, <code>context</code> is the exact final input at dispatch. Separate authored task text from templates and retry framing using a versioned parser. A null context is unavailable evidence.</td></tr>
+<tr><td><code>enrichmentReport</code> on task detail</td><td>If the current authored body’s SHA-256 matches <code>originalPromptSha256</code> and <code>generatedAtUtc</code> precedes the first recorded run, the body is authenticated for that dispatch. This does not prove an earlier routing estimate was retained.</td></tr>
+<tr><td><code>info.tokenSummary.entries</code></td><td>Keep <code>ts</code>, <code>model</code>, <code>participantId</code> and all four token buckets. Entries are usage measurements, not a count of attempts or semantic failures.</td></tr>
+</tbody></table></div><p><code>promptHistory</code> contains task extensions, not every revision of the original body. A hash cannot recover text that is no longer present. Missing original inputs exclude a card from a strict pre-launch backtest.</p>
+<p>Record actual input, output, cache-read and cache-write tokens; started and completed times; actual model/effort; acceptance/review result; semantic reissue reason; and whether all attempts were retained. Tokens measure consumption. Runtime measures work duration. Review and acceptance measure success. A transport retry is not a semantic failure.</p></section>
+<section id="backtest"><h2>Compare estimates with later outcomes</h2><ol>
+<li>Freeze a cutoff. Training cards must be complete, with outcomes already observable before it.</li>
+<li>Evaluate later cards using their original intake snapshots. Keep every attempt of a card in the same split.</li>
+<li>Use <code>ComplexityBacktester.RunHeldOut(training, evaluation)</code>. It rejects overlapping task keys. The caller must enforce time order.</li>
+<li>Compare predicted vs measured tokens, reissues and success within comparable task groups. Always publish coverage and sample counts.</li>
+</ol><p><a href="history-backtest.cs"><strong>Download the complete AGT history backtest →</strong></a> It imports exported runs, verifies snapshot timing, excludes incomplete attempt exports and overlapping time windows, prints coverage, and reports per-card estimates alongside observed values. It does not modify AGT.</p><pre><code data-language="shell">dotnet new console --framework net10.0
+dotnet add package TokenEconomy
+# Replace Program.cs with history-backtest.cs, then:
+dotnet run -- ./agt-export ./intake-snapshots.json 2026-08-01T00:00:00Z</code></pre><p>The separate <code>intake-snapshots.json</code> is a collector-owned array of <code>card</code>, <code>capturedAtUtc</code>, <code>firstLaunchAtUtc</code>, <code>completedAtUtc</code>, and <code>completeAttemptHistory</code>. The downloaded example defines that record. These are retained facts, not dates to infer from the current task state.</p><div class="table-scroll"><table><thead><tr><th>Metric</th><th>Interpretation</th></tr></thead><tbody>
+<tr><td>Token median absolute percentage error</td><td>Median |forecast − actual| / actual. Lower is better. 0.20 means a typical absolute deviation of 20%, without indicating over- or underestimation.</td></tr>
+<tr><td>Token Spearman correlation</td><td>Whether larger forecasts rank tasks by larger observed consumption. −1 to 1; higher is better. Good ranking can coexist with poor absolute calibration.</td></tr>
+<tr><td>Reissue mean absolute error</td><td>Average distance from the observed count. Interpret only with consistent semantic reissue definitions.</td></tr>
+<tr><td>Band agreement</td><td>The built-in backtest compares the routing band with a token/time/reissue-derived effort proxy. That proxy is not an independent judgment of correctness risk.</td></tr>
+<tr><td>Accepted outcome / review grade</td><td>Report separately by band and model/effort. The backtester’s forecast metrics do not replace an acceptance measure.</td></tr>
+</tbody></table></div><p>Do not train a risk score to reproduce expensive runs blindly. Costs also reflect model choice, loops, missing context and failed attempts. Use mispredicted cards to review specific rubric anchors and data coverage; use controlled model benchmarks before changing routing thresholds.</p></section>
+<section id="evidence"><h2>AGT evidence: measured limits of the current estimate</h2><h3>September 2026: new archive audit</h3><p>We read all 174 Agent Studio cards among the newest 200 archive entries. Eleven contained token usage and projected runs. None of those eleven retained first-run context; three had an authored body whose hash and audit timestamp authenticated it before the first recorded dispatch. In eight cases, token-entry count minus one disagreed with the number of additional runs.</p><p>Replaying today’s estimator on those three authenticated bodies, without calibration history, gives:</p><div class="table-scroll"><table><thead><tr><th>Anonymous card</th><th>Current policy score</th><th>Token forecast</th><th>Reported ledger tokens</th></tr></thead><tbody><tr><td>card-007</td><td>21 · Standard</td><td>12,087</td><td>23,623,245</td></tr><tr><td>card-010</td><td>21 · Standard</td><td>19,797</td><td>11,432,112</td></tr><tr><td>card-011</td><td>33 · Standard</td><td>16,790</td><td>13,752,175</td></tr></tbody></table></div><p><strong>These default forecasts are not calibrated to the observed AGT workload.</strong> Confidence is 0.38 in all three cases. Reported totals include cache reads and may span multiple runs; complete attempt linkage and semantic reissues are unverified. This is a current-policy replay, not the original historical prediction or a validated accuracy result.</p><p><a href="https://github.com/agent-orc/token-economy/blob/main/docs/analyses/agt-intake-audit-2026-09-12.md">New audit and API field map</a> · <a href="https://github.com/agent-orc/token-economy/blob/main/docs/analyses/agt-authenticated-prompt-replay-2026-09-12.json">Anonymized replay data</a> · <a href="https://github.com/agent-orc/token-economy/blob/main/docs/analyses/agt-intake-coverage-2026-09-12.json">Coverage data</a></p><h3>July 2026: the earlier 30-card replay</h3><p>The checked-in July replay contains 30 real cards. It reports a token median absolute percentage error of <strong>78.6%</strong> and rank correlation <strong>0.473</strong>. This suggests some ordering signal with weak absolute forecasts in that sample.</p><p>Its reported band agreement is <strong>13.3%</strong>, but the comparison uses a consumption-derived band. It also uses token-entry count minus one as a retry proxy and the span between token entries as duration; single-entry cards have zero span. These are not semantic retries or complete execution durations. The replay is leave-one-card-out, not a temporal holdout with proven original intake.</p><p><a href="https://github.com/agent-orc/token-economy/blob/main/results/complexity-backtest/agent-studio-30-card-backtest.json">30-card data</a> · <a href="https://github.com/agent-orc/token-economy/blob/main/results/complexity-backtest/agent-studio-30-card-backtest.md">Methods and limits</a> · <a href="https://github.com/agent-orc/token-economy/blob/main/src/TokenEconomy/TaskComplexityEstimator.cs">Estimator source</a> · <a href="https://github.com/agent-orc/token-economy/blob/main/src/TokenEconomy/ComplexityBacktester.cs">Backtest source</a></p><p>Use AGT as operational calibration evidence. Model benchmarks and matched local task trials remain the primary evidence for comparing model capability.</p></section>
+</div></div></main><footer><div class="wrap"><p><a href="../api/">API reference</a> · <a href="../">Model matrix</a> · <a href="../price-history/">Prices and subscriptions</a></p></div></footer></body></html>

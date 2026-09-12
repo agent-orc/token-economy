@@ -25,6 +25,7 @@
 </head>
 <body>
 <!-- site-navigation:start -->
+<a class="site-skip-link" href="#main-content">Skip to content</a>
 <header class="site-header" data-site-navigation>
   <div class="site-family-bar">
     <a class="site-family-back" href="https://agent-orchestrator.dev/"><span aria-hidden="true">←</span> Agent Orchestrator</a>
@@ -34,31 +35,35 @@
     <button class="site-menu-button" type="button" aria-expanded="false" aria-controls="site-navigation-groups"><span>Menu</span><span class="site-menu-icon" aria-hidden="true"></span></button>
     <nav class="site-primary-nav" aria-label="Primary navigation">
       <div class="site-nav-groups" id="site-navigation-groups">
+        <a class="site-nav-direct" href="/token-economy/api/">API</a>
         <div class="site-nav-group">
-          <a class="site-nav-heading" href="/token-economy/#why" aria-haspopup="true" aria-expanded="false" aria-controls="site-nav-library">Library</a>
+          <button class="site-nav-heading" type="button" aria-expanded="false" aria-controls="site-nav-library">Guides</button>
           <ul class="site-nav-menu" id="site-nav-library">
-            <li><a href="/token-economy/#why">Why</a></li>
-            <li><a href="/token-economy/#suggest">SuggestModel</a></li>
+            <li><a href="/token-economy/#why">Overview</a></li>
+            <li><a href="/token-economy/#suggest">Model compatibility</a></li>
             <li><a href="/token-economy/#install">Install</a></li>
-            <li><a href="/token-economy/#cost-api">Cost API</a></li>
-            <li><a href="/token-economy/#model-recommendation">Model recommendation</a></li>
+            <li><a href="/token-economy/api/#costs">Calculate run costs</a></li>
+            <li><a href="/token-economy/api/#routing">Route an attempt</a></li>
+            <li><a href="/token-economy/#model-recommendation">Task complexity</a></li>
           </ul>
         </div>
         <div class="site-nav-group">
-          <a class="site-nav-heading" href="/token-economy/task-class-routing/" aria-haspopup="true" aria-expanded="false" aria-controls="site-nav-evidence">Evidence</a>
+          <button class="site-nav-heading" type="button" aria-expanded="false" aria-controls="site-nav-evidence">Research</button>
           <ul class="site-nav-menu" id="site-nav-evidence">
+            <li><a href="/token-economy/price-history/">Prices &amp; history</a></li>
             <li><a href="/token-economy/task-class-routing/">Task studies</a></li>
+            <li><a href="/token-economy/code-review/">Code review</a></li>
             <li><a href="/token-economy/model-benchmarks/">Price × quality</a></li>
             <li><a href="/token-economy/#benchmarks">Benchmarks</a></li>
-            <li><a href="/token-economy/evidence/agent-studio-usage/">Usage</a></li>
+            <li><a href="/token-economy/evidence/agent-studio-usage/">Usage evidence</a></li>
             <li><a href="/token-economy/cap-forecast/">Cap forecast</a></li>
             <li><a href="/token-economy/provider-quota-dashboard/">Quota snapshot</a></li>
           </ul>
         </div>
         <div class="site-nav-group">
-          <a class="site-nav-heading" href="/token-economy/#family" aria-haspopup="true" aria-expanded="false" aria-controls="site-nav-project">Project</a>
+          <button class="site-nav-heading" type="button" aria-expanded="false" aria-controls="site-nav-project">Project</button>
           <ul class="site-nav-menu" id="site-nav-project">
-            <li><a href="/token-economy/#family">Family</a></li>
+            <li><a href="/token-economy/#family">Related projects</a></li>
             <li><a href="https://github.com/agent-orc/token-economy">GitHub <span aria-hidden="true">↗</span></a></li>
           </ul>
         </div>
@@ -67,7 +72,7 @@
   </div>
 </header>
 <!-- site-navigation:end -->
-  <main>
+  <main id="main-content" tabindex="-1">
     <div class="hero"><div class="wrap"><div class="eyebrow">01 · Problem framing</div><h1>The percentage is observable. The denominator is not.</h1><p class="lead">A five-hour quota snapshot reports a rounded state at an instant. It does not publish an absolute token budget, explain internal weights, or tell us how many tokens the next run attempt will consume.</p><div class="callout" style="margin-top:20px"><strong>Research plan only:</strong> no cap forecast or product behavior exists until the operator gives explicit GO.</div></div></div>
 
     <section><div class="wrap">

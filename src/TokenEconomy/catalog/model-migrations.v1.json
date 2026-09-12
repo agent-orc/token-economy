@@ -188,13 +188,13 @@
       "vendor": "openai",
       "generationOrder": { "from": 50603, "to": 60001 },
       "costClassFrom": "premium",
-      "costClassTo": "unknown",
+      "costClassTo": "premium",
       "ladderCompatible": false,
       "contextChange": "unknown",
       "evidence": "none",
       "safeAuto": false,
       "since": "2026-09-06",
-      "note": "Proposal only: Astra is a new generation, adds max to a different reasoning ladder, has no repository benchmark, and has no dated price in the catalog."
+      "note": "Proposal only: Astra is supported and has dated premium-class pricing, but changes the reasoning ladder and has no comparable repository no-regression benchmark. External benchmark results do not authorize automatic migration."
     }
   ],
   "taskClassRecommendations": [

@@ -1,0 +1,190 @@
+{
+  "asOfDate": "2026-09-12",
+  "assessmentBasis": "Task-specific assessments inferred from published benchmark measurements. They are not a new composite score, a local AGT qualification, or a guarantee for a particular repository.",
+  "models": [
+    {
+      "modelId": "claude-opus-5",
+      "summary": "A well-supported choice for understanding large codebases and difficult repository changes. Its measured strengths justify considering it alongside Astra and Fable 5.1; maximum effort is expensive and does not win every coding benchmark.",
+      "strengths": [
+        {
+          "text": "DeepSWE 1.1: Opus 5 at max resolves 74% of the 113-task suite in Datacurve's shared mini-swe-agent harness, versus 59% for Opus 4.8 at max. The reported average cost is also lower: $11.84 versus $13.22 per task.",
+          "sourceUrls": [
+            "https://deepswe.datacurve.ai/",
+            "https://deepswe.datacurve.ai/changelog"
+          ],
+          "evidenceIds": [
+            "deepswe-owner-claude-opus-5-max-2026-09-12",
+            "deepswe-owner-claude-opus-4-8-max-2026-09-12"
+          ]
+        },
+        {
+          "text": "Scale's Codebase QnA board reports 63.17% at xHigh with Claude Code, compared with 59.95% for Fable 5.1 and 59.14% for Astra in their native agents. Opus has the highest point estimate of the three; the published intervals overlap.",
+          "sourceUrls": [
+            "https://labs.scale.com/leaderboard/sweatlas-qna"
+          ],
+          "evidenceIds": [
+            "scale-qna-claude-opus-5-xhigh-2026-09-12"
+          ]
+        }
+      ],
+      "tradeoffs": [
+        {
+          "text": "Astra at xHigh also scores 74% on the same DeepSWE owner harness, with a reported $6.52 average cost. Equal rounded scores and overlapping error bars do not establish an Opus quality advantage.",
+          "sourceUrls": [
+            "https://deepswe.datacurve.ai/"
+          ],
+          "evidenceIds": [
+            "deepswe-owner-gpt-6-astra-xhigh-2026-09-12"
+          ]
+        },
+        {
+          "text": "On the official Terminal-Bench 4.0 native-agent board, Opus 5/max scores 51.82%, Fable 5.1/max 57.88%, and Astra/max 58.18%. These compare model-plus-agent configurations, not isolated models.",
+          "sourceUrls": [
+            "https://www.tbench.ai/"
+          ],
+          "evidenceIds": [
+            "tb40-official-claude-opus-5-max-2026-09-12",
+            "tb40-official-claude-fable-5-1-max-2026-09-12",
+            "tb40-official-gpt-6-astra-max-2026-09-12"
+          ]
+        }
+      ],
+      "effortGuidance": {
+        "text": "Use xHigh as an evidence-backed candidate for codebase questions and test writing, where Scale publishes that exact configuration. Consider max for hard repository work, where DeepSWE measures it directly. For general reasoning, AA v4.3 reports high at 48 points/$3.61 per task, xHigh at 50/$4.88, and max at 51/$5.86; high is a reasonable cost-conscious starting point for that suite, not a measured coding default.",
+        "sourceUrls": [
+          "https://labs.scale.com/leaderboard/sweatlas-qna",
+          "https://labs.scale.com/leaderboard/sweatlas-tw",
+          "https://deepswe.datacurve.ai/",
+          "https://artificialanalysis.ai/models/claude-opus-5-high",
+          "https://artificialanalysis.ai/models/claude-opus-5-xhigh",
+          "https://artificialanalysis.ai/models/claude-opus-5"
+        ]
+      },
+      "gaps": [
+        "No exact Opus 5 row was found in the inspected SWE-bench Verified, SWE-bench Pro or Scale Refactoring leaderboards. Its DeepSWE score is not a substitute refactoring score.",
+        "The retrieved coding sources do not provide a controlled Opus 5 high/xHigh/max sweep with one harness and one pricing window.",
+        "Local repository behavior, retry cost and subscription-limit consumption have not been measured by this public-source review. AGT is an additional environment-fit signal."
+      ],
+      "displayName": "Claude Opus 5"
+    },
+    {
+      "modelId": "gpt-6-astra",
+      "summary": "A strong cost-aware starting choice for terminal coding and difficult repository work. The clearest effort evidence supports high for terminal tasks and xHigh for the measured long-task and codebase configurations.",
+      "strengths": [
+        {
+          "text": "Terminal-Bench 4.0 provides an actual effort sweep in Codex: high resolves 191/330 attempts (57.88%) and max 192/330 (58.18%). Total reported cost is $2,269.42 versus $3,267.18: high uses 30.5% less money for nearly the same observed result, with overlapping 95% intervals.",
+          "sourceUrls": [
+            "https://www.tbench.ai/",
+            "https://hub.harborframework.com/datasets/terminal-bench/terminal-bench/4/leaderboards/4-0-0/rows/3475050c-bf5e-4261-a3f6-0af5350af13f",
+            "https://hub.harborframework.com/datasets/terminal-bench/terminal-bench/4/leaderboards/4-0-0/rows/5c537be4-7fc3-449b-8bfc-ceb9061c2535"
+          ],
+          "evidenceIds": [
+            "tb40-official-gpt-6-astra-high-2026-09-12",
+            "tb40-official-gpt-6-astra-max-2026-09-12"
+          ]
+        },
+        {
+          "text": "DeepSWE 1.1 measures Astra/xHigh at 74% and $6.52 per task in the shared owner harness; Opus 5/max is also 74% at $11.84. AA's separate Coding Agent Index v1.5 scores Astra/max and Fable 5.1/max at 62, with Opus 5/max at 60.",
+          "sourceUrls": [
+            "https://deepswe.datacurve.ai/",
+            "https://artificialanalysis.ai/articles/benchmarking-gpt-6-astra"
+          ],
+          "evidenceIds": [
+            "deepswe-owner-gpt-6-astra-xhigh-2026-09-12",
+            "aa-coding-v15-gpt-6-astra-max-2026-09-09"
+          ]
+        },
+        {
+          "text": "Scale's Refactoring board reports 59.05% for Astra/xHigh and 56.67% for Fable 5.1/xHigh. Their published intervals overlap; both are supported candidates for that task class.",
+          "sourceUrls": [
+            "https://labs.scale.com/leaderboard/sweatlas-refactoring"
+          ],
+          "evidenceIds": [
+            "scale-refactoring-gpt-6-astra-xhigh-2026-09-12"
+          ]
+        }
+      ],
+      "tradeoffs": [
+        {
+          "text": "Scale's Test Writing board reports Astra/xHigh at 50.74%, below the Fable 5.1/xHigh point estimate of 67.04% and Opus 5/xHigh at 62.22%. A terminal-coding advantage does not imply the same ordering for production test creation.",
+          "sourceUrls": [
+            "https://labs.scale.com/leaderboard/sweatlas-tw"
+          ],
+          "evidenceIds": [
+            "scale-test-writing-gpt-6-astra-xhigh-2026-09-12"
+          ]
+        }
+      ],
+      "effortGuidance": {
+        "text": "Start at high for terminal coding: the official same-agent sweep shows little observed benefit from max at substantially higher cost. Use xHigh as a candidate for long repository changes, codebase questions and refactoring, where that exact level is measured. Escalating everything to max is not supported by the terminal sweep.",
+        "sourceUrls": [
+          "https://www.tbench.ai/",
+          "https://deepswe.datacurve.ai/",
+          "https://labs.scale.com/leaderboard/sweatlas-qna",
+          "https://labs.scale.com/leaderboard/sweatlas-refactoring"
+        ]
+      },
+      "gaps": [
+        "The terminal sweep does not prove that high matches max on all reasoning or coding tasks.",
+        "No exact Astra row was found in the inspected SWE-bench Verified or SWE-bench Pro leaderboards.",
+        "Official leaderboard records do not identify the execution organization or exact Codex version; model/agent vendor fields are not proof of an independent run."
+      ],
+      "displayName": "GPT-6 Astra"
+    },
+    {
+      "modelId": "claude-fable-5-1",
+      "summary": "A strong specialist candidate for production test writing and demanding coding work. Its benchmark results are competitive, while measured cost and production fallback behavior matter when choosing it as a default.",
+      "strengths": [
+        {
+          "text": "Scale's Test Writing board measures Fable 5.1/xHigh at 67.04%, Opus 5/xHigh at 62.22% and Astra/xHigh at 50.74%, across 90 tasks with three trials each. This directly supports evaluating Fable for test-generation work; the Fable and Opus error bands overlap.",
+          "sourceUrls": [
+            "https://labs.scale.com/leaderboard/sweatlas-tw"
+          ],
+          "evidenceIds": [
+            "scale-test-writing-claude-fable-5-1-xhigh-2026-09-12"
+          ]
+        },
+        {
+          "text": "At max, Fable 5.1 reaches 57.88% on the official Terminal-Bench 4.0 native-agent board and 62 points on AA Coding Agent Index v1.5. Astra scores 58.18% and 62 respectively; these results support comparable candidates, not a universal winner.",
+          "sourceUrls": [
+            "https://www.tbench.ai/",
+            "https://artificialanalysis.ai/articles/benchmarking-gpt-6-astra"
+          ],
+          "evidenceIds": [
+            "tb40-official-claude-fable-5-1-max-2026-09-12",
+            "aa-coding-v15-claude-fable-5-1-max-2026-09-09"
+          ]
+        }
+      ],
+      "tradeoffs": [
+        {
+          "text": "AA's dated Astra comparison reports both models at 53 Intelligence Index v4.3 points at max, but weighted task cost is $7.63 for Fable 5.1 versus $3.26 for Astra. That is one suite's cost comparison, not a universal bill multiplier.",
+          "sourceUrls": [
+            "https://artificialanalysis.ai/articles/benchmarking-gpt-6-astra"
+          ]
+        },
+        {
+          "text": "AA evaluates Fable 5.1 with default fallback enabled. Its launch assessment says roughly 4% of output tokens across the Intelligence Index came from fallback models, including Opus 4.8 and Opus 5. This is measured production behavior, not a pure Fable-only configuration.",
+          "sourceUrls": [
+            "https://artificialanalysis.ai/articles/claude-fable-5-1"
+          ]
+        }
+      ],
+      "effortGuidance": {
+        "text": "Use xHigh as an evidence-backed candidate for test writing and refactoring, where Scale measures that level. Max is directly measured on Terminal-Bench and AA's indexes, but the retrieved sources do not establish its incremental coding benefit over xHigh in a controlled same-harness sweep.",
+        "sourceUrls": [
+          "https://labs.scale.com/leaderboard/sweatlas-tw",
+          "https://labs.scale.com/leaderboard/sweatlas-refactoring",
+          "https://www.tbench.ai/",
+          "https://artificialanalysis.ai/articles/benchmarking-gpt-6-astra"
+        ]
+      },
+      "gaps": [
+        "No exact Fable 5.1 row was found in the inspected DeepSWE owner, SWE-bench Verified or SWE-bench Pro boards; AA and provider runs remain separate evidence.",
+        "The retrieved native-agent leaderboards do not give an exact agent version or fallback share for each result.",
+        "Benchmark API dollars cannot be converted into Claude subscription quota percentages without observed plan-specific usage data."
+      ],
+      "displayName": "Claude Fable 5.1"
+    }
+  ]
+}

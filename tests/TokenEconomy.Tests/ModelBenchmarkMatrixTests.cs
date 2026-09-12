@@ -109,13 +109,14 @@ public class ModelBenchmarkMatrixTests
         var result = matrix.Build(
             "artificial-analysis-intelligence-index-v4.3",
             new BenchmarkTokenAssumption(100_000, 10_000), reference,
-            new DateTime(2026, 9, 11, 0, 0, 0, DateTimeKind.Utc));
+            new DateTime(2026, 9, 12, 0, 0, 0, DateTimeKind.Utc));
         var astra = Assert.Single(result.Cells, cell => cell.Key == new BenchmarkCellKey(KnownModels.Gpt6Astra, EffortLevel.Low));
         var sol = Assert.Single(result.Cells, cell => cell.Key == reference);
 
         Assert.True(astra.Score > sol.Score);
         Assert.True(astra.CostPerTaskUsd > sol.CostPerTaskUsd);
-        Assert.Empty(matrix.FindCandidates(reference, "artificial-analysis-intelligence-index-v4.3",
-            new BenchmarkTokenAssumption(100_000, 10_000), result.AsOfUtc));
+        Assert.DoesNotContain(matrix.FindCandidates(reference, "artificial-analysis-intelligence-index-v4.3",
+            new BenchmarkTokenAssumption(100_000, 10_000), result.AsOfUtc),
+            candidate => candidate.Cell.Key == astra.Key);
     }
 }

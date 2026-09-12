@@ -1,0 +1,949 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Token Economy API — costs, reasoning effort, and routing</title>
+  <meta name="description" content="Token Economy C# API guide: typed inputs, return fields, reasoning effort, compatibility scores, dated token costs, and deterministic model-routing decisions.">
+  <link rel="canonical" href="https://agent-orchestrator.dev/token-economy/api/">
+
+  <!-- Open Graph / social -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Token Economy API — costs, reasoning effort, and routing">
+  <meta property="og:description" content="One tested source for model pricing (with history), run-cost computation, and token-efficiency model selection. .NET, dependency-free core.">
+  <meta property="og:url" content="https://agent-orchestrator.dev/token-economy/api/">
+
+  <!-- Self-contained inline SVG favicon (data URI) so the page has no external requests. -->
+  <link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2064%2064'%3E%3Crect%20width='64'%20height='64'%20rx='14'%20fill='%232f6df0'/%3E%3Ctext%20x='50%25'%20y='52%25'%20font-size='38'%20font-family='monospace'%20font-weight='700'%20fill='white'%20text-anchor='middle'%20dominant-baseline='middle'%3E%C2%A2%3C/text%3E%3C/svg%3E">
+
+  <style>
+    :root {
+      --bg: #ffffff;
+      --bg-alt: #f5f7fb;
+      --panel: #ffffff;
+      --border: #e2e8f0;
+      --text: #1a2233;
+      --muted: #5a6577;
+      --accent: #2f6df0;
+      --accent-soft: #eaf1ff;
+      --code-bg: #f6f8fc;
+      --code-text: #24324a;
+      --ok: #167a4a;
+      --warn: #9a6b00;
+      /* Chart series: the four token components, in stack order. Validated
+         categorical slots (blue → orange → aqua → yellow); each adjacent pair
+         clears the colour-vision-deficiency and normal-vision separation
+         floors, so a stacked bar stays readable without relying on hue alone. */
+      --series-input: #2a78d6;
+      --series-cache-read: #eb6834;
+      --series-cache-write: #1baf7a;
+      --series-output: #eda100;
+      --token-keyword: #6f42c1;
+      --token-type: #0969da;
+      --token-string: #087f5b;
+      --token-number: #b54708;
+      --token-comment: #657187;
+      --mono: ui-monospace, "SF Mono", "Cascadia Code", "JetBrains Mono", Menlo, Consolas, monospace;
+      --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #0f1420;
+        --bg-alt: #131a29;
+        --panel: #161d2c;
+        --border: #26314a;
+        --text: #e6ebf5;
+        --muted: #98a3ba;
+        --accent: #6ea0ff;
+        --accent-soft: #16233f;
+        --code-bg: #0c111b;
+        --code-text: #d3ddef;
+        --ok: #4cc38a;
+        --warn: #e0b341;
+        /* Re-stepped for the dark panel — the same four hues, chosen for the
+           dark surface rather than an automatic lightening of the light set. */
+        --series-input: #3987e5;
+        --series-cache-read: #d95926;
+        --series-cache-write: #199e70;
+        --series-output: #c98500;
+        --token-keyword: #c9a7ff;
+        --token-type: #79b8ff;
+        --token-string: #8bd5b0;
+        --token-number: #ffab70;
+        --token-comment: #8b98ad;
+      }
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: auto; }
+    body {
+      margin: 0;
+      font-family: var(--sans);
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    code, pre, kbd { font-family: var(--mono); }
+
+    .wrap { max-width: 1040px; margin: 0 auto; padding: 0 20px; }
+
+    .brand { font-weight: 700; letter-spacing: -0.02em; font-size: 1.05rem; display: flex; align-items: center; gap: 9px; white-space: nowrap; flex-shrink: 0; }
+    .brand .mark {
+      width: 22px; height: 22px; border-radius: 6px; background: var(--accent);
+      color: #fff; display: inline-grid; place-items: center; font-family: var(--mono);
+      font-weight: 700; font-size: 0.85rem;
+    }
+    /* ---- hero ---- */
+    .hero { padding: 56px 0 40px; }
+    .eyebrow {
+      display: inline-block; font-size: 0.78rem; font-weight: 600; letter-spacing: 0.08em;
+      text-transform: uppercase; color: var(--accent);
+      background: var(--accent-soft); padding: 4px 11px; border-radius: 999px; margin-bottom: 18px;
+    }
+    .hero h1 { font-size: clamp(2.1rem, 6vw, 3.2rem); line-height: 1.08; letter-spacing: -0.03em; margin: 0 0 14px; }
+    .hero .tagline { font-size: clamp(1.1rem, 3vw, 1.4rem); color: var(--muted); margin: 0 0 8px; }
+    .hero p.lead { font-size: 1.06rem; color: var(--muted); max-width: 640px; margin: 14px 0 28px; }
+    .cta { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; }
+    .btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 10px 18px; border-radius: 9px; font-weight: 600; font-size: 0.96rem;
+      border: 1px solid var(--accent); background: var(--accent); color: #fff;
+    }
+    .btn:hover { text-decoration: none; filter: brightness(1.06); }
+    .btn.secondary { background: transparent; color: var(--accent); }
+    .install {
+      display: inline-flex; align-items: center; gap: 10px;
+      font-family: var(--mono); font-size: 0.95rem;
+      background: var(--code-bg); border: 1px solid var(--border); color: var(--code-text);
+      padding: 10px 14px; border-radius: 9px;
+    }
+    .install .prompt { color: var(--muted); user-select: none; }
+
+    /* ---- sections ---- */
+    section { padding: 46px 0; border-top: 1px solid var(--border); }
+    section h2 { font-size: 1.6rem; letter-spacing: -0.02em; margin: 0 0 6px; }
+    section .sub { color: var(--muted); margin: 0 0 26px; max-width: 680px; }
+    h3 { font-size: 1.12rem; margin: 26px 0 8px; letter-spacing: -0.01em; }
+
+    /* pillars */
+    .pillars { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+    @media (max-width: 760px) { .pillars { grid-template-columns: 1fr; } }
+    .pillar {
+      background: var(--panel); border: 1px solid var(--border); border-radius: 12px; padding: 20px;
+    }
+    .pillar h3 { margin-top: 0; }
+    .pillar .ico { font-family: var(--mono); font-weight: 700; color: var(--accent); font-size: 1.1rem; margin-bottom: 6px; }
+    .pillar p { color: var(--muted); font-size: 0.96rem; margin: 6px 0 0; }
+    .pillar-links { display: flex; flex-wrap: wrap; gap: 8px 16px; margin-top: 14px; font-size: .88rem; font-weight: 600; }
+
+    /* code */
+    pre {
+      background: var(--code-bg); border: 1px solid var(--border); border-radius: 11px;
+      padding: 16px 18px; overflow-x: auto; font-size: 0.88rem; line-height: 1.55; color: var(--code-text);
+      margin: 14px 0;
+    }
+    pre code { color: inherit; }
+    :not(pre) > code {
+      background: var(--code-bg); border: 1px solid var(--border);
+      padding: 1px 6px; border-radius: 6px; font-size: 0.86em; color: var(--code-text);
+    }
+    .cmt { color: var(--muted); }
+    .tok-keyword { color: var(--token-keyword); font-weight: 600; }
+    .tok-type { color: var(--token-type); }
+    .tok-string { color: var(--token-string); }
+    .tok-number { color: var(--token-number); }
+    .tok-comment { color: var(--token-comment); font-style: italic; }
+    .comment-note { font-size: 0.9rem; color: var(--muted); }
+
+    /* table */
+    .table-scroll { overflow-x: auto; margin: 16px 0; }
+    table { border-collapse: collapse; width: 100%; font-size: 0.92rem; min-width: 520px; }
+    th, td { text-align: left; padding: 10px 13px; border-bottom: 1px solid var(--border); }
+    th { color: var(--muted); font-weight: 600; font-size: 0.82rem; text-transform: uppercase; letter-spacing: 0.03em; }
+    td.num, th.num { text-align: right; font-family: var(--mono); }
+    tbody tr:last-child td { border-bottom: none; }
+    .matrix-table { min-width: 1280px; }
+    .matrix-table td { vertical-align: top; }
+    .matrix-table .model-id { font-family: var(--mono); font-weight: 600; white-space: nowrap; }
+    .matrix-table .efforts { font-family: var(--mono); font-size: .82rem; }
+    .price-cell { min-width: 184px; font-variant-numeric: tabular-nums; }
+    .price-line { display: flex; justify-content: space-between; gap: 12px; font-size: .8rem; }
+    .price-line span:first-child { color: var(--muted); }
+    .price-valid { display: block; color: var(--muted); font-size: .74rem; margin-top: 3px; }
+    .cost-chip, .status-chip {
+      display: inline-flex; align-items: center; border: 1px solid var(--border);
+      border-radius: 999px; padding: 2px 9px; font-size: .76rem; font-weight: 650;
+      line-height: 1.5; white-space: nowrap;
+    }
+    .cost-economy { color: var(--ok); border-color: color-mix(in srgb, var(--ok) 42%, var(--border)); background: color-mix(in srgb, var(--ok) 8%, var(--panel)); }
+    .cost-standard { color: var(--accent); border-color: color-mix(in srgb, var(--accent) 42%, var(--border)); background: color-mix(in srgb, var(--accent) 8%, var(--panel)); }
+    .cost-premium, .cost-unknown { color: var(--warn); border-color: color-mix(in srgb, var(--warn) 42%, var(--border)); background: color-mix(in srgb, var(--warn) 8%, var(--panel)); }
+    .status-note { display: block; color: var(--muted); font-size: .74rem; margin-top: 4px; }
+    .fit { font-size: .82rem; white-space: nowrap; }
+    .fit-ideal { color: var(--ok); font-weight: 600; }
+    .fit-underpowered { color: var(--warn); }
+    .matrix-guide { border: 1px solid var(--border); border-radius: 10px; margin: 18px 0; padding: 12px 16px; background: var(--panel); }
+    .matrix-guide summary { cursor: pointer; color: var(--accent); font-weight: 600; }
+    .matrix-guide-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px 20px; margin-top: 14px; }
+    .matrix-guide-grid div { min-width: 0; }
+    .matrix-guide-grid strong { display: block; font-size: .88rem; margin-bottom: 2px; }
+    .matrix-guide-grid span { display: block; color: var(--muted); font-size: .82rem; }
+    @media (max-width: 680px) { .matrix-guide-grid { grid-template-columns: 1fr; } }
+
+    /* callout — full symmetric border only; no coloured left accent bar (style hard rule) */
+    .callout {
+      border: 1px solid var(--border); background: var(--accent-soft);
+      padding: 14px 18px; border-radius: 10px; margin: 18px 0; font-size: 0.96rem;
+    }
+    .callout strong { color: var(--text); }
+
+    /* family cards */
+    .family { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+    @media (max-width: 760px) { .family { grid-template-columns: 1fr; } }
+    .fcard {
+      display: block; background: var(--panel); border: 1px solid var(--border); border-radius: 12px;
+      padding: 18px; color: inherit;
+    }
+    .fcard:hover { border-color: var(--accent); text-decoration: none; }
+    .fcard .name { font-weight: 700; margin-bottom: 4px; }
+    .fcard .desc { color: var(--muted); font-size: 0.92rem; }
+    .fcard.self { border-style: dashed; }
+
+    ul.tight { margin: 10px 0; padding-left: 20px; }
+    ul.tight li { margin: 5px 0; color: var(--muted); }
+    ul.tight li code { color: var(--code-text); }
+
+    /* footer */
+    footer {
+      border-top: 1px solid var(--border); padding: 34px 0 60px; color: var(--muted); font-size: 0.9rem;
+    }
+    footer .frow { display: flex; flex-wrap: wrap; gap: 8px 20px; align-items: center; }
+    footer .sep { color: var(--border); }
+    .pill { font-size: 0.78rem; color: var(--muted); border: 1px solid var(--border); border-radius: 999px; padding: 2px 9px; }
+    .pill.lifecycle-retired, .pill.lifecycle-deprecated {
+      color: var(--warn); border-color: color-mix(in srgb, var(--warn) 45%, var(--border));
+      background: color-mix(in srgb, var(--warn) 10%, var(--panel));
+    }
+    .state { font-family: var(--mono); font-size: .78rem; font-weight: 700; letter-spacing: .04em; color: var(--ok); }
+    .state.planned, .state.pending { color: var(--warn); }
+    .data-note { color: var(--muted); font-size: .88rem; margin-top: 14px; }
+
+    /* ---- token-usage charts ----
+       Thin marks, no gridlines, values labelled directly on every row, and a
+       table view underneath: in light mode two of the four series sit below 3:1
+       against the panel, so the numbers — never the fill alone — carry the data. */
+    .chart-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+    .chart-card { background: var(--panel); border: 1px solid var(--border); border-radius: 12px; padding: 20px; min-width: 0; }
+    .chart-card.wide { grid-column: 1 / -1; }
+    .chart-card h3 { margin: 0 0 4px; font-size: 1.05rem; }
+    .chart-card .chart-kicker { color: var(--muted); font-size: .84rem; margin: 0 0 18px; }
+    .chart-note { color: var(--muted); font-size: .82rem; margin: 16px 0 0; }
+    .chart-note code { font-size: .95em; }
+
+    .bar-row { margin-top: 14px; }
+    .bar-row:first-child { margin-top: 0; }
+    .bar-head { display: flex; justify-content: space-between; gap: 12px; align-items: baseline; margin-bottom: 5px; font-size: .88rem; }
+    .bar-head span { overflow-wrap: anywhere; }
+    .bar-head strong { font-family: var(--mono); font-size: .82rem; font-variant-numeric: tabular-nums; white-space: nowrap; }
+    /* 2px of surface between segments does the separating — no strokes. */
+    .bar { display: flex; gap: 2px; height: 12px; }
+    .bar > i { display: block; min-width: 2px; }
+    .bar > i:last-child { border-radius: 0 4px 4px 0; }
+    .bar.single > i { border-radius: 0 4px 4px 0; }
+    i.s-input { background: var(--series-input); }
+    i.s-cache-read { background: var(--series-cache-read); }
+    i.s-cache-write { background: var(--series-cache-write); }
+    i.s-output { background: var(--series-output); }
+    i.s-single { background: var(--series-input); }
+
+    /* Columns over time: one measure (tokens) on one axis; the cost of the same
+       session is stated as a figure instead of a second, arbitrary y-scale. */
+    .column-chart { max-width: 560px; }
+    .columns { display: flex; align-items: flex-end; gap: 14px; border-bottom: 1px solid var(--border); }
+    .column { flex: 1 1 0; min-width: 0; }
+    /* A fixed plot height so each column's percentage height is exact — a flex
+       box would shrink the tallest column most and distort the encoding. */
+    .column .plot { height: 148px; display: flex; align-items: flex-end; }
+    /* Cap the column, don't fill the slot: the band's leftover space is air. */
+    .column .stack { display: flex; flex-direction: column-reverse; gap: 2px; width: 100%; max-width: 24px; margin: 0 auto; }
+    .column .stack > i { display: block; width: 100%; min-height: 2px; }
+    .column .stack > i:last-child { border-radius: 4px 4px 0 0; }
+    .column .cap { font-family: var(--mono); font-size: .74rem; font-variant-numeric: tabular-nums; text-align: center; margin-bottom: 5px; white-space: nowrap; }
+    .column-axis { display: flex; gap: 14px; margin-top: 8px; }
+    .column-axis div { flex: 1 1 0; min-width: 0; text-align: center; color: var(--muted); font-size: .76rem; }
+    .column-axis div strong { display: block; color: var(--text); font-weight: 600; }
+
+    .legend { display: flex; flex-wrap: wrap; gap: 8px 14px; margin-top: 18px; color: var(--muted); font-size: .8rem; }
+    .legend span { display: inline-flex; align-items: center; gap: 6px; }
+    .legend i { width: 9px; height: 9px; border-radius: 2px; display: inline-block; }
+
+    .coverage-list { display: grid; gap: 12px; }
+    .coverage-item { border-top: 1px solid var(--border); padding-top: 12px; }
+    .coverage-item:first-child { border-top: 0; padding-top: 0; }
+    .coverage-item strong { display: block; font-size: .92rem; }
+    .coverage-item span { color: var(--muted); font-size: .86rem; }
+
+    .chart-summary { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; margin: 0 0 16px; }
+    @media (max-width: 720px) { .chart-summary { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+    .metric { border: 1px solid var(--border); border-radius: 9px; padding: 10px 13px; min-width: 0; }
+    .metric strong { display: block; font-size: 1.2rem; font-weight: 600; letter-spacing: -0.01em; }
+    .metric span { display: block; color: var(--muted); font-size: .78rem; }
+
+    details.table-view { margin-top: 16px; border: 1px solid var(--border); border-radius: 10px; padding: 12px 16px; }
+    details.table-view summary { cursor: pointer; font-size: .9rem; color: var(--accent); }
+    details.table-view h4 { margin: 18px 0 0; font-size: .92rem; }
+    details.table-view table { min-width: 460px; }
+
+    .chart-tip {
+      position: fixed; z-index: 40; pointer-events: none; opacity: 0;
+      transform: translate(-50%, -100%); transition: opacity .08s linear;
+      background: var(--panel); color: var(--text); border: 1px solid var(--border);
+      border-radius: 8px; padding: 6px 10px; font-size: .8rem; line-height: 1.45;
+      box-shadow: 0 6px 18px rgb(0 0 0 / 18%); max-width: 240px; white-space: pre-line;
+    }
+    .chart-tip.on { opacity: 1; }
+    @media (prefers-reduced-motion: reduce) { .chart-tip { transition: none; } }
+    @media (max-width: 720px) { .chart-grid { grid-template-columns: 1fr; } }
+    .pillars > *, .family > * { min-width: 0; }
+    .install { max-width: 100%; overflow-wrap: anywhere; }
+    .example-output { margin: 18px 0; }
+    .example-output > strong { font-size: .875rem; color: var(--muted); }
+    .example-output pre { margin-top: 6px; background: var(--bg-alt); }
+    .matrix-table .efforts, .fit, th { font-size: .875rem; }
+    .price-line, .cost-chip, .status-chip { font-size: .875rem; }
+    .price-valid, .status-note { font-size: .8125rem; }
+    a:focus-visible, summary:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+  </style>
+  <link rel="stylesheet" href="/token-economy/navigation.css">
+  <script src="/token-economy/navigation.js" defer></script>
+<style>
+  .api-wrap { max-width: 1180px; margin: auto; padding: 0 24px; }
+  .docs-intro { max-width: 780px; padding: 48px 0 32px; }
+  .docs-intro h1 { font-size: clamp(2rem, 5vw, 3rem); line-height: 1.1; margin: 0 0 20px; letter-spacing: -.035em; }
+  .docs-intro .lead { font-size: 1.2rem; line-height: 1.5; }
+  .docs-intro .eyebrow { font-size: .875rem; letter-spacing: .035em; }
+  .docs-layout { display: grid; grid-template-columns: 200px minmax(0, 1fr); gap: 48px; align-items: start; }
+  .docs-toc { position: sticky; top: var(--site-header-offset, 7rem); max-height: calc(100dvh - var(--site-header-offset, 7rem)); overflow: auto; padding: 20px 0; border-top: 1px solid var(--border); }
+  .docs-toc strong { display: block; margin-bottom: 12px; font-size: .875rem; }
+  .docs-toc a { display: block; padding: 7px 0; font-size: .875rem; }
+  .docs-body { min-width: 0; }
+  .docs-body section { padding: 28px 0 36px; }
+  .docs-body h2 { font-size: 1.5rem; line-height: 1.3; margin-bottom: 18px; }
+  .docs-body p { max-width: 74ch; }
+  .docs-body td { vertical-align: top; }
+  .docs-body table { min-width: 480px; }
+  .docs-body th { font-size: .875rem; text-transform: none; letter-spacing: 0; }
+  .docs-body pre { font-size: .875rem; }
+  .signature { border-radius: 6px; }
+  .source-note { font-size: .875rem; color: var(--muted); }
+  .status-definitions > div { display: grid; grid-template-columns: 10rem 1fr; gap: 1rem; padding: 8px 0; border-bottom: 1px solid var(--border); }
+  .status-definitions dt { font-weight: 650; }
+  .status-definitions dd { margin: 0; }
+  @media (max-width: 850px) {
+    .docs-layout { grid-template-columns: minmax(0, 1fr); gap: 12px; }
+    .docs-toc { position: static; display: flex; flex-wrap: wrap; gap: 4px 20px; max-height: none; }
+    .docs-toc strong { width: 100%; margin: 0; }
+  }
+  @media (max-width: 480px) { .api-wrap { padding: 0 16px; } .status-definitions > div { grid-template-columns: 1fr; gap: 2px; } }
+</style></head>
+<body>
+<!-- site-navigation:start -->
+<a class="site-skip-link" href="#main-content">Skip to content</a>
+<header class="site-header" data-site-navigation>
+  <div class="site-family-bar">
+    <a class="site-family-back" href="https://agent-orchestrator.dev/"><span aria-hidden="true">←</span> Agent Orchestrator</a>
+  </div>
+  <div class="site-header-main">
+    <a class="site-brand" href="/token-economy/" aria-label="Token Economy home"><span class="site-brand-mark" aria-hidden="true">¢</span><span>Token Economy</span></a>
+    <button class="site-menu-button" type="button" aria-expanded="false" aria-controls="site-navigation-groups"><span>Menu</span><span class="site-menu-icon" aria-hidden="true"></span></button>
+    <nav class="site-primary-nav" aria-label="Primary navigation">
+      <div class="site-nav-groups" id="site-navigation-groups">
+        <a class="site-nav-direct" href="/token-economy/api/">API</a>
+        <div class="site-nav-group">
+          <button class="site-nav-heading" type="button" aria-expanded="false" aria-controls="site-nav-library">Guides</button>
+          <ul class="site-nav-menu" id="site-nav-library">
+            <li><a href="/token-economy/#why">Overview</a></li>
+            <li><a href="/token-economy/#suggest">Model compatibility</a></li>
+            <li><a href="/token-economy/#install">Install</a></li>
+            <li><a href="/token-economy/api/#costs">Calculate run costs</a></li>
+            <li><a href="/token-economy/api/#routing">Route an attempt</a></li>
+            <li><a href="/token-economy/#model-recommendation">Task complexity</a></li>
+          </ul>
+        </div>
+        <div class="site-nav-group">
+          <button class="site-nav-heading" type="button" aria-expanded="false" aria-controls="site-nav-evidence">Research</button>
+          <ul class="site-nav-menu" id="site-nav-evidence">
+            <li><a href="/token-economy/price-history/">Prices &amp; history</a></li>
+            <li><a href="/token-economy/task-class-routing/">Task studies</a></li>
+            <li><a href="/token-economy/code-review/">Code review</a></li>
+            <li><a href="/token-economy/model-benchmarks/">Price × quality</a></li>
+            <li><a href="/token-economy/#benchmarks">Benchmarks</a></li>
+            <li><a href="/token-economy/evidence/agent-studio-usage/">Usage evidence</a></li>
+            <li><a href="/token-economy/cap-forecast/">Cap forecast</a></li>
+            <li><a href="/token-economy/provider-quota-dashboard/">Quota snapshot</a></li>
+          </ul>
+        </div>
+        <div class="site-nav-group">
+          <button class="site-nav-heading" type="button" aria-expanded="false" aria-controls="site-nav-project">Project</button>
+          <ul class="site-nav-menu" id="site-nav-project">
+            <li><a href="/token-economy/#family">Related projects</a></li>
+            <li><a href="https://github.com/agent-orc/token-economy">GitHub <span aria-hidden="true">↗</span></a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+  </div>
+</header>
+<!-- site-navigation:end -->
+
+<main class="api-wrap" id="main-content" tabindex="-1">
+<div class="docs-intro">
+  <p class="eyebrow">C# · .NET 10 · In-process library</p>
+  <h1>Token Economy API</h1>
+  <p class="lead">Calculate a run’s cost, compare model and reasoning choices, and decide whether a task can start.</p>
+  <p>The core APIs are deterministic. Your application supplies usage, task evidence, and provider capacity; it also runs the selected CLI. No API key, HTTP service, or model call is required to use the library.</p>
+  <p class="source-note">This guide describes the <a href="https://github.com/agent-orc/token-economy/tree/main/src/TokenEconomy">current library source</a>. <a href="https://www.nuget.org/packages/TokenEconomy">Package releases</a> · <a href="examples.cs">Complete C# example</a></p>
+</div>
+<div class="docs-layout">
+  <nav class="docs-toc" aria-label="API contents">
+    <strong>In this guide</strong>
+    <a href="#quickstart">Quickstart</a>
+    <a href="#api-map">Choose an API</a>
+    <a href="#costs">Calculate costs</a>
+    <a href="#prices">Look up prices</a>
+    <a href="#evaluate">Evaluate one model</a>
+    <a href="#suggest">Rank candidates</a>
+    <a href="#benchmark-evidence">Read benchmark evidence</a>
+    <a href="#review-benchmarks">Code-review evidence</a>
+    <a href="#review-runs">Quality Studio runs</a>
+    <a href="#describe">Inspect the matrix</a>
+    <a href="../task-complexity/">Estimate task complexity</a>
+    <a href="#routing">Route an attempt</a>
+    <a href="#task-advice">Task-class advice</a>
+    <a href="#outcomes">Measure outcomes</a>
+    <a href="#custom-catalogs">Custom catalogs</a>
+    <a href="#host-integration">Host integration</a>
+  </nav>
+  <div class="docs-body">
+    <section id="quickstart">
+      <h2>Start with a cost calculation</h2>
+      <p>Add the package to a .NET 10 project.</p>
+      <pre><code data-language="shell">dotnet add package TokenEconomy</code></pre>
+      <p>This complete example uses a fixed execution time so its result can be reproduced.</p>
+      <pre><code data-language="csharp" data-example="api-cost">using TokenEconomy;
+
+var atUtc = new DateTime(2026, 9, 12, 0, 0, 0, DateTimeKind.Utc);
+CostBreakdown cost = ModelPriceCatalog.Default.ComputeCost(
+    KnownModels.ClaudeSonnet5,
+    new TokenUsage(Input: 100_000, Output: 10_000,
+                   CacheRead: 20_000, CacheWrite: 5_000),
+    atUtc);
+
+if (!cost.HasPrice)
+{
+    Console.WriteLine($"Cost unavailable: {cost.Status}");
+    return;
+}
+
+Console.WriteLine($"Input: {cost.InputCost:F5}");
+Console.WriteLine($"Output: {cost.OutputCost:F5}");
+Console.WriteLine($"Cache read: {cost.CacheReadCost:F5}");
+Console.WriteLine($"Cache write: {cost.CacheWriteCost:F5}");
+Console.WriteLine($"Total: {cost.Total:F5} {cost.Currency}");</code></pre>
+      <div class="example-output"><strong>Output · current catalog, en-US formatting</strong><pre><code>Input: 0.20000
+Output: 0.10000
+Cache read: 0.00400
+Cache write: 0.01250
+Total: 0.31650 USD</code></pre></div>
+      <p>This is a dated list-price estimate. Retain <code>cost.Caveat</code> when showing the amount. For included subscription usage, label it <strong>API-equivalent consumption</strong>; it does not represent an additional charge or a quota percentage. <a href="../price-history/#subscriptions">Billing contexts and comparison method</a></p>
+    </section>
+    <section id="api-map">
+      <h2>Choose the API for your task</h2>
+      <div class="table-scroll"><table><thead><tr><th>You need to…</th><th>Call</th><th>You receive</th></tr></thead><tbody>
+        <tr><td>Price measured tokens</td><td><a href="#costs"><code>ComputeCost</code></a></td><td><code>CostBreakdown</code></td></tr>
+        <tr><td>Find the rate at a past time</td><td><a href="#prices"><code>ResolvePrice</code></a></td><td><code>PriceResolution</code></td></tr>
+        <tr><td>Inspect one named model</td><td><a href="#evaluate"><code>EvaluateModel</code></a></td><td><code>ModelSuggestion?</code></td></tr>
+        <tr><td>Compare compatible core models</td><td><a href="#suggest"><code>SuggestModel</code></a></td><td>Ranked <code>ModelSuggestion</code> list</td></tr>
+        <tr><td>Build a capability table</td><td><a href="#describe"><code>Describe</code></a></td><td><code>ModelEfficiencyRow</code> list</td></tr>
+        <tr><td>Estimate task scope and consumption</td><td><a href="../task-complexity/"><code>TaskComplexityEstimator.Estimate</code></a></td><td><code>TaskComplexityEstimate</code></td></tr>
+        <tr><td>Decide whether an attempt can run</td><td><a href="#routing"><code>ModelRouter.Route</code></a></td><td><code>ModelRoutingResult</code></td></tr>
+        <tr><td>Suggest routes when creating a task</td><td><a href="#task-advice"><code>Recommend</code> / <code>Select</code></a></td><td>Task-class advice / quota selection</td></tr>
+        <tr><td>Measure spend per accepted result</td><td><a href="#outcomes"><code>ComputeObserved</code></a></td><td>Outcome metrics and coverage</td></tr>
+      </tbody></table></div>
+    </section>
+    <section id="costs">
+      <h2>Calculate token costs</h2>
+      <pre class="signature"><code>CostBreakdown ModelPriceCatalog.ComputeCost(
+    ModelId model, TokenUsage usage, DateTime atUtc)</code></pre>
+      <p>Pass a model ID, measured token counts, and the run’s UTC timestamp. A <code>string?</code> overload accepts model IDs or catalog aliases. Use <code>KnownModels</code> for typed built-in IDs and <code>ModelId.Of(value)</code> for your own.</p>
+      <h3>Token components must not overlap</h3>
+      <div class="table-scroll"><table><thead><tr><th>TokenUsage field</th><th>What to pass</th></tr></thead><tbody>
+        <tr><td><code>Input</code></td><td>Fresh input tokens, excluding cache reads and cache writes.</td></tr>
+        <tr><td><code>Output</code></td><td>Billed output tokens, including reasoning tokens when the provider counts them as output.</td></tr>
+        <tr><td><code>CacheRead</code></td><td>Input tokens read from cache; defaults to 0.</td></tr>
+        <tr><td><code>CacheWrite</code></td><td>Input tokens written to cache; defaults to 0.</td></tr>
+      </tbody></table></div>
+      <p>Each component costs <code>tokens × rate / 1,000,000</code>. A missing cache rate uses the input rate. Non-positive counts currently contribute zero; validate usage at your application boundary if negative values indicate invalid telemetry.</p>
+      <h3>Read <code>CostBreakdown</code></h3>
+      <div class="table-scroll"><table><thead><tr><th>Field</th><th>Meaning</th></tr></thead><tbody>
+        <tr><td><code>Status</code>, <code>HasPrice</code></td><td>Whether a rate was found. Check this before using the component costs.</td></tr>
+        <tr><td><code>InputCost</code>, <code>OutputCost</code>, <code>CacheReadCost</code>, <code>CacheWriteCost</code></td><td>Decimal amounts for the four token components.</td></tr>
+        <tr><td><code>Total</code>, <code>Currency</code></td><td>The summed amount and currency. Total is nullable.</td></tr>
+        <tr><td><code>ModelId</code>, <code>Price</code></td><td>Canonical ID and the exact dated price entry used.</td></tr>
+        <tr><td><code>Unconfirmed</code></td><td>The catalog rate is provisional.</td></tr>
+        <tr><td><code>Caveat</code>, <code>IsEstimatedListPrice</code></td><td>Identifies the result as a published-list-price estimate.</td></tr>
+      </tbody></table></div>
+      <h3>Missing prices are explicit</h3>
+      <ul>
+        <li><code>Resolved</code>: a price applies; <code>HasPrice</code> is true.</li>
+        <li><code>UnknownModel</code>: no catalog listing matches the ID.</li>
+        <li><code>NoPriceForDate</code>: the model is known, but no price period covers the timestamp.</li>
+      </ul>
+      <p>For the last two states, <code>Total</code> is <code>null</code>. The zero-valued component fields do not mean that the run was free. <code>UsageUnavailable</code> also exists in the shared status enum for consumers with no measurement; <code>ComputeCost</code> itself takes a usage value.</p>
+      <p>For input/output-only telemetry, <code>catalog.Cost(model, tokensIn, tokensOut, executedAt)</code> is a convenience wrapper.</p>
+      <p class="source-note"><a href="https://github.com/agent-orc/token-economy/blob/main/src/TokenEconomy/ModelPriceCatalog.cs">Calculation source</a> · <a href="https://github.com/agent-orc/token-economy/blob/main/src/TokenEconomy/CostBreakdown.cs">Return types</a> · <a href="/token-economy/#usage">Real-run example</a></p>
+    </section>
+    <section id="prices">
+      <h2>Look up prices and history</h2>
+      <pre class="signature"><code>ModelListing? Find(ModelId model)
+PriceResolution ResolvePrice(ModelId model, DateTime atUtc)
+IReadOnlyList&lt;ModelPrice&gt; PriceDevelopment(ModelId model)</code></pre>
+      <p>Call these methods on <code>ModelPriceCatalog.Default</code> or a custom catalog. String overloads also exist. Lookup trims whitespace, ignores case, and treats dots and dashes alike.</p>
+      <pre><code data-language="csharp" data-example="api-price">using TokenEconomy;
+
+var catalog = ModelPriceCatalog.Default;
+var atUtc = new DateTime(2026, 9, 12, 0, 0, 0, DateTimeKind.Utc);
+PriceResolution result = catalog.ResolvePrice(KnownModels.ClaudeSonnet5, atUtc);
+
+if (result.Price is { } price)
+    Console.WriteLine($"{price.InputPerMTok:F2} / {price.OutputPerMTok:F2} {price.Currency} per MTok");
+else
+    Console.WriteLine(result.Status);
+// 2.00 / 10.00 USD per MTok</code></pre>
+      <p><code>PriceResolution</code> contains <code>Status</code>, <code>ModelId</code>, nullable <code>Price</code>, and <code>Found</code>. <code>Find</code> returns <code>null</code> for an unknown model; <code>PriceDevelopment</code> returns an empty list.</p>
+      <p><code>ModelPrice</code> also exposes <code>SourceUrls</code>, <code>VerifiedOn</code>, and <code>ValidFromBasis</code>. These distinguish a verified rate from the evidence for its historical start date. <a href="../price-history/">Browse all model prices and histories</a>.</p>
+      <p>A price applies from <code>ValidFrom</code> through its optional <code>ValidTo</code>, including both endpoints. Pass UTC values. The catalog retains historical periods and rejects overlaps when constructed.</p>
+      <p class="source-note"><a href="https://github.com/agent-orc/token-economy/blob/main/src/TokenEconomy/ModelPriceCatalog.cs">Price lookup source</a> · <a href="https://github.com/agent-orc/token-economy/blob/main/src/TokenEconomy/catalog/model-prices.json">Dated price catalog</a></p>
+    </section>
+    <section id="evaluate">
+      <h2>Evaluate one model and its reasoning level</h2>
+      <pre class="signature"><code>ModelSuggestion? ModelEfficiencyMatrix.EvaluateModel(
+    ModelId model, TaskClass taskClass, BudgetPressure budgetPressure,
+    DateTime atUtc, EffortLevel? desiredEffort = null)</code></pre>
+      <p>This call returns an object describing a named model’s compatibility with a task. <strong>The reasoning level is in <code>SuggestedEffort</code>.</strong></p>
+      <pre><code data-language="csharp" data-example="api-evaluate">using TokenEconomy;
+
+ModelSuggestion? sonnet = ModelEfficiencyMatrix.Default.EvaluateModel(
+    KnownModels.ClaudeSonnet5,
+    TaskClass.Feature,
+    BudgetPressure.Tight,
+    new DateTime(2026, 9, 12, 0, 0, 0, DateTimeKind.Utc));
+
+if (sonnet is null)
+{
+    Console.WriteLine("No evaluation is available for this model and task.");
+    return;
+}
+
+Console.WriteLine($"Model: {sonnet.ModelId}");
+Console.WriteLine($"Reasoning: {sonnet.SuggestedEffort}");
+Console.WriteLine($"Compatibility score: {sonnet.Score}");
+Console.WriteLine($"Evidence: {sonnet.EvidenceStatus}");
+Console.WriteLine(sonnet.Rationale);</code></pre>
+      <div class="example-output"><strong>Key output · current catalog</strong><pre><code>Model: claude-sonnet-5
+Reasoning: Medium
+Compatibility score: 60
+Evidence: Provisional</code></pre></div>
+      <h3>Why Medium? Why 60?</h3>
+      <p><code>Feature</code> defaults to <code>Medium</code>. <code>Tight</code> increases the weight of cost in ranking; it keeps this reasoning level. <code>Critical</code> lowers the desired effort by one step before it is fitted to the model’s supported levels.</p>
+      <p>Here, <code>Capable</code> contributes 60 points and <code>Standard</code> cost contributes 0: <strong>60 + 0 = 60</strong>. The score combines task suitability and the dated cost class under the selected budget pressure. It is an ordinal ranking value: larger ranks ahead. It is neither a benchmark result nor a probability of success. The <code>Rationale</code> explains the factors; the <a href="https://github.com/agent-orc/token-economy/blob/main/src/TokenEconomy/EfficiencyPolicy.cs">policy source</a> defines their weights.</p>
+      <p>You can request <code>desiredEffort: EffortLevel.High</code>. The result uses a supported level at or below the request, with the model’s minimum as a floor. Read the returned value instead of assuming the request was accepted unchanged.</p>
+      <div class="callout"><strong>Compatibility and launch policy have different roles.</strong> Sonnet 5 is currently fallback-only. This example evaluates it at Medium; its declared provider fallback uses High. <a href="#routing">Use the router’s selected route</a> for an actual attempt.</div>
+      <h3>All <code>ModelSuggestion</code> fields</h3>
+      <div class="table-scroll"><table><thead><tr><th>Field</th><th>Meaning</th></tr></thead><tbody>
+        <tr><td><code>ModelId</code>, <code>Cli</code></td><td>Canonical model ID and its associated CLI.</td></tr>
+        <tr><td><code>SuggestedEffort</code></td><td>Reasoning effort after fitting the request to supported levels.</td></tr>
+        <tr><td><code>Tier</code>, <code>Suitability</code></td><td>Maintained capability band and fit for the task class.</td></tr>
+        <tr><td><code>CostClass</code>, <code>CostUnconfirmed</code></td><td>Dated price band and whether the applied price is provisional.</td></tr>
+        <tr><td><code>Score</code>, <code>Rationale</code></td><td>Compatibility rank and its explanation.</td></tr>
+        <tr><td><code>EvidenceStatus</code>, <code>Provisional</code></td><td>Evidence supporting the policy entry and whether it still needs validation.</td></tr>
+        <tr><td><code>ReviewQuality</code></td><td>Review-specific evidence when available; otherwise null.</td></tr>
+      </tbody></table></div>
+      <p><code>null</code> means that the model/task combination cannot be evaluated: for example, the model is unknown, unsupported, restricted, deprecated, has no mapped CLI, or has no task suitability. Missing price alone produces <code>CostClass.Unknown</code>. This method does not check provider quota or CLI availability.</p>
+      <p class="source-note"><a href="https://github.com/agent-orc/token-economy/blob/main/src/TokenEconomy/ModelEfficiencyMatrix.cs">Evaluation source</a> · <a href="https://github.com/agent-orc/token-economy/blob/main/src/TokenEconomy/ModelSuggestion.cs">Return contract</a></p>
+    </section>
+    <section id="suggest">
+      <h2>Rank compatible core models</h2>
+      <pre class="signature"><code>IReadOnlyList&lt;ModelSuggestion&gt; ModelEfficiencyMatrix.SuggestModel(
+    TaskClass taskClass, BudgetPressure budgetPressure,
+    IEnumerable&lt;Cli&gt;? availableClis, DateTime atUtc)</code></pre>
+      <p>Supply the CLIs your host can use. The result contains candidates in descending compatibility order, with the same fields as <a href="#evaluate"><code>EvaluateModel</code></a>.</p>
+      <pre><code data-language="csharp" data-example="api-suggest">using TokenEconomy;
+
+var ranked = ModelEfficiencyMatrix.Default.SuggestModel(
+    TaskClass.Feature, BudgetPressure.Tight,
+    availableClis: [Cli.Codex],
+    atUtc: new DateTime(2026, 9, 12, 0, 0, 0, DateTimeKind.Utc));
+
+if (ranked.Count == 0)
+{
+    Console.WriteLine("Wait: no eligible model is available.");
+    return;
+}
+
+ModelSuggestion best = ranked[0];
+Console.WriteLine($"{best.ModelId} / {best.SuggestedEffort}");
+Console.WriteLine(best.Rationale);</code></pre>
+      <p>With the current catalog, this example ranks <code>gpt-5.6-terra / Medium</code> first. Results change with the task, budget pressure, available CLIs, and catalog version.</p>
+      <p>Unknown CLI mappings, restricted, deprecated, unsupported, fallback-only, and non-core-workflow profiles are excluded. An empty or null CLI set returns an empty list. No provider is probed.</p>
+      <p>The score is a coarse compatibility comparison. <a href="#task-advice">Task-class advice</a> also retains study evidence; <a href="#routing">attempt routing</a> enforces the concrete task’s correctness floors.</p>
+    </section>
+    <section id="describe">
+      <h2>Inspect capability, effort, and status</h2>
+      <pre class="signature"><code>IReadOnlyList&lt;ModelEfficiencyRow&gt; ModelEfficiencyMatrix.Describe(DateTime atUtc)</code></pre>
+      <p>Each row contains <code>ModelId</code>, <code>Vendor</code>, nullable <code>Cli</code>, <code>Tier</code>, <code>CostClass</code>, <code>EffortLevels</code>, per-task <code>Suitability</code>, and policy/evidence flags. Restricted and deprecated entries remain visible for inspection.</p>
+      <p><code>EffortLevels</code> lists supported values. <code>SuggestedEffort</code> belongs to a task-specific evaluation; a model does not have one universal recommended effort. Use <code>ResolvePrice</code> alongside <code>Describe</code> to add concrete token rates.</p>
+      <h3 id="selection-status">Selection status in one line</h3>
+      <dl class="status-definitions">
+        <div><dt>✓ Selectable</dt><dd>Allowed for its declared workflow roles.</dd></div>
+        <div><dt>↪ Fallback only</dt><dd>Allowed through an explicitly qualified fallback.</dd></div>
+        <div><dt>⊘ Unsupported</dt><dd>No permitted route in the current policy.</dd></div>
+        <div><dt>⏸ Restricted</dt><dd>Blocked by policy.</dd></div>
+        <div><dt>− Deprecated</dt><dd>Retained for history; excluded from new selections.</dd></div>
+      </dl>
+      <h3 id="evidence-status">Why selectable and provisional?</h3>
+      <p><strong>Selectable is permission. Provisional is evidence maturity.</strong> A model can be allowed while its task or reasoning-level claims still need validation. Price confirmation is a separate flag.</p>
+      <p>To substantiate a route, retain versioned runs for the exact model, reasoning level, and task class; meet the relevant benchmark’s acceptance gate; and review uncertainty and trust evidence. Updating one model’s benchmark does not validate every task or effort level.</p>
+      <p><a href="/token-economy/#matrix-results">The matrix links each model to its available scores and evidence gaps.</a> Public benchmark scores and local task studies keep their original scales and test conditions.</p>
+      <p class="source-note"><a href="https://github.com/agent-orc/token-economy/blob/main/docs/routing-evidence.md">Evidence gates</a> · <a href="https://github.com/agent-orc/token-economy/blob/main/docs/model-trust-evidence.md">Trust assessment</a></p>
+    </section>
+<section id="benchmark-evidence">
+<h2>Read the evidence behind a model score</h2>
+<p><code>BenchmarkEvidenceCatalog.Default</code> exposes the embedded benchmark definitions and sourced measurements. <code>ResultsFor(typeId)</code> returns a list of <code>BenchmarkResult</code>; filter by model, effort and availability date. This example reads Opus 5 / Max from the official Terminal-Bench 4.0 leaderboard. It makes no provider call.</p>
+<pre><code data-language="csharp" data-example="benchmark-evidence">using System.Text.Json;
+using TokenEconomy;
+
+var catalog = BenchmarkEvidenceCatalog.Default;
+var asOf = new DateOnly(2026, 9, 12);
+var result = catalog.ResultsFor("terminal-bench-v4.0-official-native-agents")
+    .Where(r =&gt; r.ModelId == KnownModels.ClaudeOpus5
+        &amp;&amp; r.ReasoningEffort == EffortLevel.Max &amp;&amp; r.PublishedAt &lt;= asOf)
+    .OrderByDescending(r =&gt; r.PublishedAt)
+    .FirstOrDefault();
+
+if (result is null)
+{
+    Console.WriteLine("No matching benchmark evidence at this date.");
+    return;
+}
+
+var type = catalog.FindType(result.BenchmarkTypeId)!;
+Console.WriteLine(JsonSerializer.Serialize(new
+{
+    Model = result.ModelId.Value,
+    Effort = result.ReasoningEffort.ToString(),
+    Benchmark = type.Name,
+    type.Version,
+    result.Score,
+    type.Unit,
+    Scale = new { type.MinimumScore, type.MaximumScore,
+        Direction = type.Direction.ToString() },
+    EvidenceKind = result.Confidence.ToString(),
+    result.PublishedAt,
+    result.RetrievedAt,
+    result.SourceUrl,
+    type.MethodologyUrl,
+    result.EvidenceExcerpt,
+    result.Context // Harness, sample, uncertainty, date basis and extra sources.
+}, new JsonSerializerOptions { WriteIndented = true }));</code></pre>
+<p>The result is <strong>51.82% resolved on the original 0–100 scale</strong>, using Claude Code: <strong>66 tasks, 330 trials</strong>, with a reported <strong>95% confidence interval of ±3.39 percentage points</strong>. These are benchmark measurements, separate from the router’s policy score. <a href="../model-benchmarks/">Compare the published evidence →</a></p>
+<div class="table-scroll"><table><thead><tr><th>Read</th><th>Interpretation</th></tr></thead><tbody>
+<tr><td><code>Score</code> + <code>BenchmarkType.Unit</code>, range and direction</td><td>The original metric. Do not average incompatible benchmark scales or treat it as a universal quality percentage.</td></tr>
+<tr><td><code>Context.Harness</code>, <code>TaskCount</code>, <code>TrialCount</code>, <code>AttemptsPerTask</code></td><td>Which agent ran and what was sampled. Here, balanced attempts per task were not independently checked; the field stays null.</td></tr>
+<tr><td><code>ConfidenceIntervalHalfWidth</code>, <code>ConfidenceIntervalLevel</code>, <code>ReportedErrorHalfWidth</code></td><td>Retain the publisher’s uncertainty and scale. An error bar without a stated confidence level is not automatically a 95% interval. <code>BenchmarkResult.Confidence</code> identifies evidence provenance, such as ThirdParty; it is not a statistical confidence level.</td></tr>
+<tr><td><code>PublishedAt</code>, <code>RetrievedAt</code>, <code>Context.DateBasis</code>, <code>ObservedAt</code></td><td>Here, PublishedAt is the first observed public snapshot on September 12. Source creation/update timestamps are separate and do not establish the run date.</td></tr>
+<tr><td><code>SourceUrl</code>, <code>MethodologyUrl</code>, <code>AdditionalSourceUrls</code>, <code>SampleNotes</code></td><td>Keep the original source and its qualifications beside the number. Null context fields mean unknown; a legacy result may have no Context at all.</td></tr>
+</tbody></table></div>
+<p><code>ResultsFor</code> returns an empty list for an unknown benchmark type; <code>FindType</code> returns null for an unknown type ID. The null-forgiving lookup above is safe after selecting a result from the validated catalog.</p>
+</section>
+
+
+<section id="review-benchmarks">
+<h2>Read published code-review measurements</h2>
+<p>Filter <code>BenchmarkEvidenceCatalog.Types</code> by <code>BenchmarkCapabilityClass.CodeReview</code>, then read each type’s original results. This complete example selects Fable 5.1 and retains separate precision, known-issue coverage and configuration records. It makes no model call.</p>
+<pre><code data-language="csharp" data-example="published-review-benchmarks">using System.Text.Json;
+using TokenEconomy;
+
+var catalog = BenchmarkEvidenceCatalog.Default;
+var model = KnownModels.ClaudeFable51;
+var asOf = new DateOnly(2026, 9, 12);
+var found = false;
+
+foreach (var type in catalog.Types
+    .Where(type =&gt; type.CapabilityClass == BenchmarkCapabilityClass.CodeReview)
+    .OrderBy(type =&gt; type.Id, StringComparer.Ordinal))
+{
+    foreach (var result in catalog.ResultsFor(type.Id)
+        .Where(result =&gt; result.ModelId == model &amp;&amp; result.PublishedAt &lt;= asOf)
+        .OrderBy(result =&gt; result.PublishedAt))
+    {
+        found = true;
+        Console.WriteLine(JsonSerializer.Serialize(new
+        {
+            Model = result.ModelId.Value,
+            Effort = result.ReasoningEffort.ToString(),
+            Metric = type.Name,
+            BenchmarkTypeId = type.Id,
+            type.Version,
+            result.Score,
+            type.Unit,
+            OriginalScale = new { type.MinimumScore, type.MaximumScore,
+                Direction = type.Direction.ToString() },
+            type.CitationNote,
+            result.PublishedAt,
+            result.RetrievedAt,
+            result.SourceUrl,
+            type.MethodologyUrl,
+            result.EvidenceExcerpt,
+            result.Context
+        }, new JsonSerializerOptions { WriteIndented = true }));
+    }
+}
+if (!found) Console.WriteLine("No published review evidence for this model at this date.");
+// Each object is one original metric and protocol. No blended quality score.
+// Unspecified means the publisher did not identify the API reasoning effort.</code></pre>
+<p><a href="review-benchmarks.cs">Download the complete C# example →</a></p>
+<p><strong>Compare the same metric, protocol and output stream.</strong> Known-issue coverage uses the benchmark’s known defects as its denominator; it cannot establish recall over every possible defect. Comment precision describes the benchmark’s emitted-comment assessment. Raw, processed and actionable comments are different populations. Keep the source’s definitions and matching rules beside each number.</p>
+<p>A publisher’s “Low” or “High” review profile is not automatically a provider reasoning level. Such records use <code>EffortLevel.Unspecified</code> unless the source identifies the API setting. <code>Context</code> retains the harness, sample notes, dates, uncertainty and sources. Missing sample size or uncertainty stays unknown. These measurements do not establish local maintainer acceptance, and a finding absent from a partial known-issue list is not automatically a false positive.</p>
+</section>
+
+<section id="review-runs">
+<h2>Read Quality Studio review-run evidence</h2>
+<p>The existing <code>QualityStudioReviewRunImporter</code> accepts Token Economy’s <strong>schema-v1 review-run drop</strong>: actual model/effort/CLI, review scope and optional confirmed/dismissed counts. The example reads JSON files from a directory, checks conflicting run identities, aggregates them and reads each model’s <code>ReviewQuality</code>. It writes no files.</p>
+<pre><code data-language="csharp" data-example="quality-studio-review-drop">using System.Text.Json;
+using System.Text.Json.Serialization;
+using TokenEconomy;
+
+if (args.Length != 1)
+    throw new ArgumentException("Expected a directory of Token Economy schema-v1 review-run JSON files.");
+
+var importer = new QualityStudioReviewRunImporter();
+var runs = Directory.EnumerateFiles(args[0], "*.json", SearchOption.TopDirectoryOnly)
+    .Order(StringComparer.Ordinal)
+    .Select(path =&gt; importer.Import(path, $"quality-studio-drop/{Path.GetFileName(path)}"))
+    .ToArray();
+
+foreach (var group in runs.GroupBy(run =&gt; run.SourceRunId, StringComparer.Ordinal))
+    if (group.Select(run =&gt; run.SourceArtifactSha256).Distinct().Skip(1).Any())
+        throw new InvalidDataException($"Conflicting content for review run {group.Key}.");
+
+var report = new ReviewEvidenceAggregator().Aggregate(runs);
+var knowledge = ModelRoutingKnowledgeBase.PolicyOnly.WithReviewEvidence(report);
+var models = runs.Select(run =&gt; run.CanonicalModel).OfType&lt;string&gt;().Distinct();
+var quality = models.Select(model =&gt; knowledge.ReviewQualityFor(model)).ToArray();
+
+Console.WriteLine(JsonSerializer.Serialize(new
+{
+    report.ImportedRunCount,
+    report.FixtureRunCount,
+    report.EligibleOperationalRunCount,
+    report.ConfidenceGates,
+    IneligibleRuns = runs.Where(run =&gt; !run.EligibleForAggregation)
+        .Select(run =&gt; new { run.SourceRunId, run.EligibilityIssues }),
+    ReviewQuality = quality
+}, new JsonSerializerOptions
+{
+    WriteIndented = true,
+    Converters = { new JsonStringEnumConverter() }
+}));
+// Read-only: no review launch, evidence write, task mutation or provider call.
+// Native QS /review/runs/{id}/report JSON is a different contract; do not rename it.
+// Unknown assessments stay null. Fixtures cannot supply operational evidence.</code></pre>
+<p><a href="quality-studio-drop.cs">Download the complete C# example →</a> Run it with <code>dotnet run -- ./review-run-drop</code> in a console project referencing TokenEconomy.</p>
+<p>With the checked-in fixture, the result is <strong>1 imported run, 1 fixture, 0 eligible operational runs</strong>. <code>FindingOutcomeCoverage</code>, <code>FindingConfirmationRate</code> and <code>Suitability</code> remain null; <code>GateFailures</code> explains the missing evidence. The default gates require 20 operational runs, 20 assessed findings and 70% assessment coverage. Passing them provides observational support, not controlled validation or review recall.</p>
+<p><a href="quality-studio-native-report.cs">Download a complete C# reader for the native Quality Studio JSON report</a>. It takes the host URL, repository ID and run ID, preserves the original report and counts exported finding entries. These counts do not assert unique, newly emitted or confirmed defects. <a href="../code-review/#quality-studio">Native fields and integration limits</a>.</p>
+<p><strong>The native Quality Studio report endpoint is a different contract.</strong> Its report revision, operational finding state and requested route cannot be relabelled as this drop’s actual execution route and confirmed/dismissed outcomes. A producer must supply the documented facts. Later assessment changes must retain the original review-run identity; changing the ID to import a revised count would inflate the sample.</p>
+<p>For retained history, <code>ReviewEvidencePipeline.Run(repositoryRoot, dropDirectory, outputRoot)</code> writes immutable normalized runs and a derived report. Identical reimports are no-ops; changed content for an existing run ID is rejected. Hosts can compose a valid report with <code>ModelRoutingKnowledgeBase.PolicyOnly.WithReviewEvidence(report)</code> and <code>ModelEfficiencyMatrix.FromKnowledge(knowledge)</code>. The committed fixture-only evidence currently produces no review-model recommendation.</p>
+</section>
+
+
+    <section id="routing">
+      <h2>Decide whether an attempt can run</h2>
+      <pre class="signature"><code>ModelRoutingResult ModelRouter.Route(ModelRoutingSelectionRequest request)</code></pre>
+      <p>Use this as the admission decision before each attempt. It combines the upfront task estimate, routing policy, previous-attempt evidence, workflow role, optional operator pin, and supplied capacity.</p>
+      <div class="table-scroll"><table><thead><tr><th>Input</th><th>Your host supplies</th></tr></thead><tbody>
+        <tr><td><code>Task</code></td><td>A <code>ComplexityCard</code> with the task’s prompt, acceptance criteria, scope, and risk signals.</td></tr>
+        <tr><td><code>UpfrontEstimate</code></td><td>A matching <code>TaskComplexityEstimate</code>, normally from <code>TaskComplexityEstimator.Estimate(task)</code>.</td></tr>
+        <tr><td><code>AvailableClis</code></td><td>The set of CLIs available to the attempt.</td></tr>
+        <tr><td><code>Capacity</code></td><td>Budget pressure, a run-scoped provider snapshot, and whether deterministic verification is available.</td></tr>
+      </tbody></table></div>
+      <p>This example uses <code>snapshot</code> supplied by the host. The <a href="examples.cs">complete example</a> constructs a clearly labeled demo snapshot and prints the result.</p>
+      <pre><code data-language="csharp">ComplexityCard task = new()
+{
+    TaskKey = "DEMO-1",
+    Prompt = "Add an optional display name to stored user preferences and migrate existing records.",
+    TaskType = "feature",
+    AcceptanceCriteria = ["Existing records retain their saved preferences.", "Migration tests pass."],
+    ReferencedSubsystems = ["preferences"],
+    HardFloorTriggers = [ComplexityHardFloorTrigger.PersistentStateMigration],
+};
+
+var estimate = new TaskComplexityEstimator().Estimate(task);
+ModelRoutingResult result = ModelRouter.Default.Route(new ModelRoutingSelectionRequest
+{
+    Task = task,
+    UpfrontEstimate = estimate,
+    AvailableClis = [Cli.Codex, Cli.Claude],
+    Capacity = new ModelRoutingCapacity
+    {
+        ProviderAvailability = snapshot,
+        BudgetPressure = BudgetPressure.Tight,
+        DeterministicVerificationAvailable = true,
+    },
+});
+
+if (result.Disposition == ModelRoutingDisposition.Selected
+    &amp;&amp; result.SelectedRoute is { } route)
+    Console.WriteLine($"{route.ModelId} / {route.ThinkingLevel} via {route.Cli}");
+else
+    Console.WriteLine($"{result.Disposition}: {result.FallbackOrWaitReason}");</code></pre>
+      <div class="example-output"><strong>Complete example · fresh demo capacity</strong><pre><code>gpt-5.6-sol / medium via Codex</code></pre></div>
+      <p>This task scores 45; its <code>broadContract</code> correctness floor raises the required route. A cheaper compatibility candidate cannot lower that floor. <code>SelectedRoute.ThinkingLevel</code> is the reasoning level to use for the admitted attempt.</p>
+      <h3>Handle all three outcomes</h3>
+      <div class="table-scroll"><table><thead><tr><th>Disposition</th><th>SelectedRoute</th><th>Host action</th></tr></thead><tbody>
+        <tr><td><code>Selected</code></td><td>Present</td><td>Use the returned model, CLI, and thinking level.</td></tr>
+        <tr><td><code>Wait</code></td><td>Null</td><td>Show the reason and obtain suitable capacity before retrying.</td></tr>
+        <tr><td><code>OverrideRequired</code></td><td>Null</td><td>Ask the operator to resolve the policy or pin conflict.</td></tr>
+      </tbody></table></div>
+      <p>Every result retains <code>RecommendedRoute</code>, <code>ScoreWorksheet</code> with its scorecard and effective policy score, correctness floor, policy/evidence versions, selection source, reasons, and uncertainty. Keep these together so an operator can inspect why the route was selected or blocked.</p>
+      <p>The router performs no probes, launches, logging, or writes. Missing, stale, or suspicious quota does not count as healthy capacity. Provider fallbacks must be declared and task-qualified.</p>
+      <p class="source-note"><a href="https://github.com/agent-orc/token-economy/blob/main/docs/model-routing-api.md">Full routing contract and evaluation order</a> · <a href="https://github.com/agent-orc/token-economy/blob/main/docs/system/domains/model-routing-policy.md">Score windows and correctness floors</a> · <a href="https://github.com/agent-orc/token-economy/blob/main/docs/concepts/provider-availability-snapshot.md">Provider snapshot contract</a></p>
+    </section>
+    <section id="task-advice">
+      <h2>Recommend routes when creating a task</h2>
+      <pre class="signature"><code>TaskClassRecommendation Recommend(TaskClass taskClass)
+TaskClassSelectionResult Select(
+    TaskClassRecommendation recommendation,
+    ProviderAvailabilitySnapshot quotaState, DateTime atUtc)</code></pre>
+      <p>Call these methods on <code>TaskClassRecommendationCatalog.Default</code>. <code>Recommend</code> gives a stable ranked candidate set for a task class, including reasoning levels, evidence versions, rationale, uncertainty, and downgrade conditions.</p>
+      <pre><code data-language="csharp" data-example="api-recommend">using TokenEconomy;
+
+TaskClassRecommendation advice =
+    TaskClassRecommendationCatalog.Default.Recommend(TaskClass.Feature);
+
+foreach (var candidate in advice.Candidates)
+    Console.WriteLine($"{candidate.Model} / {candidate.ThinkingLevel}");
+// gpt-5.6-sol / Medium
+// claude-sonnet-5 / High</code></pre>
+      <p><code>Select(advice, snapshot, atUtc)</code> chooses only from that candidate set, using fresh quota headroom and retained outcome evidence. Inspect <code>Disposition</code>, nullable <code>Selected</code>, and <code>Reason</code>.</p>
+      <ul>
+        <li><code>Selected</code>: a candidate has usable capacity.</li>
+        <li><code>RecommendationOnly</code>: quota evidence is missing, stale, suspicious, or incomplete.</li>
+        <li><code>Wait</code>: capacity is known to be unavailable, exhausted, or critical.</li>
+      </ul>
+      <p>Selection does not add a downgrade outside the set. Run the concrete task through <code>ModelRouter.Route</code> before launch. Task-class advice and coarse compatibility ranking may differ because they use different evidence.</p>
+      <p class="source-note"><a href="/token-economy/task-class-routing/">Published task-class studies and outcome costs</a> · <a href="https://github.com/agent-orc/token-economy/blob/main/docs/task-class-routing-studies.md">Recommendation contract</a></p>
+    </section>
+    <section id="outcomes">
+      <h2>Measure cost per accepted result</h2>
+      <pre class="signature"><code>OutcomeEfficiencyReport OutcomeEfficiency.ComputeObserved(
+    IEnumerable&lt;DeliveryAttemptEfficiencyInput&gt; attempts,
+    ModelPriceCatalog catalog, EfficiencyScope scope)</code></pre>
+      <p><code>OutcomeEfficiency.ComputeObserved(…)</code> calculates tokens and dated list-price cost per accepted delivery, initial and retry-adjusted cost, retry uplift, and measurement coverage.</p>
+      <p>Supply the cohort’s attempts and their acceptance outcomes. Failed semantic attempts and failed execution attempts both contribute measured spend. Missing usage or prices leave complete-cohort metrics null and retain an unknown reason.</p>
+      <div class="table-scroll"><table><thead><tr><th>Input / result</th><th>Fields to retain</th></tr></thead><tbody>
+        <tr><td>Each attempt</td><td><code>DeliveryId</code>, <code>AttemptId</code>, contiguous <code>AttemptOrdinal</code>, <code>Model</code>, UTC <code>ExecutedAtUtc</code>, nullable <code>Usage</code>, <code>Outcome</code>, <code>FailureClass</code>.</td></tr>
+        <tr><td>Scope</td><td><code>TaskClass</code>, <code>AcceptanceDefinition</code>, and <code>IncludedWorkflowRoles</code>.</td></tr>
+        <tr><td>Volume</td><td><code>DeliveriesStarted</code>, <code>DeliveriesAccepted</code>, <code>Attempts</code>, <code>RetryAttempts</code>.</td></tr>
+        <tr><td>Per accepted result</td><td><code>TokensPerAcceptedOutcome</code>, <code>TokenComponentsPerAcceptedOutcome</code>, <code>CostPerAcceptedDelivery</code>, <code>AttemptsPerAcceptedDelivery</code>.</td></tr>
+        <tr><td>Retry costs</td><td><code>InitialCostPerStartedDelivery</code>, <code>RetryAdjustedCostPerStartedDelivery</code>, <code>RetryCostUplift</code>, <code>SemanticRetryRate</code>.</td></tr>
+        <tr><td>Coverage and unknowns</td><td><code>TokenCoverage</code>, <code>CostCoverage</code>, <code>KnownPartialCost</code>, <code>Currency</code>, <code>Unconfirmed</code>, <code>Caveat</code>, <code>UnknownReasons</code>.</td></tr>
+      </tbody></table></div>
+      <p>Identical repeated attempt records are deduplicated. Conflicting records, invalid attempt order, non-UTC execution times, or workflow roles outside the declared scope raise <code>ArgumentException</code>. No accepted delivery leaves per-accepted-result metrics null. Mixed currencies prevent a complete cost metric.</p>
+      <p>Use these measurements to compare a model and reasoning level on a stated task set. Keep the sample size, acceptance rule, coverage, and recorded attempts with the score.</p>
+      <p class="source-note"><a href="https://github.com/agent-orc/token-economy/blob/main/src/TokenEconomy/OutcomeEfficiency.cs">Outcome API and result fields</a> · <a href="https://github.com/agent-orc/token-economy/blob/main/docs/operations/evidence-base/efficiency-metrics.md">Metric definitions</a></p>
+    </section>
+    <section id="custom-catalogs">
+      <h2>Use your own catalog</h2>
+      <p>Construct <code>new ModelPriceCatalog(listings)</code> from your <code>ModelListing</code> values. Each listing supplies a canonical ID, aliases, and dated <code>ModelPrice</code> history. Pass that catalog and matching profiles to <code>ModelEfficiencyMatrix</code> when you need custom compatibility data.</p>
+      <p>The price catalog rejects blank model IDs, normalized ID/alias collisions, inverted validity periods, and overlapping periods with <code>ArgumentException</code>. Each matrix profile must resolve to a catalog listing.</p>
+      <p class="source-note"><a href="https://github.com/agent-orc/token-economy/blob/main/src/TokenEconomy/ModelPriceCatalog.cs">Catalog constructor</a> · <a href="https://github.com/agent-orc/token-economy/blob/main/src/TokenEconomy/ModelEfficiencyMatrix.cs">Matrix constructor</a></p>
+    </section>
+    <section id="host-integration">
+      <h2>Connect the decision to your host</h2>
+      <p>Your host records usage and timestamps, probes CLI availability and quota, persists evidence, and launches approved attempts. Keep operator pins separate from the route selected for one attempt.</p>
+      <p><code>AgentStudioTaskAdmission.PrepareAttempt</code> connects the router to an estimate store and run ledger. It records the decision and produces an attempt-local <code>LaunchRoute</code> only for a <code>Selected</code> result.</p>
+      <p>The library also exposes contracts for <a href="https://github.com/agent-orc/token-economy/blob/main/docs/media-capabilities.md">media capabilities</a> and <a href="https://github.com/agent-orc/token-economy/blob/main/docs/model-migrations.md">model migrations</a>. <a href="https://github.com/agent-orc/token-economy/blob/main/docs/concepts/cap-forecast-per-task.md">Capacity forecasting</a> is a separate design proposal.</p>
+      <p class="source-note"><a href="https://github.com/agent-orc/token-economy/blob/main/docs/agent-studio-routing-integration.md">Host order, persistence, and adapter contracts</a> · <a href="https://github.com/agent-orc/token-economy/tree/main/src/TokenEconomy">All public types</a></p>
+    </section>
+  </div>
+</div>
+
+</main>
+<footer><div class="api-wrap"><strong>Token Economy</strong><p><a href="/token-economy/">Library overview</a> · <a href="https://github.com/agent-orc/token-economy">GitHub</a> · <a href="https://www.nuget.org/packages/TokenEconomy">NuGet</a> · <a href="https://agent-orchestrator.dev/imprint/">Imprint &amp; privacy</a></p><p>.NET 10 · Apache-2.0</p></div></footer><script>(() => {const escape = value => String(value).replace(/[&<>"']/g, char => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[char]);      // Small zero-dependency tokenizer for the static C# and shell examples.
+      const csharpKeywords = new Set([
+        'as', 'break', 'case', 'class',
+        'const', 'continue', 'default', 'do',
+        'else', 'enum', 'false', 'for',
+        'foreach', 'if', 'in', 'is',
+        'namespace', 'new', 'null', 'public',
+        'record', 'return', 'static', 'struct',
+        'switch', 'this', 'true', 'using',
+        'var', 'while',
+      ]);
+      const csharpTypes = new Set([
+        'BudgetPressure', 'Cli', 'Console',
+        'CostBreakdown', 'DateTime', 'DateTimeKind',
+        'KnownModels', 'ModelEfficiencyMatrix',
+        'ModelPriceCatalog', 'TaskClass',
+        'TokenEconomy', 'TokenUsage',
+      ]);
+      const shellKeywords = new Set([
+        'case', 'do', 'done', 'elif',
+        'else', 'esac', 'fi', 'for',
+        'if', 'in', 'then', 'while',
+      ]);
+      const shellCommands = new Set([
+        'add', 'dotnet', 'package',
+      ]);
+      const expressions = {
+        csharp: /(?<comment>\/\/[^\n]*|\/\*[\s\S]*?\*\/)|(?<string>\$?@"(?:[^"]|"")*"|\$?"(?:\\.|[^"\\])*"|'(?:\\.|[^'\\])*')|(?<number>\b(?:0x[\da-f]+|\d[\d_]*(?:\.\d+)?)\b)|(?<word>@?[A-Za-z_]\w*)/gi,
+        shell: /(?<comment>#[^\n]*)|(?<string>"(?:\\.|[^"\\])*"|'[^']*')|(?<number>\b\d[\d.]*\b)|(?<word>[A-Za-z_][\w-]*)/g,
+      };
+      const tokenClass = (groups, language, value) => {
+        if (groups.comment) return 'tok-comment';
+        if (groups.string) return 'tok-string';
+        if (groups.number) return 'tok-number';
+        if (!groups.word) return '';
+        if (language === 'csharp') {
+          if (csharpKeywords.has(value)) return 'tok-keyword';
+          if (csharpTypes.has(value) || /^[A-Z]/.test(value)) return 'tok-type';
+        } else {
+          if (shellKeywords.has(value)) return 'tok-keyword';
+          if (shellCommands.has(value) || /^[A-Z]/.test(value)) return 'tok-type';
+        }
+        return '';
+      };
+      const highlight = code => {
+        const language = code.dataset.language;
+        const expression = expressions[language];
+        if (!expression) return;
+        const source = code.textContent;
+        let output = '';
+        let cursor = 0;
+        expression.lastIndex = 0;
+        for (const match of source.matchAll(expression)) {
+          output += escape(source.slice(cursor, match.index));
+          const cls = tokenClass(match.groups, language, match[0]);
+          output += cls ? `<span class="${cls}">${escape(match[0])}</span>` : escape(match[0]);
+          cursor = match.index + match[0].length;
+        }
+        code.innerHTML = output + escape(source.slice(cursor));
+      };
+      document.querySelectorAll('pre code[data-language]').forEach(highlight);
+})();</script>
+</body>
+</html>

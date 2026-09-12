@@ -5,8 +5,10 @@ The public site is static, so it cannot read files outside website/ after it is
 deployed.  This command is the narrow bridge: it copies only the published
 fields from benchmark JSON and validates that each raw run has its report.
 
-Five artifacts are produced:
+Seven artifacts are produced:
 
+* ``website/data/code-review.json`` — review studies and operational coverage, with separate metric definitions.
+* ``website/data/price-history.json`` — all catalog prices, periods, and source provenance.
 * ``website/data/benchmarks.json`` — the published A/B and capability studies.
 * ``website/data/token-usage.json`` — one worked ``ComputeCost`` example plus
   the usage aggregates rendered on the Agent Studio evidence page (per model,
@@ -47,13 +49,18 @@ USAGE_OUTPUT = ROOT / "website" / "data" / "token-usage.json"
 MATRIX_OUTPUT = ROOT / "website" / "data" / "model-efficiency-matrix.json"
 RECOMMENDATIONS_OUTPUT = ROOT / "website" / "data" / "task-class-recommendations.json"
 BENCHMARK_MATRIX_OUTPUT = ROOT / "website" / "data" / "model-benchmark-matrix.json"
+PRICING_OUTPUT = ROOT / "website" / "data" / "price-history.json"
+REVIEW_OUTPUT = ROOT / "website" / "data" / "code-review.json"
+REVIEW_STUDIES = ROOT / "docs" / "analyses" / "code-review-studies-2026-09-12.json"
+REVIEW_OPERATIONAL = ROOT / "results" / "routing-evidence" / "review" / "v1" / "review-evidence.json"
 MATRIX_AS_OF_UTC = "2026-09-12T00:00:00Z"
-BENCHMARK_AS_OF_UTC = "2026-09-11T00:00:00Z"
+BENCHMARK_AS_OF_UTC = "2026-09-12T00:00:00Z"
 
 PRICE_CATALOG = ROOT / "src" / "TokenEconomy" / "catalog" / "model-prices.json"
 ROUTING_POLICY = ROOT / "src" / "TokenEconomy" / "catalog" / "model-routing-policy.json"
 TASK_CLASS_RECOMMENDATIONS = ROOT / "src" / "TokenEconomy" / "catalog" / "task-class-recommendations.json"
 BENCHMARK_TYPES = ROOT / "src" / "TokenEconomy" / "catalog" / "benchmark-types.json"
+MODEL_ASSESSMENTS = ROOT / "docs" / "analyses" / "model-assessments-2026-09-12.json"
 BENCHMARK_RESULTS = ROOT / "src" / "TokenEconomy" / "catalog" / "benchmark-results.json"
 DOCUMENT_RESULTS = RESULTS / "document-to-text" / "curated-hard-cases-v1"
 CARD_BACKTEST = ROOT / "results" / "complexity-backtest" / "agent-studio-30-card-backtest.json"
@@ -622,6 +629,78 @@ def create_usage_payload() -> dict:
     }
 
 
+def matrix_context(model, listing, policy, as_of):
+    """Keep policy permission, task evidence, and external measurements separate."""
+    model_id = listing['modelId']
+    benchmark_types = {item['id']: item for item in load(BENCHMARK_TYPES)['records']}
+    latest = {}
+    for record in load(BENCHMARK_RESULTS)['records']:
+        if record['modelId'] != model_id or record['publishedAt'] > as_of.date().isoformat():
+            continue
+        key = (record['benchmarkTypeId'], record['reasoningEffort'])
+        if key not in latest or record['publishedAt'] > latest[key]['publishedAt']:
+            latest[key] = record
+    external = []
+    for record in latest.values():
+        benchmark = benchmark_types[record['benchmarkTypeId']]
+        external.append({
+            'id': record['id'], 'benchmarkId': benchmark['id'],
+            'name': benchmark['name'], 'version': benchmark['version'],
+            'unit': benchmark['unit'], 'maximumScore': benchmark.get('maximumScore'),
+            'effort': record['reasoningEffort'], 'score': record['score'],
+            'publishedAt': record['publishedAt'], 'sourceUrl': record['sourceUrl'],
+            'confidence': record['confidence'],
+            'sampleContext': record.get('evidenceExcerpt') if record['confidence'] == 'ownRun' else None,
+            'secondaryMetrics': record.get('secondaryMetrics', {}),
+            'context': record.get('context'),
+            'evidenceExcerpt': record.get('evidenceExcerpt'),
+        })
+    external.sort(key=lambda item: (item['publishedAt'], item['benchmarkId'], item['effort']), reverse=True)
+    recommendation_data = load(TASK_CLASS_RECOMMENDATIONS)
+    studies = []
+    for item in recommendation_data['recommendations']:
+        routes = [item['recommended'], *item.get('equivalentRoutes', [])]
+        if item.get('downgrade'):
+            routes.append(item['downgrade'])
+        matching = [route for route in routes if route['model'] == model_id]
+        if not matching:
+            continue
+        primary = item['recommended']['model'] == model_id
+        studies.append({
+            'id': item['id'], 'label': item['label'], 'status': item['status'],
+            'efforts': sorted({route['thinkingLevel'] for route in matching}),
+            'primaryRecommendation': primary,
+            'scenarioCount': item['scenarioCount'],
+            'outcomeRate': item['outcomeRate'] if primary else None,
+            'costPerSuccessfulOutcome': item['costPerSuccessfulOutcome'] if primary else None,
+            'benchmarkStatus': item['benchmarkStatus'],
+            'references': [e['reference'] for e in item['evidence']],
+        })
+    routes = [{
+        'effort': route['thinkingLevel'], 'role': route['workflowRole'],
+        'minimumTaskScore': route.get('minimumScore'),
+        'maximumTaskScore': route.get('maximumScore'),
+    } for route in policy['routes'] if route['modelId'] == model_id]
+    fallbacks = [{'effort': route['thinkingLevel'], 'forRoutes': route['forRouteIds']}
+                 for route in policy['providerFallbacks'] if route['modelId'] == model_id]
+    return {
+        'displayName': listing.get('displayName', model_id),
+        'releaseDate': listing.get('releaseDate'),
+        'releaseDateSource': listing.get('releaseDateSource'),
+        'policy': {
+            'version': policy['policyVersion'], 'evidenceAsOfDate': policy['evidenceAsOfDate'],
+            'reason': model.get('note'), 'workflowRoles': model.get('workflowRoles', []),
+            'routes': routes, 'fallbacks': fallbacks,
+        },
+        'evidence': {
+            'external': external, 'taskStudies': studies,
+            'assessment': next((item for item in load(MODEL_ASSESSMENTS)['models'] if item['modelId'] == model_id), None) if MODEL_ASSESSMENTS.exists() else None,
+            'taskStudiesAsOfDate': recommendation_data['evidenceAsOfDate'],
+        },
+    }
+
+
+
 def create_matrix_payload() -> dict:
     """Project Describe() from its policy and catalog inputs for the static site."""
     price_index = load_price_index()
@@ -683,6 +762,7 @@ def create_matrix_payload() -> dict:
             matrix_price = {"status": "noPriceInCatalog"}
         status = model["routingStatus"]
         rows.append({
+            **matrix_context(model, listing, policy, as_of),
             "modelId": listing["modelId"],
             "vendor": listing.get("vendor"),
             "cli": {"anthropic": "claude", "openai": "codex"}.get(listing.get("vendor")),
@@ -842,7 +922,7 @@ def create_benchmark_matrix_payload() -> dict:
             "note": "Used only when the selected evidence row has no published cost per task."
         },
         "provenanceFacts": [
-            {"label": "Price catalog snapshot", "date": "2026-09-11", "path": PRICE_CATALOG.relative_to(ROOT).as_posix()},
+            {"label": "Price catalog snapshot", "date": MATRIX_AS_OF_UTC[:10], "path": PRICE_CATALOG.relative_to(ROOT).as_posix()},
             {"label": "Benchmark definitions captured through", "date": max(row["capturedAt"] for row in type_document["records"]), "path": BENCHMARK_TYPES.relative_to(ROOT).as_posix()},
             {"label": "Benchmark results retrieved through", "date": max(row["retrievedAt"] for row in result_document["records"]), "path": BENCHMARK_RESULTS.relative_to(ROOT).as_posix()},
         ],
@@ -856,6 +936,7 @@ def create_benchmark_matrix_payload() -> dict:
             "answer": "Better on this score, but not cheaper per published task or per token." if better and not cheaper else
                 "Better and cheaper on this evidence." if better and cheaper else "The evidence does not establish both claims.",
         },
+        "modelAssessments": load(MODEL_ASSESSMENTS)["models"] if MODEL_ASSESSMENTS.exists() else [],
         "benchmarkTypes": matrices,
     }
 
@@ -910,6 +991,73 @@ def create_recommendation_payload() -> dict:
     return payload
 
 
+def create_price_history_payload() -> dict:
+    """Project every price period without inventing dates or dropping provenance."""
+    listings = load(PRICE_CATALOG)
+    policy = load(ROUTING_POLICY)
+    profiles = {profile["canonicalId"]: profile for profile in policy["models"]}
+    models = []
+    for listing in listings:
+        history = sorted(listing.get("history", []), key=lambda price: price["validFrom"])
+        if not history:
+            raise ValueError(f"Price history missing for {listing['modelId']}")
+        for price in history:
+            if not price.get("sourceUrls") or not price.get("verifiedOn") or not price.get("validFromBasis"):
+                raise ValueError(f"Price provenance missing for {listing['modelId']}")
+        profile = profiles.get(listing["modelId"], {})
+        models.append({
+            "modelId": listing["modelId"], "displayName": listing.get("displayName", listing["modelId"]),
+            "vendor": listing.get("vendor"), "releaseDate": listing.get("releaseDate"),
+            "releaseDateSource": listing.get("releaseDateSource"), "note": listing.get("note"),
+            "selectionStatus": profile.get("routingStatus", "unsupported"),
+            "deprecated": profile.get("routingStatus") == "deprecated", "history": history,
+        })
+    return {
+        "schemaVersion": 1, "generatedAtUtc": datetime.now(timezone.utc).isoformat(),
+        "asOfUtc": MATRIX_AS_OF_UTC, "currency": "USD", "unit": "per-million-tokens",
+        "source": PRICE_CATALOG.relative_to(ROOT).as_posix(),
+        "scope": "Direct-provider standard text-token rates; Anthropic 5-minute cache writes; context and service tiers require explicit custom rates.",
+        "coverage": {"catalogModels": len(models), "pricedModels": sum(bool(m["history"]) for m in models),
+                     "pricePeriods": sum(len(m["history"]) for m in models)},
+        "models": models,
+    }
+
+
+def create_code_review_payload() -> dict:
+    """Publish direct review metrics without collapsing different study configurations."""
+    types = [entry for entry in load(BENCHMARK_TYPES)["records"]
+             if entry["capabilityClass"] == "codeReview"]
+    type_ids = {entry["id"] for entry in types}
+    records = [entry for entry in load(BENCHMARK_RESULTS)["records"]
+               if entry["benchmarkTypeId"] in type_ids
+               and entry["publishedAt"] <= BENCHMARK_AS_OF_UTC[:10]]
+    record_ids = {entry["id"] for entry in records}
+    studies = load(REVIEW_STUDIES)["studies"]
+    referenced = set()
+    for study in studies:
+        missing = set(study["evidenceIds"]) - record_ids
+        if missing:
+            raise ValueError(f"Review study {study['id']} references missing measurements: {sorted(missing)}")
+        referenced.update(study["evidenceIds"])
+    if referenced != record_ids:
+        raise ValueError("Every direct review measurement must belong to a documented study")
+    return {
+        "schemaVersion": 1,
+        "generatedAtUtc": datetime.now(timezone.utc).isoformat(),
+        "asOfUtc": BENCHMARK_AS_OF_UTC,
+        "source": {"benchmarkTypes": BENCHMARK_TYPES.relative_to(ROOT).as_posix(),
+                   "benchmarkResults": BENCHMARK_RESULTS.relative_to(ROOT).as_posix(),
+                   "studies": REVIEW_STUDIES.relative_to(ROOT).as_posix(),
+                   "operationalEvidence": REVIEW_OPERATIONAL.relative_to(ROOT).as_posix()},
+        "benchmarkTypes": types,
+        "records": records,
+        "studies": studies,
+        "models": [{"modelId": entry["modelId"], "displayName": entry.get("displayName", entry["modelId"])}
+                   for entry in load(PRICE_CATALOG)],
+        "operational": load(REVIEW_OPERATIONAL),
+    }
+
+
 def canonical(value: dict) -> str:
     # generatedAt changes by design; checking compares the evidence-derived body.
     value = dict(value)
@@ -949,6 +1097,8 @@ def main() -> None:
     benchmark_matrix_payload = create_benchmark_matrix_payload()
     recommendation_payload = create_recommendation_payload()
     artifacts = (
+        (PRICING_OUTPUT, create_price_history_payload()),
+        (REVIEW_OUTPUT, create_code_review_payload()),
         (OUTPUT, payload),
         (USAGE_OUTPUT, usage_payload),
         (MATRIX_OUTPUT, matrix_payload),
@@ -960,7 +1110,7 @@ def main() -> None:
             name = path.relative_to(ROOT).as_posix()
             if not path.exists() or canonical(load(path)) != canonical(expected):
                 raise SystemExit(f"{name} is stale; run scripts/generate-website-data.py")
-        print("Website benchmark, token-usage, model-efficiency, price-performance, and task-class recommendation data are current.")
+        print("Website pricing, code-review, benchmark, token-usage, model-efficiency, price-performance, and task-class recommendation data are current.")
         return
     OUTPUT.parent.mkdir(parents=True, exist_ok=True)
     for path, value in artifacts:

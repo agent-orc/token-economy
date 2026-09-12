@@ -5,7 +5,8 @@ The static marketing + documentation site for **Token Economy**, served at
 
 - **Plain static HTML with a checked data step.** Content-specific CSS and
   JavaScript remain inline, the favicon is a data URI, and every page loads the
-  local `navigation.css` and `navigation.js` assets. `scripts/generate-website-data.py` writes five
+  local `navigation.css` and `navigation.js` assets. The homepage model table uses
+  `matrix.js` for compact status controls and expandable evidence. `scripts/generate-website-data.py` writes five
   artifacts — `website/data/benchmarks.json` (published studies) and
   `website/data/token-usage.json` (the checked worked example and retained
   chart aggregates), plus
@@ -17,8 +18,9 @@ The static marketing + documentation site for **Token Economy**, served at
   versioned external benchmark catalog to dated prices for the
   `model-benchmarks/` page and its candidate recommendations.
 - **English**, light/dark theme-aware, responsive.
-- Content: what/why, a rendered token-efficiency matrix and `SuggestModel`
-  example, install, the dated cost API, a complexity-estimation explainer, one
+- Content: library overview, installation and cost quickstart, a dedicated
+  [`api/`](api/) guide with input/return contracts and complete C# examples,
+  compact model matrix, a complexity-estimation explainer, one
   real-run `ComputeCost` example, a controlled-benchmark teaser linking to
   `benchmarks/`, and family links. The controlled-benchmark subpage renders the
   full methods, limits, results, and provenance from `benchmarks.json`. The
@@ -28,7 +30,8 @@ The static marketing + documentation site for **Token Economy**, served at
 The library overview renders one raw case from `token-usage.json` as a dated
 `ComputeCost` calculation. The full token-usage charts (per model, per task
 class, per measured reissue count, and one measured session over time) live on
-the Agent Studio usage-evidence page and read the same file. The projection is
+the Agent Studio usage-evidence page and read the same file.
+
 The token-efficiency matrix carries the concrete input, output, and effective
 cached-input rates resolved from the dated catalog, alongside its derived cost
 class. Generation fails when a catalog model with a price valid at generation
@@ -79,3 +82,55 @@ than live telemetry. It mirrors `ProviderAvailabilitySnapshot`: provider/CLI
 probe state, independently named observed quota windows, explicitly inferred
 projections, freshness, warning state, and decision-time cost coverage. It
 must not imply that the library selects a route.
+
+## Model table and navigation
+
+The five-column model table orders entries by verified publication date, newest
+first. Unknown dates follow dated entries; deprecated models appear only inside
+the collapsed archive. Release dates come from the price catalog's explicit
+`releaseDate` / `releaseDateSource` metadata, never from price validity periods.
+
+Status controls separate routing permission from provisional evidence. Their
+expandable rows show supported reasoning levels, policy routes, task-study
+links, dated external scores with benchmark versions, and qualification gaps.
+External scores do not replace compatibility scores or establish local route
+qualification. The generator only attaches a task's headline outcome to its
+primary recommended model, not to its separately listed alternatives.
+
+Navigation uses button disclosures with native first-click links. Escape,
+focus leaving the menu, outside clicks, route changes, and viewport changes
+close the relevant menu. Async landing-page data announces completion through
+`site:content-ready`; anchor restoration stops after content settles or the
+reader starts scrolling. New delayed-content pages should use the same event
+and `data-pending-content` marker.
+
+Public text follows the Voice writing-rules `public-docs` and
+`technical-reference` profiles: lead with the reader's task, keep evidence and
+qualification limits beside results, and move source-maintenance details out
+of introductory copy. Lexical scans alone do not establish editorial quality.
+
+## Price history
+
+`price-history/` compares every catalog model at a selected date and shows all periods with sources. `scripts/generate-website-data.py` projects `model-prices.json` into `data/price-history.json` and fails on missing model coverage or provenance. Subscription amounts are labeled API-equivalent consumption; the reference index uses the same fixed token mix and dated rate snapshot. See `docs/price-history-research-2026-09-12.md` for the source audit.
+
+## Complexity and model assessments
+
+`task-complexity/` documents intake sources, policy anchors, AGT import, historical coverage and held-out evaluation. Its three C# downloads are compiled against the local source; the API reader requires a host-supplied AGT URL and task key. September audit evidence is anonymized in `docs/analyses/agt-*-2026-09-12.*`.
+
+Model assessments are maintained in `docs/analyses/model-assessments-2026-09-12.json`; the website generator joins them to benchmark records with original scales, source type, harness and uncertainty. Research notes are in `docs/model-empirical-research-2026-09-12.md`.
+
+## Code review
+
+`code-review/` is the dedicated review-capability guide. The generator projects every
+`BenchmarkCapabilityClass.CodeReview` measurement into `data/code-review.json` and
+checks that its ID belongs to one documented study in
+`docs/analyses/code-review-studies-2026-09-12.json`. Study summaries carry no duplicate
+score fields. Precision, known-issue coverage and internal configurations retain
+their original protocol and units; Kodus ratios remain on the 0–1 scale.
+
+The feed also includes the committed Quality Studio operational report, with
+fixtures excluded and unavailable qualification visible. `api/review-benchmarks.cs`
+and `api/quality-studio-drop.cs` are compiled, read-only examples. Native Quality
+Studio `quality-run-report.v1` exports remain a separate contract from Token
+Economy's review-run drop. Research and integration limits are documented in
+`docs/code-review-research-2026-09-12.md` and the public guide.

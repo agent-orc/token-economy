@@ -1,0 +1,1624 @@
+{
+  "schemaVersion": 1,
+  "generatedAtUtc": "2026-09-12T21:32:44.918878+00:00",
+  "asOfUtc": "2026-09-12T00:00:00Z",
+  "source": {
+    "benchmarkTypes": "src/TokenEconomy/catalog/benchmark-types.json",
+    "benchmarkResults": "src/TokenEconomy/catalog/benchmark-results.json",
+    "studies": "docs/analyses/code-review-studies-2026-09-12.json",
+    "operationalEvidence": "results/routing-evidence/review/v1/review-evidence.json"
+  },
+  "benchmarkTypes": [
+    {
+      "id": "coderabbit-astra-2026-09-04-overall-coverage",
+      "version": "2026-09-04 internal evaluation / overall",
+      "name": "CodeRabbit / overall actionable bug coverage",
+      "publisher": "CodeRabbit",
+      "capabilityClass": "codeReview",
+      "unit": "% known-issue coverage",
+      "minimumScore": 0,
+      "maximumScore": 100,
+      "direction": "higherIsBetter",
+      "methodologyUrl": "https://www.coderabbit.ai/blog/gpt-6-astra-code-review-evaluation",
+      "citationNote": "Labeled issues found through actionable comments. Same article comparison only; not overall review quality. Different overall and cross-file denominators. No precision, issue/PR count, effort, exact pipeline version or uncertainty intervals published.",
+      "validFrom": "2026-09-04",
+      "capturedAt": "2026-09-12",
+      "retrievedAt": "2026-09-12"
+    },
+    {
+      "id": "coderabbit-astra-2026-09-04-cross-file-coverage",
+      "version": "2026-09-04 internal evaluation / cross-file",
+      "name": "CodeRabbit / cross-file actionable bug coverage",
+      "publisher": "CodeRabbit",
+      "capabilityClass": "codeReview",
+      "unit": "% known-issue coverage",
+      "minimumScore": 0,
+      "maximumScore": 100,
+      "direction": "higherIsBetter",
+      "methodologyUrl": "https://www.coderabbit.ai/blog/gpt-6-astra-code-review-evaluation",
+      "citationNote": "Labeled issues found through actionable comments. Same article comparison only; not overall review quality. Different overall and cross-file denominators. No precision, issue/PR count, effort, exact pipeline version or uncertainty intervals published.",
+      "validFrom": "2026-09-04",
+      "capturedAt": "2026-09-12",
+      "retrievedAt": "2026-09-12"
+    },
+    {
+      "id": "coderabbit-opus5-2026-07-24-senior-actionable-coverage",
+      "version": "2026-07-24 / senior reviewer / 96 patterns / three repeats",
+      "name": "CodeRabbit Opus 5 senior / actionable known-issue coverage",
+      "publisher": "CodeRabbit",
+      "capabilityClass": "codeReview",
+      "unit": "% known-issue coverage",
+      "minimumScore": 0,
+      "maximumScore": 100,
+      "direction": "higherIsBetter",
+      "methodologyUrl": "https://www.coderabbit.ai/blog/opus-5-model-review",
+      "citationNote": "Share of 96 known error patterns caught by an actionable comment; averaged across three repeats. Article and visually inspected table. Counts are evaluation patterns, not a published PR sample size. Different CodeRabbit publication snapshots are not a common leaderboard.",
+      "validFrom": "2026-07-24",
+      "capturedAt": "2026-09-12",
+      "retrievedAt": "2026-09-12"
+    },
+    {
+      "id": "coderabbit-opus5-2026-07-24-senior-full-stream-coverage",
+      "version": "2026-07-24 / senior reviewer / 96 patterns / three repeats",
+      "name": "CodeRabbit Opus 5 senior / full-stream known-issue coverage",
+      "publisher": "CodeRabbit",
+      "capabilityClass": "codeReview",
+      "unit": "% known-issue coverage",
+      "minimumScore": 0,
+      "maximumScore": 100,
+      "direction": "higherIsBetter",
+      "methodologyUrl": "https://www.coderabbit.ai/blog/opus-5-model-review",
+      "citationNote": "Share of known error patterns caught in any post-pipeline comment class, including outside-diff and low-confidence nitpicks. Article and visually inspected table. Counts are evaluation patterns, not a published PR sample size. Different CodeRabbit publication snapshots are not a common leaderboard.",
+      "validFrom": "2026-07-24",
+      "capturedAt": "2026-09-12",
+      "retrievedAt": "2026-09-12"
+    },
+    {
+      "id": "coderabbit-opus5-2026-07-24-senior-actionable-precision",
+      "version": "2026-07-24 / senior reviewer / 96 patterns / three repeats",
+      "name": "CodeRabbit Opus 5 senior / actionable comment precision",
+      "publisher": "CodeRabbit",
+      "capabilityClass": "codeReview",
+      "unit": "% actionable-comment precision",
+      "minimumScore": 0,
+      "maximumScore": 100,
+      "direction": "higherIsBetter",
+      "methodologyUrl": "https://www.coderabbit.ai/blog/opus-5-model-review",
+      "citationNote": "Share of actionable post-pipeline comments accepted by the evaluation judge. Comment denominator differs from the known-issue coverage denominator. Article and visually inspected table. Counts are evaluation patterns, not a published PR sample size. Different CodeRabbit publication snapshots are not a common leaderboard.",
+      "validFrom": "2026-07-24",
+      "capturedAt": "2026-09-12",
+      "retrievedAt": "2026-09-12"
+    },
+    {
+      "id": "coderabbit-opus5-2026-07-24-senior-full-stream-precision",
+      "version": "2026-07-24 / senior reviewer / 96 patterns / three repeats",
+      "name": "CodeRabbit Opus 5 senior / full-stream comment precision",
+      "publisher": "CodeRabbit",
+      "capabilityClass": "codeReview",
+      "unit": "% full-stream comment precision",
+      "minimumScore": 0,
+      "maximumScore": 100,
+      "direction": "higherIsBetter",
+      "methodologyUrl": "https://www.coderabbit.ai/blog/opus-5-model-review",
+      "citationNote": "Share accepted after every scored post-pipeline comment class is included. Do not substitute actionable precision for this noisier stream. Article and visually inspected table. Counts are evaluation patterns, not a published PR sample size. Different CodeRabbit publication snapshots are not a common leaderboard.",
+      "validFrom": "2026-07-24",
+      "capturedAt": "2026-09-12",
+      "retrievedAt": "2026-09-12"
+    },
+    {
+      "id": "coderabbit-fable51-2026-09-01-low-recall",
+      "version": "2026-09-01 / internal low reasoning setting",
+      "name": "CodeRabbit Fable 5.1 low setting / known-issue recall",
+      "publisher": "CodeRabbit",
+      "capabilityClass": "codeReview",
+      "unit": "% known-issue recall",
+      "minimumScore": 0,
+      "maximumScore": 100,
+      "direction": "higherIsBetter",
+      "methodologyUrl": "https://www.coderabbit.ai/blog/fable-5-1-model-review",
+      "citationNote": "Share of the 105 known-issue points with at least one valid comment. Low/High are internal experiment labels; API reasoning effort is not specified. Keep configurations separate when grouping unspecified-effort cells.",
+      "validFrom": "2026-09-01",
+      "capturedAt": "2026-09-12",
+      "retrievedAt": "2026-09-12"
+    },
+    {
+      "id": "coderabbit-fable51-2026-09-01-low-precision",
+      "version": "2026-09-01 / internal low reasoning setting",
+      "name": "CodeRabbit Fable 5.1 low setting / processed comment precision",
+      "publisher": "CodeRabbit",
+      "capabilityClass": "codeReview",
+      "unit": "% processed-comment precision",
+      "minimumScore": 0,
+      "maximumScore": 100,
+      "direction": "higherIsBetter",
+      "methodologyUrl": "https://www.coderabbit.ai/blog/fable-5-1-model-review",
+      "citationNote": "Share of final post-pipeline comments judged valid; not a claim about all possible code defects. Low/High are internal experiment labels; API reasoning effort is not specified. Keep configurations separate when grouping unspecified-effort cells.",
+      "validFrom": "2026-09-01",
+      "capturedAt": "2026-09-12",
+      "retrievedAt": "2026-09-12"
+    },
+    {
+      "id": "coderabbit-fable51-2026-09-01-high-recall",
+      "version": "2026-09-01 / internal high reasoning setting",
+      "name": "CodeRabbit Fable 5.1 high setting / known-issue recall",
+      "publisher": "CodeRabbit",
+      "capabilityClass": "codeReview",
+      "unit": "% known-issue recall",
+      "minimumScore": 0,
+      "maximumScore": 100,
+      "direction": "higherIsBetter",
+      "methodologyUrl": "https://www.coderabbit.ai/blog/fable-5-1-model-review",
+      "citationNote": "Share of the 105 known-issue points with at least one valid comment. Low/High are internal experiment labels; API reasoning effort is not specified. Keep configurations separate when grouping unspecified-effort cells.",
+      "validFrom": "2026-09-01",
+      "capturedAt": "2026-09-12",
+      "retrievedAt": "2026-09-12"
+    },
+    {
+      "id": "coderabbit-fable51-2026-09-01-high-precision",
+      "version": "2026-09-01 / internal high reasoning setting",
+      "name": "CodeRabbit Fable 5.1 high setting / processed comment precision",
+      "publisher": "CodeRabbit",
+      "capabilityClass": "codeReview",
+      "unit": "% processed-comment precision",
+      "minimumScore": 0,
+      "maximumScore": 100,
+      "direction": "higherIsBetter",
+      "methodologyUrl": "https://www.coderabbit.ai/blog/fable-5-1-model-review",
+      "citationNote": "Share of final post-pipeline comments judged valid; not a claim about all possible code defects. Low/High are internal experiment labels; API reasoning effort is not specified. Keep configurations separate when grouping unspecified-effort cells.",
+      "validFrom": "2026-09-01",
+      "capturedAt": "2026-09-12",
+      "retrievedAt": "2026-09-12"
+    },
+    {
+      "id": "coderabbit-sol-2026-07-09-recall",
+      "version": "2026-07-09 / Sol model lane",
+      "name": "CodeRabbit Sol / actionable known-issue coverage",
+      "publisher": "CodeRabbit",
+      "capabilityClass": "codeReview",
+      "unit": "% known-issue coverage",
+      "minimumScore": 0,
+      "maximumScore": 100,
+      "direction": "higherIsBetter",
+      "methodologyUrl": "https://www.coderabbit.ai/blog/gpt-5-6-sol-and-terra-benchmark",
+      "citationNote": "69 of 99 known issues caught actionably. Different issue counts, prompts, judges and pipeline snapshots prevent cross-article ranking. Effort and PR sample count not published.",
+      "validFrom": "2026-07-09",
+      "capturedAt": "2026-09-12",
+      "retrievedAt": "2026-09-12"
+    },
+    {
+      "id": "coderabbit-sol-2026-07-09-precision",
+      "version": "2026-07-09 / Sol model lane",
+      "name": "CodeRabbit Sol / actionable comment precision",
+      "publisher": "CodeRabbit",
+      "capabilityClass": "codeReview",
+      "unit": "% actionable-comment precision",
+      "minimumScore": 0,
+      "maximumScore": 100,
+      "direction": "higherIsBetter",
+      "methodologyUrl": "https://www.coderabbit.ai/blog/gpt-5-6-sol-and-terra-benchmark",
+      "citationNote": "Share of actionable comments correct enough to keep; the separately stated 231 comments are RAW model output before filtering. Different issue counts, prompts, judges and pipeline snapshots prevent cross-article ranking. Effort and PR sample count not published.",
+      "validFrom": "2026-07-09",
+      "capturedAt": "2026-09-12",
+      "retrievedAt": "2026-09-12"
+    },
+    {
+      "id": "kodus-light-v1-vendor-default-recall",
+      "version": "light-v1 / kodus dev / vendor defaults / scored 2026-08-13",
+      "name": "CodeReviewBench light-v1 / micro recall",
+      "publisher": "Kodus",
+      "capabilityClass": "codeReview",
+      "unit": "known-issue recall ratio",
+      "minimumScore": 0,
+      "maximumScore": 1,
+      "direction": "higherIsBetter",
+      "methodologyUrl": "https://www.codereviewbench.com/",
+      "citationNote": "Distinct golden bugs matched divided by 95 known bugs. Original scorecard ratio scale 0-1; not all possible defects. One replay per model.",
+      "validFrom": "2026-09-12",
+      "capturedAt": "2026-09-12",
+      "retrievedAt": "2026-09-12"
+    },
+    {
+      "id": "kodus-light-v1-vendor-default-precision",
+      "version": "light-v1 / kodus dev / vendor defaults / scored 2026-08-13",
+      "name": "CodeReviewBench light-v1 / micro precision",
+      "publisher": "Kodus",
+      "capabilityClass": "codeReview",
+      "unit": "finding precision ratio",
+      "minimumScore": 0,
+      "maximumScore": 1,
+      "direction": "higherIsBetter",
+      "methodologyUrl": "https://www.codereviewbench.com/",
+      "citationNote": "Judge tpFindings divided by all scored findings, micro-aggregated across 30 PRs. Original ratio 0-1. Matching judge is Haiku 4.5; not execution verification or independent human adjudication. Golden comments may be incomplete.",
+      "validFrom": "2026-09-12",
+      "capturedAt": "2026-09-12",
+      "retrievedAt": "2026-09-12"
+    }
+  ],
+  "records": [
+    {
+      "id": "coderabbit-astra-2026-09-04-overall-coverage-gpt-6-astra",
+      "benchmarkTypeId": "coderabbit-astra-2026-09-04-overall-coverage",
+      "modelId": "gpt-6-astra",
+      "reasoningEffort": "unspecified",
+      "score": 61.3,
+      "publishedAt": "2026-09-04",
+      "retrievedAt": "2026-09-12",
+      "sourceUrl": "https://www.coderabbit.ai/blog/gpt-6-astra-code-review-evaluation",
+      "retrievalMethod": "manual",
+      "evidenceExcerpt": "overall actionable bug coverage: 61.3% in CodeRabbit's September 4 evaluation. Percentage of labeled bugs surfaced through actionable findings; false-positive/comment precision is not reported.",
+      "confidence": "thirdParty",
+      "context": {
+        "sourceKind": "benchmarkOwner",
+        "runnerOrganization": "CodeRabbit",
+        "dateBasis": "publishedDate",
+        "observedAt": "2026-09-12",
+        "sourcePublisher": "CodeRabbit",
+        "harness": "CodeRabbit internal review pipeline / September 4 evaluation / overall",
+        "sampleNotes": "PR count, known-issue count, repeat count, reasoning effort, judge identity and exact pipeline version were not published. Values transcribed from the labeled chart; compare only within this protocol and subset."
+      }
+    },
+    {
+      "id": "coderabbit-astra-2026-09-04-overall-coverage-gpt-5.6-sol",
+      "benchmarkTypeId": "coderabbit-astra-2026-09-04-overall-coverage",
+      "modelId": "gpt-5.6-sol",
+      "reasoningEffort": "unspecified",
+      "score": 59,
+      "publishedAt": "2026-09-04",
+      "retrievedAt": "2026-09-12",
+      "sourceUrl": "https://www.coderabbit.ai/blog/gpt-6-astra-code-review-evaluation",
+      "retrievalMethod": "manual",
+      "evidenceExcerpt": "overall actionable bug coverage: 59% in CodeRabbit's September 4 evaluation. Percentage of labeled bugs surfaced through actionable findings; false-positive/comment precision is not reported.",
+      "confidence": "thirdParty",
+      "context": {
+        "sourceKind": "benchmarkOwner",
+        "runnerOrganization": "CodeRabbit",
+        "dateBasis": "publishedDate",
+        "observedAt": "2026-09-12",
+        "sourcePublisher": "CodeRabbit",
+        "harness": "CodeRabbit internal review pipeline / September 4 evaluation / overall",
+        "sampleNotes": "PR count, known-issue count, repeat count, reasoning effort, judge identity and exact pipeline version were not published. Values transcribed from the labeled chart; compare only within this protocol and subset."
+      }
+    },
+    {
+      "id": "coderabbit-astra-2026-09-04-overall-coverage-claude-opus-5",
+      "benchmarkTypeId": "coderabbit-astra-2026-09-04-overall-coverage",
+      "modelId": "claude-opus-5",
+      "reasoningEffort": "unspecified",
+      "score": 50.2,
+      "publishedAt": "2026-09-04",
+      "retrievedAt": "2026-09-12",
+      "sourceUrl": "https://www.coderabbit.ai/blog/gpt-6-astra-code-review-evaluation",
+      "retrievalMethod": "manual",
+      "evidenceExcerpt": "overall actionable bug coverage: 50.2% in CodeRabbit's September 4 evaluation. Percentage of labeled bugs surfaced through actionable findings; false-positive/comment precision is not reported.",
+      "confidence": "thirdParty",
+      "context": {
+        "sourceKind": "benchmarkOwner",
+        "runnerOrganization": "CodeRabbit",
+        "dateBasis": "publishedDate",
+        "observedAt": "2026-09-12",
+        "sourcePublisher": "CodeRabbit",
+        "harness": "CodeRabbit internal review pipeline / September 4 evaluation / overall",
+        "sampleNotes": "PR count, known-issue count, repeat count, reasoning effort, judge identity and exact pipeline version were not published. Values transcribed from the labeled chart; compare only within this protocol and subset."
+      }
+    },
+    {
+      "id": "coderabbit-astra-2026-09-04-cross-file-coverage-gpt-6-astra",
+      "benchmarkTypeId": "coderabbit-astra-2026-09-04-cross-file-coverage",
+      "modelId": "gpt-6-astra",
+      "reasoningEffort": "unspecified",
+      "score": 57.1,
+      "publishedAt": "2026-09-04",
+      "retrievedAt": "2026-09-12",
+      "sourceUrl": "https://www.coderabbit.ai/blog/gpt-6-astra-code-review-evaluation",
+      "retrievalMethod": "manual",
+      "evidenceExcerpt": "cross-file actionable bug coverage: 57.1% in CodeRabbit's September 4 evaluation. Percentage of labeled bugs surfaced through actionable findings; false-positive/comment precision is not reported.",
+      "confidence": "thirdParty",
+      "context": {
+        "sourceKind": "benchmarkOwner",
+        "runnerOrganization": "CodeRabbit",
+        "dateBasis": "publishedDate",
+        "observedAt": "2026-09-12",
+        "sourcePublisher": "CodeRabbit",
+        "harness": "CodeRabbit internal review pipeline / September 4 evaluation / cross-file",
+        "sampleNotes": "PR count, known-issue count, repeat count, reasoning effort, judge identity and exact pipeline version were not published. Values transcribed from the labeled chart; compare only within this protocol and subset."
+      }
+    },
+    {
+      "id": "coderabbit-astra-2026-09-04-cross-file-coverage-gpt-5.6-sol",
+      "benchmarkTypeId": "coderabbit-astra-2026-09-04-cross-file-coverage",
+      "modelId": "gpt-5.6-sol",
+      "reasoningEffort": "unspecified",
+      "score": 47.6,
+      "publishedAt": "2026-09-04",
+      "retrievedAt": "2026-09-12",
+      "sourceUrl": "https://www.coderabbit.ai/blog/gpt-6-astra-code-review-evaluation",
+      "retrievalMethod": "manual",
+      "evidenceExcerpt": "cross-file actionable bug coverage: 47.6% in CodeRabbit's September 4 evaluation. Percentage of labeled bugs surfaced through actionable findings; false-positive/comment precision is not reported.",
+      "confidence": "thirdParty",
+      "context": {
+        "sourceKind": "benchmarkOwner",
+        "runnerOrganization": "CodeRabbit",
+        "dateBasis": "publishedDate",
+        "observedAt": "2026-09-12",
+        "sourcePublisher": "CodeRabbit",
+        "harness": "CodeRabbit internal review pipeline / September 4 evaluation / cross-file",
+        "sampleNotes": "PR count, known-issue count, repeat count, reasoning effort, judge identity and exact pipeline version were not published. Values transcribed from the labeled chart; compare only within this protocol and subset."
+      }
+    },
+    {
+      "id": "coderabbit-astra-2026-09-04-cross-file-coverage-claude-opus-5",
+      "benchmarkTypeId": "coderabbit-astra-2026-09-04-cross-file-coverage",
+      "modelId": "claude-opus-5",
+      "reasoningEffort": "unspecified",
+      "score": 42.9,
+      "publishedAt": "2026-09-04",
+      "retrievedAt": "2026-09-12",
+      "sourceUrl": "https://www.coderabbit.ai/blog/gpt-6-astra-code-review-evaluation",
+      "retrievalMethod": "manual",
+      "evidenceExcerpt": "cross-file actionable bug coverage: 42.9% in CodeRabbit's September 4 evaluation. Percentage of labeled bugs surfaced through actionable findings; false-positive/comment precision is not reported.",
+      "confidence": "thirdParty",
+      "context": {
+        "sourceKind": "benchmarkOwner",
+        "runnerOrganization": "CodeRabbit",
+        "dateBasis": "publishedDate",
+        "observedAt": "2026-09-12",
+        "sourcePublisher": "CodeRabbit",
+        "harness": "CodeRabbit internal review pipeline / September 4 evaluation / cross-file",
+        "sampleNotes": "PR count, known-issue count, repeat count, reasoning effort, judge identity and exact pipeline version were not published. Values transcribed from the labeled chart; compare only within this protocol and subset."
+      }
+    },
+    {
+      "id": "coderabbit-opus5-2026-07-24-senior-actionable-coverage-claude-opus-5-high",
+      "benchmarkTypeId": "coderabbit-opus5-2026-07-24-senior-actionable-coverage",
+      "modelId": "claude-opus-5",
+      "reasoningEffort": "high",
+      "score": 55.6,
+      "publishedAt": "2026-07-24",
+      "retrievedAt": "2026-09-12",
+      "sourceUrl": "https://www.coderabbit.ai/blog/opus-5-model-review",
+      "retrievalMethod": "manual",
+      "evidenceExcerpt": "Share of 96 known error patterns caught by an actionable comment; averaged across three repeats. Senior high: 55.6%. Three-run average over 96 error patterns.",
+      "confidence": "thirdParty",
+      "context": {
+        "sourceKind": "benchmarkOwner",
+        "runnerOrganization": "CodeRabbit",
+        "dateBasis": "publishedDate",
+        "observedAt": "2026-09-12",
+        "sourcePublisher": "CodeRabbit",
+        "harness": "CodeRabbit senior-reviewer profile / verification, deduplication and assertive filtering",
+        "sampleNotes": "96 evaluation patterns; three complete configuration repeats. PR count and exact judge/pipeline revision not published. 176 actionable comments and 91 nitpicks are average output volumes, not confirmed unique defects.",
+        "additionalSourceUrls": [
+          "https://www.coderabbit.ai/content/assets/opus-5-results-table.png"
+        ]
+      }
+    },
+    {
+      "id": "coderabbit-opus5-2026-07-24-senior-actionable-coverage-claude-opus-5-xhigh",
+      "benchmarkTypeId": "coderabbit-opus5-2026-07-24-senior-actionable-coverage",
+      "modelId": "claude-opus-5",
+      "reasoningEffort": "xHigh",
+      "score": 55.2,
+      "publishedAt": "2026-07-24",
+      "retrievedAt": "2026-09-12",
+      "sourceUrl": "https://www.coderabbit.ai/blog/opus-5-model-review",
+      "retrievalMethod": "manual",
+      "evidenceExcerpt": "Share of 96 known error patterns caught by an actionable comment; averaged across three repeats. Senior xHigh: 55.2%. Three-run average over 96 error patterns.",
+      "confidence": "thirdParty",
+      "context": {
+        "sourceKind": "benchmarkOwner",
+        "runnerOrganization": "CodeRabbit",
+        "dateBasis": "publishedDate",
+        "observedAt": "2026-09-12",
+        "sourcePublisher": "CodeRabbit",
+        "harness": "CodeRabbit senior-reviewer profile / verification, deduplication and assertive filtering",
+        "sampleNotes": "96 evaluation patterns; three complete configuration repeats. PR count and exact judge/pipeline revision not published. 166 actionable comments and 92 nitpicks are average output volumes, not confirmed unique defects.",
+        "additionalSourceUrls": [
+          "https://www.coderabbit.ai/content/assets/opus-5-results-table.png"
+        ]
+      }
+    },
+    {
+      "id": "coderabbit-opus5-2026-07-24-senior-full-stream-coverage-claude-opus-5-high",
+      "benchmarkTypeId": "coderabbit-opus5-2026-07-24-senior-full-stream-coverage",
+      "modelId": "claude-opus-5",
+      "reasoningEffort": "high",
+      "score": 62.8,
+      "publishedAt": "2026-07-24",
+      "retrievedAt": "2026-09-12",
+      "sourceUrl": "https://www.coderabbit.ai/blog/opus-5-model-review",
+      "retrievalMethod": "manual",
+      "evidenceExcerpt": "Share of known error patterns caught in any post-pipeline comment class, including outside-diff and low-confidence nitpicks. Senior high: 62.8%. Three-run average over 96 error patterns.",
+      "confidence": "thirdParty",
+      "context": {
+        "sourceKind": "benchmarkOwner",
+        "runnerOrganization": "CodeRabbit",
+        "dateBasis": "publishedDate",
+        "observedAt": "2026-09-12",
+        "sourcePublisher": "CodeRabbit",
+        "harness": "CodeRabbit senior-reviewer profile / verification, deduplication and assertive filtering",
+        "sampleNotes": "96 evaluation patterns; three complete configuration repeats. PR count and exact judge/pipeline revision not published. 176 actionable comments and 91 nitpicks are average output volumes, not confirmed unique defects.",
+        "additionalSourceUrls": [
+          "https://www.coderabbit.ai/content/assets/opus-5-results-table.png"
+        ]
+      }
+    },
+    {
+      "id": "coderabbit-opus5-2026-07-24-senior-full-stream-coverage-claude-opus-5-xhigh",
+      "benchmarkTypeId": "coderabbit-opus5-2026-07-24-senior-full-stream-coverage",
+      "modelId": "claude-opus-5",
+      "reasoningEffort": "xHigh",
+      "score": 60.8,
+      "publishedAt": "2026-07-24",
+      "retrievedAt": "2026-09-12",
+      "sourceUrl": "https://www.coderabbit.ai/blog/opus-5-model-review",
+      "retrievalMethod": "manual",
+      "evidenceExcerpt": "Share of known error patterns caught in any post-pipeline comment class, including outside-diff and low-confidence nitpicks. Senior xHigh: 60.8%. Three-run average over 96 error patterns.",
+      "confidence": "thirdParty",
+      "context": {
+        "sourceKind": "benchmarkOwner",
+        "runnerOrganization": "CodeRabbit",
+        "dateBasis": "publishedDate",
+        "observedAt": "2026-09-12",
+        "sourcePublisher": "CodeRabbit",
+        "harness": "CodeRabbit senior-reviewer profile / verification, deduplication and assertive filtering",
+        "sampleNotes": "96 evaluation patterns; three complete configuration repeats. PR count and exact judge/pipeline revision not published. 166 actionable comments and 92 nitpicks are average output volumes, not confirmed unique defects.",
+        "additionalSourceUrls": [
+          "https://www.coderabbit.ai/content/assets/opus-5-results-table.png"
+        ]
+      }
+    },
+    {
+      "id": "coderabbit-opus5-2026-07-24-senior-actionable-precision-claude-opus-5-high",
+      "benchmarkTypeId": "coderabbit-opus5-2026-07-24-senior-actionable-precision",
+      "modelId": "claude-opus-5",
+      "reasoningEffort": "high",
+      "score": 35.6,
+      "publishedAt": "2026-07-24",
+      "retrievedAt": "2026-09-12",
+      "sourceUrl": "https://www.coderabbit.ai/blog/opus-5-model-review",
+      "retrievalMethod": "manual",
+      "evidenceExcerpt": "Share of actionable post-pipeline comments accepted by the evaluation judge. Comment denominator differs from the known-issue coverage denominator. Senior high: 35.6%. Three-run average over 96 error patterns.",
+      "confidence": "thirdParty",
+      "context": {
+        "sourceKind": "benchmarkOwner",
+        "runnerOrganization": "CodeRabbit",
+        "dateBasis": "publishedDate",
+        "observedAt": "2026-09-12",
+        "sourcePublisher": "CodeRabbit",
+        "harness": "CodeRabbit senior-reviewer profile / verification, deduplication and assertive filtering",
+        "sampleNotes": "96 evaluation patterns; three complete configuration repeats. PR count and exact judge/pipeline revision not published. 176 actionable comments and 91 nitpicks are average output volumes, not confirmed unique defects.",
+        "additionalSourceUrls": [
+          "https://www.coderabbit.ai/content/assets/opus-5-results-table.png"
+        ]
+      }
+    },
+    {
+      "id": "coderabbit-opus5-2026-07-24-senior-actionable-precision-claude-opus-5-xhigh",
+      "benchmarkTypeId": "coderabbit-opus5-2026-07-24-senior-actionable-precision",
+      "modelId": "claude-opus-5",
+      "reasoningEffort": "xHigh",
+      "score": 39.3,
+      "publishedAt": "2026-07-24",
+      "retrievedAt": "2026-09-12",
+      "sourceUrl": "https://www.coderabbit.ai/blog/opus-5-model-review",
+      "retrievalMethod": "manual",
+      "evidenceExcerpt": "Share of actionable post-pipeline comments accepted by the evaluation judge. Comment denominator differs from the known-issue coverage denominator. Senior xHigh: 39.3%. Three-run average over 96 error patterns.",
+      "confidence": "thirdParty",
+      "context": {
+        "sourceKind": "benchmarkOwner",
+        "runnerOrganization": "CodeRabbit",
+        "dateBasis": "publishedDate",
+        "observedAt": "2026-09-12",
+        "sourcePublisher": "CodeRabbit",
+        "harness": "CodeRabbit senior-reviewer profile / verification, deduplication and assertive filtering",
+        "sampleNotes": "96 evaluation patterns; three complete configuration repeats. PR count and exact judge/pipeline revision not published. 166 actionable comments and 92 nitpicks are average output volumes, not confirmed unique defects.",
+        "additionalSourceUrls": [
+          "https://www.coderabbit.ai/content/assets/opus-5-results-table.png"
+        ]
+      }
+    },
+    {
+      "id": "coderabbit-opus5-2026-07-24-senior-full-stream-precision-claude-opus-5-high",
+      "benchmarkTypeId": "coderabbit-opus5-2026-07-24-senior-full-stream-precision",
+      "modelId": "claude-opus-5",
+      "reasoningEffort": "high",
+      "score": 27.3,
+      "publishedAt": "2026-07-24",
+      "retrievedAt": "2026-09-12",
+      "sourceUrl": "https://www.coderabbit.ai/blog/opus-5-model-review",
+      "retrievalMethod": "manual",
+      "evidenceExcerpt": "Share accepted after every scored post-pipeline comment class is included. Do not substitute actionable precision for this noisier stream. Senior high: 27.3%. Three-run average over 96 error patterns.",
+      "confidence": "thirdParty",
+      "context": {
+        "sourceKind": "benchmarkOwner",
+        "runnerOrganization": "CodeRabbit",
+        "dateBasis": "publishedDate",
+        "observedAt": "2026-09-12",
+        "sourcePublisher": "CodeRabbit",
+        "harness": "CodeRabbit senior-reviewer profile / verification, deduplication and assertive filtering",
+        "sampleNotes": "96 evaluation patterns; three complete configuration repeats. PR count and exact judge/pipeline revision not published. 176 actionable comments and 91 nitpicks are average output volumes, not confirmed unique defects.",
+        "additionalSourceUrls": [
+          "https://www.coderabbit.ai/content/assets/opus-5-results-table.png"
+        ]
+      }
+    },
+    {
+      "id": "coderabbit-opus5-2026-07-24-senior-full-stream-precision-claude-opus-5-xhigh",
+      "benchmarkTypeId": "coderabbit-opus5-2026-07-24-senior-full-stream-precision",
+      "modelId": "claude-opus-5",
+      "reasoningEffort": "xHigh",
+      "score": 28.6,
+      "publishedAt": "2026-07-24",
+      "retrievedAt": "2026-09-12",
+      "sourceUrl": "https://www.coderabbit.ai/blog/opus-5-model-review",
+      "retrievalMethod": "manual",
+      "evidenceExcerpt": "Share accepted after every scored post-pipeline comment class is included. Do not substitute actionable precision for this noisier stream. Senior xHigh: 28.6%. Three-run average over 96 error patterns.",
+      "confidence": "thirdParty",
+      "context": {
+        "sourceKind": "benchmarkOwner",
+        "runnerOrganization": "CodeRabbit",
+        "dateBasis": "publishedDate",
+        "observedAt": "2026-09-12",
+        "sourcePublisher": "CodeRabbit",
+        "harness": "CodeRabbit senior-reviewer profile / verification, deduplication and assertive filtering",
+        "sampleNotes": "96 evaluation patterns; three complete configuration repeats. PR count and exact judge/pipeline revision not published. 166 actionable comments and 92 nitpicks are average output volumes, not confirmed unique defects.",
+        "additionalSourceUrls": [
+          "https://www.coderabbit.ai/content/assets/opus-5-results-table.png"
+        ]
+      }
+    },
+    {
+      "id": "coderabbit-fable51-2026-09-01-low-recall-claude-fable-5-1",
+      "benchmarkTypeId": "coderabbit-fable51-2026-09-01-low-recall",
+      "modelId": "claude-fable-5-1",
+      "reasoningEffort": "unspecified",
+      "score": 61,
+      "secondaryMetrics": {
+        "latencyMilliseconds": 1118000
+      },
+      "publishedAt": "2026-09-01",
+      "retrievedAt": "2026-09-12",
+      "sourceUrl": "https://www.coderabbit.ai/blog/fable-5-1-model-review",
+      "retrievalMethod": "manual",
+      "evidenceExcerpt": "Share of the 105 known-issue points with at least one valid comment. Internal low setting: 61%; 45 review tasks, 105 known issues, 166 final comments, 79 separately counted nitpicks.",
+      "confidence": "thirdParty",
+      "context": {
+        "sourceKind": "benchmarkOwner",
+        "runnerOrganization": "CodeRabbit",
+        "dateBasis": "publishedDate",
+        "observedAt": "2026-09-12",
+        "sourcePublisher": "CodeRabbit",
+        "harness": "CodeRabbit September 1 review pipeline / internal low setting",
+        "taskCount": 45,
+        "sampleNotes": "Known-issue denominator 105; 64 issues found; 92 review-file model calls include retries and split-file batches. 166 final comments and 79 separate nitpicks. No reliable token totals, repeated-seed count, judge identity or exact pipeline version. Low/High do not establish provider effort enum values."
+      }
+    },
+    {
+      "id": "coderabbit-fable51-2026-09-01-low-precision-claude-fable-5-1",
+      "benchmarkTypeId": "coderabbit-fable51-2026-09-01-low-precision",
+      "modelId": "claude-fable-5-1",
+      "reasoningEffort": "unspecified",
+      "score": 37.3,
+      "secondaryMetrics": {
+        "latencyMilliseconds": 1118000
+      },
+      "publishedAt": "2026-09-01",
+      "retrievedAt": "2026-09-12",
+      "sourceUrl": "https://www.coderabbit.ai/blog/fable-5-1-model-review",
+      "retrievalMethod": "manual",
+      "evidenceExcerpt": "Share of final post-pipeline comments judged valid; not a claim about all possible code defects. Internal low setting: 37.3%; 45 review tasks, 105 known issues, 166 final comments, 79 separately counted nitpicks.",
+      "confidence": "thirdParty",
+      "context": {
+        "sourceKind": "benchmarkOwner",
+        "runnerOrganization": "CodeRabbit",
+        "dateBasis": "publishedDate",
+        "observedAt": "2026-09-12",
+        "sourcePublisher": "CodeRabbit",
+        "harness": "CodeRabbit September 1 review pipeline / internal low setting",
+        "taskCount": 45,
+        "sampleNotes": "Known-issue denominator 105; 64 issues found; 92 review-file model calls include retries and split-file batches. 166 final comments and 79 separate nitpicks. No reliable token totals, repeated-seed count, judge identity or exact pipeline version. Low/High do not establish provider effort enum values."
+      }
+    },
+    {
+      "id": "coderabbit-fable51-2026-09-01-high-recall-claude-fable-5-1",
+      "benchmarkTypeId": "coderabbit-fable51-2026-09-01-high-recall",
+      "modelId": "claude-fable-5-1",
+      "reasoningEffort": "unspecified",
+      "score": 57.1,
+      "secondaryMetrics": {
+        "latencyMilliseconds": 1296000
+      },
+      "publishedAt": "2026-09-01",
+      "retrievedAt": "2026-09-12",
+      "sourceUrl": "https://www.coderabbit.ai/blog/fable-5-1-model-review",
+      "retrievalMethod": "manual",
+      "evidenceExcerpt": "Share of the 105 known-issue points with at least one valid comment. Internal high setting: 57.1%; 45 review tasks, 105 known issues, 165 final comments, 88 separately counted nitpicks.",
+      "confidence": "thirdParty",
+      "context": {
+        "sourceKind": "benchmarkOwner",
+        "runnerOrganization": "CodeRabbit",
+        "dateBasis": "publishedDate",
+        "observedAt": "2026-09-12",
+        "sourcePublisher": "CodeRabbit",
+        "harness": "CodeRabbit September 1 review pipeline / internal high setting",
+        "taskCount": 45,
+        "sampleNotes": "Known-issue denominator 105; 92 review-file model calls include retries and split-file batches. 165 final comments and 88 separate nitpicks. No reliable token totals, repeated-seed count, judge identity or exact pipeline version. Low/High do not establish provider effort enum values."
+      }
+    },
+    {
+      "id": "coderabbit-fable51-2026-09-01-high-precision-claude-fable-5-1",
+      "benchmarkTypeId": "coderabbit-fable51-2026-09-01-high-precision",
+      "modelId": "claude-fable-5-1",
+      "reasoningEffort": "unspecified",
+      "score": 36.4,
+      "secondaryMetrics": {
+        "latencyMilliseconds": 1296000
+      },
+      "publishedAt": "2026-09-01",
+      "retrievedAt": "2026-09-12",
+      "sourceUrl": "https://www.coderabbit.ai/blog/fable-5-1-model-review",
+      "retrievalMethod": "manual",
+      "evidenceExcerpt": "Share of final post-pipeline comments judged valid; not a claim about all possible code defects. Internal high setting: 36.4%; 45 review tasks, 105 known issues, 165 final comments, 88 separately counted nitpicks.",
+      "confidence": "thirdParty",
+      "context": {
+        "sourceKind": "benchmarkOwner",
+        "runnerOrganization": "CodeRabbit",
+        "dateBasis": "publishedDate",
+        "observedAt": "2026-09-12",
+        "sourcePublisher": "CodeRabbit",
+        "harness": "CodeRabbit September 1 review pipeline / internal high setting",
+        "taskCount": 45,
+        "sampleNotes": "Known-issue denominator 105; 92 review-file model calls include retries and split-file batches. 165 final comments and 88 separate nitpicks. No reliable token totals, repeated-seed count, judge identity or exact pipeline version. Low/High do not establish provider effort enum values."
+      }
+    },
+    {
+      "id": "coderabbit-sol-2026-07-09-recall-gpt-5.6-sol",
+      "benchmarkTypeId": "coderabbit-sol-2026-07-09-recall",
+      "modelId": "gpt-5.6-sol",
+      "reasoningEffort": "unspecified",
+      "score": 69.7,
+      "publishedAt": "2026-07-09",
+      "retrievedAt": "2026-09-12",
+      "sourceUrl": "https://www.coderabbit.ai/blog/gpt-5-6-sol-and-terra-benchmark",
+      "retrievalMethod": "manual",
+      "evidenceExcerpt": "69 of 99 known issues caught actionably. Published Sol lane; 61 nitpicks are also reported. The production baseline is a separate model ensemble.",
+      "confidence": "thirdParty",
+      "context": {
+        "sourceKind": "benchmarkOwner",
+        "runnerOrganization": "CodeRabbit",
+        "dateBasis": "publishedDate",
+        "observedAt": "2026-09-12",
+        "sourcePublisher": "CodeRabbit",
+        "harness": "CodeRabbit July 9 Sol review lane",
+        "sampleNotes": "99 known error patterns; 69 actionable and 74 full-stream issue hits. PR count, repeat count, reasoning effort, exact judge/pipeline version unknown. 231 is raw comment volume, not a valid precision denominator for reconstructing true-positive counts."
+      }
+    },
+    {
+      "id": "coderabbit-sol-2026-07-09-precision-gpt-5.6-sol",
+      "benchmarkTypeId": "coderabbit-sol-2026-07-09-precision",
+      "modelId": "gpt-5.6-sol",
+      "reasoningEffort": "unspecified",
+      "score": 31.6,
+      "publishedAt": "2026-07-09",
+      "retrievedAt": "2026-09-12",
+      "sourceUrl": "https://www.coderabbit.ai/blog/gpt-5-6-sol-and-terra-benchmark",
+      "retrievalMethod": "manual",
+      "evidenceExcerpt": "Share of actionable comments correct enough to keep; the separately stated 231 comments are RAW model output before filtering. Published Sol lane; 61 nitpicks are also reported. The production baseline is a separate model ensemble.",
+      "confidence": "thirdParty",
+      "context": {
+        "sourceKind": "benchmarkOwner",
+        "runnerOrganization": "CodeRabbit",
+        "dateBasis": "publishedDate",
+        "observedAt": "2026-09-12",
+        "sourcePublisher": "CodeRabbit",
+        "harness": "CodeRabbit July 9 Sol review lane",
+        "sampleNotes": "99 known error patterns; 69 actionable and 74 full-stream issue hits. PR count, repeat count, reasoning effort, exact judge/pipeline version unknown. 231 is raw comment volume, not a valid precision denominator for reconstructing true-positive counts."
+      }
+    },
+    {
+      "id": "kodus-light-v1-vendor-default-recall-gpt-5.6-luna",
+      "benchmarkTypeId": "kodus-light-v1-vendor-default-recall",
+      "modelId": "gpt-5.6-luna",
+      "reasoningEffort": "unspecified",
+      "score": 0.29473684210526313,
+      "publishedAt": "2026-09-12",
+      "retrievedAt": "2026-09-12",
+      "sourceUrl": "https://github.com/kodustech/codereviewbench/blob/531297bf50e5f065e3888d7e07b55dcacbf8df64/scorecards/gpt-5.6-luna.json",
+      "retrievalMethod": "script",
+      "evidenceExcerpt": "Pinned light-v1 scorecard: 28/95 distinct known bugs matched; 30/52 findings classified true by Haiku 4.5, 22 classified false. These are different issue and finding denominators. Original scorecard recallMicro ratio retained.",
+      "confidence": "thirdParty",
+      "context": {
+        "sourceKind": "benchmarkOwner",
+        "runnerOrganization": "Kodus",
+        "dateBasis": "firstObservedPublicSnapshot",
+        "observedAt": "2026-09-12",
+        "sourcePublisher": "Kodus",
+        "harness": "Kodus deterministic tool replay",
+        "harnessVersion": "dev",
+        "taskCount": 30,
+        "sampleNotes": "Run 2026-08-04T19:56:24.224Z; scored 2026-08-13T23:28:51.169Z. One replay per model via codex_subscription; effortRequested is null (vendor default), not a known model effort. First observed public snapshot is September 12. 152/1160 replay tool requests were unserved; coverage is limited by the replay. Judge model claude-haiku-4-5.",
+        "additionalSourceUrls": [
+          "https://www.codereviewbench.com/"
+        ]
+      }
+    },
+    {
+      "id": "kodus-light-v1-vendor-default-precision-gpt-5.6-luna",
+      "benchmarkTypeId": "kodus-light-v1-vendor-default-precision",
+      "modelId": "gpt-5.6-luna",
+      "reasoningEffort": "unspecified",
+      "score": 0.5769230769230769,
+      "publishedAt": "2026-09-12",
+      "retrievedAt": "2026-09-12",
+      "sourceUrl": "https://github.com/kodustech/codereviewbench/blob/531297bf50e5f065e3888d7e07b55dcacbf8df64/scorecards/gpt-5.6-luna.json",
+      "retrievalMethod": "script",
+      "evidenceExcerpt": "Pinned light-v1 scorecard: 28/95 distinct known bugs matched; 30/52 findings classified true by Haiku 4.5, 22 classified false. These are different issue and finding denominators. Original scorecard precisionMicro ratio retained.",
+      "confidence": "thirdParty",
+      "context": {
+        "sourceKind": "benchmarkOwner",
+        "runnerOrganization": "Kodus",
+        "dateBasis": "firstObservedPublicSnapshot",
+        "observedAt": "2026-09-12",
+        "sourcePublisher": "Kodus",
+        "harness": "Kodus deterministic tool replay",
+        "harnessVersion": "dev",
+        "taskCount": 30,
+        "sampleNotes": "Run 2026-08-04T19:56:24.224Z; scored 2026-08-13T23:28:51.169Z. One replay per model via codex_subscription; effortRequested is null (vendor default), not a known model effort. First observed public snapshot is September 12. 152/1160 replay tool requests were unserved; coverage is limited by the replay. Judge model claude-haiku-4-5.",
+        "additionalSourceUrls": [
+          "https://www.codereviewbench.com/"
+        ]
+      }
+    },
+    {
+      "id": "kodus-light-v1-vendor-default-recall-gpt-5.6-terra",
+      "benchmarkTypeId": "kodus-light-v1-vendor-default-recall",
+      "modelId": "gpt-5.6-terra",
+      "reasoningEffort": "unspecified",
+      "score": 0.23157894736842105,
+      "publishedAt": "2026-09-12",
+      "retrievedAt": "2026-09-12",
+      "sourceUrl": "https://github.com/kodustech/codereviewbench/blob/531297bf50e5f065e3888d7e07b55dcacbf8df64/scorecards/gpt-5.6-terra.json",
+      "retrievalMethod": "script",
+      "evidenceExcerpt": "Pinned light-v1 scorecard: 22/95 distinct known bugs matched; 22/50 findings classified true by Haiku 4.5, 28 classified false. These are different issue and finding denominators. Original scorecard recallMicro ratio retained.",
+      "confidence": "thirdParty",
+      "context": {
+        "sourceKind": "benchmarkOwner",
+        "runnerOrganization": "Kodus",
+        "dateBasis": "firstObservedPublicSnapshot",
+        "observedAt": "2026-09-12",
+        "sourcePublisher": "Kodus",
+        "harness": "Kodus deterministic tool replay",
+        "harnessVersion": "dev",
+        "taskCount": 30,
+        "sampleNotes": "Run 2026-08-04T20:50:48.271Z; scored 2026-08-13T23:30:03.958Z. One replay per model via codex_subscription; effortRequested is null (vendor default), not a known model effort. First observed public snapshot is September 12. 294/1606 replay tool requests were unserved; coverage is limited by the replay. Judge model claude-haiku-4-5.",
+        "additionalSourceUrls": [
+          "https://www.codereviewbench.com/"
+        ]
+      }
+    },
+    {
+      "id": "kodus-light-v1-vendor-default-precision-gpt-5.6-terra",
+      "benchmarkTypeId": "kodus-light-v1-vendor-default-precision",
+      "modelId": "gpt-5.6-terra",
+      "reasoningEffort": "unspecified",
+      "score": 0.44,
+      "publishedAt": "2026-09-12",
+      "retrievedAt": "2026-09-12",
+      "sourceUrl": "https://github.com/kodustech/codereviewbench/blob/531297bf50e5f065e3888d7e07b55dcacbf8df64/scorecards/gpt-5.6-terra.json",
+      "retrievalMethod": "script",
+      "evidenceExcerpt": "Pinned light-v1 scorecard: 22/95 distinct known bugs matched; 22/50 findings classified true by Haiku 4.5, 28 classified false. These are different issue and finding denominators. Original scorecard precisionMicro ratio retained.",
+      "confidence": "thirdParty",
+      "context": {
+        "sourceKind": "benchmarkOwner",
+        "runnerOrganization": "Kodus",
+        "dateBasis": "firstObservedPublicSnapshot",
+        "observedAt": "2026-09-12",
+        "sourcePublisher": "Kodus",
+        "harness": "Kodus deterministic tool replay",
+        "harnessVersion": "dev",
+        "taskCount": 30,
+        "sampleNotes": "Run 2026-08-04T20:50:48.271Z; scored 2026-08-13T23:30:03.958Z. One replay per model via codex_subscription; effortRequested is null (vendor default), not a known model effort. First observed public snapshot is September 12. 294/1606 replay tool requests were unserved; coverage is limited by the replay. Judge model claude-haiku-4-5.",
+        "additionalSourceUrls": [
+          "https://www.codereviewbench.com/"
+        ]
+      }
+    }
+  ],
+  "studies": [
+    {
+      "id": "coderabbit-astra-2026-09-04",
+      "title": "Astra, Sol and Opus 5: known-bug coverage",
+      "date": "2026-09-04",
+      "summary": "Astra catches the largest share of labeled bugs in this CodeRabbit study, including the cross-file subset. The study supports a coverage preference for Astra in this harness; it does not establish which model produces fewer false alarms.",
+      "metricDefinition": "Coverage is the share of labeled bugs caught with actionable comments. Overall and cross-file coverage are separate metrics.",
+      "limits": [
+        "PR and bug counts are not disclosed.",
+        "Reasoning effort, precision, judge identity and exact pipeline version are not disclosed.",
+        "No confidence intervals or repeat counts are reported."
+      ],
+      "sourceUrls": [
+        "https://www.coderabbit.ai/blog/gpt-6-astra-code-review-evaluation"
+      ],
+      "evidenceIds": [
+        "coderabbit-astra-2026-09-04-overall-coverage-gpt-6-astra",
+        "coderabbit-astra-2026-09-04-overall-coverage-gpt-5.6-sol",
+        "coderabbit-astra-2026-09-04-overall-coverage-claude-opus-5",
+        "coderabbit-astra-2026-09-04-cross-file-coverage-gpt-6-astra",
+        "coderabbit-astra-2026-09-04-cross-file-coverage-gpt-5.6-sol",
+        "coderabbit-astra-2026-09-04-cross-file-coverage-claude-opus-5"
+      ]
+    },
+    {
+      "id": "coderabbit-opus5-2026-07-24",
+      "title": "Opus 5: precision and coverage at high and xHigh",
+      "date": "2026-07-24",
+      "summary": "Within the senior-reviewer profile, xHigh yields higher actionable precision and slightly lower actionable coverage than high. This is an observed tradeoff across three repeated runs, not proof of a universal best effort.",
+      "metricDefinition": "Actionable coverage counts known issues found; actionable precision counts valid actionable comments. Full-stream metrics also include the wider comment stream and must be read separately.",
+      "limits": [
+        "The source table specifies 96 evaluation patterns and a three-run average; the number of PRs is not stated.",
+        "Prompt profiles and product filtering affect the result. The junior profile also changes the prompt and is not part of this effort comparison.",
+        "Judge identity, variance and per-review cost are not disclosed."
+      ],
+      "sourceUrls": [
+        "https://www.coderabbit.ai/blog/opus-5-model-review",
+        "https://www.coderabbit.ai/content/assets/opus-5-results-table.png"
+      ],
+      "evidenceIds": [
+        "coderabbit-opus5-2026-07-24-senior-actionable-coverage-claude-opus-5-high",
+        "coderabbit-opus5-2026-07-24-senior-actionable-coverage-claude-opus-5-xhigh",
+        "coderabbit-opus5-2026-07-24-senior-full-stream-coverage-claude-opus-5-high",
+        "coderabbit-opus5-2026-07-24-senior-full-stream-coverage-claude-opus-5-xhigh",
+        "coderabbit-opus5-2026-07-24-senior-actionable-precision-claude-opus-5-high",
+        "coderabbit-opus5-2026-07-24-senior-actionable-precision-claude-opus-5-xhigh",
+        "coderabbit-opus5-2026-07-24-senior-full-stream-precision-claude-opus-5-high",
+        "coderabbit-opus5-2026-07-24-senior-full-stream-precision-claude-opus-5-xhigh"
+      ]
+    },
+    {
+      "id": "coderabbit-fable51-2026-09-01",
+      "title": "Fable 5.1: two internal review settings",
+      "date": "2026-09-01",
+      "summary": "The lower internal setting has higher observed recall and precision and lower mean latency on these tasks. Increasing this pipeline setting did not improve the measured outcome; no statistical uncertainty is reported.",
+      "metricDefinition": "Recall counts the known issues with at least one valid comment. Precision is the share of final pipeline comments judged valid. Low and High name internal configurations, not established provider effort levels.",
+      "limits": [
+        "45 review tasks contain 105 known issue points.",
+        "The 92 review-file calls include retries and split-file batches; they are not independent trials.",
+        "No reliable token totals, judge identity or exact pipeline version are supplied. Historical model rows used different pipelines."
+      ],
+      "sourceUrls": [
+        "https://www.coderabbit.ai/blog/fable-5-1-model-review"
+      ],
+      "evidenceIds": [
+        "coderabbit-fable51-2026-09-01-low-recall-claude-fable-5-1",
+        "coderabbit-fable51-2026-09-01-low-precision-claude-fable-5-1",
+        "coderabbit-fable51-2026-09-01-high-recall-claude-fable-5-1",
+        "coderabbit-fable51-2026-09-01-high-precision-claude-fable-5-1"
+      ]
+    },
+    {
+      "id": "coderabbit-sol-2026-07-09",
+      "title": "Sol: coverage with a substantial comment burden",
+      "date": "2026-07-09",
+      "summary": "Sol catches many known issues in this review lane, but the reported actionable precision leaves substantial filtering work. This older snapshot cannot be ranked directly against the September studies.",
+      "metricDefinition": "Known-issue recall uses distinct issue hits. Actionable precision uses processed comments. The separately reported raw comment volume is not its denominator.",
+      "limits": [
+        "The 99 known error patterns are not a reported PR count.",
+        "Reasoning effort, repeat count, exact judge and pipeline version are unknown.",
+        "The production comparison is a model ensemble; adding a model lane does not measure that model alone."
+      ],
+      "sourceUrls": [
+        "https://www.coderabbit.ai/blog/gpt-5-6-sol-and-terra-benchmark"
+      ],
+      "evidenceIds": [
+        "coderabbit-sol-2026-07-09-recall-gpt-5.6-sol",
+        "coderabbit-sol-2026-07-09-precision-gpt-5.6-sol"
+      ]
+    },
+    {
+      "id": "kodus-light-v1-vendor-default",
+      "title": "Kodus replay: Luna and Terra with published finding counts",
+      "date": "2026-09-12",
+      "summary": "The pinned scorecards expose issue and finding counts for the same review replay. Luna has higher measured recall and precision than Terra here. Missing tool replies and judge-based matching limit what this says about live repository review.",
+      "metricDefinition": "Original micro recall and precision are ratios from 0 to 1. Recall counts matched known issues; precision counts findings judged true. Their numerators can differ when multiple findings match one issue.",
+      "limits": [
+        "September 12 is the first observed public snapshot date; source run and scoring timestamps are retained separately.",
+        "30 PRs and 95 human review goldens; one vendor-default replay per model, with unknown provider effort.",
+        "Haiku 4.5 matches findings to goldens. Incomplete goldens and unserved tool requests can affect results.",
+        "No exact Astra, Sol, Opus 5 or Fable 5.1 scorecards were found in the pinned repository tree."
+      ],
+      "sourceUrls": [
+        "https://github.com/kodustech/codereviewbench/blob/531297bf50e5f065e3888d7e07b55dcacbf8df64/scorecards/gpt-5.6-luna.json",
+        "https://www.codereviewbench.com/",
+        "https://github.com/kodustech/codereviewbench/blob/531297bf50e5f065e3888d7e07b55dcacbf8df64/scorecards/gpt-5.6-terra.json"
+      ],
+      "evidenceIds": [
+        "kodus-light-v1-vendor-default-recall-gpt-5.6-luna",
+        "kodus-light-v1-vendor-default-precision-gpt-5.6-luna",
+        "kodus-light-v1-vendor-default-recall-gpt-5.6-terra",
+        "kodus-light-v1-vendor-default-precision-gpt-5.6-terra"
+      ]
+    }
+  ],
+  "models": [
+    {
+      "modelId": "claude-fable-5-1",
+      "displayName": "Claude Fable 5.1"
+    },
+    {
+      "modelId": "claude-fable-5",
+      "displayName": "Claude Fable 5"
+    },
+    {
+      "modelId": "claude-opus-5",
+      "displayName": "Claude Opus 5"
+    },
+    {
+      "modelId": "claude-sonnet-5",
+      "displayName": "Claude Sonnet 5"
+    },
+    {
+      "modelId": "claude-opus-4-8",
+      "displayName": "Claude Opus 4.8"
+    },
+    {
+      "modelId": "claude-opus-4-7",
+      "displayName": "Claude Opus 4.7"
+    },
+    {
+      "modelId": "claude-opus-4-6",
+      "displayName": "Claude Opus 4.6"
+    },
+    {
+      "modelId": "claude-opus-4-5",
+      "displayName": "Claude Opus 4.5"
+    },
+    {
+      "modelId": "claude-opus-4-1",
+      "displayName": "Claude Opus 4.1"
+    },
+    {
+      "modelId": "claude-sonnet-4-6",
+      "displayName": "Claude Sonnet 4.6"
+    },
+    {
+      "modelId": "claude-sonnet-4-5",
+      "displayName": "Claude Sonnet 4.5"
+    },
+    {
+      "modelId": "claude-haiku-4-5",
+      "displayName": "Claude Haiku 4.5"
+    },
+    {
+      "modelId": "gpt-6-astra",
+      "displayName": "GPT-6 Astra"
+    },
+    {
+      "modelId": "gpt-5.6-luna",
+      "displayName": "GPT-5.6 Luna"
+    },
+    {
+      "modelId": "gpt-5.6-terra",
+      "displayName": "GPT-5.6 Terra"
+    },
+    {
+      "modelId": "gpt-5.6-sol",
+      "displayName": "GPT-5.6 Sol"
+    },
+    {
+      "modelId": "gpt-5.4-mini",
+      "displayName": "GPT-5.4 Mini"
+    },
+    {
+      "modelId": "gpt-5.5",
+      "displayName": "GPT-5.5"
+    },
+    {
+      "modelId": "gpt-5.5-pro",
+      "displayName": "GPT-5.5 Pro"
+    },
+    {
+      "modelId": "gpt-5.5-cyber-preview",
+      "displayName": "GPT-5.5 Cyber (Preview)"
+    },
+    {
+      "modelId": "gpt-5",
+      "displayName": "GPT-5"
+    },
+    {
+      "modelId": "gpt-5-codex",
+      "displayName": "GPT-5 Codex"
+    }
+  ],
+  "operational": {
+    "schemaVersion": 1,
+    "evidenceVersion": "review-evidence-v1",
+    "taskClass": "review",
+    "evidenceStatus": "observational",
+    "confidenceGates": {
+      "version": 1,
+      "minimumRunCount": 20,
+      "minimumAssessedFindingCount": 20,
+      "minimumFindingOutcomeCoverage": 0.7,
+      "capableFindingConfirmationRate": 0.6,
+      "idealFindingConfirmationRate": 0.8
+    },
+    "importedRunCount": 1,
+    "fixtureRunCount": 1,
+    "eligibleOperationalRunCount": 0,
+    "cohorts": [],
+    "modelSummaries": [
+      {
+        "canonicalModel": "claude-fable-5",
+        "taskClass": "review",
+        "runCount": 0,
+        "filesReviewed": 0,
+        "findingsReported": 0,
+        "outcomeAvailableRunCount": 0,
+        "confirmedFindings": 0,
+        "dismissedFindings": 0,
+        "assessedFindingCount": 0,
+        "findingOutcomeCoverage": null,
+        "findingConfirmationRate": null,
+        "thinkingLevels": [],
+        "reviewAspects": [],
+        "observedThrough": null,
+        "evidenceStatus": "unknown",
+        "evidenceQuality": "insufficientEvidence",
+        "suitability": null,
+        "gateFailures": [
+          "run count 0 is below 20",
+          "assessed finding count 0 is below 20",
+          "finding outcome coverage is unavailable or below the declared gate",
+          "finding confirmation rate is unavailable"
+        ],
+        "provenance": []
+      },
+      {
+        "canonicalModel": "claude-fable-5-1",
+        "taskClass": "review",
+        "runCount": 0,
+        "filesReviewed": 0,
+        "findingsReported": 0,
+        "outcomeAvailableRunCount": 0,
+        "confirmedFindings": 0,
+        "dismissedFindings": 0,
+        "assessedFindingCount": 0,
+        "findingOutcomeCoverage": null,
+        "findingConfirmationRate": null,
+        "thinkingLevels": [],
+        "reviewAspects": [],
+        "observedThrough": null,
+        "evidenceStatus": "unknown",
+        "evidenceQuality": "insufficientEvidence",
+        "suitability": null,
+        "gateFailures": [
+          "run count 0 is below 20",
+          "assessed finding count 0 is below 20",
+          "finding outcome coverage is unavailable or below the declared gate",
+          "finding confirmation rate is unavailable"
+        ],
+        "provenance": []
+      },
+      {
+        "canonicalModel": "claude-haiku-4-5",
+        "taskClass": "review",
+        "runCount": 0,
+        "filesReviewed": 0,
+        "findingsReported": 0,
+        "outcomeAvailableRunCount": 0,
+        "confirmedFindings": 0,
+        "dismissedFindings": 0,
+        "assessedFindingCount": 0,
+        "findingOutcomeCoverage": null,
+        "findingConfirmationRate": null,
+        "thinkingLevels": [],
+        "reviewAspects": [],
+        "observedThrough": null,
+        "evidenceStatus": "unknown",
+        "evidenceQuality": "insufficientEvidence",
+        "suitability": null,
+        "gateFailures": [
+          "run count 0 is below 20",
+          "assessed finding count 0 is below 20",
+          "finding outcome coverage is unavailable or below the declared gate",
+          "finding confirmation rate is unavailable"
+        ],
+        "provenance": []
+      },
+      {
+        "canonicalModel": "claude-opus-4-1",
+        "taskClass": "review",
+        "runCount": 0,
+        "filesReviewed": 0,
+        "findingsReported": 0,
+        "outcomeAvailableRunCount": 0,
+        "confirmedFindings": 0,
+        "dismissedFindings": 0,
+        "assessedFindingCount": 0,
+        "findingOutcomeCoverage": null,
+        "findingConfirmationRate": null,
+        "thinkingLevels": [],
+        "reviewAspects": [],
+        "observedThrough": null,
+        "evidenceStatus": "unknown",
+        "evidenceQuality": "insufficientEvidence",
+        "suitability": null,
+        "gateFailures": [
+          "run count 0 is below 20",
+          "assessed finding count 0 is below 20",
+          "finding outcome coverage is unavailable or below the declared gate",
+          "finding confirmation rate is unavailable"
+        ],
+        "provenance": []
+      },
+      {
+        "canonicalModel": "claude-opus-4-5",
+        "taskClass": "review",
+        "runCount": 0,
+        "filesReviewed": 0,
+        "findingsReported": 0,
+        "outcomeAvailableRunCount": 0,
+        "confirmedFindings": 0,
+        "dismissedFindings": 0,
+        "assessedFindingCount": 0,
+        "findingOutcomeCoverage": null,
+        "findingConfirmationRate": null,
+        "thinkingLevels": [],
+        "reviewAspects": [],
+        "observedThrough": null,
+        "evidenceStatus": "unknown",
+        "evidenceQuality": "insufficientEvidence",
+        "suitability": null,
+        "gateFailures": [
+          "run count 0 is below 20",
+          "assessed finding count 0 is below 20",
+          "finding outcome coverage is unavailable or below the declared gate",
+          "finding confirmation rate is unavailable"
+        ],
+        "provenance": []
+      },
+      {
+        "canonicalModel": "claude-opus-4-6",
+        "taskClass": "review",
+        "runCount": 0,
+        "filesReviewed": 0,
+        "findingsReported": 0,
+        "outcomeAvailableRunCount": 0,
+        "confirmedFindings": 0,
+        "dismissedFindings": 0,
+        "assessedFindingCount": 0,
+        "findingOutcomeCoverage": null,
+        "findingConfirmationRate": null,
+        "thinkingLevels": [],
+        "reviewAspects": [],
+        "observedThrough": null,
+        "evidenceStatus": "unknown",
+        "evidenceQuality": "insufficientEvidence",
+        "suitability": null,
+        "gateFailures": [
+          "run count 0 is below 20",
+          "assessed finding count 0 is below 20",
+          "finding outcome coverage is unavailable or below the declared gate",
+          "finding confirmation rate is unavailable"
+        ],
+        "provenance": []
+      },
+      {
+        "canonicalModel": "claude-opus-4-7",
+        "taskClass": "review",
+        "runCount": 0,
+        "filesReviewed": 0,
+        "findingsReported": 0,
+        "outcomeAvailableRunCount": 0,
+        "confirmedFindings": 0,
+        "dismissedFindings": 0,
+        "assessedFindingCount": 0,
+        "findingOutcomeCoverage": null,
+        "findingConfirmationRate": null,
+        "thinkingLevels": [],
+        "reviewAspects": [],
+        "observedThrough": null,
+        "evidenceStatus": "unknown",
+        "evidenceQuality": "insufficientEvidence",
+        "suitability": null,
+        "gateFailures": [
+          "run count 0 is below 20",
+          "assessed finding count 0 is below 20",
+          "finding outcome coverage is unavailable or below the declared gate",
+          "finding confirmation rate is unavailable"
+        ],
+        "provenance": []
+      },
+      {
+        "canonicalModel": "claude-opus-4-8",
+        "taskClass": "review",
+        "runCount": 0,
+        "filesReviewed": 0,
+        "findingsReported": 0,
+        "outcomeAvailableRunCount": 0,
+        "confirmedFindings": 0,
+        "dismissedFindings": 0,
+        "assessedFindingCount": 0,
+        "findingOutcomeCoverage": null,
+        "findingConfirmationRate": null,
+        "thinkingLevels": [],
+        "reviewAspects": [],
+        "observedThrough": null,
+        "evidenceStatus": "unknown",
+        "evidenceQuality": "insufficientEvidence",
+        "suitability": null,
+        "gateFailures": [
+          "run count 0 is below 20",
+          "assessed finding count 0 is below 20",
+          "finding outcome coverage is unavailable or below the declared gate",
+          "finding confirmation rate is unavailable"
+        ],
+        "provenance": []
+      },
+      {
+        "canonicalModel": "claude-opus-5",
+        "taskClass": "review",
+        "runCount": 0,
+        "filesReviewed": 0,
+        "findingsReported": 0,
+        "outcomeAvailableRunCount": 0,
+        "confirmedFindings": 0,
+        "dismissedFindings": 0,
+        "assessedFindingCount": 0,
+        "findingOutcomeCoverage": null,
+        "findingConfirmationRate": null,
+        "thinkingLevels": [],
+        "reviewAspects": [],
+        "observedThrough": null,
+        "evidenceStatus": "unknown",
+        "evidenceQuality": "insufficientEvidence",
+        "suitability": null,
+        "gateFailures": [
+          "run count 0 is below 20",
+          "assessed finding count 0 is below 20",
+          "finding outcome coverage is unavailable or below the declared gate",
+          "finding confirmation rate is unavailable"
+        ],
+        "provenance": []
+      },
+      {
+        "canonicalModel": "claude-sonnet-4-5",
+        "taskClass": "review",
+        "runCount": 0,
+        "filesReviewed": 0,
+        "findingsReported": 0,
+        "outcomeAvailableRunCount": 0,
+        "confirmedFindings": 0,
+        "dismissedFindings": 0,
+        "assessedFindingCount": 0,
+        "findingOutcomeCoverage": null,
+        "findingConfirmationRate": null,
+        "thinkingLevels": [],
+        "reviewAspects": [],
+        "observedThrough": null,
+        "evidenceStatus": "unknown",
+        "evidenceQuality": "insufficientEvidence",
+        "suitability": null,
+        "gateFailures": [
+          "run count 0 is below 20",
+          "assessed finding count 0 is below 20",
+          "finding outcome coverage is unavailable or below the declared gate",
+          "finding confirmation rate is unavailable"
+        ],
+        "provenance": []
+      },
+      {
+        "canonicalModel": "claude-sonnet-4-6",
+        "taskClass": "review",
+        "runCount": 0,
+        "filesReviewed": 0,
+        "findingsReported": 0,
+        "outcomeAvailableRunCount": 0,
+        "confirmedFindings": 0,
+        "dismissedFindings": 0,
+        "assessedFindingCount": 0,
+        "findingOutcomeCoverage": null,
+        "findingConfirmationRate": null,
+        "thinkingLevels": [],
+        "reviewAspects": [],
+        "observedThrough": null,
+        "evidenceStatus": "unknown",
+        "evidenceQuality": "insufficientEvidence",
+        "suitability": null,
+        "gateFailures": [
+          "run count 0 is below 20",
+          "assessed finding count 0 is below 20",
+          "finding outcome coverage is unavailable or below the declared gate",
+          "finding confirmation rate is unavailable"
+        ],
+        "provenance": []
+      },
+      {
+        "canonicalModel": "claude-sonnet-5",
+        "taskClass": "review",
+        "runCount": 0,
+        "filesReviewed": 0,
+        "findingsReported": 0,
+        "outcomeAvailableRunCount": 0,
+        "confirmedFindings": 0,
+        "dismissedFindings": 0,
+        "assessedFindingCount": 0,
+        "findingOutcomeCoverage": null,
+        "findingConfirmationRate": null,
+        "thinkingLevels": [],
+        "reviewAspects": [],
+        "observedThrough": null,
+        "evidenceStatus": "unknown",
+        "evidenceQuality": "insufficientEvidence",
+        "suitability": null,
+        "gateFailures": [
+          "run count 0 is below 20",
+          "assessed finding count 0 is below 20",
+          "finding outcome coverage is unavailable or below the declared gate",
+          "finding confirmation rate is unavailable"
+        ],
+        "provenance": []
+      },
+      {
+        "canonicalModel": "gpt-5",
+        "taskClass": "review",
+        "runCount": 0,
+        "filesReviewed": 0,
+        "findingsReported": 0,
+        "outcomeAvailableRunCount": 0,
+        "confirmedFindings": 0,
+        "dismissedFindings": 0,
+        "assessedFindingCount": 0,
+        "findingOutcomeCoverage": null,
+        "findingConfirmationRate": null,
+        "thinkingLevels": [],
+        "reviewAspects": [],
+        "observedThrough": null,
+        "evidenceStatus": "unknown",
+        "evidenceQuality": "insufficientEvidence",
+        "suitability": null,
+        "gateFailures": [
+          "run count 0 is below 20",
+          "assessed finding count 0 is below 20",
+          "finding outcome coverage is unavailable or below the declared gate",
+          "finding confirmation rate is unavailable"
+        ],
+        "provenance": []
+      },
+      {
+        "canonicalModel": "gpt-5-codex",
+        "taskClass": "review",
+        "runCount": 0,
+        "filesReviewed": 0,
+        "findingsReported": 0,
+        "outcomeAvailableRunCount": 0,
+        "confirmedFindings": 0,
+        "dismissedFindings": 0,
+        "assessedFindingCount": 0,
+        "findingOutcomeCoverage": null,
+        "findingConfirmationRate": null,
+        "thinkingLevels": [],
+        "reviewAspects": [],
+        "observedThrough": null,
+        "evidenceStatus": "unknown",
+        "evidenceQuality": "insufficientEvidence",
+        "suitability": null,
+        "gateFailures": [
+          "run count 0 is below 20",
+          "assessed finding count 0 is below 20",
+          "finding outcome coverage is unavailable or below the declared gate",
+          "finding confirmation rate is unavailable"
+        ],
+        "provenance": []
+      },
+      {
+        "canonicalModel": "gpt-5.4-mini",
+        "taskClass": "review",
+        "runCount": 0,
+        "filesReviewed": 0,
+        "findingsReported": 0,
+        "outcomeAvailableRunCount": 0,
+        "confirmedFindings": 0,
+        "dismissedFindings": 0,
+        "assessedFindingCount": 0,
+        "findingOutcomeCoverage": null,
+        "findingConfirmationRate": null,
+        "thinkingLevels": [],
+        "reviewAspects": [],
+        "observedThrough": null,
+        "evidenceStatus": "unknown",
+        "evidenceQuality": "insufficientEvidence",
+        "suitability": null,
+        "gateFailures": [
+          "run count 0 is below 20",
+          "assessed finding count 0 is below 20",
+          "finding outcome coverage is unavailable or below the declared gate",
+          "finding confirmation rate is unavailable"
+        ],
+        "provenance": []
+      },
+      {
+        "canonicalModel": "gpt-5.5",
+        "taskClass": "review",
+        "runCount": 0,
+        "filesReviewed": 0,
+        "findingsReported": 0,
+        "outcomeAvailableRunCount": 0,
+        "confirmedFindings": 0,
+        "dismissedFindings": 0,
+        "assessedFindingCount": 0,
+        "findingOutcomeCoverage": null,
+        "findingConfirmationRate": null,
+        "thinkingLevels": [],
+        "reviewAspects": [],
+        "observedThrough": null,
+        "evidenceStatus": "unknown",
+        "evidenceQuality": "insufficientEvidence",
+        "suitability": null,
+        "gateFailures": [
+          "run count 0 is below 20",
+          "assessed finding count 0 is below 20",
+          "finding outcome coverage is unavailable or below the declared gate",
+          "finding confirmation rate is unavailable"
+        ],
+        "provenance": []
+      },
+      {
+        "canonicalModel": "gpt-5.5-cyber-preview",
+        "taskClass": "review",
+        "runCount": 0,
+        "filesReviewed": 0,
+        "findingsReported": 0,
+        "outcomeAvailableRunCount": 0,
+        "confirmedFindings": 0,
+        "dismissedFindings": 0,
+        "assessedFindingCount": 0,
+        "findingOutcomeCoverage": null,
+        "findingConfirmationRate": null,
+        "thinkingLevels": [],
+        "reviewAspects": [],
+        "observedThrough": null,
+        "evidenceStatus": "unknown",
+        "evidenceQuality": "insufficientEvidence",
+        "suitability": null,
+        "gateFailures": [
+          "run count 0 is below 20",
+          "assessed finding count 0 is below 20",
+          "finding outcome coverage is unavailable or below the declared gate",
+          "finding confirmation rate is unavailable"
+        ],
+        "provenance": []
+      },
+      {
+        "canonicalModel": "gpt-5.5-pro",
+        "taskClass": "review",
+        "runCount": 0,
+        "filesReviewed": 0,
+        "findingsReported": 0,
+        "outcomeAvailableRunCount": 0,
+        "confirmedFindings": 0,
+        "dismissedFindings": 0,
+        "assessedFindingCount": 0,
+        "findingOutcomeCoverage": null,
+        "findingConfirmationRate": null,
+        "thinkingLevels": [],
+        "reviewAspects": [],
+        "observedThrough": null,
+        "evidenceStatus": "unknown",
+        "evidenceQuality": "insufficientEvidence",
+        "suitability": null,
+        "gateFailures": [
+          "run count 0 is below 20",
+          "assessed finding count 0 is below 20",
+          "finding outcome coverage is unavailable or below the declared gate",
+          "finding confirmation rate is unavailable"
+        ],
+        "provenance": []
+      },
+      {
+        "canonicalModel": "gpt-5.6-luna",
+        "taskClass": "review",
+        "runCount": 0,
+        "filesReviewed": 0,
+        "findingsReported": 0,
+        "outcomeAvailableRunCount": 0,
+        "confirmedFindings": 0,
+        "dismissedFindings": 0,
+        "assessedFindingCount": 0,
+        "findingOutcomeCoverage": null,
+        "findingConfirmationRate": null,
+        "thinkingLevels": [],
+        "reviewAspects": [],
+        "observedThrough": null,
+        "evidenceStatus": "unknown",
+        "evidenceQuality": "insufficientEvidence",
+        "suitability": null,
+        "gateFailures": [
+          "run count 0 is below 20",
+          "assessed finding count 0 is below 20",
+          "finding outcome coverage is unavailable or below the declared gate",
+          "finding confirmation rate is unavailable"
+        ],
+        "provenance": []
+      },
+      {
+        "canonicalModel": "gpt-5.6-sol",
+        "taskClass": "review",
+        "runCount": 0,
+        "filesReviewed": 0,
+        "findingsReported": 0,
+        "outcomeAvailableRunCount": 0,
+        "confirmedFindings": 0,
+        "dismissedFindings": 0,
+        "assessedFindingCount": 0,
+        "findingOutcomeCoverage": null,
+        "findingConfirmationRate": null,
+        "thinkingLevels": [],
+        "reviewAspects": [],
+        "observedThrough": null,
+        "evidenceStatus": "unknown",
+        "evidenceQuality": "insufficientEvidence",
+        "suitability": null,
+        "gateFailures": [
+          "run count 0 is below 20",
+          "assessed finding count 0 is below 20",
+          "finding outcome coverage is unavailable or below the declared gate",
+          "finding confirmation rate is unavailable"
+        ],
+        "provenance": []
+      },
+      {
+        "canonicalModel": "gpt-5.6-terra",
+        "taskClass": "review",
+        "runCount": 0,
+        "filesReviewed": 0,
+        "findingsReported": 0,
+        "outcomeAvailableRunCount": 0,
+        "confirmedFindings": 0,
+        "dismissedFindings": 0,
+        "assessedFindingCount": 0,
+        "findingOutcomeCoverage": null,
+        "findingConfirmationRate": null,
+        "thinkingLevels": [],
+        "reviewAspects": [],
+        "observedThrough": null,
+        "evidenceStatus": "unknown",
+        "evidenceQuality": "insufficientEvidence",
+        "suitability": null,
+        "gateFailures": [
+          "run count 0 is below 20",
+          "assessed finding count 0 is below 20",
+          "finding outcome coverage is unavailable or below the declared gate",
+          "finding confirmation rate is unavailable"
+        ],
+        "provenance": []
+      },
+      {
+        "canonicalModel": "gpt-6-astra",
+        "taskClass": "review",
+        "runCount": 0,
+        "filesReviewed": 0,
+        "findingsReported": 0,
+        "outcomeAvailableRunCount": 0,
+        "confirmedFindings": 0,
+        "dismissedFindings": 0,
+        "assessedFindingCount": 0,
+        "findingOutcomeCoverage": null,
+        "findingConfirmationRate": null,
+        "thinkingLevels": [],
+        "reviewAspects": [],
+        "observedThrough": null,
+        "evidenceStatus": "unknown",
+        "evidenceQuality": "insufficientEvidence",
+        "suitability": null,
+        "gateFailures": [
+          "run count 0 is below 20",
+          "assessed finding count 0 is below 20",
+          "finding outcome coverage is unavailable or below the declared gate",
+          "finding confirmation rate is unavailable"
+        ],
+        "provenance": []
+      }
+    ]
+  }
+}

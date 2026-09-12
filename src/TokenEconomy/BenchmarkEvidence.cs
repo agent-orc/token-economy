@@ -15,6 +15,7 @@ public enum BenchmarkCapabilityClass
     InstructionFollowing,
     LongContext,
     ControlledSetup,
+    CodeReview,
 }
 
 [JsonConverter(typeof(JsonStringEnumConverter<BenchmarkScoreDirection>))]
@@ -68,6 +69,31 @@ public sealed record BenchmarkSecondaryMetrics
     public decimal? LatencyMilliseconds { get; init; }
 }
 
+/// <summary>Measurement provenance; omitted fields are unknown, not zero or defaults.</summary>
+public sealed record BenchmarkEvidenceContext
+{
+    public required string SourceKind { get; init; }
+    public required string SourcePublisher { get; init; }
+    public string? RunnerOrganization { get; init; }
+    public required string DateBasis { get; init; }
+    public required DateOnly ObservedAt { get; init; }
+    public DateTimeOffset? SourceCreatedAt { get; init; }
+    public DateTimeOffset? SourceUpdatedAt { get; init; }
+    public required string Harness { get; init; }
+    public string? HarnessVersion { get; init; }
+    public int? TaskCount { get; init; }
+    public int? TrialCount { get; init; }
+    public int? AttemptsPerTask { get; init; }
+    public decimal? ConfidenceIntervalHalfWidth { get; init; }
+    public decimal? ReportedErrorHalfWidth { get; init; }
+    public decimal? ConfidenceIntervalLevel { get; init; }
+    public decimal? TotalCostUsd { get; init; }
+    public string? CostBasis { get; init; }
+    public string? FallbackPolicy { get; init; }
+    public string? SampleNotes { get; init; }
+    public IReadOnlyList<string>? AdditionalSourceUrls { get; init; }
+}
+
 /// <summary>One append-only, sourced model/effort measurement.</summary>
 public sealed record BenchmarkResult
 {
@@ -77,6 +103,8 @@ public sealed record BenchmarkResult
     public required EffortLevel ReasoningEffort { get; init; }
     public required decimal Score { get; init; }
     public BenchmarkSecondaryMetrics? SecondaryMetrics { get; init; }
+    public BenchmarkEvidenceContext? Context { get; init; }
+    /// <summary>Publication date, or conservative availability date for an explicitly marked first-observed snapshot.</summary>
     public required DateOnly PublishedAt { get; init; }
     public required DateOnly RetrievedAt { get; init; }
     public required string SourceUrl { get; init; }
@@ -109,6 +137,7 @@ internal sealed record BenchmarkResultJson
     public required EffortLevel ReasoningEffort { get; init; }
     public required decimal Score { get; init; }
     public BenchmarkSecondaryMetrics? SecondaryMetrics { get; init; }
+    public BenchmarkEvidenceContext? Context { get; init; }
     public required DateOnly PublishedAt { get; init; }
     public required DateOnly RetrievedAt { get; init; }
     public required string SourceUrl { get; init; }
@@ -200,6 +229,7 @@ public sealed class BenchmarkEvidenceCatalog
                 ReasoningEffort = result.ReasoningEffort,
                 Score = result.Score,
                 SecondaryMetrics = result.SecondaryMetrics,
+                Context = result.Context,
                 PublishedAt = result.PublishedAt,
                 RetrievedAt = result.RetrievedAt,
                 SourceUrl = result.SourceUrl,
@@ -244,10 +274,36 @@ public sealed class BenchmarkEvidenceCatalog
             throw new ArgumentException("Benchmark results require an absolute HTTP(S) source URL.", nameof(result));
         if (result.RetrievedAt < result.PublishedAt)
             throw new ArgumentException("A benchmark result cannot be retrieved before publication.", nameof(result));
+        ValidateContext(result);
         var metrics = result.SecondaryMetrics;
         if (metrics?.InputTokensPerTask is < 0 || metrics?.OutputTokensPerTask is < 0
             || metrics?.CostPerTaskUsd is <= 0 || metrics?.LatencyMilliseconds is < 0)
             throw new ArgumentException("Benchmark secondary metrics must be non-negative and cost must be positive.", nameof(result));
+    }
+
+    private static void ValidateContext(BenchmarkResult result)
+    {
+        var context = result.Context;
+        if (context is null) return;
+        Require(context.SourcePublisher, nameof(context.SourcePublisher));
+        Require(context.Harness, nameof(context.Harness));
+        if (context.SourceKind is not ("benchmarkOwner" or "independentEvaluator" or "officialLeaderboard" or "modelProvider" or "ownRun"))
+            throw new ArgumentException("Unknown benchmark source kind.", nameof(result));
+        if (context.DateBasis is not ("publishedDate" or "firstObservedPublicSnapshot"))
+            throw new ArgumentException("Unknown benchmark date basis.", nameof(result));
+        if (context.ObservedAt == default || context.ObservedAt > result.RetrievedAt || context.ObservedAt < result.PublishedAt)
+            throw new ArgumentException("Benchmark observation must be between availability and retrieval.", nameof(result));
+        if (context.DateBasis == "firstObservedPublicSnapshot" && context.ObservedAt != result.PublishedAt)
+            throw new ArgumentException("A first-observed snapshot must use its observation date as availability.", nameof(result));
+        if (context.TaskCount is <= 0 || context.TrialCount is <= 0 || context.AttemptsPerTask is <= 0
+            || context.ConfidenceIntervalHalfWidth is < 0 || context.ReportedErrorHalfWidth is < 0 || context.ConfidenceIntervalLevel is <= 0 or > 1
+            || context.TotalCostUsd is < 0)
+            throw new ArgumentException("Benchmark sample, interval and cost context is invalid.", nameof(result));
+        if (context.TaskCount is { } tasks && context.AttemptsPerTask is { } attempts && context.TrialCount is { } trials
+            && (long)tasks * attempts != trials)
+            throw new ArgumentException("Balanced benchmark attempts must match task and trial counts.", nameof(result));
+        if (context.AdditionalSourceUrls?.Any(url => !AbsoluteHttpUri(url)) == true)
+            throw new ArgumentException("Additional benchmark sources must be absolute HTTP(S) URLs.", nameof(result));
     }
 
     private static bool AbsoluteHttpUri([NotNullWhen(true)] string? value) =>

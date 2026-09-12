@@ -144,18 +144,20 @@ at 2026-07-25 UTC. Dollar amounts are list prices per million tokens.
 | Catalog model(s) | Fresh input | Cache read | 5-minute cache write | Output | Read / fresh | Re-cache penalty (`write - read`) |
 |---|---:|---:|---:|---:|---:|---:|
 | `claude-fable-5` | $10.00 | $1.00 | $12.50 | $50.00 | 0.10 | $11.50 / MTok |
-| `claude-sonnet-5`, through 2026-08-31 | $2.00 | $0.20 | $2.50 | $10.00 | 0.10 | $2.30 / MTok |
+| `claude-sonnet-5` | $2.00 | $0.20 | $2.50 | $10.00 | 0.10 | $2.30 / MTok |
 | `claude-opus-4-8`, `-4-7`, `-4-6` | $5.00 | $0.50 | $6.25 | $25.00 | 0.10 | $5.75 / MTok |
 | `claude-opus-4-5` | $5.00 | $0.50 | $6.25 | $25.00 | 0.10 | $5.75 / MTok |
 | `claude-sonnet-4-6` | $3.00 | $0.30 | $3.75 | $15.00 | 0.10 | $3.45 / MTok |
 | `claude-sonnet-4-5` | $3.00 | $0.30 | $3.75 | $15.00 | 0.10 | $3.45 / MTok |
 | `claude-haiku-4-5` | $1.00 | $0.10 | $1.25 | $5.00 | 0.10 | $1.15 / MTok |
 
-The catalog marks the Opus 4.5 and Sonnet 4.5 rates unconfirmed. It has no
-price valid on the analysis date for `claude-opus-4-1`, `gpt-5.6`, `gpt-5.5`,
-`gpt-5`, or `gpt-5-codex`; their cost must remain unknown, not zero. Sonnet 5's
-absolute prices rise on 2026-09-01, but the read/fresh and write/fresh ratios
-remain 0.10 and 1.25.
+Catalog correction on 2026-09-12: official evidence now confirms Opus 4.5 and
+Sonnet 4.5 rates and backfills prices valid on this analysis date for Opus 4.1,
+GPT-5.6, GPT-5.5, GPT-5, and GPT-5-Codex. The earlier missing-price statement
+was a catalog coverage gap. Sonnet 5's planned September increase was cancelled
+on 2026-08-10; its rates remain $2/$10. The measured session observations and
+the calculations shown in this table are unchanged. See the
+[price-history evidence and scope](../price-history-research-2026-09-12.md).
 
 The catalog ratios match Anthropic's
 [published prompt-caching prices](https://platform.claude.com/docs/en/build-with-claude/prompt-caching#pricing):

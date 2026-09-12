@@ -142,10 +142,10 @@ public class ModelEfficiencyMatrixTests
     }
 
     [Fact]
-    public void Describe_FlagsDeprecatedAndUnconfirmed()
+    public void Describe_SeparatesDeprecationFromConfirmedPrice()
     {
         var rows = Matrix.Describe(Now);
         Assert.True(rows.Single(r => r.ModelId == "claude-opus-4-1").Deprecated);
-        Assert.True(rows.Single(r => r.ModelId == "claude-opus-4-5").CostUnconfirmed);
+        Assert.False(rows.Single(r => r.ModelId == "claude-opus-4-5").CostUnconfirmed);
     }
 }

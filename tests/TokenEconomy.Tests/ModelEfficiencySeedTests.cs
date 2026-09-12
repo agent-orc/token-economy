@@ -5,7 +5,7 @@ namespace TokenEconomy.Tests;
 
 public class ModelEfficiencySeedTests
 {
-    private static readonly DateTime Now = new(2026, 7, 10, 0, 0, 0, DateTimeKind.Utc);
+    private static readonly DateTime Now = new(2026, 8, 9, 0, 0, 0, DateTimeKind.Utc);
     private static readonly ModelEfficiencyMatrix Matrix = ModelEfficiencyMatrix.Default;
 
     [Fact]
@@ -69,14 +69,16 @@ public class ModelEfficiencySeedTests
     }
 
     [Fact]
-    public void Astra_IsCatalogedButExternalEvidenceDoesNotSilentlyChangeRoutingPolicy()
+    public void Astra_IsSupportedWithProvisionalFitAndDatedPricing()
     {
         var astra = Matrix.Find(KnownModels.Gpt6Astra)!;
 
         Assert.Equal(CapabilityTier.Frontier, astra.Tier);
-        Assert.Equal(ModelRoutingStatus.Unsupported, astra.RoutingStatus);
+        Assert.Equal(ModelRoutingStatus.Selectable, astra.RoutingStatus);
+        Assert.Equal(PolicyEvidenceStatus.Provisional, astra.EvidenceStatus);
+        Assert.True(astra.Provisional);
         Assert.Equal(CostClass.Premium, Matrix.CostClassOf(KnownModels.Gpt6Astra, new DateTime(2026, 9, 11, 0, 0, 0, DateTimeKind.Utc)));
-        Assert.Empty(astra.WorkflowRoles);
+        Assert.Equal(new[] { RoutingWorkflowRole.CoreTask }, astra.WorkflowRoles);
     }
 
     [Fact]
@@ -103,12 +105,12 @@ public class ModelEfficiencySeedTests
     }
 
     [Fact]
-    public void RemainingGptPlaceholders_RunOnCodex_AndRetainUnknownCost()
+    public void LegacyGptModels_RunOnCodex_AndHaveCatalogDerivedEconomyCost()
     {
         foreach (var id in new[] { "gpt-5", "gpt-5-codex" })
         {
             Assert.Equal(Cli.Codex, Matrix.CliOf(id));
-            Assert.Equal(CostClass.Unknown, Matrix.CostClassOf(id, Now));
+            Assert.Equal(CostClass.Economy, Matrix.CostClassOf(id, Now));
         }
     }
 

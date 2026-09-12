@@ -38,6 +38,8 @@ def target_for(page: Path, reference: str) -> tuple[Path, str] | None:
     if split.scheme or split.netloc or reference.startswith(("mailto:", "data:")):
         return None
     raw_path = unquote(split.path)
+    if not raw_path:
+        return page.resolve(), unquote(split.fragment)
     if raw_path.startswith(SITE_PREFIX):
         raw_path = raw_path[len(SITE_PREFIX):]
         target = WEBSITE / raw_path.lstrip("/")

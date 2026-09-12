@@ -17,6 +17,7 @@ public class ModelPriceSeedTests
         foreach (var listing in Catalog.Listings)
         {
             Assert.False(string.IsNullOrWhiteSpace(listing.ModelId));
+            Assert.NotEmpty(listing.History);
             foreach (var price in listing.History)
             {
                 // A seeded price never accidentally reads as $0 for input or output.
@@ -52,11 +53,15 @@ public class ModelPriceSeedTests
     [InlineData("claude-opus-4-8", 5.00, 25.00)]
     [InlineData("claude-opus-4-7", 5.00, 25.00)]
     [InlineData("claude-opus-4-6", 5.00, 25.00)]
+    [InlineData("claude-opus-4-5", 5.00, 25.00)]
+    [InlineData("claude-opus-4-1", 15.00, 75.00)]
+    [InlineData("claude-sonnet-5", 2.00, 10.00)]
+    [InlineData("claude-sonnet-4-5", 3.00, 15.00)]
     [InlineData("claude-sonnet-4-6", 3.00, 15.00)]
     [InlineData("claude-haiku-4-5", 1.00, 5.00)]
     public void ConfirmedClaudeModels_HaveTheKnownRates(string model, double input, double output)
     {
-        var price = Catalog.ResolvePrice(model, new DateTime(2026, 7, 10, 0, 0, 0, DateTimeKind.Utc)).Price;
+        var price = Catalog.ResolvePrice(model, new DateTime(2026, 9, 12, 0, 0, 0, DateTimeKind.Utc)).Price;
         Assert.NotNull(price);
         Assert.Equal((decimal)input, price!.InputPerMTok);
         Assert.Equal((decimal)output, price.OutputPerMTok);
@@ -69,12 +74,15 @@ public class ModelPriceSeedTests
     [Theory]
     [InlineData("gpt-5")]
     [InlineData("gpt-5-codex")]
-    public void RemainingGpt5Placeholders_AreKnownButUnpriced(string model)
+    public void LegacyGpt5Models_HaveConfirmedHistoricalPrices(string model)
     {
         var listing = Catalog.Find(model);
         Assert.NotNull(listing);
         Assert.Equal("openai", listing!.Vendor);
-        Assert.Empty(listing.History);   // present, but no invented number
+        var price = Assert.Single(listing.History);
+        Assert.Equal((1.25m, 10m, 0.125m), (price.InputPerMTok, price.OutputPerMTok, price.CacheReadPerMTok));
+        Assert.Null(price.CacheWritePerMTok);
+        Assert.False(price.Unconfirmed);
         Assert.NotNull(listing.Note);
     }
 
@@ -94,7 +102,7 @@ public class ModelPriceSeedTests
         Assert.Null(price.CacheWritePerMTok);
         Assert.False(price.Unconfirmed);
         Assert.Contains("https://", price.Source);
-        Assert.Contains("retrieved 2026-08-11", price.Source);
+        Assert.Equal(new DateOnly(2026, 9, 12), price.VerifiedOn);
     }
 
     [Fact]
@@ -118,8 +126,8 @@ public class ModelPriceSeedTests
         Assert.NotNull(sol);
         Assert.Equal((4m, 20m, 0.4m, 5m),
             (sol!.InputPerMTok, sol.OutputPerMTok, sol.CacheReadPerMTok, sol.CacheWritePerMTok));
-        Assert.Contains("retrieved 2026-09-11", astra.Source);
-        Assert.Contains("retrieved 2026-09-11", sol.Source);
+        Assert.Equal(new DateOnly(2026, 9, 12), astra.VerifiedOn);
+        Assert.Equal(new DateOnly(2026, 9, 12), sol.VerifiedOn);
         Assert.Equal(2, Catalog.PriceDevelopment(KnownModels.Gpt56Sol).Count);
     }
 
@@ -127,7 +135,7 @@ public class ModelPriceSeedTests
     [InlineData("gpt-5.6-sol", 5.00, 30.00, 0.50, 6.25)]
     [InlineData("gpt-5.6-terra", 2.00, 12.00, 0.20, 2.50)]
     [InlineData("gpt-5.6-luna", 0.20, 1.20, 0.02, 0.25)]
-    public void ConfirmedGpt56Models_HaveCurrentPublishedStandardRates(
+    public void ConfirmedGpt56Models_HaveTheDatedAugust9Rates(
         string model, double input, double output, double cacheRead, double cacheWrite)
     {
         var price = Catalog.ResolvePrice(model, new DateTime(2026, 8, 9, 0, 0, 0, DateTimeKind.Utc)).Price;
@@ -139,7 +147,7 @@ public class ModelPriceSeedTests
         Assert.Equal((decimal)cacheWrite, price.CacheWritePerMTok);
         Assert.False(price.Unconfirmed);
         Assert.Contains("https://", price.Source);
-        Assert.Contains("retrieved 2026-08-09", price.Source);
+        Assert.Equal(new DateOnly(2026, 9, 12), price.VerifiedOn);
     }
 
     [Fact]
@@ -164,7 +172,7 @@ public class ModelPriceSeedTests
         Assert.Equal(
             [
                 new DateTime(2026, 6, 26, 0, 0, 0, DateTimeKind.Utc),
-                new DateTime(2026, 9, 3, 0, 0, 0, DateTimeKind.Utc),
+                new DateTime(2026, 8, 21, 0, 0, 0, DateTimeKind.Utc),
             ],
             Catalog.PriceDevelopment("gpt-5.6-sol").Select(price => price.ValidFrom));
         Assert.Equal(
@@ -196,18 +204,16 @@ public class ModelPriceSeedTests
             foreach (var price in Catalog.PriceDevelopment(id))
             {
                 Assert.Contains("https://", price.Source);
-                Assert.Contains("retrieved 2026-08-09", price.Source);
+                Assert.Equal(new DateOnly(2026, 9, 12), price.VerifiedOn);
             }
 
         Assert.All(Catalog.PriceDevelopment("gpt-5.6-sol"), price => Assert.Contains("https://", price.Source));
-        Assert.Contains(Catalog.PriceDevelopment("gpt-5.6-sol"), price => price.Source!.Contains("retrieved 2026-08-09"));
-        Assert.Contains(Catalog.PriceDevelopment("gpt-5.6-sol"), price => price.Source!.Contains("retrieved 2026-09-11"));
 
         foreach (var id in new[] { "gpt-5.5", "gpt-5.5-pro", "gpt-5.5-cyber-preview" })
             foreach (var price in Catalog.PriceDevelopment(id))
             {
                 Assert.Contains("https://", price.Source);
-                Assert.Contains("retrieved 2026-08-11", price.Source);
+                Assert.Equal(new DateOnly(2026, 9, 12), price.VerifiedOn);
             }
     }
 
@@ -241,20 +247,20 @@ public class ModelPriceSeedTests
         foreach (var id in new[] { "claude-opus-5", "claude-sonnet-5", "claude-sonnet-4-6" })
             foreach (var price in Catalog.PriceDevelopment(id))
             {
-                Assert.Contains("https://www.anthropic.com/pricing", price.Source);
-                Assert.Contains("retrieved 2026-08-18", price.Source);
+                Assert.Contains("https://platform.claude.com/docs/en/about-claude/pricing", price.SourceUrls);
+                Assert.Equal(new DateOnly(2026, 9, 12), price.VerifiedOn);
             }
     }
 
     [Fact]
-    public void UnconfirmedEntries_AreFlagged_NotInvented()
+    public void FormerlyProvisionalClaudePrices_AreNowOfficiallyConfirmed()
     {
-        // The models we couldn't confirm against an authoritative table carry the flag rather than a silent claim.
+        // New primary evidence replaces the earlier provisional tariff assumption.
         foreach (var id in new[] { "claude-opus-4-5", "claude-sonnet-4-5" })
         {
-            var price = Catalog.ResolvePrice(id, new DateTime(2026, 7, 10, 0, 0, 0, DateTimeKind.Utc)).Price;
+            var price = Catalog.ResolvePrice(id, new DateTime(2026, 9, 12, 0, 0, 0, DateTimeKind.Utc)).Price;
             Assert.NotNull(price);
-            Assert.True(price!.Unconfirmed);
+            Assert.False(price!.Unconfirmed);
             Assert.NotNull(price.Note);
         }
     }

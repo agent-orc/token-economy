@@ -51,8 +51,10 @@ generation without qualification. A same-model entry such as Haiku 4.5 or
 GPT-5.4 Mini is a retention rule, not a migration, and is also false.
 
 GPT-5.6 Sol to GPT-6 Astra is intentionally proposal-only: it crosses a major
-generation, changes the ladder, has no repository benchmark, and is unpriced.
-No model name or CLI availability claim is capability evidence by itself.
+generation, changes the ladder, and has no comparable repository no-regression
+benchmark. Astra is supported and has dated premium-class pricing; those facts
+do not authorize automatic migration. External benchmark scores do not replace
+the same-case local evidence required by this gate.
 
 ## Task-class view
 

@@ -20,9 +20,15 @@ An agent run bills for input, output, and cache tokens at a rate that changes
 over time, per model. Getting that wrong is not a rounding error: a hard-coded
 price silently costs the wrong amount for every historic run, and a missing
 price that defaults to `0` reports a budget as healthy while it drains.
+All 22 catalog models have dated Standard API price histories and primary-source provenance, verified on 2026-09-12. See [price history and scope](docs/price-history-research-2026-09-12.md) for historical corrections, cache semantics, and API cost versus subscription consumption.
+
+Direct code-review capability has its own benchmark category: 24 sourced measurements across five studies, with precision, known-issue coverage and original review configurations. See the [review research](docs/code-review-research-2026-09-12.md) and [C# guide](https://agent-orchestrator.dev/token-economy/code-review/).
+
 TokenEconomy keeps the prices — with their validity dates — and answers two
 questions from that one source: *what did this run cost?* and *which model buys
 the most for the tokens I have left?* Unknown is always returned as unknown.
+
+**API guide:** <https://agent-orchestrator.dev/token-economy/api/> — inputs, return types, reasoning effort, scores, and executable C# examples.
 
 **Docs & website:** <https://agent-orchestrator.dev/token-economy/> — a static
 site built from [`website/`](website/) and deployed by
@@ -65,7 +71,7 @@ selection rubric, and a standalone `ai-patterns` handoff.
 - **Versioned model-routing policy** — one embedded, schema-backed knowledge
   base resolves model aliases, providers/CLIs, reasoning levels, score tiers,
   correctness floors, workflow exceptions, restrictions, deprecations,
-  reissues, and evidence status. The exact synchronized Agent Studio policy is
+  reissues, and evidence status. The core ladder follows Agent Studio; the local policy revision adds explicit Astra and Fable 5.1 support. The versioned policy is
   authoritative; pricing and quota cannot lower its correctness floors. See
   the [generated knowledge view](docs/model-routing-knowledge.md) and
   [authoritative policy](docs/system/domains/model-routing-policy.md).

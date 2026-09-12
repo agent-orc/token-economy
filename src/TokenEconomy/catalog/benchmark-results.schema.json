@@ -4,13 +4,23 @@
   "title": "Token Economy append-only benchmark result catalog",
   "type": "object",
   "additionalProperties": false,
-  "required": ["$schema", "schemaVersion", "records"],
+  "required": [
+    "$schema",
+    "schemaVersion",
+    "records"
+  ],
   "properties": {
-    "$schema": { "const": "benchmark-results.schema.json" },
-    "schemaVersion": { "const": 1 },
+    "$schema": {
+      "const": "benchmark-results.schema.json"
+    },
+    "schemaVersion": {
+      "const": 1
+    },
     "records": {
       "type": "array",
-      "items": { "$ref": "#/$defs/result" }
+      "items": {
+        "$ref": "#/$defs/result"
+      }
     }
   },
   "$defs": {
@@ -18,32 +28,209 @@
       "type": "object",
       "additionalProperties": false,
       "required": [
-        "id", "benchmarkTypeId", "modelId", "reasoningEffort", "score",
-        "publishedAt", "retrievedAt", "sourceUrl", "retrievalMethod",
-        "evidenceExcerpt", "confidence"
+        "id",
+        "benchmarkTypeId",
+        "modelId",
+        "reasoningEffort",
+        "score",
+        "publishedAt",
+        "retrievedAt",
+        "sourceUrl",
+        "retrievalMethod",
+        "evidenceExcerpt",
+        "confidence"
       ],
       "properties": {
-        "id": { "type": "string", "pattern": "^[a-z0-9][a-z0-9.-]+$" },
-        "benchmarkTypeId": { "type": "string", "minLength": 1 },
-        "modelId": { "type": "string", "minLength": 1 },
-        "reasoningEffort": { "enum": ["unspecified", "minimal", "low", "medium", "high", "xHigh", "ultra", "max"] },
-        "score": { "type": "number" },
+        "id": {
+          "type": "string",
+          "pattern": "^[a-z0-9][a-z0-9.-]+$"
+        },
+        "benchmarkTypeId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "modelId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "reasoningEffort": {
+          "enum": [
+            "unspecified",
+            "minimal",
+            "low",
+            "medium",
+            "high",
+            "xHigh",
+            "ultra",
+            "max"
+          ]
+        },
+        "score": {
+          "type": "number"
+        },
         "secondaryMetrics": {
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "inputTokensPerTask": { "type": "integer", "minimum": 0 },
-            "outputTokensPerTask": { "type": "integer", "minimum": 0 },
-            "costPerTaskUsd": { "type": "number", "exclusiveMinimum": 0 },
-            "latencyMilliseconds": { "type": "number", "minimum": 0 }
+            "inputTokensPerTask": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "outputTokensPerTask": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "costPerTaskUsd": {
+              "type": "number",
+              "exclusiveMinimum": 0
+            },
+            "latencyMilliseconds": {
+              "type": "number",
+              "minimum": 0
+            }
           }
         },
-        "publishedAt": { "type": "string", "format": "date" },
-        "retrievedAt": { "type": "string", "format": "date" },
-        "sourceUrl": { "type": "string", "format": "uri" },
-        "retrievalMethod": { "enum": ["manual", "script", "api"] },
-        "evidenceExcerpt": { "type": "string", "minLength": 1 },
-        "confidence": { "enum": ["publisherReported", "thirdParty", "ownRun"] }
+        "publishedAt": {
+          "type": "string",
+          "format": "date"
+        },
+        "retrievedAt": {
+          "type": "string",
+          "format": "date"
+        },
+        "sourceUrl": {
+          "type": "string",
+          "format": "uri"
+        },
+        "retrievalMethod": {
+          "enum": [
+            "manual",
+            "script",
+            "api"
+          ]
+        },
+        "evidenceExcerpt": {
+          "type": "string",
+          "minLength": 1
+        },
+        "confidence": {
+          "enum": [
+            "publisherReported",
+            "thirdParty",
+            "ownRun"
+          ]
+        },
+        "context": {
+          "$ref": "#/$defs/context"
+        }
+      }
+    },
+    "context": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "Optional measurement provenance. Unknown values are omitted. PublishedAt is a conservative availability date when dateBasis is firstObservedPublicSnapshot, and must be displayed as a snapshot rather than a run/publication date.",
+      "required": [
+        "sourceKind",
+        "sourcePublisher",
+        "dateBasis",
+        "observedAt",
+        "harness"
+      ],
+      "properties": {
+        "sourceKind": {
+          "enum": [
+            "benchmarkOwner",
+            "independentEvaluator",
+            "officialLeaderboard",
+            "modelProvider",
+            "ownRun"
+          ]
+        },
+        "sourcePublisher": {
+          "type": "string",
+          "minLength": 1
+        },
+        "runnerOrganization": {
+          "type": "string",
+          "minLength": 1
+        },
+        "dateBasis": {
+          "enum": [
+            "publishedDate",
+            "firstObservedPublicSnapshot"
+          ]
+        },
+        "observedAt": {
+          "type": "string",
+          "format": "date"
+        },
+        "sourceCreatedAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "sourceUpdatedAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "harness": {
+          "type": "string",
+          "minLength": 1
+        },
+        "harnessVersion": {
+          "type": "string",
+          "minLength": 1
+        },
+        "taskCount": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "trialCount": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "attemptsPerTask": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "confidenceIntervalHalfWidth": {
+          "type": "number",
+          "minimum": 0,
+          "description": "Half-width in benchmark score units, not a percentage confidence score."
+        },
+        "reportedErrorHalfWidth": {
+          "type": "number",
+          "minimum": 0,
+          "description": "Reported error bar in benchmark score units when the statistical interpretation is unspecified."
+        },
+        "confidenceIntervalLevel": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 1
+        },
+        "totalCostUsd": {
+          "type": "number",
+          "minimum": 0
+        },
+        "costBasis": {
+          "type": "string",
+          "minLength": 1
+        },
+        "fallbackPolicy": {
+          "type": "string",
+          "minLength": 1
+        },
+        "sampleNotes": {
+          "type": "string",
+          "minLength": 1
+        },
+        "additionalSourceUrls": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "format": "uri"
+          }
+        }
       }
     }
   }

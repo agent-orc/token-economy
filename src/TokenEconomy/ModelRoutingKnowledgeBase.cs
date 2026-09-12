@@ -48,7 +48,7 @@ public enum ModelRouteResolutionStatus
     WorkflowRoleMismatch,
 }
 
-/// <summary>Canonical policy authority and its exact synchronized upstream snapshot.</summary>
+/// <summary>Canonical policy authority, upstream provenance, and synchronization scope.</summary>
 public sealed record ModelRoutingAuthority
 {
     public required string RepositoryPath { get; init; }

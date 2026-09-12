@@ -153,14 +153,13 @@
 
 .site-nav-heading:hover,
 .site-nav-heading:focus-visible,
-.site-nav-group[data-open="true"] > .site-nav-heading {
+.site-nav-group[data-open] > .site-nav-heading {
   background: var(--site-nav-accent-soft);
   color: var(--site-nav-text) !important;
 }
 
-.site-nav-group:hover > .site-nav-heading::after,
 html:not(.site-nav-enhanced) .site-nav-group:focus-within > .site-nav-heading::after,
-.site-nav-group[data-open="true"] > .site-nav-heading::after {
+.site-nav-group[data-open] > .site-nav-heading::after {
   transform: translateY(.1rem) rotate(225deg);
 }
 
@@ -187,9 +186,8 @@ html:not(.site-nav-enhanced) .site-nav-group:focus-within > .site-nav-heading::a
   inset-inline: auto 0;
 }
 
-.site-nav-group:hover > .site-nav-menu,
 html:not(.site-nav-enhanced) .site-nav-group:focus-within > .site-nav-menu,
-.site-nav-group[data-open="true"] > .site-nav-menu {
+.site-nav-group[data-open] > .site-nav-menu {
   visibility: visible;
   opacity: 1;
   transform: translateY(0);
@@ -245,7 +243,7 @@ html:not(.site-nav-enhanced) .site-nav-group:focus-within > .site-nav-menu,
 .site-menu-icon::before { transform: translateY(-.3rem); }
 .site-menu-icon::after { transform: translateY(.2rem); }
 
-@media (max-width: 40rem) {
+@media (max-width: 48rem) {
   .site-family-bar,
   .site-header-main {
     width: min(var(--site-nav-content), calc(100% - 2 * var(--site-nav-space-4)));
@@ -273,7 +271,7 @@ html:not(.site-nav-enhanced) .site-nav-group:focus-within > .site-nav-menu,
     padding-block: var(--site-nav-space-2);
   }
 
-  .site-nav-enhanced .site-nav-groups:not([data-menu-open="true"]) {
+  .site-nav-enhanced .site-nav-groups:not([data-menu-open]) {
     display: none;
   }
 
@@ -301,7 +299,7 @@ html:not(.site-nav-enhanced) .site-nav-group:focus-within > .site-nav-menu,
     transition: none;
   }
 
-  .site-nav-enhanced .site-nav-group:not([data-open="true"]) > .site-nav-menu {
+  .site-nav-enhanced .site-nav-group:not([data-open]) > .site-nav-menu {
     display: none;
   }
 
@@ -316,3 +314,28 @@ html:not(.site-nav-enhanced) .site-nav-group:focus-within > .site-nav-menu,
     transition: none;
   }
 }
+
+/* Native buttons own disclosure state; hover never disagrees with aria-expanded. */
+html { scroll-padding-top: var(--site-header-offset, 7rem); }
+.site-nav-heading { border: 0; background: transparent; font-family: inherit; line-height: inherit; cursor: pointer; }
+.site-nav-menu { inset-block-start: 100%; max-height: calc(100dvh - var(--site-header-offset, 7rem)); overflow-y: auto; }
+.site-nav-menu a, .site-nav-direct, .site-menu-button { min-height: 2.75rem; }
+.site-nav-direct { display: inline-flex; align-items: center; padding: .5rem .75rem; border-radius: var(--site-nav-radius); font-size: .9rem; font-weight: 700; }
+.site-nav-direct { color: var(--site-nav-muted) !important; background: transparent; }
+.site-header a[aria-current] { color: var(--site-nav-accent) !important; background: var(--site-nav-accent-soft); }
+.site-nav-direct:hover { color: var(--site-nav-text) !important; }
+.site-family-bar { font-size: .875rem; min-height: 2rem; }
+.site-skip-link { position: fixed; inset: .5rem auto auto .5rem; z-index: 200; padding: .75rem 1rem; background: var(--site-nav-panel); color: var(--site-nav-text); border: 2px solid var(--site-nav-accent); transform: translateY(-200%); }
+.site-skip-link:focus { transform: none; }
+html:not(.site-nav-enhanced) .site-nav-groups { flex-wrap: wrap; }
+html:not(.site-nav-enhanced) .site-nav-menu { position: static; visibility: visible; opacity: 1; transform: none; box-shadow: none; }
+html:not(.site-nav-enhanced) .site-nav-heading::after { display: none; }
+@media (max-width: 48rem) {
+  .site-nav-groups { max-height: calc(100dvh - 7rem); overflow-y: auto; }
+  .site-nav-menu { max-height: none; }
+  .site-nav-direct { border: 1px solid var(--site-nav-border); }
+}
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto !important; } }
+
+/* Long API names may wrap in prose; code blocks retain horizontal scrolling. */
+main :not(pre) > code { overflow-wrap: anywhere; }

@@ -42,7 +42,7 @@ public class KnownModelsTests
         var generatedIds = fields.Select(field => Assert.IsType<ModelId>(field.GetValue(null))).Select(model => model.Value).Order(StringComparer.Ordinal);
         var catalogIds = ModelPriceCatalog.Default.Listings.Select(listing => listing.ModelId).Order(StringComparer.Ordinal);
 
-        Assert.Equal(21, fields.Length);
+        Assert.Equal(22, fields.Length);
         Assert.All(fields, field => Assert.True(field.IsInitOnly));
         Assert.Equal(catalogIds, generatedIds);
     }

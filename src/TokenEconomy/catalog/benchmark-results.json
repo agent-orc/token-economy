@@ -34,7 +34,11 @@
       "modelId": "gpt-6-astra",
       "reasoningEffort": "low",
       "score": 46,
-      "secondaryMetrics": { "outputTokensPerTask": 4000, "costPerTaskUsd": 0.82, "latencyMilliseconds": 2620 },
+      "secondaryMetrics": {
+        "outputTokensPerTask": 4000,
+        "costPerTaskUsd": 0.82,
+        "latencyMilliseconds": 2620
+      },
       "publishedAt": "2026-09-11",
       "retrievedAt": "2026-09-11",
       "sourceUrl": "https://artificialanalysis.ai/models/comparisons/gpt-6-astra-low-vs-gpt-5-6-sol-high",
@@ -48,7 +52,11 @@
       "modelId": "gpt-5.6-sol",
       "reasoningEffort": "high",
       "score": 42,
-      "secondaryMetrics": { "outputTokensPerTask": 13000, "costPerTaskUsd": 0.81, "latencyMilliseconds": 41690 },
+      "secondaryMetrics": {
+        "outputTokensPerTask": 13000,
+        "costPerTaskUsd": 0.81,
+        "latencyMilliseconds": 41690
+      },
       "publishedAt": "2026-09-11",
       "retrievedAt": "2026-09-11",
       "sourceUrl": "https://artificialanalysis.ai/models/comparisons/gpt-6-astra-low-vs-gpt-5-6-sol-high",
@@ -62,7 +70,10 @@
       "modelId": "gpt-6-astra",
       "reasoningEffort": "max",
       "score": 53,
-      "secondaryMetrics": { "outputTokensPerTask": 27000, "costPerTaskUsd": 3.26 },
+      "secondaryMetrics": {
+        "outputTokensPerTask": 27000,
+        "costPerTaskUsd": 3.26
+      },
       "publishedAt": "2026-09-09",
       "retrievedAt": "2026-09-11",
       "sourceUrl": "https://artificialanalysis.ai/articles/benchmarking-gpt-6-astra",
@@ -76,7 +87,10 @@
       "modelId": "gpt-5.6-sol",
       "reasoningEffort": "max",
       "score": 47,
-      "secondaryMetrics": { "outputTokensPerTask": 29000, "costPerTaskUsd": 1.99 },
+      "secondaryMetrics": {
+        "outputTokensPerTask": 29000,
+        "costPerTaskUsd": 1.99
+      },
       "publishedAt": "2026-09-11",
       "retrievedAt": "2026-09-11",
       "sourceUrl": "https://artificialanalysis.ai/models/comparisons/gpt-6-astra-low-vs-gpt-5-6-sol",
@@ -90,7 +104,9 @@
       "modelId": "gpt-6-astra",
       "reasoningEffort": "max",
       "score": 62,
-      "secondaryMetrics": { "costPerTaskUsd": 7.09 },
+      "secondaryMetrics": {
+        "costPerTaskUsd": 7.09
+      },
       "publishedAt": "2026-09-09",
       "retrievedAt": "2026-09-11",
       "sourceUrl": "https://artificialanalysis.ai/articles/benchmarking-gpt-6-astra",
@@ -169,7 +185,10 @@
       "modelId": "gpt-6-astra",
       "reasoningEffort": "xHigh",
       "score": 74,
-      "secondaryMetrics": { "outputTokensPerTask": 30000, "costPerTaskUsd": 6.52 },
+      "secondaryMetrics": {
+        "outputTokensPerTask": 30000,
+        "costPerTaskUsd": 6.52
+      },
       "publishedAt": "2026-09-03",
       "retrievedAt": "2026-09-11",
       "sourceUrl": "https://deepswe.datacurve.ai/",
@@ -183,7 +202,10 @@
       "modelId": "gpt-5.6-sol",
       "reasoningEffort": "max",
       "score": 73,
-      "secondaryMetrics": { "outputTokensPerTask": 60000, "costPerTaskUsd": 6.46 },
+      "secondaryMetrics": {
+        "outputTokensPerTask": 60000,
+        "costPerTaskUsd": 6.46
+      },
       "publishedAt": "2026-09-03",
       "retrievedAt": "2026-09-11",
       "sourceUrl": "https://deepswe.datacurve.ai/",
@@ -255,6 +277,1986 @@
       "retrievalMethod": "script",
       "evidenceExcerpt": "palindrome-repair: claude-sonnet-5/high passed 3 of 3 isolated attempts (100%).",
       "confidence": "ownRun"
+    },
+    {
+      "id": "tb40-official-gpt-6-astra-max-2026-09-12",
+      "benchmarkTypeId": "terminal-bench-v4.0-official-native-agents",
+      "modelId": "gpt-6-astra",
+      "reasoningEffort": "max",
+      "score": 58.18,
+      "secondaryMetrics": {
+        "outputTokensPerTask": 72694,
+        "costPerTaskUsd": 9.900545,
+        "latencyMilliseconds": 2796300
+      },
+      "publishedAt": "2026-09-12",
+      "retrievedAt": "2026-09-12",
+      "sourceUrl": "https://hub.harborframework.com/datasets/terminal-bench/terminal-bench/4/leaderboards/4-0-0/rows/5c537be4-7fc3-449b-8bfc-ceb9061c2535",
+      "retrievalMethod": "api",
+      "evidenceExcerpt": "Public snapshot 2026-09-12: 192/330 attempts resolved (58.18%, 95% CI half-width 2.79 percentage points), using Codex at max. PublishedAt is first observed availability, not an asserted run date. Total cost USD 3267.18; secondary metrics are per attempt and output tokens are rounded.",
+      "confidence": "thirdParty",
+      "context": {
+        "observedAt": "2026-09-12",
+        "sourceKind": "officialLeaderboard",
+        "sourcePublisher": "Terminal-Bench / Harbor",
+        "dateBasis": "firstObservedPublicSnapshot",
+        "sourceCreatedAt": "2026-09-03T20:53:40.128995+00:00",
+        "sourceUpdatedAt": "2026-09-10T21:58:00.001022+00:00",
+        "harness": "Codex",
+        "taskCount": 66,
+        "trialCount": 330,
+        "confidenceIntervalHalfWidth": 2.79,
+        "confidenceIntervalLevel": 0.95,
+        "totalCostUsd": 3267.18,
+        "costBasis": "Publisher total USD divided by all trials, including failures. Observed ledger pricing; not recomputed at current tariff.",
+        "sampleNotes": "192/330 successful attempts. Dataset task count is distinct from trial count. 330/66=5 is a derived ratio; balanced per-task allocation was not independently checked. Runner, agent version and fallback settings are not supplied. metadata.date is the model release date and is not used as the run or publication date.",
+        "additionalSourceUrls": [
+          "https://www.tbench.ai/",
+          "https://ofhuhcpkvzjlejydnvyd.supabase.co/functions/v1/leaderboard-read"
+        ]
+      }
+    },
+    {
+      "id": "tb40-official-claude-fable-5-1-max-2026-09-12",
+      "benchmarkTypeId": "terminal-bench-v4.0-official-native-agents",
+      "modelId": "claude-fable-5-1",
+      "reasoningEffort": "max",
+      "score": 57.88,
+      "secondaryMetrics": {
+        "outputTokensPerTask": 191277,
+        "costPerTaskUsd": 18.919697,
+        "latencyMilliseconds": 3893500
+      },
+      "publishedAt": "2026-09-12",
+      "retrievedAt": "2026-09-12",
+      "sourceUrl": "https://hub.harborframework.com/datasets/terminal-bench/terminal-bench/4/leaderboards/4-0-0/rows/c741608e-c94e-417d-b7a8-e67111a0c887",
+      "retrievalMethod": "api",
+      "evidenceExcerpt": "Public snapshot 2026-09-12: 191/330 attempts resolved (57.88%, 95% CI half-width 3.76 percentage points), using Claude Code at max. PublishedAt is first observed availability, not an asserted run date. Total cost USD 6243.5; secondary metrics are per attempt and output tokens are rounded.",
+      "confidence": "thirdParty",
+      "context": {
+        "observedAt": "2026-09-12",
+        "sourceKind": "officialLeaderboard",
+        "sourcePublisher": "Terminal-Bench / Harbor",
+        "dateBasis": "firstObservedPublicSnapshot",
+        "sourceCreatedAt": "2026-09-03T01:51:14.437314+00:00",
+        "sourceUpdatedAt": "2026-09-03T02:56:08.149542+00:00",
+        "harness": "Claude Code",
+        "taskCount": 66,
+        "trialCount": 330,
+        "confidenceIntervalHalfWidth": 3.76,
+        "confidenceIntervalLevel": 0.95,
+        "totalCostUsd": 6243.5,
+        "costBasis": "Publisher total USD divided by all trials, including failures. Observed ledger pricing; not recomputed at current tariff.",
+        "sampleNotes": "191/330 successful attempts. Dataset task count is distinct from trial count. 330/66=5 is a derived ratio; balanced per-task allocation was not independently checked. Runner, agent version and fallback settings are not supplied. metadata.date is the model release date and is not used as the run or publication date.",
+        "additionalSourceUrls": [
+          "https://www.tbench.ai/",
+          "https://ofhuhcpkvzjlejydnvyd.supabase.co/functions/v1/leaderboard-read"
+        ]
+      }
+    },
+    {
+      "id": "tb40-official-gpt-6-astra-xhigh-2026-09-12",
+      "benchmarkTypeId": "terminal-bench-v4.0-official-native-agents",
+      "modelId": "gpt-6-astra",
+      "reasoningEffort": "xHigh",
+      "score": 57.88,
+      "secondaryMetrics": {
+        "outputTokensPerTask": 45304,
+        "costPerTaskUsd": 7.122758,
+        "latencyMilliseconds": 2208500
+      },
+      "publishedAt": "2026-09-12",
+      "retrievedAt": "2026-09-12",
+      "sourceUrl": "https://hub.harborframework.com/datasets/terminal-bench/terminal-bench/4/leaderboards/4-0-0/rows/16db8ad5-84aa-4588-b660-1ce68c0d45e2",
+      "retrievalMethod": "api",
+      "evidenceExcerpt": "Public snapshot 2026-09-12: 191/330 attempts resolved (57.88%, 95% CI half-width 2.72 percentage points), using Codex at xHigh. PublishedAt is first observed availability, not an asserted run date. Total cost USD 2350.51; secondary metrics are per attempt and output tokens are rounded.",
+      "confidence": "thirdParty",
+      "context": {
+        "observedAt": "2026-09-12",
+        "sourceKind": "officialLeaderboard",
+        "sourcePublisher": "Terminal-Bench / Harbor",
+        "dateBasis": "firstObservedPublicSnapshot",
+        "sourceCreatedAt": "2026-09-03T20:53:40.128995+00:00",
+        "sourceUpdatedAt": "2026-09-10T21:57:57.437008+00:00",
+        "harness": "Codex",
+        "taskCount": 66,
+        "trialCount": 330,
+        "confidenceIntervalHalfWidth": 2.72,
+        "confidenceIntervalLevel": 0.95,
+        "totalCostUsd": 2350.51,
+        "costBasis": "Publisher total USD divided by all trials, including failures. Observed ledger pricing; not recomputed at current tariff.",
+        "sampleNotes": "191/330 successful attempts. Dataset task count is distinct from trial count. 330/66=5 is a derived ratio; balanced per-task allocation was not independently checked. Runner, agent version and fallback settings are not supplied. metadata.date is the model release date and is not used as the run or publication date.",
+        "additionalSourceUrls": [
+          "https://www.tbench.ai/",
+          "https://ofhuhcpkvzjlejydnvyd.supabase.co/functions/v1/leaderboard-read"
+        ]
+      }
+    },
+    {
+      "id": "tb40-official-gpt-6-astra-high-2026-09-12",
+      "benchmarkTypeId": "terminal-bench-v4.0-official-native-agents",
+      "modelId": "gpt-6-astra",
+      "reasoningEffort": "high",
+      "score": 57.88,
+      "secondaryMetrics": {
+        "outputTokensPerTask": 41527,
+        "costPerTaskUsd": 6.87703,
+        "latencyMilliseconds": 2113700
+      },
+      "publishedAt": "2026-09-12",
+      "retrievedAt": "2026-09-12",
+      "sourceUrl": "https://hub.harborframework.com/datasets/terminal-bench/terminal-bench/4/leaderboards/4-0-0/rows/3475050c-bf5e-4261-a3f6-0af5350af13f",
+      "retrievalMethod": "api",
+      "evidenceExcerpt": "Public snapshot 2026-09-12: 191/330 attempts resolved (57.88%, 95% CI half-width 2.97 percentage points), using Codex at high. PublishedAt is first observed availability, not an asserted run date. Total cost USD 2269.42; secondary metrics are per attempt and output tokens are rounded.",
+      "confidence": "thirdParty",
+      "context": {
+        "observedAt": "2026-09-12",
+        "sourceKind": "officialLeaderboard",
+        "sourcePublisher": "Terminal-Bench / Harbor",
+        "dateBasis": "firstObservedPublicSnapshot",
+        "sourceCreatedAt": "2026-09-03T20:53:40.128995+00:00",
+        "sourceUpdatedAt": "2026-09-10T21:57:54.867871+00:00",
+        "harness": "Codex",
+        "taskCount": 66,
+        "trialCount": 330,
+        "confidenceIntervalHalfWidth": 2.97,
+        "confidenceIntervalLevel": 0.95,
+        "totalCostUsd": 2269.42,
+        "costBasis": "Publisher total USD divided by all trials, including failures. Observed ledger pricing; not recomputed at current tariff.",
+        "sampleNotes": "191/330 successful attempts. Dataset task count is distinct from trial count. 330/66=5 is a derived ratio; balanced per-task allocation was not independently checked. Runner, agent version and fallback settings are not supplied. metadata.date is the model release date and is not used as the run or publication date.",
+        "additionalSourceUrls": [
+          "https://www.tbench.ai/",
+          "https://ofhuhcpkvzjlejydnvyd.supabase.co/functions/v1/leaderboard-read"
+        ]
+      }
+    },
+    {
+      "id": "tb40-official-gpt-6-astra-medium-2026-09-12",
+      "benchmarkTypeId": "terminal-bench-v4.0-official-native-agents",
+      "modelId": "gpt-6-astra",
+      "reasoningEffort": "medium",
+      "score": 54.24,
+      "secondaryMetrics": {
+        "outputTokensPerTask": 32638,
+        "costPerTaskUsd": 5.802424,
+        "latencyMilliseconds": 1885900
+      },
+      "publishedAt": "2026-09-12",
+      "retrievedAt": "2026-09-12",
+      "sourceUrl": "https://hub.harborframework.com/datasets/terminal-bench/terminal-bench/4/leaderboards/4-0-0/rows/f3c3d5a6-6424-4acb-bfcc-615c3f79f6dd",
+      "retrievalMethod": "api",
+      "evidenceExcerpt": "Public snapshot 2026-09-12: 179/330 attempts resolved (54.24%, 95% CI half-width 2.66 percentage points), using Codex at medium. PublishedAt is first observed availability, not an asserted run date. Total cost USD 1914.8; secondary metrics are per attempt and output tokens are rounded.",
+      "confidence": "thirdParty",
+      "context": {
+        "observedAt": "2026-09-12",
+        "sourceKind": "officialLeaderboard",
+        "sourcePublisher": "Terminal-Bench / Harbor",
+        "dateBasis": "firstObservedPublicSnapshot",
+        "sourceCreatedAt": "2026-09-03T20:53:40.128995+00:00",
+        "sourceUpdatedAt": "2026-09-10T21:57:52.562258+00:00",
+        "harness": "Codex",
+        "taskCount": 66,
+        "trialCount": 330,
+        "confidenceIntervalHalfWidth": 2.66,
+        "confidenceIntervalLevel": 0.95,
+        "totalCostUsd": 1914.8,
+        "costBasis": "Publisher total USD divided by all trials, including failures. Observed ledger pricing; not recomputed at current tariff.",
+        "sampleNotes": "179/330 successful attempts. Dataset task count is distinct from trial count. 330/66=5 is a derived ratio; balanced per-task allocation was not independently checked. Runner, agent version and fallback settings are not supplied. metadata.date is the model release date and is not used as the run or publication date.",
+        "additionalSourceUrls": [
+          "https://www.tbench.ai/",
+          "https://ofhuhcpkvzjlejydnvyd.supabase.co/functions/v1/leaderboard-read"
+        ]
+      }
+    },
+    {
+      "id": "tb40-official-claude-opus-5-max-2026-09-12",
+      "benchmarkTypeId": "terminal-bench-v4.0-official-native-agents",
+      "modelId": "claude-opus-5",
+      "reasoningEffort": "max",
+      "score": 51.82,
+      "secondaryMetrics": {
+        "outputTokensPerTask": 200037,
+        "costPerTaskUsd": 18.088212,
+        "latencyMilliseconds": 4792800
+      },
+      "publishedAt": "2026-09-12",
+      "retrievedAt": "2026-09-12",
+      "sourceUrl": "https://hub.harborframework.com/datasets/terminal-bench/terminal-bench/4/leaderboards/4-0-0/rows/d71ac3d0-da36-49cb-89d9-323136e77111",
+      "retrievalMethod": "api",
+      "evidenceExcerpt": "Public snapshot 2026-09-12: 171/330 attempts resolved (51.82%, 95% CI half-width 3.39 percentage points), using Claude Code at max. PublishedAt is first observed availability, not an asserted run date. Total cost USD 5969.11; secondary metrics are per attempt and output tokens are rounded.",
+      "confidence": "thirdParty",
+      "context": {
+        "observedAt": "2026-09-12",
+        "sourceKind": "officialLeaderboard",
+        "sourcePublisher": "Terminal-Bench / Harbor",
+        "dateBasis": "firstObservedPublicSnapshot",
+        "sourceCreatedAt": "2026-08-27T18:30:27.559933+00:00",
+        "sourceUpdatedAt": "2026-09-03T00:09:44.281605+00:00",
+        "harness": "Claude Code",
+        "taskCount": 66,
+        "trialCount": 330,
+        "confidenceIntervalHalfWidth": 3.39,
+        "confidenceIntervalLevel": 0.95,
+        "totalCostUsd": 5969.11,
+        "costBasis": "Publisher total USD divided by all trials, including failures. Observed ledger pricing; not recomputed at current tariff.",
+        "sampleNotes": "171/330 successful attempts. Dataset task count is distinct from trial count. 330/66=5 is a derived ratio; balanced per-task allocation was not independently checked. Runner, agent version and fallback settings are not supplied. metadata.date is the model release date and is not used as the run or publication date.",
+        "additionalSourceUrls": [
+          "https://www.tbench.ai/",
+          "https://ofhuhcpkvzjlejydnvyd.supabase.co/functions/v1/leaderboard-read"
+        ]
+      }
+    },
+    {
+      "id": "tb40-official-gpt-6-astra-low-2026-09-12",
+      "benchmarkTypeId": "terminal-bench-v4.0-official-native-agents",
+      "modelId": "gpt-6-astra",
+      "reasoningEffort": "low",
+      "score": 50.61,
+      "secondaryMetrics": {
+        "outputTokensPerTask": 24207,
+        "costPerTaskUsd": 4.719091,
+        "latencyMilliseconds": 1683700
+      },
+      "publishedAt": "2026-09-12",
+      "retrievedAt": "2026-09-12",
+      "sourceUrl": "https://hub.harborframework.com/datasets/terminal-bench/terminal-bench/4/leaderboards/4-0-0/rows/b3ad58f3-b311-4d4d-875b-3158cf0309d6",
+      "retrievalMethod": "api",
+      "evidenceExcerpt": "Public snapshot 2026-09-12: 167/330 attempts resolved (50.61%, 95% CI half-width 2.75 percentage points), using Codex at low. PublishedAt is first observed availability, not an asserted run date. Total cost USD 1557.3; secondary metrics are per attempt and output tokens are rounded.",
+      "confidence": "thirdParty",
+      "context": {
+        "observedAt": "2026-09-12",
+        "sourceKind": "officialLeaderboard",
+        "sourcePublisher": "Terminal-Bench / Harbor",
+        "dateBasis": "firstObservedPublicSnapshot",
+        "sourceCreatedAt": "2026-09-03T20:53:40.128995+00:00",
+        "sourceUpdatedAt": "2026-09-10T21:57:49.894535+00:00",
+        "harness": "Codex",
+        "taskCount": 66,
+        "trialCount": 330,
+        "confidenceIntervalHalfWidth": 2.75,
+        "confidenceIntervalLevel": 0.95,
+        "totalCostUsd": 1557.3,
+        "costBasis": "Publisher total USD divided by all trials, including failures. Observed ledger pricing; not recomputed at current tariff.",
+        "sampleNotes": "167/330 successful attempts. Dataset task count is distinct from trial count. 330/66=5 is a derived ratio; balanced per-task allocation was not independently checked. Runner, agent version and fallback settings are not supplied. metadata.date is the model release date and is not used as the run or publication date.",
+        "additionalSourceUrls": [
+          "https://www.tbench.ai/",
+          "https://ofhuhcpkvzjlejydnvyd.supabase.co/functions/v1/leaderboard-read"
+        ]
+      }
+    },
+    {
+      "id": "tb40-official-claude-fable-5-max-2026-09-12",
+      "benchmarkTypeId": "terminal-bench-v4.0-official-native-agents",
+      "modelId": "claude-fable-5",
+      "reasoningEffort": "max",
+      "score": 44.55,
+      "secondaryMetrics": {
+        "outputTokensPerTask": 177636,
+        "costPerTaskUsd": 22.015182,
+        "latencyMilliseconds": 4202800
+      },
+      "publishedAt": "2026-09-12",
+      "retrievedAt": "2026-09-12",
+      "sourceUrl": "https://hub.harborframework.com/datasets/terminal-bench/terminal-bench/4/leaderboards/4-0-0/rows/36c077e0-4879-4444-b315-8532d66401d6",
+      "retrievalMethod": "api",
+      "evidenceExcerpt": "Public snapshot 2026-09-12: 147/330 attempts resolved (44.55%, 95% CI half-width 3.85 percentage points), using Claude Code at max. PublishedAt is first observed availability, not an asserted run date. Total cost USD 7265.01; secondary metrics are per attempt and output tokens are rounded.",
+      "confidence": "thirdParty",
+      "context": {
+        "observedAt": "2026-09-12",
+        "sourceKind": "officialLeaderboard",
+        "sourcePublisher": "Terminal-Bench / Harbor",
+        "dateBasis": "firstObservedPublicSnapshot",
+        "sourceCreatedAt": "2026-08-27T18:30:27.559933+00:00",
+        "sourceUpdatedAt": "2026-09-03T00:09:00.046808+00:00",
+        "harness": "Claude Code",
+        "taskCount": 66,
+        "trialCount": 330,
+        "confidenceIntervalHalfWidth": 3.85,
+        "confidenceIntervalLevel": 0.95,
+        "totalCostUsd": 7265.01,
+        "costBasis": "Publisher total USD divided by all trials, including failures. Observed ledger pricing; not recomputed at current tariff.",
+        "sampleNotes": "147/330 successful attempts. Dataset task count is distinct from trial count. 330/66=5 is a derived ratio; balanced per-task allocation was not independently checked. Runner, agent version and fallback settings are not supplied. metadata.date is the model release date and is not used as the run or publication date.",
+        "additionalSourceUrls": [
+          "https://www.tbench.ai/",
+          "https://ofhuhcpkvzjlejydnvyd.supabase.co/functions/v1/leaderboard-read"
+        ]
+      }
+    },
+    {
+      "id": "tb40-official-gpt-5.6-sol-max-2026-09-12",
+      "benchmarkTypeId": "terminal-bench-v4.0-official-native-agents",
+      "modelId": "gpt-5.6-sol",
+      "reasoningEffort": "max",
+      "score": 37.27,
+      "secondaryMetrics": {
+        "outputTokensPerTask": 71065,
+        "costPerTaskUsd": 7.702121,
+        "latencyMilliseconds": 2388400
+      },
+      "publishedAt": "2026-09-12",
+      "retrievedAt": "2026-09-12",
+      "sourceUrl": "https://hub.harborframework.com/datasets/terminal-bench/terminal-bench/4/leaderboards/4-0-0/rows/0e349bde-b264-494d-a853-fada9c696192",
+      "retrievalMethod": "api",
+      "evidenceExcerpt": "Public snapshot 2026-09-12: 123/330 attempts resolved (37.27%, 95% CI half-width 3.78 percentage points), using Codex at max. PublishedAt is first observed availability, not an asserted run date. Total cost USD 2541.7; secondary metrics are per attempt and output tokens are rounded.",
+      "confidence": "thirdParty",
+      "context": {
+        "observedAt": "2026-09-12",
+        "sourceKind": "officialLeaderboard",
+        "sourcePublisher": "Terminal-Bench / Harbor",
+        "dateBasis": "firstObservedPublicSnapshot",
+        "sourceCreatedAt": "2026-08-27T18:30:27.559933+00:00",
+        "sourceUpdatedAt": "2026-09-03T00:09:13.502808+00:00",
+        "harness": "Codex",
+        "taskCount": 66,
+        "trialCount": 330,
+        "confidenceIntervalHalfWidth": 3.78,
+        "confidenceIntervalLevel": 0.95,
+        "totalCostUsd": 2541.7,
+        "costBasis": "Publisher total USD divided by all trials, including failures. Observed ledger pricing; not recomputed at current tariff.",
+        "sampleNotes": "123/330 successful attempts. Dataset task count is distinct from trial count. 330/66=5 is a derived ratio; balanced per-task allocation was not independently checked. Runner, agent version and fallback settings are not supplied. metadata.date is the model release date and is not used as the run or publication date.",
+        "additionalSourceUrls": [
+          "https://www.tbench.ai/",
+          "https://ofhuhcpkvzjlejydnvyd.supabase.co/functions/v1/leaderboard-read"
+        ]
+      }
+    },
+    {
+      "id": "tb40-official-claude-opus-4-8-max-2026-09-12",
+      "benchmarkTypeId": "terminal-bench-v4.0-official-native-agents",
+      "modelId": "claude-opus-4-8",
+      "reasoningEffort": "max",
+      "score": 23.64,
+      "secondaryMetrics": {
+        "outputTokensPerTask": 269131,
+        "costPerTaskUsd": 19.640182,
+        "latencyMilliseconds": 5163000
+      },
+      "publishedAt": "2026-09-12",
+      "retrievedAt": "2026-09-12",
+      "sourceUrl": "https://hub.harborframework.com/datasets/terminal-bench/terminal-bench/4/leaderboards/4-0-0/rows/952b4217-421f-4d14-849b-9968fcb2063b",
+      "retrievalMethod": "api",
+      "evidenceExcerpt": "Public snapshot 2026-09-12: 78/330 attempts resolved (23.64%, 95% CI half-width 3.56 percentage points), using Claude Code at max. PublishedAt is first observed availability, not an asserted run date. Total cost USD 6481.26; secondary metrics are per attempt and output tokens are rounded.",
+      "confidence": "thirdParty",
+      "context": {
+        "observedAt": "2026-09-12",
+        "sourceKind": "officialLeaderboard",
+        "sourcePublisher": "Terminal-Bench / Harbor",
+        "dateBasis": "firstObservedPublicSnapshot",
+        "sourceCreatedAt": "2026-08-27T18:30:27.559933+00:00",
+        "sourceUpdatedAt": "2026-09-03T00:09:38.524394+00:00",
+        "harness": "Claude Code",
+        "taskCount": 66,
+        "trialCount": 330,
+        "confidenceIntervalHalfWidth": 3.56,
+        "confidenceIntervalLevel": 0.95,
+        "totalCostUsd": 6481.26,
+        "costBasis": "Publisher total USD divided by all trials, including failures. Observed ledger pricing; not recomputed at current tariff.",
+        "sampleNotes": "78/330 successful attempts. Dataset task count is distinct from trial count. 330/66=5 is a derived ratio; balanced per-task allocation was not independently checked. Runner, agent version and fallback settings are not supplied. metadata.date is the model release date and is not used as the run or publication date.",
+        "additionalSourceUrls": [
+          "https://www.tbench.ai/",
+          "https://ofhuhcpkvzjlejydnvyd.supabase.co/functions/v1/leaderboard-read"
+        ]
+      }
+    },
+    {
+      "id": "tb40-official-gpt-5.6-terra-max-2026-09-12",
+      "benchmarkTypeId": "terminal-bench-v4.0-official-native-agents",
+      "modelId": "gpt-5.6-terra",
+      "reasoningEffort": "max",
+      "score": 21.52,
+      "secondaryMetrics": {
+        "outputTokensPerTask": 100681,
+        "costPerTaskUsd": 5.253091,
+        "latencyMilliseconds": 2514600
+      },
+      "publishedAt": "2026-09-12",
+      "retrievedAt": "2026-09-12",
+      "sourceUrl": "https://hub.harborframework.com/datasets/terminal-bench/terminal-bench/4/leaderboards/4-0-0/rows/e53da412-5e92-408c-b369-c767924c7c1c",
+      "retrievalMethod": "api",
+      "evidenceExcerpt": "Public snapshot 2026-09-12: 71/330 attempts resolved (21.52%, 95% CI half-width 3.25 percentage points), using Codex at max. PublishedAt is first observed availability, not an asserted run date. Total cost USD 1733.52; secondary metrics are per attempt and output tokens are rounded.",
+      "confidence": "thirdParty",
+      "context": {
+        "observedAt": "2026-09-12",
+        "sourceKind": "officialLeaderboard",
+        "sourcePublisher": "Terminal-Bench / Harbor",
+        "dateBasis": "firstObservedPublicSnapshot",
+        "sourceCreatedAt": "2026-08-27T18:30:27.559933+00:00",
+        "sourceUpdatedAt": "2026-09-03T00:09:20.912429+00:00",
+        "harness": "Codex",
+        "taskCount": 66,
+        "trialCount": 330,
+        "confidenceIntervalHalfWidth": 3.25,
+        "confidenceIntervalLevel": 0.95,
+        "totalCostUsd": 1733.52,
+        "costBasis": "Publisher total USD divided by all trials, including failures. Observed ledger pricing; not recomputed at current tariff.",
+        "sampleNotes": "71/330 successful attempts. Dataset task count is distinct from trial count. 330/66=5 is a derived ratio; balanced per-task allocation was not independently checked. Runner, agent version and fallback settings are not supplied. metadata.date is the model release date and is not used as the run or publication date.",
+        "additionalSourceUrls": [
+          "https://www.tbench.ai/",
+          "https://ofhuhcpkvzjlejydnvyd.supabase.co/functions/v1/leaderboard-read"
+        ]
+      }
+    },
+    {
+      "id": "tb40-official-gpt-5.6-luna-max-2026-09-12",
+      "benchmarkTypeId": "terminal-bench-v4.0-official-native-agents",
+      "modelId": "gpt-5.6-luna",
+      "reasoningEffort": "max",
+      "score": 17.27,
+      "secondaryMetrics": {
+        "outputTokensPerTask": 185705,
+        "costPerTaskUsd": 1.050515,
+        "latencyMilliseconds": 4088300
+      },
+      "publishedAt": "2026-09-12",
+      "retrievedAt": "2026-09-12",
+      "sourceUrl": "https://hub.harborframework.com/datasets/terminal-bench/terminal-bench/4/leaderboards/4-0-0/rows/51c6d76e-5baa-48c1-97b3-88656c620eef",
+      "retrievalMethod": "api",
+      "evidenceExcerpt": "Public snapshot 2026-09-12: 57/330 attempts resolved (17.27%, 95% CI half-width 2.85 percentage points), using Codex at max. PublishedAt is first observed availability, not an asserted run date. Total cost USD 346.67; secondary metrics are per attempt and output tokens are rounded.",
+      "confidence": "thirdParty",
+      "context": {
+        "observedAt": "2026-09-12",
+        "sourceKind": "officialLeaderboard",
+        "sourcePublisher": "Terminal-Bench / Harbor",
+        "dateBasis": "firstObservedPublicSnapshot",
+        "sourceCreatedAt": "2026-08-27T18:30:27.559933+00:00",
+        "sourceUpdatedAt": "2026-09-03T00:09:06.717559+00:00",
+        "harness": "Codex",
+        "taskCount": 66,
+        "trialCount": 330,
+        "confidenceIntervalHalfWidth": 2.85,
+        "confidenceIntervalLevel": 0.95,
+        "totalCostUsd": 346.67,
+        "costBasis": "Publisher total USD divided by all trials, including failures. Observed ledger pricing; not recomputed at current tariff.",
+        "sampleNotes": "57/330 successful attempts. Dataset task count is distinct from trial count. 330/66=5 is a derived ratio; balanced per-task allocation was not independently checked. Runner, agent version and fallback settings are not supplied. metadata.date is the model release date and is not used as the run or publication date.",
+        "additionalSourceUrls": [
+          "https://www.tbench.ai/",
+          "https://ofhuhcpkvzjlejydnvyd.supabase.co/functions/v1/leaderboard-read"
+        ]
+      }
+    },
+    {
+      "id": "tb40-official-claude-sonnet-5-max-2026-09-12",
+      "benchmarkTypeId": "terminal-bench-v4.0-official-native-agents",
+      "modelId": "claude-sonnet-5",
+      "reasoningEffort": "max",
+      "score": 12.42,
+      "secondaryMetrics": {
+        "outputTokensPerTask": 353330,
+        "costPerTaskUsd": 29.102606,
+        "latencyMilliseconds": 6510300
+      },
+      "publishedAt": "2026-09-12",
+      "retrievedAt": "2026-09-12",
+      "sourceUrl": "https://hub.harborframework.com/datasets/terminal-bench/terminal-bench/4/leaderboards/4-0-0/rows/8180b9e4-4990-43d0-b906-cd8b43adaaa2",
+      "retrievalMethod": "api",
+      "evidenceExcerpt": "Public snapshot 2026-09-12: 41/330 attempts resolved (12.42%, 95% CI half-width 3.06 percentage points), using Claude Code at max. PublishedAt is first observed availability, not an asserted run date. Total cost USD 9603.86; secondary metrics are per attempt and output tokens are rounded.",
+      "confidence": "thirdParty",
+      "context": {
+        "observedAt": "2026-09-12",
+        "sourceKind": "officialLeaderboard",
+        "sourcePublisher": "Terminal-Bench / Harbor",
+        "dateBasis": "firstObservedPublicSnapshot",
+        "sourceCreatedAt": "2026-08-27T18:30:27.559933+00:00",
+        "sourceUpdatedAt": "2026-09-03T00:09:50.318045+00:00",
+        "harness": "Claude Code",
+        "taskCount": 66,
+        "trialCount": 330,
+        "confidenceIntervalHalfWidth": 3.06,
+        "confidenceIntervalLevel": 0.95,
+        "totalCostUsd": 9603.86,
+        "costBasis": "Publisher total USD divided by all trials, including failures. Observed ledger pricing; not recomputed at current tariff.",
+        "sampleNotes": "41/330 successful attempts. Dataset task count is distinct from trial count. 330/66=5 is a derived ratio; balanced per-task allocation was not independently checked. Runner, agent version and fallback settings are not supplied. metadata.date is the model release date and is not used as the run or publication date.",
+        "additionalSourceUrls": [
+          "https://www.tbench.ai/",
+          "https://ofhuhcpkvzjlejydnvyd.supabase.co/functions/v1/leaderboard-read"
+        ]
+      }
+    },
+    {
+      "id": "tb21-official-gpt-6-astra-high-2026-09-12",
+      "benchmarkTypeId": "terminal-bench-v2.1-official-native-agents",
+      "modelId": "gpt-6-astra",
+      "reasoningEffort": "high",
+      "score": 87.42,
+      "secondaryMetrics": {
+        "outputTokensPerTask": 9485,
+        "costPerTaskUsd": 1.738202,
+        "latencyMilliseconds": 434100
+      },
+      "publishedAt": "2026-09-12",
+      "retrievedAt": "2026-09-12",
+      "sourceUrl": "https://hub.harborframework.com/datasets/terminal-bench/terminal-bench-2-1/1/leaderboards/main/rows/03ff7953-4955-4fc5-9ddd-911cab72d7f1",
+      "retrievalMethod": "api",
+      "evidenceExcerpt": "Public snapshot 2026-09-12: undefined/445 attempts resolved (87.42%, 95% CI half-width 1.79 percentage points), using Codex at high. PublishedAt is first observed availability, not an asserted run date. Total cost USD 773.5; secondary metrics are per attempt and output tokens are rounded.",
+      "confidence": "thirdParty",
+      "context": {
+        "observedAt": "2026-09-12",
+        "sourceKind": "officialLeaderboard",
+        "sourcePublisher": "Terminal-Bench / Harbor",
+        "dateBasis": "firstObservedPublicSnapshot",
+        "sourceCreatedAt": "2026-09-03T20:54:37.791805+00:00",
+        "sourceUpdatedAt": "2026-09-03T20:54:37.791805+00:00",
+        "harness": "Codex",
+        "taskCount": 89,
+        "trialCount": 445,
+        "confidenceIntervalHalfWidth": 1.79,
+        "confidenceIntervalLevel": 0.95,
+        "totalCostUsd": 773.5,
+        "costBasis": "Publisher total USD divided by all trials, including failures. Observed ledger pricing; not recomputed at current tariff.",
+        "sampleNotes": "undefined/445 successful attempts. Dataset task count is distinct from trial count. 445/89=5 is a derived ratio; balanced per-task allocation was not independently checked. Runner, agent version and fallback settings are not supplied. metadata.date is the model release date and is not used as the run or publication date.",
+        "additionalSourceUrls": [
+          "https://www.tbench.ai/",
+          "https://ofhuhcpkvzjlejydnvyd.supabase.co/functions/v1/leaderboard-read"
+        ]
+      }
+    },
+    {
+      "id": "tb21-official-gpt-6-astra-medium-2026-09-12",
+      "benchmarkTypeId": "terminal-bench-v2.1-official-native-agents",
+      "modelId": "gpt-6-astra",
+      "reasoningEffort": "medium",
+      "score": 86.97,
+      "secondaryMetrics": {
+        "outputTokensPerTask": 6517,
+        "costPerTaskUsd": 1.391169,
+        "latencyMilliseconds": 390400
+      },
+      "publishedAt": "2026-09-12",
+      "retrievedAt": "2026-09-12",
+      "sourceUrl": "https://hub.harborframework.com/datasets/terminal-bench/terminal-bench-2-1/1/leaderboards/main/rows/17be4c09-ab31-4202-9d56-31a2ccf37e1b",
+      "retrievalMethod": "api",
+      "evidenceExcerpt": "Public snapshot 2026-09-12: undefined/445 attempts resolved (86.97%, 95% CI half-width 1.89 percentage points), using Codex at medium. PublishedAt is first observed availability, not an asserted run date. Total cost USD 619.07; secondary metrics are per attempt and output tokens are rounded.",
+      "confidence": "thirdParty",
+      "context": {
+        "observedAt": "2026-09-12",
+        "sourceKind": "officialLeaderboard",
+        "sourcePublisher": "Terminal-Bench / Harbor",
+        "dateBasis": "firstObservedPublicSnapshot",
+        "sourceCreatedAt": "2026-09-03T20:54:37.791805+00:00",
+        "sourceUpdatedAt": "2026-09-03T20:54:37.791805+00:00",
+        "harness": "Codex",
+        "taskCount": 89,
+        "trialCount": 445,
+        "confidenceIntervalHalfWidth": 1.89,
+        "confidenceIntervalLevel": 0.95,
+        "totalCostUsd": 619.07,
+        "costBasis": "Publisher total USD divided by all trials, including failures. Observed ledger pricing; not recomputed at current tariff.",
+        "sampleNotes": "undefined/445 successful attempts. Dataset task count is distinct from trial count. 445/89=5 is a derived ratio; balanced per-task allocation was not independently checked. Runner, agent version and fallback settings are not supplied. metadata.date is the model release date and is not used as the run or publication date.",
+        "additionalSourceUrls": [
+          "https://www.tbench.ai/",
+          "https://ofhuhcpkvzjlejydnvyd.supabase.co/functions/v1/leaderboard-read"
+        ]
+      }
+    },
+    {
+      "id": "tb21-official-gpt-6-astra-low-2026-09-12",
+      "benchmarkTypeId": "terminal-bench-v2.1-official-native-agents",
+      "modelId": "gpt-6-astra",
+      "reasoningEffort": "low",
+      "score": 86.74,
+      "secondaryMetrics": {
+        "outputTokensPerTask": 4400,
+        "costPerTaskUsd": 1.041461,
+        "latencyMilliseconds": 348900
+      },
+      "publishedAt": "2026-09-12",
+      "retrievedAt": "2026-09-12",
+      "sourceUrl": "https://hub.harborframework.com/datasets/terminal-bench/terminal-bench-2-1/1/leaderboards/main/rows/93fc9e32-98c9-4e4a-a6a0-89dd3da598af",
+      "retrievalMethod": "api",
+      "evidenceExcerpt": "Public snapshot 2026-09-12: undefined/445 attempts resolved (86.74%, 95% CI half-width 1.82 percentage points), using Codex at low. PublishedAt is first observed availability, not an asserted run date. Total cost USD 463.45; secondary metrics are per attempt and output tokens are rounded.",
+      "confidence": "thirdParty",
+      "context": {
+        "observedAt": "2026-09-12",
+        "sourceKind": "officialLeaderboard",
+        "sourcePublisher": "Terminal-Bench / Harbor",
+        "dateBasis": "firstObservedPublicSnapshot",
+        "sourceCreatedAt": "2026-09-03T20:54:37.791805+00:00",
+        "sourceUpdatedAt": "2026-09-03T20:54:37.791805+00:00",
+        "harness": "Codex",
+        "taskCount": 89,
+        "trialCount": 445,
+        "confidenceIntervalHalfWidth": 1.82,
+        "confidenceIntervalLevel": 0.95,
+        "totalCostUsd": 463.45,
+        "costBasis": "Publisher total USD divided by all trials, including failures. Observed ledger pricing; not recomputed at current tariff.",
+        "sampleNotes": "undefined/445 successful attempts. Dataset task count is distinct from trial count. 445/89=5 is a derived ratio; balanced per-task allocation was not independently checked. Runner, agent version and fallback settings are not supplied. metadata.date is the model release date and is not used as the run or publication date.",
+        "additionalSourceUrls": [
+          "https://www.tbench.ai/",
+          "https://ofhuhcpkvzjlejydnvyd.supabase.co/functions/v1/leaderboard-read"
+        ]
+      }
+    },
+    {
+      "id": "tb21-official-gpt-6-astra-max-2026-09-12",
+      "benchmarkTypeId": "terminal-bench-v2.1-official-native-agents",
+      "modelId": "gpt-6-astra",
+      "reasoningEffort": "max",
+      "score": 86.74,
+      "secondaryMetrics": {
+        "outputTokensPerTask": 17028,
+        "costPerTaskUsd": 2.403933,
+        "latencyMilliseconds": 576000
+      },
+      "publishedAt": "2026-09-12",
+      "retrievedAt": "2026-09-12",
+      "sourceUrl": "https://hub.harborframework.com/datasets/terminal-bench/terminal-bench-2-1/1/leaderboards/main/rows/f8d623c8-5f1b-4f9c-8deb-d110fa91e1d2",
+      "retrievalMethod": "api",
+      "evidenceExcerpt": "Public snapshot 2026-09-12: undefined/445 attempts resolved (86.74%, 95% CI half-width 1.36 percentage points), using Codex at max. PublishedAt is first observed availability, not an asserted run date. Total cost USD 1069.75; secondary metrics are per attempt and output tokens are rounded.",
+      "confidence": "thirdParty",
+      "context": {
+        "observedAt": "2026-09-12",
+        "sourceKind": "officialLeaderboard",
+        "sourcePublisher": "Terminal-Bench / Harbor",
+        "dateBasis": "firstObservedPublicSnapshot",
+        "sourceCreatedAt": "2026-09-03T20:54:37.791805+00:00",
+        "sourceUpdatedAt": "2026-09-03T20:54:37.791805+00:00",
+        "harness": "Codex",
+        "taskCount": 89,
+        "trialCount": 445,
+        "confidenceIntervalHalfWidth": 1.36,
+        "confidenceIntervalLevel": 0.95,
+        "totalCostUsd": 1069.75,
+        "costBasis": "Publisher total USD divided by all trials, including failures. Observed ledger pricing; not recomputed at current tariff.",
+        "sampleNotes": "undefined/445 successful attempts. Dataset task count is distinct from trial count. 445/89=5 is a derived ratio; balanced per-task allocation was not independently checked. Runner, agent version and fallback settings are not supplied. metadata.date is the model release date and is not used as the run or publication date.",
+        "additionalSourceUrls": [
+          "https://www.tbench.ai/",
+          "https://ofhuhcpkvzjlejydnvyd.supabase.co/functions/v1/leaderboard-read"
+        ]
+      }
+    },
+    {
+      "id": "tb21-official-gpt-6-astra-xhigh-2026-09-12",
+      "benchmarkTypeId": "terminal-bench-v2.1-official-native-agents",
+      "modelId": "gpt-6-astra",
+      "reasoningEffort": "xHigh",
+      "score": 85.84,
+      "secondaryMetrics": {
+        "outputTokensPerTask": 11882,
+        "costPerTaskUsd": 1.996719,
+        "latencyMilliseconds": 487300
+      },
+      "publishedAt": "2026-09-12",
+      "retrievedAt": "2026-09-12",
+      "sourceUrl": "https://hub.harborframework.com/datasets/terminal-bench/terminal-bench-2-1/1/leaderboards/main/rows/3d9a7a70-ad72-4197-b895-c73698601637",
+      "retrievalMethod": "api",
+      "evidenceExcerpt": "Public snapshot 2026-09-12: undefined/445 attempts resolved (85.84%, 95% CI half-width 1.43 percentage points), using Codex at xHigh. PublishedAt is first observed availability, not an asserted run date. Total cost USD 888.54; secondary metrics are per attempt and output tokens are rounded.",
+      "confidence": "thirdParty",
+      "context": {
+        "observedAt": "2026-09-12",
+        "sourceKind": "officialLeaderboard",
+        "sourcePublisher": "Terminal-Bench / Harbor",
+        "dateBasis": "firstObservedPublicSnapshot",
+        "sourceCreatedAt": "2026-09-03T20:54:37.791805+00:00",
+        "sourceUpdatedAt": "2026-09-03T20:54:37.791805+00:00",
+        "harness": "Codex",
+        "taskCount": 89,
+        "trialCount": 445,
+        "confidenceIntervalHalfWidth": 1.43,
+        "confidenceIntervalLevel": 0.95,
+        "totalCostUsd": 888.54,
+        "costBasis": "Publisher total USD divided by all trials, including failures. Observed ledger pricing; not recomputed at current tariff.",
+        "sampleNotes": "undefined/445 successful attempts. Dataset task count is distinct from trial count. 445/89=5 is a derived ratio; balanced per-task allocation was not independently checked. Runner, agent version and fallback settings are not supplied. metadata.date is the model release date and is not used as the run or publication date.",
+        "additionalSourceUrls": [
+          "https://www.tbench.ai/",
+          "https://ofhuhcpkvzjlejydnvyd.supabase.co/functions/v1/leaderboard-read"
+        ]
+      }
+    },
+    {
+      "id": "deepswe-owner-claude-opus-5-max-2026-09-12",
+      "benchmarkTypeId": "deepswe-v1.1-datacurve-mini-swe-agent",
+      "modelId": "claude-opus-5",
+      "reasoningEffort": "max",
+      "score": 74,
+      "secondaryMetrics": {
+        "outputTokensPerTask": 118000,
+        "costPerTaskUsd": 11.84
+      },
+      "publishedAt": "2026-09-12",
+      "retrievedAt": "2026-09-12",
+      "sourceUrl": "https://deepswe.datacurve.ai/",
+      "retrievalMethod": "manual",
+      "evidenceExcerpt": "Owner leaderboard snapshot: 74% with reported +/-4 percentage points; 113 tasks; average cost USD 11.84, displayed output 118k and 99 steps. These are rounded leaderboard measurements, not a new local evaluation.",
+      "confidence": "thirdParty",
+      "context": {
+        "observedAt": "2026-09-12",
+        "sourceKind": "benchmarkOwner",
+        "sourcePublisher": "Datacurve",
+        "runnerOrganization": "Datacurve",
+        "dateBasis": "firstObservedPublicSnapshot",
+        "harness": "mini-swe-agent",
+        "taskCount": 113,
+        "reportedErrorHalfWidth": 4,
+        "costBasis": "Owner leaderboard average cost per task, captured on 2026-09-12; historical tariff window unspecified.",
+        "sampleNotes": "Shared bash toolkit and prompt. The source does not specify the confidence level, number of attempts, or exact harness revision. Displayed k-token values are rounded. The current table says updated September 3; Opus 5 results were first added July 25, but current cost and score values are only asserted for this snapshot.",
+        "additionalSourceUrls": [
+          "https://deepswe.datacurve.ai/changelog",
+          "https://deepswe.datacurve.ai/blog/deepswe"
+        ]
+      }
+    },
+    {
+      "id": "deepswe-owner-gpt-6-astra-xhigh-2026-09-12",
+      "benchmarkTypeId": "deepswe-v1.1-datacurve-mini-swe-agent",
+      "modelId": "gpt-6-astra",
+      "reasoningEffort": "xHigh",
+      "score": 74,
+      "secondaryMetrics": {
+        "outputTokensPerTask": 30000,
+        "costPerTaskUsd": 6.52
+      },
+      "publishedAt": "2026-09-12",
+      "retrievedAt": "2026-09-12",
+      "sourceUrl": "https://deepswe.datacurve.ai/",
+      "retrievalMethod": "manual",
+      "evidenceExcerpt": "Owner leaderboard snapshot: 74% with reported +/-3 percentage points; 113 tasks; average cost USD 6.52, displayed output 30k and 29 steps. These are rounded leaderboard measurements, not a new local evaluation.",
+      "confidence": "thirdParty",
+      "context": {
+        "observedAt": "2026-09-12",
+        "sourceKind": "benchmarkOwner",
+        "sourcePublisher": "Datacurve",
+        "runnerOrganization": "Datacurve",
+        "dateBasis": "firstObservedPublicSnapshot",
+        "harness": "mini-swe-agent",
+        "taskCount": 113,
+        "reportedErrorHalfWidth": 3,
+        "costBasis": "Owner leaderboard average cost per task, captured on 2026-09-12; historical tariff window unspecified.",
+        "sampleNotes": "Shared bash toolkit and prompt. The source does not specify the confidence level, number of attempts, or exact harness revision. Displayed k-token values are rounded. The current table says updated September 3; Opus 5 results were first added July 25, but current cost and score values are only asserted for this snapshot.",
+        "additionalSourceUrls": [
+          "https://deepswe.datacurve.ai/changelog",
+          "https://deepswe.datacurve.ai/blog/deepswe"
+        ]
+      }
+    },
+    {
+      "id": "deepswe-owner-claude-opus-4-8-max-2026-09-12",
+      "benchmarkTypeId": "deepswe-v1.1-datacurve-mini-swe-agent",
+      "modelId": "claude-opus-4-8",
+      "reasoningEffort": "max",
+      "score": 59,
+      "secondaryMetrics": {
+        "outputTokensPerTask": 135000,
+        "costPerTaskUsd": 13.22
+      },
+      "publishedAt": "2026-09-12",
+      "retrievedAt": "2026-09-12",
+      "sourceUrl": "https://deepswe.datacurve.ai/",
+      "retrievalMethod": "manual",
+      "evidenceExcerpt": "Owner leaderboard snapshot: 59% with reported +/-2 percentage points; 113 tasks; average cost USD 13.22, displayed output 135k and 120 steps. These are rounded leaderboard measurements, not a new local evaluation.",
+      "confidence": "thirdParty",
+      "context": {
+        "observedAt": "2026-09-12",
+        "sourceKind": "benchmarkOwner",
+        "sourcePublisher": "Datacurve",
+        "runnerOrganization": "Datacurve",
+        "dateBasis": "firstObservedPublicSnapshot",
+        "harness": "mini-swe-agent",
+        "taskCount": 113,
+        "reportedErrorHalfWidth": 2,
+        "costBasis": "Owner leaderboard average cost per task, captured on 2026-09-12; historical tariff window unspecified.",
+        "sampleNotes": "Shared bash toolkit and prompt. The source does not specify the confidence level, number of attempts, or exact harness revision. Displayed k-token values are rounded. The current table says updated September 3; Opus 5 results were first added July 25, but current cost and score values are only asserted for this snapshot.",
+        "additionalSourceUrls": [
+          "https://deepswe.datacurve.ai/changelog",
+          "https://deepswe.datacurve.ai/blog/deepswe"
+        ]
+      }
+    },
+    {
+      "id": "deepswe-owner-claude-fable-5-xhigh-2026-09-12",
+      "benchmarkTypeId": "deepswe-v1.1-datacurve-mini-swe-agent",
+      "modelId": "claude-fable-5",
+      "reasoningEffort": "xHigh",
+      "score": 70,
+      "secondaryMetrics": {
+        "outputTokensPerTask": 80000,
+        "costPerTaskUsd": 13.41
+      },
+      "publishedAt": "2026-09-12",
+      "retrievedAt": "2026-09-12",
+      "sourceUrl": "https://deepswe.datacurve.ai/",
+      "retrievalMethod": "manual",
+      "evidenceExcerpt": "Owner leaderboard snapshot: 70% with reported +/-3 percentage points; 113 tasks; average cost USD 13.41, displayed output 80k and 68 steps. These are rounded leaderboard measurements, not a new local evaluation.",
+      "confidence": "thirdParty",
+      "context": {
+        "observedAt": "2026-09-12",
+        "sourceKind": "benchmarkOwner",
+        "sourcePublisher": "Datacurve",
+        "runnerOrganization": "Datacurve",
+        "dateBasis": "firstObservedPublicSnapshot",
+        "harness": "mini-swe-agent",
+        "taskCount": 113,
+        "reportedErrorHalfWidth": 3,
+        "costBasis": "Owner leaderboard average cost per task, captured on 2026-09-12; historical tariff window unspecified.",
+        "sampleNotes": "Shared bash toolkit and prompt. The source does not specify the confidence level, number of attempts, or exact harness revision. Displayed k-token values are rounded. The current table says updated September 3; Opus 5 results were first added July 25, but current cost and score values are only asserted for this snapshot.",
+        "additionalSourceUrls": [
+          "https://deepswe.datacurve.ai/changelog",
+          "https://deepswe.datacurve.ai/blog/deepswe"
+        ]
+      }
+    },
+    {
+      "id": "deepswe-owner-gpt-5.6-sol-max-2026-09-12",
+      "benchmarkTypeId": "deepswe-v1.1-datacurve-mini-swe-agent",
+      "modelId": "gpt-5.6-sol",
+      "reasoningEffort": "max",
+      "score": 73,
+      "secondaryMetrics": {
+        "outputTokensPerTask": 60000,
+        "costPerTaskUsd": 6.46
+      },
+      "publishedAt": "2026-09-12",
+      "retrievedAt": "2026-09-12",
+      "sourceUrl": "https://deepswe.datacurve.ai/",
+      "retrievalMethod": "manual",
+      "evidenceExcerpt": "Owner leaderboard snapshot: 73% with reported +/-3 percentage points; 113 tasks; average cost USD 6.46, displayed output 60k and 61 steps. These are rounded leaderboard measurements, not a new local evaluation.",
+      "confidence": "thirdParty",
+      "context": {
+        "observedAt": "2026-09-12",
+        "sourceKind": "benchmarkOwner",
+        "sourcePublisher": "Datacurve",
+        "runnerOrganization": "Datacurve",
+        "dateBasis": "firstObservedPublicSnapshot",
+        "harness": "mini-swe-agent",
+        "taskCount": 113,
+        "reportedErrorHalfWidth": 3,
+        "costBasis": "Owner leaderboard average cost per task, captured on 2026-09-12; historical tariff window unspecified.",
+        "sampleNotes": "Shared bash toolkit and prompt. The source does not specify the confidence level, number of attempts, or exact harness revision. Displayed k-token values are rounded. The current table says updated September 3; Opus 5 results were first added July 25, but current cost and score values are only asserted for this snapshot.",
+        "additionalSourceUrls": [
+          "https://deepswe.datacurve.ai/changelog",
+          "https://deepswe.datacurve.ai/blog/deepswe"
+        ]
+      }
+    },
+    {
+      "id": "deepswe-owner-claude-sonnet-5-max-2026-09-12",
+      "benchmarkTypeId": "deepswe-v1.1-datacurve-mini-swe-agent",
+      "modelId": "claude-sonnet-5",
+      "reasoningEffort": "max",
+      "score": 54,
+      "secondaryMetrics": {
+        "outputTokensPerTask": 214000,
+        "costPerTaskUsd": 26.4
+      },
+      "publishedAt": "2026-09-12",
+      "retrievedAt": "2026-09-12",
+      "sourceUrl": "https://deepswe.datacurve.ai/",
+      "retrievalMethod": "manual",
+      "evidenceExcerpt": "Owner leaderboard snapshot: 54% with reported +/-4 percentage points; 113 tasks; average cost USD 26.4, displayed output 214k and 268 steps. These are rounded leaderboard measurements, not a new local evaluation.",
+      "confidence": "thirdParty",
+      "context": {
+        "observedAt": "2026-09-12",
+        "sourceKind": "benchmarkOwner",
+        "sourcePublisher": "Datacurve",
+        "runnerOrganization": "Datacurve",
+        "dateBasis": "firstObservedPublicSnapshot",
+        "harness": "mini-swe-agent",
+        "taskCount": 113,
+        "reportedErrorHalfWidth": 4,
+        "costBasis": "Owner leaderboard average cost per task, captured on 2026-09-12; historical tariff window unspecified.",
+        "sampleNotes": "Shared bash toolkit and prompt. The source does not specify the confidence level, number of attempts, or exact harness revision. Displayed k-token values are rounded. The current table says updated September 3; Opus 5 results were first added July 25, but current cost and score values are only asserted for this snapshot.",
+        "additionalSourceUrls": [
+          "https://deepswe.datacurve.ai/changelog",
+          "https://deepswe.datacurve.ai/blog/deepswe"
+        ]
+      }
+    },
+    {
+      "id": "aa-ii-v43-claude-opus-5-max-2026-09-07",
+      "benchmarkTypeId": "artificial-analysis-intelligence-index-v4.3",
+      "modelId": "claude-opus-5",
+      "reasoningEffort": "max",
+      "score": 51,
+      "publishedAt": "2026-09-07",
+      "retrievedAt": "2026-09-12",
+      "sourceUrl": "https://artificialanalysis.ai/articles/artificial-analysis-intelligence-index-v4-3",
+      "retrievalMethod": "manual",
+      "evidenceExcerpt": "The dated September 7 Intelligence Index v4.3 announcement reports 51 index points at max. Fable 5.1 uses the default fallback configuration.",
+      "confidence": "thirdParty",
+      "context": {
+        "observedAt": "2026-09-12",
+        "sourceKind": "independentEvaluator",
+        "sourcePublisher": "Artificial Analysis",
+        "runnerOrganization": "Artificial Analysis",
+        "dateBasis": "publishedDate",
+        "harness": "Artificial Analysis Intelligence Index evaluation harnesses",
+        "sampleNotes": "Composite Intelligence Index v4.3; index points are not percent accuracy and are not interchangeable with older index versions."
+      }
+    },
+    {
+      "id": "aa-ii-v43-claude-fable-5-1-max-2026-09-07",
+      "benchmarkTypeId": "artificial-analysis-intelligence-index-v4.3",
+      "modelId": "claude-fable-5-1",
+      "reasoningEffort": "max",
+      "score": 53,
+      "publishedAt": "2026-09-07",
+      "retrievedAt": "2026-09-12",
+      "sourceUrl": "https://artificialanalysis.ai/articles/artificial-analysis-intelligence-index-v4-3",
+      "retrievalMethod": "manual",
+      "evidenceExcerpt": "The dated September 7 Intelligence Index v4.3 announcement reports 53 index points at max. Fable 5.1 uses the default fallback configuration.",
+      "confidence": "thirdParty",
+      "context": {
+        "observedAt": "2026-09-12",
+        "sourceKind": "independentEvaluator",
+        "sourcePublisher": "Artificial Analysis",
+        "runnerOrganization": "Artificial Analysis",
+        "dateBasis": "publishedDate",
+        "harness": "Artificial Analysis Intelligence Index evaluation harnesses",
+        "sampleNotes": "Composite Intelligence Index v4.3; index points are not percent accuracy and are not interchangeable with older index versions.",
+        "fallbackPolicy": "Default production fallback enabled; routes to Opus 4.8 or Opus 5 can contribute. Not a pure single-model result."
+      }
+    },
+    {
+      "id": "aa-ii-v43-gpt-6-astra-max-2026-09-07",
+      "benchmarkTypeId": "artificial-analysis-intelligence-index-v4.3",
+      "modelId": "gpt-6-astra",
+      "reasoningEffort": "max",
+      "score": 53,
+      "publishedAt": "2026-09-07",
+      "retrievedAt": "2026-09-12",
+      "sourceUrl": "https://artificialanalysis.ai/articles/artificial-analysis-intelligence-index-v4-3",
+      "retrievalMethod": "manual",
+      "evidenceExcerpt": "The dated September 7 Intelligence Index v4.3 announcement reports 53 index points at max. Fable 5.1 uses the default fallback configuration.",
+      "confidence": "thirdParty",
+      "context": {
+        "observedAt": "2026-09-12",
+        "sourceKind": "independentEvaluator",
+        "sourcePublisher": "Artificial Analysis",
+        "runnerOrganization": "Artificial Analysis",
+        "dateBasis": "publishedDate",
+        "harness": "Artificial Analysis Intelligence Index evaluation harnesses",
+        "sampleNotes": "Composite Intelligence Index v4.3; index points are not percent accuracy and are not interchangeable with older index versions."
+      }
+    },
+    {
+      "id": "aa-ii-v43-opus5-high-2026-09-12",
+      "benchmarkTypeId": "artificial-analysis-intelligence-index-v4.3",
+      "modelId": "claude-opus-5",
+      "reasoningEffort": "high",
+      "score": 48,
+      "secondaryMetrics": {
+        "costPerTaskUsd": 3.61
+      },
+      "publishedAt": "2026-09-12",
+      "retrievedAt": "2026-09-12",
+      "sourceUrl": "https://artificialanalysis.ai/models/claude-opus-5-high",
+      "retrievalMethod": "manual",
+      "evidenceExcerpt": "Current AA v4.3 snapshot: Opus 5 high scores 48 index points at USD 3.61 per weighted index task. Cost is specific to this suite and cannot be compared directly with an unrelated coding benchmark.",
+      "confidence": "thirdParty",
+      "context": {
+        "observedAt": "2026-09-12",
+        "sourceKind": "independentEvaluator",
+        "sourcePublisher": "Artificial Analysis",
+        "runnerOrganization": "Artificial Analysis",
+        "dateBasis": "firstObservedPublicSnapshot",
+        "harness": "Artificial Analysis Intelligence Index evaluation harnesses",
+        "sampleNotes": "Composite Intelligence Index v4.3; index points are not percent accuracy and are not interchangeable with older index versions.",
+        "costBasis": "Artificial Analysis weighted cost per Intelligence Index v4.3 task at this snapshot.",
+        "fallbackPolicy": "Production fallback behavior is part of the evaluated API configuration; exact fallback share not provided on this model page."
+      }
+    },
+    {
+      "id": "aa-ii-v43-opus5-xhigh-2026-09-12",
+      "benchmarkTypeId": "artificial-analysis-intelligence-index-v4.3",
+      "modelId": "claude-opus-5",
+      "reasoningEffort": "xHigh",
+      "score": 50,
+      "secondaryMetrics": {
+        "costPerTaskUsd": 4.88
+      },
+      "publishedAt": "2026-09-12",
+      "retrievedAt": "2026-09-12",
+      "sourceUrl": "https://artificialanalysis.ai/models/claude-opus-5-xhigh",
+      "retrievalMethod": "manual",
+      "evidenceExcerpt": "Current AA v4.3 snapshot: Opus 5 xHigh scores 50 index points at USD 4.88 per weighted index task. Cost is specific to this suite and cannot be compared directly with an unrelated coding benchmark.",
+      "confidence": "thirdParty",
+      "context": {
+        "observedAt": "2026-09-12",
+        "sourceKind": "independentEvaluator",
+        "sourcePublisher": "Artificial Analysis",
+        "runnerOrganization": "Artificial Analysis",
+        "dateBasis": "firstObservedPublicSnapshot",
+        "harness": "Artificial Analysis Intelligence Index evaluation harnesses",
+        "sampleNotes": "Composite Intelligence Index v4.3; index points are not percent accuracy and are not interchangeable with older index versions.",
+        "costBasis": "Artificial Analysis weighted cost per Intelligence Index v4.3 task at this snapshot.",
+        "fallbackPolicy": "Production fallback behavior is part of the evaluated API configuration; exact fallback share not provided on this model page."
+      }
+    },
+    {
+      "id": "aa-ii-v43-opus5-max-2026-09-12",
+      "benchmarkTypeId": "artificial-analysis-intelligence-index-v4.3",
+      "modelId": "claude-opus-5",
+      "reasoningEffort": "max",
+      "score": 51,
+      "secondaryMetrics": {
+        "costPerTaskUsd": 5.86
+      },
+      "publishedAt": "2026-09-12",
+      "retrievedAt": "2026-09-12",
+      "sourceUrl": "https://artificialanalysis.ai/models/claude-opus-5",
+      "retrievalMethod": "manual",
+      "evidenceExcerpt": "Current AA v4.3 snapshot: Opus 5 max scores 51 index points at USD 5.86 per weighted index task. Cost is specific to this suite and cannot be compared directly with an unrelated coding benchmark.",
+      "confidence": "thirdParty",
+      "context": {
+        "observedAt": "2026-09-12",
+        "sourceKind": "independentEvaluator",
+        "sourcePublisher": "Artificial Analysis",
+        "runnerOrganization": "Artificial Analysis",
+        "dateBasis": "firstObservedPublicSnapshot",
+        "harness": "Artificial Analysis Intelligence Index evaluation harnesses",
+        "sampleNotes": "Composite Intelligence Index v4.3; index points are not percent accuracy and are not interchangeable with older index versions.",
+        "costBasis": "Artificial Analysis weighted cost per Intelligence Index v4.3 task at this snapshot.",
+        "fallbackPolicy": "Production fallback behavior is part of the evaluated API configuration; exact fallback share not provided on this model page."
+      }
+    },
+    {
+      "id": "aa-coding-v15-claude-opus-5-max-2026-09-09",
+      "benchmarkTypeId": "artificial-analysis-coding-agent-index-v1.5-native-agents",
+      "modelId": "claude-opus-5",
+      "reasoningEffort": "max",
+      "score": 60,
+      "publishedAt": "2026-09-09",
+      "retrievedAt": "2026-09-12",
+      "sourceUrl": "https://artificialanalysis.ai/articles/benchmarking-gpt-6-astra",
+      "retrievalMethod": "manual",
+      "evidenceExcerpt": "Artificial Analysis September 9 comparison: 60 Coding Agent Index points using Claude Code at max. Version 1.5 has 303 distinct tasks and 909 attempts across three equally weighted benchmark components.",
+      "confidence": "thirdParty",
+      "context": {
+        "observedAt": "2026-09-12",
+        "sourceKind": "independentEvaluator",
+        "sourcePublisher": "Artificial Analysis",
+        "runnerOrganization": "Artificial Analysis",
+        "dateBasis": "publishedDate",
+        "harness": "Claude Code",
+        "taskCount": 303,
+        "trialCount": 909,
+        "attemptsPerTask": 3,
+        "sampleNotes": "Scores are equal-weight component aggregates, not 909-trial pooled accuracy. Native-agent versions are not supplied in the article. No new composite was calculated here.",
+        "additionalSourceUrls": [
+          "https://artificialanalysis.ai/methodology/coding-agents-benchmarking/"
+        ]
+      }
+    },
+    {
+      "id": "aa-coding-v15-claude-fable-5-1-max-2026-09-09",
+      "benchmarkTypeId": "artificial-analysis-coding-agent-index-v1.5-native-agents",
+      "modelId": "claude-fable-5-1",
+      "reasoningEffort": "max",
+      "score": 62,
+      "publishedAt": "2026-09-09",
+      "retrievedAt": "2026-09-12",
+      "sourceUrl": "https://artificialanalysis.ai/articles/benchmarking-gpt-6-astra",
+      "retrievalMethod": "manual",
+      "evidenceExcerpt": "Artificial Analysis September 9 comparison: 62 Coding Agent Index points using Claude Code at max. Version 1.5 has 303 distinct tasks and 909 attempts across three equally weighted benchmark components.",
+      "confidence": "thirdParty",
+      "context": {
+        "observedAt": "2026-09-12",
+        "sourceKind": "independentEvaluator",
+        "sourcePublisher": "Artificial Analysis",
+        "runnerOrganization": "Artificial Analysis",
+        "dateBasis": "publishedDate",
+        "harness": "Claude Code",
+        "taskCount": 303,
+        "trialCount": 909,
+        "attemptsPerTask": 3,
+        "sampleNotes": "Scores are equal-weight component aggregates, not 909-trial pooled accuracy. Native-agent versions are not supplied in the article. No new composite was calculated here.",
+        "additionalSourceUrls": [
+          "https://artificialanalysis.ai/methodology/coding-agents-benchmarking/"
+        ],
+        "fallbackPolicy": "max with default production fallback enabled"
+      }
+    },
+    {
+      "id": "aa-coding-v15-gpt-6-astra-max-2026-09-09",
+      "benchmarkTypeId": "artificial-analysis-coding-agent-index-v1.5-native-agents",
+      "modelId": "gpt-6-astra",
+      "reasoningEffort": "max",
+      "score": 62,
+      "secondaryMetrics": {
+        "costPerTaskUsd": 7.09
+      },
+      "publishedAt": "2026-09-09",
+      "retrievedAt": "2026-09-12",
+      "sourceUrl": "https://artificialanalysis.ai/articles/benchmarking-gpt-6-astra",
+      "retrievalMethod": "manual",
+      "evidenceExcerpt": "Artificial Analysis September 9 comparison: 62 Coding Agent Index points using Codex at max. Version 1.5 has 303 distinct tasks and 909 attempts across three equally weighted benchmark components.",
+      "confidence": "thirdParty",
+      "context": {
+        "observedAt": "2026-09-12",
+        "sourceKind": "independentEvaluator",
+        "sourcePublisher": "Artificial Analysis",
+        "runnerOrganization": "Artificial Analysis",
+        "dateBasis": "publishedDate",
+        "harness": "Codex",
+        "taskCount": 303,
+        "trialCount": 909,
+        "attemptsPerTask": 3,
+        "sampleNotes": "Scores are equal-weight component aggregates, not 909-trial pooled accuracy. Native-agent versions are not supplied in the article. No new composite was calculated here.",
+        "additionalSourceUrls": [
+          "https://artificialanalysis.ai/methodology/coding-agents-benchmarking/"
+        ]
+      }
+    },
+    {
+      "id": "aa-coding-v15-gpt-5.6-sol-max-2026-09-09",
+      "benchmarkTypeId": "artificial-analysis-coding-agent-index-v1.5-native-agents",
+      "modelId": "gpt-5.6-sol",
+      "reasoningEffort": "max",
+      "score": 55,
+      "publishedAt": "2026-09-09",
+      "retrievedAt": "2026-09-12",
+      "sourceUrl": "https://artificialanalysis.ai/articles/benchmarking-gpt-6-astra",
+      "retrievalMethod": "manual",
+      "evidenceExcerpt": "Artificial Analysis September 9 comparison: 55 Coding Agent Index points using Codex at max. Version 1.5 has 303 distinct tasks and 909 attempts across three equally weighted benchmark components.",
+      "confidence": "thirdParty",
+      "context": {
+        "observedAt": "2026-09-12",
+        "sourceKind": "independentEvaluator",
+        "sourcePublisher": "Artificial Analysis",
+        "runnerOrganization": "Artificial Analysis",
+        "dateBasis": "publishedDate",
+        "harness": "Codex",
+        "taskCount": 303,
+        "trialCount": 909,
+        "attemptsPerTask": 3,
+        "sampleNotes": "Scores are equal-weight component aggregates, not 909-trial pooled accuracy. Native-agent versions are not supplied in the article. No new composite was calculated here.",
+        "additionalSourceUrls": [
+          "https://artificialanalysis.ai/methodology/coding-agents-benchmarking/"
+        ]
+      }
+    },
+    {
+      "id": "scale-qna-claude-opus-5-xhigh-2026-09-12",
+      "benchmarkTypeId": "swe-atlas-qna-scale-native-agents-2026-09-12",
+      "modelId": "claude-opus-5",
+      "reasoningEffort": "xHigh",
+      "score": 63.17,
+      "publishedAt": "2026-09-12",
+      "retrievedAt": "2026-09-12",
+      "sourceUrl": "https://labs.scale.com/leaderboard/sweatlas-qna",
+      "retrievalMethod": "manual",
+      "evidenceExcerpt": "Scale leaderboard snapshot: 63.17% resolve rate with reported +/-5.01 percentage points at xHigh. 124 tasks from 11 production repositories. All rubric criteria must pass, with Opus 4.5 as judge. Sample count is tasks; total trials are not asserted from another evaluator methodology.",
+      "confidence": "thirdParty",
+      "context": {
+        "observedAt": "2026-09-12",
+        "sourceKind": "benchmarkOwner",
+        "sourcePublisher": "Scale AI",
+        "runnerOrganization": "Scale AI",
+        "dateBasis": "firstObservedPublicSnapshot",
+        "sampleNotes": "Current leaderboard snapshot; exact row publication date and harness version are not supplied. Error bars are reproduced in percentage points; the confidence level was not established. Native Claude Code and Codex runs differ in harness. Overlapping intervals do not establish a clear winner.",
+        "harness": "Claude Code",
+        "taskCount": 124,
+        "confidenceIntervalHalfWidth": 5.01
+      }
+    },
+    {
+      "id": "scale-qna-claude-fable-5-1-xhigh-2026-09-12",
+      "benchmarkTypeId": "swe-atlas-qna-scale-native-agents-2026-09-12",
+      "modelId": "claude-fable-5-1",
+      "reasoningEffort": "xHigh",
+      "score": 59.95,
+      "publishedAt": "2026-09-12",
+      "retrievedAt": "2026-09-12",
+      "sourceUrl": "https://labs.scale.com/leaderboard/sweatlas-qna",
+      "retrievalMethod": "manual",
+      "evidenceExcerpt": "Scale leaderboard snapshot: 59.95% resolve rate with reported +/-4.85 percentage points at xHigh. 124 tasks from 11 production repositories. All rubric criteria must pass, with Opus 4.5 as judge. Sample count is tasks; total trials are not asserted from another evaluator methodology.",
+      "confidence": "thirdParty",
+      "context": {
+        "observedAt": "2026-09-12",
+        "sourceKind": "benchmarkOwner",
+        "sourcePublisher": "Scale AI",
+        "runnerOrganization": "Scale AI",
+        "dateBasis": "firstObservedPublicSnapshot",
+        "sampleNotes": "Current leaderboard snapshot; exact row publication date and harness version are not supplied. Error bars are reproduced in percentage points; the confidence level was not established. Native Claude Code and Codex runs differ in harness. Overlapping intervals do not establish a clear winner.",
+        "harness": "Claude Code",
+        "taskCount": 124,
+        "confidenceIntervalHalfWidth": 4.85
+      }
+    },
+    {
+      "id": "scale-qna-gpt-6-astra-xhigh-2026-09-12",
+      "benchmarkTypeId": "swe-atlas-qna-scale-native-agents-2026-09-12",
+      "modelId": "gpt-6-astra",
+      "reasoningEffort": "xHigh",
+      "score": 59.14,
+      "publishedAt": "2026-09-12",
+      "retrievedAt": "2026-09-12",
+      "sourceUrl": "https://labs.scale.com/leaderboard/sweatlas-qna",
+      "retrievalMethod": "manual",
+      "evidenceExcerpt": "Scale leaderboard snapshot: 59.14% resolve rate with reported +/-4.88 percentage points at xHigh. 124 tasks from 11 production repositories. All rubric criteria must pass, with Opus 4.5 as judge. Sample count is tasks; total trials are not asserted from another evaluator methodology.",
+      "confidence": "thirdParty",
+      "context": {
+        "observedAt": "2026-09-12",
+        "sourceKind": "benchmarkOwner",
+        "sourcePublisher": "Scale AI",
+        "runnerOrganization": "Scale AI",
+        "dateBasis": "firstObservedPublicSnapshot",
+        "sampleNotes": "Current leaderboard snapshot; exact row publication date and harness version are not supplied. Error bars are reproduced in percentage points; the confidence level was not established. Native Claude Code and Codex runs differ in harness. Overlapping intervals do not establish a clear winner.",
+        "harness": "Codex",
+        "taskCount": 124,
+        "confidenceIntervalHalfWidth": 4.88
+      }
+    },
+    {
+      "id": "scale-test-writing-claude-fable-5-1-xhigh-2026-09-12",
+      "benchmarkTypeId": "swe-atlas-test-writing-scale-native-agents-2026-09-12",
+      "modelId": "claude-fable-5-1",
+      "reasoningEffort": "xHigh",
+      "score": 67.04,
+      "publishedAt": "2026-09-12",
+      "retrievedAt": "2026-09-12",
+      "sourceUrl": "https://labs.scale.com/leaderboard/sweatlas-tw",
+      "retrievalMethod": "manual",
+      "evidenceExcerpt": "Scale leaderboard snapshot: 67.04% resolve rate with reported +/-5.33 percentage points at xHigh. 90 tasks, three trials per task. Manifest, mutation-test and rubric checks determine resolution; Opus 4.5 judges rubric checks. The page records a July 28 dataset/harness update, not publication of September model rows.",
+      "confidence": "thirdParty",
+      "context": {
+        "observedAt": "2026-09-12",
+        "sourceKind": "benchmarkOwner",
+        "sourcePublisher": "Scale AI",
+        "runnerOrganization": "Scale AI",
+        "dateBasis": "firstObservedPublicSnapshot",
+        "sampleNotes": "Current leaderboard snapshot; exact row publication date and harness version are not supplied. Error bars are reproduced in percentage points; the confidence level was not established. Native Claude Code and Codex runs differ in harness. Overlapping intervals do not establish a clear winner.",
+        "harness": "Claude Code",
+        "taskCount": 90,
+        "confidenceIntervalHalfWidth": 5.33,
+        "attemptsPerTask": 3,
+        "trialCount": 270
+      }
+    },
+    {
+      "id": "scale-test-writing-claude-opus-5-xhigh-2026-09-12",
+      "benchmarkTypeId": "swe-atlas-test-writing-scale-native-agents-2026-09-12",
+      "modelId": "claude-opus-5",
+      "reasoningEffort": "xHigh",
+      "score": 62.22,
+      "publishedAt": "2026-09-12",
+      "retrievedAt": "2026-09-12",
+      "sourceUrl": "https://labs.scale.com/leaderboard/sweatlas-tw",
+      "retrievalMethod": "manual",
+      "evidenceExcerpt": "Scale leaderboard snapshot: 62.22% resolve rate with reported +/-5.58 percentage points at xHigh. 90 tasks, three trials per task. Manifest, mutation-test and rubric checks determine resolution; Opus 4.5 judges rubric checks. The page records a July 28 dataset/harness update, not publication of September model rows.",
+      "confidence": "thirdParty",
+      "context": {
+        "observedAt": "2026-09-12",
+        "sourceKind": "benchmarkOwner",
+        "sourcePublisher": "Scale AI",
+        "runnerOrganization": "Scale AI",
+        "dateBasis": "firstObservedPublicSnapshot",
+        "sampleNotes": "Current leaderboard snapshot; exact row publication date and harness version are not supplied. Error bars are reproduced in percentage points; the confidence level was not established. Native Claude Code and Codex runs differ in harness. Overlapping intervals do not establish a clear winner.",
+        "harness": "Claude Code",
+        "taskCount": 90,
+        "confidenceIntervalHalfWidth": 5.58,
+        "attemptsPerTask": 3,
+        "trialCount": 270
+      }
+    },
+    {
+      "id": "scale-test-writing-gpt-6-astra-xhigh-2026-09-12",
+      "benchmarkTypeId": "swe-atlas-test-writing-scale-native-agents-2026-09-12",
+      "modelId": "gpt-6-astra",
+      "reasoningEffort": "xHigh",
+      "score": 50.74,
+      "publishedAt": "2026-09-12",
+      "retrievedAt": "2026-09-12",
+      "sourceUrl": "https://labs.scale.com/leaderboard/sweatlas-tw",
+      "retrievalMethod": "manual",
+      "evidenceExcerpt": "Scale leaderboard snapshot: 50.74% resolve rate with reported +/-5.91 percentage points at xHigh. 90 tasks, three trials per task. Manifest, mutation-test and rubric checks determine resolution; Opus 4.5 judges rubric checks. The page records a July 28 dataset/harness update, not publication of September model rows.",
+      "confidence": "thirdParty",
+      "context": {
+        "observedAt": "2026-09-12",
+        "sourceKind": "benchmarkOwner",
+        "sourcePublisher": "Scale AI",
+        "runnerOrganization": "Scale AI",
+        "dateBasis": "firstObservedPublicSnapshot",
+        "sampleNotes": "Current leaderboard snapshot; exact row publication date and harness version are not supplied. Error bars are reproduced in percentage points; the confidence level was not established. Native Claude Code and Codex runs differ in harness. Overlapping intervals do not establish a clear winner.",
+        "harness": "Codex",
+        "taskCount": 90,
+        "confidenceIntervalHalfWidth": 5.91,
+        "attemptsPerTask": 3,
+        "trialCount": 270
+      }
+    },
+    {
+      "id": "scale-refactoring-gpt-6-astra-xhigh-2026-09-12",
+      "benchmarkTypeId": "swe-atlas-refactoring-scale-native-agents-2026-09-12",
+      "modelId": "gpt-6-astra",
+      "reasoningEffort": "xHigh",
+      "score": 59.05,
+      "publishedAt": "2026-09-12",
+      "retrievedAt": "2026-09-12",
+      "sourceUrl": "https://labs.scale.com/leaderboard/sweatlas-refactoring",
+      "retrievalMethod": "manual",
+      "evidenceExcerpt": "Scale leaderboard snapshot: 59.05% resolve rate with reported +/-6.43 percentage points at xHigh. 70 tasks from 10 production repositories. Existing tests and all required rubrics must pass; Opus 4.5 judges rubric checks. Total attempts and CI level not established. No Opus 5 result was present.",
+      "confidence": "thirdParty",
+      "context": {
+        "observedAt": "2026-09-12",
+        "sourceKind": "benchmarkOwner",
+        "sourcePublisher": "Scale AI",
+        "runnerOrganization": "Scale AI",
+        "dateBasis": "firstObservedPublicSnapshot",
+        "sampleNotes": "Current leaderboard snapshot; exact row publication date and harness version are not supplied. Error bars are reproduced in percentage points; the confidence level was not established. Native Claude Code and Codex runs differ in harness. Overlapping intervals do not establish a clear winner.",
+        "harness": "Codex",
+        "taskCount": 70,
+        "confidenceIntervalHalfWidth": 6.43
+      }
+    },
+    {
+      "id": "scale-refactoring-claude-fable-5-1-xhigh-2026-09-12",
+      "benchmarkTypeId": "swe-atlas-refactoring-scale-native-agents-2026-09-12",
+      "modelId": "claude-fable-5-1",
+      "reasoningEffort": "xHigh",
+      "score": 56.67,
+      "publishedAt": "2026-09-12",
+      "retrievedAt": "2026-09-12",
+      "sourceUrl": "https://labs.scale.com/leaderboard/sweatlas-refactoring",
+      "retrievalMethod": "manual",
+      "evidenceExcerpt": "Scale leaderboard snapshot: 56.67% resolve rate with reported +/-6.52 percentage points at xHigh. 70 tasks from 10 production repositories. Existing tests and all required rubrics must pass; Opus 4.5 judges rubric checks. Total attempts and CI level not established. No Opus 5 result was present.",
+      "confidence": "thirdParty",
+      "context": {
+        "observedAt": "2026-09-12",
+        "sourceKind": "benchmarkOwner",
+        "sourcePublisher": "Scale AI",
+        "runnerOrganization": "Scale AI",
+        "dateBasis": "firstObservedPublicSnapshot",
+        "sampleNotes": "Current leaderboard snapshot; exact row publication date and harness version are not supplied. Error bars are reproduced in percentage points; the confidence level was not established. Native Claude Code and Codex runs differ in harness. Overlapping intervals do not establish a clear winner.",
+        "harness": "Claude Code",
+        "taskCount": 70,
+        "confidenceIntervalHalfWidth": 6.52
+      }
+    },
+    {
+      "id": "tb21-aa-claude-opus-5-max-2026-07-24",
+      "benchmarkTypeId": "terminal-bench-v2.1-aa-intelligence-harness",
+      "modelId": "claude-opus-5",
+      "reasoningEffort": "max",
+      "score": 89,
+      "publishedAt": "2026-07-24",
+      "retrievedAt": "2026-09-12",
+      "sourceUrl": "https://artificialanalysis.ai/articles/opus-5",
+      "retrievalMethod": "manual",
+      "evidenceExcerpt": "Dated Artificial Analysis launch assessment reports 89% on Terminal-Bench 2.1 at max. This is an older suite and evaluator run; it must not be merged with TB4 or the official native-agent leaderboard.",
+      "confidence": "thirdParty",
+      "context": {
+        "observedAt": "2026-09-12",
+        "sourceKind": "independentEvaluator",
+        "sourcePublisher": "Artificial Analysis",
+        "runnerOrganization": "Artificial Analysis",
+        "dateBasis": "publishedDate",
+        "harness": "Artificial Analysis evaluation harness; exact historical configuration unspecified",
+        "taskCount": 89,
+        "fallbackPolicy": "Production fallback enabled in the launch evaluation; exact per-benchmark contribution unspecified.",
+        "sampleNotes": "Independent pre-release evaluation in collaboration with Anthropic. Article does not give exact trial count or error bars for this result."
+      }
+    },
+    {
+      "id": "tb21-aa-claude-fable-5-1-max-2026-09-01",
+      "benchmarkTypeId": "terminal-bench-v2.1-aa-intelligence-harness",
+      "modelId": "claude-fable-5-1",
+      "reasoningEffort": "max",
+      "score": 91.4,
+      "publishedAt": "2026-09-01",
+      "retrievedAt": "2026-09-12",
+      "sourceUrl": "https://artificialanalysis.ai/articles/claude-fable-5-1",
+      "retrievalMethod": "manual",
+      "evidenceExcerpt": "Dated Artificial Analysis launch assessment reports 91.4% on Terminal-Bench 2.1 at max. This is an older suite and evaluator run; it must not be merged with TB4 or the official native-agent leaderboard.",
+      "confidence": "thirdParty",
+      "context": {
+        "observedAt": "2026-09-12",
+        "sourceKind": "independentEvaluator",
+        "sourcePublisher": "Artificial Analysis",
+        "runnerOrganization": "Artificial Analysis",
+        "dateBasis": "publishedDate",
+        "harness": "Artificial Analysis evaluation harness; exact historical configuration unspecified",
+        "taskCount": 89,
+        "fallbackPolicy": "Production fallback enabled in the launch evaluation; exact per-benchmark contribution unspecified.",
+        "sampleNotes": "Independent pre-release evaluation in collaboration with Anthropic. Article does not give exact trial count or error bars for this result."
+      }
+    },
+    {
+      "id": "coderabbit-astra-2026-09-04-overall-coverage-gpt-6-astra",
+      "benchmarkTypeId": "coderabbit-astra-2026-09-04-overall-coverage",
+      "modelId": "gpt-6-astra",
+      "reasoningEffort": "unspecified",
+      "score": 61.3,
+      "publishedAt": "2026-09-04",
+      "retrievedAt": "2026-09-12",
+      "sourceUrl": "https://www.coderabbit.ai/blog/gpt-6-astra-code-review-evaluation",
+      "retrievalMethod": "manual",
+      "evidenceExcerpt": "overall actionable bug coverage: 61.3% in CodeRabbit's September 4 evaluation. Percentage of labeled bugs surfaced through actionable findings; false-positive/comment precision is not reported.",
+      "confidence": "thirdParty",
+      "context": {
+        "sourceKind": "benchmarkOwner",
+        "runnerOrganization": "CodeRabbit",
+        "dateBasis": "publishedDate",
+        "observedAt": "2026-09-12",
+        "sourcePublisher": "CodeRabbit",
+        "harness": "CodeRabbit internal review pipeline / September 4 evaluation / overall",
+        "sampleNotes": "PR count, known-issue count, repeat count, reasoning effort, judge identity and exact pipeline version were not published. Values transcribed from the labeled chart; compare only within this protocol and subset."
+      }
+    },
+    {
+      "id": "coderabbit-astra-2026-09-04-overall-coverage-gpt-5.6-sol",
+      "benchmarkTypeId": "coderabbit-astra-2026-09-04-overall-coverage",
+      "modelId": "gpt-5.6-sol",
+      "reasoningEffort": "unspecified",
+      "score": 59,
+      "publishedAt": "2026-09-04",
+      "retrievedAt": "2026-09-12",
+      "sourceUrl": "https://www.coderabbit.ai/blog/gpt-6-astra-code-review-evaluation",
+      "retrievalMethod": "manual",
+      "evidenceExcerpt": "overall actionable bug coverage: 59% in CodeRabbit's September 4 evaluation. Percentage of labeled bugs surfaced through actionable findings; false-positive/comment precision is not reported.",
+      "confidence": "thirdParty",
+      "context": {
+        "sourceKind": "benchmarkOwner",
+        "runnerOrganization": "CodeRabbit",
+        "dateBasis": "publishedDate",
+        "observedAt": "2026-09-12",
+        "sourcePublisher": "CodeRabbit",
+        "harness": "CodeRabbit internal review pipeline / September 4 evaluation / overall",
+        "sampleNotes": "PR count, known-issue count, repeat count, reasoning effort, judge identity and exact pipeline version were not published. Values transcribed from the labeled chart; compare only within this protocol and subset."
+      }
+    },
+    {
+      "id": "coderabbit-astra-2026-09-04-overall-coverage-claude-opus-5",
+      "benchmarkTypeId": "coderabbit-astra-2026-09-04-overall-coverage",
+      "modelId": "claude-opus-5",
+      "reasoningEffort": "unspecified",
+      "score": 50.2,
+      "publishedAt": "2026-09-04",
+      "retrievedAt": "2026-09-12",
+      "sourceUrl": "https://www.coderabbit.ai/blog/gpt-6-astra-code-review-evaluation",
+      "retrievalMethod": "manual",
+      "evidenceExcerpt": "overall actionable bug coverage: 50.2% in CodeRabbit's September 4 evaluation. Percentage of labeled bugs surfaced through actionable findings; false-positive/comment precision is not reported.",
+      "confidence": "thirdParty",
+      "context": {
+        "sourceKind": "benchmarkOwner",
+        "runnerOrganization": "CodeRabbit",
+        "dateBasis": "publishedDate",
+        "observedAt": "2026-09-12",
+        "sourcePublisher": "CodeRabbit",
+        "harness": "CodeRabbit internal review pipeline / September 4 evaluation / overall",
+        "sampleNotes": "PR count, known-issue count, repeat count, reasoning effort, judge identity and exact pipeline version were not published. Values transcribed from the labeled chart; compare only within this protocol and subset."
+      }
+    },
+    {
+      "id": "coderabbit-astra-2026-09-04-cross-file-coverage-gpt-6-astra",
+      "benchmarkTypeId": "coderabbit-astra-2026-09-04-cross-file-coverage",
+      "modelId": "gpt-6-astra",
+      "reasoningEffort": "unspecified",
+      "score": 57.1,
+      "publishedAt": "2026-09-04",
+      "retrievedAt": "2026-09-12",
+      "sourceUrl": "https://www.coderabbit.ai/blog/gpt-6-astra-code-review-evaluation",
+      "retrievalMethod": "manual",
+      "evidenceExcerpt": "cross-file actionable bug coverage: 57.1% in CodeRabbit's September 4 evaluation. Percentage of labeled bugs surfaced through actionable findings; false-positive/comment precision is not reported.",
+      "confidence": "thirdParty",
+      "context": {
+        "sourceKind": "benchmarkOwner",
+        "runnerOrganization": "CodeRabbit",
+        "dateBasis": "publishedDate",
+        "observedAt": "2026-09-12",
+        "sourcePublisher": "CodeRabbit",
+        "harness": "CodeRabbit internal review pipeline / September 4 evaluation / cross-file",
+        "sampleNotes": "PR count, known-issue count, repeat count, reasoning effort, judge identity and exact pipeline version were not published. Values transcribed from the labeled chart; compare only within this protocol and subset."
+      }
+    },
+    {
+      "id": "coderabbit-astra-2026-09-04-cross-file-coverage-gpt-5.6-sol",
+      "benchmarkTypeId": "coderabbit-astra-2026-09-04-cross-file-coverage",
+      "modelId": "gpt-5.6-sol",
+      "reasoningEffort": "unspecified",
+      "score": 47.6,
+      "publishedAt": "2026-09-04",
+      "retrievedAt": "2026-09-12",
+      "sourceUrl": "https://www.coderabbit.ai/blog/gpt-6-astra-code-review-evaluation",
+      "retrievalMethod": "manual",
+      "evidenceExcerpt": "cross-file actionable bug coverage: 47.6% in CodeRabbit's September 4 evaluation. Percentage of labeled bugs surfaced through actionable findings; false-positive/comment precision is not reported.",
+      "confidence": "thirdParty",
+      "context": {
+        "sourceKind": "benchmarkOwner",
+        "runnerOrganization": "CodeRabbit",
+        "dateBasis": "publishedDate",
+        "observedAt": "2026-09-12",
+        "sourcePublisher": "CodeRabbit",
+        "harness": "CodeRabbit internal review pipeline / September 4 evaluation / cross-file",
+        "sampleNotes": "PR count, known-issue count, repeat count, reasoning effort, judge identity and exact pipeline version were not published. Values transcribed from the labeled chart; compare only within this protocol and subset."
+      }
+    },
+    {
+      "id": "coderabbit-astra-2026-09-04-cross-file-coverage-claude-opus-5",
+      "benchmarkTypeId": "coderabbit-astra-2026-09-04-cross-file-coverage",
+      "modelId": "claude-opus-5",
+      "reasoningEffort": "unspecified",
+      "score": 42.9,
+      "publishedAt": "2026-09-04",
+      "retrievedAt": "2026-09-12",
+      "sourceUrl": "https://www.coderabbit.ai/blog/gpt-6-astra-code-review-evaluation",
+      "retrievalMethod": "manual",
+      "evidenceExcerpt": "cross-file actionable bug coverage: 42.9% in CodeRabbit's September 4 evaluation. Percentage of labeled bugs surfaced through actionable findings; false-positive/comment precision is not reported.",
+      "confidence": "thirdParty",
+      "context": {
+        "sourceKind": "benchmarkOwner",
+        "runnerOrganization": "CodeRabbit",
+        "dateBasis": "publishedDate",
+        "observedAt": "2026-09-12",
+        "sourcePublisher": "CodeRabbit",
+        "harness": "CodeRabbit internal review pipeline / September 4 evaluation / cross-file",
+        "sampleNotes": "PR count, known-issue count, repeat count, reasoning effort, judge identity and exact pipeline version were not published. Values transcribed from the labeled chart; compare only within this protocol and subset."
+      }
+    },
+    {
+      "id": "coderabbit-opus5-2026-07-24-senior-actionable-coverage-claude-opus-5-high",
+      "benchmarkTypeId": "coderabbit-opus5-2026-07-24-senior-actionable-coverage",
+      "modelId": "claude-opus-5",
+      "reasoningEffort": "high",
+      "score": 55.6,
+      "publishedAt": "2026-07-24",
+      "retrievedAt": "2026-09-12",
+      "sourceUrl": "https://www.coderabbit.ai/blog/opus-5-model-review",
+      "retrievalMethod": "manual",
+      "evidenceExcerpt": "Share of 96 known error patterns caught by an actionable comment; averaged across three repeats. Senior high: 55.6%. Three-run average over 96 error patterns.",
+      "confidence": "thirdParty",
+      "context": {
+        "sourceKind": "benchmarkOwner",
+        "runnerOrganization": "CodeRabbit",
+        "dateBasis": "publishedDate",
+        "observedAt": "2026-09-12",
+        "sourcePublisher": "CodeRabbit",
+        "harness": "CodeRabbit senior-reviewer profile / verification, deduplication and assertive filtering",
+        "sampleNotes": "96 evaluation patterns; three complete configuration repeats. PR count and exact judge/pipeline revision not published. 176 actionable comments and 91 nitpicks are average output volumes, not confirmed unique defects.",
+        "additionalSourceUrls": [
+          "https://www.coderabbit.ai/content/assets/opus-5-results-table.png"
+        ]
+      }
+    },
+    {
+      "id": "coderabbit-opus5-2026-07-24-senior-actionable-coverage-claude-opus-5-xhigh",
+      "benchmarkTypeId": "coderabbit-opus5-2026-07-24-senior-actionable-coverage",
+      "modelId": "claude-opus-5",
+      "reasoningEffort": "xHigh",
+      "score": 55.2,
+      "publishedAt": "2026-07-24",
+      "retrievedAt": "2026-09-12",
+      "sourceUrl": "https://www.coderabbit.ai/blog/opus-5-model-review",
+      "retrievalMethod": "manual",
+      "evidenceExcerpt": "Share of 96 known error patterns caught by an actionable comment; averaged across three repeats. Senior xHigh: 55.2%. Three-run average over 96 error patterns.",
+      "confidence": "thirdParty",
+      "context": {
+        "sourceKind": "benchmarkOwner",
+        "runnerOrganization": "CodeRabbit",
+        "dateBasis": "publishedDate",
+        "observedAt": "2026-09-12",
+        "sourcePublisher": "CodeRabbit",
+        "harness": "CodeRabbit senior-reviewer profile / verification, deduplication and assertive filtering",
+        "sampleNotes": "96 evaluation patterns; three complete configuration repeats. PR count and exact judge/pipeline revision not published. 166 actionable comments and 92 nitpicks are average output volumes, not confirmed unique defects.",
+        "additionalSourceUrls": [
+          "https://www.coderabbit.ai/content/assets/opus-5-results-table.png"
+        ]
+      }
+    },
+    {
+      "id": "coderabbit-opus5-2026-07-24-senior-full-stream-coverage-claude-opus-5-high",
+      "benchmarkTypeId": "coderabbit-opus5-2026-07-24-senior-full-stream-coverage",
+      "modelId": "claude-opus-5",
+      "reasoningEffort": "high",
+      "score": 62.8,
+      "publishedAt": "2026-07-24",
+      "retrievedAt": "2026-09-12",
+      "sourceUrl": "https://www.coderabbit.ai/blog/opus-5-model-review",
+      "retrievalMethod": "manual",
+      "evidenceExcerpt": "Share of known error patterns caught in any post-pipeline comment class, including outside-diff and low-confidence nitpicks. Senior high: 62.8%. Three-run average over 96 error patterns.",
+      "confidence": "thirdParty",
+      "context": {
+        "sourceKind": "benchmarkOwner",
+        "runnerOrganization": "CodeRabbit",
+        "dateBasis": "publishedDate",
+        "observedAt": "2026-09-12",
+        "sourcePublisher": "CodeRabbit",
+        "harness": "CodeRabbit senior-reviewer profile / verification, deduplication and assertive filtering",
+        "sampleNotes": "96 evaluation patterns; three complete configuration repeats. PR count and exact judge/pipeline revision not published. 176 actionable comments and 91 nitpicks are average output volumes, not confirmed unique defects.",
+        "additionalSourceUrls": [
+          "https://www.coderabbit.ai/content/assets/opus-5-results-table.png"
+        ]
+      }
+    },
+    {
+      "id": "coderabbit-opus5-2026-07-24-senior-full-stream-coverage-claude-opus-5-xhigh",
+      "benchmarkTypeId": "coderabbit-opus5-2026-07-24-senior-full-stream-coverage",
+      "modelId": "claude-opus-5",
+      "reasoningEffort": "xHigh",
+      "score": 60.8,
+      "publishedAt": "2026-07-24",
+      "retrievedAt": "2026-09-12",
+      "sourceUrl": "https://www.coderabbit.ai/blog/opus-5-model-review",
+      "retrievalMethod": "manual",
+      "evidenceExcerpt": "Share of known error patterns caught in any post-pipeline comment class, including outside-diff and low-confidence nitpicks. Senior xHigh: 60.8%. Three-run average over 96 error patterns.",
+      "confidence": "thirdParty",
+      "context": {
+        "sourceKind": "benchmarkOwner",
+        "runnerOrganization": "CodeRabbit",
+        "dateBasis": "publishedDate",
+        "observedAt": "2026-09-12",
+        "sourcePublisher": "CodeRabbit",
+        "harness": "CodeRabbit senior-reviewer profile / verification, deduplication and assertive filtering",
+        "sampleNotes": "96 evaluation patterns; three complete configuration repeats. PR count and exact judge/pipeline revision not published. 166 actionable comments and 92 nitpicks are average output volumes, not confirmed unique defects.",
+        "additionalSourceUrls": [
+          "https://www.coderabbit.ai/content/assets/opus-5-results-table.png"
+        ]
+      }
+    },
+    {
+      "id": "coderabbit-opus5-2026-07-24-senior-actionable-precision-claude-opus-5-high",
+      "benchmarkTypeId": "coderabbit-opus5-2026-07-24-senior-actionable-precision",
+      "modelId": "claude-opus-5",
+      "reasoningEffort": "high",
+      "score": 35.6,
+      "publishedAt": "2026-07-24",
+      "retrievedAt": "2026-09-12",
+      "sourceUrl": "https://www.coderabbit.ai/blog/opus-5-model-review",
+      "retrievalMethod": "manual",
+      "evidenceExcerpt": "Share of actionable post-pipeline comments accepted by the evaluation judge. Comment denominator differs from the known-issue coverage denominator. Senior high: 35.6%. Three-run average over 96 error patterns.",
+      "confidence": "thirdParty",
+      "context": {
+        "sourceKind": "benchmarkOwner",
+        "runnerOrganization": "CodeRabbit",
+        "dateBasis": "publishedDate",
+        "observedAt": "2026-09-12",
+        "sourcePublisher": "CodeRabbit",
+        "harness": "CodeRabbit senior-reviewer profile / verification, deduplication and assertive filtering",
+        "sampleNotes": "96 evaluation patterns; three complete configuration repeats. PR count and exact judge/pipeline revision not published. 176 actionable comments and 91 nitpicks are average output volumes, not confirmed unique defects.",
+        "additionalSourceUrls": [
+          "https://www.coderabbit.ai/content/assets/opus-5-results-table.png"
+        ]
+      }
+    },
+    {
+      "id": "coderabbit-opus5-2026-07-24-senior-actionable-precision-claude-opus-5-xhigh",
+      "benchmarkTypeId": "coderabbit-opus5-2026-07-24-senior-actionable-precision",
+      "modelId": "claude-opus-5",
+      "reasoningEffort": "xHigh",
+      "score": 39.3,
+      "publishedAt": "2026-07-24",
+      "retrievedAt": "2026-09-12",
+      "sourceUrl": "https://www.coderabbit.ai/blog/opus-5-model-review",
+      "retrievalMethod": "manual",
+      "evidenceExcerpt": "Share of actionable post-pipeline comments accepted by the evaluation judge. Comment denominator differs from the known-issue coverage denominator. Senior xHigh: 39.3%. Three-run average over 96 error patterns.",
+      "confidence": "thirdParty",
+      "context": {
+        "sourceKind": "benchmarkOwner",
+        "runnerOrganization": "CodeRabbit",
+        "dateBasis": "publishedDate",
+        "observedAt": "2026-09-12",
+        "sourcePublisher": "CodeRabbit",
+        "harness": "CodeRabbit senior-reviewer profile / verification, deduplication and assertive filtering",
+        "sampleNotes": "96 evaluation patterns; three complete configuration repeats. PR count and exact judge/pipeline revision not published. 166 actionable comments and 92 nitpicks are average output volumes, not confirmed unique defects.",
+        "additionalSourceUrls": [
+          "https://www.coderabbit.ai/content/assets/opus-5-results-table.png"
+        ]
+      }
+    },
+    {
+      "id": "coderabbit-opus5-2026-07-24-senior-full-stream-precision-claude-opus-5-high",
+      "benchmarkTypeId": "coderabbit-opus5-2026-07-24-senior-full-stream-precision",
+      "modelId": "claude-opus-5",
+      "reasoningEffort": "high",
+      "score": 27.3,
+      "publishedAt": "2026-07-24",
+      "retrievedAt": "2026-09-12",
+      "sourceUrl": "https://www.coderabbit.ai/blog/opus-5-model-review",
+      "retrievalMethod": "manual",
+      "evidenceExcerpt": "Share accepted after every scored post-pipeline comment class is included. Do not substitute actionable precision for this noisier stream. Senior high: 27.3%. Three-run average over 96 error patterns.",
+      "confidence": "thirdParty",
+      "context": {
+        "sourceKind": "benchmarkOwner",
+        "runnerOrganization": "CodeRabbit",
+        "dateBasis": "publishedDate",
+        "observedAt": "2026-09-12",
+        "sourcePublisher": "CodeRabbit",
+        "harness": "CodeRabbit senior-reviewer profile / verification, deduplication and assertive filtering",
+        "sampleNotes": "96 evaluation patterns; three complete configuration repeats. PR count and exact judge/pipeline revision not published. 176 actionable comments and 91 nitpicks are average output volumes, not confirmed unique defects.",
+        "additionalSourceUrls": [
+          "https://www.coderabbit.ai/content/assets/opus-5-results-table.png"
+        ]
+      }
+    },
+    {
+      "id": "coderabbit-opus5-2026-07-24-senior-full-stream-precision-claude-opus-5-xhigh",
+      "benchmarkTypeId": "coderabbit-opus5-2026-07-24-senior-full-stream-precision",
+      "modelId": "claude-opus-5",
+      "reasoningEffort": "xHigh",
+      "score": 28.6,
+      "publishedAt": "2026-07-24",
+      "retrievedAt": "2026-09-12",
+      "sourceUrl": "https://www.coderabbit.ai/blog/opus-5-model-review",
+      "retrievalMethod": "manual",
+      "evidenceExcerpt": "Share accepted after every scored post-pipeline comment class is included. Do not substitute actionable precision for this noisier stream. Senior xHigh: 28.6%. Three-run average over 96 error patterns.",
+      "confidence": "thirdParty",
+      "context": {
+        "sourceKind": "benchmarkOwner",
+        "runnerOrganization": "CodeRabbit",
+        "dateBasis": "publishedDate",
+        "observedAt": "2026-09-12",
+        "sourcePublisher": "CodeRabbit",
+        "harness": "CodeRabbit senior-reviewer profile / verification, deduplication and assertive filtering",
+        "sampleNotes": "96 evaluation patterns; three complete configuration repeats. PR count and exact judge/pipeline revision not published. 166 actionable comments and 92 nitpicks are average output volumes, not confirmed unique defects.",
+        "additionalSourceUrls": [
+          "https://www.coderabbit.ai/content/assets/opus-5-results-table.png"
+        ]
+      }
+    },
+    {
+      "id": "coderabbit-fable51-2026-09-01-low-recall-claude-fable-5-1",
+      "benchmarkTypeId": "coderabbit-fable51-2026-09-01-low-recall",
+      "modelId": "claude-fable-5-1",
+      "reasoningEffort": "unspecified",
+      "score": 61,
+      "secondaryMetrics": {
+        "latencyMilliseconds": 1118000
+      },
+      "publishedAt": "2026-09-01",
+      "retrievedAt": "2026-09-12",
+      "sourceUrl": "https://www.coderabbit.ai/blog/fable-5-1-model-review",
+      "retrievalMethod": "manual",
+      "evidenceExcerpt": "Share of the 105 known-issue points with at least one valid comment. Internal low setting: 61%; 45 review tasks, 105 known issues, 166 final comments, 79 separately counted nitpicks.",
+      "confidence": "thirdParty",
+      "context": {
+        "sourceKind": "benchmarkOwner",
+        "runnerOrganization": "CodeRabbit",
+        "dateBasis": "publishedDate",
+        "observedAt": "2026-09-12",
+        "sourcePublisher": "CodeRabbit",
+        "harness": "CodeRabbit September 1 review pipeline / internal low setting",
+        "taskCount": 45,
+        "sampleNotes": "Known-issue denominator 105; 64 issues found; 92 review-file model calls include retries and split-file batches. 166 final comments and 79 separate nitpicks. No reliable token totals, repeated-seed count, judge identity or exact pipeline version. Low/High do not establish provider effort enum values."
+      }
+    },
+    {
+      "id": "coderabbit-fable51-2026-09-01-low-precision-claude-fable-5-1",
+      "benchmarkTypeId": "coderabbit-fable51-2026-09-01-low-precision",
+      "modelId": "claude-fable-5-1",
+      "reasoningEffort": "unspecified",
+      "score": 37.3,
+      "secondaryMetrics": {
+        "latencyMilliseconds": 1118000
+      },
+      "publishedAt": "2026-09-01",
+      "retrievedAt": "2026-09-12",
+      "sourceUrl": "https://www.coderabbit.ai/blog/fable-5-1-model-review",
+      "retrievalMethod": "manual",
+      "evidenceExcerpt": "Share of final post-pipeline comments judged valid; not a claim about all possible code defects. Internal low setting: 37.3%; 45 review tasks, 105 known issues, 166 final comments, 79 separately counted nitpicks.",
+      "confidence": "thirdParty",
+      "context": {
+        "sourceKind": "benchmarkOwner",
+        "runnerOrganization": "CodeRabbit",
+        "dateBasis": "publishedDate",
+        "observedAt": "2026-09-12",
+        "sourcePublisher": "CodeRabbit",
+        "harness": "CodeRabbit September 1 review pipeline / internal low setting",
+        "taskCount": 45,
+        "sampleNotes": "Known-issue denominator 105; 64 issues found; 92 review-file model calls include retries and split-file batches. 166 final comments and 79 separate nitpicks. No reliable token totals, repeated-seed count, judge identity or exact pipeline version. Low/High do not establish provider effort enum values."
+      }
+    },
+    {
+      "id": "coderabbit-fable51-2026-09-01-high-recall-claude-fable-5-1",
+      "benchmarkTypeId": "coderabbit-fable51-2026-09-01-high-recall",
+      "modelId": "claude-fable-5-1",
+      "reasoningEffort": "unspecified",
+      "score": 57.1,
+      "secondaryMetrics": {
+        "latencyMilliseconds": 1296000
+      },
+      "publishedAt": "2026-09-01",
+      "retrievedAt": "2026-09-12",
+      "sourceUrl": "https://www.coderabbit.ai/blog/fable-5-1-model-review",
+      "retrievalMethod": "manual",
+      "evidenceExcerpt": "Share of the 105 known-issue points with at least one valid comment. Internal high setting: 57.1%; 45 review tasks, 105 known issues, 165 final comments, 88 separately counted nitpicks.",
+      "confidence": "thirdParty",
+      "context": {
+        "sourceKind": "benchmarkOwner",
+        "runnerOrganization": "CodeRabbit",
+        "dateBasis": "publishedDate",
+        "observedAt": "2026-09-12",
+        "sourcePublisher": "CodeRabbit",
+        "harness": "CodeRabbit September 1 review pipeline / internal high setting",
+        "taskCount": 45,
+        "sampleNotes": "Known-issue denominator 105; 92 review-file model calls include retries and split-file batches. 165 final comments and 88 separate nitpicks. No reliable token totals, repeated-seed count, judge identity or exact pipeline version. Low/High do not establish provider effort enum values."
+      }
+    },
+    {
+      "id": "coderabbit-fable51-2026-09-01-high-precision-claude-fable-5-1",
+      "benchmarkTypeId": "coderabbit-fable51-2026-09-01-high-precision",
+      "modelId": "claude-fable-5-1",
+      "reasoningEffort": "unspecified",
+      "score": 36.4,
+      "secondaryMetrics": {
+        "latencyMilliseconds": 1296000
+      },
+      "publishedAt": "2026-09-01",
+      "retrievedAt": "2026-09-12",
+      "sourceUrl": "https://www.coderabbit.ai/blog/fable-5-1-model-review",
+      "retrievalMethod": "manual",
+      "evidenceExcerpt": "Share of final post-pipeline comments judged valid; not a claim about all possible code defects. Internal high setting: 36.4%; 45 review tasks, 105 known issues, 165 final comments, 88 separately counted nitpicks.",
+      "confidence": "thirdParty",
+      "context": {
+        "sourceKind": "benchmarkOwner",
+        "runnerOrganization": "CodeRabbit",
+        "dateBasis": "publishedDate",
+        "observedAt": "2026-09-12",
+        "sourcePublisher": "CodeRabbit",
+        "harness": "CodeRabbit September 1 review pipeline / internal high setting",
+        "taskCount": 45,
+        "sampleNotes": "Known-issue denominator 105; 92 review-file model calls include retries and split-file batches. 165 final comments and 88 separate nitpicks. No reliable token totals, repeated-seed count, judge identity or exact pipeline version. Low/High do not establish provider effort enum values."
+      }
+    },
+    {
+      "id": "coderabbit-sol-2026-07-09-recall-gpt-5.6-sol",
+      "benchmarkTypeId": "coderabbit-sol-2026-07-09-recall",
+      "modelId": "gpt-5.6-sol",
+      "reasoningEffort": "unspecified",
+      "score": 69.7,
+      "publishedAt": "2026-07-09",
+      "retrievedAt": "2026-09-12",
+      "sourceUrl": "https://www.coderabbit.ai/blog/gpt-5-6-sol-and-terra-benchmark",
+      "retrievalMethod": "manual",
+      "evidenceExcerpt": "69 of 99 known issues caught actionably. Published Sol lane; 61 nitpicks are also reported. The production baseline is a separate model ensemble.",
+      "confidence": "thirdParty",
+      "context": {
+        "sourceKind": "benchmarkOwner",
+        "runnerOrganization": "CodeRabbit",
+        "dateBasis": "publishedDate",
+        "observedAt": "2026-09-12",
+        "sourcePublisher": "CodeRabbit",
+        "harness": "CodeRabbit July 9 Sol review lane",
+        "sampleNotes": "99 known error patterns; 69 actionable and 74 full-stream issue hits. PR count, repeat count, reasoning effort, exact judge/pipeline version unknown. 231 is raw comment volume, not a valid precision denominator for reconstructing true-positive counts."
+      }
+    },
+    {
+      "id": "coderabbit-sol-2026-07-09-precision-gpt-5.6-sol",
+      "benchmarkTypeId": "coderabbit-sol-2026-07-09-precision",
+      "modelId": "gpt-5.6-sol",
+      "reasoningEffort": "unspecified",
+      "score": 31.6,
+      "publishedAt": "2026-07-09",
+      "retrievedAt": "2026-09-12",
+      "sourceUrl": "https://www.coderabbit.ai/blog/gpt-5-6-sol-and-terra-benchmark",
+      "retrievalMethod": "manual",
+      "evidenceExcerpt": "Share of actionable comments correct enough to keep; the separately stated 231 comments are RAW model output before filtering. Published Sol lane; 61 nitpicks are also reported. The production baseline is a separate model ensemble.",
+      "confidence": "thirdParty",
+      "context": {
+        "sourceKind": "benchmarkOwner",
+        "runnerOrganization": "CodeRabbit",
+        "dateBasis": "publishedDate",
+        "observedAt": "2026-09-12",
+        "sourcePublisher": "CodeRabbit",
+        "harness": "CodeRabbit July 9 Sol review lane",
+        "sampleNotes": "99 known error patterns; 69 actionable and 74 full-stream issue hits. PR count, repeat count, reasoning effort, exact judge/pipeline version unknown. 231 is raw comment volume, not a valid precision denominator for reconstructing true-positive counts."
+      }
+    },
+    {
+      "id": "kodus-light-v1-vendor-default-recall-gpt-5.6-luna",
+      "benchmarkTypeId": "kodus-light-v1-vendor-default-recall",
+      "modelId": "gpt-5.6-luna",
+      "reasoningEffort": "unspecified",
+      "score": 0.29473684210526313,
+      "publishedAt": "2026-09-12",
+      "retrievedAt": "2026-09-12",
+      "sourceUrl": "https://github.com/kodustech/codereviewbench/blob/531297bf50e5f065e3888d7e07b55dcacbf8df64/scorecards/gpt-5.6-luna.json",
+      "retrievalMethod": "script",
+      "evidenceExcerpt": "Pinned light-v1 scorecard: 28/95 distinct known bugs matched; 30/52 findings classified true by Haiku 4.5, 22 classified false. These are different issue and finding denominators. Original scorecard recallMicro ratio retained.",
+      "confidence": "thirdParty",
+      "context": {
+        "sourceKind": "benchmarkOwner",
+        "runnerOrganization": "Kodus",
+        "dateBasis": "firstObservedPublicSnapshot",
+        "observedAt": "2026-09-12",
+        "sourcePublisher": "Kodus",
+        "harness": "Kodus deterministic tool replay",
+        "harnessVersion": "dev",
+        "taskCount": 30,
+        "sampleNotes": "Run 2026-08-04T19:56:24.224Z; scored 2026-08-13T23:28:51.169Z. One replay per model via codex_subscription; effortRequested is null (vendor default), not a known model effort. First observed public snapshot is September 12. 152/1160 replay tool requests were unserved; coverage is limited by the replay. Judge model claude-haiku-4-5.",
+        "additionalSourceUrls": [
+          "https://www.codereviewbench.com/"
+        ]
+      }
+    },
+    {
+      "id": "kodus-light-v1-vendor-default-precision-gpt-5.6-luna",
+      "benchmarkTypeId": "kodus-light-v1-vendor-default-precision",
+      "modelId": "gpt-5.6-luna",
+      "reasoningEffort": "unspecified",
+      "score": 0.5769230769230769,
+      "publishedAt": "2026-09-12",
+      "retrievedAt": "2026-09-12",
+      "sourceUrl": "https://github.com/kodustech/codereviewbench/blob/531297bf50e5f065e3888d7e07b55dcacbf8df64/scorecards/gpt-5.6-luna.json",
+      "retrievalMethod": "script",
+      "evidenceExcerpt": "Pinned light-v1 scorecard: 28/95 distinct known bugs matched; 30/52 findings classified true by Haiku 4.5, 22 classified false. These are different issue and finding denominators. Original scorecard precisionMicro ratio retained.",
+      "confidence": "thirdParty",
+      "context": {
+        "sourceKind": "benchmarkOwner",
+        "runnerOrganization": "Kodus",
+        "dateBasis": "firstObservedPublicSnapshot",
+        "observedAt": "2026-09-12",
+        "sourcePublisher": "Kodus",
+        "harness": "Kodus deterministic tool replay",
+        "harnessVersion": "dev",
+        "taskCount": 30,
+        "sampleNotes": "Run 2026-08-04T19:56:24.224Z; scored 2026-08-13T23:28:51.169Z. One replay per model via codex_subscription; effortRequested is null (vendor default), not a known model effort. First observed public snapshot is September 12. 152/1160 replay tool requests were unserved; coverage is limited by the replay. Judge model claude-haiku-4-5.",
+        "additionalSourceUrls": [
+          "https://www.codereviewbench.com/"
+        ]
+      }
+    },
+    {
+      "id": "kodus-light-v1-vendor-default-recall-gpt-5.6-terra",
+      "benchmarkTypeId": "kodus-light-v1-vendor-default-recall",
+      "modelId": "gpt-5.6-terra",
+      "reasoningEffort": "unspecified",
+      "score": 0.23157894736842105,
+      "publishedAt": "2026-09-12",
+      "retrievedAt": "2026-09-12",
+      "sourceUrl": "https://github.com/kodustech/codereviewbench/blob/531297bf50e5f065e3888d7e07b55dcacbf8df64/scorecards/gpt-5.6-terra.json",
+      "retrievalMethod": "script",
+      "evidenceExcerpt": "Pinned light-v1 scorecard: 22/95 distinct known bugs matched; 22/50 findings classified true by Haiku 4.5, 28 classified false. These are different issue and finding denominators. Original scorecard recallMicro ratio retained.",
+      "confidence": "thirdParty",
+      "context": {
+        "sourceKind": "benchmarkOwner",
+        "runnerOrganization": "Kodus",
+        "dateBasis": "firstObservedPublicSnapshot",
+        "observedAt": "2026-09-12",
+        "sourcePublisher": "Kodus",
+        "harness": "Kodus deterministic tool replay",
+        "harnessVersion": "dev",
+        "taskCount": 30,
+        "sampleNotes": "Run 2026-08-04T20:50:48.271Z; scored 2026-08-13T23:30:03.958Z. One replay per model via codex_subscription; effortRequested is null (vendor default), not a known model effort. First observed public snapshot is September 12. 294/1606 replay tool requests were unserved; coverage is limited by the replay. Judge model claude-haiku-4-5.",
+        "additionalSourceUrls": [
+          "https://www.codereviewbench.com/"
+        ]
+      }
+    },
+    {
+      "id": "kodus-light-v1-vendor-default-precision-gpt-5.6-terra",
+      "benchmarkTypeId": "kodus-light-v1-vendor-default-precision",
+      "modelId": "gpt-5.6-terra",
+      "reasoningEffort": "unspecified",
+      "score": 0.44,
+      "publishedAt": "2026-09-12",
+      "retrievedAt": "2026-09-12",
+      "sourceUrl": "https://github.com/kodustech/codereviewbench/blob/531297bf50e5f065e3888d7e07b55dcacbf8df64/scorecards/gpt-5.6-terra.json",
+      "retrievalMethod": "script",
+      "evidenceExcerpt": "Pinned light-v1 scorecard: 22/95 distinct known bugs matched; 22/50 findings classified true by Haiku 4.5, 28 classified false. These are different issue and finding denominators. Original scorecard precisionMicro ratio retained.",
+      "confidence": "thirdParty",
+      "context": {
+        "sourceKind": "benchmarkOwner",
+        "runnerOrganization": "Kodus",
+        "dateBasis": "firstObservedPublicSnapshot",
+        "observedAt": "2026-09-12",
+        "sourcePublisher": "Kodus",
+        "harness": "Kodus deterministic tool replay",
+        "harnessVersion": "dev",
+        "taskCount": 30,
+        "sampleNotes": "Run 2026-08-04T20:50:48.271Z; scored 2026-08-13T23:30:03.958Z. One replay per model via codex_subscription; effortRequested is null (vendor default), not a known model effort. First observed public snapshot is September 12. 294/1606 replay tool requests were unserved; coverage is limited by the replay. Judge model claude-haiku-4-5.",
+        "additionalSourceUrls": [
+          "https://www.codereviewbench.com/"
+        ]
+      }
     }
   ]
 }

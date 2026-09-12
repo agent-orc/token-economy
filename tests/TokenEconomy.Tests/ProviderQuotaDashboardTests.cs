@@ -81,7 +81,7 @@ public class ProviderQuotaDashboardTests
 
     [Theory]
     [InlineData("never-seen-model", SnapshotCostStatus.Unknown)]
-    [InlineData("gpt-5", SnapshotCostStatus.Unpriced)]
+    [InlineData("gpt-6-astra", SnapshotCostStatus.Unpriced)] // before its September API release
     public void BuildSnapshot_UnknownOrUnpricedCostIsNeverHealthy(string model, SnapshotCostStatus expected)
     {
         var row = BuildSingle(
@@ -111,7 +111,10 @@ public class ProviderQuotaDashboardTests
     {
         var row = BuildSingle(
             new("anthropic", "claude", ProviderCliAvailability.Unknown, DecisionAt.AddMinutes(-1), ["claude-sonnet-4-5"]),
-            new("anthropic", "claude", "five-hour", 10, 1_000, DecisionAt.AddMinutes(-1), DecisionAt.AddHours(2)));
+            new("anthropic", "claude", "five-hour", 10, 1_000, DecisionAt.AddMinutes(-1), DecisionAt.AddHours(2)),
+            new ModelPriceCatalog([new ModelListing { ModelId = "claude-sonnet-4-5", History = [
+                new ModelPrice { InputPerMTok = 3m, OutputPerMTok = 15m, Unconfirmed = true }
+            ] }]));
 
         Assert.Equal(SnapshotCostStatus.Unconfirmed, row.Cost.Status);
         Assert.Equal(AvailabilityWarningState.Unknown, row.WarningState);
@@ -280,7 +283,8 @@ public class ProviderQuotaDashboardTests
 
     private static ProviderAvailabilitySnapshotRow BuildSingle(
         ProviderCliObservation provider,
-        ProviderQuotaWindowObservation window) => Assert.Single(new ProviderQuotaDashboardBuilder().BuildSnapshot(
+        ProviderQuotaWindowObservation window,
+        ModelPriceCatalog? prices = null) => Assert.Single(new ProviderQuotaDashboardBuilder(prices).BuildSnapshot(
             [MeasuredRun(provider.Provider, provider.CliType, provider.ModelIds.Single(), DecisionAt.AddMinutes(-30), 100)],
             SnapshotOptions(provider, [window])).Providers);
 }

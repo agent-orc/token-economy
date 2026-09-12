@@ -113,9 +113,9 @@ public class ModelPriceCatalogTests
     [Fact]
     public void KnownButUnpriced_ResolvesToNoPriceForDate_NotZero()
     {
-        var breakdown = ModelPriceCatalog.Default.ComputeCost("gpt-5", new TokenUsage(1_000, 1_000), Now);
+        var breakdown = Custom().ComputeCost("unpriced-model", new TokenUsage(1_000, 1_000), Now);
         Assert.Equal(PriceStatus.NoPriceForDate, breakdown.Status);
-        Assert.Equal("gpt-5", breakdown.ModelId);   // model WAS found, just not priced
+        Assert.Equal("unpriced-model", breakdown.ModelId);   // model WAS found, just not priced
         Assert.False(breakdown.HasPrice);
         Assert.Null(breakdown.Total);
     }
@@ -249,19 +249,33 @@ public class ModelPriceCatalogTests
     }
 
     [Fact]
-    public void SeededSonnet5_HasIntroThenStandardPricing_AcrossTheBoundary()
+    public void Sonnet5_CancelledSeptemberIncreaseNeverBecomesAnEffectiveTariff()
     {
-        var standardFrom = new DateTime(2026, 9, 1, 0, 0, 0, DateTimeKind.Utc);
+        var cancelledBoundary = new DateTime(2026, 9, 1, 0, 0, 0, DateTimeKind.Utc);
+        var history = ModelPriceCatalog.Default.PriceDevelopment("claude-sonnet-5");
+        Assert.Contains("cancelled on 2026-08-10", Assert.Single(history).Note);
+        foreach (var at in new[] { cancelledBoundary.AddTicks(-1), cancelledBoundary, cancelledBoundary.AddDays(12) })
+        {
+            var price = ModelPriceCatalog.Default.ResolvePrice("claude-sonnet-5", at).Price!;
+            Assert.Equal((2m, 10m, 0.2m, 2.5m),
+                (price.InputPerMTok, price.OutputPerMTok, price.CacheReadPerMTok, price.CacheWritePerMTok));
+        }
+    }
 
-        // Before the boundary: introductory $2 / MTok input.
-        var intro = ModelPriceCatalog.Default.ResolvePrice("claude-sonnet-5", standardFrom.AddTicks(-1));
-        Assert.Equal(2.00m, intro.Price!.InputPerMTok);
-        Assert.Equal(10.00m, intro.Price.OutputPerMTok);
-
-        // At/after the boundary: standard $3 / MTok input.
-        var standard = ModelPriceCatalog.Default.ResolvePrice("claude-sonnet-5", standardFrom);
-        Assert.Equal(3.00m, standard.Price!.InputPerMTok);
-        Assert.Equal(15.00m, standard.Price.OutputPerMTok);
+    [Fact]
+    public void SolPriceChange_ResolvesAtAugust21_WithoutInventedFutureExpiry()
+    {
+        var changedAt = new DateTime(2026, 8, 21, 0, 0, 0, DateTimeKind.Utc);
+        var catalog = ModelPriceCatalog.Default;
+        var before = catalog.ResolvePrice(KnownModels.Gpt56Sol, changedAt.AddTicks(-1)).Price!;
+        var after = catalog.ResolvePrice(KnownModels.Gpt56Sol, changedAt).Price!;
+        Assert.Equal((5m, 30m, 0.5m, 6.25m),
+            (before.InputPerMTok, before.OutputPerMTok, before.CacheReadPerMTok, before.CacheWritePerMTok));
+        Assert.Equal((4m, 20m, 0.4m, 5m),
+            (after.InputPerMTok, after.OutputPerMTok, after.CacheReadPerMTok, after.CacheWritePerMTok));
+        Assert.Equal(changedAt.AddTicks(-1), before.ValidTo);
+        Assert.Null(after.ValidTo);
+        Assert.Equal(2, catalog.PriceDevelopment(KnownModels.Gpt56Sol).Count);
     }
 
     [Fact]
@@ -278,8 +292,13 @@ public class ModelPriceCatalogTests
     [Fact]
     public void Unconfirmed_Price_SurfacesOnBreakdown()
     {
-        // Opus 4.5 is seeded as an assumed Opus-tier rate, flagged unconfirmed.
-        var breakdown = ModelPriceCatalog.Default.ComputeCost("claude-opus-4-5", new TokenUsage(1_000_000, 0), Now);
+        // A host may supply a provisional tariff even when every default price is confirmed.
+        var catalog = new ModelPriceCatalog([
+            new ModelListing { ModelId = "provisional", History = [
+                new ModelPrice { InputPerMTok = 5m, OutputPerMTok = 25m, Unconfirmed = true }
+            ] }
+        ]);
+        var breakdown = catalog.ComputeCost("provisional", new TokenUsage(1_000_000, 0), Now);
         Assert.Equal(PriceStatus.Resolved, breakdown.Status);
         Assert.True(breakdown.Unconfirmed);
         Assert.Equal(5.00m, breakdown.Total);   // still computed, just flagged

@@ -1,0 +1,490 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Code review: findings, research and API · Token Economy</title>
+  <meta name="description" content="Compare code-review precision and recall, inspect sourced model findings, and use the Token Economy and Quality Studio APIs.">
+  <link rel="canonical" href="https://agent-orchestrator.dev/token-economy/code-review/">
+
+  <!-- Open Graph / social -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Code review: findings, research and API · Token Economy">
+  <meta property="og:description" content="Compare finding precision and recall, read model studies, and integrate review evidence with Quality Studio.">
+  <meta property="og:url" content="https://agent-orchestrator.dev/token-economy/code-review/">
+
+  <!-- Self-contained inline SVG favicon (data URI) so the page has no external requests. -->
+  <link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2064%2064'%3E%3Crect%20width='64'%20height='64'%20rx='14'%20fill='%232f6df0'/%3E%3Ctext%20x='50%25'%20y='52%25'%20font-size='38'%20font-family='monospace'%20font-weight='700'%20fill='white'%20text-anchor='middle'%20dominant-baseline='middle'%3E%C2%A2%3C/text%3E%3C/svg%3E">
+
+  <style>
+    :root {
+      --bg: #ffffff;
+      --bg-alt: #f5f7fb;
+      --panel: #ffffff;
+      --border: #e2e8f0;
+      --text: #1a2233;
+      --muted: #5a6577;
+      --accent: #2f6df0;
+      --accent-soft: #eaf1ff;
+      --code-bg: #f6f8fc;
+      --code-text: #24324a;
+      --ok: #167a4a;
+      --warn: #9a6b00;
+      /* Chart series: the four token components, in stack order. Validated
+         categorical slots (blue → orange → aqua → yellow); each adjacent pair
+         clears the colour-vision-deficiency and normal-vision separation
+         floors, so a stacked bar stays readable without relying on hue alone. */
+      --series-input: #2a78d6;
+      --series-cache-read: #eb6834;
+      --series-cache-write: #1baf7a;
+      --series-output: #eda100;
+      --token-keyword: #6f42c1;
+      --token-type: #0969da;
+      --token-string: #087f5b;
+      --token-number: #b54708;
+      --token-comment: #657187;
+      --mono: ui-monospace, "SF Mono", "Cascadia Code", "JetBrains Mono", Menlo, Consolas, monospace;
+      --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #0f1420;
+        --bg-alt: #131a29;
+        --panel: #161d2c;
+        --border: #26314a;
+        --text: #e6ebf5;
+        --muted: #98a3ba;
+        --accent: #6ea0ff;
+        --accent-soft: #16233f;
+        --code-bg: #0c111b;
+        --code-text: #d3ddef;
+        --ok: #4cc38a;
+        --warn: #e0b341;
+        /* Re-stepped for the dark panel — the same four hues, chosen for the
+           dark surface rather than an automatic lightening of the light set. */
+        --series-input: #3987e5;
+        --series-cache-read: #d95926;
+        --series-cache-write: #199e70;
+        --series-output: #c98500;
+        --token-keyword: #c9a7ff;
+        --token-type: #79b8ff;
+        --token-string: #8bd5b0;
+        --token-number: #ffab70;
+        --token-comment: #8b98ad;
+      }
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: auto; }
+    body {
+      margin: 0;
+      font-family: var(--sans);
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    code, pre, kbd { font-family: var(--mono); }
+
+    .wrap { max-width: 1040px; margin: 0 auto; padding: 0 20px; }
+
+    .brand { font-weight: 700; letter-spacing: -0.02em; font-size: 1.05rem; display: flex; align-items: center; gap: 9px; white-space: nowrap; flex-shrink: 0; }
+    .brand .mark {
+      width: 22px; height: 22px; border-radius: 6px; background: var(--accent);
+      color: #fff; display: inline-grid; place-items: center; font-family: var(--mono);
+      font-weight: 700; font-size: 0.85rem;
+    }
+    /* ---- hero ---- */
+    .hero { padding: 56px 0 40px; }
+    .eyebrow {
+      display: inline-block; font-size: 0.78rem; font-weight: 600; letter-spacing: 0.08em;
+      text-transform: uppercase; color: var(--accent);
+      background: var(--accent-soft); padding: 4px 11px; border-radius: 999px; margin-bottom: 18px;
+    }
+    .hero h1 { font-size: clamp(2.1rem, 6vw, 3.2rem); line-height: 1.08; letter-spacing: -0.03em; margin: 0 0 14px; }
+    .hero .tagline { font-size: clamp(1.1rem, 3vw, 1.4rem); color: var(--muted); margin: 0 0 8px; }
+    .hero p.lead { font-size: 1.06rem; color: var(--muted); max-width: 640px; margin: 14px 0 28px; }
+    .cta { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; }
+    .btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 10px 18px; border-radius: 9px; font-weight: 600; font-size: 0.96rem;
+      border: 1px solid var(--accent); background: var(--accent); color: #fff;
+    }
+    .btn:hover { text-decoration: none; filter: brightness(1.06); }
+    .btn.secondary { background: transparent; color: var(--accent); }
+    .install {
+      display: inline-flex; align-items: center; gap: 10px;
+      font-family: var(--mono); font-size: 0.95rem;
+      background: var(--code-bg); border: 1px solid var(--border); color: var(--code-text);
+      padding: 10px 14px; border-radius: 9px;
+    }
+    .install .prompt { color: var(--muted); user-select: none; }
+
+    /* ---- sections ---- */
+    section { padding: 46px 0; border-top: 1px solid var(--border); }
+    section h2 { font-size: 1.6rem; letter-spacing: -0.02em; margin: 0 0 6px; }
+    section .sub { color: var(--muted); margin: 0 0 26px; max-width: 680px; }
+    h3 { font-size: 1.12rem; margin: 26px 0 8px; letter-spacing: -0.01em; }
+
+    /* pillars */
+    .pillars { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+    @media (max-width: 760px) { .pillars { grid-template-columns: 1fr; } }
+    .pillar {
+      background: var(--panel); border: 1px solid var(--border); border-radius: 12px; padding: 20px;
+    }
+    .pillar h3 { margin-top: 0; }
+    .pillar .ico { font-family: var(--mono); font-weight: 700; color: var(--accent); font-size: 1.1rem; margin-bottom: 6px; }
+    .pillar p { color: var(--muted); font-size: 0.96rem; margin: 6px 0 0; }
+    .pillar-links { display: flex; flex-wrap: wrap; gap: 8px 16px; margin-top: 14px; font-size: .88rem; font-weight: 600; }
+
+    /* code */
+    pre {
+      background: var(--code-bg); border: 1px solid var(--border); border-radius: 11px;
+      padding: 16px 18px; overflow-x: auto; font-size: 0.88rem; line-height: 1.55; color: var(--code-text);
+      margin: 14px 0;
+    }
+    pre code { color: inherit; }
+    :not(pre) > code {
+      background: var(--code-bg); border: 1px solid var(--border);
+      padding: 1px 6px; border-radius: 6px; font-size: 0.86em; color: var(--code-text);
+    }
+    .cmt { color: var(--muted); }
+    .tok-keyword { color: var(--token-keyword); font-weight: 600; }
+    .tok-type { color: var(--token-type); }
+    .tok-string { color: var(--token-string); }
+    .tok-number { color: var(--token-number); }
+    .tok-comment { color: var(--token-comment); font-style: italic; }
+    .comment-note { font-size: 0.9rem; color: var(--muted); }
+
+    /* table */
+    .table-scroll { overflow-x: auto; margin: 16px 0; }
+    table { border-collapse: collapse; width: 100%; font-size: 0.92rem; min-width: 520px; }
+    th, td { text-align: left; padding: 10px 13px; border-bottom: 1px solid var(--border); }
+    th { color: var(--muted); font-weight: 600; font-size: 0.82rem; text-transform: uppercase; letter-spacing: 0.03em; }
+    td.num, th.num { text-align: right; font-family: var(--mono); }
+    tbody tr:last-child td { border-bottom: none; }
+    .matrix-table { min-width: 1280px; }
+    .matrix-table td { vertical-align: top; }
+    .matrix-table .model-id { font-family: var(--mono); font-weight: 600; white-space: nowrap; }
+    .matrix-table .efforts { font-family: var(--mono); font-size: .82rem; }
+    .price-cell { min-width: 184px; font-variant-numeric: tabular-nums; }
+    .price-line { display: flex; justify-content: space-between; gap: 12px; font-size: .8rem; }
+    .price-line span:first-child { color: var(--muted); }
+    .price-valid { display: block; color: var(--muted); font-size: .74rem; margin-top: 3px; }
+    .cost-chip, .status-chip {
+      display: inline-flex; align-items: center; border: 1px solid var(--border);
+      border-radius: 999px; padding: 2px 9px; font-size: .76rem; font-weight: 650;
+      line-height: 1.5; white-space: nowrap;
+    }
+    .cost-economy { color: var(--ok); border-color: color-mix(in srgb, var(--ok) 42%, var(--border)); background: color-mix(in srgb, var(--ok) 8%, var(--panel)); }
+    .cost-standard { color: var(--accent); border-color: color-mix(in srgb, var(--accent) 42%, var(--border)); background: color-mix(in srgb, var(--accent) 8%, var(--panel)); }
+    .cost-premium, .cost-unknown { color: var(--warn); border-color: color-mix(in srgb, var(--warn) 42%, var(--border)); background: color-mix(in srgb, var(--warn) 8%, var(--panel)); }
+    .status-note { display: block; color: var(--muted); font-size: .74rem; margin-top: 4px; }
+    .fit { font-size: .82rem; white-space: nowrap; }
+    .fit-ideal { color: var(--ok); font-weight: 600; }
+    .fit-underpowered { color: var(--warn); }
+    .matrix-guide { border: 1px solid var(--border); border-radius: 10px; margin: 18px 0; padding: 12px 16px; background: var(--panel); }
+    .matrix-guide summary { cursor: pointer; color: var(--accent); font-weight: 600; }
+    .matrix-guide-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px 20px; margin-top: 14px; }
+    .matrix-guide-grid div { min-width: 0; }
+    .matrix-guide-grid strong { display: block; font-size: .88rem; margin-bottom: 2px; }
+    .matrix-guide-grid span { display: block; color: var(--muted); font-size: .82rem; }
+    @media (max-width: 680px) { .matrix-guide-grid { grid-template-columns: 1fr; } }
+
+    /* callout — full symmetric border only; no coloured left accent bar (style hard rule) */
+    .callout {
+      border: 1px solid var(--border); background: var(--accent-soft);
+      padding: 14px 18px; border-radius: 10px; margin: 18px 0; font-size: 0.96rem;
+    }
+    .callout strong { color: var(--text); }
+
+    /* family cards */
+    .family { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+    @media (max-width: 760px) { .family { grid-template-columns: 1fr; } }
+    .fcard {
+      display: block; background: var(--panel); border: 1px solid var(--border); border-radius: 12px;
+      padding: 18px; color: inherit;
+    }
+    .fcard:hover { border-color: var(--accent); text-decoration: none; }
+    .fcard .name { font-weight: 700; margin-bottom: 4px; }
+    .fcard .desc { color: var(--muted); font-size: 0.92rem; }
+    .fcard.self { border-style: dashed; }
+
+    ul.tight { margin: 10px 0; padding-left: 20px; }
+    ul.tight li { margin: 5px 0; color: var(--muted); }
+    ul.tight li code { color: var(--code-text); }
+
+    /* footer */
+    footer {
+      border-top: 1px solid var(--border); padding: 34px 0 60px; color: var(--muted); font-size: 0.9rem;
+    }
+    footer .frow { display: flex; flex-wrap: wrap; gap: 8px 20px; align-items: center; }
+    footer .sep { color: var(--border); }
+    .pill { font-size: 0.78rem; color: var(--muted); border: 1px solid var(--border); border-radius: 999px; padding: 2px 9px; }
+    .pill.lifecycle-retired, .pill.lifecycle-deprecated {
+      color: var(--warn); border-color: color-mix(in srgb, var(--warn) 45%, var(--border));
+      background: color-mix(in srgb, var(--warn) 10%, var(--panel));
+    }
+    .state { font-family: var(--mono); font-size: .78rem; font-weight: 700; letter-spacing: .04em; color: var(--ok); }
+    .state.planned, .state.pending { color: var(--warn); }
+    .data-note { color: var(--muted); font-size: .88rem; margin-top: 14px; }
+
+    /* ---- token-usage charts ----
+       Thin marks, no gridlines, values labelled directly on every row, and a
+       table view underneath: in light mode two of the four series sit below 3:1
+       against the panel, so the numbers — never the fill alone — carry the data. */
+    .chart-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+    .chart-card { background: var(--panel); border: 1px solid var(--border); border-radius: 12px; padding: 20px; min-width: 0; }
+    .chart-card.wide { grid-column: 1 / -1; }
+    .chart-card h3 { margin: 0 0 4px; font-size: 1.05rem; }
+    .chart-card .chart-kicker { color: var(--muted); font-size: .84rem; margin: 0 0 18px; }
+    .chart-note { color: var(--muted); font-size: .82rem; margin: 16px 0 0; }
+    .chart-note code { font-size: .95em; }
+
+    .bar-row { margin-top: 14px; }
+    .bar-row:first-child { margin-top: 0; }
+    .bar-head { display: flex; justify-content: space-between; gap: 12px; align-items: baseline; margin-bottom: 5px; font-size: .88rem; }
+    .bar-head span { overflow-wrap: anywhere; }
+    .bar-head strong { font-family: var(--mono); font-size: .82rem; font-variant-numeric: tabular-nums; white-space: nowrap; }
+    /* 2px of surface between segments does the separating — no strokes. */
+    .bar { display: flex; gap: 2px; height: 12px; }
+    .bar > i { display: block; min-width: 2px; }
+    .bar > i:last-child { border-radius: 0 4px 4px 0; }
+    .bar.single > i { border-radius: 0 4px 4px 0; }
+    i.s-input { background: var(--series-input); }
+    i.s-cache-read { background: var(--series-cache-read); }
+    i.s-cache-write { background: var(--series-cache-write); }
+    i.s-output { background: var(--series-output); }
+    i.s-single { background: var(--series-input); }
+
+    /* Columns over time: one measure (tokens) on one axis; the cost of the same
+       session is stated as a figure instead of a second, arbitrary y-scale. */
+    .column-chart { max-width: 560px; }
+    .columns { display: flex; align-items: flex-end; gap: 14px; border-bottom: 1px solid var(--border); }
+    .column { flex: 1 1 0; min-width: 0; }
+    /* A fixed plot height so each column's percentage height is exact — a flex
+       box would shrink the tallest column most and distort the encoding. */
+    .column .plot { height: 148px; display: flex; align-items: flex-end; }
+    /* Cap the column, don't fill the slot: the band's leftover space is air. */
+    .column .stack { display: flex; flex-direction: column-reverse; gap: 2px; width: 100%; max-width: 24px; margin: 0 auto; }
+    .column .stack > i { display: block; width: 100%; min-height: 2px; }
+    .column .stack > i:last-child { border-radius: 4px 4px 0 0; }
+    .column .cap { font-family: var(--mono); font-size: .74rem; font-variant-numeric: tabular-nums; text-align: center; margin-bottom: 5px; white-space: nowrap; }
+    .column-axis { display: flex; gap: 14px; margin-top: 8px; }
+    .column-axis div { flex: 1 1 0; min-width: 0; text-align: center; color: var(--muted); font-size: .76rem; }
+    .column-axis div strong { display: block; color: var(--text); font-weight: 600; }
+
+    .legend { display: flex; flex-wrap: wrap; gap: 8px 14px; margin-top: 18px; color: var(--muted); font-size: .8rem; }
+    .legend span { display: inline-flex; align-items: center; gap: 6px; }
+    .legend i { width: 9px; height: 9px; border-radius: 2px; display: inline-block; }
+
+    .coverage-list { display: grid; gap: 12px; }
+    .coverage-item { border-top: 1px solid var(--border); padding-top: 12px; }
+    .coverage-item:first-child { border-top: 0; padding-top: 0; }
+    .coverage-item strong { display: block; font-size: .92rem; }
+    .coverage-item span { color: var(--muted); font-size: .86rem; }
+
+    .chart-summary { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; margin: 0 0 16px; }
+    @media (max-width: 720px) { .chart-summary { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+    .metric { border: 1px solid var(--border); border-radius: 9px; padding: 10px 13px; min-width: 0; }
+    .metric strong { display: block; font-size: 1.2rem; font-weight: 600; letter-spacing: -0.01em; }
+    .metric span { display: block; color: var(--muted); font-size: .78rem; }
+
+    details.table-view { margin-top: 16px; border: 1px solid var(--border); border-radius: 10px; padding: 12px 16px; }
+    details.table-view summary { cursor: pointer; font-size: .9rem; color: var(--accent); }
+    details.table-view h4 { margin: 18px 0 0; font-size: .92rem; }
+    details.table-view table { min-width: 460px; }
+
+    .chart-tip {
+      position: fixed; z-index: 40; pointer-events: none; opacity: 0;
+      transform: translate(-50%, -100%); transition: opacity .08s linear;
+      background: var(--panel); color: var(--text); border: 1px solid var(--border);
+      border-radius: 8px; padding: 6px 10px; font-size: .8rem; line-height: 1.45;
+      box-shadow: 0 6px 18px rgb(0 0 0 / 18%); max-width: 240px; white-space: pre-line;
+    }
+    .chart-tip.on { opacity: 1; }
+    @media (prefers-reduced-motion: reduce) { .chart-tip { transition: none; } }
+    @media (max-width: 720px) { .chart-grid { grid-template-columns: 1fr; } }
+    .pillars > *, .family > * { min-width: 0; }
+    .install { max-width: 100%; overflow-wrap: anywhere; }
+    .example-output { margin: 18px 0; }
+    .example-output > strong { font-size: .875rem; color: var(--muted); }
+    .example-output pre { margin-top: 6px; background: var(--bg-alt); }
+    .matrix-table .efforts, .fit, th { font-size: .875rem; }
+    .price-line, .cost-chip, .status-chip { font-size: .875rem; }
+    .price-valid, .status-note { font-size: .8125rem; }
+    a:focus-visible, summary:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+  </style>
+  <link rel="stylesheet" href="/token-economy/navigation.css">
+  <script src="/token-economy/navigation.js" defer></script>
+<style>
+  .api-wrap { max-width: 1180px; margin: auto; padding: 0 24px; }
+  .docs-intro { max-width: 780px; padding: 48px 0 32px; }
+  .docs-intro h1 { font-size: clamp(2rem, 5vw, 3rem); line-height: 1.1; margin: 0 0 20px; letter-spacing: -.035em; }
+  .docs-intro .lead { font-size: 1.2rem; line-height: 1.5; }
+  .docs-intro .eyebrow { font-size: .875rem; letter-spacing: .035em; }
+  .docs-layout { display: grid; grid-template-columns: 200px minmax(0, 1fr); gap: 48px; align-items: start; }
+  .docs-toc { position: sticky; top: var(--site-header-offset, 7rem); max-height: calc(100dvh - var(--site-header-offset, 7rem)); overflow: auto; padding: 20px 0; border-top: 1px solid var(--border); }
+  .docs-toc strong { display: block; margin-bottom: 12px; font-size: .875rem; }
+  .docs-toc a { display: block; padding: 7px 0; font-size: .875rem; }
+  .docs-body { min-width: 0; }
+  .docs-body section { padding: 28px 0 36px; }
+  .docs-body h2 { font-size: 1.5rem; line-height: 1.3; margin-bottom: 18px; }
+  .docs-body p { max-width: 74ch; }
+  .docs-body td { vertical-align: top; }
+  .docs-body table { min-width: 480px; }
+  .docs-body th { font-size: .875rem; text-transform: none; letter-spacing: 0; }
+  .docs-body pre { font-size: .875rem; }
+  .signature { border-radius: 6px; }
+  .source-note { font-size: .875rem; color: var(--muted); }
+  .status-definitions > div { display: grid; grid-template-columns: 10rem 1fr; gap: 1rem; padding: 8px 0; border-bottom: 1px solid var(--border); }
+  .status-definitions dt { font-weight: 650; }
+  .status-definitions dd { margin: 0; }
+  @media (max-width: 850px) {
+    .docs-layout { grid-template-columns: minmax(0, 1fr); gap: 12px; }
+    .docs-toc { position: static; display: flex; flex-wrap: wrap; gap: 4px 20px; max-height: none; }
+    .docs-toc strong { width: 100%; margin: 0; }
+  }
+  @media (max-width: 480px) { .api-wrap { padding: 0 16px; } .status-definitions > div { grid-template-columns: 1fr; gap: 2px; } }
+</style><style>
+.review-summary { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin: 24px 0; }
+.review-summary > div { border: 1px solid var(--border); border-radius: 8px; padding: 16px; }
+.review-summary strong { display: block; margin-bottom: 6px; }
+.review-study { border: 1px solid var(--border); border-radius: 8px; padding: 20px; margin: 18px 0; }
+.review-study h3 { margin-top: 0; }
+.review-study table { min-width: 570px; }
+.review-study details { margin-top: 12px; }
+.review-study summary { cursor: pointer; font-weight: 600; }
+.review-study .source-note { font-size: .875rem; }
+.review-counts { display: flex; flex-wrap: wrap; gap: 12px 24px; }
+@media (max-width: 700px) { .review-summary { grid-template-columns: 1fr; } .review-study { padding: 14px; } }
+</style>
+<script src="/token-economy/benchmark-evidence.js" defer></script>
+<script src="review.js" defer></script>
+</head><body><!-- site-navigation:start -->
+<a class="site-skip-link" href="#main-content">Skip to content</a>
+<header class="site-header" data-site-navigation>
+  <div class="site-family-bar">
+    <a class="site-family-back" href="https://agent-orchestrator.dev/"><span aria-hidden="true">←</span> Agent Orchestrator</a>
+  </div>
+  <div class="site-header-main">
+    <a class="site-brand" href="/token-economy/" aria-label="Token Economy home"><span class="site-brand-mark" aria-hidden="true">¢</span><span>Token Economy</span></a>
+    <button class="site-menu-button" type="button" aria-expanded="false" aria-controls="site-navigation-groups"><span>Menu</span><span class="site-menu-icon" aria-hidden="true"></span></button>
+    <nav class="site-primary-nav" aria-label="Primary navigation">
+      <div class="site-nav-groups" id="site-navigation-groups">
+        <a class="site-nav-direct" href="/token-economy/api/">API</a>
+        <div class="site-nav-group">
+          <button class="site-nav-heading" type="button" aria-expanded="false" aria-controls="site-nav-library">Guides</button>
+          <ul class="site-nav-menu" id="site-nav-library">
+            <li><a href="/token-economy/#why">Overview</a></li>
+            <li><a href="/token-economy/#suggest">Model compatibility</a></li>
+            <li><a href="/token-economy/#install">Install</a></li>
+            <li><a href="/token-economy/api/#costs">Calculate run costs</a></li>
+            <li><a href="/token-economy/api/#routing">Route an attempt</a></li>
+            <li><a href="/token-economy/#model-recommendation">Task complexity</a></li>
+          </ul>
+        </div>
+        <div class="site-nav-group">
+          <button class="site-nav-heading" type="button" aria-expanded="false" aria-controls="site-nav-evidence">Research</button>
+          <ul class="site-nav-menu" id="site-nav-evidence">
+            <li><a href="/token-economy/price-history/">Prices &amp; history</a></li>
+            <li><a href="/token-economy/task-class-routing/">Task studies</a></li>
+            <li><a href="/token-economy/code-review/">Code review</a></li>
+            <li><a href="/token-economy/model-benchmarks/">Price × quality</a></li>
+            <li><a href="/token-economy/#benchmarks">Benchmarks</a></li>
+            <li><a href="/token-economy/evidence/agent-studio-usage/">Usage evidence</a></li>
+            <li><a href="/token-economy/cap-forecast/">Cap forecast</a></li>
+            <li><a href="/token-economy/provider-quota-dashboard/">Quota snapshot</a></li>
+          </ul>
+        </div>
+        <div class="site-nav-group">
+          <button class="site-nav-heading" type="button" aria-expanded="false" aria-controls="site-nav-project">Project</button>
+          <ul class="site-nav-menu" id="site-nav-project">
+            <li><a href="/token-economy/#family">Related projects</a></li>
+            <li><a href="https://github.com/agent-orc/token-economy">GitHub <span aria-hidden="true">↗</span></a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+  </div>
+</header>
+<!-- site-navigation:end -->
+
+<main class="api-wrap" id="main-content" tabindex="-1">
+<div class="docs-intro"><p class="eyebrow">Code review · Findings · Research · C#</p>
+<h1>How well does a model review code?</h1>
+<p class="lead">Measure which bugs it finds, how often its findings are correct, and what each review costs.</p>
+<p>Published review studies compare model capability. Quality Studio records findings in your codebase and their subsequent treatment. Both belong beside a review recommendation, with their own scope and evidence.</p></div>
+<div class="docs-layout"><nav class="docs-toc" aria-label="Code review contents"><strong>In this guide</strong>
+<a href="#findings">What a finding needs</a><a href="#metrics">How to measure a review</a><a href="#studies">Published model studies</a><a href="#api">Read review evidence in C#</a><a href="#quality-studio">Quality Studio integration</a><a href="#local-evidence">Local evidence and gaps</a></nav><div class="docs-body">
+<section id="findings"><h2>A finding must explain a defect</h2>
+<p>Keep the finding tied to the code that was reviewed: the revision, exact location, triggering condition and observable consequence. Store the original observation separately from its assessment and later fix.</p>
+<div class="table-scroll"><table><thead><tr><th>Field</th><th>What the reviewer or host must retain</th></tr></thead><tbody>
+<tr><td>Identity and scope</td><td>Native finding ID, source run, repository, reviewed revision, file and exact span. The same defect reported twice must not count as two independent successes.</td></tr>
+<tr><td>Claim and impact</td><td>The triggering condition, incorrect behavior and severity. A style preference does not become a correctness defect by receiving a high severity.</td></tr>
+<tr><td>Evidence</td><td>Captured source, relevant contract or test result, with provenance. A plausible explanation alone does not establish that the defect exists.</td></tr>
+<tr><td>Reproduction</td><td>Steps, expected and observed behavior when checked. Preserve an unverified state when no reproduction was attempted.</td></tr>
+<tr><td>Assessment</td><td>Whether the claim was confirmed, dismissed or disputed; assessor, reason and time. Record this independently of whether a fix was accepted.</td></tr>
+<tr><td>Resolution and visibility</td><td>Fixed, still open, accepted risk, duplicate or suppressed. Hiding a finding and repairing a defect answer different questions from checking whether its claim was correct.</td></tr>
+</tbody></table></div>
+<p>Quality Studio retains native findings and their lifecycle state. Keep independent assessments in a separate evidence record. Token Economy reads sourced measurements to compare review choices and account for consumption.</p></section>
+<section id="metrics"><h2>Use a small set of explicit metrics</h2>
+<div class="review-summary"><div><strong>Precision</strong>How many assessed findings were correct?</div><div><strong>Recall</strong>How many independently known defects were found?</div><div><strong>Review cost</strong>What did the complete review and verification consume?</div></div>
+<div class="table-scroll"><table><thead><tr><th>Metric</th><th>Calculation</th><th>Required evidence</th></tr></thead><tbody>
+<tr><td>Finding precision</td><td>Confirmed / (confirmed + dismissed)</td><td>Independent assessment of emitted findings. Publish assessed / emitted coverage; selective assessment can bias the result.</td></tr>
+<tr><td>Issue recall</td><td>Distinct known defects detected / all known in-scope defects</td><td>A labeled issue set or a controlled seeded corpus, with matching rules. Unreported defects are absent from a normal finding ledger.</td></tr>
+<tr><td>False alarms per review</td><td>Dismissed findings / completed reviews</td><td>Include clean reviews and duplicates under a declared policy. Report review size, severity and assessment coverage alongside this burden.</td></tr>
+<tr><td>Cost per confirmed defect</td><td>Total eligible review and verification cost / distinct confirmed defects</td><td>Complete run costs, unique findings and the same workflow scope. With zero confirmations, the ratio is undefined; retain total cost.</td></tr>
+<tr><td>Time and localization</td><td>Review duration; verified findings with a usable exact location / verified findings</td><td>Measured run timings and checked source spans. These capture usability beyond identifying that a bug exists.</td></tr>
+</tbody></table></div>
+<p>In these formulas, dismissed means independently assessed as incorrect. Keep valid-but-deferred, duplicate, out-of-scope and unverified findings separate. Report duplicate comments as an additional review burden.</p>
+<p class="source-note">Method references: <a href="https://arxiv.org/html/2603.26130v1">SWE-PRBench</a> distinguishes confirmed, plausible and fabricated findings; <a href="https://arxiv.org/html/2608.27442v1">MCR-Bench</a> tracks identity and lifecycle across review rounds. <a href="https://docs.oasis-open.org/sarif/sarif/v2.1.0/os/sarif-v2.1.0-os.html">SARIF</a> defines portable result identities and locations.</p>
+<p>Report severe-defect recall and results on clean changes separately. Keep the model, reasoning setting, review harness, repository snapshot and assessment policy fixed for a comparison. A model’s confidence statement is not an independent assessment.</p>
+<p><a href="../price-history/#subscriptions">API-equivalent cost under subscriptions</a> provides a relative price-weighted consumption measure; actual allowance and billing follow the provider’s own rules.</p></section>
+<section id="studies"><h2>Published review studies</h2><p>The measurements below evaluate review findings directly. Each table keeps its publisher’s protocol, metric and configuration. Compare rows inside the same study; differences across dated studies can also come from the test corpus or review harness.</p>
+<div id="review-studies" data-pending-content aria-live="polite"><p>Loading sourced review measurements…</p></div>
+<p><a href="../data/code-review.json">Download review definitions, measurements and local coverage (JSON)</a> · <a href="https://github.com/agent-orc/token-economy/blob/main/docs/code-review-research-2026-09-12.md">Research methods and sources</a></p></section>
+<section id="api"><h2>Read review evidence in C#</h2><p>The library exposes published review measurements through <code>BenchmarkEvidenceCatalog</code> and operational Quality Studio evidence through <code>ReviewEvidenceReport</code>. Neither API invokes a model or verifies a finding for you.</p>
+<pre><code data-language="csharp">using TokenEconomy;
+
+var catalog = BenchmarkEvidenceCatalog.Default;
+foreach (var type in catalog.Types.Where(t =&gt;
+    t.CapabilityClass == BenchmarkCapabilityClass.CodeReview))
+{
+    foreach (var result in catalog.ResultsFor(type.Id).Where(r =&gt;
+        r.ModelId == KnownModels.ClaudeFable51 &amp;&amp;
+        r.PublishedAt &lt;= new DateOnly(2026, 9, 12)))
+    {
+        Console.WriteLine($"{type.Name}: {result.Score} {type.Unit}");
+        Console.WriteLine(result.SourceUrl);
+    }
+}</code></pre>
+<p>This returns separate Fable 5.1 recall and precision measurements for both published review configurations. <code>Score</code> keeps the original scale. <code>ReasoningEffort</code> remains <code>Unspecified</code> because these internal Low/High configurations do not identify the provider’s effort setting. <code>Context</code> retains the harness, sample and qualifications.</p>
+<p><a href="../api/review-benchmarks.cs"><strong>Complete C# example with return fields →</strong></a> · <a href="../api/#review-benchmarks">Full API explanation</a></p>
+<h3>Import operational review evidence</h3>
+<p><code>QualityStudioReviewRunImporter</code> reads a Token Economy schema-v1 drop. <code>ReviewEvidenceAggregator</code> returns counts, assessment coverage, confirmation rate and gate failures; <code>ReviewQualityFor(model)</code> exposes the resulting per-model summary. Unknown outcomes remain null, and fixtures do not contribute.</p>
+<p><a href="../api/quality-studio-drop.cs"><strong>Complete read-only import and aggregation example →</strong></a> · <a href="../api/#review-runs">Input contract, outputs and conflict handling</a></p>
+<p><code>TaskClass.SourceCodeReview</code> selects the source-review task category. Its maintained policy fit is distinct from <code>TaskClass.Review</code>, whose Quality Studio suitability requires retained operational evidence. A general coding benchmark does not populate that review-quality field.</p>
+<p><a href="../api/#benchmark-evidence">Benchmark return fields and provenance</a> · <a href="../api/#evidence-status">Selection status and evidence maturity</a></p></section>
+<section id="quality-studio"><h2>Connect findings to Quality Studio</h2><p>Use the existing Quality Studio API to read a run and its findings. Preserve native IDs and revisions when handing evidence to another host. The published research above can inform which candidates to evaluate; it does not replace the local review record.</p>
+<div class="table-scroll"><table><thead><tr><th>Existing read API</th><th>Use</th></tr></thead><tbody>
+<tr><td><code>GET /api/models</code></td><td>Read the synchronized model catalog and routing status.</td></tr>
+<tr><td><code>GET /api/repos/{repoId}/review/runs</code></td><td>Find the native review run and its scope.</td></tr>
+<tr><td><code>GET /api/repos/{repoId}/review/runs/{id}/report?format=json</code></td><td>Read the terminal <code>quality-run-report.v1</code>: native run/revision, observations, findings, operation outcomes and usage. Markdown, HTML and SARIF exports are also available.</td></tr>
+<tr><td><code>GET /api/repos/{repoId}/file?path=...</code></td><td>Inspect current file findings and lifecycle state. This current projection is not the historical state of a review run.</td></tr>
+</tbody></table></div>
+<p><a href="../api/quality-studio-native-report.cs"><strong>Complete C# reader for the native Quality Studio report →</strong></a> Pass the host URL, repository ID and run ID as arguments. It performs one GET, reports exported finding-entry counts and preserves the original JSON, including optional evidence fields. Configure the client authentication required by your host.</p>
+<h3>Structured findings in the report</h3>
+<p>The JSON export now preserves captured <code>observations[].sourceRevision</code> and <code>reviewer</code>, plus each finding’s <code>anchors</code>, <code>evidenceItems</code> and <code>reproduction</code>. These use Quality Studio’s existing native types. Captured source and observed/unverified evidence stay inspectable; a missing executed thinking level is not filled from the request.</p>
+<p class="source-note">Updated readers accept older v1 reports without these optional fields. Consumers using an older closed schema or strict DTO must adopt the updated contract when reading the new fields. <a href="https://github.com/agent-orc/quality-studio/blob/main/docs/code-review-capability-research-2026-09-12.md">Quality Studio research and integration notes</a>.</p>
+<p><strong>The native report and the Token Economy review drop are different contracts.</strong> Preserve the report’s bytes or hash, native run/revision and observation/finding identities. Its route fields describe the request; actual execution must come from observed provenance. A report can be replaced by a later revision, and later finding decisions are not an immutable assessment history.</p>
+<p>Keep <code>accepted</code>, <code>waived</code>, <code>resolved</code> and suppression separate from confirmed/dismissed claims. A finding can disappear from a later review without proving that it was fixed. The planned TE-38 v2 bridge requires independent assessments and retained evidence cutoffs; that exporter is not yet available.</p>
+<p><a href="https://github.com/agent-orc/quality-studio/blob/main/docs/review-runs.md">Quality Studio run contract</a> · <a href="https://github.com/agent-orc/quality-studio/blob/main/docs/operations/review-quality-evidence/index.html">Finding evidence and assessment design</a></p>
+<p>AGT supplies the task and attempt context: what was requested, which route ran and whether the delivery was accepted. Quality Studio supplies code findings. Keep those identities linked without interpreting every task rejection as a verified defect or every completed task as a clean review.</p></section>
+<section id="local-evidence"><h2>What local review evidence currently supports</h2>
+<div id="review-local-evidence" data-pending-content aria-live="polite"><p>Loading the committed Quality Studio evidence report…</p></div>
+<p>The current v1 gate uses at least 20 operational runs, 20 assessed findings and 70% outcome coverage before deriving a review compatibility signal. Cohorts retain model, effort, CLI and review aspect. That signal measures confirmation among assessed findings; recall requires a separate oracle.</p>
+<p>A useful next evaluation includes faulty and clean changes, independent adjudication, severity and exact-span checks, repeated runs and complete usage. Save the task-specific input before launch. <a href="../task-complexity/#backtest">The historical evaluation guide</a> explains how to avoid using later outcomes as estimate inputs.</p></section>
+</div></div></main><footer><div class="wrap"><p><a href="../api/">API reference</a> · <a href="../model-benchmarks/">Model benchmarks</a> · <a href="../">Model matrix</a></p></div></footer></body></html>

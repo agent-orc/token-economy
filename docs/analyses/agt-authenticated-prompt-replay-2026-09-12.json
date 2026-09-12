@@ -1,0 +1,39 @@
+{
+  "methodology": "Current pure estimator replay on hash-authenticated pre-dispatch authored prompts. No calibration history supplied because telemetry completeness and semantic reissues are unverified. Comparison uses reported token totals, not ground-truth difficulty or original historical predictions.",
+  "qualifiedCaseCount": 3,
+  "rows": [
+    {
+      "card": "card-007",
+      "score": 21,
+      "band": "Standard",
+      "confidence": 0.38,
+      "predictedTokens": 12087,
+      "reportedTokens": 23623245,
+      "reportedToPredictedTokenRatio": 1954.434,
+      "completeCalibrationCards": 0,
+      "hardFloors": []
+    },
+    {
+      "card": "card-010",
+      "score": 21,
+      "band": "Standard",
+      "confidence": 0.38,
+      "predictedTokens": 19797,
+      "reportedTokens": 11432112,
+      "reportedToPredictedTokenRatio": 577.467,
+      "completeCalibrationCards": 0,
+      "hardFloors": []
+    },
+    {
+      "card": "card-011",
+      "score": 33,
+      "band": "Standard",
+      "confidence": 0.38,
+      "predictedTokens": 16790,
+      "reportedTokens": 13752175,
+      "reportedToPredictedTokenRatio": 819.069,
+      "completeCalibrationCards": 0,
+      "hardFloors": []
+    }
+  ]
+}

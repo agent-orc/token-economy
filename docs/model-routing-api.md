@@ -24,6 +24,40 @@ routing components. It does not replace them:
 The authoritative behavior remains
 [`docs/system/domains/model-routing-policy.md`](system/domains/model-routing-policy.md).
 
+## Astra support and evidence
+
+`KnownModels.Gpt6Astra` is supported by `EvaluateModel`, `SuggestModel`, and
+explicit `ModelRouter` operator pins for core tasks. Its reasoning ladder is
+`low`, `medium`, `high`, `xhigh`, and `max`; `Resolve` rejects unsupported levels
+such as `minimal` and `ultra`. `EvaluateModel` can instead clamp a desired effort
+to the supported ladder, as it does for other models.
+
+Its `Selectable` routing status and `Provisional` evidence status answer
+different questions: the former permits use, while the latter reports that
+local completion evidence has not validated the routing fit. Published
+external benchmark scores are retained separately from local task completion,
+review suitability, and trust. Those local metrics remain unknown when no
+qualifying cohort exists; support does not create a success rate.
+
+The four automatic core tiers and task-class sets remain unchanged. A pin can
+select Astra while retaining the recommended core route, missing-evidence
+reasons, and the below-policy flag. An unpinned task still follows the score
+ladder and correctness floors. See the
+[support policy](system/domains/model-routing-policy.md#additional-supported-models).
+
+`KnownModels.ClaudeFable51` follows the same support boundary through Claude
+Code. All five efforts from `Low` through `Max` (excluding `Ultra`) are
+supported. The provider defaults to `high`; Token Economy derives its own
+suggested effort from the task and pressure unless `desiredEffort` is supplied.
+A Claude-only `SuggestModel` call can therefore return Fable 5.1, while Sonnet 5
+remains an explicitly declared fallback. Neither listing nor comparison invents
+local completion evidence or makes Fable 5.1 an automatic provider fallback.
+
+Publication dates are available as `ModelPriceCatalog.Default.Find(model)?.ReleaseDate`
+with a `ReleaseDateSource` link. They are separate from `ModelPrice.ValidFrom`;
+a price revision or snapshot suffix is not a new model release. Unknown dates
+remain null. See the [dated release register](model-release-dates.md).
+
 ## Task-class card-creation prior
 
 `TaskClassRecommendationCatalog.Default.Recommend(taskClass)` exposes the

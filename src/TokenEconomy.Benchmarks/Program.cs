@@ -56,11 +56,26 @@ static string FindRepositoryRoot(string start)
 
 sealed class ModelPrefixBenchmarkInvoker(IBenchmarkInvoker codex, IBenchmarkInvoker claude) : IBenchmarkInvoker
 {
-    public Task<BenchmarkInvocationResponse> InvokeAsync(
-        BenchmarkInvocationRequest request, CancellationToken cancellationToken = default) =>
-        request.Variant.Model.StartsWith("claude-", StringComparison.OrdinalIgnoreCase)
-            ? claude.InvokeAsync(request, cancellationToken)
-            : codex.InvokeAsync(request, cancellationToken);
+    public async Task<BenchmarkInvocationResponse> InvokeAsync(
+        BenchmarkInvocationRequest request, CancellationToken cancellationToken = default)
+    {
+        var elapsed = Stopwatch.StartNew();
+        try
+        {
+            return await (request.Variant.Model.StartsWith("claude-", StringComparison.OrdinalIgnoreCase)
+                ? claude : codex).InvokeAsync(request, cancellationToken);
+        }
+        catch (OperationCanceledException)
+        {
+            BenchmarkCliTransport.Save(request, "timeout-or-cancelled", "", null, -1, "Invocation timed out or was cancelled.", elapsed.ElapsedMilliseconds);
+            throw;
+        }
+        catch (Exception error)
+        {
+            BenchmarkCliTransport.Save(request, "process-start-or-transport-error", "", null, 127, error.Message, elapsed.ElapsedMilliseconds);
+            return new() { ExitCode = 127, Usage = default, Error = error.Message };
+        }
+    }
 }
 
 sealed class CodexCliBenchmarkInvoker : IBenchmarkInvoker
@@ -68,13 +83,8 @@ sealed class CodexCliBenchmarkInvoker : IBenchmarkInvoker
     public async Task<BenchmarkInvocationResponse> InvokeAsync(BenchmarkInvocationRequest request, CancellationToken cancellationToken = default)
     {
         var outputFile = Path.Combine(request.Workspace, ".benchmark-final-response.txt");
-        var start = new ProcessStartInfo(OperatingSystem.IsWindows() ? "codex.cmd" : "codex")
-        {
-            WorkingDirectory = request.Workspace,
-            UseShellExecute = false,
-            RedirectStandardOutput = true,
-            RedirectStandardError = true,
-        };
+        var started = Stopwatch.StartNew();
+        var start = BenchmarkCliTransport.Create("codex", request.Workspace);
         foreach (var argument in new[]
         {
             "--ask-for-approval", "never", "exec", "--json", "--ephemeral", "--skip-git-repo-check",
@@ -113,12 +123,19 @@ sealed class CodexCliBenchmarkInvoker : IBenchmarkInvoker
                 throw new InvalidDataException("Response file escapes the benchmark workspace.");
             await File.WriteAllTextAsync(target, StripCodeFence(finalResponse), cancellationToken);
         }
+        var reportedModels = BenchmarkCliTransport.ReportedModels(stdout);
+        var mismatch = !BenchmarkCliTransport.MatchesRequested(request.Variant.Model, reportedModels);
+        var exitCode = mismatch ? 1 : process.ExitCode;
+        var diagnostic = mismatch ? "Provider returned a different model: " + string.Join(", ", reportedModels)
+            : exitCode == 0 ? null : Last(CodexJsonDiagnostics.Error(stdout) ?? stderr, 4000);
+        BenchmarkCliTransport.Save(request, "codex", stdout, finalResponse, exitCode,
+            diagnostic, started.ElapsedMilliseconds, usage);
         return new BenchmarkInvocationResponse
         {
-            ExitCode = process.ExitCode,
+            ExitCode = exitCode,
             Usage = usage,
             FinalResponse = finalResponse,
-            Error = process.ExitCode == 0 ? null : Last(CodexJsonDiagnostics.Error(stdout) ?? stderr, 4000),
+            Error = diagnostic,
         };
     }
 
@@ -191,13 +208,8 @@ sealed class ClaudeCodeCliBenchmarkInvoker : IBenchmarkInvoker
     public async Task<BenchmarkInvocationResponse> InvokeAsync(
         BenchmarkInvocationRequest request, CancellationToken cancellationToken = default)
     {
-        var start = new ProcessStartInfo(OperatingSystem.IsWindows() ? "claude.cmd" : "claude")
-        {
-            WorkingDirectory = request.Workspace,
-            UseShellExecute = false,
-            RedirectStandardOutput = true,
-            RedirectStandardError = true,
-        };
+        var started = Stopwatch.StartNew();
+        var start = BenchmarkCliTransport.Create("claude", request.Workspace);
         foreach (var argument in new[]
         {
             "--print", "--output-format", "json", "--model", request.Variant.Model,
@@ -234,15 +246,20 @@ sealed class ClaudeCodeCliBenchmarkInvoker : IBenchmarkInvoker
                 throw new InvalidDataException("Response file escapes the benchmark workspace.");
             await File.WriteAllTextAsync(target, StripCodeFence(parsed.FinalResponse), cancellationToken);
         }
+        var reportedModels = BenchmarkCliTransport.ReportedModels(stdout);
+        var mismatch = !BenchmarkCliTransport.MatchesRequested(request.Variant.Model, reportedModels);
+        if (mismatch) exitCode = 1;
+        var diagnostic = mismatch ? "Provider returned a different model: " + string.Join(", ", reportedModels)
+            : exitCode == 0 ? null : Last(string.IsNullOrWhiteSpace(stderr) ? parsed.FinalResponse ?? "Claude Code invocation failed." : stderr, 4000);
+        BenchmarkCliTransport.Save(request, "claude", stdout, parsed.FinalResponse, exitCode,
+            diagnostic, started.ElapsedMilliseconds, parsed.Usage, parsed.CostUsd);
         return new()
         {
             ExitCode = exitCode,
             Usage = parsed.Usage,
             CostUsd = parsed.CostUsd,
             FinalResponse = parsed.FinalResponse,
-            Error = exitCode == 0 ? null : Last(
-                string.IsNullOrWhiteSpace(stderr) ? parsed.FinalResponse ?? "Claude Code invocation failed." : stderr,
-                4000),
+            Error = diagnostic,
         };
     }
 

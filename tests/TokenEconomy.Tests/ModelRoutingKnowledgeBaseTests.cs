@@ -17,7 +17,7 @@ public class ModelRoutingKnowledgeBaseTests
         var hash = Convert.ToHexStringLower(SHA256.HashData(File.ReadAllBytes(authorityPath)));
         var authority = File.ReadAllText(authorityPath);
 
-        Assert.Equal("2026-07-24", Knowledge.PolicyVersion.ToString("yyyy-MM-dd"));
+        Assert.Equal("2026-09-12", Knowledge.PolicyVersion.ToString("yyyy-MM-dd"));
         Assert.Equal(Knowledge.Authority.ContentSha256, hash);
         Assert.Contains($"Version: {Knowledge.PolicyVersion:yyyy-MM-dd}", authority);
         Assert.Contains("Quota and cost never lower a hard floor.", authority);

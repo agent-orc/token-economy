@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "generatedAtUtc": "2026-09-12T08:12:13.940678+00:00",
+  "generatedAtUtc": "2026-09-12T21:32:44.691977+00:00",
   "priceCatalogPath": "src/TokenEconomy/catalog/model-prices.json",
   "workedExample": {
     "source": {
@@ -21,8 +21,8 @@
     "price": {
       "status": "Resolved",
       "currency": "USD",
-      "inputPerMTok": 2.0,
-      "outputPerMTok": 12.0,
+      "inputPerMTok": 2,
+      "outputPerMTok": 12,
       "cacheReadPerMTok": 0.2,
       "cacheWritePerMTok": 2.5,
       "validFromUtc": "2026-07-30T00:00:00Z",
@@ -262,8 +262,16 @@
         },
         "tokens": 0,
         "cost": {
-          "status": "NoPriceForDate",
-          "totalUsd": null
+          "status": "Resolved",
+          "currency": "USD",
+          "unconfirmed": false,
+          "totalUsd": 0.0,
+          "components": {
+            "input": 0.0,
+            "output": 0.0,
+            "cacheRead": 0.0,
+            "cacheWrite": 0.0
+          }
         }
       },
       {
@@ -282,7 +290,7 @@
         "cost": {
           "status": "Resolved",
           "currency": "USD",
-          "unconfirmed": true,
+          "unconfirmed": false,
           "totalUsd": 0.0,
           "components": {
             "input": 0.0,
@@ -412,7 +420,7 @@
         "cost": {
           "status": "Resolved",
           "currency": "USD",
-          "unconfirmed": true,
+          "unconfirmed": false,
           "totalUsd": 0.0,
           "components": {
             "input": 0.0,
@@ -488,8 +496,16 @@
         },
         "tokens": 0,
         "cost": {
-          "status": "NoPriceForDate",
-          "totalUsd": null
+          "status": "Resolved",
+          "currency": "USD",
+          "unconfirmed": false,
+          "totalUsd": 0.0,
+          "components": {
+            "input": 0.0,
+            "output": 0.0,
+            "cacheRead": 0.0,
+            "cacheWrite": 0.0
+          }
         }
       },
       {
@@ -506,8 +522,16 @@
         },
         "tokens": 0,
         "cost": {
-          "status": "NoPriceForDate",
-          "totalUsd": null
+          "status": "Resolved",
+          "currency": "USD",
+          "unconfirmed": false,
+          "totalUsd": 0.0,
+          "components": {
+            "input": 0.0,
+            "output": 0.0,
+            "cacheRead": 0.0,
+            "cacheWrite": 0.0
+          }
         }
       }
     ]

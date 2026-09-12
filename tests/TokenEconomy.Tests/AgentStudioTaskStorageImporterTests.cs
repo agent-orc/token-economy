@@ -135,7 +135,7 @@ public class AgentStudioTaskStorageImporterTests
               "completedAt":"2026-08-02T12:00:00Z", "tokenSummary": { "inputTokens":10 } }
             """);
 
-        var record = new AgentStudioTaskStorageImporter().Parse(json.RootElement);
+        var record = new AgentStudioTaskStorageImporter(ProvisionalPrices()).Parse(json.RootElement);
         var view = Assert.Single(ModelRunViews.ByModelOverTime([record]));
 
         Assert.True(record.CostUnconfirmed);
@@ -169,15 +169,15 @@ public class AgentStudioTaskStorageImporterTests
     public void Parse_RetainsExecutionDateUsedForHistoricalCost()
     {
         using var json = System.Text.Json.JsonDocument.Parse("""
-            { "id":"card-8", "model":"claude-sonnet-5", "completedAt":"2026-08-31T23:59:59Z",
-              "updatedAt":"2026-09-02T12:00:00Z", "tokenSummary": { "inputTokens":1000000 } }
+            { "id":"card-8", "model":"gpt-5.6-sol", "completedAt":"2026-08-20T23:59:59Z",
+              "updatedAt":"2026-08-22T12:00:00Z", "tokenSummary": { "inputTokens":1000000 } }
             """);
 
         var record = new AgentStudioTaskStorageImporter().Parse(json.RootElement);
 
-        Assert.Equal(new DateTime(2026, 8, 31, 23, 59, 59, DateTimeKind.Utc), record.ExecutedAtUtc);
-        Assert.Equal(new DateTime(2026, 9, 2, 12, 0, 0, DateTimeKind.Utc), record.ObservedAtUtc);
-        Assert.Equal(2.00m, record.CostEstimate); // introductory rate at execution, not the later update's $3 rate
+        Assert.Equal(new DateTime(2026, 8, 20, 23, 59, 59, DateTimeKind.Utc), record.ExecutedAtUtc);
+        Assert.Equal(new DateTime(2026, 8, 22, 12, 0, 0, DateTimeKind.Utc), record.ObservedAtUtc);
+        Assert.Equal(5.00m, record.CostEstimate); // execution predates the August 21 reduction to $4
     }
 
     [Fact]
@@ -357,4 +357,10 @@ public class AgentStudioTaskStorageImporterTests
         ExecutedAtUtc = observedAt, ObservedAtUtc = observedAt, CostStatus = status,
         CostEstimate = null, Outcome = OutcomeQualitySignal.Unknown,
     };
+    private static ModelPriceCatalog ProvisionalPrices() => new([
+        new ModelListing { ModelId = "claude-sonnet-4-5", History = [
+            new ModelPrice { InputPerMTok = 3m, OutputPerMTok = 15m, Unconfirmed = true }
+        ] }
+    ]);
+
 }

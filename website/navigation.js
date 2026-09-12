@@ -1,116 +1,150 @@
-document.documentElement.classList.add('site-nav-enhanced');
-
 document.addEventListener('DOMContentLoaded', () => {
   const header = document.querySelector('[data-site-navigation]');
   if (!header) return;
 
   const menuButton = header.querySelector('.site-menu-button');
-  const groupsContainer = header.querySelector('.site-nav-groups');
+  const container = header.querySelector('.site-nav-groups');
   const groups = [...header.querySelectorAll('.site-nav-group')];
-  const headings = groups.map(group => group.querySelector('.site-nav-heading'));
-
-  const setGroupOpen = (group, open) => {
-    if (open) group.setAttribute('data-open', 'true');
-    else group.removeAttribute('data-open');
+  const narrow = matchMedia('(max-width: 48rem)');
+  const setOpen = (group, open) => {
+    group.toggleAttribute('data-open', open);
     group.querySelector('.site-nav-heading').setAttribute('aria-expanded', String(open));
   };
-
-  const closeGroups = except => groups.forEach(group => {
-    if (group !== except) setGroupOpen(group, false);
-  });
-
-  const openGroup = (group, focusAt) => {
-    closeGroups(group);
-    setGroupOpen(group, true);
-    const links = [...group.querySelectorAll('.site-nav-menu a')];
-    if (focusAt === 'first') links[0]?.focus();
-    if (focusAt === 'last') links.at(-1)?.focus();
+  const closeGroups = () => groups.forEach(group => setOpen(group, false));
+  const closeMenu = () => {
+    closeGroups();
+    menuButton.setAttribute('aria-expanded', 'false');
+    container.removeAttribute('data-menu-open');
   };
 
   menuButton.addEventListener('click', () => {
     const open = menuButton.getAttribute('aria-expanded') !== 'true';
+    closeGroups();
     menuButton.setAttribute('aria-expanded', String(open));
-    if (open) groupsContainer.setAttribute('data-menu-open', 'true');
-    else groupsContainer.removeAttribute('data-menu-open');
-    if (!open) closeGroups();
+    container.toggleAttribute('data-menu-open', open);
   });
 
-  groups.forEach((group, groupIndex) => {
-    const heading = headings[groupIndex];
+  groups.forEach(group => {
+    const button = group.querySelector('.site-nav-heading');
     const links = [...group.querySelectorAll('.site-nav-menu a')];
-
-    heading.addEventListener('click', event => {
-      if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
-      const narrow = matchMedia('(max-width: 40rem)').matches;
-      if (narrow) {
-        event.preventDefault();
-        const open = !group.hasAttribute('data-open');
-        closeGroups(open ? group : undefined);
-        setGroupOpen(group, open);
-      } else if (!group.hasAttribute('data-open')) {
-        event.preventDefault();
-        openGroup(group);
-      }
+    button.addEventListener('click', () => {
+      const open = !group.hasAttribute('data-open');
+      closeGroups();
+      setOpen(group, open);
     });
-
-    heading.addEventListener('keydown', event => {
-      if (event.key === ' ') {
-        event.preventDefault();
-        const open = !group.hasAttribute('data-open');
-        closeGroups(open ? group : undefined);
-        setGroupOpen(group, open);
-      } else if (event.key === 'ArrowDown' || event.key === 'ArrowUp') {
-        event.preventDefault();
-        openGroup(group, event.key === 'ArrowDown' ? 'first' : 'last');
-      } else if (event.key === 'ArrowRight' || event.key === 'ArrowLeft') {
-        event.preventDefault();
-        const step = event.key === 'ArrowRight' ? 1 : -1;
-        headings[(groupIndex + step + headings.length) % headings.length].focus();
-      } else if (event.key === 'Escape') {
-        setGroupOpen(group, false);
-      }
+    button.addEventListener('keydown', event => {
+      if (event.key !== 'ArrowDown' && event.key !== 'ArrowUp') return;
+      event.preventDefault();
+      closeGroups();
+      setOpen(group, true);
+      (event.key === 'ArrowDown' ? links[0] : links.at(-1))?.focus();
     });
-
-    links.forEach((link, linkIndex) => link.addEventListener('keydown', event => {
-      if (event.key === 'ArrowDown' || event.key === 'ArrowUp') {
-        event.preventDefault();
-        const step = event.key === 'ArrowDown' ? 1 : -1;
-        links[(linkIndex + step + links.length) % links.length].focus();
-      } else if (event.key === 'Home' || event.key === 'End') {
-        event.preventDefault();
-        links[event.key === 'Home' ? 0 : links.length - 1].focus();
-      } else if (event.key === 'Escape') {
-        event.preventDefault();
-        setGroupOpen(group, false);
-        heading.focus();
-      }
+    links.forEach((link, index) => link.addEventListener('keydown', event => {
+      let destination;
+      if (event.key === 'ArrowDown') destination = links[(index + 1) % links.length];
+      if (event.key === 'ArrowUp') destination = links[(index + links.length - 1) % links.length];
+      if (event.key === 'Home') destination = links[0];
+      if (event.key === 'End') destination = links.at(-1);
+      if (!destination) return;
+      event.preventDefault();
+      destination.focus();
     }));
   });
 
-  header.addEventListener('mouseover', event => {
-    const group = event.target.closest('.site-nav-group');
-    if (group && matchMedia('(min-width: 40.001rem)').matches) {
-      closeGroups(group);
-      group.querySelector('.site-nav-heading').setAttribute('aria-expanded', 'true');
-    }
-  });
-
-  header.addEventListener('mouseleave', () => closeGroups());
-
-  document.addEventListener('click', event => {
-    if (!header.contains(event.target)) {
-      closeGroups();
-      menuButton.setAttribute('aria-expanded', 'false');
-      groupsContainer.removeAttribute('data-menu-open');
-    }
-  });
-
-  document.addEventListener('keydown', event => {
-    if (event.key === 'Escape' && menuButton.getAttribute('aria-expanded') === 'true') {
-      closeGroups();
-      menuButton.setAttribute('aria-expanded', 'false');
-      groupsContainer.removeAttribute('data-menu-open');
+  // A disclosure is always a button. Links always navigate on their first activation.
+  header.addEventListener('keydown', event => {
+    if (event.key !== 'Escape') return;
+    const group = event.target.closest('.site-nav-group[data-open]');
+    if (group) {
+      event.preventDefault();
+      setOpen(group, false);
+      group.querySelector('.site-nav-heading').focus();
+    } else if (menuButton.getAttribute('aria-expanded') === 'true') {
+      event.preventDefault();
+      closeMenu();
       menuButton.focus();
     }
   });
+  header.addEventListener('focusout', event => {
+    if (!header.contains(event.relatedTarget)) closeMenu();
+    else groups.forEach(group => {
+      if (!group.contains(event.relatedTarget)) setOpen(group, false);
+    });
+  });
+  document.addEventListener('click', event => {
+    if (!header.contains(event.target)) closeMenu();
+    else if (event.target.closest('a')) closeMenu();
+  });
+  narrow.addEventListener('change', closeMenu);
+
+  const updateCurrent = () => {
+    header.querySelectorAll('a').forEach(link => {
+      const url = new URL(link.href, location.href);
+      const samePage = url.origin === location.origin && url.pathname === location.pathname;
+      const active = samePage && (url.hash ? url.hash === location.hash : !location.hash || url.pathname !== '/token-economy/');
+      if (active) link.setAttribute('aria-current', url.hash ? 'location' : 'page');
+      else link.removeAttribute('aria-current');
+    });
+  };
+  const updateOffset = () => document.documentElement.style.setProperty(
+    '--site-header-offset', `${header.getBoundingClientRect().height + 16}px`);
+  new ResizeObserver(updateOffset).observe(header);
+
+  // Keep a deep link aligned while evidence loads above it. User scrolling wins.
+  let followAnchor = Boolean(location.hash);
+  let scheduled = false;
+  const alignAnchor = () => {
+    if (!followAnchor || scheduled) return;
+    scheduled = true;
+    requestAnimationFrame(() => {
+      scheduled = false;
+      if (!followAnchor || !location.hash) return;
+      let id;
+      try { id = decodeURIComponent(location.hash.slice(1)); } catch { return; }
+      document.getElementById(id)?.scrollIntoView({ behavior: 'instant', block: 'start' });
+    });
+  };
+  const stopFollowing = () => { followAnchor = false; };
+  window.addEventListener('wheel', stopFollowing, { passive: true });
+  window.addEventListener('touchmove', stopFollowing, { passive: true });
+  window.addEventListener('pointerdown', event => {
+    if (!event.target.closest('a, button')) stopFollowing();
+  }, { passive: true });
+  window.addEventListener('keydown', event => {
+    if (['ArrowDown', 'ArrowUp', 'PageDown', 'PageUp', 'Home', 'End', ' '].includes(event.key)
+        && !event.target.closest('a, button, input, textarea, select')) stopFollowing();
+  });
+  window.addEventListener('hashchange', () => {
+    followAnchor = true;
+    updateCurrent();
+    alignAnchor();
+  });
+  document.addEventListener('click', event => {
+    const link = event.target.closest('a[href]');
+    if (!link || event.button !== 0 || event.ctrlKey || event.metaKey || event.shiftKey || event.altKey) return;
+    const url = new URL(link.href, location.href);
+    if (url.origin !== location.origin || url.pathname !== location.pathname || !url.hash) return;
+    followAnchor = true;
+    requestAnimationFrame(() => {
+      updateOffset();
+      alignAnchor();
+      let target;
+      try { target = document.getElementById(decodeURIComponent(url.hash.slice(1))); } catch { return; }
+      if (target) {
+        if (!target.hasAttribute('tabindex')) target.setAttribute('tabindex', '-1');
+        target.focus({ preventScroll: true });
+      }
+    });
+  });
+  const contentObserver = new ResizeObserver(alignAnchor);
+  const main = document.querySelector('main');
+  if (main && document.querySelector('[data-pending-content]')) contentObserver.observe(main);
+  document.addEventListener('site:content-ready', () => {
+    alignAnchor();
+    contentObserver.disconnect();
+  }, { once: true });
+  document.documentElement.classList.add('site-nav-enhanced');
+  updateOffset();
+  updateCurrent();
+  alignAnchor();
 });
