@@ -5,7 +5,7 @@ The public site is static, so it cannot read files outside website/ after it is
 deployed.  This command is the narrow bridge: it copies only the published
 fields from benchmark JSON and validates that each raw run has its report.
 
-Four artifacts are produced:
+Five artifacts are produced:
 
 * ``website/data/benchmarks.json`` — the published A/B and capability studies.
 * ``website/data/token-usage.json`` — the aggregates the token-usage charts
@@ -20,6 +20,9 @@ Four artifacts are produced:
 * ``website/data/task-class-recommendations.json`` — the versioned taxonomy,
   study-backed route, evidence, outcome cost, and downgrade boundary exposed
   by ``TaskClassRecommendationCatalog``.
+* ``website/data/model-benchmark-matrix.json`` — external and internal
+  benchmark evidence joined to the dated price catalog, with candidate rows
+  and the declared fallback token assumption.
 
 Every number here is derived from checked-in evidence. Nothing is hand-authored,
 so ``--check`` fails loudly when the committed site data no longer matches the
@@ -42,11 +45,15 @@ OUTPUT = ROOT / "website" / "data" / "benchmarks.json"
 USAGE_OUTPUT = ROOT / "website" / "data" / "token-usage.json"
 MATRIX_OUTPUT = ROOT / "website" / "data" / "model-efficiency-matrix.json"
 RECOMMENDATIONS_OUTPUT = ROOT / "website" / "data" / "task-class-recommendations.json"
+BENCHMARK_MATRIX_OUTPUT = ROOT / "website" / "data" / "model-benchmark-matrix.json"
 MATRIX_AS_OF_UTC = "2026-08-11T00:00:00Z"
+BENCHMARK_AS_OF_UTC = "2026-09-11T00:00:00Z"
 
 PRICE_CATALOG = ROOT / "src" / "TokenEconomy" / "catalog" / "model-prices.json"
 ROUTING_POLICY = ROOT / "src" / "TokenEconomy" / "catalog" / "model-routing-policy.json"
 TASK_CLASS_RECOMMENDATIONS = ROOT / "src" / "TokenEconomy" / "catalog" / "task-class-recommendations.json"
+BENCHMARK_TYPES = ROOT / "src" / "TokenEconomy" / "catalog" / "benchmark-types.json"
+BENCHMARK_RESULTS = ROOT / "src" / "TokenEconomy" / "catalog" / "benchmark-results.json"
 DOCUMENT_RESULTS = RESULTS / "document-to-text" / "curated-hard-cases-v1"
 CARD_BACKTEST = ROOT / "results" / "complexity-backtest" / "agent-studio-30-card-backtest.json"
 SESSION_ANALYSIS = ROOT / "docs" / "analyses" / "long-vs-short-session-cost.md"
@@ -301,6 +308,32 @@ def compute_cost(index: dict[str, dict], model: str, usage: dict[str, int], at_u
         "unconfirmed": bool(price.get("unconfirmed", False)),
         "totalUsd": money(sum(costs.values(), Decimal(0))),
         "components": {component: money(costs[component]) for component in COMPONENTS},
+    }
+
+
+def resolve_price(index: dict[str, dict], model: str, at_utc: datetime) -> dict:
+    """Expose the same dated price row used by compute_cost without copying it into evidence."""
+    listing = index.get(normalize_model_key(model))
+    if listing is None:
+        return {"status": "UnknownModel"}
+    selected = None
+    for entry in listing.get("history", []):
+        valid_from = parse_utc(entry["validFrom"])
+        valid_to = parse_utc(entry["validTo"]) if entry.get("validTo") else None
+        if valid_from <= at_utc and (valid_to is None or at_utc <= valid_to) \
+                and (selected is None or valid_from > parse_utc(selected["validFrom"])):
+            selected = entry
+    if selected is None:
+        return {"status": "NoPriceForDate"}
+    return {
+        "status": "Resolved",
+        "currency": selected.get("currency", "USD"),
+        "inputPerMTok": selected["inputPerMTok"],
+        "outputPerMTok": selected["outputPerMTok"],
+        "cacheReadPerMTok": selected.get("cacheReadPerMTok"),
+        "cacheWritePerMTok": selected.get("cacheWritePerMTok"),
+        "validFromUtc": selected["validFrom"],
+        "unconfirmed": bool(selected.get("unconfirmed", False)),
     }
 
 
@@ -612,6 +645,142 @@ def create_matrix_payload() -> dict:
     }
 
 
+def create_benchmark_matrix_payload() -> dict:
+    """Join append-only benchmark rows to dated catalog prices for the public matrix."""
+    type_document = load(BENCHMARK_TYPES)
+    result_document = load(BENCHMARK_RESULTS)
+    price_index = load_price_index()
+    as_of = parse_utc(BENCHMARK_AS_OF_UTC)
+    as_of_date = as_of.date()
+    assumption = {"input": 100_000, "output": 10_000, "cacheRead": 0, "cacheWrite": 0}
+    total_assumed_tokens = total_tokens(assumption)
+    references = {
+        "artificial-analysis-intelligence-index-v4.2": {"modelId": "gpt-5.6-sol", "effort": "high"},
+        "artificial-analysis-intelligence-index-v4.3": {"modelId": "gpt-5.6-sol", "effort": "high"},
+        "artificial-analysis-coding-agent-index-2026-09-09": {"modelId": "gpt-5.6-sol", "effort": "max"},
+        "deepswe-v1-aa-harness": {"modelId": "gpt-5.6-sol", "effort": "max"},
+        "deepswe-v1.1": {"modelId": "gpt-5.6-sol", "effort": "max"},
+        "terminal-bench-v4.0": {"modelId": "gpt-5.6-sol", "effort": "unspecified"},
+    }
+    matrices = []
+    for benchmark_type in type_document["records"]:
+        type_id = benchmark_type["id"]
+        source_rows = [row for row in result_document["records"] if row["benchmarkTypeId"] == type_id]
+        groups: dict[tuple[str, str], list[dict]] = {}
+        for row in source_rows:
+            if datetime.fromisoformat(row["publishedAt"]).date() <= as_of_date:
+                groups.setdefault((row["modelId"], row["reasoningEffort"]), []).append(row)
+        cells = []
+        for (model, effort), evidence in groups.items():
+            evidence.sort(
+                key=lambda row: (row["publishedAt"], row["retrievedAt"]), reverse=True)
+            selected = evidence[0]
+            published = selected.get("secondaryMetrics", {}).get("costPerTaskUsd")
+            derived = compute_cost(price_index, model, assumption, as_of)
+            cost = published if published is not None else derived.get("totalUsd")
+            price = resolve_price(price_index, model, as_of)
+            blended = None if derived.get("totalUsd") is None else money(
+                Decimal(str(derived["totalUsd"])) / Decimal(total_assumed_tokens) * Decimal(1_000_000))
+            age = (as_of_date - datetime.fromisoformat(selected["publishedAt"]).date()).days
+            cells.append({
+                "modelId": model,
+                "effort": effort,
+                "score": selected["score"],
+                "scoreIsNormalized": False,
+                "prices": price,
+                "publishedInputTokensPerTask": selected.get("secondaryMetrics", {}).get("inputTokensPerTask"),
+                "publishedOutputTokensPerTask": selected.get("secondaryMetrics", {}).get("outputTokensPerTask"),
+                "publishedCostPerTaskUsd": published,
+                "costPerTaskUsd": cost,
+                "costBasis": "publishedPerTask" if published is not None else
+                    "declaredTokenAssumption" if cost is not None else "unavailable",
+                "blendedPricePerMillionTokensUsd": blended,
+                "scorePerDollar": None if not cost else float(
+                    (Decimal(str(selected["score"])) / Decimal(str(cost))).quantize(CENT_MICRO, rounding=ROUND_HALF_EVEN)),
+                "scoreDeltaToReference": None,
+                "costDeltaToReferenceUsd": None,
+                "evidenceAgeDays": age,
+                "stale": age > 90,
+                "evidence": evidence,
+            })
+        effort_order = {name: index for index, name in enumerate(
+            ["minimal", "low", "medium", "high", "xHigh", "ultra", "max", "unspecified"])}
+        cells.sort(key=lambda cell: (cell["modelId"], effort_order[cell["effort"]]))
+        reference = references.get(type_id)
+        reference_cell = next((cell for cell in cells if reference and
+            cell["modelId"] == reference["modelId"] and cell["effort"] == reference["effort"]), None)
+        if reference_cell:
+            for cell in cells:
+                cell["scoreDeltaToReference"] = float(
+                    Decimal(str(cell["score"])) - Decimal(str(reference_cell["score"])))
+                if cell["costPerTaskUsd"] is not None and reference_cell["costPerTaskUsd"] is not None:
+                    cell["costDeltaToReferenceUsd"] = money(
+                        Decimal(str(cell["costPerTaskUsd"])) - Decimal(str(reference_cell["costPerTaskUsd"])))
+        candidates = [] if reference_cell is None else [
+            cell for cell in cells
+            if cell is not reference_cell and cell["score"] >= reference_cell["score"]
+            and (
+                cell["costPerTaskUsd"] is not None and reference_cell["costPerTaskUsd"] is not None
+                and cell["costPerTaskUsd"] < reference_cell["costPerTaskUsd"]
+                or cell["blendedPricePerMillionTokensUsd"] is not None
+                and reference_cell["blendedPricePerMillionTokensUsd"] is not None
+                and cell["blendedPricePerMillionTokensUsd"] < reference_cell["blendedPricePerMillionTokensUsd"]
+            )
+        ]
+        candidates.sort(key=lambda cell: (
+            -cell["score"], cell["costPerTaskUsd"] if cell["costPerTaskUsd"] is not None else float("inf"),
+            cell["modelId"], effort_order[cell["effort"]]))
+        matrices.append({
+            **benchmark_type,
+            "reference": reference if reference_cell else None,
+            "cells": cells,
+            "candidates": [{"modelId": cell["modelId"], "effort": cell["effort"],
+                "score": cell["score"], "costPerTaskUsd": cell["costPerTaskUsd"],
+                "evidence": [{**row,
+                    "evidenceAgeDays": max(0, (as_of_date - datetime.fromisoformat(row["publishedAt"]).date()).days),
+                    "stale": (as_of_date - datetime.fromisoformat(row["publishedAt"]).date()).days > 90}
+                    for row in cell["evidence"]]} for cell in candidates],
+        })
+
+    default_id = "artificial-analysis-intelligence-index-v4.3"
+    default_matrix = next(matrix for matrix in matrices if matrix["id"] == default_id)
+    astra = next(cell for cell in default_matrix["cells"] if cell["modelId"] == "gpt-6-astra" and cell["effort"] == "low")
+    sol = next(cell for cell in default_matrix["cells"] if cell["modelId"] == "gpt-5.6-sol" and cell["effort"] == "high")
+    better = astra["score"] > sol["score"]
+    cheaper = astra["costPerTaskUsd"] < sol["costPerTaskUsd"]
+    return {
+        "schemaVersion": 1,
+        "generatedAtUtc": datetime.now(timezone.utc).isoformat(),
+        "asOfUtc": BENCHMARK_AS_OF_UTC,
+        "defaultBenchmarkTypeId": default_id,
+        "source": {
+            "benchmarkTypes": BENCHMARK_TYPES.relative_to(ROOT).as_posix(),
+            "benchmarkResults": BENCHMARK_RESULTS.relative_to(ROOT).as_posix(),
+            "priceCatalog": PRICE_CATALOG.relative_to(ROOT).as_posix(),
+        },
+        "tokenAssumption": {
+            **assumption,
+            "note": "Used only when the selected evidence row has no published cost per task."
+        },
+        "provenanceFacts": [
+            {"label": "Price catalog snapshot", "date": "2026-09-11", "path": PRICE_CATALOG.relative_to(ROOT).as_posix()},
+            {"label": "Benchmark definitions captured through", "date": max(row["capturedAt"] for row in type_document["records"]), "path": BENCHMARK_TYPES.relative_to(ROOT).as_posix()},
+            {"label": "Benchmark results retrieved through", "date": max(row["retrievedAt"] for row in result_document["records"]), "path": BENCHMARK_RESULTS.relative_to(ROOT).as_posix()},
+        ],
+        "drivingQuestion": {
+            "question": "Is gpt-6-astra at effort low better and cheaper than gpt-5.6-sol at effort high?",
+            "benchmarkTypeId": default_id,
+            "challenger": {"modelId": "gpt-6-astra", "effort": "low"},
+            "reference": {"modelId": "gpt-5.6-sol", "effort": "high"},
+            "better": better,
+            "cheaper": cheaper,
+            "answer": "Better on this score, but not cheaper per published task or per token." if better and not cheaper else
+                "Better and cheaper on this evidence." if better and cheaper else "The evidence does not establish both claims.",
+        },
+        "benchmarkTypes": matrices,
+    }
+
+
 def create_recommendation_payload() -> dict:
     """Validate and publish the library's task-class recommendation source."""
     document = load(TASK_CLASS_RECOMMENDATIONS)
@@ -676,11 +845,13 @@ def main() -> None:
     payload = create_payload()
     usage_payload = create_usage_payload()
     matrix_payload = create_matrix_payload()
+    benchmark_matrix_payload = create_benchmark_matrix_payload()
     recommendation_payload = create_recommendation_payload()
     artifacts = (
         (OUTPUT, payload),
         (USAGE_OUTPUT, usage_payload),
         (MATRIX_OUTPUT, matrix_payload),
+        (BENCHMARK_MATRIX_OUTPUT, benchmark_matrix_payload),
         (RECOMMENDATIONS_OUTPUT, recommendation_payload),
     )
     if args.check:
@@ -688,7 +859,7 @@ def main() -> None:
             name = path.relative_to(ROOT).as_posix()
             if not path.exists() or canonical(load(path)) != canonical(expected):
                 raise SystemExit(f"{name} is stale; run scripts/generate-website-data.py")
-        print("Website benchmark, token-usage, model-efficiency matrix, and task-class recommendation data are current.")
+        print("Website benchmark, token-usage, model-efficiency, price-performance, and task-class recommendation data are current.")
         return
     OUTPUT.parent.mkdir(parents=True, exist_ok=True)
     for path, value in artifacts:
@@ -704,6 +875,10 @@ def main() -> None:
         f"Wrote {MATRIX_OUTPUT.relative_to(ROOT).as_posix()} with "
         f"{len(matrix_payload['rows'])} model-efficiency rows as of "
         f"{matrix_payload['asOfUtc']}.")
+    print(
+        f"Wrote {BENCHMARK_MATRIX_OUTPUT.relative_to(ROOT).as_posix()} with "
+        f"{len(benchmark_matrix_payload['benchmarkTypes'])} benchmark types as of "
+        f"{benchmark_matrix_payload['asOfUtc']}.")
     print(
         f"Wrote {RECOMMENDATIONS_OUTPUT.relative_to(ROOT).as_posix()} with "
         f"{len(recommendation_payload['recommendations'])} task classes.")

@@ -69,6 +69,17 @@ public class ModelEfficiencySeedTests
     }
 
     [Fact]
+    public void Astra_IsCatalogedButExternalEvidenceDoesNotSilentlyChangeRoutingPolicy()
+    {
+        var astra = Matrix.Find(KnownModels.Gpt6Astra)!;
+
+        Assert.Equal(CapabilityTier.Frontier, astra.Tier);
+        Assert.Equal(ModelRoutingStatus.Unsupported, astra.RoutingStatus);
+        Assert.Equal(CostClass.Premium, Matrix.CostClassOf(KnownModels.Gpt6Astra, new DateTime(2026, 9, 11, 0, 0, 0, DateTimeKind.Utc)));
+        Assert.Empty(astra.WorkflowRoles);
+    }
+
+    [Fact]
     public void Haiku_IsLight_EconomyCost_AndCapsAtMediumEffort()
     {
         var haiku = Matrix.Find("claude-haiku-4-5")!;

@@ -44,6 +44,12 @@
     "history": [{ "inputPerMTok": 1.00, "outputPerMTok": 5.00, "cacheReadPerMTok": 0.10, "cacheWritePerMTok": 1.25, "currency": "USD", "validFrom": "0001-01-01T00:00:00Z", "source": "Anthropic published pricing (cache-read = 0.1x input, cache-write = 5-min-TTL 1.25x input)" }]
   },
   {
+    "modelId": "gpt-6-astra", "displayName": "GPT-6 Astra", "vendor": "openai", "aliases": ["astra"],
+    "history": [
+      { "inputPerMTok": 10.00, "outputPerMTok": 50.00, "cacheReadPerMTok": 1.00, "cacheWritePerMTok": 12.50, "currency": "USD", "validFrom": "2026-09-03T00:00:00Z", "source": "OpenAI GPT-6 Astra launch and model pricing: https://openai.com/index/gpt-6-astra/; https://developers.openai.com/api/docs/models/gpt-6-astra (retrieved 2026-09-11)", "note": "Standard API pricing. Batch and Flex are 50% of Standard; Fast is 2x. Prompts over 272K input tokens use the documented long-context premium, which this flat-rate catalog cannot represent." }
+    ]
+  },
+  {
     "modelId": "gpt-5.6-luna", "displayName": "GPT-5.6 Luna", "vendor": "openai", "aliases": ["luna"],
     "history": [
       { "inputPerMTok": 1.00, "outputPerMTok": 6.00, "cacheReadPerMTok": 0.10, "cacheWritePerMTok": 1.25, "currency": "USD", "validFrom": "2026-06-26T00:00:00Z", "validTo": "2026-07-29T23:59:59.9999999Z", "source": "OpenAI GPT-5.6 preview pricing: https://openai.com/index/previewing-gpt-5-6-sol/ (retrieved 2026-08-09)", "note": "Limited-preview launch pricing. Standard API pricing for requests with at most 272K input tokens; longer contexts use a higher tier that this flat-rate catalog cannot represent." },
@@ -60,7 +66,8 @@
   {
     "modelId": "gpt-5.6-sol", "displayName": "GPT-5.6 Sol", "vendor": "openai", "aliases": ["gpt-5.6", "sol"],
     "history": [
-      { "inputPerMTok": 5.00, "outputPerMTok": 30.00, "cacheReadPerMTok": 0.50, "cacheWritePerMTok": 6.25, "currency": "USD", "validFrom": "2026-06-26T00:00:00Z", "source": "OpenAI GPT-5.6 preview and current standard API pricing: https://openai.com/index/previewing-gpt-5-6-sol/; https://developers.openai.com/api/docs/pricing (retrieved 2026-08-09)", "note": "Effective from the limited-preview launch. Standard API pricing for requests with at most 272K input tokens; longer contexts use a higher tier that this flat-rate catalog cannot represent." }
+      { "inputPerMTok": 5.00, "outputPerMTok": 30.00, "cacheReadPerMTok": 0.50, "cacheWritePerMTok": 6.25, "currency": "USD", "validFrom": "2026-06-26T00:00:00Z", "validTo": "2026-09-02T23:59:59.9999999Z", "source": "OpenAI GPT-5.6 preview and standard API pricing: https://openai.com/index/previewing-gpt-5-6-sol/; https://developers.openai.com/api/docs/pricing (retrieved 2026-08-09)", "note": "Effective from the limited-preview launch until the GPT-6 Astra launch promotion. Standard API pricing for requests with at most 272K input tokens; longer contexts use a higher tier that this flat-rate catalog cannot represent." },
+      { "inputPerMTok": 4.00, "outputPerMTok": 20.00, "cacheReadPerMTok": 0.40, "cacheWritePerMTok": 5.00, "currency": "USD", "validFrom": "2026-09-03T00:00:00Z", "source": "OpenAI GPT-6 Astra launch and GPT-5.6 Sol model pricing: https://openai.com/index/gpt-6-astra/; https://developers.openai.com/api/docs/models/gpt-5.6-sol (retrieved 2026-09-11)", "note": "Promotional Standard API pricing available at least through 2026-11-21. Prompts over 272K input tokens use the documented long-context premium, which this flat-rate catalog cannot represent." }
     ]
   },
   {

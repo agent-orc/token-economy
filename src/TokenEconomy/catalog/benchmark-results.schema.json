@@ -1,0 +1,50 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://agent-orchestrator.dev/token-economy/benchmark-results.schema.json",
+  "title": "Token Economy append-only benchmark result catalog",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["$schema", "schemaVersion", "records"],
+  "properties": {
+    "$schema": { "const": "benchmark-results.schema.json" },
+    "schemaVersion": { "const": 1 },
+    "records": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/result" }
+    }
+  },
+  "$defs": {
+    "result": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id", "benchmarkTypeId", "modelId", "reasoningEffort", "score",
+        "publishedAt", "retrievedAt", "sourceUrl", "retrievalMethod",
+        "evidenceExcerpt", "confidence"
+      ],
+      "properties": {
+        "id": { "type": "string", "pattern": "^[a-z0-9][a-z0-9.-]+$" },
+        "benchmarkTypeId": { "type": "string", "minLength": 1 },
+        "modelId": { "type": "string", "minLength": 1 },
+        "reasoningEffort": { "enum": ["unspecified", "minimal", "low", "medium", "high", "xHigh", "ultra", "max"] },
+        "score": { "type": "number" },
+        "secondaryMetrics": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "inputTokensPerTask": { "type": "integer", "minimum": 0 },
+            "outputTokensPerTask": { "type": "integer", "minimum": 0 },
+            "costPerTaskUsd": { "type": "number", "exclusiveMinimum": 0 },
+            "latencyMilliseconds": { "type": "number", "minimum": 0 }
+          }
+        },
+        "publishedAt": { "type": "string", "format": "date" },
+        "retrievedAt": { "type": "string", "format": "date" },
+        "sourceUrl": { "type": "string", "format": "uri" },
+        "retrievalMethod": { "enum": ["manual", "script", "api"] },
+        "evidenceExcerpt": { "type": "string", "minLength": 1 },
+        "confidence": { "enum": ["publisherReported", "thirdParty", "ownRun"] }
+      }
+    }
+  }
+}

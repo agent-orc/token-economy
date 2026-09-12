@@ -105,6 +105,24 @@ public class ModelPriceSeedTests
         Assert.Equal("gpt-5.5-cyber-preview", Catalog.Find("GPT-5.5-CYBER")?.ModelId);
     }
 
+    [Fact]
+    public void AstraAndCurrentSol_HaveDatedOfficialRates()
+    {
+        var at = new DateTime(2026, 9, 11, 0, 0, 0, DateTimeKind.Utc);
+        var astra = Catalog.ResolvePrice(KnownModels.Gpt6Astra, at).Price;
+        var sol = Catalog.ResolvePrice(KnownModels.Gpt56Sol, at).Price;
+
+        Assert.NotNull(astra);
+        Assert.Equal((10m, 50m, 1m, 12.5m),
+            (astra!.InputPerMTok, astra.OutputPerMTok, astra.CacheReadPerMTok, astra.CacheWritePerMTok));
+        Assert.NotNull(sol);
+        Assert.Equal((4m, 20m, 0.4m, 5m),
+            (sol!.InputPerMTok, sol.OutputPerMTok, sol.CacheReadPerMTok, sol.CacheWritePerMTok));
+        Assert.Contains("retrieved 2026-09-11", astra.Source);
+        Assert.Contains("retrieved 2026-09-11", sol.Source);
+        Assert.Equal(2, Catalog.PriceDevelopment(KnownModels.Gpt56Sol).Count);
+    }
+
     [Theory]
     [InlineData("gpt-5.6-sol", 5.00, 30.00, 0.50, 6.25)]
     [InlineData("gpt-5.6-terra", 2.00, 12.00, 0.20, 2.50)]
@@ -144,8 +162,11 @@ public class ModelPriceSeedTests
     public void ConfirmedOpenAiHistory_StartsAtPublishedLaunchDates()
     {
         Assert.Equal(
-            new DateTime(2026, 6, 26, 0, 0, 0, DateTimeKind.Utc),
-            Catalog.PriceDevelopment("gpt-5.6-sol").Single().ValidFrom);
+            [
+                new DateTime(2026, 6, 26, 0, 0, 0, DateTimeKind.Utc),
+                new DateTime(2026, 9, 3, 0, 0, 0, DateTimeKind.Utc),
+            ],
+            Catalog.PriceDevelopment("gpt-5.6-sol").Select(price => price.ValidFrom));
         Assert.Equal(
             [
                 new DateTime(2026, 6, 26, 0, 0, 0, DateTimeKind.Utc),
@@ -171,12 +192,16 @@ public class ModelPriceSeedTests
             new DateTime(2026, 5, 7, 0, 0, 0, DateTimeKind.Utc),
             Catalog.PriceDevelopment("gpt-5.5-cyber-preview").Single().ValidFrom);
 
-        foreach (var id in new[] { "gpt-5.6-sol", "gpt-5.6-terra", "gpt-5.6-luna", "gpt-5.4-mini" })
+        foreach (var id in new[] { "gpt-5.6-terra", "gpt-5.6-luna", "gpt-5.4-mini" })
             foreach (var price in Catalog.PriceDevelopment(id))
             {
                 Assert.Contains("https://", price.Source);
                 Assert.Contains("retrieved 2026-08-09", price.Source);
             }
+
+        Assert.All(Catalog.PriceDevelopment("gpt-5.6-sol"), price => Assert.Contains("https://", price.Source));
+        Assert.Contains(Catalog.PriceDevelopment("gpt-5.6-sol"), price => price.Source!.Contains("retrieved 2026-08-09"));
+        Assert.Contains(Catalog.PriceDevelopment("gpt-5.6-sol"), price => price.Source!.Contains("retrieved 2026-09-11"));
 
         foreach (var id in new[] { "gpt-5.5", "gpt-5.5-pro", "gpt-5.5-cyber-preview" })
             foreach (var price in Catalog.PriceDevelopment(id))

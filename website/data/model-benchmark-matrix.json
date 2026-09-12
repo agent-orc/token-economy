@@ -1,0 +1,1080 @@
+{
+  "schemaVersion": 1,
+  "generatedAtUtc": "2026-09-11T07:18:09.817211+00:00",
+  "asOfUtc": "2026-09-11T00:00:00Z",
+  "defaultBenchmarkTypeId": "artificial-analysis-intelligence-index-v4.3",
+  "source": {
+    "benchmarkTypes": "src/TokenEconomy/catalog/benchmark-types.json",
+    "benchmarkResults": "src/TokenEconomy/catalog/benchmark-results.json",
+    "priceCatalog": "src/TokenEconomy/catalog/model-prices.json"
+  },
+  "tokenAssumption": {
+    "input": 100000,
+    "output": 10000,
+    "cacheRead": 0,
+    "cacheWrite": 0,
+    "note": "Used only when the selected evidence row has no published cost per task."
+  },
+  "provenanceFacts": [
+    {
+      "label": "Price catalog snapshot",
+      "date": "2026-09-11",
+      "path": "src/TokenEconomy/catalog/model-prices.json"
+    },
+    {
+      "label": "Benchmark definitions captured through",
+      "date": "2026-09-11",
+      "path": "src/TokenEconomy/catalog/benchmark-types.json"
+    },
+    {
+      "label": "Benchmark results retrieved through",
+      "date": "2026-09-11",
+      "path": "src/TokenEconomy/catalog/benchmark-results.json"
+    }
+  ],
+  "drivingQuestion": {
+    "question": "Is gpt-6-astra at effort low better and cheaper than gpt-5.6-sol at effort high?",
+    "benchmarkTypeId": "artificial-analysis-intelligence-index-v4.3",
+    "challenger": {
+      "modelId": "gpt-6-astra",
+      "effort": "low"
+    },
+    "reference": {
+      "modelId": "gpt-5.6-sol",
+      "effort": "high"
+    },
+    "better": true,
+    "cheaper": false,
+    "answer": "Better on this score, but not cheaper per published task or per token."
+  },
+  "benchmarkTypes": [
+    {
+      "id": "artificial-analysis-intelligence-index-v4.2",
+      "version": "4.2",
+      "name": "Artificial Analysis Intelligence Index",
+      "publisher": "Artificial Analysis",
+      "capabilityClass": "reasoning",
+      "unit": "index points",
+      "minimumScore": 0,
+      "maximumScore": 100,
+      "direction": "higherIsBetter",
+      "methodologyUrl": "https://artificialanalysis.ai/methodology/intelligence-benchmarking",
+      "citationNote": "Independent composite index. Keep the version with every result because component evaluations and weights change.",
+      "validFrom": "2026-09-04",
+      "capturedAt": "2026-09-11",
+      "retrievedAt": "2026-09-11",
+      "reference": {
+        "modelId": "gpt-5.6-sol",
+        "effort": "high"
+      },
+      "cells": [
+        {
+          "modelId": "gpt-5.6-sol",
+          "effort": "high",
+          "score": 48,
+          "scoreIsNormalized": false,
+          "prices": {
+            "status": "Resolved",
+            "currency": "USD",
+            "inputPerMTok": 4.0,
+            "outputPerMTok": 20.0,
+            "cacheReadPerMTok": 0.4,
+            "cacheWritePerMTok": 5.0,
+            "validFromUtc": "2026-09-03T00:00:00Z",
+            "unconfirmed": false
+          },
+          "publishedInputTokensPerTask": null,
+          "publishedOutputTokensPerTask": null,
+          "publishedCostPerTaskUsd": null,
+          "costPerTaskUsd": 0.6,
+          "costBasis": "declaredTokenAssumption",
+          "blendedPricePerMillionTokensUsd": 5.454545,
+          "scorePerDollar": 80.0,
+          "scoreDeltaToReference": 0.0,
+          "costDeltaToReferenceUsd": 0.0,
+          "evidenceAgeDays": 4,
+          "stale": false,
+          "evidence": [
+            {
+              "id": "aa-ii-v4.2-sol-high-2026-09-07",
+              "benchmarkTypeId": "artificial-analysis-intelligence-index-v4.2",
+              "modelId": "gpt-5.6-sol",
+              "reasoningEffort": "high",
+              "score": 48,
+              "publishedAt": "2026-09-07",
+              "retrievedAt": "2026-09-11",
+              "sourceUrl": "https://thenewstack.io/astra-reasoning-effort-cost/",
+              "retrievalMethod": "manual",
+              "evidenceExcerpt": "Artificial Analysis currently scores Astra-low at 49 on its Intelligence Index, narrowly ahead of Sol-high at 48.",
+              "confidence": "thirdParty"
+            }
+          ]
+        },
+        {
+          "modelId": "gpt-6-astra",
+          "effort": "low",
+          "score": 49,
+          "scoreIsNormalized": false,
+          "prices": {
+            "status": "Resolved",
+            "currency": "USD",
+            "inputPerMTok": 10.0,
+            "outputPerMTok": 50.0,
+            "cacheReadPerMTok": 1.0,
+            "cacheWritePerMTok": 12.5,
+            "validFromUtc": "2026-09-03T00:00:00Z",
+            "unconfirmed": false
+          },
+          "publishedInputTokensPerTask": null,
+          "publishedOutputTokensPerTask": null,
+          "publishedCostPerTaskUsd": null,
+          "costPerTaskUsd": 1.5,
+          "costBasis": "declaredTokenAssumption",
+          "blendedPricePerMillionTokensUsd": 13.636364,
+          "scorePerDollar": 32.666667,
+          "scoreDeltaToReference": 1.0,
+          "costDeltaToReferenceUsd": 0.9,
+          "evidenceAgeDays": 4,
+          "stale": false,
+          "evidence": [
+            {
+              "id": "aa-ii-v4.2-astra-low-2026-09-07",
+              "benchmarkTypeId": "artificial-analysis-intelligence-index-v4.2",
+              "modelId": "gpt-6-astra",
+              "reasoningEffort": "low",
+              "score": 49,
+              "publishedAt": "2026-09-07",
+              "retrievedAt": "2026-09-11",
+              "sourceUrl": "https://thenewstack.io/astra-reasoning-effort-cost/",
+              "retrievalMethod": "manual",
+              "evidenceExcerpt": "Artificial Analysis currently scores Astra-low at 49 on its Intelligence Index, narrowly ahead of Sol-high at 48.",
+              "confidence": "thirdParty"
+            }
+          ]
+        }
+      ],
+      "candidates": []
+    },
+    {
+      "id": "artificial-analysis-intelligence-index-v4.3",
+      "version": "4.3",
+      "name": "Artificial Analysis Intelligence Index",
+      "publisher": "Artificial Analysis",
+      "capabilityClass": "reasoning",
+      "unit": "index points",
+      "minimumScore": 0,
+      "maximumScore": 100,
+      "direction": "higherIsBetter",
+      "methodologyUrl": "https://artificialanalysis.ai/methodology/intelligence-benchmarking",
+      "citationNote": "Independent composite index of ten evaluations; cost per task is the publisher's weighted list-price calculation.",
+      "validFrom": "2026-09-07",
+      "capturedAt": "2026-09-11",
+      "retrievedAt": "2026-09-11",
+      "reference": {
+        "modelId": "gpt-5.6-sol",
+        "effort": "high"
+      },
+      "cells": [
+        {
+          "modelId": "gpt-5.6-sol",
+          "effort": "high",
+          "score": 42,
+          "scoreIsNormalized": false,
+          "prices": {
+            "status": "Resolved",
+            "currency": "USD",
+            "inputPerMTok": 4.0,
+            "outputPerMTok": 20.0,
+            "cacheReadPerMTok": 0.4,
+            "cacheWritePerMTok": 5.0,
+            "validFromUtc": "2026-09-03T00:00:00Z",
+            "unconfirmed": false
+          },
+          "publishedInputTokensPerTask": null,
+          "publishedOutputTokensPerTask": 13000,
+          "publishedCostPerTaskUsd": 0.81,
+          "costPerTaskUsd": 0.81,
+          "costBasis": "publishedPerTask",
+          "blendedPricePerMillionTokensUsd": 5.454545,
+          "scorePerDollar": 51.851852,
+          "scoreDeltaToReference": 0.0,
+          "costDeltaToReferenceUsd": 0.0,
+          "evidenceAgeDays": 0,
+          "stale": false,
+          "evidence": [
+            {
+              "id": "aa-ii-v4.3-sol-high-2026-09-11",
+              "benchmarkTypeId": "artificial-analysis-intelligence-index-v4.3",
+              "modelId": "gpt-5.6-sol",
+              "reasoningEffort": "high",
+              "score": 42,
+              "secondaryMetrics": {
+                "outputTokensPerTask": 13000,
+                "costPerTaskUsd": 0.81,
+                "latencyMilliseconds": 41690
+              },
+              "publishedAt": "2026-09-11",
+              "retrievedAt": "2026-09-11",
+              "sourceUrl": "https://artificialanalysis.ai/models/comparisons/gpt-6-astra-low-vs-gpt-5-6-sol-high",
+              "retrievalMethod": "manual",
+              "evidenceExcerpt": "Intelligence Index: 46 vs 42; cost per task: $0.82 vs $0.81; output tokens: 4k vs 13k.",
+              "confidence": "publisherReported"
+            }
+          ]
+        },
+        {
+          "modelId": "gpt-5.6-sol",
+          "effort": "max",
+          "score": 47,
+          "scoreIsNormalized": false,
+          "prices": {
+            "status": "Resolved",
+            "currency": "USD",
+            "inputPerMTok": 4.0,
+            "outputPerMTok": 20.0,
+            "cacheReadPerMTok": 0.4,
+            "cacheWritePerMTok": 5.0,
+            "validFromUtc": "2026-09-03T00:00:00Z",
+            "unconfirmed": false
+          },
+          "publishedInputTokensPerTask": null,
+          "publishedOutputTokensPerTask": 29000,
+          "publishedCostPerTaskUsd": 1.99,
+          "costPerTaskUsd": 1.99,
+          "costBasis": "publishedPerTask",
+          "blendedPricePerMillionTokensUsd": 5.454545,
+          "scorePerDollar": 23.61809,
+          "scoreDeltaToReference": 5.0,
+          "costDeltaToReferenceUsd": 1.18,
+          "evidenceAgeDays": 0,
+          "stale": false,
+          "evidence": [
+            {
+              "id": "aa-ii-v4.3-sol-max-2026-09-11",
+              "benchmarkTypeId": "artificial-analysis-intelligence-index-v4.3",
+              "modelId": "gpt-5.6-sol",
+              "reasoningEffort": "max",
+              "score": 47,
+              "secondaryMetrics": {
+                "outputTokensPerTask": 29000,
+                "costPerTaskUsd": 1.99
+              },
+              "publishedAt": "2026-09-11",
+              "retrievedAt": "2026-09-11",
+              "sourceUrl": "https://artificialanalysis.ai/models/comparisons/gpt-6-astra-low-vs-gpt-5-6-sol",
+              "retrievalMethod": "manual",
+              "evidenceExcerpt": "GPT-5.6 Sol (max): Intelligence Index 47; cost per task $1.99; output tokens per task 29k.",
+              "confidence": "publisherReported"
+            }
+          ]
+        },
+        {
+          "modelId": "gpt-6-astra",
+          "effort": "low",
+          "score": 46,
+          "scoreIsNormalized": false,
+          "prices": {
+            "status": "Resolved",
+            "currency": "USD",
+            "inputPerMTok": 10.0,
+            "outputPerMTok": 50.0,
+            "cacheReadPerMTok": 1.0,
+            "cacheWritePerMTok": 12.5,
+            "validFromUtc": "2026-09-03T00:00:00Z",
+            "unconfirmed": false
+          },
+          "publishedInputTokensPerTask": null,
+          "publishedOutputTokensPerTask": 4000,
+          "publishedCostPerTaskUsd": 0.82,
+          "costPerTaskUsd": 0.82,
+          "costBasis": "publishedPerTask",
+          "blendedPricePerMillionTokensUsd": 13.636364,
+          "scorePerDollar": 56.097561,
+          "scoreDeltaToReference": 4.0,
+          "costDeltaToReferenceUsd": 0.01,
+          "evidenceAgeDays": 0,
+          "stale": false,
+          "evidence": [
+            {
+              "id": "aa-ii-v4.3-astra-low-2026-09-11",
+              "benchmarkTypeId": "artificial-analysis-intelligence-index-v4.3",
+              "modelId": "gpt-6-astra",
+              "reasoningEffort": "low",
+              "score": 46,
+              "secondaryMetrics": {
+                "outputTokensPerTask": 4000,
+                "costPerTaskUsd": 0.82,
+                "latencyMilliseconds": 2620
+              },
+              "publishedAt": "2026-09-11",
+              "retrievedAt": "2026-09-11",
+              "sourceUrl": "https://artificialanalysis.ai/models/comparisons/gpt-6-astra-low-vs-gpt-5-6-sol-high",
+              "retrievalMethod": "manual",
+              "evidenceExcerpt": "Intelligence Index: 46 vs 42; cost per task: $0.82 vs $0.81; output tokens: 4k vs 13k.",
+              "confidence": "publisherReported"
+            }
+          ]
+        },
+        {
+          "modelId": "gpt-6-astra",
+          "effort": "max",
+          "score": 53,
+          "scoreIsNormalized": false,
+          "prices": {
+            "status": "Resolved",
+            "currency": "USD",
+            "inputPerMTok": 10.0,
+            "outputPerMTok": 50.0,
+            "cacheReadPerMTok": 1.0,
+            "cacheWritePerMTok": 12.5,
+            "validFromUtc": "2026-09-03T00:00:00Z",
+            "unconfirmed": false
+          },
+          "publishedInputTokensPerTask": null,
+          "publishedOutputTokensPerTask": 27000,
+          "publishedCostPerTaskUsd": 3.26,
+          "costPerTaskUsd": 3.26,
+          "costBasis": "publishedPerTask",
+          "blendedPricePerMillionTokensUsd": 13.636364,
+          "scorePerDollar": 16.257669,
+          "scoreDeltaToReference": 11.0,
+          "costDeltaToReferenceUsd": 2.45,
+          "evidenceAgeDays": 2,
+          "stale": false,
+          "evidence": [
+            {
+              "id": "aa-ii-v4.3-astra-max-2026-09-09",
+              "benchmarkTypeId": "artificial-analysis-intelligence-index-v4.3",
+              "modelId": "gpt-6-astra",
+              "reasoningEffort": "max",
+              "score": 53,
+              "secondaryMetrics": {
+                "outputTokensPerTask": 27000,
+                "costPerTaskUsd": 3.26
+              },
+              "publishedAt": "2026-09-09",
+              "retrievedAt": "2026-09-11",
+              "sourceUrl": "https://artificialanalysis.ai/articles/benchmarking-gpt-6-astra",
+              "retrievalMethod": "manual",
+              "evidenceExcerpt": "GPT-6 Astra (max) scores 53; at max it costs $3.26 and uses 27k output tokens per task.",
+              "confidence": "publisherReported"
+            }
+          ]
+        }
+      ],
+      "candidates": []
+    },
+    {
+      "id": "artificial-analysis-coding-agent-index-2026-09-09",
+      "version": "2026-09-09 snapshot",
+      "name": "Artificial Analysis Coding Agent Index",
+      "publisher": "Artificial Analysis",
+      "capabilityClass": "codingAgent",
+      "unit": "index points",
+      "minimumScore": 0,
+      "maximumScore": 100,
+      "direction": "higherIsBetter",
+      "methodologyUrl": "https://artificialanalysis.ai/methodology/coding-agents-benchmarking/",
+      "citationNote": "Independent pass@1 composite over coding-agent evaluations. The snapshot date is used because the source article does not name an index version.",
+      "validFrom": "2026-09-09",
+      "capturedAt": "2026-09-11",
+      "retrievedAt": "2026-09-11",
+      "reference": {
+        "modelId": "gpt-5.6-sol",
+        "effort": "max"
+      },
+      "cells": [
+        {
+          "modelId": "gpt-5.6-sol",
+          "effort": "max",
+          "score": 55,
+          "scoreIsNormalized": false,
+          "prices": {
+            "status": "Resolved",
+            "currency": "USD",
+            "inputPerMTok": 4.0,
+            "outputPerMTok": 20.0,
+            "cacheReadPerMTok": 0.4,
+            "cacheWritePerMTok": 5.0,
+            "validFromUtc": "2026-09-03T00:00:00Z",
+            "unconfirmed": false
+          },
+          "publishedInputTokensPerTask": null,
+          "publishedOutputTokensPerTask": null,
+          "publishedCostPerTaskUsd": null,
+          "costPerTaskUsd": 0.6,
+          "costBasis": "declaredTokenAssumption",
+          "blendedPricePerMillionTokensUsd": 5.454545,
+          "scorePerDollar": 91.666667,
+          "scoreDeltaToReference": 0.0,
+          "costDeltaToReferenceUsd": 0.0,
+          "evidenceAgeDays": 2,
+          "stale": false,
+          "evidence": [
+            {
+              "id": "aa-coding-2026-09-09-sol-max",
+              "benchmarkTypeId": "artificial-analysis-coding-agent-index-2026-09-09",
+              "modelId": "gpt-5.6-sol",
+              "reasoningEffort": "max",
+              "score": 55,
+              "publishedAt": "2026-09-09",
+              "retrievedAt": "2026-09-11",
+              "sourceUrl": "https://artificialanalysis.ai/articles/benchmarking-gpt-6-astra",
+              "retrievalMethod": "manual",
+              "evidenceExcerpt": "GPT-6 Astra scores 62 in the Index, ahead of GPT-5.6 Sol at 55.",
+              "confidence": "publisherReported"
+            }
+          ]
+        },
+        {
+          "modelId": "gpt-6-astra",
+          "effort": "max",
+          "score": 62,
+          "scoreIsNormalized": false,
+          "prices": {
+            "status": "Resolved",
+            "currency": "USD",
+            "inputPerMTok": 10.0,
+            "outputPerMTok": 50.0,
+            "cacheReadPerMTok": 1.0,
+            "cacheWritePerMTok": 12.5,
+            "validFromUtc": "2026-09-03T00:00:00Z",
+            "unconfirmed": false
+          },
+          "publishedInputTokensPerTask": null,
+          "publishedOutputTokensPerTask": null,
+          "publishedCostPerTaskUsd": 7.09,
+          "costPerTaskUsd": 7.09,
+          "costBasis": "publishedPerTask",
+          "blendedPricePerMillionTokensUsd": 13.636364,
+          "scorePerDollar": 8.744711,
+          "scoreDeltaToReference": 7.0,
+          "costDeltaToReferenceUsd": 6.49,
+          "evidenceAgeDays": 2,
+          "stale": false,
+          "evidence": [
+            {
+              "id": "aa-coding-2026-09-09-astra-max",
+              "benchmarkTypeId": "artificial-analysis-coding-agent-index-2026-09-09",
+              "modelId": "gpt-6-astra",
+              "reasoningEffort": "max",
+              "score": 62,
+              "secondaryMetrics": {
+                "costPerTaskUsd": 7.09
+              },
+              "publishedAt": "2026-09-09",
+              "retrievedAt": "2026-09-11",
+              "sourceUrl": "https://artificialanalysis.ai/articles/benchmarking-gpt-6-astra",
+              "retrievalMethod": "manual",
+              "evidenceExcerpt": "In Codex, GPT-6 Astra scores 62 in the Index; at max effort it costs $7.09 per task.",
+              "confidence": "publisherReported"
+            }
+          ]
+        }
+      ],
+      "candidates": []
+    },
+    {
+      "id": "swe-bench-verified-500",
+      "version": "500-task verified subset",
+      "name": "SWE-bench Verified",
+      "publisher": "SWE-bench and OpenAI",
+      "capabilityClass": "codingAgent",
+      "unit": "percent resolved",
+      "minimumScore": 0,
+      "maximumScore": 100,
+      "direction": "higherIsBetter",
+      "methodologyUrl": "https://openai.com/index/introducing-swe-bench-verified/",
+      "citationNote": "Human-validated 500-task subset of SWE-bench. OpenAI has since warned that saturation and contamination limit frontier comparisons.",
+      "validFrom": "2024-08-13",
+      "capturedAt": "2026-09-11",
+      "retrievedAt": "2026-09-11",
+      "reference": null,
+      "cells": [],
+      "candidates": []
+    },
+    {
+      "id": "deepswe-v1-aa-harness",
+      "version": "v1, Artificial Analysis harness",
+      "name": "DeepSWE",
+      "publisher": "DataCurve; run by Artificial Analysis",
+      "capabilityClass": "codingAgent",
+      "unit": "percent resolved",
+      "minimumScore": 0,
+      "maximumScore": 100,
+      "direction": "higherIsBetter",
+      "methodologyUrl": "https://deepswe.datacurve.ai/",
+      "citationNote": "DeepSWE component result under the Artificial Analysis coding-agent harness; do not compare it directly with v1.1 leaderboard rows.",
+      "validFrom": "2026-09-09",
+      "capturedAt": "2026-09-11",
+      "retrievedAt": "2026-09-11",
+      "reference": {
+        "modelId": "gpt-5.6-sol",
+        "effort": "max"
+      },
+      "cells": [
+        {
+          "modelId": "gpt-5.6-sol",
+          "effort": "max",
+          "score": 72,
+          "scoreIsNormalized": false,
+          "prices": {
+            "status": "Resolved",
+            "currency": "USD",
+            "inputPerMTok": 4.0,
+            "outputPerMTok": 20.0,
+            "cacheReadPerMTok": 0.4,
+            "cacheWritePerMTok": 5.0,
+            "validFromUtc": "2026-09-03T00:00:00Z",
+            "unconfirmed": false
+          },
+          "publishedInputTokensPerTask": null,
+          "publishedOutputTokensPerTask": null,
+          "publishedCostPerTaskUsd": null,
+          "costPerTaskUsd": 0.6,
+          "costBasis": "declaredTokenAssumption",
+          "blendedPricePerMillionTokensUsd": 5.454545,
+          "scorePerDollar": 120.0,
+          "scoreDeltaToReference": 0.0,
+          "costDeltaToReferenceUsd": 0.0,
+          "evidenceAgeDays": 2,
+          "stale": false,
+          "evidence": [
+            {
+              "id": "deepswe-v1-aa-sol-max",
+              "benchmarkTypeId": "deepswe-v1-aa-harness",
+              "modelId": "gpt-5.6-sol",
+              "reasoningEffort": "max",
+              "score": 72,
+              "publishedAt": "2026-09-09",
+              "retrievedAt": "2026-09-11",
+              "sourceUrl": "https://artificialanalysis.ai/articles/benchmarking-gpt-6-astra",
+              "retrievalMethod": "manual",
+              "evidenceExcerpt": "Its lead comes from other components, partly offset by a lower score on DeepSWE: 68% vs 72%.",
+              "confidence": "thirdParty"
+            }
+          ]
+        },
+        {
+          "modelId": "gpt-6-astra",
+          "effort": "max",
+          "score": 68,
+          "scoreIsNormalized": false,
+          "prices": {
+            "status": "Resolved",
+            "currency": "USD",
+            "inputPerMTok": 10.0,
+            "outputPerMTok": 50.0,
+            "cacheReadPerMTok": 1.0,
+            "cacheWritePerMTok": 12.5,
+            "validFromUtc": "2026-09-03T00:00:00Z",
+            "unconfirmed": false
+          },
+          "publishedInputTokensPerTask": null,
+          "publishedOutputTokensPerTask": null,
+          "publishedCostPerTaskUsd": null,
+          "costPerTaskUsd": 1.5,
+          "costBasis": "declaredTokenAssumption",
+          "blendedPricePerMillionTokensUsd": 13.636364,
+          "scorePerDollar": 45.333333,
+          "scoreDeltaToReference": -4.0,
+          "costDeltaToReferenceUsd": 0.9,
+          "evidenceAgeDays": 2,
+          "stale": false,
+          "evidence": [
+            {
+              "id": "deepswe-v1-aa-astra-max",
+              "benchmarkTypeId": "deepswe-v1-aa-harness",
+              "modelId": "gpt-6-astra",
+              "reasoningEffort": "max",
+              "score": 68,
+              "publishedAt": "2026-09-09",
+              "retrievedAt": "2026-09-11",
+              "sourceUrl": "https://artificialanalysis.ai/articles/benchmarking-gpt-6-astra",
+              "retrievalMethod": "manual",
+              "evidenceExcerpt": "Its lead comes from other components, partly offset by a lower score on DeepSWE: 68% vs 72%.",
+              "confidence": "thirdParty"
+            }
+          ]
+        }
+      ],
+      "candidates": []
+    },
+    {
+      "id": "deepswe-v1.1",
+      "version": "1.1 (113 tasks)",
+      "name": "DeepSWE v1.1",
+      "publisher": "DataCurve",
+      "capabilityClass": "codingAgent",
+      "unit": "percent resolved",
+      "minimumScore": 0,
+      "maximumScore": 100,
+      "direction": "higherIsBetter",
+      "methodologyUrl": "https://deepswe.datacurve.ai/",
+      "citationNote": "113 original long-horizon software-engineering tasks with hand-written behavioral verifiers and a shared mini-swe-agent harness.",
+      "validFrom": "2026-09-03",
+      "capturedAt": "2026-09-11",
+      "retrievedAt": "2026-09-11",
+      "reference": {
+        "modelId": "gpt-5.6-sol",
+        "effort": "max"
+      },
+      "cells": [
+        {
+          "modelId": "gpt-5.6-sol",
+          "effort": "max",
+          "score": 73,
+          "scoreIsNormalized": false,
+          "prices": {
+            "status": "Resolved",
+            "currency": "USD",
+            "inputPerMTok": 4.0,
+            "outputPerMTok": 20.0,
+            "cacheReadPerMTok": 0.4,
+            "cacheWritePerMTok": 5.0,
+            "validFromUtc": "2026-09-03T00:00:00Z",
+            "unconfirmed": false
+          },
+          "publishedInputTokensPerTask": null,
+          "publishedOutputTokensPerTask": 60000,
+          "publishedCostPerTaskUsd": 6.46,
+          "costPerTaskUsd": 6.46,
+          "costBasis": "publishedPerTask",
+          "blendedPricePerMillionTokensUsd": 5.454545,
+          "scorePerDollar": 11.30031,
+          "scoreDeltaToReference": 0.0,
+          "costDeltaToReferenceUsd": 0.0,
+          "evidenceAgeDays": 8,
+          "stale": false,
+          "evidence": [
+            {
+              "id": "deepswe-v1.1-datacurve-sol-max",
+              "benchmarkTypeId": "deepswe-v1.1",
+              "modelId": "gpt-5.6-sol",
+              "reasoningEffort": "max",
+              "score": 73,
+              "secondaryMetrics": {
+                "outputTokensPerTask": 60000,
+                "costPerTaskUsd": 6.46
+              },
+              "publishedAt": "2026-09-03",
+              "retrievedAt": "2026-09-11",
+              "sourceUrl": "https://deepswe.datacurve.ai/",
+              "retrievalMethod": "manual",
+              "evidenceExcerpt": "gpt-5.6-sol[max]: 73%\u00b13%; average cost $6.46; output tokens 60k.",
+              "confidence": "publisherReported"
+            }
+          ]
+        },
+        {
+          "modelId": "gpt-5.6-sol",
+          "effort": "unspecified",
+          "score": 72.7,
+          "scoreIsNormalized": false,
+          "prices": {
+            "status": "Resolved",
+            "currency": "USD",
+            "inputPerMTok": 4.0,
+            "outputPerMTok": 20.0,
+            "cacheReadPerMTok": 0.4,
+            "cacheWritePerMTok": 5.0,
+            "validFromUtc": "2026-09-03T00:00:00Z",
+            "unconfirmed": false
+          },
+          "publishedInputTokensPerTask": null,
+          "publishedOutputTokensPerTask": null,
+          "publishedCostPerTaskUsd": null,
+          "costPerTaskUsd": 0.6,
+          "costBasis": "declaredTokenAssumption",
+          "blendedPricePerMillionTokensUsd": 5.454545,
+          "scorePerDollar": 121.166667,
+          "scoreDeltaToReference": -0.3,
+          "costDeltaToReferenceUsd": -5.86,
+          "evidenceAgeDays": 8,
+          "stale": false,
+          "evidence": [
+            {
+              "id": "deepswe-v1.1-openai-sol-unspecified",
+              "benchmarkTypeId": "deepswe-v1.1",
+              "modelId": "gpt-5.6-sol",
+              "reasoningEffort": "unspecified",
+              "score": 72.7,
+              "publishedAt": "2026-09-03",
+              "retrievedAt": "2026-09-11",
+              "sourceUrl": "https://openai.com/index/gpt-6-astra/",
+              "retrievalMethod": "manual",
+              "evidenceExcerpt": "DeepSWE v1.1: GPT-6 Astra 74.1%; GPT-5.6 Sol 72.7%.",
+              "confidence": "publisherReported"
+            }
+          ]
+        },
+        {
+          "modelId": "gpt-6-astra",
+          "effort": "xHigh",
+          "score": 74,
+          "scoreIsNormalized": false,
+          "prices": {
+            "status": "Resolved",
+            "currency": "USD",
+            "inputPerMTok": 10.0,
+            "outputPerMTok": 50.0,
+            "cacheReadPerMTok": 1.0,
+            "cacheWritePerMTok": 12.5,
+            "validFromUtc": "2026-09-03T00:00:00Z",
+            "unconfirmed": false
+          },
+          "publishedInputTokensPerTask": null,
+          "publishedOutputTokensPerTask": 30000,
+          "publishedCostPerTaskUsd": 6.52,
+          "costPerTaskUsd": 6.52,
+          "costBasis": "publishedPerTask",
+          "blendedPricePerMillionTokensUsd": 13.636364,
+          "scorePerDollar": 11.349693,
+          "scoreDeltaToReference": 1.0,
+          "costDeltaToReferenceUsd": 0.06,
+          "evidenceAgeDays": 8,
+          "stale": false,
+          "evidence": [
+            {
+              "id": "deepswe-v1.1-datacurve-astra-xhigh",
+              "benchmarkTypeId": "deepswe-v1.1",
+              "modelId": "gpt-6-astra",
+              "reasoningEffort": "xHigh",
+              "score": 74,
+              "secondaryMetrics": {
+                "outputTokensPerTask": 30000,
+                "costPerTaskUsd": 6.52
+              },
+              "publishedAt": "2026-09-03",
+              "retrievedAt": "2026-09-11",
+              "sourceUrl": "https://deepswe.datacurve.ai/",
+              "retrievalMethod": "manual",
+              "evidenceExcerpt": "gpt-6-astra[xhigh]: 74%\u00b13%; average cost $6.52; output tokens 30k.",
+              "confidence": "publisherReported"
+            }
+          ]
+        },
+        {
+          "modelId": "gpt-6-astra",
+          "effort": "unspecified",
+          "score": 74.1,
+          "scoreIsNormalized": false,
+          "prices": {
+            "status": "Resolved",
+            "currency": "USD",
+            "inputPerMTok": 10.0,
+            "outputPerMTok": 50.0,
+            "cacheReadPerMTok": 1.0,
+            "cacheWritePerMTok": 12.5,
+            "validFromUtc": "2026-09-03T00:00:00Z",
+            "unconfirmed": false
+          },
+          "publishedInputTokensPerTask": null,
+          "publishedOutputTokensPerTask": null,
+          "publishedCostPerTaskUsd": null,
+          "costPerTaskUsd": 1.5,
+          "costBasis": "declaredTokenAssumption",
+          "blendedPricePerMillionTokensUsd": 13.636364,
+          "scorePerDollar": 49.4,
+          "scoreDeltaToReference": 1.1,
+          "costDeltaToReferenceUsd": -4.96,
+          "evidenceAgeDays": 8,
+          "stale": false,
+          "evidence": [
+            {
+              "id": "deepswe-v1.1-openai-astra-unspecified",
+              "benchmarkTypeId": "deepswe-v1.1",
+              "modelId": "gpt-6-astra",
+              "reasoningEffort": "unspecified",
+              "score": 74.1,
+              "publishedAt": "2026-09-03",
+              "retrievedAt": "2026-09-11",
+              "sourceUrl": "https://openai.com/index/gpt-6-astra/",
+              "retrievalMethod": "manual",
+              "evidenceExcerpt": "DeepSWE v1.1: GPT-6 Astra 74.1%; GPT-5.6 Sol 72.7%.",
+              "confidence": "publisherReported"
+            }
+          ]
+        }
+      ],
+      "candidates": [
+        {
+          "modelId": "gpt-6-astra",
+          "effort": "unspecified",
+          "score": 74.1,
+          "costPerTaskUsd": 1.5,
+          "evidence": [
+            {
+              "id": "deepswe-v1.1-openai-astra-unspecified",
+              "benchmarkTypeId": "deepswe-v1.1",
+              "modelId": "gpt-6-astra",
+              "reasoningEffort": "unspecified",
+              "score": 74.1,
+              "publishedAt": "2026-09-03",
+              "retrievedAt": "2026-09-11",
+              "sourceUrl": "https://openai.com/index/gpt-6-astra/",
+              "retrievalMethod": "manual",
+              "evidenceExcerpt": "DeepSWE v1.1: GPT-6 Astra 74.1%; GPT-5.6 Sol 72.7%.",
+              "confidence": "publisherReported",
+              "evidenceAgeDays": 8,
+              "stale": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "terminal-bench-v4.0",
+      "version": "4.0",
+      "name": "Terminal-Bench",
+      "publisher": "Harbor framework",
+      "capabilityClass": "codingAgent",
+      "unit": "percent passed",
+      "minimumScore": 0,
+      "maximumScore": 100,
+      "direction": "higherIsBetter",
+      "methodologyUrl": "https://www.tbench.ai/news/announcement",
+      "citationNote": "Agent tasks executed in terminal environments. Harness and integrity rules are part of the result context.",
+      "validFrom": "2026-09-03",
+      "capturedAt": "2026-09-11",
+      "retrievedAt": "2026-09-11",
+      "reference": {
+        "modelId": "gpt-5.6-sol",
+        "effort": "unspecified"
+      },
+      "cells": [
+        {
+          "modelId": "gpt-5.6-sol",
+          "effort": "unspecified",
+          "score": 37.3,
+          "scoreIsNormalized": false,
+          "prices": {
+            "status": "Resolved",
+            "currency": "USD",
+            "inputPerMTok": 4.0,
+            "outputPerMTok": 20.0,
+            "cacheReadPerMTok": 0.4,
+            "cacheWritePerMTok": 5.0,
+            "validFromUtc": "2026-09-03T00:00:00Z",
+            "unconfirmed": false
+          },
+          "publishedInputTokensPerTask": null,
+          "publishedOutputTokensPerTask": null,
+          "publishedCostPerTaskUsd": null,
+          "costPerTaskUsd": 0.6,
+          "costBasis": "declaredTokenAssumption",
+          "blendedPricePerMillionTokensUsd": 5.454545,
+          "scorePerDollar": 62.166667,
+          "scoreDeltaToReference": 0.0,
+          "costDeltaToReferenceUsd": 0.0,
+          "evidenceAgeDays": 8,
+          "stale": false,
+          "evidence": [
+            {
+              "id": "terminal-bench-v4-openai-sol-unspecified",
+              "benchmarkTypeId": "terminal-bench-v4.0",
+              "modelId": "gpt-5.6-sol",
+              "reasoningEffort": "unspecified",
+              "score": 37.3,
+              "publishedAt": "2026-09-03",
+              "retrievedAt": "2026-09-11",
+              "sourceUrl": "https://openai.com/index/gpt-6-astra/",
+              "retrievalMethod": "manual",
+              "evidenceExcerpt": "Terminal-Bench 4.0: GPT-6 Astra 57.9%; GPT-5.6 Sol 37.3%.",
+              "confidence": "publisherReported"
+            }
+          ]
+        },
+        {
+          "modelId": "gpt-6-astra",
+          "effort": "unspecified",
+          "score": 57.9,
+          "scoreIsNormalized": false,
+          "prices": {
+            "status": "Resolved",
+            "currency": "USD",
+            "inputPerMTok": 10.0,
+            "outputPerMTok": 50.0,
+            "cacheReadPerMTok": 1.0,
+            "cacheWritePerMTok": 12.5,
+            "validFromUtc": "2026-09-03T00:00:00Z",
+            "unconfirmed": false
+          },
+          "publishedInputTokensPerTask": null,
+          "publishedOutputTokensPerTask": null,
+          "publishedCostPerTaskUsd": null,
+          "costPerTaskUsd": 1.5,
+          "costBasis": "declaredTokenAssumption",
+          "blendedPricePerMillionTokensUsd": 13.636364,
+          "scorePerDollar": 38.6,
+          "scoreDeltaToReference": 20.6,
+          "costDeltaToReferenceUsd": 0.9,
+          "evidenceAgeDays": 8,
+          "stale": false,
+          "evidence": [
+            {
+              "id": "terminal-bench-v4-openai-astra-unspecified",
+              "benchmarkTypeId": "terminal-bench-v4.0",
+              "modelId": "gpt-6-astra",
+              "reasoningEffort": "unspecified",
+              "score": 57.9,
+              "publishedAt": "2026-09-03",
+              "retrievedAt": "2026-09-11",
+              "sourceUrl": "https://openai.com/index/gpt-6-astra/",
+              "retrievalMethod": "manual",
+              "evidenceExcerpt": "Terminal-Bench 4.0: GPT-6 Astra 57.9%; GPT-5.6 Sol 37.3%.",
+              "confidence": "publisherReported"
+            }
+          ]
+        }
+      ],
+      "candidates": []
+    },
+    {
+      "id": "token-economy-controlled-setups-v1",
+      "version": "1",
+      "name": "Token Economy controlled setups",
+      "publisher": "Token Economy",
+      "capabilityClass": "controlledSetup",
+      "unit": "percent successful attempts",
+      "minimumScore": 0,
+      "maximumScore": 100,
+      "direction": "higherIsBetter",
+      "methodologyUrl": "https://github.com/agent-orc/token-economy/blob/main/benchmarks/README.md",
+      "citationNote": "Repository-owned, identical-scenario setups in benchmarks/setups. Each setup id remains part of the evidence excerpt and source path.",
+      "validFrom": "2026-07-22",
+      "capturedAt": "2026-09-11",
+      "retrievedAt": "2026-09-11",
+      "reference": null,
+      "cells": [
+        {
+          "modelId": "claude-sonnet-5",
+          "effort": "high",
+          "score": 100,
+          "scoreIsNormalized": false,
+          "prices": {
+            "status": "Resolved",
+            "currency": "USD",
+            "inputPerMTok": 3.0,
+            "outputPerMTok": 15.0,
+            "cacheReadPerMTok": 0.3,
+            "cacheWritePerMTok": 3.75,
+            "validFromUtc": "2026-09-01T00:00:00Z",
+            "unconfirmed": false
+          },
+          "publishedInputTokensPerTask": null,
+          "publishedOutputTokensPerTask": null,
+          "publishedCostPerTaskUsd": null,
+          "costPerTaskUsd": 0.45,
+          "costBasis": "declaredTokenAssumption",
+          "blendedPricePerMillionTokensUsd": 4.090909,
+          "scorePerDollar": 222.222222,
+          "scoreDeltaToReference": null,
+          "costDeltaToReferenceUsd": null,
+          "evidenceAgeDays": 33,
+          "stale": false,
+          "evidence": [
+            {
+              "id": "token-economy-palindrome-sonnet5-high-20260809",
+              "benchmarkTypeId": "token-economy-controlled-setups-v1",
+              "modelId": "claude-sonnet-5",
+              "reasoningEffort": "high",
+              "score": 100,
+              "publishedAt": "2026-08-09",
+              "retrievedAt": "2026-09-11",
+              "sourceUrl": "https://github.com/agent-orc/token-economy/blob/main/benchmarks/results/palindrome-repair/20260809T092240107Z.report.json",
+              "retrievalMethod": "script",
+              "evidenceExcerpt": "palindrome-repair: claude-sonnet-5/high passed 3 of 3 isolated attempts (100%).",
+              "confidence": "ownRun"
+            }
+          ]
+        },
+        {
+          "modelId": "gpt-5.6-sol",
+          "effort": "medium",
+          "score": 100,
+          "scoreIsNormalized": false,
+          "prices": {
+            "status": "Resolved",
+            "currency": "USD",
+            "inputPerMTok": 4.0,
+            "outputPerMTok": 20.0,
+            "cacheReadPerMTok": 0.4,
+            "cacheWritePerMTok": 5.0,
+            "validFromUtc": "2026-09-03T00:00:00Z",
+            "unconfirmed": false
+          },
+          "publishedInputTokensPerTask": null,
+          "publishedOutputTokensPerTask": null,
+          "publishedCostPerTaskUsd": null,
+          "costPerTaskUsd": 0.6,
+          "costBasis": "declaredTokenAssumption",
+          "blendedPricePerMillionTokensUsd": 5.454545,
+          "scorePerDollar": 166.666667,
+          "scoreDeltaToReference": null,
+          "costDeltaToReferenceUsd": null,
+          "evidenceAgeDays": 33,
+          "stale": false,
+          "evidence": [
+            {
+              "id": "token-economy-palindrome-sol-medium-20260809",
+              "benchmarkTypeId": "token-economy-controlled-setups-v1",
+              "modelId": "gpt-5.6-sol",
+              "reasoningEffort": "medium",
+              "score": 100,
+              "publishedAt": "2026-08-09",
+              "retrievedAt": "2026-09-11",
+              "sourceUrl": "https://github.com/agent-orc/token-economy/blob/main/benchmarks/results/palindrome-repair/20260809T092240107Z.report.json",
+              "retrievalMethod": "script",
+              "evidenceExcerpt": "palindrome-repair: sol-medium passed 3 of 3 isolated attempts (100%).",
+              "confidence": "ownRun"
+            }
+          ]
+        },
+        {
+          "modelId": "gpt-5.6-terra",
+          "effort": "medium",
+          "score": 100,
+          "scoreIsNormalized": false,
+          "prices": {
+            "status": "Resolved",
+            "currency": "USD",
+            "inputPerMTok": 2.0,
+            "outputPerMTok": 12.0,
+            "cacheReadPerMTok": 0.2,
+            "cacheWritePerMTok": 2.5,
+            "validFromUtc": "2026-07-30T00:00:00Z",
+            "unconfirmed": false
+          },
+          "publishedInputTokensPerTask": null,
+          "publishedOutputTokensPerTask": null,
+          "publishedCostPerTaskUsd": null,
+          "costPerTaskUsd": 0.32,
+          "costBasis": "declaredTokenAssumption",
+          "blendedPricePerMillionTokensUsd": 2.909091,
+          "scorePerDollar": 312.5,
+          "scoreDeltaToReference": null,
+          "costDeltaToReferenceUsd": null,
+          "evidenceAgeDays": 33,
+          "stale": false,
+          "evidence": [
+            {
+              "id": "token-economy-palindrome-terra-medium-20260809",
+              "benchmarkTypeId": "token-economy-controlled-setups-v1",
+              "modelId": "gpt-5.6-terra",
+              "reasoningEffort": "medium",
+              "score": 100,
+              "publishedAt": "2026-08-09",
+              "retrievedAt": "2026-09-11",
+              "sourceUrl": "https://github.com/agent-orc/token-economy/blob/main/benchmarks/results/palindrome-repair/20260809T092240107Z.report.json",
+              "retrievalMethod": "script",
+              "evidenceExcerpt": "palindrome-repair: terra-medium passed 3 of 3 isolated attempts (100%).",
+              "confidence": "ownRun"
+            }
+          ]
+        }
+      ],
+      "candidates": []
+    }
+  ]
+}

@@ -4,13 +4,16 @@ The static marketing + documentation site for **Token Economy**, served at
 <https://agent-orchestrator.dev/token-economy/>.
 
 - **Plain static HTML with a checked data step.** `index.html` has inline CSS,
-  inline JavaScript, and a data-URI favicon. `scripts/generate-website-data.py` writes four
+  inline JavaScript, and a data-URI favicon. `scripts/generate-website-data.py` writes five
   artifacts — `website/data/benchmarks.json` (published studies) and
   `website/data/token-usage.json` (the chart aggregates), plus
   `website/data/model-efficiency-matrix.json` (the checked
   `ModelEfficiencyMatrix.Describe` projection), plus
   `website/data/task-class-recommendations.json` (the checked public projection
   of the library's study-backed card-creation advice) — and CI rejects stale data.
+  The fifth artifact, `website/data/model-benchmark-matrix.json`, joins the
+  versioned external benchmark catalog to dated prices for the
+  `model-benchmarks/` page and its candidate recommendations.
 - **English**, light/dark theme-aware, responsive.
 - Content: what/why, a rendered token-efficiency matrix and `SuggestModel`
   example, install, the dated cost API, a complexity-estimation explainer,

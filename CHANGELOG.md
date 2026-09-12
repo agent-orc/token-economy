@@ -7,6 +7,21 @@ SemVer; pre-1.0 the public API may still shift).
 
 ### Added
 
+- Added schema-backed, append-only benchmark type and model/effort result
+  catalogs, plus the pure `ModelBenchmarkMatrix` API for single or weighted
+  benchmark scores, dated prices, published task metrics, declared-assumption
+  cost, score per dollar, reference deltas, 90-day freshness, and ranked
+  at-least-as-good/cheaper candidate recommendations. Seeded verified Artificial
+  Analysis, DeepSWE, Terminal-Bench, SWE-bench Verified, and repository-owned
+  controlled-setup definitions and evidence; added the generated public matrix,
+  evidence page, repeatable refresh script, source recipe, and refresh log
+  (TE-46).
+- Added GPT-6 Astra to the dated price catalog and `KnownModels`, and appended
+  GPT-5.6 Sol's September promotional price without rewriting its earlier
+  history. Astra remains explicitly unsupported by routing policy version
+  2026-07-24; external benchmark evidence does not silently change correctness
+  floors (TE-46).
+
 - Added the schema-backed `model-migrations.v1.json` catalog for Agent Studio's
   `latestInFamily` strategy. It records Claude Opus 4.5-4.8 to Opus 5, Claude
   Sonnet 4.5/4.6 to Sonnet 5, GPT-5.5 to GPT-5.6 Sol, Haiku and Mini retention,

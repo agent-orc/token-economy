@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Benchmark price-performance matrix — Token Economy</title>
+  <meta name="description" content="Versioned external benchmark evidence joined to dated API prices by model and reasoning effort.">
+  <link rel="canonical" href="https://agent-orchestrator.dev/token-economy/model-benchmarks/">
+  <style>
+    :root {
+      --bg: #fff; --bg-alt: #f5f7fb; --panel: #fff; --border: #dce3ee;
+      --text: #182033; --muted: #5b667a; --accent: #2f6df0; --accent-soft: #eaf1ff;
+      --ok: #147847; --warn: #956400; --danger: #ac3442; --code-bg: #f4f6fa;
+      --space-1: .25rem; --space-2: .5rem; --space-3: .75rem; --space-4: 1rem;
+      --space-5: 1.25rem; --space-6: 1.5rem; --space-8: 2rem; --space-10: 2.5rem;
+      --space-12: 3rem; --radius-sm: .4rem; --radius-md: .75rem;
+      --mono: ui-monospace, "SF Mono", "Cascadia Code", Menlo, Consolas, monospace;
+      --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root { --bg: #0f1420; --bg-alt: #131a29; --panel: #161d2c; --border: #29344d;
+        --text: #e7ecf6; --muted: #99a5bc; --accent: #78a6ff; --accent-soft: #172542;
+        --ok: #4ac388; --warn: #e1b64d; --danger: #f07b87; --code-bg: #0c111b; }
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; font-family: var(--sans); color: var(--text); background: var(--bg); line-height: 1.55; }
+    a { color: var(--accent); text-decoration: none; } a:hover { text-decoration: underline; }
+    code { font-family: var(--mono); font-size: .92em; }
+    .wrap { width: min(82rem, calc(100% - var(--space-8))); margin-inline: auto; }
+    header { border-bottom: .0625rem solid var(--border); }
+    header .wrap { min-height: 3.75rem; display: flex; gap: var(--space-5); align-items: center; }
+    .brand { color: var(--text); font-weight: 750; } nav { margin-left: auto; display: flex; gap: var(--space-5); }
+    .hero { padding-block: var(--space-12); background: var(--bg-alt); }
+    .eyebrow { color: var(--accent); font: 700 .78rem/1 var(--mono); letter-spacing: .08em; text-transform: uppercase; }
+    h1 { max-width: 60rem; margin: var(--space-3) 0 var(--space-4); font-size: clamp(2rem, 6vw, 3.5rem); line-height: 1.08; letter-spacing: -.03em; }
+    h2 { margin: 0 0 var(--space-3); font-size: 1.6rem; } h3 { margin: 0 0 var(--space-2); font-size: 1.05rem; }
+    .lead, .muted { color: var(--muted); } .lead { max-width: 54rem; font-size: 1.08rem; }
+    section { padding-block: var(--space-10); border-top: .0625rem solid var(--border); }
+    .answer, .notice, .card { border: .0625rem solid var(--border); border-radius: var(--radius-md); padding: var(--space-5); background: var(--panel); }
+    .answer { margin-top: var(--space-8); border-color: color-mix(in srgb, var(--accent) 45%, var(--border)); background: var(--accent-soft); }
+    .answer strong { display: block; font-size: 1.2rem; margin-bottom: var(--space-2); }
+    .controls { display: flex; flex-wrap: wrap; align-items: end; gap: var(--space-4); margin-block: var(--space-6); }
+    label { display: grid; gap: var(--space-2); color: var(--muted); font-size: .82rem; font-weight: 650; }
+    select { min-width: min(32rem, 80vw); padding: var(--space-3); color: var(--text); background: var(--panel); border: .0625rem solid var(--border); border-radius: var(--radius-sm); font: inherit; }
+    .type-note { max-width: 65rem; }
+    .table-scroll { overflow-x: auto; margin-top: var(--space-5); }
+    table { width: 100%; min-width: 78rem; border-collapse: collapse; font-size: .86rem; }
+    th, td { padding: var(--space-3); text-align: left; vertical-align: top; border-bottom: .0625rem solid var(--border); }
+    th { color: var(--muted); font-size: .72rem; letter-spacing: .05em; text-transform: uppercase; }
+    td.model { min-width: 11rem; font-family: var(--mono); font-weight: 700; }
+    td.price { white-space: nowrap; font-family: var(--mono); }
+    td.cell { min-width: 13rem; background: color-mix(in srgb, var(--panel) 96%, var(--accent)); }
+    td.empty { color: var(--muted); text-align: center; }
+    .score { display: block; font: 750 1.18rem/1.2 var(--mono); }
+    .delta { color: var(--ok); font-family: var(--mono); } .delta.negative { color: var(--danger); }
+    .basis, .source { color: var(--muted); font-size: .78rem; }
+    .source { display: block; margin-top: var(--space-2); line-height: 1.4; }
+    .stale { color: var(--warn); font-weight: 700; }
+    .candidates { display: grid; gap: var(--space-3); grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr)); margin-top: var(--space-4); }
+    .candidate { border-left: .2rem solid var(--ok); }
+    .provenance { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-4); margin-top: var(--space-5); }
+    footer { padding-block: var(--space-8); color: var(--muted); border-top: .0625rem solid var(--border); }
+    @media (max-width: 48rem) { .provenance { grid-template-columns: 1fr; } nav { gap: var(--space-3); } .optional { display: none; } }
+  </style>
+</head>
+<body>
+  <header><div class="wrap"><a class="brand" href="../">¢ Token Economy</a><nav><a href="#matrix">Matrix</a><a href="#candidates">Candidates</a><a class="optional" href="#provenance">Provenance</a></nav></div></header>
+  <main>
+    <div class="hero"><div class="wrap">
+      <span class="eyebrow">External benchmark evidence · retrieved 2026-09-11</span>
+      <h1>Quality and price, at the same model effort.</h1>
+      <p class="lead">Versioned benchmark measurements are joined to the price catalog at render time. Published task cost wins; otherwise the page labels and uses one declared token assumption.</p>
+      <div class="answer" id="answer"><strong>Loading the evidence-backed answer…</strong></div>
+    </div></div>
+
+    <section id="matrix"><div class="wrap">
+      <h2>Model × effort matrix</h2>
+      <div class="controls"><label for="benchmark-type">Benchmark type<select id="benchmark-type"></select></label><span class="muted" id="reference"></span></div>
+      <div class="type-note" id="type-note"></div>
+      <div id="matrix-host" aria-live="polite"><p class="muted">Loading generated matrix data…</p></div>
+    </div></section>
+
+    <section id="candidates"><div class="wrap">
+      <h2 id="candidate-title">Candidates</h2>
+      <p class="muted">A candidate must be at least as good on the selected score and cheaper on published task cost or on the declared token-price mix. This library recommends candidates; it does not route work or lower correctness floors.</p>
+      <div class="candidates" id="candidate-host"></div>
+    </div></section>
+
+    <section id="provenance"><div class="wrap">
+      <h2>Snapshot provenance</h2>
+      <div class="provenance" id="provenance-host"></div>
+      <p class="muted" id="assumption"></p>
+    </div></section>
+  </main>
+  <footer><div class="wrap">Token Economy · generated evidence projection · <a href="https://github.com/agent-orc/token-economy/blob/main/docs/benchmarks-research.md">refresh recipe</a></div></footer>
+  <script>
+  (() => {
+    const escape = value => String(value).replace(/[&<>"']/g, char => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[char]));
+    const money = value => value == null ? 'unknown' : `$${Number(value).toFixed(value < 1 ? 2 : 2)}`;
+    const number = value => value == null ? '—' : Number(value).toLocaleString('en-US', {maximumFractionDigits: 2});
+    const efforts = ['minimal', 'low', 'medium', 'high', 'xHigh', 'ultra', 'max', 'unspecified'];
+    const labelEffort = effort => effort === 'xHigh' ? 'xhigh' : effort;
+    const source = evidence => evidence.map(row => `<a href="${escape(row.sourceUrl)}">source</a> · published ${escape(row.publishedAt)} · retrieved ${escape(row.retrievedAt)}${row.publishedAt === row.retrievedAt ? '' : ''}`).join('<br>');
+    const delta = value => value == null ? '—' : `${value >= 0 ? '+' : ''}${number(value)}`;
+    let data;
+
+    function render(type) {
+      const ref = type.reference;
+      document.getElementById('reference').innerHTML = ref ? `Reference: <code>${escape(ref.modelId)} / ${escape(labelEffort(ref.effort))}</code>` : 'No reference cell has evidence for this type.';
+      document.getElementById('type-note').innerHTML = `<h3>${escape(type.name)} <span class="muted">${escape(type.version)}</span></h3><p class="muted">${escape(type.publisher)} · ${escape(type.capabilityClass)} · ${escape(type.unit)} · ${escape(type.direction)} · <a href="${escape(type.methodologyUrl)}">methodology</a><br>${escape(type.citationNote)}</p>`;
+      const byModel = new Map();
+      type.cells.forEach(cell => {
+        if (!byModel.has(cell.modelId)) byModel.set(cell.modelId, new Map());
+        byModel.get(cell.modelId).set(cell.effort, cell);
+      });
+      const visibleEfforts = efforts.filter(effort => type.cells.some(cell => cell.effort === effort));
+      const headings = visibleEfforts.map(effort => `<th>${escape(labelEffort(effort))}</th>`).join('');
+      const rows = [...byModel.entries()].map(([model, cells]) => {
+        const sample = [...cells.values()][0];
+        const price = sample.prices;
+        const cellsHtml = visibleEfforts.map(effort => {
+          const cell = cells.get(effort);
+          if (!cell) return '<td class="empty">—</td>';
+          const scoreDelta = cell.scoreDeltaToReference;
+          const costDelta = cell.costDeltaToReferenceUsd;
+          const tokens = cell.publishedOutputTokensPerTask == null ? '' : `<br>${number(cell.publishedOutputTokensPerTask)} output tokens/task`;
+          return `<td class="cell"><span class="score">${number(cell.score)}</span>`
+            + `${money(cell.costPerTaskUsd)} / task <span class="basis">(${cell.costBasis === 'publishedPerTask' ? 'published' : 'assumption'})</span>`
+            + `<br>${number(cell.scorePerDollar)} score/$${tokens}`
+            + `<br><span class="delta ${scoreDelta < 0 ? 'negative' : ''}">Δ score ${delta(scoreDelta)}</span> · <span class="delta ${costDelta > 0 ? 'negative' : ''}">Δ cost ${costDelta == null ? '—' : `${costDelta >= 0 ? '+' : '−'}$${Math.abs(costDelta).toFixed(2)}`}</span>`
+            + `<span class="source">${source(cell.evidence)} · age ${cell.evidenceAgeDays}d${cell.stale ? ' · <span class="stale">stale</span>' : ''}</span></td>`;
+        }).join('');
+        return `<tr><td class="model">${escape(model)}</td><td class="price">${money(price.inputPerMTok)}</td><td class="price">${money(price.outputPerMTok)}</td>${cellsHtml}</tr>`;
+      }).join('');
+      document.getElementById('matrix-host').innerHTML = rows
+        ? `<div class="table-scroll"><table><thead><tr><th>Model</th><th>Input / MTok</th><th>Output / MTok</th>${headings}</tr></thead><tbody>${rows}</tbody></table></div>`
+        : '<div class="notice"><strong>Definition seeded; no accepted result rows yet.</strong></div>';
+      document.getElementById('candidate-title').textContent = ref ? `Candidates better than ${ref.modelId} / ${labelEffort(ref.effort)}` : 'Candidates';
+      document.getElementById('candidate-host').innerHTML = !ref ? '<div class="notice">Choose a type with a reference cell to compare candidates.</div>'
+        : type.candidates.length ? type.candidates.map(candidate => `<article class="card candidate"><h3><code>${escape(candidate.modelId)} / ${escape(labelEffort(candidate.effort))}</code></h3><p>Score ${number(candidate.score)} · ${money(candidate.costPerTaskUsd)} / task</p><span class="source">${source(candidate.evidence)}</span></article>`).join('')
+        : '<div class="notice"><strong>No qualifying candidate.</strong> No measured cell is both at least as good and cheaper under the declared comparison.</div>';
+    }
+
+    fetch('../data/model-benchmark-matrix.json').then(response => {
+      if (!response.ok) throw new Error(`HTTP ${response.status}`);
+      return response.json();
+    }).then(payload => {
+      data = payload;
+      const question = payload.drivingQuestion;
+      const answerMatrix = payload.benchmarkTypes.find(type => type.id === question.benchmarkTypeId);
+      const challenger = answerMatrix.cells.find(cell => cell.modelId === question.challenger.modelId && cell.effort === question.challenger.effort);
+      const baseline = answerMatrix.cells.find(cell => cell.modelId === question.reference.modelId && cell.effort === question.reference.effort);
+      document.getElementById('answer').innerHTML = `<strong>${escape(question.answer)}</strong><span>Current ${escape(question.benchmarkTypeId)} evidence scores ${escape(challenger.modelId)}/${escape(challenger.effort)} at ${number(challenger.score)} versus ${number(baseline.score)}, but ${money(challenger.costPerTaskUsd)}/task is above ${money(baseline.costPerTaskUsd)}/task. Catalog rates are ${money(challenger.prices.inputPerMTok)}/${money(challenger.prices.outputPerMTok)} per MTok versus ${money(baseline.prices.inputPerMTok)}/${money(baseline.prices.outputPerMTok)}.</span>`;
+      const select = document.getElementById('benchmark-type');
+      select.innerHTML = payload.benchmarkTypes.map(type => `<option value="${escape(type.id)}"${type.id === payload.defaultBenchmarkTypeId ? ' selected' : ''}>${escape(type.name)} — ${escape(type.version)}</option>`).join('');
+      select.addEventListener('change', () => render(data.benchmarkTypes.find(type => type.id === select.value)));
+      render(payload.benchmarkTypes.find(type => type.id === payload.defaultBenchmarkTypeId));
+      document.getElementById('provenance-host').innerHTML = payload.provenanceFacts.map(fact => `<article class="card"><h3>${escape(fact.label)}</h3><time datetime="${escape(fact.date)}">${escape(fact.date)}</time><p class="muted"><code>${escape(fact.path)}</code></p></article>`).join('');
+      const a = payload.tokenAssumption;
+      document.getElementById('assumption').innerHTML = `Fallback assumption: <code>${number(a.input)} input + ${number(a.output)} output + ${number(a.cacheRead)} cache-read + ${number(a.cacheWrite)} cache-write tokens/task</code>. ${escape(a.note)}`;
+    }).catch(error => {
+      document.getElementById('matrix-host').innerHTML = `<div class="notice"><strong>Data unavailable in this preview.</strong> Serve <code>website/</code> over HTTP. ${escape(error.message)}</div>`;
+      document.getElementById('answer').innerHTML = '<strong>Generated evidence could not be loaded.</strong>';
+    });
+  })();
+  </script>
+</body>
+</html>

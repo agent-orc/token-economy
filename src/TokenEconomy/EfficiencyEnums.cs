@@ -111,6 +111,9 @@ public enum EffortLevel
 
     /// <summary>Claude top reasoning tier where the model exposes <c>max</c>.</summary>
     Max,
+
+    /// <summary>The publisher did not identify a reasoning-effort setting for this measurement.</summary>
+    Unspecified,
 }
 
 /// <summary>
