@@ -42,6 +42,11 @@ SemVer; pre-1.0 the public API may still shift).
   terms. Website generation now rejects a priced catalog model whose published
   cost class is unknown; two unlinked operator mockups explore compact
   model-first and task-class-first presentations (TE-47).
+- The public model benchmark matrix now supports linkable benchmark, reference,
+  effort, and optional comparison selections; recomputes evidence-backed deltas
+  and cheaper candidates in the browser; marks Codex/Claude model families;
+  highlights selected cells; and folds evidence and provenance details into a
+  less cluttered responsive table (TE-49).
 
 - Claude Sonnet 4.6 now carries its confirmed dated-snapshot alias
   (`claude-sonnet-4-6-20260301`), matching the id recording CLIs actually
