@@ -98,8 +98,8 @@
       border-bottom: 1px solid var(--border);
     }
     header.top .wrap {
-      display: flex; align-items: center; gap: 16px; flex-wrap: wrap;
-      min-height: 58px; padding-top: 8px; padding-bottom: 8px; row-gap: 4px;
+      display: flex; align-items: center; gap: 16px;
+      height: 58px;
     }
     .brand { font-weight: 700; letter-spacing: -0.02em; font-size: 1.05rem; display: flex; align-items: center; gap: 9px; white-space: nowrap; flex-shrink: 0; }
     .brand .mark {
@@ -109,15 +109,20 @@
     }
     /* min-width:0 lets the nav shrink and scroll its own overflow instead of
        pushing the page body wider than the viewport on narrow screens. */
+    /* One line, always: eleven links do not fit the 900px content width at the
+       old 0.92rem/18px, so the secondary in-page anchors (Why, SuggestModel,
+       Usage) are hidden and the rest is set tighter. min-width:0 keeps the
+       nav from pushing the page wider; overflow stays scrollable as a fallback. */
     header.top nav {
-      margin-left: auto; display: flex; gap: 18px; row-gap: 6px; font-size: 0.92rem;
-      min-width: 0; flex-wrap: wrap; justify-content: flex-end;
+      margin-left: auto; display: flex; gap: 13px; font-size: 0.86rem;
+      min-width: 0; overflow-x: auto; white-space: nowrap; scrollbar-width: none;
     }
+    .nav-secondary { display: none; }
     header.top nav::-webkit-scrollbar { display: none; }
     header.top nav a { color: var(--muted); }
     header.top nav a:hover { color: var(--text); text-decoration: none; }
     .nav-collapse { display: inline; }
-    @media (max-width: 640px) { .nav-collapse { display: none; } header.top nav { gap: 15px; flex-wrap: nowrap; overflow-x: auto; white-space: nowrap; scrollbar-width: none; justify-content: flex-start; } }
+    @media (max-width: 640px) { .nav-collapse { display: none; } header.top nav { gap: 12px; } }
 
     /* ---- hero ---- */
     .hero { padding: 70px 0 40px; }
@@ -318,14 +323,14 @@
     <div class="wrap">
       <span class="brand"><span class="mark">¢</span> Token Economy</span>
       <nav>
-        <a href="#why">Why</a>
-        <a href="#suggest">SuggestModel</a>
+        <a class="nav-secondary" href="#why">Why</a>
+        <a class="nav-secondary" href="#suggest">SuggestModel</a>
         <a href="#install">Install</a>
         <a href="#cost-api">Cost&nbsp;API</a>
         <a href="#model-recommendation">Model&nbsp;recommendation</a>
         <a href="task-class-routing/">Task&nbsp;studies</a>
         <a href="model-benchmarks/">Price&nbsp;×&nbsp;quality</a>
-        <a href="#usage">Usage</a>
+        <a class="nav-secondary" href="#usage">Usage</a>
         <a href="#benchmarks">Benchmarks</a>
         <a href="#family">Family</a>
         <a class="nav-collapse" href="https://github.com/agent-orc/token-economy">GitHub</a>
