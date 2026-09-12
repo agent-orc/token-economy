@@ -98,8 +98,8 @@
       border-bottom: 1px solid var(--border);
     }
     header.top .wrap {
-      display: flex; align-items: center; gap: 16px;
-      height: 58px;
+      display: flex; align-items: center; gap: 16px; flex-wrap: wrap;
+      min-height: 58px; padding-top: 8px; padding-bottom: 8px; row-gap: 4px;
     }
     .brand { font-weight: 700; letter-spacing: -0.02em; font-size: 1.05rem; display: flex; align-items: center; gap: 9px; white-space: nowrap; flex-shrink: 0; }
     .brand .mark {
@@ -110,14 +110,14 @@
     /* min-width:0 lets the nav shrink and scroll its own overflow instead of
        pushing the page body wider than the viewport on narrow screens. */
     header.top nav {
-      margin-left: auto; display: flex; gap: 18px; font-size: 0.92rem;
-      min-width: 0; overflow-x: auto; white-space: nowrap; scrollbar-width: none;
+      margin-left: auto; display: flex; gap: 18px; row-gap: 6px; font-size: 0.92rem;
+      min-width: 0; flex-wrap: wrap; justify-content: flex-end;
     }
     header.top nav::-webkit-scrollbar { display: none; }
     header.top nav a { color: var(--muted); }
     header.top nav a:hover { color: var(--text); text-decoration: none; }
     .nav-collapse { display: inline; }
-    @media (max-width: 640px) { .nav-collapse { display: none; } header.top nav { gap: 15px; } }
+    @media (max-width: 640px) { .nav-collapse { display: none; } header.top nav { gap: 15px; flex-wrap: nowrap; overflow-x: auto; white-space: nowrap; scrollbar-width: none; justify-content: flex-start; } }
 
     /* ---- hero ---- */
     .hero { padding: 70px 0 40px; }
