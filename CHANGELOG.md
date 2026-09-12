@@ -36,6 +36,10 @@ SemVer; pre-1.0 the public API may still shift).
   by-model, document-class, card-task-class, reissue-count, and session-turn
   aggregates now live on a dedicated Agent Studio evidence subpage; their
   generated source snapshots remain unchanged (TE-48).
+- Replaced the public website's eleven-link top bar with shared Library,
+  Evidence, and Project dropdowns; added keyboard and no-JavaScript fallbacks,
+  a narrow-screen accordion, and automated navigation-drift and local-link
+  checks across every static page (TE-50).
 
 - Claude Sonnet 4.6 now carries its confirmed dated-snapshot alias
   (`claude-sonnet-4-6-20260301`), matching the id recording CLIs actually

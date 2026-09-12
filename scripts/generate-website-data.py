@@ -59,6 +59,9 @@ DOCUMENT_RESULTS = RESULTS / "document-to-text" / "curated-hard-cases-v1"
 CARD_BACKTEST = ROOT / "results" / "complexity-backtest" / "agent-studio-30-card-backtest.json"
 SESSION_ANALYSIS = ROOT / "docs" / "analyses" / "long-vs-short-session-cost.md"
 WORKED_EXAMPLE_CASE = ("gpt-5.6-terra", "pdf-two-column-reading-order")
+NAVIGATION_INCLUDE = ROOT / "website" / "_includes" / "site-navigation.html"
+NAVIGATION_START = "<!-- site-navigation:start -->"
+NAVIGATION_END = "<!-- site-navigation:end -->"
 
 COMPONENTS = ("input", "output", "cacheRead", "cacheWrite")
 CENT_MICRO = Decimal("0.000001")
@@ -878,10 +881,32 @@ def canonical(value: dict) -> str:
     return json.dumps(value, sort_keys=True, separators=(",", ":"))
 
 
+def validate_site_navigation() -> None:
+    """Keep the copied static-site header in sync with its canonical include."""
+    expected = NAVIGATION_INCLUDE.read_text(encoding="utf-8").strip()
+    if not expected.startswith(NAVIGATION_START) or not expected.endswith(NAVIGATION_END):
+        raise ValueError("The canonical site navigation is missing its drift-check markers")
+    failures = []
+    for page in sorted((ROOT / "website").rglob("*.html")):
+        if "_includes" in page.parts:
+            continue
+        content = page.read_text(encoding="utf-8")
+        start = content.find(NAVIGATION_START)
+        end = content.find(NAVIGATION_END)
+        actual = "" if start < 0 or end < 0 else content[start:end + len(NAVIGATION_END)].strip()
+        if actual != expected:
+            failures.append(page.relative_to(ROOT).as_posix())
+    if failures:
+        joined = ", ".join(failures)
+        raise SystemExit(
+            f"Website navigation drifted in {joined}; copy website/_includes/site-navigation.html exactly")
+
+
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--check", action="store_true", help="fail when committed site data is stale")
     args = parser.parse_args()
+    validate_site_navigation()
     payload = create_payload()
     usage_payload = create_usage_payload()
     matrix_payload = create_matrix_payload()
