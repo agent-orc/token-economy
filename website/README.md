@@ -3,8 +3,9 @@
 The static marketing + documentation site for **Token Economy**, served at
 <https://agent-orchestrator.dev/token-economy/>.
 
-- **Plain static HTML with a checked data step.** `index.html` has inline CSS,
-  inline JavaScript, and a data-URI favicon. `scripts/generate-website-data.py` writes five
+- **Plain static HTML with a checked data step.** Content-specific CSS and
+  JavaScript remain inline, the favicon is a data URI, and every page loads the
+  local `navigation.css` and `navigation.js` assets. `scripts/generate-website-data.py` writes five
   artifacts — `website/data/benchmarks.json` (published studies) and
   `website/data/token-usage.json` (the checked worked example and retained
   chart aggregates), plus
@@ -49,11 +50,27 @@ not add result rows to `index.html` by hand. Follow the
 [end-to-end benchmark methodology](../benchmarks/README.md) for fixture and
 oracle requirements, execution, immutable artifacts, statistics, and the full
 publication checklist.
+The canonical copied header is
+[`_includes/site-navigation.html`](_includes/site-navigation.html). Copy it
+unchanged into every HTML page between its marker comments; the website-data
+`--check` command rejects missing or drifting copies. Shared interaction and
+theme styles live in the two local navigation assets. The separate
+[`scripts/check-website-links.py`](../scripts/check-website-links.py) check
+validates local files and fragments.
+
 Editing: change the relevant HTML page and push to `main`; CI deploys the whole
-directory recursively (see [`DEPLOY.md`](DEPLOY.md)). Every page remains
-self-contained. Preview locally with `python -m http.server --directory
-website`; the generated-data sections intentionally show a visible fallback
-under `file://`.
+directory recursively (see [`DEPLOY.md`](DEPLOY.md)). The deployed folder stays
+self-contained and makes no third-party asset requests. Because production is
+mounted at `/token-economy/`, preview the same path locally:
+
+```bash
+preview_root="$(mktemp -d)"
+ln -s "$PWD/website" "$preview_root/token-economy"
+python3 -m http.server 8080 --directory "$preview_root"
+# → http://localhost:8080/token-economy/
+```
+
+Generated-data sections intentionally show a visible fallback under `file://`.
 
 The provider availability page is a deterministic contract example rather
 than live telemetry. It mirrors `ProviderAvailabilitySnapshot`: provider/CLI

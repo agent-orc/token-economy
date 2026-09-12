@@ -20,9 +20,53 @@
     .next { display:flex; justify-content:space-between; gap:16px; padding:29px 0 48px; border-top:1px solid var(--border); } footer { padding:28px 0 45px; border-top:1px solid var(--border); color:var(--muted); font-size:.9rem; }
     @media (max-width:700px) { .grid,.window,.compare { grid-template-columns:1fr; } .hero { padding-top:43px; } .hide-small { display:none; } }
   </style>
+  <link rel="stylesheet" href="/token-economy/navigation.css">
+  <script src="/token-economy/navigation.js" defer></script>
 </head>
 <body>
-  <header><div class="wrap"><a class="brand" href="index.html"><span class="mark">¢</span> Cap forecast</a><nav aria-label="Cap forecast pages"><a href="index.html">Overview</a><a href="data-plan.html">Data</a><a href="forecast-v1.html">Forecast v1</a><a href="architecture.html">Boundaries</a><a href="slices.html">Slices</a></nav></div></header>
+<!-- site-navigation:start -->
+<header class="site-header" data-site-navigation>
+  <div class="site-family-bar">
+    <a class="site-family-back" href="https://agent-orchestrator.dev/"><span aria-hidden="true">←</span> Agent Orchestrator</a>
+  </div>
+  <div class="site-header-main">
+    <a class="site-brand" href="/token-economy/" aria-label="Token Economy home"><span class="site-brand-mark" aria-hidden="true">¢</span><span>Token Economy</span></a>
+    <button class="site-menu-button" type="button" aria-expanded="false" aria-controls="site-navigation-groups"><span>Menu</span><span class="site-menu-icon" aria-hidden="true"></span></button>
+    <nav class="site-primary-nav" aria-label="Primary navigation">
+      <div class="site-nav-groups" id="site-navigation-groups">
+        <div class="site-nav-group">
+          <a class="site-nav-heading" href="/token-economy/#why" aria-haspopup="true" aria-expanded="false" aria-controls="site-nav-library">Library</a>
+          <ul class="site-nav-menu" id="site-nav-library">
+            <li><a href="/token-economy/#why">Why</a></li>
+            <li><a href="/token-economy/#suggest">SuggestModel</a></li>
+            <li><a href="/token-economy/#install">Install</a></li>
+            <li><a href="/token-economy/#cost-api">Cost API</a></li>
+            <li><a href="/token-economy/#model-recommendation">Model recommendation</a></li>
+          </ul>
+        </div>
+        <div class="site-nav-group">
+          <a class="site-nav-heading" href="/token-economy/task-class-routing/" aria-haspopup="true" aria-expanded="false" aria-controls="site-nav-evidence">Evidence</a>
+          <ul class="site-nav-menu" id="site-nav-evidence">
+            <li><a href="/token-economy/task-class-routing/">Task studies</a></li>
+            <li><a href="/token-economy/model-benchmarks/">Price × quality</a></li>
+            <li><a href="/token-economy/#benchmarks">Benchmarks</a></li>
+            <li><a href="/token-economy/evidence/agent-studio-usage/">Usage</a></li>
+            <li><a href="/token-economy/cap-forecast/">Cap forecast</a></li>
+            <li><a href="/token-economy/provider-quota-dashboard/">Quota snapshot</a></li>
+          </ul>
+        </div>
+        <div class="site-nav-group">
+          <a class="site-nav-heading" href="/token-economy/#family" aria-haspopup="true" aria-expanded="false" aria-controls="site-nav-project">Project</a>
+          <ul class="site-nav-menu" id="site-nav-project">
+            <li><a href="/token-economy/#family">Family</a></li>
+            <li><a href="https://github.com/agent-orc/token-economy">GitHub <span aria-hidden="true">↗</span></a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+  </div>
+</header>
+<!-- site-navigation:end -->
   <main>
     <div class="hero"><div class="wrap"><div class="eyebrow">01 · Problem framing</div><h1>The percentage is observable. The denominator is not.</h1><p class="lead">A five-hour quota snapshot reports a rounded state at an instant. It does not publish an absolute token budget, explain internal weights, or tell us how many tokens the next run attempt will consume.</p><div class="callout" style="margin-top:20px"><strong>Research plan only:</strong> no cap forecast or product behavior exists until the operator gives explicit GO.</div></div></div>
 
