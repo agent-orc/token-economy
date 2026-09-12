@@ -4,63 +4,109 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Benchmark price-performance matrix — Token Economy</title>
-  <meta name="description" content="Versioned external benchmark evidence joined to dated API prices by model and reasoning effort.">
+  <meta name="description" content="Compare versioned benchmark evidence and dated API prices by model and reasoning effort.">
   <link rel="canonical" href="https://agent-orchestrator.dev/token-economy/model-benchmarks/">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%232f6df0'/%3E%3Ctext x='32' y='44' text-anchor='middle' font-size='42' fill='white'%3E%C2%A2%3C/text%3E%3C/svg%3E">
   <style>
     :root {
       --bg: #fff; --bg-alt: #f5f7fb; --panel: #fff; --border: #dce3ee;
       --text: #182033; --muted: #5b667a; --accent: #2f6df0; --accent-soft: #eaf1ff;
-      --ok: #147847; --warn: #956400; --danger: #ac3442; --code-bg: #f4f6fa;
+      --ok: #147847; --ok-soft: #e7f6ee; --warn: #956400; --warn-soft: #fff6dc;
+      --danger: #ac3442; --code-bg: #f4f6fa; --chip-codex: #182033; --chip-claude: #b6532a;
       --space-1: .25rem; --space-2: .5rem; --space-3: .75rem; --space-4: 1rem;
       --space-5: 1.25rem; --space-6: 1.5rem; --space-8: 2rem; --space-10: 2.5rem;
-      --space-12: 3rem; --radius-sm: .4rem; --radius-md: .75rem;
+      --space-12: 3rem; --radius-sm: .4rem; --radius-md: .75rem; --radius-pill: 999rem;
       --mono: ui-monospace, "SF Mono", "Cascadia Code", Menlo, Consolas, monospace;
       --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
     }
     @media (prefers-color-scheme: dark) {
       :root { --bg: #0f1420; --bg-alt: #131a29; --panel: #161d2c; --border: #29344d;
         --text: #e7ecf6; --muted: #99a5bc; --accent: #78a6ff; --accent-soft: #172542;
-        --ok: #4ac388; --warn: #e1b64d; --danger: #f07b87; --code-bg: #0c111b; }
+        --ok: #4ac388; --ok-soft: #173528; --warn: #e1b64d; --warn-soft: #342b17;
+        --danger: #f07b87; --code-bg: #0c111b; --chip-codex: #d9e3f8; --chip-claude: #f09a72; }
     }
     * { box-sizing: border-box; }
-    body { margin: 0; font-family: var(--sans); color: var(--text); background: var(--bg); line-height: 1.55; }
+    body { margin: 0; font-family: var(--sans); color: var(--text); background: var(--bg); line-height: 1.5; }
     a { color: var(--accent); text-decoration: none; } a:hover { text-decoration: underline; }
     code { font-family: var(--mono); font-size: .92em; }
     .wrap { width: min(82rem, calc(100% - var(--space-8))); margin-inline: auto; }
     header { border-bottom: .0625rem solid var(--border); }
     header .wrap { min-height: 3.75rem; display: flex; gap: var(--space-5); align-items: center; }
     .brand { color: var(--text); font-weight: 750; } nav { margin-left: auto; display: flex; gap: var(--space-5); }
-    .hero { padding-block: var(--space-12); background: var(--bg-alt); }
+    .hero { padding-block: var(--space-10); background: var(--bg-alt); }
     .eyebrow { color: var(--accent); font: 700 .78rem/1 var(--mono); letter-spacing: .08em; text-transform: uppercase; }
-    h1 { max-width: 60rem; margin: var(--space-3) 0 var(--space-4); font-size: clamp(2rem, 6vw, 3.5rem); line-height: 1.08; letter-spacing: -.03em; }
+    h1 { max-width: 60rem; margin: var(--space-3) 0 var(--space-4); font-size: clamp(2rem, 6vw, 3.35rem); line-height: 1.08; letter-spacing: -.03em; }
     h2 { margin: 0 0 var(--space-3); font-size: 1.6rem; } h3 { margin: 0 0 var(--space-2); font-size: 1.05rem; }
-    .lead, .muted { color: var(--muted); } .lead { max-width: 54rem; font-size: 1.08rem; }
+    p { margin-top: 0; } .lead, .muted { color: var(--muted); } .lead { max-width: 58rem; font-size: 1.08rem; }
     section { padding-block: var(--space-10); border-top: .0625rem solid var(--border); }
     .answer, .notice, .card { border: .0625rem solid var(--border); border-radius: var(--radius-md); padding: var(--space-5); background: var(--panel); }
-    .answer { margin-top: var(--space-8); border-color: color-mix(in srgb, var(--accent) 45%, var(--border)); background: var(--accent-soft); }
-    .answer strong { display: block; font-size: 1.2rem; margin-bottom: var(--space-2); }
-    .controls { display: flex; flex-wrap: wrap; align-items: end; gap: var(--space-4); margin-block: var(--space-6); }
-    label { display: grid; gap: var(--space-2); color: var(--muted); font-size: .82rem; font-weight: 650; }
-    select { min-width: min(32rem, 80vw); padding: var(--space-3); color: var(--text); background: var(--panel); border: .0625rem solid var(--border); border-radius: var(--radius-sm); font: inherit; }
-    .type-note { max-width: 65rem; }
-    .table-scroll { overflow-x: auto; margin-top: var(--space-5); }
-    table { width: 100%; min-width: 78rem; border-collapse: collapse; font-size: .86rem; }
+    .answer { margin-block: var(--space-6); border-color: color-mix(in srgb, var(--accent) 45%, var(--border)); background: var(--accent-soft); }
+    .answer > strong { display: block; font-size: 1.2rem; margin-bottom: var(--space-3); }
+    .comparison-metrics { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--space-3); margin: 0; }
+    .comparison-metrics > div { padding: var(--space-3); background: color-mix(in srgb, var(--panel) 72%, transparent); border-radius: var(--radius-sm); }
+    .comparison-metrics dt { color: var(--muted); font-size: .72rem; font-weight: 750; letter-spacing: .05em; text-transform: uppercase; }
+    .comparison-metrics dd { margin: var(--space-1) 0 0; }
+    .metric-value { display: block; font: 750 1.08rem/1.3 var(--mono); }
+    .metric-evidence { display: block; margin-top: var(--space-2); color: var(--muted); font-size: .74rem; line-height: 1.4; }
+    .controls { display: grid; grid-template-columns: minmax(14rem, 1.45fr) repeat(4, minmax(9rem, 1fr)); gap: var(--space-3); margin-block: var(--space-6); }
+    label { display: grid; align-content: end; gap: var(--space-2); color: var(--muted); font-size: .78rem; font-weight: 650; }
+    select { width: 100%; min-width: 0; padding: var(--space-3); color: var(--text); background: var(--panel); border: .0625rem solid var(--border); border-radius: var(--radius-sm); font: inherit; }
+    select:focus-visible, summary:focus-visible, a:focus-visible { outline: .15rem solid var(--accent); outline-offset: .12rem; }
+    select:disabled { opacity: .6; }
+    .select-model { display: grid; grid-template-columns: auto minmax(0, 1fr); align-items: center; gap: var(--space-2); }
+    .type-note { max-width: 68rem; }
+    .legend { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-2) var(--space-4); margin-top: var(--space-4); color: var(--muted); font-size: .78rem; }
+    .legend strong { color: var(--text); }
+    .table-scroll { overflow-x: auto; margin-top: var(--space-5); border: .0625rem solid var(--border); border-radius: var(--radius-md); }
+    table { width: 100%; min-width: 52rem; border-collapse: collapse; font-size: .84rem; }
     th, td { padding: var(--space-3); text-align: left; vertical-align: top; border-bottom: .0625rem solid var(--border); }
-    th { color: var(--muted); font-size: .72rem; letter-spacing: .05em; text-transform: uppercase; }
-    td.model { min-width: 11rem; font-family: var(--mono); font-weight: 700; }
+    tbody tr:last-child td { border-bottom: 0; }
+    th { color: var(--muted); background: var(--bg-alt); font-size: .7rem; letter-spacing: .05em; text-transform: uppercase; }
+    th:first-child, td.model { position: sticky; left: 0; z-index: 1; background: var(--panel); }
+    th:first-child { z-index: 2; background: var(--bg-alt); }
+    td.model { min-width: 10.5rem; font-weight: 700; }
     td.price { white-space: nowrap; font-family: var(--mono); }
-    td.cell { min-width: 13rem; background: color-mix(in srgb, var(--panel) 96%, var(--accent)); }
+    td.cell { min-width: 10.5rem; background: color-mix(in srgb, var(--panel) 96%, var(--accent)); }
+    td.cell.reference-cell { box-shadow: inset 0 0 0 .15rem var(--accent); background: var(--accent-soft); }
+    td.cell.comparison-cell { box-shadow: inset 0 0 0 .15rem var(--ok); background: var(--ok-soft); }
     td.empty { color: var(--muted); text-align: center; }
-    .score { display: block; font: 750 1.18rem/1.2 var(--mono); }
-    .delta { color: var(--ok); font-family: var(--mono); } .delta.negative { color: var(--danger); }
-    .basis, .source { color: var(--muted); font-size: .78rem; }
-    .source { display: block; margin-top: var(--space-2); line-height: 1.4; }
+    .score { display: block; font: 750 1.16rem/1.25 var(--mono); }
+    .cell-cost { display: block; margin-top: var(--space-1); color: var(--muted); font-size: .76rem; }
+    details { color: var(--muted); }
+    summary { width: fit-content; color: var(--accent); cursor: pointer; font-size: .78rem; font-weight: 650; }
+    .evidence { margin-top: var(--space-2); padding-top: var(--space-2); border-top: .0625rem solid var(--border); font-size: .74rem; line-height: 1.45; }
+    .evidence p { margin-bottom: var(--space-2); }
+    .evidence p:last-child { margin-bottom: 0; }
+    .delta { color: var(--ok); } .delta.negative { color: var(--danger); }
     .stale { color: var(--warn); font-weight: 700; }
+    .model-mark { display: inline-flex; max-width: 100%; align-items: center; gap: var(--space-1); vertical-align: middle; white-space: nowrap; }
+    .vendor-chip, .family-chip, .confidence-chip, .selection-chip { display: inline-flex; align-items: center; min-height: 1.45rem; border-radius: var(--radius-pill); font-size: .69rem; font-weight: 750; line-height: 1; }
+    .vendor-chip { min-width: 1.75rem; justify-content: center; border: .0625rem solid currentColor; font-family: var(--mono); }
+    .vendor-chip.codex { color: var(--chip-codex); } .vendor-chip.claude { color: var(--chip-claude); }
+    .family-chip { max-width: 7.5rem; overflow: hidden; padding-inline: var(--space-2); color: var(--text); background: var(--code-bg); text-overflow: ellipsis; }
+    .confidence-chip, .selection-chip { padding-inline: var(--space-2); border: .0625rem solid var(--border); }
+    .confidence-chip.publisherReported { color: var(--ok); background: var(--ok-soft); }
+    .confidence-chip.ownRun { color: var(--accent); background: var(--accent-soft); }
+    .confidence-chip.thirdParty { color: var(--warn); background: var(--warn-soft); }
+    .selection-chip { margin-bottom: var(--space-2); color: var(--text); background: var(--panel); }
     .candidates { display: grid; gap: var(--space-3); grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr)); margin-top: var(--space-4); }
     .candidate { border-left: .2rem solid var(--ok); }
-    .provenance { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-4); margin-top: var(--space-5); }
+    .candidate h3 { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-2); }
+    .candidate p { margin-bottom: 0; }
+    .provenance-details { padding-block: var(--space-6); border-top: .0625rem solid var(--border); }
+    .provenance-details > summary { color: var(--text); font-size: 1.05rem; }
+    .provenance { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-3); margin-top: var(--space-4); }
+    .provenance .card { padding: var(--space-4); }
     footer { padding-block: var(--space-8); color: var(--muted); border-top: .0625rem solid var(--border); }
-    @media (max-width: 48rem) { .provenance { grid-template-columns: 1fr; } nav { gap: var(--space-3); } .optional { display: none; } }
+    @media (max-width: 68rem) { .controls { grid-template-columns: repeat(2, minmax(0, 1fr)); } .benchmark-control { grid-column: 1 / -1; } }
+    @media (max-width: 48rem) {
+      .wrap { width: min(100% - var(--space-6), 82rem); }
+      .controls, .comparison-metrics, .provenance { grid-template-columns: 1fr; }
+      .benchmark-control { grid-column: auto; }
+      nav { gap: var(--space-3); } .optional { display: none; }
+      h1 { font-size: clamp(2rem, 11vw, 2.8rem); }
+      .hero, section { padding-block: var(--space-8); }
+    }
   </style>
 </head>
 <body>
@@ -68,46 +114,188 @@
   <main>
     <div class="hero"><div class="wrap">
       <span class="eyebrow">External benchmark evidence · retrieved 2026-09-11</span>
-      <h1>Quality and price, at the same model effort.</h1>
-      <p class="lead">Versioned benchmark measurements are joined to the price catalog at render time. Published task cost wins; otherwise the page labels and uses one declared token assumption.</p>
-      <div class="answer" id="answer"><strong>Loading the evidence-backed answer…</strong></div>
+      <h1>Compare quality and price at any measured effort.</h1>
+      <p class="lead">Choose a reference and, optionally, a direct comparison. Every selection is linkable; published task cost stays distinct from the declared token-price assumption.</p>
     </div></div>
 
     <section id="matrix"><div class="wrap">
       <h2>Model × effort matrix</h2>
-      <div class="controls"><label for="benchmark-type">Benchmark type<select id="benchmark-type"></select></label><span class="muted" id="reference"></span></div>
+      <div class="controls">
+        <label class="benchmark-control" for="benchmark-type">Benchmark type<select id="benchmark-type"></select></label>
+        <label for="reference-model">Reference model<span class="select-model"><span id="reference-model-chip"></span><select id="reference-model"></select></span></label>
+        <label for="reference-effort">Reference effort<select id="reference-effort"></select></label>
+        <label for="comparison-model">Compare model (optional)<span class="select-model"><span id="comparison-model-chip"></span><select id="comparison-model"></select></span></label>
+        <label for="comparison-effort">Compare effort<select id="comparison-effort"></select></label>
+      </div>
+      <div class="answer" id="answer" aria-live="polite"><strong>Loading the evidence-backed answer…</strong></div>
       <div class="type-note" id="type-note"></div>
+      <div class="legend" id="legend"></div>
       <div id="matrix-host" aria-live="polite"><p class="muted">Loading generated matrix data…</p></div>
     </div></section>
 
     <section id="candidates"><div class="wrap">
-      <h2 id="candidate-title">Candidates</h2>
+      <h2 id="candidate-title">At least as good and cheaper</h2>
       <p class="muted">A candidate must be at least as good on the selected score and cheaper on published task cost or on the declared token-price mix. This library recommends candidates; it does not route work or lower correctness floors.</p>
       <div class="candidates" id="candidate-host"></div>
     </div></section>
 
-    <section id="provenance"><div class="wrap">
-      <h2>Snapshot provenance</h2>
+    <div id="provenance" class="wrap"><details class="provenance-details">
+      <summary>Snapshot provenance</summary>
       <div class="provenance" id="provenance-host"></div>
       <p class="muted" id="assumption"></p>
-    </div></section>
+    </details></div>
   </main>
   <footer><div class="wrap">Token Economy · generated evidence projection · <a href="https://github.com/agent-orc/token-economy/blob/main/docs/benchmarks-research.md">refresh recipe</a></div></footer>
   <script>
   (() => {
     const escape = value => String(value).replace(/[&<>"']/g, char => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[char]));
-    const money = value => value == null ? 'unknown' : `$${Number(value).toFixed(value < 1 ? 2 : 2)}`;
+    const money = value => value == null ? 'unknown' : `$${Number(value).toFixed(2)}`;
+    const signedMoney = value => value == null ? '—' : `${value >= 0 ? '+' : '−'}$${Math.abs(Number(value)).toFixed(2)}`;
     const number = value => value == null ? '—' : Number(value).toLocaleString('en-US', {maximumFractionDigits: 2});
+    const signedNumber = value => value == null ? '—' : `${value >= 0 ? '+' : ''}${number(value)}`;
     const efforts = ['minimal', 'low', 'medium', 'high', 'xHigh', 'ultra', 'max', 'unspecified'];
     const labelEffort = effort => effort === 'xHigh' ? 'xhigh' : effort;
-    const source = evidence => evidence.map(row => `<a href="${escape(row.sourceUrl)}">source</a> · published ${escape(row.publishedAt)} · retrieved ${escape(row.retrievedAt)}${row.publishedAt === row.retrievedAt ? '' : ''}`).join('<br>');
-    const delta = value => value == null ? '—' : `${value >= 0 ? '+' : ''}${number(value)}`;
+    const params = new URLSearchParams(location.search);
     let data;
+    let state = {};
 
-    function render(type) {
-      const ref = type.reference;
-      document.getElementById('reference').innerHTML = ref ? `Reference: <code>${escape(ref.modelId)} / ${escape(labelEffort(ref.effort))}</code>` : 'No reference cell has evidence for this type.';
-      document.getElementById('type-note').innerHTML = `<h3>${escape(type.name)} <span class="muted">${escape(type.version)}</span></h3><p class="muted">${escape(type.publisher)} · ${escape(type.capabilityClass)} · ${escape(type.unit)} · ${escape(type.direction)} · <a href="${escape(type.methodologyUrl)}">methodology</a><br>${escape(type.citationNote)}</p>`;
+    const modelMeta = modelId => {
+      if (modelId.startsWith('claude-')) {
+        return { cli: 'claude', letters: 'Cl', family: modelId.replace(/^claude-/, '').split('-').map(part => /^\d+$/.test(part) ? part : part[0].toUpperCase() + part.slice(1)).join(' ') };
+      }
+      const family = modelId.split('-').slice(2).map(part => part[0].toUpperCase() + part.slice(1)).join(' ') || 'GPT';
+      return { cli: 'codex', letters: 'Cx', family };
+    };
+    const modelMark = modelId => {
+      const meta = modelMeta(modelId);
+      return `<span class="model-mark" title="${escape(modelId)}"><span class="vendor-chip ${meta.cli}" aria-label="${meta.cli}">${meta.letters}</span><span class="family-chip">${escape(meta.family)}</span></span>`;
+    };
+    const confidenceLabel = value => ({publisherReported: 'Publisher reported', thirdParty: 'Third party', ownRun: 'Own run'}[value] || value);
+    const confidenceChip = value => `<span class="confidence-chip ${escape(value)}">${escape(confidenceLabel(value))}</span>`;
+    const cellFor = (type, modelId, effort) => type.cells.find(cell => cell.modelId === modelId && cell.effort === effort);
+    const typeForState = () => data.benchmarkTypes.find(type => type.id === state.benchmarkTypeId);
+    const modelsFor = type => [...new Set(type.cells.map(cell => cell.modelId))];
+    const effortsFor = (type, modelId) => efforts.filter(effort => type.cells.some(cell => cell.modelId === modelId && cell.effort === effort));
+    const scoreAtLeastAsGood = (type, candidate, reference) => type.direction === 'lowerIsBetter' ? candidate.score <= reference.score : candidate.score >= reference.score;
+    const firstEvidence = cell => cell?.evidence?.[0];
+    const evidenceLink = (cell, label) => {
+      const row = firstEvidence(cell);
+      return row ? `<a href="${escape(row.sourceUrl)}">${escape(label)}</a> retrieved ${escape(row.retrievedAt)}` : `${escape(label)} unavailable`;
+    };
+    const priceFact = () => data.provenanceFacts.find(fact => fact.label === 'Price catalog snapshot');
+
+    function setOptions(select, options, selected, emptyLabel) {
+      select.innerHTML = `${emptyLabel == null ? '' : `<option value="">${escape(emptyLabel)}</option>`}${options.map(option => `<option value="${escape(option.value)}"${option.value === selected ? ' selected' : ''}>${escape(option.label)}</option>`).join('')}`;
+    }
+
+    function selectModelLabel(modelId) {
+      return modelId;
+    }
+
+    function updateControls() {
+      const type = typeForState();
+      const modelOptions = modelsFor(type).map(modelId => ({value: modelId, label: selectModelLabel(modelId)}));
+      setOptions(document.getElementById('reference-model'), modelOptions, state.referenceModel);
+      const referenceModel = document.getElementById('reference-model');
+      const referenceEffort = document.getElementById('reference-effort');
+      setOptions(referenceEffort, effortsFor(type, state.referenceModel).map(effort => ({value: effort, label: labelEffort(effort)})), state.referenceEffort);
+      const comparisonModel = document.getElementById('comparison-model');
+      setOptions(comparisonModel, modelOptions, state.comparisonModel, 'No explicit comparison');
+      const comparisonEffort = document.getElementById('comparison-effort');
+      setOptions(comparisonEffort, state.comparisonModel ? effortsFor(type, state.comparisonModel).map(effort => ({value: effort, label: labelEffort(effort)})) : [], state.comparisonEffort, state.comparisonModel ? null : 'Choose a model first');
+      comparisonEffort.disabled = !state.comparisonModel;
+      referenceModel.disabled = modelOptions.length === 0;
+      referenceEffort.disabled = modelOptions.length === 0;
+      comparisonModel.disabled = modelOptions.length === 0;
+      document.getElementById('reference-model-chip').innerHTML = state.referenceModel ? modelMark(state.referenceModel) : '';
+      document.getElementById('comparison-model-chip').innerHTML = state.comparisonModel ? modelMark(state.comparisonModel) : '';
+    }
+
+    function setType(typeId, requested = {}) {
+      const type = data.benchmarkTypes.find(item => item.id === typeId) || data.benchmarkTypes.find(item => item.id === data.defaultBenchmarkTypeId);
+      const question = data.drivingQuestion;
+      const defaultReference = type.id === question.benchmarkTypeId ? question.reference : type.reference;
+      const first = type.cells[0];
+      const requestedReference = cellFor(type, requested.referenceModel, requested.referenceEffort);
+      const fallbackReference = cellFor(type, defaultReference?.modelId, defaultReference?.effort) || first;
+      const reference = requestedReference || fallbackReference;
+      const requestedComparison = cellFor(type, requested.comparisonModel, requested.comparisonEffort);
+      const drivingComparison = type.id === question.benchmarkTypeId ? cellFor(type, question.challenger.modelId, question.challenger.effort) : null;
+      const comparison = requestedComparison || (requested.hasComparisonQuery ? null : drivingComparison);
+      state = {
+        benchmarkTypeId: type.id,
+        referenceModel: reference?.modelId || '', referenceEffort: reference?.effort || '',
+        comparisonModel: comparison?.modelId || '', comparisonEffort: comparison?.effort || ''
+      };
+      document.getElementById('benchmark-type').value = type.id;
+      updateControls();
+      render();
+    }
+
+    function updateUrl() {
+      const query = new URLSearchParams();
+      query.set('benchmark', state.benchmarkTypeId);
+      if (state.referenceModel) query.set('reference', state.referenceModel);
+      if (state.referenceEffort) query.set('referenceEffort', state.referenceEffort);
+      if (state.comparisonModel) query.set('compare', state.comparisonModel);
+      if (state.comparisonEffort) query.set('compareEffort', state.comparisonEffort);
+      history.replaceState(null, '', `${location.pathname}?${query.toString()}${location.hash}`);
+    }
+
+    function comparisonSummary(type, reference, comparison) {
+      const answer = document.getElementById('answer');
+      if (!reference) {
+        answer.innerHTML = '<strong>No measured reference is available for this benchmark.</strong>';
+        return;
+      }
+      if (!comparison) {
+        const count = candidatesFor(type, reference).length;
+        answer.innerHTML = `<strong>${modelMark(reference.modelId)} ${escape(labelEffort(reference.effort))} is the reference.</strong><span>Score ${number(reference.score)} · ${money(reference.blendedPricePerMillionTokensUsd)} per MTok under the declared token mix · ${count} at-least-as-good, cheaper candidate${count === 1 ? '' : 's'}.</span>`;
+        return;
+      }
+      const scoreDelta = Number(comparison.score) - Number(reference.score);
+      const priceDelta = comparison.blendedPricePerMillionTokensUsd == null || reference.blendedPricePerMillionTokensUsd == null ? null : Number(comparison.blendedPricePerMillionTokensUsd) - Number(reference.blendedPricePerMillionTokensUsd);
+      const publishedCostDelta = comparison.publishedCostPerTaskUsd == null || reference.publishedCostPerTaskUsd == null ? null : Number(comparison.publishedCostPerTaskUsd) - Number(reference.publishedCostPerTaskUsd);
+      const better = scoreAtLeastAsGood(type, comparison, reference);
+      const strictlyBetter = type.direction === 'lowerIsBetter' ? comparison.score < reference.score : comparison.score > reference.score;
+      const cheaper = priceDelta != null && priceDelta < 0;
+      const price = priceFact();
+      const metrics = [
+        `<div><dt>Score delta</dt><dd><span class="metric-value ${better ? 'delta' : 'negative delta'}">${signedNumber(scoreDelta)} ${escape(type.unit)}</span>${number(comparison.score)} vs ${number(reference.score)}<span class="metric-evidence">${evidenceLink(comparison, 'comparison row')} · ${evidenceLink(reference, 'reference row')}</span></dd></div>`,
+        `<div><dt>Price / MTok delta</dt><dd><span class="metric-value ${cheaper ? 'delta' : 'negative delta'}">${signedMoney(priceDelta)}</span>${money(comparison.blendedPricePerMillionTokensUsd)} vs ${money(reference.blendedPricePerMillionTokensUsd)}<span class="metric-evidence">${price ? `${escape(price.label)} retrieved ${escape(price.date)}` : 'Price evidence unavailable'}; declared token mix · ${evidenceLink(comparison, 'comparison row')} · ${evidenceLink(reference, 'reference row')}</span></dd></div>`
+      ];
+      if (publishedCostDelta != null) {
+        metrics.push(`<div><dt>Published cost / task delta</dt><dd><span class="metric-value ${publishedCostDelta < 0 ? 'delta' : 'negative delta'}">${signedMoney(publishedCostDelta)}</span>${money(comparison.publishedCostPerTaskUsd)} vs ${money(reference.publishedCostPerTaskUsd)}<span class="metric-evidence">${evidenceLink(comparison, 'comparison row')} · ${evidenceLink(reference, 'reference row')}</span></dd></div>`);
+      }
+      const unavailable = publishedCostDelta == null ? '<p class="metric-evidence">A published cost-per-task delta is unavailable because both selected evidence rows do not publish task cost.</p>' : '';
+      const taskCostSentence = publishedCostDelta == null ? '' : publishedCostDelta < 0 ? ' It is also cheaper per published task.' : publishedCostDelta > 0 ? ' It is more expensive per published task.' : ' It has the same published task price.';
+      answer.innerHTML = `<strong>${modelMark(comparison.modelId)} ${escape(labelEffort(comparison.effort))} is ${strictlyBetter ? 'better' : better ? 'equally good' : 'not as good'} and ${cheaper ? 'cheaper' : 'not cheaper'} per MTok than ${modelMark(reference.modelId)} ${escape(labelEffort(reference.effort))}.${taskCostSentence}</strong><dl class="comparison-metrics">${metrics.join('')}</dl>${unavailable}`;
+    }
+
+    function evidenceDetails(cell) {
+      const rows = cell.evidence.map(row => `<p><a href="${escape(row.sourceUrl)}">Evidence row</a> · published ${escape(row.publishedAt)} · retrieved ${escape(row.retrievedAt)} · ${confidenceChip(row.confidence)}${row.evidenceExcerpt ? `<br>${escape(row.evidenceExcerpt)}` : ''}</p>`).join('');
+      const tokens = cell.publishedOutputTokensPerTask == null ? '' : `<p>${number(cell.publishedOutputTokensPerTask)} published output tokens/task</p>`;
+      return `<details><summary>Evidence & metrics</summary><div class="evidence"><p>${number(cell.scorePerDollar)} score/$ · cost basis: ${cell.costBasis === 'publishedPerTask' ? 'published per task' : cell.costBasis === 'declaredTokenAssumption' ? 'declared token assumption' : 'unavailable'} · age ${cell.evidenceAgeDays}d${cell.stale ? ' · <span class="stale">stale</span>' : ''}</p>${tokens}${rows}</div></details>`;
+    }
+
+    function candidatesFor(type, reference) {
+      return type.cells.filter(cell => cell !== reference && scoreAtLeastAsGood(type, cell, reference) && (
+        cell.publishedCostPerTaskUsd != null && reference.publishedCostPerTaskUsd != null && cell.publishedCostPerTaskUsd < reference.publishedCostPerTaskUsd ||
+        cell.blendedPricePerMillionTokensUsd != null && reference.blendedPricePerMillionTokensUsd != null && cell.blendedPricePerMillionTokensUsd < reference.blendedPricePerMillionTokensUsd
+      )).sort((left, right) => {
+        const scoreOrder = type.direction === 'lowerIsBetter' ? left.score - right.score : right.score - left.score;
+        return scoreOrder || (left.blendedPricePerMillionTokensUsd ?? Infinity) - (right.blendedPricePerMillionTokensUsd ?? Infinity);
+      });
+    }
+
+    function render() {
+      const type = typeForState();
+      const reference = cellFor(type, state.referenceModel, state.referenceEffort);
+      const comparison = cellFor(type, state.comparisonModel, state.comparisonEffort);
+      comparisonSummary(type, reference, comparison);
+      document.getElementById('type-note').innerHTML = `<h3>${escape(type.name)} <span class="muted">${escape(type.version)}</span></h3><p class="muted">${escape(type.publisher)} · ${escape(type.capabilityClass)} · ${escape(type.unit)} · <a href="${escape(type.methodologyUrl)}">methodology</a><br>${escape(type.citationNote)}</p>`;
+      const direction = type.direction === 'lowerIsBetter' ? 'Lower scores are better' : 'Higher scores are better';
+      document.getElementById('legend').innerHTML = `<strong>Legend</strong><span>${escape(direction)}</span>${confidenceChip('publisherReported')}${confidenceChip('thirdParty')}${confidenceChip('ownRun')}<span><span class="selection-chip">Reference</span> blue outline</span><span><span class="selection-chip">Comparison</span> green outline</span>`;
       const byModel = new Map();
       type.cells.forEach(cell => {
         if (!byModel.has(cell.modelId)) byModel.set(cell.modelId, new Map());
@@ -117,28 +305,43 @@
       const headings = visibleEfforts.map(effort => `<th>${escape(labelEffort(effort))}</th>`).join('');
       const rows = [...byModel.entries()].map(([model, cells]) => {
         const sample = [...cells.values()][0];
-        const price = sample.prices;
+        const prices = sample.prices;
         const cellsHtml = visibleEfforts.map(effort => {
           const cell = cells.get(effort);
           if (!cell) return '<td class="empty">—</td>';
-          const scoreDelta = cell.scoreDeltaToReference;
-          const costDelta = cell.costDeltaToReferenceUsd;
-          const tokens = cell.publishedOutputTokensPerTask == null ? '' : `<br>${number(cell.publishedOutputTokensPerTask)} output tokens/task`;
-          return `<td class="cell"><span class="score">${number(cell.score)}</span>`
-            + `${money(cell.costPerTaskUsd)} / task <span class="basis">(${cell.costBasis === 'publishedPerTask' ? 'published' : 'assumption'})</span>`
-            + `<br>${number(cell.scorePerDollar)} score/$${tokens}`
-            + `<br><span class="delta ${scoreDelta < 0 ? 'negative' : ''}">Δ score ${delta(scoreDelta)}</span> · <span class="delta ${costDelta > 0 ? 'negative' : ''}">Δ cost ${costDelta == null ? '—' : `${costDelta >= 0 ? '+' : '−'}$${Math.abs(costDelta).toFixed(2)}`}</span>`
-            + `<span class="source">${source(cell.evidence)} · age ${cell.evidenceAgeDays}d${cell.stale ? ' · <span class="stale">stale</span>' : ''}</span></td>`;
+          const classNames = ['cell'];
+          if (cell === reference) classNames.push('reference-cell');
+          if (cell === comparison) classNames.push('comparison-cell');
+          const selection = cell === reference ? '<span class="selection-chip">Reference</span>' : cell === comparison ? '<span class="selection-chip">Comparison</span>' : '';
+          return `<td class="${classNames.join(' ')}">${selection}<span class="score">${number(cell.score)}</span><span class="cell-cost">${money(cell.costPerTaskUsd)} / task</span>${evidenceDetails(cell)}</td>`;
         }).join('');
-        return `<tr><td class="model">${escape(model)}</td><td class="price">${money(price.inputPerMTok)}</td><td class="price">${money(price.outputPerMTok)}</td>${cellsHtml}</tr>`;
+        return `<tr><td class="model">${modelMark(model)}</td><td class="price">${money(prices.inputPerMTok)}</td><td class="price">${money(prices.outputPerMTok)}</td>${cellsHtml}</tr>`;
       }).join('');
       document.getElementById('matrix-host').innerHTML = rows
         ? `<div class="table-scroll"><table><thead><tr><th>Model</th><th>Input / MTok</th><th>Output / MTok</th>${headings}</tr></thead><tbody>${rows}</tbody></table></div>`
         : '<div class="notice"><strong>Definition seeded; no accepted result rows yet.</strong></div>';
-      document.getElementById('candidate-title').textContent = ref ? `Candidates better than ${ref.modelId} / ${labelEffort(ref.effort)}` : 'Candidates';
-      document.getElementById('candidate-host').innerHTML = !ref ? '<div class="notice">Choose a type with a reference cell to compare candidates.</div>'
-        : type.candidates.length ? type.candidates.map(candidate => `<article class="card candidate"><h3><code>${escape(candidate.modelId)} / ${escape(labelEffort(candidate.effort))}</code></h3><p>Score ${number(candidate.score)} · ${money(candidate.costPerTaskUsd)} / task</p><span class="source">${source(candidate.evidence)}</span></article>`).join('')
+      document.getElementById('candidate-title').textContent = reference ? `At least as good and cheaper than ${modelMeta(reference.modelId).family} / ${labelEffort(reference.effort)}` : 'At least as good and cheaper';
+      const candidates = reference ? candidatesFor(type, reference) : [];
+      document.getElementById('candidate-host').innerHTML = !reference ? '<div class="notice">No measured reference is available for this benchmark.</div>'
+        : candidates.length ? candidates.map(candidate => `<article class="card candidate"><h3>${modelMark(candidate.modelId)} <code>${escape(labelEffort(candidate.effort))}</code></h3><p>Score ${number(candidate.score)} · ${money(candidate.costPerTaskUsd)} / task · ${money(candidate.blendedPricePerMillionTokensUsd)} / MTok</p></article>`).join('')
         : '<div class="notice"><strong>No qualifying candidate.</strong> No measured cell is both at least as good and cheaper under the declared comparison.</div>';
+      updateUrl();
+    }
+
+    function bindControls() {
+      document.getElementById('benchmark-type').addEventListener('change', event => setType(event.target.value, {hasComparisonQuery: false}));
+      document.getElementById('reference-model').addEventListener('change', event => {
+        state.referenceModel = event.target.value;
+        state.referenceEffort = effortsFor(typeForState(), state.referenceModel)[0] || '';
+        updateControls(); render();
+      });
+      document.getElementById('reference-effort').addEventListener('change', event => { state.referenceEffort = event.target.value; render(); });
+      document.getElementById('comparison-model').addEventListener('change', event => {
+        state.comparisonModel = event.target.value;
+        state.comparisonEffort = state.comparisonModel ? effortsFor(typeForState(), state.comparisonModel)[0] || '' : '';
+        updateControls(); render();
+      });
+      document.getElementById('comparison-effort').addEventListener('change', event => { state.comparisonEffort = event.target.value; render(); });
     }
 
     fetch('../data/model-benchmark-matrix.json').then(response => {
@@ -146,18 +349,17 @@
       return response.json();
     }).then(payload => {
       data = payload;
-      const question = payload.drivingQuestion;
-      const answerMatrix = payload.benchmarkTypes.find(type => type.id === question.benchmarkTypeId);
-      const challenger = answerMatrix.cells.find(cell => cell.modelId === question.challenger.modelId && cell.effort === question.challenger.effort);
-      const baseline = answerMatrix.cells.find(cell => cell.modelId === question.reference.modelId && cell.effort === question.reference.effort);
-      document.getElementById('answer').innerHTML = `<strong>${escape(question.answer)}</strong><span>Current ${escape(question.benchmarkTypeId)} evidence scores ${escape(challenger.modelId)}/${escape(challenger.effort)} at ${number(challenger.score)} versus ${number(baseline.score)}, but ${money(challenger.costPerTaskUsd)}/task is above ${money(baseline.costPerTaskUsd)}/task. Catalog rates are ${money(challenger.prices.inputPerMTok)}/${money(challenger.prices.outputPerMTok)} per MTok versus ${money(baseline.prices.inputPerMTok)}/${money(baseline.prices.outputPerMTok)}.</span>`;
-      const select = document.getElementById('benchmark-type');
-      select.innerHTML = payload.benchmarkTypes.map(type => `<option value="${escape(type.id)}"${type.id === payload.defaultBenchmarkTypeId ? ' selected' : ''}>${escape(type.name)} — ${escape(type.version)}</option>`).join('');
-      select.addEventListener('change', () => render(data.benchmarkTypes.find(type => type.id === select.value)));
-      render(payload.benchmarkTypes.find(type => type.id === payload.defaultBenchmarkTypeId));
+      const typeSelect = document.getElementById('benchmark-type');
+      typeSelect.innerHTML = payload.benchmarkTypes.map(type => `<option value="${escape(type.id)}">${escape(type.name)} — ${escape(type.version)}</option>`).join('');
+      bindControls();
+      setType(params.get('benchmark') || payload.defaultBenchmarkTypeId, {
+        referenceModel: params.get('reference'), referenceEffort: params.get('referenceEffort'),
+        comparisonModel: params.get('compare'), comparisonEffort: params.get('compareEffort'),
+        hasComparisonQuery: params.has('compare') || params.has('compareEffort')
+      });
       document.getElementById('provenance-host').innerHTML = payload.provenanceFacts.map(fact => `<article class="card"><h3>${escape(fact.label)}</h3><time datetime="${escape(fact.date)}">${escape(fact.date)}</time><p class="muted"><code>${escape(fact.path)}</code></p></article>`).join('');
-      const a = payload.tokenAssumption;
-      document.getElementById('assumption').innerHTML = `Fallback assumption: <code>${number(a.input)} input + ${number(a.output)} output + ${number(a.cacheRead)} cache-read + ${number(a.cacheWrite)} cache-write tokens/task</code>. ${escape(a.note)}`;
+      const assumption = payload.tokenAssumption;
+      document.getElementById('assumption').innerHTML = `Fallback assumption: <code>${number(assumption.input)} input + ${number(assumption.output)} output + ${number(assumption.cacheRead)} cache-read + ${number(assumption.cacheWrite)} cache-write tokens/task</code>. ${escape(assumption.note)}`;
     }).catch(error => {
       document.getElementById('matrix-host').innerHTML = `<div class="notice"><strong>Data unavailable in this preview.</strong> Serve <code>website/</code> over HTTP. ${escape(error.message)}</div>`;
       document.getElementById('answer').innerHTML = '<strong>Generated evidence could not be loaded.</strong>';
