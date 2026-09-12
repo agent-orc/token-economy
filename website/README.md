@@ -26,6 +26,13 @@ The library overview renders one raw case from `token-usage.json` as a dated
 `ComputeCost` calculation. The full token-usage charts (per model, per task
 class, per measured reissue count, and one measured session over time) live on
 the Agent Studio usage-evidence page and read the same file. The projection is
+The token-efficiency matrix carries the concrete input, output, and effective
+cached-input rates resolved from the dated catalog, alongside its derived cost
+class. Generation fails when a catalog model with a price valid at generation
+time would be published with an unknown cost class.
+
+The token-usage charts (per model, per task class, per measured reissue count,
+and one measured session over time) read `token-usage.json` only. That file is
 derived from the capability run under `benchmarks/results/`, the card backtest
 snapshot in `results/complexity-backtest/`, the session table in
 `docs/analyses/long-vs-short-session-cost.md`, and list prices resolved from

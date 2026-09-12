@@ -36,6 +36,12 @@ SemVer; pre-1.0 the public API may still shift).
   by-model, document-class, card-task-class, reissue-count, and session-turn
   aggregates now live on a dedicated Agent Studio evidence subpage; their
   generated source snapshots remain unchanged (TE-48).
+- The public token-efficiency matrix now resolves cost at its current data
+  date, shows input, output, and effective cached-input list prices with their
+  valid-from date, and explains capability, cost, effort, selection, and task-fit
+  terms. Website generation now rejects a priced catalog model whose published
+  cost class is unknown; two unlinked operator mockups explore compact
+  model-first and task-class-first presentations (TE-47).
 
 - Claude Sonnet 4.6 now carries its confirmed dated-snapshot alias
   (`claude-sonnet-4-6-20260301`), matching the id recording CLIs actually

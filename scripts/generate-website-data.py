@@ -47,7 +47,7 @@ USAGE_OUTPUT = ROOT / "website" / "data" / "token-usage.json"
 MATRIX_OUTPUT = ROOT / "website" / "data" / "model-efficiency-matrix.json"
 RECOMMENDATIONS_OUTPUT = ROOT / "website" / "data" / "task-class-recommendations.json"
 BENCHMARK_MATRIX_OUTPUT = ROOT / "website" / "data" / "model-benchmark-matrix.json"
-MATRIX_AS_OF_UTC = "2026-08-11T00:00:00Z"
+MATRIX_AS_OF_UTC = "2026-09-12T00:00:00Z"
 BENCHMARK_AS_OF_UTC = "2026-09-11T00:00:00Z"
 
 PRICE_CATALOG = ROOT / "src" / "TokenEconomy" / "catalog" / "model-prices.json"
@@ -658,8 +658,26 @@ def create_matrix_payload() -> dict:
                 f"Matrix model '{model['priceCatalogId']}' is missing from the price catalog")
         reference = {"input": 1_000_000, "output": 200_000, "cacheRead": 0, "cacheWrite": 0}
         cost = compute_cost(price_index, listing["modelId"], reference, as_of)
+        price = resolve_price(price_index, listing["modelId"], as_of)
         total = cost["totalUsd"]
         cost_class = "unknown" if total is None else "economy" if total < 4 else "standard" if total < 8 else "premium"
+        if price["status"] == "Resolved":
+            matrix_price = {
+                "status": "resolved",
+                "currency": price["currency"],
+                "inputPerMTok": price["inputPerMTok"],
+                "outputPerMTok": price["outputPerMTok"],
+                # ModelPriceCatalog.ComputeCost bills a missing cache-read rate at
+                # the input rate. Publish that effective rate so the table always
+                # shows a concrete cached-input price when a price is resolved.
+                "cachedInputPerMTok": price["cacheReadPerMTok"]
+                if price["cacheReadPerMTok"] is not None else price["inputPerMTok"],
+                "cachedInputUsesInputFallback": price["cacheReadPerMTok"] is None,
+                "validFromUtc": price["validFromUtc"],
+                "unconfirmed": price["unconfirmed"],
+            }
+        else:
+            matrix_price = {"status": "noPriceInCatalog"}
         status = model["routingStatus"]
         rows.append({
             "modelId": listing["modelId"],
@@ -667,6 +685,7 @@ def create_matrix_payload() -> dict:
             "cli": {"anthropic": "claude", "openai": "codex"}.get(listing.get("vendor")),
             "tier": model["capabilityTier"],
             "costClass": cost_class,
+            "price": matrix_price,
             "effortLevels": ["xHigh" if level == "xhigh" else level for level in model["supportedThinkingLevels"]],
             "suitability": suitability[model["capabilityTier"]],
             "restricted": status == "restricted",
@@ -676,11 +695,28 @@ def create_matrix_payload() -> dict:
             "evidenceStatus": model["evidenceStatus"],
             "provisional": model["provisional"],
         })
+
+    # Generation-time coverage gate: a catalog price that is already in effect
+    # may never be published as an unknown cost class, even if MATRIX_AS_OF_UTC
+    # was accidentally left behind a newly effective price boundary.
+    rows_by_model = {row["modelId"]: row for row in rows}
+    generation_utc = datetime.now(timezone.utc)
+    for listing in load(PRICE_CATALOG):
+        current_price = resolve_price(price_index, listing["modelId"], generation_utc)
+        if current_price["status"] != "Resolved":
+            continue
+        row = rows_by_model.get(listing["modelId"])
+        if row is None or row["costClass"] == "unknown":
+            raise ValueError(
+                f"Catalog model '{listing['modelId']}' has a price valid at generation time "
+                f"but the website matrix has an unknown cost class; advance MATRIX_AS_OF_UTC")
     return {
-        "schemaVersion": 1,
+        "schemaVersion": 2,
         "generatedAtUtc": datetime.now(timezone.utc).isoformat(),
         "asOfUtc": MATRIX_AS_OF_UTC,
         "source": "ModelEfficiencyMatrix.Default.Describe(asOfUtc)",
+        "priceCatalogPath": str(PRICE_CATALOG.relative_to(ROOT)).replace("\\", "/"),
+        "routingPolicyPath": str(ROUTING_POLICY.relative_to(ROOT)).replace("\\", "/"),
         "rows": rows,
     }
 
