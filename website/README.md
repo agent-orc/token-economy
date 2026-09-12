@@ -18,9 +18,11 @@ The static marketing + documentation site for **Token Economy**, served at
 - **English**, light/dark theme-aware, responsive.
 - Content: what/why, a rendered token-efficiency matrix and `SuggestModel`
   example, install, the dated cost API, a complexity-estimation explainer, one
-  real-run `ComputeCost` example, published benchmark summaries, and family
-  links. The generated sections describe the real `TokenEconomy` API and
-  checked-in evidence.
+  real-run `ComputeCost` example, a controlled-benchmark teaser linking to
+  `benchmarks/`, and family links. The controlled-benchmark subpage renders the
+  full methods, limits, results, and provenance from `benchmarks.json`. The
+  generated sections describe the real `TokenEconomy` API and checked-in
+  evidence.
 
 The library overview renders one raw case from `token-usage.json` as a dated
 `ComputeCost` calculation. The full token-usage charts (per model, per task
@@ -45,7 +47,7 @@ never a silent $0.
 When adding a benchmark result, add its setup or corpus, fixture, raw JSON, and
 derived report or capability record first, then run `python
 scripts/generate-website-data.py`. The browser renders the resulting table; do
-not add result rows to `index.html` by hand. Follow the
+not add result rows to `benchmarks/index.html` by hand. Follow the
 [end-to-end benchmark methodology](../benchmarks/README.md) for fixture and
 oracle requirements, execution, immutable artifacts, statistics, and the full
 publication checklist.

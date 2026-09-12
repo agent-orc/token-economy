@@ -7,6 +7,12 @@ SemVer; pre-1.0 the public API may still shift).
 
 ### Added
 
+- Added a dedicated controlled-benchmarks website page with newcomer-focused
+  method, scope, suite mapping, generated result tables, column legend,
+  publication commands, and provenance; the index now keeps a generated
+  three-sentence teaser, and the external benchmark matrix cross-links the
+  local studies (TE-51).
+
 - Added schema-backed, append-only benchmark type and model/effort result
   catalogs, plus the pure `ModelBenchmarkMatrix` API for single or weighted
   benchmark scores, dated prices, published task metrics, declared-assumption

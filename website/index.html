@@ -351,7 +351,7 @@
         <a href="task-class-routing/">Task&nbsp;studies</a>
         <a href="model-benchmarks/">Price&nbsp;×&nbsp;quality</a>
         <a class="nav-secondary" href="#usage">Cost&nbsp;example</a>
-        <a href="#benchmarks">Benchmarks</a>
+        <a href="benchmarks/">Benchmarks</a>
         <a href="#family">Family</a>
         <a class="nav-collapse" href="https://github.com/agent-orc/token-economy">GitHub</a>
       </nav>
@@ -635,13 +635,7 @@ catalog.ComputeCost(KnownModels.ClaudeSonnet5, usage, standard).Total; // 6.00</
     <section id="benchmarks">
       <div class="wrap">
         <h2>Benchmarks</h2>
-        <p><a href="model-benchmarks/"><strong>Open the external benchmark price-performance matrix →</strong></a></p>
-        <p class="sub">Published runs are controlled local comparisons: each variant receives the same prompt and a fresh fixture, then a deterministic command evaluates the response. They are not provider-wide capability claims.</p>
-        <h3>How these studies map to established benchmarks</h3>
-        <p>This harness borrows the test-verified repair shape of <a href="https://www.swebench.com/">SWE-bench</a> and the focused function-correctness shape of <a href="https://github.com/openai/human-eval">HumanEval</a>. Its fixtures are local, deliberately small, and versioned for model-selection calibration; they are <strong>not</strong> SWE-bench or HumanEval submissions, and their results are not comparable to either leaderboard.</p>
-        <div class="table-scroll"><table><thead><tr><th>Local study shape</th><th>Established reference</th><th>What carries over</th><th>What does not</th></tr></thead><tbody><tr><td>Repository repair with a deterministic test command</td><td>SWE-bench</td><td>A reproducible starting repository, a stated task, and test-verified evaluation.</td><td>Task distribution, repository scale, and leaderboard comparability.</td></tr><tr><td>Focused response-artifact correctness</td><td>HumanEval</td><td>A small, deterministic correctness target for comparing variants.</td><td>HumanEval problems, pass@k protocol, and capability claims.</td></tr><tr><td>Document-to-text hard cases</td><td>None claimed</td><td>Versioned inputs and explicit positive/negative extraction oracles.</td><td>A general document-understanding benchmark or support guarantee.</td></tr></tbody></table></div>
-        <div id="benchmark-results" aria-live="polite"><p class="comment-note">Loading published benchmark evidence…</p></div>
-        <p class="comment-note">The raw run and derived report are append-only JSON. The displayed table is rendered from a deployable projection generated from those files. To add a study, commit a setup in <code>benchmarks/setups/</code>, its minimal fixture, and generated raw + report files in <code>benchmarks/results/</code>; then run <code>python scripts/generate-website-data.py</code>. See <a href="https://github.com/agent-orc/token-economy/blob/main/benchmarks/README.md">the benchmark protocol on GitHub</a>.</p>
+        <p class="sub" id="benchmark-teaser">Loading the controlled-study count and latest run date. The results are local calibration evidence, not provider-wide capability claims. <a href="benchmarks/"><strong>Read the methods, limits, results, and provenance →</strong></a></p>
       </div>
     </section>
 
@@ -703,11 +697,7 @@ catalog.ComputeCost(KnownModels.ClaudeSonnet5, usage, standard).Total; // 6.00</
     (() => {
       const escape = value => String(value).replace(/[&<>"']/g, char => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[char]);
       const number = value => new Intl.NumberFormat('en-US').format(value);
-      const seconds = value => `${(value / 1000).toFixed(1)} s`;
-      const observedRange = (range, format) => range.minimum === range.maximum
-        ? format(range.minimum)
-        : `${format(range.minimum)}&ndash;${format(range.maximum)}`;
-      const benchmarkHost = document.getElementById('benchmark-results');
+      const benchmarkTeaser = document.getElementById('benchmark-teaser');
       const matrixHost = document.getElementById('matrix-results');
       const fileProtocolFailure = { fileProtocol: true };
       const fetchJson = path => location.protocol === 'file:'
@@ -783,16 +773,6 @@ catalog.ComputeCost(KnownModels.ClaudeSonnet5, usage, standard).Total; // 6.00</
         code.innerHTML = output + escape(source.slice(cursor));
       };
       document.querySelectorAll('pre code[data-language]').forEach(highlight);
-      const lifecycleBadge = item => {
-        if (!['retired', 'deprecated'].includes(item.lifecycleStatus)) return '';
-        const label = item.lifecycleStatus.toUpperCase();
-        const note = item.lifecycleNote ? ` title="${escape(item.lifecycleNote)}"` : '';
-        return ` <span class="pill lifecycle-${item.lifecycleStatus}"${note}>${label}</span>`;
-      };
-      const capabilityLevel = capability => capability.level === 'NotAttempted'
-        ? '<span class="state pending">NOT ATTEMPTED</span><br><span class="comment-note">Infrastructure failure</span>'
-        : escape(capability.level.replace(/([a-z])([A-Z])/g, '$1 $2'));
-
       const humanize = value => String(value).replace(/([a-z])([A-Z])/g, '$1 $2').replace(/^./, letter => letter.toUpperCase());
       const matrixClasses = [
         ['heavyDesign', 'Heavy design'],
@@ -842,18 +822,24 @@ catalog.ComputeCost(KnownModels.ClaudeSonnet5, usage, standard).Total; // 6.00</
       }).catch(error => showDataError(matrixHost, 'model-efficiency matrix data', error));
 
       fetchJson('data/benchmarks.json').then(data => {
-        if (!data.studies.length) { benchmarkHost.textContent = 'No published benchmark results yet.'; return; }
-        benchmarkHost.innerHTML = data.studies.map(study => {
-          const variants = study.variants.map(variant => `<tr><td>${escape(variant.variantId)}${variant.variantId === study.winner ? ' <span class="state">WINNER</span>' : ''}<br><span class="comment-note">${escape(variant.model)}</span>${lifecycleBadge(variant)}</td><td class="num">${variant.successes} / ${variant.runs}</td><td class="num">${variant.averageOutcomeScore == null ? '—' : Number(variant.averageOutcomeScore).toFixed(4)}</td><td class="num">${number(variant.averageTokens)}${variant.runs > 1 ? `<br><span class="comment-note">range ${observedRange(variant.tokenRange, number)}</span>` : ''}</td><td class="num">${seconds(variant.averageDurationMs)}${variant.runs > 1 ? `<br><span class="comment-note">range ${observedRange(variant.durationRangeMs, seconds)}</span>` : ''}</td><td>${variant.costPerSuccessfulOutcomeUsd == null ? 'Unknown / no success' : '$' + Number(variant.costPerSuccessfulOutcomeUsd).toFixed(4)}</td></tr>`).join('');
-          const date = new Date(study.startedAtUtc).toISOString().replace('.000', '').replace(/:\d\d\.\d+Z$/, 'Z');
-          const outcome = study.winner === null ? 'No successful variant' : `<code>${escape(study.winner)}</code>`;
-          return `<h3>Published setup: ${escape(study.setupId)}</h3><p>Run <code>${escape(date)}</code>. ${escape(study.winnerReason)}</p><div class="table-scroll"><table><thead><tr><th>Variant / model</th><th class="num">Success</th><th class="num">Outcome score</th><th class="num">Avg. tokens</th><th class="num">Avg. duration</th><th>Cost / success</th></tr></thead><tbody>${variants}</tbody></table></div><div class="callout"><strong>Run result:</strong> ${outcome}. This result has ${study.variants[0].runs} repeat(s) per variant and does not establish a general performance difference.</div>`;
-        }).join('') + (data.capabilityStudies || []).map(study => {
-          const rows = study.capabilities.map(capability => `<tr><td>${escape(capability.model)}${lifecycleBadge(capability)}</td><td>${escape(capability.documentType)}</td><td class="num">${capability.casesAttempted === 0 ? '&mdash;' : capability.casesPassed + ' / ' + capability.casesAttempted}</td><td class="num">${capability.infrastructureFailures || '&mdash;'}</td><td>${capabilityLevel(capability)}</td></tr>`).join('');
-          const date = new Date(study.startedAtUtc).toISOString().replace('.000', '').replace(/:\d\d\.\d+Z$/, 'Z');
-          return `<h3>Published capability corpus: ${escape(study.corpusId)}</h3><p>Run <code>${escape(date)}</code>. “Not demonstrated” means a completed extraction missed this corpus's oracle. “Not attempted — infrastructure failure” means the CLI or host failed before any capability result existed.</p><div class="table-scroll"><table><thead><tr><th>Model</th><th>Document type</th><th class="num">Passed</th><th class="num">Infrastructure</th><th>Observed level</th></tr></thead><tbody>${rows}</tbody></table></div>`;
-        }).join('') + `<p class="data-note">Generated from ${data.studies.length} A/B study/studies and ${(data.capabilityStudies || []).length} capability run(s).</p>`;
-      }).catch(error => showDataError(benchmarkHost, 'published benchmark data', error));
+        const studies = data.studies || [];
+        const capabilityStudies = data.capabilityStudies || [];
+        const allRuns = [...studies, ...capabilityStudies];
+        const latest = allRuns.reduce((value, run) => !value || run.startedAtUtc > value ? run.startedAtUtc : value, null);
+        const count = allRuns.length;
+        benchmarkTeaser.innerHTML = `The repository currently publishes <strong>${count} controlled study run${count === 1 ? '' : 's'}</strong>: ${studies.length} A/B and ${capabilityStudies.length} document-to-text capability run${capabilityStudies.length === 1 ? '' : 's'}. `
+          + `The latest run started <time datetime="${escape(latest || '')}">${latest ? escape(latest.slice(0, 10)) : 'on an unavailable date'}</time>; these are local calibration observations, not provider-wide capability claims. `
+          + `<a href="benchmarks/"><strong>Read the methods, limits, results, and provenance →</strong></a>`;
+        if (location.hash === '#benchmarks') {
+          const restoreBenchmarkAnchor = () => benchmarkTeaser.closest('section').scrollIntoView();
+          restoreBenchmarkAnchor();
+          setTimeout(restoreBenchmarkAnchor, 250);
+        }
+      }).catch(() => {
+        benchmarkTeaser.innerHTML = 'The controlled study count and latest run date are unavailable in this preview. '
+          + 'Serve <code>website/</code> over HTTP to load the generated summary. '
+          + '<a href="benchmarks/"><strong>Read the methods, limits, results, and provenance →</strong></a>';
+      });
 
       // ---- one checked ComputeCost example ------------------------------------
       const workedExampleHost = document.getElementById('worked-cost-example');

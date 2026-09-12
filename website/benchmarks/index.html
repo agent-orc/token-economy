@@ -1,0 +1,205 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Controlled benchmarks — Token Economy</title>
+  <meta name="description" content="Local, versioned controlled studies used to calibrate Token Economy model recommendations, with methods, limits, results, and provenance.">
+  <link rel="canonical" href="https://agent-orchestrator.dev/token-economy/benchmarks/">
+  <style>
+    :root {
+      --bg: #fff; --bg-alt: #f5f7fb; --panel: #fff; --border: #dce3ee;
+      --text: #182033; --muted: #5b667a; --accent: #2f6df0; --accent-soft: #eaf1ff;
+      --ok: #147847; --warn: #956400; --code-bg: #f4f6fa;
+      --space-1: .25rem; --space-2: .5rem; --space-3: .75rem; --space-4: 1rem;
+      --space-5: 1.25rem; --space-6: 1.5rem; --space-8: 2rem; --space-10: 2.5rem;
+      --space-12: 3rem; --space-16: 4rem; --radius-sm: .4rem; --radius-md: .75rem;
+      --mono: ui-monospace, "SF Mono", "Cascadia Code", Menlo, Consolas, monospace;
+      --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #0f1420; --bg-alt: #131a29; --panel: #161d2c; --border: #29344d;
+        --text: #e7ecf6; --muted: #99a5bc; --accent: #78a6ff; --accent-soft: #172542;
+        --ok: #4ac388; --warn: #e1b64d; --code-bg: #0c111b;
+      }
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { margin: 0; font-family: var(--sans); color: var(--text); background: var(--bg); line-height: 1.6; }
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    code, pre { font-family: var(--mono); }
+    :not(pre) > code { padding: var(--space-1) var(--space-2); color: var(--text); background: var(--code-bg); border: .0625rem solid var(--border); border-radius: var(--radius-sm); font-size: .9em; }
+    .wrap { width: min(70rem, calc(100% - var(--space-8))); margin-inline: auto; }
+    header { border-bottom: .0625rem solid var(--border); }
+    header .wrap { min-height: 3.75rem; display: flex; align-items: center; gap: var(--space-5); }
+    .brand { color: var(--text); flex-shrink: 0; font-weight: 750; white-space: nowrap; }
+    nav { min-width: 0; margin-left: auto; display: flex; gap: var(--space-5); overflow-x: auto; scrollbar-width: none; white-space: nowrap; }
+    nav::-webkit-scrollbar { display: none; }
+    .hero { padding-block: var(--space-12) var(--space-16); background: var(--bg-alt); }
+    .eyebrow { color: var(--accent); font: 700 .78rem/1 var(--mono); letter-spacing: .08em; text-transform: uppercase; }
+    h1 { margin: var(--space-3) 0 var(--space-4); font-size: clamp(2rem, 6vw, 3.5rem); line-height: 1.08; letter-spacing: -.03em; }
+    h2 { margin: 0 0 var(--space-3); font-size: 1.6rem; letter-spacing: -.02em; }
+    h3 { margin: var(--space-8) 0 var(--space-2); font-size: 1.08rem; }
+    p { max-width: 68rem; }
+    .lead, .muted { color: var(--muted); }
+    .lead { max-width: 55rem; font-size: 1.08rem; }
+    section { padding-block: var(--space-10); border-top: .0625rem solid var(--border); }
+    .shape-grid, .provenance { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-4); margin-top: var(--space-5); }
+    .provenance { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .card, .callout { padding: var(--space-5); border: .0625rem solid var(--border); border-radius: var(--radius-md); background: var(--panel); }
+    .card h3 { margin-top: 0; }
+    .callout { margin-top: var(--space-5); background: var(--accent-soft); }
+    .table-scroll { overflow-x: auto; margin-block: var(--space-5); }
+    table { width: 100%; min-width: 42rem; border-collapse: collapse; font-size: .9rem; }
+    th, td { padding: var(--space-3); text-align: left; vertical-align: top; border-bottom: .0625rem solid var(--border); }
+    th { color: var(--muted); font-size: .74rem; letter-spacing: .04em; text-transform: uppercase; }
+    th.num, td.num { text-align: right; font-variant-numeric: tabular-nums; }
+    .mapping { min-width: 58rem; }
+    .legend { display: grid; grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr)); gap: var(--space-3); padding: 0; list-style: none; }
+    .legend li { padding: var(--space-3); border: .0625rem solid var(--border); border-radius: var(--radius-sm); color: var(--muted); }
+    .legend strong { display: block; color: var(--text); }
+    pre { overflow-x: auto; margin-block: var(--space-5); padding: var(--space-5); color: var(--text); background: var(--code-bg); border: .0625rem solid var(--border); border-radius: var(--radius-md); line-height: 1.55; }
+    .state { color: var(--ok); font: 700 .76rem/1 var(--mono); letter-spacing: .04em; }
+    .state.pending { color: var(--warn); }
+    .pill { display: inline-block; padding: var(--space-1) var(--space-2); color: var(--warn); border: .0625rem solid color-mix(in srgb, var(--warn) 45%, var(--border)); border-radius: var(--radius-sm); font-size: .72rem; }
+    .result-note, .data-note { color: var(--muted); font-size: .86rem; }
+    .result-note { margin-top: var(--space-3); }
+    footer { padding-block: var(--space-8); color: var(--muted); border-top: .0625rem solid var(--border); }
+    @media (max-width: 48rem) {
+      .shape-grid, .provenance { grid-template-columns: 1fr; }
+      nav { gap: var(--space-3); }
+      .optional { display: none; }
+    }
+  </style>
+</head>
+<body>
+  <header><div class="wrap"><a class="brand" href="../">¢ Token Economy</a><nav><a href="#method">Method</a><a href="#results">Results</a><a href="#add">Add a study</a><a class="optional" href="#provenance">Provenance</a></nav></div></header>
+  <main>
+    <div class="hero"><div class="wrap">
+      <span class="eyebrow">Evidence · repository-owned studies</span>
+      <h1>Controlled benchmarks</h1>
+      <p class="lead">Small, repeatable local studies help calibrate which model and thinking level the library recommends for a task shape. They measure the checked-in fixtures and commands described below—not every task a provider’s model can perform.</p>
+      <p><a href="../model-benchmarks/">The price × quality matrix</a> reports external published scores; this page reports our own controlled studies run locally against versioned fixtures.</p>
+    </div></div>
+
+    <section id="method"><div class="wrap">
+      <h2>What “controlled” means here</h2>
+      <p>Every compared variant receives the same prompt, each repetition starts from a fresh copy of the fixture, and one deterministic command evaluates the result. A setup names several model and thinking variants plus a repetition count, so the intended difference is the configured route rather than the task or starting files.</p>
+    </div></section>
+
+    <section id="shapes"><div class="wrap">
+      <h2>Two study shapes</h2>
+      <p>A controlled A/B setup is used when two or more routes should attempt the same coding or review task and be compared on one executable score; the document-to-text capability corpus is used when every catalog model should extract text from the same collection of document hard cases and be checked against explicit text oracles.</p>
+      <div class="shape-grid">
+        <article class="card"><h3>Controlled A/B setup</h3><p class="muted">One prompt, one seed workspace, multiple configured routes, and the same success command after every attempt.</p></article>
+        <article class="card"><h3>Document-to-text corpus</h3><p class="muted">One versioned set of documents, attempted per model and document type, with required and forbidden fragments deciding each case.</p></article>
+      </div>
+    </div></section>
+
+    <section id="claims"><div class="wrap">
+      <h2>What the numbers claim—and what they do not</h2>
+      <p>These are local, small, dated observations over versioned fixtures, useful for calibrating model recommendations for similar work. They do not establish provider-wide capability, rank models in general, predict production traffic, or make a failed infrastructure attempt into evidence that a model lacks a capability; the library may recommend from evidence, but it does not route work.</p>
+    </div></section>
+
+    <section id="mapping"><div class="wrap">
+      <h2>How the shapes map to established suites</h2>
+      <p>The harness borrows reproducible-task and deterministic-evaluation ideas from SWE-bench and HumanEval, while keeping its own synthetic fixtures and metrics. These runs are not submissions to either suite, and their numbers cannot be compared with those leaderboards.</p>
+      <div class="table-scroll"><table class="mapping"><thead><tr><th>Local study shape</th><th>Established reference</th><th>What carries over</th><th>What does not</th></tr></thead><tbody>
+        <tr><td>Repository repair with a deterministic test command</td><td><a href="https://www.swebench.com/">SWE-bench</a></td><td>A reproducible starting repository, a stated task, and test-verified evaluation.</td><td>Task distribution, repository scale, and leaderboard comparability.</td></tr>
+        <tr><td>Focused response-artifact correctness</td><td><a href="https://github.com/openai/human-eval">HumanEval</a></td><td>A small, deterministic correctness target for comparing variants.</td><td>HumanEval problems, pass@k protocol, and capability claims.</td></tr>
+        <tr><td>Document-to-text hard cases</td><td>None claimed</td><td>Versioned inputs and explicit positive/negative extraction oracles.</td><td>A general document-understanding benchmark or support guarantee.</td></tr>
+      </tbody></table></div>
+    </div></section>
+
+    <section id="results"><div class="wrap">
+      <h2>Results</h2>
+      <p>The tables below are rendered directly from <code>website/data/benchmarks.json</code>, the same generated projection checked in CI. A “winner” is the route selected by that setup’s declared success-and-tie-break rules for that run, not a universal best model.</p>
+      <h3>Column legend</h3>
+      <ul class="legend">
+        <li><strong>Variant / model</strong>The configured route and canonical model observed in the raw run.</li>
+        <li><strong>Success</strong>Successful repetitions divided by all repetitions for that variant.</li>
+        <li><strong>Outcome score</strong>The mean setup-defined evaluation score; consult the setup before comparing unlike studies.</li>
+        <li><strong>Avg. tokens</strong>The mean total of the four recorded token components per repetition.</li>
+        <li><strong>Avg. duration</strong>The mean wall-clock attempt duration; ranges appear when a variant was repeated.</li>
+        <li><strong>Cost / success</strong>Observed run cost divided by successful outcomes; unknown when there was no success or price.</li>
+        <li><strong>Passed</strong>Corpus cases whose completed extraction satisfied that document oracle.</li>
+        <li><strong>Infrastructure</strong>Cases where the CLI or host failed before a capability result existed.</li>
+        <li><strong>Observed level</strong>Demonstrated, partial, not demonstrated, or not attempted for this exact corpus run.</li>
+      </ul>
+      <div id="benchmark-results" aria-live="polite"><p class="muted">Loading generated benchmark evidence…</p></div>
+      <noscript><p class="callout">JavaScript is required to render the generated result tables. The methods and limitations above remain available without it.</p></noscript>
+    </div></section>
+
+    <section id="add"><div class="wrap">
+      <h2>How to add a study</h2>
+      <p>For A/B work, add a schema-backed definition under <code>benchmarks/setups/</code> and its minimal fresh seed under <code>benchmarks/fixtures/</code>; for document extraction, add the corpus definition and canonical fixtures under <code>benchmarks/document-to-text/</code>. Run the matching command from the repository root, inspect the timestamped raw result and sidecar under <code>benchmarks/results/</code>, and append a corrected follow-up run instead of editing published evidence in place.</p>
+      <pre><code># Controlled A/B setup
+dotnet run --project src/TokenEconomy.Benchmarks -- run benchmarks/setups/&lt;setup-id&gt;.json
+
+# Document-to-text capability corpus
+dotnet run --project src/TokenEconomy.Benchmarks -- document-to-text benchmarks/document-to-text/&lt;corpus-id&gt;.json
+
+# Refresh and verify the website projection
+python3 scripts/generate-website-data.py
+python3 scripts/generate-website-data.py --check
+dotnet test tests/TokenEconomy.Tests/TokenEconomy.Tests.csproj --filter FullyQualifiedName~WebsiteTokenUsageDataTests</code></pre>
+      <p class="muted">The complete setup fields, oracle checks, failure classification, and publication checklist live in the <a href="https://github.com/agent-orc/token-economy/blob/main/benchmarks/README.md">benchmark protocol</a>.</p>
+    </div></section>
+
+    <section id="provenance"><div class="wrap">
+      <h2>Snapshot provenance</h2>
+      <p>The public projection is generated from append-only repository evidence and carries its own UTC generation timestamp. CI runs the same generator with <code>--check</code> and stops deployment if any evidence-derived body differs from the committed JSON.</p>
+      <div class="provenance">
+        <article class="card"><h3>Source evidence</h3><p class="muted"><code>benchmarks/results/**/*.json</code></p></article>
+        <article class="card"><h3>Generated projection</h3><p class="muted"><code>website/data/benchmarks.json</code><br><span id="generated-at">Loading generation date…</span></p></article>
+        <article class="card"><h3>CI gate</h3><p class="muted"><code>python3 scripts/generate-website-data.py --check</code></p></article>
+      </div>
+    </div></section>
+  </main>
+  <footer><div class="wrap">Token Economy · controlled evidence, not general capability claims · <a href="../">overview</a></div></footer>
+  <script>
+  (() => {
+    const escape = value => String(value).replace(/[&<>"']/g, char => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[char]));
+    const number = value => new Intl.NumberFormat('en-US').format(value);
+    const seconds = value => `${(value / 1000).toFixed(1)} s`;
+    const observedRange = (range, format) => range.minimum === range.maximum ? format(range.minimum) : `${format(range.minimum)}&ndash;${format(range.maximum)}`;
+    const lifecycleBadge = item => {
+      if (!['retired', 'deprecated'].includes(item.lifecycleStatus)) return '';
+      const note = item.lifecycleNote ? ` title="${escape(item.lifecycleNote)}"` : '';
+      return ` <span class="pill"${note}>${escape(item.lifecycleStatus.toUpperCase())}</span>`;
+    };
+    const capabilityLevel = capability => capability.level === 'NotAttempted'
+      ? '<span class="state pending">NOT ATTEMPTED</span><br><span class="result-note">Infrastructure failure</span>'
+      : escape(capability.level.replace(/([a-z])([A-Z])/g, '$1 $2'));
+    const host = document.getElementById('benchmark-results');
+
+    fetch('../data/benchmarks.json').then(response => {
+      if (!response.ok) throw new Error(`HTTP ${response.status}`);
+      return response.json();
+    }).then(data => {
+      const studies = data.studies || [];
+      const capabilityStudies = data.capabilityStudies || [];
+      const abTables = studies.map(study => {
+        const rows = study.variants.map(variant => `<tr><td><code>${escape(variant.variantId)}</code>${variant.variantId === study.winner ? ' <span class="state">WINNER</span>' : ''}<br><span class="result-note">${escape(variant.model)}</span>${lifecycleBadge(variant)}</td><td class="num">${variant.successes} / ${variant.runs}</td><td class="num">${variant.averageOutcomeScore == null ? '—' : Number(variant.averageOutcomeScore).toFixed(4)}</td><td class="num">${number(variant.averageTokens)}${variant.runs > 1 ? `<br><span class="result-note">range ${observedRange(variant.tokenRange, number)}</span>` : ''}</td><td class="num">${seconds(variant.averageDurationMs)}${variant.runs > 1 ? `<br><span class="result-note">range ${observedRange(variant.durationRangeMs, seconds)}</span>` : ''}</td><td>${variant.costPerSuccessfulOutcomeUsd == null ? 'Unknown / no success' : '$' + Number(variant.costPerSuccessfulOutcomeUsd).toFixed(4)}</td></tr>`).join('');
+        const date = new Date(study.startedAtUtc).toISOString();
+        const outcome = study.winner === null ? 'No successful variant' : `<code>${escape(study.winner)}</code>`;
+        return `<h3>Controlled A/B · ${escape(study.setupId)}</h3><p class="result-note">Run <time datetime="${escape(date)}">${escape(date)}</time>. ${escape(study.winnerReason)}</p><div class="table-scroll"><table><thead><tr><th>Variant / model</th><th class="num">Success</th><th class="num">Outcome score</th><th class="num">Avg. tokens</th><th class="num">Avg. duration</th><th>Cost / success</th></tr></thead><tbody>${rows}</tbody></table></div><p class="callout"><strong>Run result:</strong> ${outcome}. This run has ${study.variants[0].runs} repetition(s) per variant and does not establish a general performance difference.</p>`;
+      }).join('');
+      const corpusTables = capabilityStudies.map(study => {
+        const rows = study.capabilities.map(capability => `<tr><td><code>${escape(capability.model)}</code>${lifecycleBadge(capability)}</td><td>${escape(capability.documentType)}</td><td class="num">${capability.casesAttempted === 0 ? '—' : capability.casesPassed + ' / ' + capability.casesAttempted}</td><td class="num">${capability.infrastructureFailures || '—'}</td><td>${capabilityLevel(capability)}</td></tr>`).join('');
+        const date = new Date(study.startedAtUtc).toISOString();
+        return `<h3>Capability corpus · ${escape(study.corpusId)}</h3><p class="result-note">Run <time datetime="${escape(date)}">${escape(date)}</time>. Results apply only to the versioned document cases and their explicit oracles.</p><div class="table-scroll"><table><thead><tr><th>Model</th><th>Document type</th><th class="num">Passed</th><th class="num">Infrastructure</th><th>Observed level</th></tr></thead><tbody>${rows}</tbody></table></div>`;
+      }).join('');
+      host.innerHTML = abTables + corpusTables + `<p class="data-note">${studies.length} A/B study run(s) and ${capabilityStudies.length} capability-corpus run(s) in this projection.</p>`;
+      const generated = new Date(data.generatedAtUtc);
+      document.getElementById('generated-at').innerHTML = `Generated <time datetime="${escape(generated.toISOString())}">${escape(generated.toISOString().slice(0, 10))} UTC</time>`;
+    }).catch(error => {
+      host.innerHTML = `<p class="callout"><strong>Generated evidence could not be loaded.</strong> Serve <code>website/</code> over HTTP to load the JSON projection. ${escape(error.message)}</p>`;
+      document.getElementById('generated-at').textContent = 'Generation date unavailable.';
+    });
+  })();
+  </script>
+</body>
+</html>
