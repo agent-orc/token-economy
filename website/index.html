@@ -90,40 +90,12 @@
 
     .wrap { max-width: 940px; margin: 0 auto; padding: 0 20px; }
 
-    /* ---- top bar ---- */
-    header.top {
-      position: sticky; top: 0; z-index: 10;
-      background: color-mix(in srgb, var(--bg) 88%, transparent);
-      backdrop-filter: saturate(140%) blur(8px);
-      border-bottom: 1px solid var(--border);
-    }
-    header.top .wrap {
-      display: flex; align-items: center; gap: 16px;
-      height: 58px;
-    }
     .brand { font-weight: 700; letter-spacing: -0.02em; font-size: 1.05rem; display: flex; align-items: center; gap: 9px; white-space: nowrap; flex-shrink: 0; }
     .brand .mark {
       width: 22px; height: 22px; border-radius: 6px; background: var(--accent);
       color: #fff; display: inline-grid; place-items: center; font-family: var(--mono);
       font-weight: 700; font-size: 0.85rem;
     }
-    /* min-width:0 lets the nav shrink and scroll its own overflow instead of
-       pushing the page body wider than the viewport on narrow screens. */
-    /* One line, always: eleven links do not fit the 900px content width at the
-       old 0.92rem/18px, so the secondary in-page anchors (Why, SuggestModel,
-       Usage) are hidden and the rest is set tighter. min-width:0 keeps the
-       nav from pushing the page wider; overflow stays scrollable as a fallback. */
-    header.top nav {
-      margin-left: auto; display: flex; gap: 13px; font-size: 0.86rem;
-      min-width: 0; overflow-x: auto; white-space: nowrap; scrollbar-width: none;
-    }
-    .nav-secondary { display: none; }
-    header.top nav::-webkit-scrollbar { display: none; }
-    header.top nav a { color: var(--muted); }
-    header.top nav a:hover { color: var(--text); text-decoration: none; }
-    .nav-collapse { display: inline; }
-    @media (max-width: 640px) { .nav-collapse { display: none; } header.top nav { gap: 12px; } }
-
     /* ---- hero ---- */
     .hero { padding: 70px 0 40px; }
     .eyebrow {
@@ -336,27 +308,54 @@
     @media (prefers-reduced-motion: reduce) { .chart-tip { transition: none; } }
     @media (max-width: 720px) { .chart-grid { grid-template-columns: 1fr; } }
   </style>
+  <link rel="stylesheet" href="/token-economy/navigation.css">
+  <script src="/token-economy/navigation.js" defer></script>
 </head>
 <body>
 
-  <header class="top">
-    <div class="wrap">
-      <span class="brand"><span class="mark">¢</span> Token Economy</span>
-      <nav>
-        <a class="nav-secondary" href="#why">Why</a>
-        <a class="nav-secondary" href="#suggest">SuggestModel</a>
-        <a href="#install">Install</a>
-        <a href="#cost-api">Cost&nbsp;API</a>
-        <a href="#model-recommendation">Model&nbsp;recommendation</a>
-        <a href="task-class-routing/">Task&nbsp;studies</a>
-        <a href="model-benchmarks/">Price&nbsp;×&nbsp;quality</a>
-        <a class="nav-secondary" href="#usage">Cost&nbsp;example</a>
-        <a href="benchmarks/">Benchmarks</a>
-        <a href="#family">Family</a>
-        <a class="nav-collapse" href="https://github.com/agent-orc/token-economy">GitHub</a>
-      </nav>
-    </div>
-  </header>
+<!-- site-navigation:start -->
+<header class="site-header" data-site-navigation>
+  <div class="site-family-bar">
+    <a class="site-family-back" href="https://agent-orchestrator.dev/"><span aria-hidden="true">←</span> Agent Orchestrator</a>
+  </div>
+  <div class="site-header-main">
+    <a class="site-brand" href="/token-economy/" aria-label="Token Economy home"><span class="site-brand-mark" aria-hidden="true">¢</span><span>Token Economy</span></a>
+    <button class="site-menu-button" type="button" aria-expanded="false" aria-controls="site-navigation-groups"><span>Menu</span><span class="site-menu-icon" aria-hidden="true"></span></button>
+    <nav class="site-primary-nav" aria-label="Primary navigation">
+      <div class="site-nav-groups" id="site-navigation-groups">
+        <div class="site-nav-group">
+          <a class="site-nav-heading" href="/token-economy/#why" aria-haspopup="true" aria-expanded="false" aria-controls="site-nav-library">Library</a>
+          <ul class="site-nav-menu" id="site-nav-library">
+            <li><a href="/token-economy/#why">Why</a></li>
+            <li><a href="/token-economy/#suggest">SuggestModel</a></li>
+            <li><a href="/token-economy/#install">Install</a></li>
+            <li><a href="/token-economy/#cost-api">Cost API</a></li>
+            <li><a href="/token-economy/#model-recommendation">Model recommendation</a></li>
+          </ul>
+        </div>
+        <div class="site-nav-group">
+          <a class="site-nav-heading" href="/token-economy/task-class-routing/" aria-haspopup="true" aria-expanded="false" aria-controls="site-nav-evidence">Evidence</a>
+          <ul class="site-nav-menu" id="site-nav-evidence">
+            <li><a href="/token-economy/task-class-routing/">Task studies</a></li>
+            <li><a href="/token-economy/model-benchmarks/">Price × quality</a></li>
+            <li><a href="/token-economy/#benchmarks">Benchmarks</a></li>
+            <li><a href="/token-economy/evidence/agent-studio-usage/">Usage</a></li>
+            <li><a href="/token-economy/cap-forecast/">Cap forecast</a></li>
+            <li><a href="/token-economy/provider-quota-dashboard/">Quota snapshot</a></li>
+          </ul>
+        </div>
+        <div class="site-nav-group">
+          <a class="site-nav-heading" href="/token-economy/#family" aria-haspopup="true" aria-expanded="false" aria-controls="site-nav-project">Project</a>
+          <ul class="site-nav-menu" id="site-nav-project">
+            <li><a href="/token-economy/#family">Family</a></li>
+            <li><a href="https://github.com/agent-orc/token-economy">GitHub <span aria-hidden="true">↗</span></a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+  </div>
+</header>
+<!-- site-navigation:end -->
 
   <main>
     <!-- ================= HERO ================= -->

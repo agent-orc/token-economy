@@ -6,14 +6,22 @@
   <title>Provider availability snapshot</title>
   <style>
     :root {
-      color-scheme: dark;
+      color-scheme: light dark;
       --space-1: .25rem; --space-2: .5rem; --space-3: .75rem; --space-4: 1rem; --space-5: 1.5rem; --space-6: 2rem; --space-7: 3rem;
       --radius-sm: .5rem; --radius-md: .75rem; --radius-pill: 999rem;
       --font-body: system-ui, sans-serif; --font-mono: ui-monospace, monospace;
-      --surface-page: #0b111d; --surface-card: #121c2c; --surface-raised: #19263a; --surface-meter: #283750;
-      --border: #334560; --text: #eef4ff; --text-muted: #a9bad3;
-      --healthy: #54d99b; --healthy-bg: #143d31; --warning: #f0bd51; --warning-bg: #513b13;
-      --critical: #ff7b7d; --critical-bg: #512329; --unknown: #b4a9ff; --unknown-bg: #302b57;
+      --surface-page: #f5f7fb; --surface-card: #fff; --surface-raised: #f0f4fa; --surface-meter: #dce4ef;
+      --border: #ccd6e4; --text: #172033; --text-muted: #59677d;
+      --healthy: #126b43; --healthy-bg: #dff5e9; --warning: #805800; --warning-bg: #fff0c2;
+      --critical: #a32935; --critical-bg: #ffe2e5; --unknown: #5645a5; --unknown-bg: #ebe7ff;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --surface-page: #0b111d; --surface-card: #121c2c; --surface-raised: #19263a; --surface-meter: #283750;
+        --border: #334560; --text: #eef4ff; --text-muted: #a9bad3;
+        --healthy: #54d99b; --healthy-bg: #143d31; --warning: #f0bd51; --warning-bg: #513b13;
+        --critical: #ff7b7d; --critical-bg: #512329; --unknown: #b4a9ff; --unknown-bg: #302b57;
+      }
     }
     * { box-sizing: border-box; }
     body { margin: 0; background: var(--surface-page); color: var(--text); font: 1rem/1.5 var(--font-body); }
@@ -57,8 +65,53 @@
     .boundary strong { color: var(--text); }
     code { font-family: var(--font-mono); }
   </style>
+  <link rel="stylesheet" href="/token-economy/navigation.css">
+  <script src="/token-economy/navigation.js" defer></script>
 </head>
 <body>
+<!-- site-navigation:start -->
+<header class="site-header" data-site-navigation>
+  <div class="site-family-bar">
+    <a class="site-family-back" href="https://agent-orchestrator.dev/"><span aria-hidden="true">←</span> Agent Orchestrator</a>
+  </div>
+  <div class="site-header-main">
+    <a class="site-brand" href="/token-economy/" aria-label="Token Economy home"><span class="site-brand-mark" aria-hidden="true">¢</span><span>Token Economy</span></a>
+    <button class="site-menu-button" type="button" aria-expanded="false" aria-controls="site-navigation-groups"><span>Menu</span><span class="site-menu-icon" aria-hidden="true"></span></button>
+    <nav class="site-primary-nav" aria-label="Primary navigation">
+      <div class="site-nav-groups" id="site-navigation-groups">
+        <div class="site-nav-group">
+          <a class="site-nav-heading" href="/token-economy/#why" aria-haspopup="true" aria-expanded="false" aria-controls="site-nav-library">Library</a>
+          <ul class="site-nav-menu" id="site-nav-library">
+            <li><a href="/token-economy/#why">Why</a></li>
+            <li><a href="/token-economy/#suggest">SuggestModel</a></li>
+            <li><a href="/token-economy/#install">Install</a></li>
+            <li><a href="/token-economy/#cost-api">Cost API</a></li>
+            <li><a href="/token-economy/#model-recommendation">Model recommendation</a></li>
+          </ul>
+        </div>
+        <div class="site-nav-group">
+          <a class="site-nav-heading" href="/token-economy/task-class-routing/" aria-haspopup="true" aria-expanded="false" aria-controls="site-nav-evidence">Evidence</a>
+          <ul class="site-nav-menu" id="site-nav-evidence">
+            <li><a href="/token-economy/task-class-routing/">Task studies</a></li>
+            <li><a href="/token-economy/model-benchmarks/">Price × quality</a></li>
+            <li><a href="/token-economy/#benchmarks">Benchmarks</a></li>
+            <li><a href="/token-economy/evidence/agent-studio-usage/">Usage</a></li>
+            <li><a href="/token-economy/cap-forecast/">Cap forecast</a></li>
+            <li><a href="/token-economy/provider-quota-dashboard/">Quota snapshot</a></li>
+          </ul>
+        </div>
+        <div class="site-nav-group">
+          <a class="site-nav-heading" href="/token-economy/#family" aria-haspopup="true" aria-expanded="false" aria-controls="site-nav-project">Project</a>
+          <ul class="site-nav-menu" id="site-nav-project">
+            <li><a href="/token-economy/#family">Family</a></li>
+            <li><a href="https://github.com/agent-orc/token-economy">GitHub <span aria-hidden="true">↗</span></a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+  </div>
+</header>
+<!-- site-navigation:end -->
   <main class="page">
     <p class="eyebrow">Routing evidence · deterministic example</p>
     <h1>Provider availability at the decision time</h1>
