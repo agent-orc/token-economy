@@ -134,3 +134,17 @@ and `api/quality-studio-drop.cs` are compiled, read-only examples. Native Qualit
 Studio `quality-run-report.v1` exports remain a separate contract from Token
 Economy's review-run drop. Research and integration limits are documented in
 `docs/code-review-research-2026-09-12.md` and the public guide.
+
+
+## Ecosystem link
+
+The product header includes GitHub and an Agent Orchestrator link on the same
+row. The separate family bar is removed. `family-navigation.css` follows
+`family-link-v1` and is kept byte-identical to Runner's local copy. Its orange
+dot and full/compact labels identify the ecosystem without changing this site's
+product colors. The full accessible name remains present when only `AO` is shown.
+
+Maintain the [Marketing Studio contract](https://github.com/RobertMischke/agent-studio-marketing/blob/main/02-produktname/dachmarke-und-produktseiten-header.md) when changing
+the link, its shared styles or adoption status. Copy the canonical header into
+all pages and run the existing website data/link checks. Check small and wide
+viewports, both themes, keyboard menus and deep-link alignment after height changes.

@@ -6,7 +6,6 @@
   --site-nav-space-5: 1.5rem;
   --site-nav-content: 1000px;
   --site-nav-gutter: 20px;
-  --site-nav-family-height: 1.75rem;
   --site-nav-main-height: 3.625rem;
   --site-nav-radius: .625rem;
   --site-nav-bg: #fff;
@@ -124,26 +123,9 @@
   text-decoration: none;
 }
 
-.site-family-bar,
 .site-header-main {
   width: min(var(--site-nav-content), calc(100% - 2 * var(--site-nav-gutter)));
   margin-inline: auto;
-}
-
-.site-family-bar {
-  min-height: var(--site-nav-family-height);
-  display: flex;
-  align-items: center;
-  font-size: .75rem;
-}
-
-.site-family-back {
-  color: var(--site-nav-muted) !important;
-}
-
-.site-family-back:hover,
-.site-family-back:focus-visible {
-  color: var(--site-nav-text) !important;
 }
 
 .site-header-main {
@@ -308,8 +290,7 @@ html:not(.site-nav-enhanced) .site-nav-group:focus-within > .site-nav-menu,
 .site-menu-icon::after { transform: translateY(.2rem); }
 
 @media (max-width: 48rem) {
-  .site-family-bar,
-  .site-header-main {
+    .site-header-main {
     width: min(var(--site-nav-content), calc(100% - 2 * var(--site-nav-gutter)));
   }
 
@@ -388,7 +369,6 @@ html { scroll-padding-top: var(--site-header-offset, 7rem); }
 .site-nav-direct { color: var(--site-nav-muted) !important; background: transparent; }
 .site-header a[aria-current] { color: var(--site-nav-accent) !important; background: var(--site-nav-accent-soft); }
 .site-nav-direct:hover { color: var(--site-nav-text) !important; }
-.site-family-bar { font-size: .875rem; min-height: 2rem; }
 .site-skip-link { position: fixed; inset: .5rem auto auto .5rem; z-index: 200; padding: .75rem 1rem; background: var(--site-nav-panel); color: var(--site-nav-text); border: 2px solid var(--site-nav-accent); transform: translateY(-200%); }
 .site-skip-link:focus { transform: none; }
 html:not(.site-nav-enhanced) .site-nav-groups { flex-wrap: wrap; }
@@ -425,4 +405,37 @@ main :not(pre) > code { overflow-wrap: anywhere; }
   border-color: var(--accent);
   font-weight: 700;
   text-decoration: none;
+}
+
+
+/* Product identity, local navigation and compact ecosystem links share one row. */
+.site-header-main { gap: 16px; }
+.site-utilities { display: flex; align-items: center; gap: 6px; flex: 0 0 auto; }
+.site-utility-icon { width: 16px; height: 16px; flex: 0 0 auto; }
+.site-header .site-github-link {
+  display: inline-flex; align-items: center; justify-content: center; gap: 6px;
+  min-height: 36px; padding: 6px 10px; border: 1px solid var(--site-nav-border);
+  border-radius: 7px; background: var(--site-nav-panel); color: var(--site-nav-text);
+  font-size: 12px; font-weight: 650;
+}
+.site-header .site-github-link:hover { border-color: var(--site-nav-accent); background: var(--site-nav-accent-soft); }
+@media (max-width: 980px) {
+  .site-github-label { display: none; }
+}
+@media (max-width: 48rem) {
+  .site-header-main { column-gap: 8px; row-gap: 0; }
+  .site-brand { order: 0; }
+  .site-menu-button { order: 1; }
+  .site-utilities { order: 2; }
+  .site-primary-nav { order: 3; }
+  .site-header .site-github-link, .site-header .ao-family-link { min-height: 44px; }
+  .site-header .site-github-link { min-width: 44px; }
+}
+@media (max-width: 480px) {
+  .site-menu-button > span:first-child { display: none; }
+  .site-menu-button { min-width: 44px; justify-content: center; padding-inline: 10px; }
+}
+@media (max-width: 360px) {
+  /* The Project menu retains the GitHub link when the compact row needs space. */
+  .site-header .site-github-link { display: none; }
 }
