@@ -138,11 +138,13 @@ Economy's review-run drop. Research and integration limits are documented in
 
 ## Ecosystem link
 
-The product header places a back arrow and `agent-orc` beside GitHub. The
-label stays the same at every width. `family-navigation.css?v=2` implements
-`family-link-v2` and is kept byte-identical to Runner's local copy. The link
+The up arrow means one level up to the parent Agent Orchestrator site.
+
+The product header places a up arrow and `agent-orc` beside GitHub. The
+label stays the same at every width. `family-navigation.css?v=3` implements
+`family-link-v3` and is kept byte-identical to Runner's local copy. The link
 inherits the header font and uses a transparent surface without a border.
-Its accessible name is `Back to Agent Orchestrator (agent-orc)`; its destination
+Its accessible name is `Up to Agent Orchestrator (agent-orc)`; its destination
 is the Agent Orchestrator home page in the same tab.
 
 At 360 pixels and below, the product mark and gaps become smaller and GitHub
