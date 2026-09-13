@@ -112,7 +112,8 @@ document.addEventListener('DOMContentLoaded', () => {
   }, { passive: true });
   window.addEventListener('keydown', event => {
     if (['ArrowDown', 'ArrowUp', 'PageDown', 'PageUp', 'Home', 'End', ' '].includes(event.key)
-        && !event.target.closest('a, button, input, textarea, select')) stopFollowing();
+        && !event.defaultPrevented
+        && !event.target.closest('button, input, textarea, select, [contenteditable]')) stopFollowing();
   });
   window.addEventListener('hashchange', () => {
     followAnchor = true;
@@ -143,6 +144,71 @@ document.addEventListener('DOMContentLoaded', () => {
     alignAnchor();
     contentObserver.disconnect();
   }, { once: true });
+  // The guide contents follows its own section, independently of the site menu.
+  const contents = document.querySelector('.docs-toc');
+  if (contents) {
+    const entries = [...contents.querySelectorAll('a[href]')].flatMap(link => {
+      const url = new URL(link.href, location.href);
+      if (url.origin !== location.origin || url.pathname !== location.pathname || !url.hash) return [];
+      let target;
+      try { target = document.getElementById(decodeURIComponent(url.hash.slice(1))); } catch { return []; }
+      return target ? [{ link, target, hash: url.hash }] : [];
+    });
+    let current;
+    let contentsScheduled = false;
+    const markCurrent = entry => {
+      if (entry !== current) {
+        current = entry;
+        entries.forEach(candidate => {
+          if (candidate === entry) candidate.link.setAttribute('aria-current', 'location');
+          else candidate.link.removeAttribute('aria-current');
+        });
+      }
+      // Reveal a late chapter inside the sticky menu without scrolling the page.
+      if (entry && contents.scrollHeight > contents.clientHeight) {
+        const menuRect = contents.getBoundingClientRect();
+        const linkRect = entry.link.getBoundingClientRect();
+        if (linkRect.top < menuRect.top + 8) contents.scrollTop += linkRect.top - menuRect.top - 8;
+        else if (linkRect.bottom > menuRect.bottom - 8) contents.scrollTop += linkRect.bottom - menuRect.bottom + 8;
+      }
+    };
+    const updateContents = () => {
+      contentsScheduled = false;
+      // A short chapter near the page end cannot always reach the sticky header.
+      // Keep a requested anchor selected until the reader starts scrolling.
+      const requested = entries.find(entry => entry.hash === location.hash);
+      if (followAnchor && requested) return markCurrent(requested);
+      const offset = parseFloat(getComputedStyle(document.documentElement)
+        .getPropertyValue('--site-header-offset')) || 112;
+      let visible = entries[0];
+      for (const entry of entries) {
+        if (entry.target.getBoundingClientRect().top > offset + 1) break;
+        visible = entry;
+      }
+      const pageHeight = document.documentElement.scrollHeight;
+      if (pageHeight > innerHeight && scrollY + innerHeight >= pageHeight - 1) visible = entries.at(-1);
+      markCurrent(visible);
+    };
+    const scheduleContents = () => {
+      if (contentsScheduled) return;
+      contentsScheduled = true;
+      requestAnimationFrame(updateContents);
+    };
+    window.addEventListener('scroll', scheduleContents, { passive: true });
+    window.addEventListener('resize', scheduleContents);
+    window.addEventListener('hashchange', scheduleContents);
+    document.addEventListener('click', event => {
+      const link = event.target.closest('a[href]');
+      if (!link || event.button !== 0 || event.ctrlKey || event.metaKey || event.shiftKey || event.altKey) return;
+      const url = new URL(link.href, location.href);
+      if (url.origin === location.origin && url.pathname === location.pathname && url.hash) scheduleContents();
+    });
+    const contentsObserver = new ResizeObserver(scheduleContents);
+    contentsObserver.observe(header);
+    const body = document.querySelector('.docs-body');
+    if (body) contentsObserver.observe(body);
+    scheduleContents();
+  }
   document.documentElement.classList.add('site-nav-enhanced');
   updateOffset();
   updateCurrent();

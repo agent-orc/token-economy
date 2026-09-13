@@ -4,7 +4,8 @@
   --site-nav-space-3: .75rem;
   --site-nav-space-4: 1rem;
   --site-nav-space-5: 1.5rem;
-  --site-nav-content: 58.75rem;
+  --site-nav-content: 1000px;
+  --site-nav-gutter: 20px;
   --site-nav-family-height: 1.75rem;
   --site-nav-main-height: 3.625rem;
   --site-nav-radius: .625rem;
@@ -30,6 +31,69 @@
     --site-nav-accent: #78a6ff;
     --site-nav-accent-soft: #172542;
     --site-nav-shadow: 0 .75rem 2rem rgb(0 0 0 / 38%);
+  }
+}
+
+/* Match each existing page's content edges without resizing its content.
+   Padded .wrap/.api-wrap values below describe their inner content width. */
+:root:has(main.api-wrap) {
+  --site-nav-content: 1132px;
+  --site-nav-gutter: 24px;
+}
+
+:root:has(link[rel="canonical"][href$="/benchmarks/"]) {
+  --site-nav-content: 70rem;
+  --site-nav-gutter: calc(var(--space-8, 2rem) / 2);
+}
+
+:root:has(link[rel="canonical"][href$="/model-benchmarks/"]) {
+  --site-nav-content: 82rem;
+  --site-nav-gutter: calc(var(--space-8, 2rem) / 2);
+}
+
+:root:has(link[rel="canonical"][href$="/task-class-routing/"]) {
+  --site-nav-content: 72rem;
+  --site-nav-gutter: calc(var(--space-8, 2rem) / 2);
+}
+
+:root:has(main.page) {
+  --site-nav-content: 76rem;
+  --site-nav-gutter: var(--space-5, 1.5rem);
+}
+
+:root:has(main.shell) {
+  --site-nav-content: 92rem;
+  --site-nav-gutter: var(--space-5, 1.5rem);
+}
+
+:root:has(link[rel="canonical"][href$="/cap-forecast/"]),
+:root:has(link[rel="canonical"][href$="/cap-forecast/data-plan.html"]),
+:root:has(link[rel="canonical"][href$="/cap-forecast/forecast-v1.html"]) {
+  --site-nav-content: 940px;
+}
+
+:root:has(link[rel="canonical"][href$="/cap-forecast/problem.html"]),
+:root:has(link[rel="canonical"][href$="/evidence/agent-studio-usage/"]) {
+  --site-nav-content: 900px;
+}
+
+:root:has(link[rel="canonical"][href$="/cap-forecast/architecture.html"]) {
+  --site-nav-content: 960px;
+}
+
+@media (max-width: 48rem) {
+  :root:has(link[rel="canonical"][href$="/model-benchmarks/"]) {
+    --site-nav-gutter: calc(var(--space-6, 1.5rem) / 2);
+  }
+
+  :root:has(main.shell) {
+    --site-nav-gutter: var(--space-4, 1rem);
+  }
+}
+
+@media (max-width: 480px) {
+  :root:has(main.api-wrap) {
+    --site-nav-gutter: 16px;
   }
 }
 
@@ -62,7 +126,7 @@
 
 .site-family-bar,
 .site-header-main {
-  width: min(var(--site-nav-content), calc(100% - 2 * var(--site-nav-space-5)));
+  width: min(var(--site-nav-content), calc(100% - 2 * var(--site-nav-gutter)));
   margin-inline: auto;
 }
 
@@ -246,7 +310,7 @@ html:not(.site-nav-enhanced) .site-nav-group:focus-within > .site-nav-menu,
 @media (max-width: 48rem) {
   .site-family-bar,
   .site-header-main {
-    width: min(var(--site-nav-content), calc(100% - 2 * var(--site-nav-space-4)));
+    width: min(var(--site-nav-content), calc(100% - 2 * var(--site-nav-gutter)));
   }
 
   .site-header-main {
@@ -339,3 +403,26 @@ html:not(.site-nav-enhanced) .site-nav-heading::after { display: none; }
 
 /* Long API names may wrap in prose; code blocks retain horizontal scrolling. */
 main :not(pre) > code { overflow-wrap: anywhere; }
+
+
+/* Keep the complete active border inside the contents navigation's scroll area. */
+.docs-layout .docs-toc a {
+  padding-inline: 8px;
+  margin-inline: 0;
+  border: 1px solid transparent;
+  border-radius: 6px;
+  color: var(--muted);
+}
+
+.docs-layout .docs-toc a:hover {
+  color: var(--accent);
+  background: var(--accent-soft);
+}
+
+.docs-layout .docs-toc a[aria-current="location"] {
+  color: var(--accent);
+  background: var(--accent-soft);
+  border-color: var(--accent);
+  font-weight: 700;
+  text-decoration: none;
+}
