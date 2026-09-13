@@ -138,11 +138,16 @@ Economy's review-run drop. Research and integration limits are documented in
 
 ## Ecosystem link
 
-The product header includes GitHub and an Agent Orchestrator link on the same
-row. The separate family bar is removed. `family-navigation.css` follows
-`family-link-v1` and is kept byte-identical to Runner's local copy. Its orange
-dot and full/compact labels identify the ecosystem without changing this site's
-product colors. The full accessible name remains present when only `AO` is shown.
+The product header places a back arrow and `agent-orc` beside GitHub. The
+label stays the same at every width. `family-navigation.css?v=2` implements
+`family-link-v2` and is kept byte-identical to Runner's local copy. The link
+inherits the header font and uses a transparent surface without a border.
+Its accessible name is `Back to Agent Orchestrator (agent-orc)`; its destination
+is the Agent Orchestrator home page in the same tab.
+
+At 360 pixels and below, the product mark and gaps become smaller and GitHub
+remains available in the Project menu. The product name, menu button and back
+link stay in one row with the existing content gutters.
 
 Maintain the [Marketing Studio contract](https://github.com/RobertMischke/agent-studio-marketing/blob/main/02-produktname/dachmarke-und-produktseiten-header.md) when changing
 the link, its shared styles or adoption status. Copy the canonical header into
