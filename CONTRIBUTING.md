@@ -29,6 +29,23 @@ python scripts/generate-website-data.py
 `ModelPriceCatalog.ComputeCost`, so stale committed data fails the test suite
 rather than silently drifting from the library.
 
+### Agent Studio repository preparation
+
+[`.agent-studio/project.yml`](.agent-studio/project.yml) declares this
+repository's dotnet-only build, test, and lint commands, its `.NET` SDK
+manifest (`global.json`), and its test inventory for the Agent Studio
+build-test gate and coding runs. [`.agent-studio/prepare`](.agent-studio/prepare)
+is the POSIX script that restores the solution. Run the same commands the gate
+runs locally:
+
+```bash
+.agent-studio/prepare
+dotnet build TokenEconomy.slnx --no-restore -c Release
+dotnet test tests/TokenEconomy.Tests/TokenEconomy.Tests.csproj --no-build -c Release
+dotnet format style TokenEconomy.slnx --verify-no-changes --no-restore
+dotnet format analyzers TokenEconomy.slnx --verify-no-changes --no-restore
+```
+
 ## Conventions
 
 - C# with nullable reference types enabled; `LangVersion` `latest`;

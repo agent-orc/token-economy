@@ -1,0 +1,30 @@
+schemaVersion: 1
+stack: [dotnet]
+toolVersions:
+  dotnetSdk: global.json
+commands:
+  prepare: .agent-studio/prepare
+  build:
+    - dotnet build TokenEconomy.slnx --no-restore -c Release
+  test:
+    - dotnet test tests/TokenEconomy.Tests/TokenEconomy.Tests.csproj --no-build -c Release
+  lint:
+    - dotnet format style TokenEconomy.slnx --verify-no-changes --no-restore
+    - dotnet format analyzers TokenEconomy.slnx --verify-no-changes --no-restore
+testSuites:
+  - id: unit-tests
+    category: routine
+    expectedDurationSeconds: 20
+    command: dotnet test tests/TokenEconomy.Tests/TokenEconomy.Tests.csproj --no-build -c Release
+cachePaths:
+  - src/TokenEconomy/obj
+  - src/TokenEconomy.Benchmarks/obj
+  - tests/TokenEconomy.Tests/obj
+  - tools/KnownModelsGenerator/obj
+  - tools/ModelRoutingKnowledgeReport/obj
+  - tools/QualityStudioReviewEvidence/obj
+capabilities: [child-process]
+environment:
+  DOTNET_NOLOGO: "1"
+  DOTNET_CLI_TELEMETRY_OPTOUT: "1"
+  NUGET_XMLDOC_MODE: skip
