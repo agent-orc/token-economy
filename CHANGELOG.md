@@ -7,6 +7,13 @@ SemVer; pre-1.0 the public API may still shift).
 
 ### Added
 
+- Added the Agent Studio repository preparation definition: `.agent-studio/project.yml`
+  (schema version 1, dotnet-only stack, pinned SDK via `global.json`, build/test/lint
+  commands, the routine test suite, declared cache paths, capabilities, and non-secret
+  environment), a POSIX `.agent-studio/prepare` that runs `dotnet restore`, and a
+  `.agent-studio/prepare.ps1` Windows entry point that runs the POSIX script under Git
+  Bash for hosts where the gate starts PowerShell with a cleared environment (TE-52).
+
 - Added a dedicated controlled-benchmarks website page with newcomer-focused
   method, scope, suite mapping, generated result tables, column legend,
   publication commands, and provenance; the index now keeps a generated
