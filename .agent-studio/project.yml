@@ -1,0 +1,26 @@
+schemaVersion: 1
+stack: [dotnet]
+toolVersions:
+  dotnetSdk: global.json
+commands:
+  prepare: .agent-studio/prepare
+  build:
+    - dotnet build --no-restore -c Release
+  test:
+    - dotnet test --no-build -c Release
+  lint:
+    - dotnet format style --verify-no-changes --severity error
+testSuites:
+  - id: library-routine
+    category: routine
+    expectedDurationSeconds: 15
+    command: dotnet test --no-build -c Release
+cachePaths: []
+capabilities: [child-process]
+environment:
+  DOTNET_NOLOGO: "1"
+  NUGET_XMLDOC_MODE: skip
+  # Windows gate: the prepare process starts with a cleared environment and
+  # powershell.exe cannot load without SystemRoot (error 8009001d). Ignored on
+  # Linux. Remove once the gate passes the Windows base variables (AGT-2822).
+  SystemRoot: 'C:\Windows'

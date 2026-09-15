@@ -29,6 +29,23 @@ python scripts/generate-website-data.py
 `ModelPriceCatalog.ComputeCost`, so stale committed data fails the test suite
 rather than silently drifting from the library.
 
+### Agent Studio repository preparation
+
+[`.agent-studio/project.yml`](.agent-studio/project.yml) declares this
+repository's stack, pinned tool versions, and prepare/build/test/lint commands
+for Agent Studio coding runs and its build-test gate.
+[`.agent-studio/prepare`](.agent-studio/prepare) is the POSIX preparation
+script (`dotnet restore`); [`.agent-studio/prepare.ps1`](.agent-studio/prepare.ps1)
+is the Windows entry point that runs it under Git Bash. Run the same commands
+locally with:
+
+```bash
+.agent-studio/prepare
+dotnet build --no-restore -c Release
+dotnet test --no-build -c Release
+dotnet format style --verify-no-changes --severity error
+```
+
 ## Conventions
 
 - C# with nullable reference types enabled; `LangVersion` `latest`;
