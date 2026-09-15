@@ -7,6 +7,14 @@ SemVer; pre-1.0 the public API may still shift).
 
 ### Added
 
+- Added the Agent Studio repository-preparation definition
+  (`.agent-studio/project.yml`, schema version 1) and POSIX `.agent-studio/prepare`
+  script, so the Agent Studio build-test gate and coding runs read this
+  repository's dotnet-only stack, restore/build/test/lint commands, and the
+  `unit-tests` suite directly from the subject commit instead of falling back
+  to central Build Profile values. Pinned the .NET SDK via `global.json`
+  (TE-52).
+
 - Added a dedicated controlled-benchmarks website page with newcomer-focused
   method, scope, suite mapping, generated result tables, column legend,
   publication commands, and provenance; the index now keeps a generated
