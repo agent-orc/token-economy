@@ -1096,7 +1096,28 @@ def main() -> None:
     matrix_payload = create_matrix_payload()
     benchmark_matrix_payload = create_benchmark_matrix_payload()
     recommendation_payload = create_recommendation_payload()
+    context_payload = load(ROOT / "src/TokenEconomy/catalog/context-cost-evidence.json")
+    evidence_ids = {e["id"] for e in context_payload["evidence"]}
+    if len(evidence_ids) != len(context_payload["evidence"]):
+        raise ValueError("Context-cost evidence IDs must be unique")
+    for entry in context_payload["evidence"]:
+        for field in ("sourceUrl", "retrievedOn", "excerpt", "conditions", "confidence", "kind"):
+            if not entry.get(field):
+                raise ValueError(f"Missing context-cost provenance: {entry['id']} / {field}")
+    for preset in context_payload["presets"]:
+        if not set(preset["evidenceIds"]) <= evidence_ids:
+            raise ValueError(f"Unresolved scenario evidence: {preset['id']}")
+    for policy in context_payload["cachePolicies"].values():
+        if policy["evidenceId"] not in evidence_ids:
+            raise ValueError("Unresolved cache-policy evidence")
+    policy_models = load(ROOT / "src/TokenEconomy/catalog/model-routing-policy.json")["models"]
+    context_payload["models"] = [
+        {"modelId": m["canonicalId"], "reasoningLevels": m["supportedThinkingLevels"],
+         "routingStatus": m["routingStatus"], "note": m.get("note", "")}
+        for m in policy_models if m["canonicalId"] in context_payload["cachePolicies"]
+    ]
     artifacts = (
+        (ROOT / "website/data/context-cost.json", context_payload),
         (PRICING_OUTPUT, create_price_history_payload()),
         (REVIEW_OUTPUT, create_code_review_payload()),
         (OUTPUT, payload),

@@ -1,0 +1,33 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Context cost evidence and scenario assumptions",
+  "type": "object",
+  "required": ["schemaVersion", "asOf", "evidence", "presets", "cachePolicies"],
+  "properties": {
+    "schemaVersion": {"const": 1},
+    "asOf": {"type": "string", "format": "date"},
+    "evidence": {"type": "array", "items": {
+      "type": "object", "required": ["id", "title", "sourceUrl", "retrievedOn", "kind", "excerpt", "conditions", "confidence"],
+      "properties": {
+        "id": {"type": "string", "minLength": 1}, "title": {"type": "string"},
+        "sourceUrl": {"type": "string", "format": "uri"}, "retrievedOn": {"type": "string", "format": "date"},
+        "publishedOn": {"type": ["string", "null"]},
+        "kind": {"enum": ["local measurement", "operator report", "literature", "provider documentation", "assumption"]},
+        "excerpt": {"type": "string", "minLength": 1}, "conditions": {"type": "string", "minLength": 1},
+        "confidence": {"enum": ["high", "moderate", "low"]}
+      }
+    }},
+    "presets": {"type": "array", "minItems": 3, "maxItems": 3, "items": {
+      "type": "object", "required": ["id", "title", "question", "parameters", "parameterNotes", "evidenceIds"],
+      "properties": {
+        "id": {"type": "string"}, "title": {"type": "string"}, "question": {"type": "string"},
+        "parameters": {"type": "object", "additionalProperties": {"type": "number", "minimum": 0}},
+        "parameterNotes": {"type": "string"}, "evidenceIds": {"type": "array", "items": {"type": "string"}}
+      }
+    }},
+    "cachePolicies": {"type": "object", "additionalProperties": {
+      "type": "object", "required": ["ttlMinutes", "minimumCacheTokens", "evidenceId"],
+      "properties": {"ttlMinutes": {"type": ["number", "null"], "minimum": 0}, "minimumCacheTokens": {"type": "integer", "minimum": 0}, "evidenceId": {"type": "string"}}
+    }}
+  }
+}

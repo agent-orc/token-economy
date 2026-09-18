@@ -155,3 +155,14 @@ Maintain the [Marketing Studio contract](https://github.com/RobertMischke/agent-
 the link, its shared styles or adoption status. Copy the canonical header into
 all pages and run the existing website data/link checks. Check small and wide
 viewports, both themes, keyboard menus and deep-link alignment after height changes.
+
+## Long-context cost explorer
+
+`context-cost/` forecasts session costs from dated `price-history.json` and the
+checked `context-cost.json` projection of the evidence/preset catalogue. It has
+no external runtime dependencies. See [method and scenario findings](../docs/context-cost-explorer.md).
+The pure library API is `ContextSessionCost.Forecast`. Run the C#/browser parity
+and page smoke check with `JOB_RESULTS_DIR=/absolute/results node scripts/test-context-cost.mjs`
+(Node 22, .NET 10, Chromium; optionally set `CHROME_PATH`). Screenshots cover both
+themes at 390 and 1440 pixels. Unknown quota/success/TTL values stay explicit;
+reasoning levels do not imply invented token multipliers.

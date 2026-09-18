@@ -30,3 +30,18 @@ jobs:
 
       - name: Test
         run: dotnet test --no-build -c Release --verbosity normal
+
+      - name: Setup Node for website checks
+        if: runner.os == 'Linux'
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Check website and context-cost explorer
+        if: runner.os == 'Linux'
+        env:
+          JOB_RESULTS_DIR: ${{ runner.temp }}/context-cost-results
+        run: |
+          python3 scripts/generate-website-data.py --check
+          python3 scripts/check-website-links.py
+          node scripts/test-context-cost.mjs

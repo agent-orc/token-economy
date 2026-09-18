@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Long-context cost explorer — Token Economy</title>
+<meta name="description" content="Explore the dollar cost of cached history, cache expiry and compaction, using dated model prices and cited evidence.">
+<link rel="canonical" href="https://agent-orchestrator.dev/token-economy/context-cost/">
+<link rel="stylesheet" href="../navigation.css"><link rel="stylesheet" href="../family-navigation.css"><link rel="stylesheet" href="explorer.css">
+<script src="../navigation.js" defer></script><script type="module" src="explorer.mjs"></script></head><body>
+<!-- site-navigation:start -->
+<a class="site-skip-link" href="#main-content">Skip to content</a>
+<header class="site-header" data-site-navigation>
+  <div class="site-header-main">
+    <a class="site-brand" href="/token-economy/" aria-label="Token Economy home"><span class="site-brand-mark" aria-hidden="true">¢</span><span>Token Economy</span></a>
+    <button class="site-menu-button" type="button" aria-label="Menu" aria-expanded="false" aria-controls="site-navigation-groups"><span>Menu</span><span class="site-menu-icon" aria-hidden="true"></span></button>
+    <nav class="site-primary-nav" aria-label="Primary navigation">
+      <div class="site-nav-groups" id="site-navigation-groups">
+        <a class="site-nav-direct" href="/token-economy/api/">API</a>
+        <div class="site-nav-group">
+          <button class="site-nav-heading" type="button" aria-expanded="false" aria-controls="site-nav-library">Guides</button>
+          <ul class="site-nav-menu" id="site-nav-library">
+            <li><a href="/token-economy/#why">Overview</a></li>
+            <li><a href="/token-economy/#suggest">Model compatibility</a></li>
+            <li><a href="/token-economy/#install">Install</a></li>
+            <li><a href="/token-economy/api/#costs">Calculate run costs</a></li>
+            <li><a href="/token-economy/api/#routing">Route an attempt</a></li>
+            <li><a href="/token-economy/#model-recommendation">Task complexity</a></li>
+          </ul>
+        </div>
+        <div class="site-nav-group">
+          <button class="site-nav-heading" type="button" aria-expanded="false" aria-controls="site-nav-evidence">Research</button>
+          <ul class="site-nav-menu" id="site-nav-evidence">
+            <li><a href="/token-economy/context-cost/">Context cost explorer</a></li>
+            <li><a href="/token-economy/price-history/">Prices &amp; history</a></li>
+            <li><a href="/token-economy/task-class-routing/">Task studies</a></li>
+            <li><a href="/token-economy/code-review/">Code review</a></li>
+            <li><a href="/token-economy/model-benchmarks/">Price × quality</a></li>
+            <li><a href="/token-economy/#benchmarks">Benchmarks</a></li>
+            <li><a href="/token-economy/evidence/agent-studio-usage/">Usage evidence</a></li>
+            <li><a href="/token-economy/cap-forecast/">Cap forecast</a></li>
+            <li><a href="/token-economy/provider-quota-dashboard/">Quota snapshot</a></li>
+          </ul>
+        </div>
+        <div class="site-nav-group">
+          <button class="site-nav-heading" type="button" aria-expanded="false" aria-controls="site-nav-project">Project</button>
+          <ul class="site-nav-menu" id="site-nav-project">
+            <li><a href="/token-economy/#family">Related projects</a></li>
+            <li><a href="https://github.com/agent-orc/token-economy">GitHub <span aria-hidden="true">↗</span></a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+    <div class="site-utilities" role="group" aria-label="Project and ecosystem links">
+      <a class="site-github-link" href="https://github.com/agent-orc/token-economy" aria-label="Token Economy on GitHub" title="Token Economy on GitHub">
+        <svg class="site-utility-icon" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82A7.65 7.65 0 0 1 8 3.87c.68 0 1.36.09 2 .26 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8Z"/></svg>
+        <span class="site-github-label">GitHub</span>
+      </a>
+      <a class="ao-family-link" data-family-link="3" href="https://agent-orchestrator.dev/" aria-label="Up to Agent Orchestrator (agent-orc)" title="Up to Agent Orchestrator">
+        <svg class="ao-family-up" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m3 8 5-5 5 5M8 3v11"/></svg>
+        <span class="ao-family-name">agent-orc</span>
+      </a>
+    </div>
+  </div>
+</header>
+<!-- site-navigation:end -->
+
+<main id="main-content" class="explorer">
+<header class="intro"><p class="eyebrow">TOKEN ECONOMY / SESSION ECONOMICS</p><h1>Your context has a running cost.</h1>
+<p>Every follow-up reads history again. Explore when keeping a session saves money, when a fresh start costs less, and what compaction buys.</p>
+<p class="muted">USD · estimated list prices · dated catalogue · evidence reviewed 18 September 2026</p></header>
+<div id="loading" role="status">Loading prices and evidence…</div>
+<div id="app" hidden>
+<section aria-labelledby="scenario-title"><h2 id="scenario-title">Start with a question</h2><div id="presets" class="preset-grid"></div><p id="question" class="question"></p><p id="sample" class="muted"></p></section>
+<form id="controls"><div class="control-grid">
+<label>Model<select id="model"></select></label><label>Reasoning level<select id="reasoning"></select></label><label>Price date<input id="date" type="date" value="2026-09-18" required></label>
+<label>Cache policy<select id="cacheMode"><option value="provider">Provider default</option><option value="hour">Claude 1-hour cache</option><option value="custom">Custom effective TTL / write rate</option><option value="disabled">No caching</option><option value="unknown">Unknown TTL</option></select></label>
+</div><p id="price-note" class="muted"></p><p id="policy-note" class="muted"></p>
+<div id="main-inputs" class="control-grid"></div>
+<details><summary>Cache, compaction, quality and quota assumptions</summary><div id="advanced-inputs" class="control-grid"></div>
+<label>Per-turn request gaps (minutes, comma-separated; optional, first is 0)<input id="gaps" type="text" placeholder="0, 577, 500"></label>
+<p>Gaps include response generation. Exact prefix reuse is assumed until expiry. Compaction rewrites the full retained context. <a href="#evidence-anthropic-cache">Cache rules</a> · <a href="#evidence-compaction">Compaction billing</a></p>
+<p>Reasoning levels have no known universal token multiplier. Enter extra billed reasoning and the amount retained per turn. These start at zero because the local records do not separate reasoning from output. <a href="#evidence-reasoning">Reasoning evidence</a></p>
+<p>Success probabilities are optional sensitivity inputs, not estimates from the studies. Quota conversion must be measured for this model and plan: percentage points consumed per API-equivalent USD. Blank means unknown; subscription fees cannot supply this conversion. <a href="#evidence-assumptions">Assumption boundaries</a></p>
+</details></form>
+<p id="error" role="alert"></p><div id="output"><section class="summary-grid" id="summary" aria-live="polite"></section>
+<p id="finding" class="question"></p><p id="assumptions" class="muted"></p><button id="export-all" type="button">Export complete forecast (JSON)</button>
+<div id="charts" class="chart-grid"></div>
+<section><h2>Same workload, different prices</h2><p>Comparison only: a cheaper model is not evidence of equivalent quality. Cost or quota must never lower a correctness-risk floor. <a href="https://github.com/agent-orc/token-economy/blob/main/docs/system/domains/model-routing-policy.md">Routing policy</a></p><div id="comparison" class="table-scroll"></div><button id="export-models" type="button">Export comparison (CSV)</button></section></div>
+<section><h2>Evidence, with its limits attached</h2><p>Local measurements set workload scales. Literature explains mechanisms and quality risks. Neither establishes a success rate for these scenarios.</p><div id="evidence"><div id="evidence-anthropic-cache"></div><div id="evidence-openai-cache"></div><div id="evidence-compaction"></div><div id="evidence-reasoning"></div><div id="evidence-requesty"></div><div id="evidence-lost-middle"></div><div id="evidence-ruler"></div><div id="evidence-context-rot"></div><div id="evidence-factory"></div><div id="evidence-local-orchestrator"></div><div id="evidence-local-summary"></div><div id="evidence-local-coding"></div><div id="evidence-operator-card"></div><div id="evidence-assumptions"></div></div></section>
+</div><noscript>This explorer needs JavaScript. The <a href="../data/context-cost.json">evidence and presets</a> and <a href="../data/price-history.json">dated prices</a> are available as JSON.</noscript>
+<footer><p>Forecasts exclude tax, latency, external tool charges and retries unless included in your token assumptions. No routing policy is changed.</p><a href="https://github.com/agent-orc/token-economy/blob/main/docs/context-cost-explorer.md">Method and written scenario findings</a></footer>
+</main></body></html>

@@ -1,0 +1,271 @@
+{
+  "schemaVersion": 1,
+  "asOf": "2026-09-18",
+  "evidence": [
+    {
+      "id": "anthropic-cache",
+      "title": "Claude prompt caching",
+      "sourceUrl": "https://platform.claude.com/docs/en/build-with-claude/prompt-caching",
+      "retrievedOn": "2026-09-18",
+      "publishedOn": null,
+      "kind": "provider documentation",
+      "excerpt": "By default, the cache has a 5-minute lifetime.",
+      "conditions": "5-minute writes 1.25\u00d7 input; 1-hour writes 2\u00d7. Hits refresh TTL from request start. Exact prefix required. Opus 5 minimum 512; Sonnet 5 minimum 1024 tokens. Direct API; gateway behavior can differ.",
+      "confidence": "high"
+    },
+    {
+      "id": "openai-cache",
+      "title": "OpenAI prompt caching",
+      "sourceUrl": "https://developers.openai.com/api/docs/guides/prompt-caching",
+      "retrievedOn": "2026-09-18",
+      "publishedOn": null,
+      "kind": "provider documentation",
+      "excerpt": "The only supported value, `30m`, is also the default.",
+      "conditions": "GPT-5.6+ minimum 1024 visible tokens; writes 1.25\u00d7 input. Retention is at least 30 minutes; the forecast conservatively expires at 30 minutes, not a measured eviction guarantee.",
+      "confidence": "high"
+    },
+    {
+      "id": "compaction",
+      "title": "Claude compaction billing",
+      "sourceUrl": "https://platform.claude.com/docs/en/build-with-claude/compaction",
+      "retrievedOn": "2026-09-18",
+      "publishedOn": null,
+      "kind": "provider documentation",
+      "excerpt": "Compaction",
+      "conditions": "Additional sampling is billable. Use iteration usage; a summary can invalidate a prefix. Calculator conservatively rewrites all retained context. No universal quality guarantee.",
+      "confidence": "high"
+    },
+    {
+      "id": "reasoning",
+      "title": "Reasoning output and retention",
+      "sourceUrl": "https://developers.openai.com/api/docs/guides/reasoning",
+      "retrievedOn": "2026-09-18",
+      "publishedOn": null,
+      "kind": "provider documentation",
+      "excerpt": "billed as output tokens",
+      "conditions": "Effort controls reasoning but supplies no universal tokens-per-effort multiplier. GPT-5.6 defaults to rendering available earlier reasoning; retention is explicit in this calculator. Zero extra reasoning means unspecified additional tokens, not a measured absence.",
+      "confidence": "high"
+    },
+    {
+      "id": "requesty",
+      "title": "The Coding Agent Economy",
+      "sourceUrl": "https://www.requesty.ai/papers/coding-agents/The-Coding-Agent-Economy.pdf",
+      "retrievedOn": "2026-09-18",
+      "publishedOn": "2026-05",
+      "kind": "literature",
+      "excerpt": "platform-wide cache hit rates rising from 52% to 86%",
+      "conditions": "Gateway observation, May 2025\u2013April 2026, nine agents. Claude Code: 92% cache-hit input and 84k mean prompt. Observational platform selection, not a local success experiment; do not reuse the paper\u2019s approximate 7\u00d7 cost claim as an exact tariff calculation.",
+      "confidence": "moderate"
+    },
+    {
+      "id": "lost-middle",
+      "title": "Lost in the Middle",
+      "sourceUrl": "https://arxiv.org/abs/2307.03172",
+      "retrievedOn": "2026-09-18",
+      "publishedOn": "2023-07-06",
+      "kind": "literature",
+      "excerpt": "multi-document question answering and key-value retrieval",
+      "conditions": "2023 models, position-sensitive retrieval and QA. Does not measure these four current models or coding-task success probabilities.",
+      "confidence": "moderate"
+    },
+    {
+      "id": "ruler",
+      "title": "RULER: effective context length",
+      "sourceUrl": "https://arxiv.org/abs/2404.06654",
+      "retrievedOn": "2026-09-18",
+      "publishedOn": "2024-04-09",
+      "kind": "literature",
+      "excerpt": "17 long-context LMs with 13 representative tasks",
+      "conditions": "Synthetic retrieval, multi-hop and aggregation, 2024 model cohort. Advertised context windows did not establish effective context length. Not a calibrated quality penalty for this forecast.",
+      "confidence": "moderate"
+    },
+    {
+      "id": "context-rot",
+      "title": "Context Rot",
+      "sourceUrl": "https://www.trychroma.com/research/context-rot",
+      "retrievedOn": "2026-09-18",
+      "publishedOn": "2025-07",
+      "kind": "literature",
+      "excerpt": "An evaluation across 18 LLMs",
+      "conditions": "Controlled input-length variation and distractors; task complexity held constant. Model-specific degradation; not causal evidence that restarting a coding session improves success.",
+      "confidence": "moderate"
+    },
+    {
+      "id": "factory",
+      "title": "Evaluating Context Compression for AI Agents",
+      "sourceUrl": "https://factory.com/news/evaluating-compression",
+      "retrievedOn": "2026-09-18",
+      "publishedOn": "2025-12-16",
+      "kind": "literature",
+      "excerpt": "over 36,000 messages from production sessions",
+      "conditions": "Vendor study, three methods, four probes per compression point, six dimensions, GPT-5.2 judge. Overall scores 3.70/3.44/3.35 out of 5; these are recall/continuity scores, not task success rates. No model-specific multiplier is imported.",
+      "confidence": "moderate"
+    },
+    {
+      "id": "local-orchestrator",
+      "title": "Retained orchestrator trace",
+      "sourceUrl": "https://github.com/agent-orc/token-economy/blob/main/docs/analyses/long-vs-short-session-cost.md",
+      "retrievedOn": "2026-09-18",
+      "publishedOn": null,
+      "kind": "local measurement",
+      "excerpt": "N = 1 session and three turns",
+      "conditions": "July 11 2026: 33550 initial input; cache writes grew 1649 tokens across two follow-ups (824.5/turn); output 1139/3\u2248380. Actual gaps 577 and 500 minutes. Warm 1-minute scenario is a sensitivity assumption; raw live bus records not retained.",
+      "confidence": "moderate"
+    },
+    {
+      "id": "local-summary",
+      "title": "Card summary ad-hoc cohort",
+      "sourceUrl": "https://github.com/agent-orc/token-economy/blob/main/docs/analyses/long-vs-short-session-cost.md",
+      "retrievedOn": "2026-09-18",
+      "publishedOn": null,
+      "kind": "local measurement",
+      "excerpt": "713 independent calls",
+      "conditions": "June 23\u2013July 25 2026; bounded 5000-event query. Mean 22533 read, 28276 write, 9 input, 1175 output. Different role from general tasks; general-task preset is a proxy, not a representative sample. Raw ledger absent.",
+      "confidence": "moderate"
+    },
+    {
+      "id": "local-coding",
+      "title": "Two isolated coding runs",
+      "sourceUrl": "https://github.com/agent-orc/token-economy/blob/main/benchmarks/results/palindrome-repair/20260722T233105307Z.json",
+      "retrievedOn": "2026-09-18",
+      "publishedOn": null,
+      "kind": "local measurement",
+      "excerpt": "two successful, no-session-persistence Codex runs",
+      "conditions": "Sol medium: 3339 fresh + 9984 cached input, 227 output. Terra medium: 3035 fresh + 10496 cached, 137 output. N=2; neither measures per-turn growth in repeated tasks. Sol reconstruction is reused as a transparent proxy.",
+      "confidence": "moderate"
+    },
+    {
+      "id": "operator-card",
+      "title": "AGT-2840 operator report",
+      "sourceUrl": "https://github.com/agent-orc/token-economy/blob/main/docs/context-cost-explorer.md",
+      "retrievedOn": "2026-09-18",
+      "publishedOn": null,
+      "kind": "operator report",
+      "excerpt": "26.6M cache-read, 0.31M cache-write, 0.12M output",
+      "conditions": "N=1, September 2026 task brief; 406 fresh tokens and reported $18.24. Rounded tokens reprice to $18.23953 at Opus 5 catalogue rates. No raw run, turn count or duration supplied; cannot identify growth or typicality.",
+      "confidence": "moderate"
+    },
+    {
+      "id": "assumptions",
+      "title": "Forecast boundaries and free parameters",
+      "sourceUrl": "https://github.com/agent-orc/token-economy/blob/main/docs/context-cost-explorer.md",
+      "retrievedOn": "2026-09-18",
+      "publishedOn": null,
+      "kind": "assumption",
+      "excerpt": "Forecasts are not fitted task-success models.",
+      "conditions": "Task counts, turns/task, within-task gaps, shared-prefix reuse, compaction sizes, success probabilities and quota conversions are explicit assumptions. Reasoning output estimates are user-owned; model and effort changes do not establish equivalent quality.",
+      "confidence": "low"
+    }
+  ],
+  "presets": [
+    {
+      "id": "coding",
+      "title": "Repeated programming tasks",
+      "question": "When does retaining this code base cost more than reconstructing each task?",
+      "parameters": {
+        "inputTokensPerTurn": 0,
+        "reasoningTokensPerTurn": 0,
+        "retainedReasoningTokensPerTurn": 0,
+        "initiallyCachedTokens": 0,
+        "gapMinutes": 1,
+        "taskGapMinutes": 1,
+        "compactionThreshold": 0,
+        "compactedContext": 24000,
+        "compactionOutputTokens": 2000,
+        "compactionMinutes": 0,
+        "initialContext": 13323,
+        "toolTokensPerTurn": 3339,
+        "outputTokensPerTurn": 227,
+        "tasks": 12,
+        "turnsPerTask": 4,
+        "restartContext": 13323,
+        "sharedPrefixTokens": 9984
+      },
+      "parameterNotes": "N=2 isolated coding runs. Initial context, fresh reconstruction and output use the Sol run; 3339 tool tokens/turn, 4 turns/task and 12 tasks are extrapolations. Shared-prefix reuse is conditional on identical content.",
+      "evidenceIds": [
+        "local-coding",
+        "assumptions"
+      ]
+    },
+    {
+      "id": "orchestrator",
+      "title": "Orchestrator decisions",
+      "question": "How much does each later decision cost, and when does a restart or compaction repay its cost?",
+      "parameters": {
+        "inputTokensPerTurn": 0,
+        "reasoningTokensPerTurn": 0,
+        "retainedReasoningTokensPerTurn": 0,
+        "initiallyCachedTokens": 0,
+        "gapMinutes": 1,
+        "taskGapMinutes": 1,
+        "compactionThreshold": 0,
+        "compactedContext": 24000,
+        "compactionOutputTokens": 2000,
+        "compactionMinutes": 0,
+        "initialContext": 33550,
+        "toolTokensPerTurn": 445,
+        "outputTokensPerTurn": 380,
+        "tasks": 60,
+        "turnsPerTask": 1,
+        "restartContext": 33550,
+        "sharedPrefixTokens": 23015
+      },
+      "parameterNotes": "N=1 session, 3 calls. Growth rounded to 825; output rounded to 380; remaining 445 assigned to tools as an assumption. 60 warm decisions extrapolate far beyond the trace; observed gaps were 577 and 500 minutes.",
+      "evidenceIds": [
+        "local-orchestrator",
+        "assumptions"
+      ]
+    },
+    {
+      "id": "general",
+      "title": "Switching topics",
+      "question": "What does unrelated history cost when each task could start from a short brief?",
+      "parameters": {
+        "inputTokensPerTurn": 0,
+        "reasoningTokensPerTurn": 0,
+        "retainedReasoningTokensPerTurn": 0,
+        "initiallyCachedTokens": 0,
+        "gapMinutes": 1,
+        "taskGapMinutes": 1,
+        "compactionThreshold": 0,
+        "compactedContext": 24000,
+        "compactionOutputTokens": 2000,
+        "compactionMinutes": 0,
+        "initialContext": 50818,
+        "toolTokensPerTurn": 28276,
+        "outputTokensPerTurn": 1175,
+        "tasks": 12,
+        "turnsPerTask": 1,
+        "restartContext": 50818,
+        "sharedPrefixTokens": 22533
+      },
+      "parameterNotes": "N=713 card-summary calls used as a workload-size proxy; N=0 measured general-topic sessions. Growth, 12 topics and identical shared prefixes are assumptions, not an observed cohort.",
+      "evidenceIds": [
+        "local-summary",
+        "assumptions"
+      ]
+    }
+  ],
+  "cachePolicies": {
+    "claude-opus-5": {
+      "ttlMinutes": 5,
+      "minimumCacheTokens": 512,
+      "evidenceId": "anthropic-cache"
+    },
+    "claude-sonnet-5": {
+      "ttlMinutes": 5,
+      "minimumCacheTokens": 1024,
+      "evidenceId": "anthropic-cache"
+    },
+    "gpt-5.6-sol": {
+      "ttlMinutes": 30,
+      "minimumCacheTokens": 1024,
+      "evidenceId": "openai-cache"
+    },
+    "gpt-6-astra": {
+      "ttlMinutes": 30,
+      "minimumCacheTokens": 1024,
+      "evidenceId": "openai-cache"
+    }
+  }
+}

@@ -1,4 +1,8 @@
 :root {
+  --site-chart-input: #2a78d6;
+  --site-chart-read: #eb6834;
+  --site-chart-write: #1baf7a;
+  --site-chart-output: #eda100;
   --site-nav-space-1: .25rem;
   --site-nav-space-2: .5rem;
   --site-nav-space-3: .75rem;
@@ -22,6 +26,10 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
+    --site-chart-input: #3987e5;
+    --site-chart-read: #d95926;
+    --site-chart-write: #199e70;
+    --site-chart-output: #c98500;
     --site-nav-bg: #0f1420;
     --site-nav-panel: #161d2c;
     --site-nav-border: #2a3650;
