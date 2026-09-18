@@ -1,0 +1,22 @@
+{
+  "organisationId": "single-organisation reference installation; Codex Pro and Claude Max subscriptions; USD values are list-price equivalents from the Agent Studio price catalogue",
+  "taskClass": "chore",
+  "sinceUtc": "2026-09-18T00:00:00Z",
+  "asOfUtc": "2026-09-18T17:16:26.383Z",
+  "currency": "Usd",
+  "excludeObservedAccessRefusals": true,
+  "candidates": [
+    {
+      "model": "claude-opus-5",
+      "thinkingLevel": "high"
+    },
+    {
+      "model": "gpt-5.6-sol",
+      "thinkingLevel": "xhigh"
+    },
+    {
+      "model": "gpt-6-astra",
+      "thinkingLevel": "low"
+    }
+  ]
+}
