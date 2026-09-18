@@ -2,12 +2,46 @@ using System.Diagnostics;
 using System.Text.Json;
 using TokenEconomy;
 
+if (args.Length == 3 && args[0] == "decide")
+{
+    var options = new JsonSerializerOptions(JsonSerializerDefaults.Web)
+    {
+        WriteIndented = true,
+        Converters = { new System.Text.Json.Serialization.JsonStringEnumConverter() },
+    };
+    var query = JsonSerializer.Deserialize<CardEconomicsQuery>(File.ReadAllText(args[1]), options)
+        ?? throw new InvalidDataException("Decision query is empty.");
+    var store = new InMemoryAgentStudioRunStore();
+    CardEconomicsDecision decision;
+    if (File.Exists(args[2]))
+    {
+        var cohort = new AgentStudioCohortImporter().Import(File.ReadAllText(args[2]), args[2],
+            TimeZoneInfo.FindSystemTimeZoneById("Europe/Berlin"));
+        decision = new CardEconomics().Decide(query, cohort);
+    }
+    else
+    {
+        new AgentStudioTaskStorageImporter().ImportDirectory(args[2], store);
+        decision = new CardEconomics().Decide(query, store.Records);
+    }
+    var json = JsonSerializer.Serialize(decision, options);
+    if (Environment.GetEnvironmentVariable("JOB_RESULTS_DIR") is { Length: > 0 } resultsDirectory)
+    {
+        Directory.CreateDirectory(resultsDirectory);
+        File.WriteAllText(Path.Combine(resultsDirectory, "card-economics.json"), json);
+        File.WriteAllText(Path.Combine(resultsDirectory, "card-economics.html"), AgentStudioRoutingDecisionHtmlRenderer.RenderEconomics(decision));
+    }
+    Console.WriteLine(json);
+    return 0;
+}
+
 if (args.Length != 2 || (args[0] != "run" && args[0] != "document-to-text" && args[0] != "aggregate"))
 {
     Console.Error.WriteLine("Usage:");
+    Console.Error.WriteLine("  dotnet run --project src/TokenEconomy.Benchmarks -- decide <query.json> <agent-studio-task-storage-or-cohort.json>");
     Console.Error.WriteLine("  dotnet run --project src/TokenEconomy.Benchmarks -- run benchmarks/setups/<setup>.json");
     Console.Error.WriteLine("  dotnet run --project src/TokenEconomy.Benchmarks -- document-to-text benchmarks/document-to-text/<corpus>.json");
-    Console.Error.WriteLine("  dotnet run --project src/TokenEconomy.Benchmarks -- aggregate <agent-studio-task-storage>");
+    Console.Error.WriteLine("  dotnet run --project src/TokenEconomy.Benchmarks -- aggregate <agent-studio-task-storage-or-cohort.json>");
     return 2;
 }
 

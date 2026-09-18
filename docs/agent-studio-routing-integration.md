@@ -89,3 +89,11 @@ route, semantic promotion to Sol/medium, terminal outcome ingestion through the
 real task-storage importer, unchanged card configuration, and deterministic
 decision/observation replay. Those exact model and thinking combinations come
 from the canonical policy; the fixture does not define a separate policy.
+
+## Completed-card economics
+
+The advisory [card economics query](card-economics.md) adds organisation-scoped
+local attempt costs, completion/review evidence, provider refusals, duration,
+and weekly subscription share. Use the routing-decision renderer overload that
+accepts a query and imported records to show the comparison beside the immutable
+policy decision. No defaults or fallback equivalences are changed.

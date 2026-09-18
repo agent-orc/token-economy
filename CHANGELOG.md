@@ -7,6 +7,10 @@ SemVer; pre-1.0 the public API may still shift).
 
 ### Added
 
+- Added advisory card-economics decisions and dated Agent Studio cohort import,
+  with corrected Codex cache accounting, model-level cost observations,
+  organisation refusal evidence, and explicit subscription-attribution unknowns (TE-53).
+
 - Added the Agent Studio repository preparation definition: `.agent-studio/project.yml`
   (schema version 1, dotnet-only stack, pinned SDK via `global.json`, build/test/lint
   commands, the routine test suite, declared cache paths, capabilities, and non-secret

@@ -151,6 +151,14 @@ public sealed record AgentStudioOutcomeClassification
 /// <summary>A single, deduplicatable model run imported from an Agent Studio task card.</summary>
 public sealed record AgentStudioRunRecord
 {
+    /// <summary>Terminal card lane, distinct from a successful worker attempt awaiting review.</summary>
+    public OutcomeQualitySignal? CardOutcome { get; init; }
+    public string? OrganisationId { get; init; }
+    /// <summary>Null means error telemetry was not retained; "none" means observed without an error.</summary>
+    public string? ProviderErrorClass { get; init; }
+    public string? ProviderErrorMessage { get; init; }
+    public RunQuotaMeasurement? WeeklyQuota { get; init; }
+
     /// <summary>Stable card key from task storage.</summary>
     public required string TaskKey { get; init; }
     /// <summary>Attempt/run number within the task. Together with <see cref="TaskKey"/> this is the idempotency key.</summary>
