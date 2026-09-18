@@ -37,6 +37,38 @@ public static class AgentStudioRoutingDecisionHtmlRenderer
         return html.Append("</dl></article>").ToString();
     }
 
+    /// <summary>Compose the persisted route with a freshly evaluated, advisory economics query.</summary>
+    public static string Render(AgentStudioRoutingDecisionRecord decision, CardEconomicsQuery query,
+        IEnumerable<AgentStudioRunRecord> records)
+        => Render(decision) + RenderEconomics(new CardEconomics().Decide(query, records));
+
+    /// <summary>Render unknowns and evidence coverage alongside both currencies without changing admission.</summary>
+    public static string RenderEconomics(CardEconomicsDecision decision)
+    {
+        var html = new StringBuilder("<section class=\"routing-decision-card\" aria-label=\"Card economics\"><h2>Cost per completed card</h2><p>")
+            .Append(Escape(decision.Recommendation)).Append("</p><p>USD: estimated - list prices. Duration includes observed attempt time; queue time is unknown.</p>")
+            .Append("<table><thead><tr><th>Rank</th><th>Model / level</th><th>USD</th><th>Weekly quota %</th><th>Seconds</th><th>Completed / cards; rounds</th><th>Favorable / known reviews</th><th>Confidence</th><th>Availability</th><th>Eligibility</th></tr></thead><tbody>");
+        foreach (var row in decision.Rows)
+        {
+            html.Append("<tr>");
+            foreach (var cell in new[]
+            {
+                row.Rank.ToString(CultureInfo.InvariantCulture),
+                $"{row.Candidate.Model} / {row.Candidate.ThinkingLevel}; selectable={row.Selectable}; provisional={row.Provisional}",
+                Number(row.ExpectedUsdPerCompletedCard) + (row.UnconfirmedPrices ? " (unconfirmed)" : ""),
+                Number(row.ExpectedWeeklyQuotaPercentPerCompletedCard), Number(row.ExpectedDurationSeconds),
+                $"{row.CompletedCards} / {row.Cards}; {row.Runs} rounds; {row.ExcludedCards} cards excluded",
+                $"{row.FavorableReviews} / {row.KnownReviews}", row.Confidence,
+                row.Availability + $"; telemetry {row.AvailabilityObservedRuns}/{row.AvailabilityTotalRuns} runs; " + string.Join("; ", row.Errors.Select(e => $"{e.ErrorClass}: {e.Count}/{e.ObservedRuns} ({e.Rate:P1}), last {e.LastSeenUtc:O}; {e.Detail}")),
+                row.EligibilityReason,
+            }) html.Append("<td>").Append(Escape(cell)).Append("</td>");
+            html.Append("</tr>");
+        }
+        return html.Append("</tbody></table></section>").ToString();
+    }
+
+    private static string Number(decimal? value) => value?.ToString("0.####", CultureInfo.InvariantCulture) ?? "Unknown";
+
     private static void Fact(StringBuilder html, string label, string value)
         => html.Append("<dt>").Append(Escape(label)).Append("</dt><dd>").Append(Escape(value)).Append("</dd>");
 

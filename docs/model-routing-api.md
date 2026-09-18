@@ -156,3 +156,8 @@ The card's configured route and an explicit operator pin are separate request
 fields. Neither is overwritten by the selected attempt route. Full host order,
 persistence fields, import mappings, and operator rendering are documented in
 [`agent-studio-routing-integration.md`](agent-studio-routing-integration.md).
+
+For a money and quota comparison over local attempt evidence, see
+[`CardEconomics.Decide`](card-economics.md). Its CLI is `decide <query.json>
+<task-storage>` and its advisory result can be rendered beside a persisted
+Agent Studio admission decision.
