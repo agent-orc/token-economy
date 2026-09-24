@@ -6,7 +6,7 @@ namespace TokenEconomy.Tests;
 
 public class ModelMigrationCatalogTests
 {
-    private static readonly DateTime AsOf = new(2026, 9, 6, 0, 0, 0, DateTimeKind.Utc);
+    private static readonly DateTime AsOf = new(2026, 9, 24, 0, 0, 0, DateTimeKind.Utc);
 
     [Fact]
     public void MachineDocument_DeclaresItsVersionedSchema()
@@ -41,10 +41,16 @@ public class ModelMigrationCatalogTests
             var evidence = migration.GetProperty("evidence");
             var safeAuto = migration.GetProperty("safeAuto").GetBoolean();
 
-            if (evidence.ValueKind == JsonValueKind.Object)
+            if (evidence.ValueKind == JsonValueKind.Object
+                && evidence.GetProperty("kind").GetString() != "none")
             {
                 var reference = evidence.GetProperty("reference").GetString()!;
                 Assert.True(File.Exists(Path.Combine(RepositoryRoot(), reference)), $"Missing evidence: {reference}");
+            }
+            else if (evidence.ValueKind == JsonValueKind.Object)
+            {
+                Assert.False(safeAuto);
+                Assert.False(string.IsNullOrWhiteSpace(evidence.GetProperty("reason").GetString()));
             }
             else
             {
@@ -74,6 +80,32 @@ public class ModelMigrationCatalogTests
             Assert.Contains($"\"model\": \"{from}\"", evidenceText);
             Assert.Contains($"\"model\": \"{to}\"", evidenceText);
         }
+    }
+
+    [Fact]
+    public void SeptemberSuccessorsRemainProposalOnlyWithoutIdenticalCaseEvidence()
+    {
+        using var catalog = ReadJson("src/TokenEconomy/catalog/model-migrations.v1.json");
+        var expected = new Dictionary<string, string>(StringComparer.Ordinal)
+        {
+            ["claude-opus-5"] = "claude-opus-5-5",
+            ["gpt-5.6-sol"] = "gpt-6-sol",
+            ["gpt-5.6-luna"] = "gpt-6-luna",
+        };
+
+        foreach (var migration in catalog.RootElement.GetProperty("migrations").EnumerateArray()
+                     .Where(item => expected.ContainsKey(item.GetProperty("from").GetString()!)
+                         && expected[item.GetProperty("from").GetString()!] == item.GetProperty("to").GetString()))
+        {
+            var from = migration.GetProperty("from").GetString()!;
+            expected.Remove(from);
+            Assert.False(migration.GetProperty("safeAuto").GetBoolean());
+            var evidence = migration.GetProperty("evidence");
+            Assert.Equal("none", evidence.GetProperty("kind").GetString());
+            Assert.Contains("No identical-case benchmark", evidence.GetProperty("reason").GetString());
+        }
+
+        Assert.Empty(expected);
     }
 
     [Fact]

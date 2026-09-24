@@ -132,6 +132,22 @@ public class ModelPriceSeedTests
     }
 
     [Theory]
+    [InlineData("gpt-6-sol", 2.00, 10.00, 0.20, 2.50)]
+    [InlineData("gpt-6-luna", 0.10, 0.50, 0.01, 0.125)]
+    public void Gpt6SolAndLuna_HaveSeptember22StandardRates(
+        string model, double input, double output, double cacheRead, double cacheWrite)
+    {
+        var price = Catalog.ResolvePrice(model, new DateTime(2026, 9, 23, 0, 0, 0, DateTimeKind.Utc)).Price!;
+
+        Assert.Equal((decimal)input, price.InputPerMTok);
+        Assert.Equal((decimal)output, price.OutputPerMTok);
+        Assert.Equal((decimal)cacheRead, price.CacheReadPerMTok);
+        Assert.Equal((decimal)cacheWrite, price.CacheWritePerMTok);
+        Assert.False(price.Unconfirmed);
+        Assert.Equal(new DateOnly(2026, 9, 24), price.VerifiedOn);
+    }
+
+    [Theory]
     [InlineData("gpt-5.6-sol", 5.00, 30.00, 0.50, 6.25)]
     [InlineData("gpt-5.6-terra", 2.00, 12.00, 0.20, 2.50)]
     [InlineData("gpt-5.6-luna", 0.20, 1.20, 0.02, 0.25)]

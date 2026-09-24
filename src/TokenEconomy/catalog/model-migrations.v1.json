@@ -1,8 +1,8 @@
 {
   "$schema": "model-migrations.v1.schema.json",
   "schemaVersion": 1,
-  "catalogVersion": "2026-09-06",
-  "evidenceAsOfDate": "2026-09-06",
+  "catalogVersion": "2026-09-24",
+  "evidenceAsOfDate": "2026-09-24",
   "defaultStrategy": "latestInFamily",
   "authority": {
     "rules": "docs/model-migrations.md",
@@ -195,6 +195,60 @@
       "safeAuto": false,
       "since": "2026-09-06",
       "note": "Proposal only: Astra is supported and has dated premium-class pricing, but changes the reasoning ladder and has no comparable repository no-regression benchmark. External benchmark results do not authorize automatic migration."
+    },
+    {
+      "from": "claude-opus-5",
+      "to": "claude-opus-5-5",
+      "family": "claude-opus",
+      "vendor": "anthropic",
+      "generationOrder": { "from": 500, "to": 505 },
+      "costClassFrom": "premium",
+      "costClassTo": "premium",
+      "ladderCompatible": true,
+      "contextChange": "same",
+      "evidence": {
+        "kind": "none",
+        "reason": "No identical-case benchmark comparing Claude Opus 5 with Claude Opus 5.5 exists yet."
+      },
+      "safeAuto": false,
+      "since": "2026-09-24",
+      "note": "Proposal only: Claude Opus 5.5 retains the 1M context window and is ladder-compatible, but no identical-case no-regression benchmark exists. Claude Code 2.1.281 or newer and a dated target price must resolve before an operator-approved launch."
+    },
+    {
+      "from": "gpt-5.6-sol",
+      "to": "gpt-6-sol",
+      "family": "gpt",
+      "vendor": "openai",
+      "generationOrder": { "from": 50603, "to": 60002 },
+      "costClassFrom": "premium",
+      "costClassTo": "standard",
+      "ladderCompatible": false,
+      "contextChange": "unknown",
+      "evidence": {
+        "kind": "none",
+        "reason": "No identical-case benchmark comparing GPT-5.6 Sol with GPT-6 Sol exists yet."
+      },
+      "safeAuto": false,
+      "since": "2026-09-24",
+      "note": "Proposal only: GPT-6 Sol has dated lower-cost pricing, but its observed ladder omits minimal and no identical-case no-regression benchmark exists. Codex CLI 0.155.0 or newer and a dated target price must resolve before an operator-approved launch."
+    },
+    {
+      "from": "gpt-5.6-luna",
+      "to": "gpt-6-luna",
+      "family": "gpt",
+      "vendor": "openai",
+      "generationOrder": { "from": 50601, "to": 60002 },
+      "costClassFrom": "economy",
+      "costClassTo": "economy",
+      "ladderCompatible": false,
+      "contextChange": "unknown",
+      "evidence": {
+        "kind": "none",
+        "reason": "No identical-case benchmark comparing GPT-5.6 Luna with GPT-6 Luna exists yet."
+      },
+      "safeAuto": false,
+      "since": "2026-09-24",
+      "note": "Proposal only: GPT-6 Luna has dated economy-class pricing, but its observed ladder omits minimal and ultra, execution availability remains unverified, and no identical-case no-regression benchmark exists. Codex CLI 0.155.0 or newer and a dated target price must resolve before an operator-approved launch."
     }
   ],
   "taskClassRecommendations": [

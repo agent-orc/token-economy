@@ -38,7 +38,9 @@ public class SuggestModelTests
     {
         var suggestions = Matrix.SuggestModel(TaskClass.HeavyDesign, BudgetPressure.Comfortable, [Cli.Claude, Cli.Codex], Now);
 
-        Assert.DoesNotContain(suggestions, candidate => candidate.ModelId.StartsWith("claude-opus", StringComparison.Ordinal));
+        Assert.DoesNotContain(suggestions, candidate => candidate.ModelId is "claude-opus-5" or "claude-opus-4-8"
+            or "claude-opus-4-7" or "claude-opus-4-6" or "claude-opus-4-5" or "claude-opus-4-1");
+        Assert.Contains(suggestions, candidate => candidate.ModelId == KnownModels.ClaudeOpus55.Value);
         Assert.DoesNotContain(suggestions, candidate => candidate.ModelId == "gpt-5.4-mini");
         Assert.All(suggestions, candidate => Assert.NotEqual(PolicyEvidenceStatus.Unknown, candidate.EvidenceStatus));
     }

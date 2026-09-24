@@ -1,6 +1,6 @@
 # Model migration catalog
 
-Version: 2026-09-06
+Version: 2026-09-24
 
 The versioned machine source is
 [`src/TokenEconomy/catalog/model-migrations.v1.json`](../src/TokenEconomy/catalog/model-migrations.v1.json),
@@ -26,8 +26,8 @@ instead of a silent change. This preserves the audit contract in the
 3. The target thinking ladder is a superset of the source ladder, or the
    source's configured/default thinking level maps compatibly to the target.
 4. Repository benchmark or A/B evidence compares both models on identical
-   cases and reports `noRegression`. `evidence: "none"`, `inconclusive`, or an
-   open material regression blocks automation.
+   cases and reports `noRegression`. `evidence.kind: "none"`, `inconclusive`,
+   or an open material regression blocks automation.
 5. The target is available to the selected CLI at launch time and a dated
    price resolves in the consumer's effective price catalog.
 
@@ -55,6 +55,21 @@ generation, changes the ladder, and has no comparable repository no-regression
 benchmark. Astra is supported and has dated premium-class pricing; those facts
 do not authorize automatic migration. External benchmark scores do not replace
 the same-case local evidence required by this gate.
+
+The September 22 successors are proposal-only for the same evidence reason:
+
+- Claude Opus 5 to Claude Opus 5.5 remains premium-to-premium, keeps the 1M
+  context window, and has a compatible ladder, but no identical-case benchmark
+  compares the two models.
+- GPT-5.6 Sol to GPT-6 Sol moves from premium to standard cost, but the observed
+  target ladder omits `minimal` and no identical-case benchmark exists.
+- GPT-5.6 Luna to GPT-6 Luna remains economy-to-economy, but the observed target
+  ladder omits `minimal` and `ultra`, execution availability is not yet
+  verified, and no identical-case benchmark exists.
+
+These entries are operator-visible proposals only. They do not alter the
+routing score bands, defaults, task-class recommendation sets, provider
+fallbacks, or the existing `sol` and `luna` aliases.
 
 ## Task-class view
 
@@ -86,8 +101,10 @@ Evidence references are repository-relative and point to append-only raw
 benchmark results. A referenced result must contain both `from` and `to` on the
 same fixture/case set. The evidence object records the conclusion used by the
 migration gate; consumers should retain the reference in their decision log.
-An entry without comparable evidence uses the exact sentinel `"none"` and
-cannot set `safeAuto` to true.
+An entry without comparable evidence uses either the legacy exact sentinel
+`"none"` or a structured `evidence` object whose `kind` is `"none"` and whose
+`reason` states the missing comparison. Neither form can set `safeAuto` to
+true.
 
 The current safe entries use the controlled document-to-text corpus. That
 evidence proves no regression on those cases, not universal superiority. The

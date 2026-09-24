@@ -6,6 +6,9 @@ namespace TokenEconomy;
 /// <summary>Strongly typed canonical model ids from the default price catalog.</summary>
 public static class KnownModels
 {
+    /// <summary>The canonical <c>claude-opus-5-5</c> model id.</summary>
+    public static readonly ModelId ClaudeOpus55 = ModelId.Of("claude-opus-5-5");
+
     /// <summary>The canonical <c>claude-fable-5-1</c> model id.</summary>
     public static readonly ModelId ClaudeFable51 = ModelId.Of("claude-fable-5-1");
 
@@ -44,6 +47,12 @@ public static class KnownModels
 
     /// <summary>The canonical <c>gpt-6-astra</c> model id.</summary>
     public static readonly ModelId Gpt6Astra = ModelId.Of("gpt-6-astra");
+
+    /// <summary>The canonical <c>gpt-6-sol</c> model id.</summary>
+    public static readonly ModelId Gpt6Sol = ModelId.Of("gpt-6-sol");
+
+    /// <summary>The canonical <c>gpt-6-luna</c> model id.</summary>
+    public static readonly ModelId Gpt6Luna = ModelId.Of("gpt-6-luna");
 
     /// <summary>The canonical <c>gpt-5.6-luna</c> model id.</summary>
     public static readonly ModelId Gpt56Luna = ModelId.Of("gpt-5.6-luna");

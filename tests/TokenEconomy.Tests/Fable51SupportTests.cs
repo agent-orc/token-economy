@@ -51,8 +51,10 @@ public sealed class Fable51SupportTests
     {
         var matrix = ModelEfficiencyMatrix.Default;
         var model = KnownModels.ClaudeFable51;
-        Assert.Equal(model.Value, Assert.Single(matrix.SuggestModel(
-            TaskClass.Feature, BudgetPressure.Tight, [Cli.Claude], At)).ModelId);
+        var claudeCandidates = matrix.SuggestModel(
+            TaskClass.Feature, BudgetPressure.Tight, [Cli.Claude], At);
+        Assert.Equal(model.Value, claudeCandidates[0].ModelId);
+        Assert.Contains(claudeCandidates, candidate => candidate.ModelId == KnownModels.ClaudeOpus55.Value);
         Assert.Equal(KnownModels.Gpt56Terra.Value, matrix.SuggestModel(
             TaskClass.Feature, BudgetPressure.Tight, [Cli.Claude, Cli.Codex], At)[0].ModelId);
         Assert.DoesNotContain(ModelRoutingKnowledgeBase.Default.Routes, route => route.ModelId == model.Value);

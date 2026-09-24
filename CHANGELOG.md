@@ -7,6 +7,13 @@ SemVer; pre-1.0 the public API may still shift).
 
 ### Added
 
+- Added Claude Opus 5.5, GPT-6 Sol, and GPT-6 Luna to the dated price catalog,
+  generated `KnownModels`, release-date documentation, proposal-only migration
+  catalog, and provisional routing knowledge. The additions retain the existing
+  default tiers, task-class recommendations, provider fallbacks, and bare
+  GPT-5.6 `sol`/`luna` aliases; no exact-model benchmark rows were added because
+  no dated identical-case public evidence was available (TE-55).
+
 - Added a pure context-session cost forecast, dated evidence and three workload presets,
   plus a responsive long-context explorer with live catalogue repricing, cache expiry,
   compaction, restart comparisons and CSV/JSON exports (TE-54).

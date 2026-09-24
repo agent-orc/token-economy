@@ -1,8 +1,8 @@
 # Model Routing Policy
 
-Version: 2026-09-12
+Version: 2026-09-24
 
-Status: Token Economy policy with Astra and Fable 5.1 support; the four core tiers retain the 2026-07-24 Agent Studio policy and its 2026-07-23 historical evidence
+Status: Token Economy policy with Astra, Fable 5.1, Claude Opus 5.5, GPT-6 Sol, and GPT-6 Luna support; the four core tiers retain the 2026-07-24 Agent Studio policy and its 2026-07-23 historical evidence
 
 Owner: Pipeline and CLI domains
 
@@ -69,6 +69,34 @@ compatibility comparison and operator pins are available, while the default
 core routes, local completion evidence and declared fallback equivalences are
 unchanged. Fable 5.1 appearing in a Claude-only compatibility menu does not
 qualify it as a fallback for an unavailable policy route.
+
+`claude-opus-5-5` (also accepted as `claude-opus-5.5`) is selectable through
+Claude Code with `low`, `medium`, `high`, `xhigh`, and `max`. Anthropic's
+[model overview](https://platform.claude.com/docs/en/models/opus-5-5/overview)
+and [September 22 release note](https://platform.claude.com/docs/en/release-notes/overview#september-22-2026)
+document the canonical id, 1M context window, 128k maximum output, always-on
+adaptive thinking, and the five-level effort ladder with provider default
+`medium`. Claude Code 2.1.281 successfully reported `claude-opus-5-5` in
+`modelUsage`; 2.1.270 warned that the model was unrecognized and silently ran
+Haiku 4.5 instead. Token Economy therefore records 2.1.281 as the minimum
+observed CLI version.
+
+`gpt-6-sol` and `gpt-6-luna` are selectable through Codex for core tasks.
+Codex CLI 0.155.0 model discovery on the executing host reports
+`low`/`medium`/`high`/`xhigh`/`max`/`ultra` for Sol and
+`low`/`medium`/`high`/`xhigh`/`max` for Luna, with `medium` as the provider
+default for both. Sol execution succeeded on 0.155.0, while 0.154.0 rejected
+both new ids; 0.155.0 is therefore the minimum observed CLI version. Luna was
+listed by discovery but was not successfully execution-probed, so its
+availability remains explicitly unverified.
+
+These three September 22 additions retain the same provisional boundary as
+Astra and Fable 5.1: explicit evaluation, compatibility comparison, and
+operator pins are supported, but no identical-case local benchmark or Quality
+Studio cohort exists. They add no default route, task-class recommendation,
+provider fallback, fallback equivalence, or automatic migration. The four
+core score bands and every correctness floor remain unchanged; the bare
+aliases `sol` and `luna` continue to resolve to the GPT-5.6 family.
 
 ## Weighted decision
 

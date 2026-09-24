@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "generatedAtUtc": "2026-09-12T21:32:44.889819+00:00",
-  "asOfUtc": "2026-09-12T00:00:00Z",
+  "generatedAtUtc": "2026-09-24T14:57:10.276630+00:00",
+  "asOfUtc": "2026-09-24T00:00:00Z",
   "source": "ModelEfficiencyMatrix.Default.Describe(asOfUtc)",
   "priceCatalogPath": "src/TokenEconomy/catalog/model-prices.json",
   "routingPolicyPath": "src/TokenEconomy/catalog/model-routing-policy.json",
@@ -11,7 +11,7 @@
       "releaseDate": "2026-06-26",
       "releaseDateSource": "https://openai.com/index/previewing-gpt-5-6-sol/",
       "policy": {
-        "version": "2026-09-12",
+        "version": "2026-09-24",
         "evidenceAsOfDate": "2026-07-24",
         "reason": "No Luna cohort existed in the 2026-07-23 benchmark; this is an unvalidated cost-saving hypothesis.",
         "workflowRoles": [
@@ -218,7 +218,7 @@
       "releaseDate": "2026-06-26",
       "releaseDateSource": "https://openai.com/index/previewing-gpt-5-6-sol/",
       "policy": {
-        "version": "2026-09-12",
+        "version": "2026-09-24",
         "evidenceAsOfDate": "2026-07-24",
         "reason": "Eight historical Terra/medium records had no known grades and no trustworthy terminal cohort.",
         "workflowRoles": [
@@ -503,7 +503,7 @@
       "releaseDate": "2026-06-26",
       "releaseDateSource": "https://openai.com/index/previewing-gpt-5-6-sol/",
       "policy": {
-        "version": "2026-09-12",
+        "version": "2026-09-24",
         "evidenceAsOfDate": "2026-07-24",
         "reason": "Sol/medium has the strongest favorable historical signal; Sol/xhigh remains a correctness floor, not a blanket default.",
         "workflowRoles": [
@@ -1115,7 +1115,7 @@
       "releaseDate": "2026-09-03",
       "releaseDateSource": "https://openai.com/index/safety-overview-gpt-6-astra/",
       "policy": {
-        "version": "2026-09-12",
+        "version": "2026-09-24",
         "evidenceAsOfDate": "2026-07-24",
         "reason": "Supported for explicit evaluation, compatibility comparison, and operator-pinned core tasks. External benchmarks and dated prices are retained; no comparable local completion or review cohort is available. Provisional support does not add a default core tier, declare fallback equivalence, or lower a correctness floor.",
         "workflowRoles": [
@@ -1989,11 +1989,142 @@
       "provisional": true
     },
     {
+      "displayName": "GPT-6 Sol",
+      "releaseDate": "2026-09-22",
+      "releaseDateSource": "https://developers.openai.com/api/docs/changelog",
+      "policy": {
+        "version": "2026-09-24",
+        "evidenceAsOfDate": "2026-07-24",
+        "reason": "Codex CLI 0.155.0 model discovery on the executing host reports low/medium/high/xhigh/max/ultra with provider default medium. Sol execution was observed successfully on 0.155.0; 0.154.0 rejected it, so 0.155.0 is the minimum observed CLI version. Selectable for explicit evaluation, compatibility comparison, and operator-pinned core tasks; no comparable local completion or review cohort is available. This support adds no default tier, fallback equivalence, or automatic migration.",
+        "workflowRoles": [
+          "coreTask"
+        ],
+        "routes": [],
+        "fallbacks": []
+      },
+      "evidence": {
+        "external": [],
+        "taskStudies": [],
+        "assessment": null,
+        "taskStudiesAsOfDate": "2026-08-12"
+      },
+      "modelId": "gpt-6-sol",
+      "vendor": "openai",
+      "cli": "codex",
+      "tier": "frontier",
+      "costClass": "standard",
+      "price": {
+        "status": "resolved",
+        "currency": "USD",
+        "inputPerMTok": 2,
+        "outputPerMTok": 10,
+        "cachedInputPerMTok": 0.2,
+        "cachedInputUsesInputFallback": false,
+        "validFromUtc": "2026-09-22T00:00:00Z",
+        "unconfirmed": false
+      },
+      "effortLevels": [
+        "low",
+        "medium",
+        "high",
+        "xHigh",
+        "max",
+        "ultra"
+      ],
+      "suitability": {
+        "heavyDesign": "ideal",
+        "planning": "ideal",
+        "decisionMaking": "ideal",
+        "feature": "capable",
+        "mechanicalChore": "overkill",
+        "docEdit": "overkill",
+        "research": "capable",
+        "review": null,
+        "htmlUiImplementation": "ideal",
+        "sourceCodeReview": "overkill",
+        "securityAssessment": "ideal",
+        "redundancyDetection": "ideal",
+        "graphicalQualityJudgment": null,
+        "consistencyChecking": null
+      },
+      "restricted": false,
+      "deprecated": false,
+      "costUnconfirmed": false,
+      "selectionStatus": "selectable",
+      "evidenceStatus": "provisional",
+      "provisional": true
+    },
+    {
+      "displayName": "GPT-6 Luna",
+      "releaseDate": "2026-09-22",
+      "releaseDateSource": "https://developers.openai.com/api/docs/changelog",
+      "policy": {
+        "version": "2026-09-24",
+        "evidenceAsOfDate": "2026-07-24",
+        "reason": "Codex CLI 0.155.0 model discovery on the executing host reports low/medium/high/xhigh/max with provider default medium. Luna was discovered but execution availability was not successfully probed; 0.154.0 rejected it, so support remains unverified and 0.155.0 is the minimum discovery version. Selectable for explicit evaluation, compatibility comparison, and operator-pinned core tasks; no comparable local completion or review cohort is available. This support adds no default tier, fallback equivalence, or automatic migration.",
+        "workflowRoles": [
+          "coreTask"
+        ],
+        "routes": [],
+        "fallbacks": []
+      },
+      "evidence": {
+        "external": [],
+        "taskStudies": [],
+        "assessment": null,
+        "taskStudiesAsOfDate": "2026-08-12"
+      },
+      "modelId": "gpt-6-luna",
+      "vendor": "openai",
+      "cli": "codex",
+      "tier": "light",
+      "costClass": "economy",
+      "price": {
+        "status": "resolved",
+        "currency": "USD",
+        "inputPerMTok": 0.1,
+        "outputPerMTok": 0.5,
+        "cachedInputPerMTok": 0.01,
+        "cachedInputUsesInputFallback": false,
+        "validFromUtc": "2026-09-22T00:00:00Z",
+        "unconfirmed": false
+      },
+      "effortLevels": [
+        "low",
+        "medium",
+        "high",
+        "xHigh",
+        "max"
+      ],
+      "suitability": {
+        "heavyDesign": "underpowered",
+        "planning": "underpowered",
+        "decisionMaking": "underpowered",
+        "feature": "underpowered",
+        "mechanicalChore": "ideal",
+        "docEdit": "ideal",
+        "research": "underpowered",
+        "review": null,
+        "htmlUiImplementation": "underpowered",
+        "sourceCodeReview": "underpowered",
+        "securityAssessment": "underpowered",
+        "redundancyDetection": "underpowered",
+        "graphicalQualityJudgment": null,
+        "consistencyChecking": null
+      },
+      "restricted": false,
+      "deprecated": false,
+      "costUnconfirmed": false,
+      "selectionStatus": "selectable",
+      "evidenceStatus": "provisional",
+      "provisional": true
+    },
+    {
       "displayName": "Claude Fable 5.1",
       "releaseDate": "2026-09-01",
       "releaseDateSource": "https://platform.claude.com/docs/en/models/fable-5-1/overview",
       "policy": {
-        "version": "2026-09-12",
+        "version": "2026-09-24",
         "evidenceAsOfDate": "2026-07-24",
         "reason": "Provider-supported model and five-level effort ladder: https://platform.claude.com/docs/en/models/fable-5-1/overview and https://platform.claude.com/docs/en/build-with-claude/effort (retrieved 2026-09-12). Selectable for explicit evaluation, compatibility comparison, and operator-pinned core tasks. Local completion and review fit remain unvalidated; support does not add a default tier or declare provider-fallback equivalence.",
         "workflowRoles": [
@@ -2429,11 +2560,76 @@
       "provisional": true
     },
     {
+      "displayName": "Claude Opus 5.5",
+      "releaseDate": "2026-09-22",
+      "releaseDateSource": "https://platform.claude.com/docs/en/models/opus-5-5/overview",
+      "policy": {
+        "version": "2026-09-24",
+        "evidenceAsOfDate": "2026-07-24",
+        "reason": "Anthropic documents low/medium/high/xhigh/max with provider default medium for Claude Opus 5.5. Claude Code 2.1.281 execution reported the canonical model in modelUsage; 2.1.270 silently fell back after an unrecognized-model warning, so 2.1.281 is the minimum observed CLI version. Selectable for explicit evaluation, compatibility comparison, and operator-pinned core tasks; no comparable local completion or review cohort is available. This support adds no default tier, fallback equivalence, or automatic migration.",
+        "workflowRoles": [
+          "coreTask"
+        ],
+        "routes": [],
+        "fallbacks": []
+      },
+      "evidence": {
+        "external": [],
+        "taskStudies": [],
+        "assessment": null,
+        "taskStudiesAsOfDate": "2026-08-12"
+      },
+      "modelId": "claude-opus-5-5",
+      "vendor": "anthropic",
+      "cli": "claude",
+      "tier": "frontier",
+      "costClass": "premium",
+      "price": {
+        "status": "resolved",
+        "currency": "USD",
+        "inputPerMTok": 4,
+        "outputPerMTok": 20,
+        "cachedInputPerMTok": 0.2,
+        "cachedInputUsesInputFallback": false,
+        "validFromUtc": "2026-09-22T00:00:00Z",
+        "unconfirmed": false
+      },
+      "effortLevels": [
+        "low",
+        "medium",
+        "high",
+        "xHigh",
+        "max"
+      ],
+      "suitability": {
+        "heavyDesign": "ideal",
+        "planning": "ideal",
+        "decisionMaking": "ideal",
+        "feature": "capable",
+        "mechanicalChore": "overkill",
+        "docEdit": "overkill",
+        "research": "capable",
+        "review": null,
+        "htmlUiImplementation": "ideal",
+        "sourceCodeReview": "overkill",
+        "securityAssessment": "ideal",
+        "redundancyDetection": "ideal",
+        "graphicalQualityJudgment": null,
+        "consistencyChecking": null
+      },
+      "restricted": false,
+      "deprecated": false,
+      "costUnconfirmed": false,
+      "selectionStatus": "selectable",
+      "evidenceStatus": "provisional",
+      "provisional": true
+    },
+    {
       "displayName": "GPT-5.4 Mini",
       "releaseDate": "2026-03-17",
       "releaseDateSource": "https://openai.com/index/introducing-gpt-5-4-mini-and-nano/",
       "policy": {
-        "version": "2026-09-12",
+        "version": "2026-09-24",
         "evidenceAsOfDate": "2026-07-24",
         "reason": "Role exception for bounded decisions over compact structured evidence; not a core-task route.",
         "workflowRoles": [
@@ -2536,7 +2732,7 @@
       "releaseDate": "2026-06-30",
       "releaseDateSource": "https://platform.claude.com/docs/en/models/sonnet-5/overview",
       "policy": {
-        "version": "2026-09-12",
+        "version": "2026-09-24",
         "evidenceAsOfDate": "2026-07-24",
         "reason": "Small favorable Claude Sonnet 5/high feature cohort; use only as an equivalent-capability provider fallback.",
         "workflowRoles": [
@@ -2822,7 +3018,7 @@
       "releaseDate": "2025-08-05",
       "releaseDateSource": "https://platform.claude.com/docs/en/release-notes/overview#august-5-2025",
       "policy": {
-        "version": "2026-09-12",
+        "version": "2026-09-24",
         "evidenceAsOfDate": "2026-07-24",
         "reason": "Retires 2026-08-05.",
         "workflowRoles": [],
@@ -2884,7 +3080,7 @@
       "releaseDate": "2026-06-09",
       "releaseDateSource": "https://platform.claude.com/docs/en/models/fable-5/overview",
       "policy": {
-        "version": "2026-09-12",
+        "version": "2026-09-24",
         "evidenceAsOfDate": "2026-07-24",
         "reason": "Known to the price catalog but not qualified by the authoritative routing policy.",
         "workflowRoles": [],
@@ -3023,7 +3219,7 @@
       "releaseDate": "2026-07-24",
       "releaseDateSource": "https://platform.claude.com/docs/en/models/opus-5/overview",
       "policy": {
-        "version": "2026-09-12",
+        "version": "2026-09-24",
         "evidenceAsOfDate": "2026-07-24",
         "reason": "Known to the price catalog but not qualified by the authoritative routing policy.",
         "workflowRoles": [],
@@ -3700,7 +3896,7 @@
       "releaseDate": "2026-05-28",
       "releaseDateSource": "https://platform.claude.com/docs/en/release-notes/overview#may-28-2026",
       "policy": {
-        "version": "2026-09-12",
+        "version": "2026-09-24",
         "evidenceAsOfDate": "2026-07-24",
         "reason": "Known to the price catalog but not qualified by the authoritative routing policy.",
         "workflowRoles": [],
@@ -3838,7 +4034,7 @@
       "releaseDate": "2026-04-16",
       "releaseDateSource": "https://platform.claude.com/docs/en/release-notes/overview#april-16-2026",
       "policy": {
-        "version": "2026-09-12",
+        "version": "2026-09-24",
         "evidenceAsOfDate": "2026-07-24",
         "reason": "Known to the price catalog but not qualified by the authoritative routing policy.",
         "workflowRoles": [],
@@ -3900,7 +4096,7 @@
       "releaseDate": "2026-02-05",
       "releaseDateSource": "https://platform.claude.com/docs/en/models/opus-4-6/overview",
       "policy": {
-        "version": "2026-09-12",
+        "version": "2026-09-24",
         "evidenceAsOfDate": "2026-07-24",
         "reason": "Known to the price catalog but not qualified by the authoritative routing policy.",
         "workflowRoles": [],
@@ -3962,7 +4158,7 @@
       "releaseDate": "2025-11-24",
       "releaseDateSource": "https://platform.claude.com/docs/en/models/opus-4-5/overview",
       "policy": {
-        "version": "2026-09-12",
+        "version": "2026-09-24",
         "evidenceAsOfDate": "2026-07-24",
         "reason": "Known to the price catalog but not qualified by the authoritative routing policy.",
         "workflowRoles": [],
@@ -4024,7 +4220,7 @@
       "releaseDate": "2026-02-17",
       "releaseDateSource": "https://platform.claude.com/docs/en/models/sonnet-4-6/overview",
       "policy": {
-        "version": "2026-09-12",
+        "version": "2026-09-24",
         "evidenceAsOfDate": "2026-07-24",
         "reason": "Known to the price catalog but not qualified by the authoritative routing policy.",
         "workflowRoles": [],
@@ -4087,7 +4283,7 @@
       "releaseDate": "2025-09-29",
       "releaseDateSource": "https://platform.claude.com/docs/en/release-notes/overview#september-29-2025",
       "policy": {
-        "version": "2026-09-12",
+        "version": "2026-09-24",
         "evidenceAsOfDate": "2026-07-24",
         "reason": "Known to the price catalog but not qualified by the authoritative routing policy.",
         "workflowRoles": [],
@@ -4150,7 +4346,7 @@
       "releaseDate": "2025-10-15",
       "releaseDateSource": "https://platform.claude.com/docs/en/models/haiku-4-5/overview",
       "policy": {
-        "version": "2026-09-12",
+        "version": "2026-09-24",
         "evidenceAsOfDate": "2026-07-24",
         "reason": "Known to the price catalog but not qualified by the authoritative routing policy.",
         "workflowRoles": [],
@@ -4210,7 +4406,7 @@
       "releaseDate": "2026-04-23",
       "releaseDateSource": "https://openai.com/index/introducing-gpt-5-5/",
       "policy": {
-        "version": "2026-09-12",
+        "version": "2026-09-24",
         "evidenceAsOfDate": "2026-07-24",
         "reason": "Known to the CLI/price catalog but not a route in policy version 2026-07-24.",
         "workflowRoles": [],
@@ -4273,7 +4469,7 @@
       "releaseDate": "2026-04-23",
       "releaseDateSource": "https://openai.com/index/introducing-gpt-5-5/",
       "policy": {
-        "version": "2026-09-12",
+        "version": "2026-09-24",
         "evidenceAsOfDate": "2026-07-24",
         "reason": "Known to the API/price catalog but not a route in policy version 2026-07-24.",
         "workflowRoles": [],
@@ -4334,7 +4530,7 @@
       "releaseDate": "2026-05-07",
       "releaseDateSource": "https://openai.com/index/gpt-5-5-with-trusted-access-for-cyber/",
       "policy": {
-        "version": "2026-09-12",
+        "version": "2026-09-24",
         "evidenceAsOfDate": "2026-07-24",
         "reason": "Limited-preview model for separately approved defenders; catalog coverage does not make it a selectable route in policy version 2026-07-24.",
         "workflowRoles": [],
@@ -4397,7 +4593,7 @@
       "releaseDate": "2025-08-07",
       "releaseDateSource": "https://openai.com/index/introducing-gpt-5/",
       "policy": {
-        "version": "2026-09-12",
+        "version": "2026-09-24",
         "evidenceAsOfDate": "2026-07-24",
         "reason": "Known to the CLI/price catalog but not a route in policy version 2026-07-24.",
         "workflowRoles": [],
@@ -4460,7 +4656,7 @@
       "releaseDate": "2025-09-15",
       "releaseDateSource": "https://openai.com/index/introducing-upgrades-to-codex/",
       "policy": {
-        "version": "2026-09-12",
+        "version": "2026-09-24",
         "evidenceAsOfDate": "2026-07-24",
         "reason": "Known to the CLI/price catalog but not a route in policy version 2026-07-24.",
         "workflowRoles": [],

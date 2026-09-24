@@ -18,6 +18,9 @@ model is collapsed, independently of its release date.
 
 | Model | Initial publication | Evidence |
 | --- | --- | --- |
+| Claude Opus 5.5 | `2026-09-22` | [Provider source](https://platform.claude.com/docs/en/models/opus-5-5/overview) |
+| GPT-6 Luna | `2026-09-22` | [Provider source](https://developers.openai.com/api/docs/changelog) |
+| GPT-6 Sol | `2026-09-22` | [Provider source](https://developers.openai.com/api/docs/changelog) |
 | GPT-6 Astra | `2026-09-03` | [Provider source](https://openai.com/index/safety-overview-gpt-6-astra/) |
 | Claude Fable 5.1 | `2026-09-01` | [Provider source](https://platform.claude.com/docs/en/models/fable-5-1/overview) |
 | Claude Opus 5 | `2026-07-24` | [Provider source](https://platform.claude.com/docs/en/models/opus-5/overview) |

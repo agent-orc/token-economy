@@ -16,7 +16,8 @@ public class ModelPriceProvenanceTests
             {
                 Assert.True(price.ValidFrom > DateTime.UnixEpoch);
                 Assert.Equal(DateTimeKind.Utc, price.ValidFrom.Kind);
-                Assert.Equal(new DateOnly(2026, 9, 12), price.VerifiedOn);
+                Assert.NotNull(price.VerifiedOn);
+                Assert.InRange(price.VerifiedOn.Value, new DateOnly(2026, 9, 12), new DateOnly(2026, 9, 24));
                 Assert.NotEmpty(price.SourceUrls);
                 Assert.All(price.SourceUrls, source => Assert.True(Uri.TryCreate(source, UriKind.Absolute, out var uri) && uri.Scheme == "https"));
                 Assert.False(price.Unconfirmed);
@@ -29,6 +30,22 @@ public class ModelPriceProvenanceTests
             Assert.Equal(PriceStatus.Resolved,
                 ModelPriceCatalog.Default.ResolvePrice(listing.ModelId, first.ValidFrom).Status);
         }
+    }
+
+    [Theory]
+    [InlineData("claude-opus-5-5")]
+    [InlineData("gpt-6-sol")]
+    [InlineData("gpt-6-luna")]
+    public void September22Models_HavePrimarySourcesVerifiedOnSeptember24(string model)
+    {
+        var listing = ModelPriceCatalog.Default.Find(model)!;
+        var price = Assert.Single(listing.History);
+
+        Assert.Equal(new DateOnly(2026, 9, 22), listing.ReleaseDate);
+        Assert.Equal(new DateOnly(2026, 9, 24), price.VerifiedOn);
+        Assert.Equal("provider-announced-date", price.ValidFromBasis);
+        Assert.False(price.Unconfirmed);
+        Assert.All(price.SourceUrls, url => Assert.DoesNotContain("wikipedia", url, StringComparison.OrdinalIgnoreCase));
     }
 
     [Theory]
@@ -73,4 +90,3 @@ public class ModelPriceProvenanceTests
         Assert.Equal(sourced.ValidFromBasis, copy.ValidFromBasis);
     }
 }
-
