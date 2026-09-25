@@ -521,9 +521,9 @@ public class ModelRouterTests
         Assert.Equal(6, result.ScoreWorksheet.Criteria.Count);
         Assert.True(result.ScoreWorksheet.EffectivePolicyScore >= 0);
         Assert.NotNull(result.CorrectnessFloor);
-        Assert.Equal("2026-09-24", result.PolicyVersion);
+        Assert.Equal("2026-09-25", result.PolicyVersion);
         Assert.Equal(1, result.ModelKnowledgeSchemaVersion);
-        Assert.Equal("2026-07-24", result.ModelKnowledgeEvidenceVersion);
+        Assert.Equal("2026-09-25", result.ModelKnowledgeEvidenceVersion);
         Assert.False(string.IsNullOrWhiteSpace(result.BenchmarkEvidenceVersion));
         Assert.False(string.IsNullOrWhiteSpace(result.FallbackOrWaitReason));
         Assert.False(string.IsNullOrWhiteSpace(result.PolicyReason));

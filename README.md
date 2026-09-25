@@ -21,7 +21,7 @@ over time, per model. Getting that wrong is not a rounding error: a hard-coded
 price silently costs the wrong amount for every historic run, and a missing
 price that defaults to `0` reports a budget as healthy while it drains.
 All 25 catalog models have dated Standard API price histories and primary-source
-provenance, verified through 2026-09-24. See
+provenance, verified through 2026-09-25. See
 [price history and scope](docs/price-history-research-2026-09-12.md) for
 historical corrections, cache semantics, and API cost versus subscription
 consumption.
@@ -286,7 +286,7 @@ var decision = ModelRoutingPolicy.Default.RecommendCore(new()
 });
 
 Console.WriteLine($"{decision.Route.ModelId} @ {decision.Route.ThinkingLevel}");
-// gpt-5.6-sol @ medium — the score and migration floor both require Sol/medium.
+// gpt-6-sol @ medium — the score and migration floor both require Sol/medium.
 ```
 
 The evaluator accepts no price catalog, cost class, or quota snapshot. Quota and
@@ -302,6 +302,23 @@ catalog's CLI scopes, trust-evidence unknowns, the authoritative Markdown hash,
 and the deterministic generated public view. Unknown models or levels,
 unsupported combinations, restrictions, deprecations, and provisional evidence
 are returned explicitly by `ModelRoutingKnowledgeBase.Resolve`.
+
+As of **2026-09-25**, core Luna/medium uses `gpt-6-luna`, and Sol/medium
+and Sol/xhigh use `gpt-6-sol`. Terra/medium retains `gpt-5.6-terra` to preserve
+score bands and reissue steps, although it now costs more per output token
+than GPT-6 Sol. The operator chose the new-card GPT-6 baseline using dated
+prices and vendor claims; local completion cohorts remain provisional.
+Score weights, hard floors, and reissue rules are unchanged. Read the
+[policy and before/after prices](docs/system/domains/model-routing-policy.md)
+and the [public policy view](https://agent-orchestrator.dev/token-economy/routing-policy/).
+
+Every task-class view lists GPT-6 candidates and explicit GPT-5.6 fallbacks,
+with dated prices on the website. Historical study outcomes remain separately
+attributed; no GPT-6 completion rate or cost per successful card is invented.
+Mini/high remains the bounded-pipeline exception. Existing aliases and pins are
+preserved, and both GPT-6 migrations remain proposal-only: an `ultra` pin would
+require an explicit downgrade to `xhigh`, and local no-regression qualification
+is incomplete.
 
 ### Migrating versioned model families
 

@@ -87,6 +87,10 @@ public sealed record TaskClassEvidenceLine
 /// <summary>Versioned recommendation and downgrade boundary for one task class.</summary>
 public sealed record TaskClassRecommendation
 {
+    /// <summary>GPT-6 evaluation priors; bounded-role exceptions still use Recommended.</summary>
+    public IReadOnlyList<TaskClassRouteRecommendation> Gpt6Candidates { get; init; } = [];
+    /// <summary>Explicit operator alternatives, not automatic equivalent candidates.</summary>
+    public IReadOnlyList<TaskClassRouteRecommendation> LegacyFallbacks { get; init; } = [];
     public TaskClass TaskClass { get; init; }
     public string Id { get; init; } = "";
     public string Label { get; init; } = "";
@@ -276,6 +280,8 @@ public sealed class TaskClassRecommendationCatalog
         return new()
         {
             TaskClass = EnumValue<TaskClass>(item, "taskClass"),
+            Gpt6Candidates = OptionalRoutes(item, "gpt6Candidates"),
+            LegacyFallbacks = OptionalRoutes(item, "legacyFallbacks"),
             Id = Text(item, "id"),
             Label = Text(item, "label"),
             Family = Text(item, "family"),
@@ -335,6 +341,11 @@ public sealed class TaskClassRecommendationCatalog
         };
     }
 
+    private static IReadOnlyList<TaskClassRouteRecommendation> OptionalRoutes(JsonElement item, string property)
+        => item.TryGetProperty(property, out var routes)
+            ? routes.EnumerateArray().Select((route, index) => Route(route, index, PolicyEvidenceStatus.Provisional, null)).ToArray()
+            : [];
+
     private static T EnumValue<T>(JsonElement item, string property) where T : struct, Enum
         => Enum.TryParse<T>(Text(item, property), ignoreCase: true, out var value)
             ? value
@@ -356,6 +367,12 @@ public sealed class TaskClassRecommendationCatalog
                 throw new InvalidDataException($"Recommendation '{recommendation.Id}' has no candidates.");
             foreach (var route in recommendation.Candidates)
                 ValidateRoute(knowledge, route, recommendation.Id);
+            foreach (var route in recommendation.Gpt6Candidates.Concat(recommendation.LegacyFallbacks))
+            {
+                var resolution = knowledge.Resolve(route.Model.Value, Thinking(route.ThinkingLevel), RoutingWorkflowRole.CoreTask);
+                if (!resolution.IsResolved)
+                    throw new InvalidDataException($"Recommendation '{recommendation.Id}' has invalid alternative '{route.Model}': {resolution.Reason}");
+            }
             if (recommendation.Downgrade is { } downgrade)
                 ValidateRoute(knowledge, downgrade, recommendation.Id);
             if (recommendation.Status == TaskClassRecommendationStatus.ControlledPilot

@@ -36,7 +36,41 @@ public sealed class WebsiteTaskClassRecommendationDataTests
                     publishedCandidates[index].GetProperty("thinkingLevel").GetString());
             }
             Assert.Equal(recommendation.EvidenceVersion, row.GetProperty("evidenceVersion").GetString());
+            foreach (var (property, routes) in new[]
+            {
+                ("gpt6Candidates", recommendation.Gpt6Candidates),
+                ("legacyFallbacks", recommendation.LegacyFallbacks),
+            })
+            {
+                var alternatives = row.GetProperty(property).EnumerateArray().ToArray();
+                Assert.Equal(routes.Count, alternatives.Length);
+                for (var index = 0; index < alternatives.Length; index++)
+                {
+                    var alternative = alternatives[index];
+                    Assert.Equal(routes[index].Model.Value, alternative.GetProperty("model").GetString());
+                    var price = ModelPriceCatalog.Default.ResolvePrice(routes[index].Model,
+                        DateTime.SpecifyKind(catalog.EvidenceAsOfDate.ToDateTime(TimeOnly.MinValue), DateTimeKind.Utc)).Price!;
+                    Assert.Equal(price.InputPerMTok, alternative.GetProperty("price").GetProperty("inputPerMTok").GetDecimal());
+                    Assert.Equal(price.CacheReadPerMTok, alternative.GetProperty("price").GetProperty("cacheReadPerMTok").GetDecimal());
+                    Assert.Equal(price.OutputPerMTok, alternative.GetProperty("price").GetProperty("outputPerMTok").GetDecimal());
+                }
+            }
         }
+    }
+
+    [Fact]
+    public void Historical_measurements_keep_their_original_model_attribution()
+    {
+        using var document = JsonDocument.Parse(File.ReadAllText(Path.Combine(RepositoryRoot(),
+            "website", "data", "task-class-recommendations.json")));
+        var feature = Assert.Single(document.RootElement.GetProperty("recommendations").EnumerateArray(),
+            item => item.GetProperty("taskClass").GetString() == "feature");
+        Assert.Equal("gpt-6-sol", feature.GetProperty("recommended").GetProperty("model").GetString());
+        Assert.Equal(JsonValueKind.Null, feature.GetProperty("outcomeRate").ValueKind);
+        var historical = feature.GetProperty("historicalBaseline");
+        Assert.Equal("gpt-5.6-sol", historical.GetProperty("recommended").GetProperty("model").GetString());
+        Assert.Equal(0.75m, historical.GetProperty("outcomeRate").GetDecimal());
+        Assert.Equal(36, historical.GetProperty("attemptCount").GetInt32());
     }
 
     [Fact]

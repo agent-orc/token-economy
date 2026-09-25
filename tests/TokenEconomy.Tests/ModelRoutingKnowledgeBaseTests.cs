@@ -17,7 +17,7 @@ public class ModelRoutingKnowledgeBaseTests
         var hash = Convert.ToHexStringLower(SHA256.HashData(File.ReadAllBytes(authorityPath)));
         var authority = File.ReadAllText(authorityPath);
 
-        Assert.Equal("2026-09-24", Knowledge.PolicyVersion.ToString("yyyy-MM-dd"));
+        Assert.Equal("2026-09-25", Knowledge.PolicyVersion.ToString("yyyy-MM-dd"));
         Assert.Equal(Knowledge.Authority.ContentSha256, hash);
         Assert.Contains($"Version: {Knowledge.PolicyVersion:yyyy-MM-dd}", authority);
         Assert.Contains("Quota and cost never lower a hard floor.", authority);
@@ -94,7 +94,7 @@ public class ModelRoutingKnowledgeBaseTests
     [InlineData("no-such-model", "medium", ModelRouteResolutionStatus.UnknownModel)]
     [InlineData("gpt-5.6-sol", "impossible", ModelRouteResolutionStatus.UnknownThinkingLevel)]
     [InlineData("gpt-5.4-mini", "xhigh", ModelRouteResolutionStatus.UnsupportedThinkingLevel)]
-    [InlineData("claude-opus-5", "high", ModelRouteResolutionStatus.UnsupportedModel)]
+    [InlineData("claude-opus-4-8", "high", ModelRouteResolutionStatus.UnsupportedModel)]
     [InlineData("claude-opus-4-1", "high", ModelRouteResolutionStatus.DeprecatedModel)]
     public void NonSelectableAndUnknownFacts_RemainExplicit(string model, string thinking, ModelRouteResolutionStatus expected)
         => Assert.Equal(expected, Knowledge.Resolve(model, thinking).Status);

@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
-  "generatedAtUtc": "2026-09-24T14:57:10.281726+00:00",
-  "asOfUtc": "2026-09-24T00:00:00Z",
+  "generatedAtUtc": "2026-09-25T07:57:08.948114+00:00",
+  "asOfUtc": "2026-09-25T00:00:00Z",
   "currency": "USD",
   "unit": "per-million-tokens",
   "source": "src/TokenEconomy/catalog/model-prices.json",
@@ -110,7 +110,7 @@
       "releaseDate": "2026-07-24",
       "releaseDateSource": "https://platform.claude.com/docs/en/models/opus-5/overview",
       "note": null,
-      "selectionStatus": "unsupported",
+      "selectionStatus": "selectable",
       "deprecated": false,
       "history": [
         {
@@ -387,7 +387,7 @@
       "releaseDate": "2025-10-15",
       "releaseDateSource": "https://platform.claude.com/docs/en/models/haiku-4-5/overview",
       "note": null,
-      "selectionStatus": "unsupported",
+      "selectionStatus": "selectable",
       "deprecated": false,
       "history": [
         {

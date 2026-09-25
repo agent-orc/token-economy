@@ -53,8 +53,8 @@ PRICING_OUTPUT = ROOT / "website" / "data" / "price-history.json"
 REVIEW_OUTPUT = ROOT / "website" / "data" / "code-review.json"
 REVIEW_STUDIES = ROOT / "docs" / "analyses" / "code-review-studies-2026-09-12.json"
 REVIEW_OPERATIONAL = ROOT / "results" / "routing-evidence" / "review" / "v1" / "review-evidence.json"
-MATRIX_AS_OF_UTC = "2026-09-24T00:00:00Z"
-BENCHMARK_AS_OF_UTC = "2026-09-24T00:00:00Z"
+MATRIX_AS_OF_UTC = "2026-09-25T00:00:00Z"
+BENCHMARK_AS_OF_UTC = "2026-09-25T00:00:00Z"
 
 PRICE_CATALOG = ROOT / "src" / "TokenEconomy" / "catalog" / "model-prices.json"
 ROUTING_POLICY = ROOT / "src" / "TokenEconomy" / "catalog" / "model-routing-policy.json"
@@ -650,6 +650,7 @@ def matrix_context(model, listing, policy, as_of):
             'effort': record['reasoningEffort'], 'score': record['score'],
             'publishedAt': record['publishedAt'], 'sourceUrl': record['sourceUrl'],
             'confidence': record['confidence'],
+            'evidenceStatus': record.get('evidenceStatus', 'unknown'),
             'sampleContext': record.get('evidenceExcerpt') if record['confidence'] == 'ownRun' else None,
             'secondaryMetrics': record.get('secondaryMetrics', {}),
             'context': record.get('context'),
@@ -658,7 +659,14 @@ def matrix_context(model, listing, policy, as_of):
     external.sort(key=lambda item: (item['publishedAt'], item['benchmarkId'], item['effort']), reverse=True)
     recommendation_data = load(TASK_CLASS_RECOMMENDATIONS)
     studies = []
+    study_items = []
     for item in recommendation_data['recommendations']:
+        study_items.append(item)
+        if item.get('historicalBaseline'):
+            study_items.append({**item, **item['historicalBaseline'],
+                                'label': item['label'] + ' (historical baseline)',
+                                'equivalentRoutes': [], 'downgrade': None})
+    for item in study_items:
         routes = [item['recommended'], *item.get('equivalentRoutes', [])]
         if item.get('downgrade'):
             routes.append(item['downgrade'])
@@ -945,7 +953,16 @@ def create_recommendation_payload() -> dict:
     """Validate and publish the library's task-class recommendation source."""
     document = load(TASK_CLASS_RECOMMENDATIONS)
     price_index = load_price_index()
-    for recommendation in document["recommendations"]:
+    measured = []
+    for item in document["recommendations"]:
+        measured.append(item)
+        if item.get("historicalBaseline"):
+            measured.append({"id": item["id"], **item["historicalBaseline"]})
+        for route in [item["recommended"], *item.get("gpt6Candidates", []), *item.get("legacyFallbacks", [])]:
+            route["priceAsOfDate"] = document["evidenceAsOfDate"]
+            route["price"] = resolve_price(price_index, route["model"],
+                                           parse_utc(document["evidenceAsOfDate"] + "T00:00:00Z"))
+    for recommendation in measured:
         if recommendation["status"] not in {"controlledPilot", "controlledCodingEvidence"}:
             continue
         raw_paths = [
@@ -1117,6 +1134,7 @@ def main() -> None:
         for m in policy_models if m["canonicalId"] in context_payload["cachePolicies"]
     ]
     artifacts = (
+        (ROOT / "website/data/routing-policy.json", load(ROUTING_POLICY)),
         (ROOT / "website/data/context-cost.json", context_payload),
         (PRICING_OUTPUT, create_price_history_payload()),
         (REVIEW_OUTPUT, create_code_review_payload()),

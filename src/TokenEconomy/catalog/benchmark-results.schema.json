@@ -122,6 +122,16 @@
         },
         "context": {
           "$ref": "#/$defs/context"
+        },
+        "evidenceStatus": {
+          "enum": [
+            "unknown",
+            "provisional",
+            "observed",
+            "observational",
+            "correctnessFloor"
+          ],
+          "description": "Local routing evidence maturity, separate from external measurement confidence; omission retains unknown."
         }
       }
     },

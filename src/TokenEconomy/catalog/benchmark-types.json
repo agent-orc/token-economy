@@ -481,6 +481,22 @@
       "validFrom": "2026-09-12",
       "capturedAt": "2026-09-12",
       "retrievedAt": "2026-09-12"
+    },
+    {
+      "id": "artificial-analysis-intelligence-index-v4.3.2",
+      "version": "4.3.2",
+      "name": "Artificial Analysis Intelligence Index",
+      "publisher": "Artificial Analysis",
+      "capabilityClass": "reasoning",
+      "unit": "index points",
+      "minimumScore": 0,
+      "maximumScore": 100,
+      "direction": "higherIsBetter",
+      "methodologyUrl": "https://artificialanalysis.ai/methodology/intelligence-benchmarking",
+      "citationNote": "Version 4.3.2 first observed on the live model pages September 25; introduction date unknown. Keep separate from earlier index versions.",
+      "validFrom": "2026-09-25",
+      "capturedAt": "2026-09-25",
+      "retrievedAt": "2026-09-25"
     }
   ]
 }

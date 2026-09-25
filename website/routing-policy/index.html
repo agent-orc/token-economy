@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>GPT-6 routing policy — Token Economy</title>
+  <meta name="description" content="September 25 GPT-6 routing policy, dated price changes, hard floors and provisional evidence.">
+  <link rel="canonical" href="https://agent-orchestrator.dev/token-economy/routing-policy/">
+  <link rel="stylesheet" href="../task-routing.css">
+  <link rel="stylesheet" href="/token-economy/navigation.css">
+  <link rel="stylesheet" href="/token-economy/family-navigation.css?v=3">
+  <script src="/token-economy/navigation.js" defer></script>
+</head>
+<body>
+<!-- site-navigation:start -->
+<a class="site-skip-link" href="#main-content">Skip to content</a>
+<header class="site-header" data-site-navigation>
+  <div class="site-header-main">
+    <a class="site-brand" href="/token-economy/" aria-label="Token Economy home"><span class="site-brand-mark" aria-hidden="true">¢</span><span>Token Economy</span></a>
+    <button class="site-menu-button" type="button" aria-label="Menu" aria-expanded="false" aria-controls="site-navigation-groups"><span>Menu</span><span class="site-menu-icon" aria-hidden="true"></span></button>
+    <nav class="site-primary-nav" aria-label="Primary navigation">
+      <div class="site-nav-groups" id="site-navigation-groups">
+        <a class="site-nav-direct" href="/token-economy/api/">API</a>
+        <div class="site-nav-group">
+          <button class="site-nav-heading" type="button" aria-expanded="false" aria-controls="site-nav-library">Guides</button>
+          <ul class="site-nav-menu" id="site-nav-library">
+            <li><a href="/token-economy/#why">Overview</a></li>
+            <li><a href="/token-economy/#suggest">Model compatibility</a></li>
+            <li><a href="/token-economy/#install">Install</a></li>
+            <li><a href="/token-economy/api/#costs">Calculate run costs</a></li>
+            <li><a href="/token-economy/api/#routing">Route an attempt</a></li>
+            <li><a href="/token-economy/#model-recommendation">Task complexity</a></li>
+          </ul>
+        </div>
+        <div class="site-nav-group">
+          <button class="site-nav-heading" type="button" aria-expanded="false" aria-controls="site-nav-evidence">Research</button>
+          <ul class="site-nav-menu" id="site-nav-evidence">
+            <li><a href="/token-economy/context-cost/">Context cost explorer</a></li>
+            <li><a href="/token-economy/price-history/">Prices &amp; history</a></li>
+            <li><a href="/token-economy/task-class-routing/">Task studies</a></li>
+            <li><a href="/token-economy/code-review/">Code review</a></li>
+            <li><a href="/token-economy/model-benchmarks/">Price × quality</a></li>
+            <li><a href="/token-economy/#benchmarks">Benchmarks</a></li>
+            <li><a href="/token-economy/evidence/agent-studio-usage/">Usage evidence</a></li>
+            <li><a href="/token-economy/cap-forecast/">Cap forecast</a></li>
+            <li><a href="/token-economy/provider-quota-dashboard/">Quota snapshot</a></li>
+          </ul>
+        </div>
+        <div class="site-nav-group">
+          <button class="site-nav-heading" type="button" aria-expanded="false" aria-controls="site-nav-project">Project</button>
+          <ul class="site-nav-menu" id="site-nav-project">
+            <li><a href="/token-economy/#family">Related projects</a></li>
+            <li><a href="https://github.com/agent-orc/token-economy">GitHub <span aria-hidden="true">↗</span></a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+    <div class="site-utilities" role="group" aria-label="Project and ecosystem links">
+      <a class="site-github-link" href="https://github.com/agent-orc/token-economy" aria-label="Token Economy on GitHub" title="Token Economy on GitHub">
+        <svg class="site-utility-icon" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82A7.65 7.65 0 0 1 8 3.87c.68 0 1.36.09 2 .26 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8Z"/></svg>
+        <span class="site-github-label">GitHub</span>
+      </a>
+      <a class="ao-family-link" data-family-link="3" href="https://agent-orchestrator.dev/" aria-label="Up to Agent Orchestrator (agent-orc)" title="Up to Agent Orchestrator">
+        <svg class="ao-family-up" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m3 8 5-5 5 5M8 3v11"/></svg>
+        <span class="ao-family-name">agent-orc</span>
+      </a>
+    </div>
+  </div>
+</header>
+<!-- site-navigation:end -->
+  <main id="main-content" tabindex="-1">
+    <div class="hero"><div class="wrap">
+      <span class="eyebrow">Policy revision · 25 September 2026</span>
+      <h1>The core Luna and Sol routes move to GPT-6</h1>
+      <p class="lead">New fleet cards prefer GPT-6 Sol. This operator decision is backed by dated prices and vendor claims; local completion evidence remains provisional.</p>
+      <p><a href="../task-class-routing/">Task-class candidates and fallbacks</a> · <a href="../model-benchmarks/">External benchmark matrix</a> · <a href="https://github.com/agent-orc/token-economy/blob/main/docs/system/domains/model-routing-policy.md">Authoritative policy and cohort plan</a></p>
+    </div></div>
+    <section><div class="wrap">
+      <h2>Before and after</h2>
+      <p>Standard USD per million input / cached-input / output tokens, dated 25 September 2026. Equal token prices do not establish equal cost per completed card.</p>
+      <div id="policy-ladder" data-pending-content aria-live="polite">Loading routing policy…</div>
+      <div class="callout"><strong>Retain Terra temporarily.</strong> GPT-5.6 Terra keeps the 21–50 score band and the one-tier reissue step. Its input/cache prices match GPT-6 Sol; output costs 20% more. Astra costs five times Sol and has unresolved access reliability. No score threshold or correctness floor changes.</div>
+      <p><a href="../price-history/">Price history and sources</a>. GPT-5.6 Sol's promotional price lasts at least through 21 November 2026. Existing pins and bare aliases are preserved.</p>
+    </div></section>
+    <section><div class="wrap">
+      <h2>Correctness rules remain in force</h2><div id="policy-rules"></div>
+      <p>Quota and price never lower a hard floor. Mini/high remains the bounded pipeline exception. Anthropic overrides retain Haiku 4.5, Sonnet 5 and Opus 5; Opus 5.5 adds a 20% input/output price saving, with provisional local fit. Sonnet/high is the only declared provider fallback for Terra/medium and Sol/medium; none is established for Sol/xhigh.</p>
+    </div></section>
+    <section><div class="wrap">
+      <h2>What remains provisional</h2>
+      <p>OpenAI reports fewer factual mistakes for Sol and DeepSWE v1.1 scores of 68.8% for Sol and 66.6% for Luna at API max. Artificial Analysis v4.3.2 shows 48 and 37 in the September 25 snapshot. API max results do not measure our Codex medium/xhigh routes.</p>
+      <p><a href="https://openai.com/index/introducing-gpt-6-sol-and-luna/">OpenAI announcement</a> · <a href="https://artificialanalysis.ai/models/gpt-6-sol">Artificial Analysis Sol</a> · <a href="https://artificialanalysis.ai/models/gpt-6-luna">Artificial Analysis Luna</a></p>
+      <p>Collect 80 completed cards across four task strata, paired deterministic runs, review grades, semantic reissues, critical defects, tokens, latency, and retry-adjusted cost. Historical GPT-5.6 results remain historical; GPT-6 outcome cost is unknown.</p>
+      <p>Both GPT-6 migrations remain proposal-only. An ultra source pin would become xhigh, an explicit reasoning downgrade. A controlled medium pilot cannot certify the xhigh correctness floor, a missing completion cohort, or runtime availability.</p>
+    </div></section>
+  </main>
+  <footer><div class="wrap">Token Economy · <a href="../data/routing-policy.json">Generated policy data</a></div></footer>
+  <script>
+    (async () => {
+      const host = document.getElementById('policy-ladder');
+      const escape = value => String(value).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+      try {
+        const [policyResponse, pricesResponse] = await Promise.all([fetch('../data/routing-policy.json'), fetch('../data/task-class-recommendations.json')]);
+        if (!policyResponse.ok || !pricesResponse.ok) throw new Error('Data unavailable');
+        const policy = await policyResponse.json(), recommendations = await pricesResponse.json();
+        const prices = new Map(recommendations.recommendations.flatMap(item => [...item.gpt6Candidates, ...item.legacyFallbacks]).map(route => [route.model, route.price]));
+        const previous = {'luna-medium':'gpt-5.6-luna','terra-medium':'gpt-5.6-terra','sol-medium':'gpt-5.6-sol','sol-xhigh':'gpt-5.6-sol'};
+        const fields = ['inputPerMTok','cacheReadPerMTok','outputPerMTok'];
+        const words = value => value.replace(/([a-z])([A-Z])/g, '$1 $2').toLowerCase();
+        const price = model => fields.map(key => prices.get(model)?.[key] == null ? 'unknown' : '$' + prices.get(model)[key]).join(' / ');
+        host.innerHTML = '<div class="table-scroll"><table><thead><tr><th>Tier / score</th><th>Before</th><th>After</th><th>Price before → after</th><th>Price delta</th></tr></thead><tbody>' + policy.routes.filter(route => route.workflowRole === 'coreTask').map(route => {
+          const before = previous[route.id];
+          const delta = fields.map(key => prices.get(before)?.[key] > 0 ? ((prices.get(route.modelId)[key] / prices.get(before)[key] - 1) * 100).toFixed(2) + '%' : 'unknown').join(' / ');
+          return `<tr><td>${escape(route.id)}<br>${route.minimumScore}–${route.maximumScore}</td><td>${escape(before)} / ${escape(route.thinkingLevel)}</td><td>${escape(route.modelId)} / ${escape(route.thinkingLevel)}<br>${escape(route.evidenceStatus)}</td><td>${price(before)} → ${price(route.modelId)}</td><td>${delta}</td></tr>`;
+        }).join('') + '</tbody></table></div>';
+        document.getElementById('policy-rules').innerHTML = '<ul>' + policy.hardFloors.map(floor => `<li>${escape(floor.triggers.map(words).join(', '))}: at least <strong>${escape(floor.minimumRouteId)}</strong>.</li>`).join('') + `</ul><p>Semantic reissue raises the next attempt by at least ${policy.reissueRules.minimumCoreTierIncrease} core tier and sets empirical confidence to ${policy.reissueRules.empiricalConfidencePointsAfterSemanticFailure}. After ${policy.reissueRules.stopAfterSemanticFailuresAtStrongerTier} semantic failures at the stronger tier, stop escalation and narrow the task. Environmental failures do not trigger promotion.</p>`;
+      } catch {
+        host.innerHTML = '<p>Policy data could not load. <a href="../data/routing-policy.json">Read the policy snapshot</a>.</p>';
+      } finally {
+        host.removeAttribute('data-pending-content');
+        document.dispatchEvent(new CustomEvent('site:content-ready'));
+      }
+    })();
+  </script>
+</body>
+</html>

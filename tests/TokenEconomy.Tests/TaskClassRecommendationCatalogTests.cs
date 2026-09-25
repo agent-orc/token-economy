@@ -16,7 +16,7 @@ public sealed class TaskClassRecommendationCatalogTests
             item => Assert.Equal(catalog.RationaleVersion, item.RationaleVersion));
 
         var html = catalog.Recommend(TaskClass.HtmlUiImplementation);
-        Assert.Equal("gpt-5.6-sol", html.Candidates[0].Model.Value);
+        Assert.Equal("gpt-6-sol", html.Candidates[0].Model.Value);
         Assert.Equal(EffortLevel.Medium, html.Candidates[0].ThinkingLevel);
         Assert.Equal(2, html.Candidates.Count);
         Assert.Equal(TaskClassEquivalenceStatus.Provisional, html.Equivalence);
@@ -65,15 +65,15 @@ public sealed class TaskClassRecommendationCatalogTests
     }
 
     [Fact]
-    public void Controlled_coding_recommendation_retains_outcome_and_cost_evidence()
+    public void New_prior_does_not_inherit_historical_outcome_and_cost_evidence()
     {
         var feature = TaskClassRecommendationCatalog.Default.Recommend(TaskClass.Feature);
 
-        Assert.Equal(TaskClassRecommendationStatus.ControlledCodingEvidence, feature.Status);
-        Assert.Equal(4, feature.ScenarioCount);
-        Assert.Equal(36, feature.AttemptCount);
-        Assert.Equal(0.75m, feature.OutcomeRate);
-        Assert.True(feature.CostPerSuccessfulOutcome?.AmountUsd > 0);
+        Assert.Equal(TaskClassRecommendationStatus.PolicyBaseline, feature.Status);
+        Assert.Equal(0, feature.ScenarioCount);
+        Assert.Equal(0, feature.AttemptCount);
+        Assert.Null(feature.OutcomeRate);
+        Assert.Null(feature.CostPerSuccessfulOutcome);
         Assert.All(feature.Evidence, line => Assert.False(string.IsNullOrWhiteSpace(line.Reference)));
     }
 

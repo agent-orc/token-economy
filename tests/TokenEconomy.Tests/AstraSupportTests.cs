@@ -13,6 +13,7 @@ public sealed class AstraSupportTests
     [InlineData(EffortLevel.High, "high")]
     [InlineData(EffortLevel.XHigh, "xhigh")]
     [InlineData(EffortLevel.Max, "max")]
+    [InlineData(EffortLevel.Ultra, "ultra")]
     public void TypedEvaluationAndAliasResolutionSupportTheDeclaredLadder(EffortLevel effort, string level)
     {
         var suggestion = ModelEfficiencyMatrix.Default.EvaluateModel(
@@ -30,7 +31,6 @@ public sealed class AstraSupportTests
 
     [Theory]
     [InlineData("minimal")]
-    [InlineData("ultra")]
     public void RoutingResolutionRejectsLevelsOutsideAstraLadder(string level)
         => Assert.Equal(ModelRouteResolutionStatus.UnsupportedThinkingLevel,
             ModelRoutingKnowledgeBase.Default.Resolve("astra", level, RoutingWorkflowRole.CoreTask).Status);

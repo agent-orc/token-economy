@@ -5,6 +5,21 @@ SemVer; pre-1.0 the public API may still shift).
 
 ## [Unreleased]
 
+### Changed
+
+- Rebased Luna/medium and Sol/medium+xhigh core routes on GPT-6 in policy
+  2026-09-25; retained Terra and all score/floor/reissue rules. New-card class
+  priors prefer GPT-6, with priced GPT-5.6 operator alternatives and separately
+  attributed historical outcomes. Added the public policy view and refreshed
+  generated routing, benchmark and recommendation data (TE-57).
+- Corrected September 25 Codex reasoning support and runner availability from
+  operator evidence. GPT-6 Sol/Luna source ultra pins require an explicit xhigh
+  downgrade; both migrations stay proposal-only. Retained Claude 5 overrides
+  and documented Opus 5.5's dated price advantage (TE-57).
+- Added dated OpenAI DeepSWE and Artificial Analysis v4.3.2 Sol/Luna evidence,
+  retaining provisional local routing status, plus an 80-card confirmation
+  protocol. External API max scores do not establish CLI max support (TE-57).
+
 ### Added
 
 - Added Claude Opus 5.5, GPT-6 Sol, and GPT-6 Luna to the dated price catalog,

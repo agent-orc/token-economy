@@ -1,6 +1,6 @@
 {
   "schemaVersion": 3,
-  "generatedAtUtc": "2026-09-24T14:57:10.247907+00:00",
+  "generatedAtUtc": "2026-09-25T07:57:08.909032+00:00",
   "studies": [
     {
       "setupId": "html-ui-billing-onboarding",
@@ -1325,7 +1325,7 @@
           "successRate": null,
           "evidenceReference": "benchmarks/results/document-to-text/curated-hard-cases-v1/20260810T131256052Z.json",
           "canonicalModel": "claude-haiku-4-5",
-          "routingStatus": "unsupported",
+          "routingStatus": "selectable",
           "lifecycleStatus": null,
           "lifecycleNote": null
         },
@@ -1339,7 +1339,7 @@
           "successRate": null,
           "evidenceReference": "benchmarks/results/document-to-text/curated-hard-cases-v1/20260810T131256052Z.json",
           "canonicalModel": "claude-haiku-4-5",
-          "routingStatus": "unsupported",
+          "routingStatus": "selectable",
           "lifecycleStatus": null,
           "lifecycleNote": null
         },
@@ -1353,7 +1353,7 @@
           "successRate": null,
           "evidenceReference": "benchmarks/results/document-to-text/curated-hard-cases-v1/20260810T131256052Z.json",
           "canonicalModel": "claude-haiku-4-5",
-          "routingStatus": "unsupported",
+          "routingStatus": "selectable",
           "lifecycleStatus": null,
           "lifecycleNote": null
         },
@@ -1367,7 +1367,7 @@
           "successRate": null,
           "evidenceReference": "benchmarks/results/document-to-text/curated-hard-cases-v1/20260810T131256052Z.json",
           "canonicalModel": "claude-haiku-4-5",
-          "routingStatus": "unsupported",
+          "routingStatus": "selectable",
           "lifecycleStatus": null,
           "lifecycleNote": null
         },
@@ -1661,7 +1661,7 @@
           "successRate": null,
           "evidenceReference": "benchmarks/results/document-to-text/curated-hard-cases-v1/20260810T131256052Z.json",
           "canonicalModel": "claude-opus-5",
-          "routingStatus": "unsupported",
+          "routingStatus": "selectable",
           "lifecycleStatus": null,
           "lifecycleNote": null
         },
@@ -1675,7 +1675,7 @@
           "successRate": null,
           "evidenceReference": "benchmarks/results/document-to-text/curated-hard-cases-v1/20260810T131256052Z.json",
           "canonicalModel": "claude-opus-5",
-          "routingStatus": "unsupported",
+          "routingStatus": "selectable",
           "lifecycleStatus": null,
           "lifecycleNote": null
         },
@@ -1689,7 +1689,7 @@
           "successRate": null,
           "evidenceReference": "benchmarks/results/document-to-text/curated-hard-cases-v1/20260810T131256052Z.json",
           "canonicalModel": "claude-opus-5",
-          "routingStatus": "unsupported",
+          "routingStatus": "selectable",
           "lifecycleStatus": null,
           "lifecycleNote": null
         },
@@ -1703,7 +1703,7 @@
           "successRate": null,
           "evidenceReference": "benchmarks/results/document-to-text/curated-hard-cases-v1/20260810T131256052Z.json",
           "canonicalModel": "claude-opus-5",
-          "routingStatus": "unsupported",
+          "routingStatus": "selectable",
           "lifecycleStatus": null,
           "lifecycleNote": null
         },
@@ -2341,7 +2341,7 @@
           "successRate": 1,
           "evidenceReference": "benchmarks/results/document-to-text/curated-hard-cases-v1/20260809T092430765Z.json",
           "canonicalModel": "claude-haiku-4-5",
-          "routingStatus": "unsupported",
+          "routingStatus": "selectable",
           "lifecycleStatus": null,
           "lifecycleNote": null
         },
@@ -2355,7 +2355,7 @@
           "successRate": 0,
           "evidenceReference": "benchmarks/results/document-to-text/curated-hard-cases-v1/20260809T092430765Z.json",
           "canonicalModel": "claude-haiku-4-5",
-          "routingStatus": "unsupported",
+          "routingStatus": "selectable",
           "lifecycleStatus": null,
           "lifecycleNote": null
         },
@@ -2369,7 +2369,7 @@
           "successRate": 0,
           "evidenceReference": "benchmarks/results/document-to-text/curated-hard-cases-v1/20260809T092430765Z.json",
           "canonicalModel": "claude-haiku-4-5",
-          "routingStatus": "unsupported",
+          "routingStatus": "selectable",
           "lifecycleStatus": null,
           "lifecycleNote": null
         },
@@ -2383,7 +2383,7 @@
           "successRate": 1,
           "evidenceReference": "benchmarks/results/document-to-text/curated-hard-cases-v1/20260809T092430765Z.json",
           "canonicalModel": "claude-haiku-4-5",
-          "routingStatus": "unsupported",
+          "routingStatus": "selectable",
           "lifecycleStatus": null,
           "lifecycleNote": null
         },
@@ -2677,7 +2677,7 @@
           "successRate": 1,
           "evidenceReference": "benchmarks/results/document-to-text/curated-hard-cases-v1/20260809T092430765Z.json",
           "canonicalModel": "claude-opus-5",
-          "routingStatus": "unsupported",
+          "routingStatus": "selectable",
           "lifecycleStatus": null,
           "lifecycleNote": null
         },
@@ -2691,7 +2691,7 @@
           "successRate": 1,
           "evidenceReference": "benchmarks/results/document-to-text/curated-hard-cases-v1/20260809T092430765Z.json",
           "canonicalModel": "claude-opus-5",
-          "routingStatus": "unsupported",
+          "routingStatus": "selectable",
           "lifecycleStatus": null,
           "lifecycleNote": null
         },
@@ -2705,7 +2705,7 @@
           "successRate": 1,
           "evidenceReference": "benchmarks/results/document-to-text/curated-hard-cases-v1/20260809T092430765Z.json",
           "canonicalModel": "claude-opus-5",
-          "routingStatus": "unsupported",
+          "routingStatus": "selectable",
           "lifecycleStatus": null,
           "lifecycleNote": null
         },
@@ -2719,7 +2719,7 @@
           "successRate": 1,
           "evidenceReference": "benchmarks/results/document-to-text/curated-hard-cases-v1/20260809T092430765Z.json",
           "canonicalModel": "claude-opus-5",
-          "routingStatus": "unsupported",
+          "routingStatus": "selectable",
           "lifecycleStatus": null,
           "lifecycleNote": null
         },
@@ -3357,7 +3357,7 @@
           "evidenceReference": "benchmarks/results/document-to-text/curated-hard-cases-v1/20260725T120544879Z.json",
           "infrastructureFailures": 0,
           "canonicalModel": "claude-haiku-4-5",
-          "routingStatus": "unsupported",
+          "routingStatus": "selectable",
           "lifecycleStatus": null,
           "lifecycleNote": null
         },
@@ -3371,7 +3371,7 @@
           "evidenceReference": "benchmarks/results/document-to-text/curated-hard-cases-v1/20260725T120544879Z.json",
           "infrastructureFailures": 0,
           "canonicalModel": "claude-haiku-4-5",
-          "routingStatus": "unsupported",
+          "routingStatus": "selectable",
           "lifecycleStatus": null,
           "lifecycleNote": null
         },
@@ -3385,7 +3385,7 @@
           "evidenceReference": "benchmarks/results/document-to-text/curated-hard-cases-v1/20260725T120544879Z.json",
           "infrastructureFailures": 0,
           "canonicalModel": "claude-haiku-4-5",
-          "routingStatus": "unsupported",
+          "routingStatus": "selectable",
           "lifecycleStatus": null,
           "lifecycleNote": null
         },
@@ -3399,7 +3399,7 @@
           "evidenceReference": "benchmarks/results/document-to-text/curated-hard-cases-v1/20260725T120544879Z.json",
           "infrastructureFailures": 0,
           "canonicalModel": "claude-haiku-4-5",
-          "routingStatus": "unsupported",
+          "routingStatus": "selectable",
           "lifecycleStatus": null,
           "lifecycleNote": null
         },

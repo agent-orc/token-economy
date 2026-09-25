@@ -289,10 +289,11 @@
         "medium",
         "high",
         "xhigh",
-        "max"
+        "max",
+        "ultra"
       ],
       "routingStatus": "selectable",
-      "note": "Supported for explicit evaluation, compatibility comparison, and operator-pinned core tasks. External benchmarks and dated prices are retained; no comparable local completion or review cohort is available. Provisional support does not add a default core tier, declare fallback equivalence, or lower a correctness floor."
+      "note": "Selectable for explicit evaluation and operator pins, provisional. Operator observed two access_programs.cyber HTTP 400s in about eight runs on 2026-09-18. No comparable local completion cohort; not a default tier or equivalent provider fallback."
     },
     {
       "modelId": "claude-sonnet-5",
@@ -314,8 +315,8 @@
         "high",
         "max"
       ],
-      "routingStatus": "unsupported",
-      "note": "Known to the price catalog but not qualified by the authoritative routing policy."
+      "routingStatus": "selectable",
+      "note": "Retained Anthropic vendor override for explicit operator pins, subject to task correctness floors. No automatic equivalence to Sol/xhigh is established."
     }
   ]
 }

@@ -1,8 +1,8 @@
 # Model Routing Policy
 
-Version: 2026-09-24
+Version: 2026-09-25
 
-Status: Token Economy policy with Astra, Fable 5.1, Claude Opus 5.5, GPT-6 Sol, and GPT-6 Luna support; the four core tiers retain the 2026-07-24 Agent Studio policy and its 2026-07-23 historical evidence
+Status: GPT-6 operator baseline, effective 2026-09-25; local completion evidence remains provisional
 
 Owner: Pipeline and CLI domains
 
@@ -18,85 +18,125 @@ It does not claim that a larger model repairs a vague task, a broken gate, or
 missing evidence. Explicit operator pins still win, but the UI or orchestrator
 should explain when a pin is below the policy floor.
 
+## September 25 decision and prices
+
+New fleet cards prefer GPT-6 Sol from 2026-09-25. This is an **operator decision
+backed by dated prices and vendor claims, not yet by a local completion cohort**.
+GPT-6 Luna replaces GPT-5.6 Luna for mechanical work; GPT-6 Sol replaces both
+Sol routes. Historical GPT-5.6 outcomes remain attributed to GPT-5.6.
+
+Prices below are standard USD per million input / cached-input / output tokens,
+as of 2026-09-25. They describe equal token volumes, not measured cost per card.
+
+| Tier / score | Before | After | Before price | After price | Delta input / cached / output |
+|---|---|---|---|---|---|
+| `luna-medium`, 0–20 | gpt-5.6-luna / medium | gpt-6-luna / medium | 0.20 / 0.02 / 1.20 | 0.10 / 0.01 / 0.50 | −50% / −50% / −58.33% |
+| `terra-medium`, 21–50 | gpt-5.6-terra / medium | gpt-5.6-terra / medium | 2 / 0.20 / 12 | 2 / 0.20 / 12 | 0% / 0% / 0% |
+| `sol-medium`, 51–69 | gpt-5.6-sol / medium | gpt-6-sol / medium | 4 / 0.40 / 20 | 2 / 0.20 / 10 | −50% / −50% / −50% |
+| `sol-xhigh`, 70–100 | gpt-5.6-sol / xhigh | gpt-6-sol / xhigh | 4 / 0.40 / 20 | 2 / 0.20 / 10 | −50% / −50% / −50% |
+
+**Retain Terra for this revision.** There is no GPT-6 Terra. Its June 26 price
+remains dated in the catalogue. It is no longer a cheaper alternative to Sol:
+input/cache rates match and $12 output is 20% above Sol's $10. At a reference
+10,000 uncached input plus 1,000 output tokens, Luna changes $0.0032 → $0.0015
+(−53.125%), Terra stays $0.032, and either Sol tier changes $0.060 → $0.030
+(−50%). This mix is an illustration, not a measured workload.
+
+Retaining Terra preserves four score bands and a substantive one-tier semantic
+reissue step while the new class priors prefer Sol for new work. A collapsed
+Luna/Sol/Astra ladder would introduce Astra at $10 / $1 / $50, five times Sol's
+token rates ($0.150 for that reference mix), without a validated cohort and
+with access errors. That is not justified now. Review Terra's removal after
+the cohort below; do not describe it as the price sweet spot. Scored tasks may
+still use Terra, and its bounded review pilot remains historical evidence.
+
+No score weights, score thresholds, hard-floor triggers, quota boundary, or
+reissue counts change. The changed numbers are the dated price comparisons,
+policy/evidence dates, and supported CLI levels. Changed Sol route evidence
+labels are `provisional`: the correctness floor is still enforced independently
+by `hardFloors`, and the old Sol/medium observational evidence does not transfer.
+GPT-5.6 Sol's $4 / $0.40 / $20 price is promotional at least through 2026-11-21.
+Bare aliases `sol` and `luna` retain their GPT-5.6 identities to avoid silently
+rewriting pins; new cards should store canonical GPT-6 ids.
+
 ## Routing tiers
 
 | Route | Default use | Do not use for | Evidence and rationale |
 |---|---|---|---|
-| `gpt-5.6-luna` / `medium` | Trivial, mechanical, locally specified changes with a small expected diff and an obvious verification path. Examples: remove one control, rename a local label, update a narrow fixture. | Unclear bugs, cross-subsystem behavior, public contracts, migrations, security, concurrency, or distributed state. | No Luna cohort existed in the 2026-07-23 benchmark. This is therefore a cost-saving hypothesis, not a validated quality claim. The empirical uncertainty adds points and keeps borderline work on Terra. |
-| `gpt-5.6-terra` / `medium` | Standard features, content, and reversible UI or service changes inside one subsystem. This is the default sweet spot when requirements and test seams are clear. | P0 work, fencing, distributed authority, data-loss paths, or changes that require broad architectural reconstruction. | The historical report contained eight Terra/medium records, but none had a known grade and none formed a trustworthy terminal cohort. Keep Terra as the working default, but promote on substantive reissue until controlled data validates it. |
-| `gpt-5.6-sol` / `medium` | Demanding implementation, investigation, or analysis with several interacting concepts, a broad context search, or two to three subsystems. | Correctness-critical control-plane work that meets a hard floor. | Sol/medium had seven standard chore/feature runs with zero reissues. Five had known grades and all five were A or B. This is the strongest favorable historical signal, although the sample is still small and observational. |
-| `gpt-5.6-sol` / `xhigh` | Correctness-critical work: P0, fencing, leases, distributed authority, security boundaries, destructive migrations, data-loss prevention, or subtle concurrent state machines. | Routine work merely because quota is available. More thinking is not a substitute for tighter scope or deterministic tests. | The xhigh cohort was heavily selected for difficult and incident-driven work: 78 runs, 32 reissued, with only 22 known grades. Its high reissue rate is a warning about cohort and pipeline churn, not proof that xhigh causes poor outcomes. This tier is selected by the correctness floor while controlled benchmarks remain open. |
-| `gpt-5.4-mini` / `high` | Bounded orchestrator and supporting-pipeline decisions over compact, structured evidence, with a deterministic output contract. Examples: aspect verdicts, the final route decision, and post-abort classification. | Core code implementation, open-ended architecture, ambiguous product decisions, or a context set too large to fit in the bounded decision prompt. | The historical task benchmark had only two Mini/medium task records, both grade B and neither reissued. That does not validate Mini for core tasks. The `high` pipeline route instead follows the existing bounded-support contract in `PipelineStepModelDefaults`; use a stronger tier when the decision itself is correctness-critical or unbounded. |
+| `gpt-6-luna` / `medium` | Trivial, mechanical, locally specified changes with a small diff and deterministic verification. | Unclear bugs, public contracts, migrations, security, concurrency, distributed state. | Provisional operator prior; no qualifying local completion cohort. Add all ten empirical-uncertainty points until comparable evidence exists. |
+| `gpt-5.6-terra` / `medium` | Standard, reversible changes within one subsystem scoring 21–50. | P0, fencing, distributed authority, data loss, broad architecture. | Retained transitional tier; eight historical task records had no known grade or trustworthy terminal cohort. It offers no token-price advantage over GPT-6 Sol. |
+| `gpt-6-sol` / `medium` | New-card prior for features, bugs, demanding implementation, research, broad context, and two to three subsystems. | Work triggering the correctness-critical hard floor. | Provisional operator decision backed by prices and external claims. GPT-5.6 Sol's seven favorable historical runs are not GPT-6 measurements. |
+| `gpt-6-sol` / `xhigh` | P0, fencing, leases, distributed authority, security boundaries, destructive migrations, data-loss prevention, subtle concurrent state machines. | Routine work solely because quota is available. | Retains the correctness floor; GPT-6 local quality remains provisional. No price or quota rule lowers it. |
+| `gpt-5.4-mini` / `high` | Bounded pipeline decisions over compact structured evidence and a deterministic output contract. | Core implementation, unbounded architecture, ambiguous consequential decisions. | Unchanged role exception; move to Sol/medium when authorizing evidence is ambiguous or unbounded. |
 
-`high` and `ultra` are supported reasoning levels but are not default core-task
-routes in this policy. Add a default tier only after controlled comparisons
-show a repeatable benefit over `medium` or `xhigh`.
+Task-class priors are independent of the score ladder: starting new cards on
+Sol is an operator preference, not permission for a class hint or legacy
+fallback to bypass concrete-card scoring. Every class publishes GPT-6 candidates
+first and separately lists GPT-5.6 fallbacks with catalogue-derived dated prices.
+Legacy fallback sets are explicit operator alternatives, not automatic
+no-regression or provider-equivalence declarations. Bounded graphical judgment
+and consistency checks retain Mini/high; their GPT-6 Sol candidate applies to
+unbounded or consequential analysis. Historical measured class baselines stay
+separately attributed, with unknown GPT-6 outcome rates and costs.
 
-## Additional supported models
+## Model support and vendor overrides
 
-`gpt-6-astra` (alias `astra`) is selectable through Codex for core tasks with
-`low`, `medium`, `high`, `xhigh`, or `max` reasoning. The 2026-09-12 Token Economy
-revision enables explicit model evaluation, compatibility comparison, and
-operator-pinned admission. It is a local support extension to the retained
-Agent Studio core policy, not a claim that the upstream document was updated.
+Operator observations of 2026-09-25 supersede the September 24 discovery notes:
 
-Support and evidence are separate facts. `selectable` means the model may be
-considered for its declared workflow. `provisional` means its routing fit has
-not been validated by a comparable local completion cohort. Astra has dated
-[external benchmark results](../../../src/TokenEconomy/catalog/benchmark-results.json)
-and [list prices](../../../src/TokenEconomy/catalog/model-prices.json), but no
-local completed-task or Quality Studio review cohort is retained here. An
-unavailable completion rate or review fit remains unknown; it is not 0% and
-does not mean the model cannot complete tasks.
+- `gpt-6-sol` and `gpt-6-luna`: Codex CLI 0.155.0 exposes `minimal`, `low`,
+  `medium`, `high`, `xhigh`; Sol's CLI default is `xhigh`. Policy routes pin
+  `medium` or `xhigh` explicitly. Sol runs on the workstation and agent-runner-01
+  since September 24; Luna passed the runner probe on September 25.
+- `gpt-6-astra`: `low`, `medium`, `high`, `xhigh`, `max`, `ultra`; selectable
+  and provisional. Two `access_programs.cyber` HTTP 400s in about eight runs on
+  September 18 are an access warning, not a quality failure rate. Keep it an
+  explicit evaluation or operator pin, outside the default ladder.
+- Source GPT-5.6 `ultra` pins cannot silently become GPT-6 Sol/Luna `xhigh`.
+  That is a **reasoning downgrade**, requires explicit operator selection,
+  and blocks unconditional safe-auto migration. Both migrations remain
+  proposal-only until all [five facts](../../model-migrations.md) hold.
 
-The automatic score ladder, hard floors, task-class recommendation sets, and
-declared provider fallbacks remain unchanged. Astra is not inserted as a
-default tier, inferred equivalent fallback, or automatic Sol migration.
-Compatibility ties retain the established core models before Astra. An
-explicit Astra pin is resolved against its supported reasoning ladder and
-current capacity; the result retains provisional and missing-evidence reasons
-and flags a pin below the policy recommendation.
+API and Codex ladders are different evidence scopes. The
+[Sol model page](https://developers.openai.com/api/docs/models/gpt-6-sol) and
+[Luna model page](https://developers.openai.com/api/docs/models/gpt-6-luna),
+retrieved 2026-09-25, list API `none` through `max` with default `medium`.
+External API `max` results must retain that effort label; they neither add
+Codex `max` support nor measure local `medium`/`xhigh` routes.
 
-`claude-fable-5-1` is also selectable through Claude Code with `low`, `medium`,
-`high`, `xhigh`, and `max`. Anthropic's
-[model specifications](https://platform.claude.com/docs/en/models/fable-5-1/overview)
-confirm its September 1, 2026 release and dated token prices; its
-[effort documentation](https://platform.claude.com/docs/en/build-with-claude/effort)
-confirms all five levels and the provider default of `high`. Token Economy's
-task-based `SuggestedEffort` is a separate recommendation. Fable 5.1 has the
-same provisional local support boundary as Astra: explicit evaluation,
-compatibility comparison and operator pins are available, while the default
-core routes, local completion evidence and declared fallback equivalences are
-unchanged. Fable 5.1 appearing in a Claude-only compatibility menu does not
-qualify it as a fallback for an unavailable policy route.
+Anthropic vendor overrides retain `claude-haiku-4-5`, `claude-sonnet-5`, and
+`claude-opus-5`. Haiku and Opus are selectable for explicit pins with provisional
+fit; Sonnet/high remains the declared provisional fallback for Terra/medium and
+Sol/medium only. **No provider equivalence to Sol/xhigh is established.** Pins
+below the floor must be flagged. Fable 5.1 remains separately selectable and
+provisional, without adding an automatic fallback.
 
-`claude-opus-5-5` (also accepted as `claude-opus-5.5`) is selectable through
-Claude Code with `low`, `medium`, `high`, `xhigh`, and `max`. Anthropic's
-[model overview](https://platform.claude.com/docs/en/models/opus-5-5/overview)
-and [September 22 release note](https://platform.claude.com/docs/en/release-notes/overview#september-22-2026)
-document the canonical id, 1M context window, 128k maximum output, always-on
-adaptive thinking, and the five-level effort ladder with provider default
-`medium`. Claude Code 2.1.281 successfully reported `claude-opus-5-5` in
-`modelUsage`; 2.1.270 warned that the model was unrecognized and silently ran
-Haiku 4.5 instead. Token Economy therefore records 2.1.281 as the minimum
-observed CLI version.
+Add `claude-opus-5-5` as the priced Opus alternative: Anthropic's
+[September 22 changes](https://platform.claude.com/docs/en/models/opus-5-5/whats-new-opus-5-5),
+retrieved September 25, document $4 / $20 input/output versus Opus 5's $5 / $25,
+a 20% reduction, and cached reads of $0.20 versus $0.50 (60% lower). The catalogue
+retains dated prices. Its `low`/`medium`/`high`/`xhigh`/`max` ladder and successful
+Claude Code 2.1.281 observation remain provisional; 2.1.270 silently fell back.
+Always-on thinking and tool-use changes require compatibility checks. Lower
+prices alone do not authorize automatic migration or correctness-floor equivalence.
 
-`gpt-6-sol` and `gpt-6-luna` are selectable through Codex for core tasks.
-Codex CLI 0.155.0 model discovery on the executing host reports
-`low`/`medium`/`high`/`xhigh`/`max`/`ultra` for Sol and
-`low`/`medium`/`high`/`xhigh`/`max` for Luna, with `medium` as the provider
-default for both. Sol execution succeeded on 0.155.0, while 0.154.0 rejected
-both new ids; 0.155.0 is therefore the minimum observed CLI version. Luna was
-listed by discovery but was not successfully execution-probed, so its
-availability remains explicitly unverified.
+## External evidence, retrieved 2026-09-25
 
-These three September 22 additions retain the same provisional boundary as
-Astra and Fable 5.1: explicit evaluation, compatibility comparison, and
-operator pins are supported, but no identical-case local benchmark or Quality
-Studio cohort exists. They add no default route, task-class recommendation,
-provider fallback, fallback equivalence, or automatic migration. The four
-core score bands and every correctness floor remain unchanged; the bare
-aliases `sol` and `luna` continue to resolve to the GPT-5.6 family.
+The [September 22 OpenAI announcement](https://openai.com/index/introducing-gpt-6-sol-and-luna/)
+reports roughly half the factual errors for Sol versus its predecessor on an
+internal, error-selected conversation evaluation. This is a vendor claim,
+not a local coding failure rate. It reports DeepSWE v1.1 scores of 68.8% for
+Sol and 66.6% for Luna at API `max`. The
+[Artificial Analysis Sol page](https://artificialanalysis.ai/models/gpt-6-sol)
+and [Luna page](https://artificialanalysis.ai/models/gpt-6-luna) show Intelligence
+Index v4.3.2 scores of 48 and 37, at API `max`, respectively. These live pages
+are recorded as September 25 first-observed public snapshots, not invented run
+dates. Sample denominators and confidence intervals are unknown.
+
+Dated, sourced rows live in
+[benchmark-results.json](../../../src/TokenEconomy/catalog/benchmark-results.json).
+Their local-routing `evidenceStatus` is `provisional`; publisher attribution
+and external numeric scores remain intact. Do not merge different index versions
+or infer local success rates from these results.
 
 ## Weighted decision
 
@@ -153,7 +193,7 @@ that substrate instead.
 After two semantic failures at the stronger tier, stop model escalation. Narrow
 the task, improve its evidence, or ask for a human decision.
 
-## Benchmark basis
+## Historical GPT-5.6 benchmark basis
 
 AGT-2243 produced `results/model-benchmark.md` and
 `results/model-benchmark.json` from a read-only snapshot on 2026-07-23. The
@@ -174,7 +214,7 @@ These are the policy-relevant aggregates:
 
 | Cohort | Runs | Known grade result | Reissue result | Policy reading |
 |---|---:|---|---|---|
-| Sol/medium, chores and features | 7 | 5 known, all A/B | 0/7 | Supports Sol/medium as the demanding-work sweet spot. |
+| Sol/medium, chores and features | 7 | 5 known, all A/B | 0/7 | Supports the historical GPT-5.6 Sol/medium baseline only. |
 | Sol/high, chores and features | 6 | 5 known: A2, B2, C1 | 0/6 | Favorable but too small to justify a separate default tier. |
 | Sol/xhigh, all task types | 78 | 22 known: A2, B2, C2, D16 | 32/78 | Strong selection bias and pipeline churn. Keep it as a risk floor, not a blanket default. |
 | Terra/medium, chores and features | 8 | 0 known | 0/8; records were backlog or progress | Insufficient terminal evidence. Terra remains provisional. |
@@ -190,7 +230,7 @@ moved controlled model comparisons to the Token Economy A/B harness. Therefore
 the Luna and Terra tiers must remain visibly provisional until fresh, identical
 scenario runs exist.
 
-## Five historical cards
+## Five historical cards (original score interpretation)
 
 The score below is the route that would have been chosen at intake from the
 card text. The observed route and later outcome are evidence, not inputs
@@ -222,33 +262,54 @@ Quota state is run-scoped. It must not rewrite the card's configured model, and
 the decision log must retain the recommended route, selected route, selection
 source, score, and reason.
 
-## Roadmap: what happens next
+## Follow-up: local cohort and migration confirmation
 
-1. **Policy visible now.** This page is canonical, linked from the documentation
-   index and domain maps, and referenced by runner and orchestrator prompts.
-2. **Historical benchmark becomes repeatable.** Land the AGT-2243 aggregation
-   script, publish dated snapshots, retain per-cohort sample coverage, and split
-   attempts by their actual route once attempt-level history supports it.
-3. **Controlled comparisons move to Token Economy.** TE-10 runs identical,
-   deterministic scenarios across Luna, Terra, Sol reasoning levels, Mini, and
-   equivalent provider fallbacks. AGT-2200 now remains focused on remote-run
-   infrastructure verification.
-4. **Confidence gates replace hypotheses.** Luna and Terra become validated
-   defaults only after enough controlled runs meet declared correctness,
-   reissue, duration, and token thresholds. Until then the UI labels them
-   provisional.
-5. **Automation follows evidence.** Align `ModelQualificationService` and the
-   Token Economy advisor with this score, hard floors, quota rule, and
-   reissue behavior. Emit the complete worksheet in
-   `model-qualification.jsonl`.
-6. **Quarterly calibration.** Recompute the benchmark, inspect cohort drift,
-   review false promotions and unsafe downgrades, and version this page when a
-   threshold or default route changes.
+Before qualifying GPT-6 routing fit, collect **80 completed cards**: 20 each
+for mechanical/document edits on Luna/medium, reversible features/UI, bugs and
+research on Sol/medium, and correctness-critical/security work on Sol/xhigh.
+For the Sol/medium groups retain source-code review and research slices explicitly.
+Keep separate per-model, effort and task-class denominators; no blended class
+average can certify another class. Twenty per stratum matches the existing
+empirical-confidence gate; it is a minimum pilot, not statistical proof.
 
-## Related system contracts
+Run identical repository fixtures in fresh workspaces with GPT-5.6 and GPT-6
+Sol/Luna, at the same supported effort, with at least three repetitions of
+all four curated hard coding cases (boundary, Unicode/locale, cross-file,
+underspecified), then expand to at least five independent scenarios and 20
+attempts per candidate/class. Separately compare Sol/xhigh for security and
+concurrency; medium-only coding results cannot certify that floor. Retain
+setup hashes, actual returned model/effort, CLI version, prompts, raw outputs,
+verification logs, timeout/access failures, and dated usage/cost.
 
-- [Pipeline domain](pipeline.md)
-- [CLI domain](cli.md)
-- [Token aggregation](tokens.md)
-- [Quota snapshot run events](../../concepts/quota-snapshot-run-events.md)
-- [Model qualification event schema](../../app/schemas/model-qualification-event.schema.json)
+Record first-attempt verified completion, final completion, A/B/C/D review
+coverage, semantic reissues versus environmental retries, critical defects,
+input/cache/output tokens, wall-clock median and p95, and retry-adjusted dollars
+per accepted outcome including verification. Unknown usage or grades stay null.
+Use blinded review on paired card snapshots; do not pool later escalated attempts
+under their final model. Target at least 70% A/B among known grades, under 10%
+semantic reissues, and complete deterministic critical checks. Require no new
+critical regression and no loss on paired deterministic cases before claiming
+`noRegression`; publish uncertainty intervals and any excluded runs.
+
+The TE-57 controlled probe ran four curated cases twice at medium, requesting
+GPT-5.6 Sol, GPT-6 Sol, GPT-5.6 Luna and GPT-6 Luna (32 attempts total).
+Requested Sol models and GPT-5.6 Luna each passed 6/8; GPT-6 Luna passed 5/8,
+including one boundary output-contract failure that passed on repeat. All four
+failed the deliberately underspecified case on both passes. These are fixture
+outcomes, not completed-card rates. Only the second pass retained final responses
+and transport metadata; none of its 16 records exposed actual returned model
+identity. Consequently the comparison is **inconclusive**, and cannot establish
+model-specific noRegression. The delivery retains raw results, setup hashes,
+response metadata and logs separately from catalogue quality claims.
+
+Both migrations remain proposal-only: unknown returned model identity, small
+medium-only coverage and the Luna contract failure require investigation;
+`ultra` → `xhigh` remains an incompatible silent downgrade regardless of quality.
+Re-run with verified model identity, adequate repetitions and xhigh coverage,
+then satisfy the five migration facts and runtime checks before promotion.
+
+Review the Terra tier with a paired Terra/medium versus GPT-6 Sol/medium slice;
+remove it only with an explicit score-band and reissue-rule revision. Qualify
+Astra separately after access reliability is established and its fivefold Sol
+price earns a measured benefit. Revisit Opus 5.5 equivalence using identical
+cases and current CLI identity checks before promoting its migration.

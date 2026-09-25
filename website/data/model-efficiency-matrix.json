@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "generatedAtUtc": "2026-09-24T14:57:10.276630+00:00",
-  "asOfUtc": "2026-09-24T00:00:00Z",
+  "generatedAtUtc": "2026-09-25T07:57:08.941740+00:00",
+  "asOfUtc": "2026-09-25T00:00:00Z",
   "source": "ModelEfficiencyMatrix.Default.Describe(asOfUtc)",
   "priceCatalogPath": "src/TokenEconomy/catalog/model-prices.json",
   "routingPolicyPath": "src/TokenEconomy/catalog/model-routing-policy.json",
@@ -11,20 +11,13 @@
       "releaseDate": "2026-06-26",
       "releaseDateSource": "https://openai.com/index/previewing-gpt-5-6-sol/",
       "policy": {
-        "version": "2026-09-24",
-        "evidenceAsOfDate": "2026-07-24",
+        "version": "2026-09-25",
+        "evidenceAsOfDate": "2026-09-25",
         "reason": "No Luna cohort existed in the 2026-07-23 benchmark; this is an unvalidated cost-saving hypothesis.",
         "workflowRoles": [
           "coreTask"
         ],
-        "routes": [
-          {
-            "effort": "medium",
-            "role": "coreTask",
-            "minimumTaskScore": 0,
-            "maximumTaskScore": 20
-          }
-        ],
+        "routes": [],
         "fallbacks": []
       },
       "evidence": {
@@ -41,6 +34,7 @@
             "publishedAt": "2026-09-12",
             "sourceUrl": "https://hub.harborframework.com/datasets/terminal-bench/terminal-bench/4/leaderboards/4-0-0/rows/51c6d76e-5baa-48c1-97b3-88656c620eef",
             "confidence": "thirdParty",
+            "evidenceStatus": "unknown",
             "sampleContext": null,
             "secondaryMetrics": {
               "outputTokensPerTask": 185705,
@@ -81,6 +75,7 @@
             "publishedAt": "2026-09-12",
             "sourceUrl": "https://github.com/kodustech/codereviewbench/blob/531297bf50e5f065e3888d7e07b55dcacbf8df64/scorecards/gpt-5.6-luna.json",
             "confidence": "thirdParty",
+            "evidenceStatus": "unknown",
             "sampleContext": null,
             "secondaryMetrics": {},
             "context": {
@@ -111,6 +106,7 @@
             "publishedAt": "2026-09-12",
             "sourceUrl": "https://github.com/kodustech/codereviewbench/blob/531297bf50e5f065e3888d7e07b55dcacbf8df64/scorecards/gpt-5.6-luna.json",
             "confidence": "thirdParty",
+            "evidenceStatus": "unknown",
             "sampleContext": null,
             "secondaryMetrics": {},
             "context": {
@@ -133,7 +129,7 @@
         "taskStudies": [
           {
             "id": "mechanical-chore",
-            "label": "Mechanical chore",
+            "label": "Mechanical chore (historical baseline)",
             "status": "policyBaseline",
             "efforts": [
               "medium"
@@ -149,7 +145,7 @@
           },
           {
             "id": "doc-edit",
-            "label": "Documentation edit",
+            "label": "Documentation edit (historical baseline)",
             "status": "policyBaseline",
             "efforts": [
               "medium"
@@ -165,7 +161,7 @@
           }
         ],
         "assessment": null,
-        "taskStudiesAsOfDate": "2026-08-12"
+        "taskStudiesAsOfDate": "2026-09-25"
       },
       "modelId": "gpt-5.6-luna",
       "vendor": "openai",
@@ -218,8 +214,8 @@
       "releaseDate": "2026-06-26",
       "releaseDateSource": "https://openai.com/index/previewing-gpt-5-6-sol/",
       "policy": {
-        "version": "2026-09-24",
-        "evidenceAsOfDate": "2026-07-24",
+        "version": "2026-09-25",
+        "evidenceAsOfDate": "2026-09-25",
         "reason": "Eight historical Terra/medium records had no known grades and no trustworthy terminal cohort.",
         "workflowRoles": [
           "coreTask"
@@ -248,6 +244,7 @@
             "publishedAt": "2026-09-12",
             "sourceUrl": "https://hub.harborframework.com/datasets/terminal-bench/terminal-bench/4/leaderboards/4-0-0/rows/e53da412-5e92-408c-b369-c767924c7c1c",
             "confidence": "thirdParty",
+            "evidenceStatus": "unknown",
             "sampleContext": null,
             "secondaryMetrics": {
               "outputTokensPerTask": 100681,
@@ -288,6 +285,7 @@
             "publishedAt": "2026-09-12",
             "sourceUrl": "https://github.com/kodustech/codereviewbench/blob/531297bf50e5f065e3888d7e07b55dcacbf8df64/scorecards/gpt-5.6-terra.json",
             "confidence": "thirdParty",
+            "evidenceStatus": "unknown",
             "sampleContext": null,
             "secondaryMetrics": {},
             "context": {
@@ -318,6 +316,7 @@
             "publishedAt": "2026-09-12",
             "sourceUrl": "https://github.com/kodustech/codereviewbench/blob/531297bf50e5f065e3888d7e07b55dcacbf8df64/scorecards/gpt-5.6-terra.json",
             "confidence": "thirdParty",
+            "evidenceStatus": "unknown",
             "sampleContext": null,
             "secondaryMetrics": {},
             "context": {
@@ -348,6 +347,7 @@
             "publishedAt": "2026-08-09",
             "sourceUrl": "https://github.com/agent-orc/token-economy/blob/main/benchmarks/results/palindrome-repair/20260809T092240107Z.report.json",
             "confidence": "ownRun",
+            "evidenceStatus": "unknown",
             "sampleContext": "palindrome-repair: terra-medium passed 3 of 3 isolated attempts (100%).",
             "secondaryMetrics": {},
             "context": null,
@@ -358,20 +358,17 @@
           {
             "id": "feature",
             "label": "Feature and bug implementation",
-            "status": "controlledCodingEvidence",
+            "status": "policyBaseline",
             "efforts": [
               "medium"
             ],
             "primaryRecommendation": false,
-            "scenarioCount": 4,
+            "scenarioCount": 0,
             "outcomeRate": null,
             "costPerSuccessfulOutcome": null,
-            "benchmarkStatus": "Controlled pilot complete; below the 20-sample validation gate.",
+            "benchmarkStatus": "GPT-6 prior is provisional; no qualifying local completion cohort. Historical measurements remain separately attributed.",
             "references": [
-              "benchmarks/results/curated-hard-coding-off-by-one/20260808T161705055Z.json",
-              "benchmarks/results/curated-hard-coding-unicode-locale/20260808T161855489Z.json",
-              "benchmarks/results/curated-hard-coding-cross-file/20260808T162154930Z.json",
-              "benchmarks/results/curated-hard-coding-underspecified/20260808T162707845Z.json"
+              "docs/system/domains/model-routing-policy.md"
             ]
           },
           {
@@ -385,7 +382,7 @@
             "scenarioCount": 0,
             "outcomeRate": null,
             "costPerSuccessfulOutcome": null,
-            "benchmarkStatus": "Planned class-specific suite; canonical policy baseline is active.",
+            "benchmarkStatus": "GPT-6 prior is provisional; no qualifying local completion cohort. Historical measurements remain separately attributed.",
             "references": [
               "docs/system/domains/model-routing-policy.md"
             ]
@@ -393,24 +390,22 @@
           {
             "id": "html-ui-implementation",
             "label": "HTML/UI implementation",
-            "status": "controlledPilot",
+            "status": "policyBaseline",
             "efforts": [
               "medium"
             ],
             "primaryRecommendation": false,
-            "scenarioCount": 2,
+            "scenarioCount": 0,
             "outcomeRate": null,
             "costPerSuccessfulOutcome": null,
-            "benchmarkStatus": "Controlled two-scenario pilot complete; below the 20-attempt and five-scenario qualification gates.",
+            "benchmarkStatus": "GPT-6 prior is provisional; no qualifying local completion cohort. Historical measurements remain separately attributed.",
             "references": [
-              "benchmarks/results/html-ui-incident-console/20260812T083546713Z.json",
-              "benchmarks/results/html-ui-billing-onboarding/20260812T084429463Z.json",
-              "benchmarks/task-class-studies/html-ui-v1.json"
+              "docs/system/domains/model-routing-policy.md"
             ]
           },
           {
             "id": "source-code-review",
-            "label": "Source-code review",
+            "label": "Source-code review (historical baseline)",
             "status": "controlledPilot",
             "efforts": [
               "medium"
@@ -443,14 +438,14 @@
             "scenarioCount": 0,
             "outcomeRate": null,
             "costPerSuccessfulOutcome": null,
-            "benchmarkStatus": "Planned slice; canonical policy baseline is active.",
+            "benchmarkStatus": "GPT-6 prior is provisional; no qualifying local completion cohort. Historical measurements remain separately attributed.",
             "references": [
               "docs/system/domains/model-routing-policy.md"
             ]
           }
         ],
         "assessment": null,
-        "taskStudiesAsOfDate": "2026-08-12"
+        "taskStudiesAsOfDate": "2026-09-25"
       },
       "modelId": "gpt-5.6-terra",
       "vendor": "openai",
@@ -503,27 +498,14 @@
       "releaseDate": "2026-06-26",
       "releaseDateSource": "https://openai.com/index/previewing-gpt-5-6-sol/",
       "policy": {
-        "version": "2026-09-24",
-        "evidenceAsOfDate": "2026-07-24",
+        "version": "2026-09-25",
+        "evidenceAsOfDate": "2026-09-25",
         "reason": "Sol/medium has the strongest favorable historical signal; Sol/xhigh remains a correctness floor, not a blanket default.",
         "workflowRoles": [
           "coreTask",
           "boundedPipelineDecision"
         ],
-        "routes": [
-          {
-            "effort": "medium",
-            "role": "coreTask",
-            "minimumTaskScore": 51,
-            "maximumTaskScore": 69
-          },
-          {
-            "effort": "xhigh",
-            "role": "coreTask",
-            "minimumTaskScore": 70,
-            "maximumTaskScore": 100
-          }
-        ],
+        "routes": [],
         "fallbacks": []
       },
       "evidence": {
@@ -540,6 +522,7 @@
             "publishedAt": "2026-09-12",
             "sourceUrl": "https://hub.harborframework.com/datasets/terminal-bench/terminal-bench/4/leaderboards/4-0-0/rows/0e349bde-b264-494d-a853-fada9c696192",
             "confidence": "thirdParty",
+            "evidenceStatus": "unknown",
             "sampleContext": null,
             "secondaryMetrics": {
               "outputTokensPerTask": 71065,
@@ -580,6 +563,7 @@
             "publishedAt": "2026-09-12",
             "sourceUrl": "https://deepswe.datacurve.ai/",
             "confidence": "thirdParty",
+            "evidenceStatus": "unknown",
             "sampleContext": null,
             "secondaryMetrics": {
               "outputTokensPerTask": 60000,
@@ -615,6 +599,7 @@
             "publishedAt": "2026-09-11",
             "sourceUrl": "https://artificialanalysis.ai/models/comparisons/gpt-6-astra-low-vs-gpt-5-6-sol",
             "confidence": "publisherReported",
+            "evidenceStatus": "unknown",
             "sampleContext": null,
             "secondaryMetrics": {
               "outputTokensPerTask": 29000,
@@ -635,6 +620,7 @@
             "publishedAt": "2026-09-11",
             "sourceUrl": "https://artificialanalysis.ai/models/comparisons/gpt-6-astra-low-vs-gpt-5-6-sol-high",
             "confidence": "publisherReported",
+            "evidenceStatus": "unknown",
             "sampleContext": null,
             "secondaryMetrics": {
               "outputTokensPerTask": 13000,
@@ -656,6 +642,7 @@
             "publishedAt": "2026-09-09",
             "sourceUrl": "https://artificialanalysis.ai/articles/benchmarking-gpt-6-astra",
             "confidence": "thirdParty",
+            "evidenceStatus": "unknown",
             "sampleContext": null,
             "secondaryMetrics": {},
             "context": null,
@@ -673,6 +660,7 @@
             "publishedAt": "2026-09-09",
             "sourceUrl": "https://artificialanalysis.ai/articles/benchmarking-gpt-6-astra",
             "confidence": "thirdParty",
+            "evidenceStatus": "unknown",
             "sampleContext": null,
             "secondaryMetrics": {},
             "context": {
@@ -704,6 +692,7 @@
             "publishedAt": "2026-09-09",
             "sourceUrl": "https://artificialanalysis.ai/articles/benchmarking-gpt-6-astra",
             "confidence": "publisherReported",
+            "evidenceStatus": "unknown",
             "sampleContext": null,
             "secondaryMetrics": {},
             "context": null,
@@ -721,6 +710,7 @@
             "publishedAt": "2026-09-07",
             "sourceUrl": "https://thenewstack.io/astra-reasoning-effort-cost/",
             "confidence": "thirdParty",
+            "evidenceStatus": "unknown",
             "sampleContext": null,
             "secondaryMetrics": {},
             "context": null,
@@ -738,6 +728,7 @@
             "publishedAt": "2026-09-04",
             "sourceUrl": "https://www.coderabbit.ai/blog/gpt-6-astra-code-review-evaluation",
             "confidence": "thirdParty",
+            "evidenceStatus": "unknown",
             "sampleContext": null,
             "secondaryMetrics": {},
             "context": {
@@ -763,6 +754,7 @@
             "publishedAt": "2026-09-04",
             "sourceUrl": "https://www.coderabbit.ai/blog/gpt-6-astra-code-review-evaluation",
             "confidence": "thirdParty",
+            "evidenceStatus": "unknown",
             "sampleContext": null,
             "secondaryMetrics": {},
             "context": {
@@ -788,6 +780,7 @@
             "publishedAt": "2026-09-03",
             "sourceUrl": "https://openai.com/index/gpt-6-astra/",
             "confidence": "publisherReported",
+            "evidenceStatus": "unknown",
             "sampleContext": null,
             "secondaryMetrics": {},
             "context": null,
@@ -805,6 +798,7 @@
             "publishedAt": "2026-09-03",
             "sourceUrl": "https://openai.com/index/gpt-6-astra/",
             "confidence": "publisherReported",
+            "evidenceStatus": "unknown",
             "sampleContext": null,
             "secondaryMetrics": {},
             "context": null,
@@ -822,6 +816,7 @@
             "publishedAt": "2026-09-03",
             "sourceUrl": "https://deepswe.datacurve.ai/",
             "confidence": "publisherReported",
+            "evidenceStatus": "unknown",
             "sampleContext": null,
             "secondaryMetrics": {
               "outputTokensPerTask": 60000,
@@ -842,6 +837,7 @@
             "publishedAt": "2026-08-09",
             "sourceUrl": "https://github.com/agent-orc/token-economy/blob/main/benchmarks/results/palindrome-repair/20260809T092240107Z.report.json",
             "confidence": "ownRun",
+            "evidenceStatus": "unknown",
             "sampleContext": "palindrome-repair: sol-medium passed 3 of 3 isolated attempts (100%).",
             "secondaryMetrics": {},
             "context": null,
@@ -859,6 +855,7 @@
             "publishedAt": "2026-07-09",
             "sourceUrl": "https://www.coderabbit.ai/blog/gpt-5-6-sol-and-terra-benchmark",
             "confidence": "thirdParty",
+            "evidenceStatus": "unknown",
             "sampleContext": null,
             "secondaryMetrics": {},
             "context": {
@@ -884,6 +881,7 @@
             "publishedAt": "2026-07-09",
             "sourceUrl": "https://www.coderabbit.ai/blog/gpt-5-6-sol-and-terra-benchmark",
             "confidence": "thirdParty",
+            "evidenceStatus": "unknown",
             "sampleContext": null,
             "secondaryMetrics": {},
             "context": {
@@ -901,7 +899,7 @@
         "taskStudies": [
           {
             "id": "heavy-design",
-            "label": "Heavy design",
+            "label": "Heavy design (historical baseline)",
             "status": "policyBaseline",
             "efforts": [
               "medium"
@@ -917,7 +915,7 @@
           },
           {
             "id": "planning",
-            "label": "Planning",
+            "label": "Planning (historical baseline)",
             "status": "policyBaseline",
             "efforts": [
               "medium"
@@ -934,7 +932,7 @@
           },
           {
             "id": "decision-making",
-            "label": "Decision-making",
+            "label": "Decision-making (historical baseline)",
             "status": "policyBaseline",
             "efforts": [
               "medium"
@@ -951,7 +949,7 @@
           },
           {
             "id": "feature",
-            "label": "Feature and bug implementation",
+            "label": "Feature and bug implementation (historical baseline)",
             "status": "controlledCodingEvidence",
             "efforts": [
               "medium"
@@ -975,7 +973,7 @@
           },
           {
             "id": "research",
-            "label": "Research and investigation",
+            "label": "Research and investigation (historical baseline)",
             "status": "policyBaseline",
             "efforts": [
               "medium"
@@ -991,7 +989,7 @@
           },
           {
             "id": "quality-studio-review",
-            "label": "Quality Studio review",
+            "label": "Quality Studio review (historical baseline)",
             "status": "policyBaseline",
             "efforts": [
               "medium"
@@ -1007,7 +1005,7 @@
           },
           {
             "id": "html-ui-implementation",
-            "label": "HTML/UI implementation",
+            "label": "HTML/UI implementation (historical baseline)",
             "status": "controlledPilot",
             "efforts": [
               "medium"
@@ -1030,7 +1028,7 @@
           },
           {
             "id": "security-assessment",
-            "label": "Security assessment",
+            "label": "Security assessment (historical baseline)",
             "status": "policyBaseline",
             "efforts": [
               "xHigh"
@@ -1046,7 +1044,7 @@
           },
           {
             "id": "redundancy-detection",
-            "label": "Redundancy detection",
+            "label": "Redundancy detection (historical baseline)",
             "status": "policyBaseline",
             "efforts": [
               "medium"
@@ -1062,7 +1060,7 @@
           }
         ],
         "assessment": null,
-        "taskStudiesAsOfDate": "2026-08-12"
+        "taskStudiesAsOfDate": "2026-09-25"
       },
       "modelId": "gpt-5.6-sol",
       "vendor": "openai",
@@ -1115,9 +1113,9 @@
       "releaseDate": "2026-09-03",
       "releaseDateSource": "https://openai.com/index/safety-overview-gpt-6-astra/",
       "policy": {
-        "version": "2026-09-24",
-        "evidenceAsOfDate": "2026-07-24",
-        "reason": "Supported for explicit evaluation, compatibility comparison, and operator-pinned core tasks. External benchmarks and dated prices are retained; no comparable local completion or review cohort is available. Provisional support does not add a default core tier, declare fallback equivalence, or lower a correctness floor.",
+        "version": "2026-09-25",
+        "evidenceAsOfDate": "2026-09-25",
+        "reason": "Selectable for explicit evaluation and operator pins, provisional. Operator observed two access_programs.cyber HTTP 400s in about eight runs on 2026-09-18. No comparable local completion cohort; not a default tier or equivalent provider fallback.",
         "workflowRoles": [
           "coreTask"
         ],
@@ -1138,6 +1136,7 @@
             "publishedAt": "2026-09-12",
             "sourceUrl": "https://hub.harborframework.com/datasets/terminal-bench/terminal-bench/4/leaderboards/4-0-0/rows/16db8ad5-84aa-4588-b660-1ce68c0d45e2",
             "confidence": "thirdParty",
+            "evidenceStatus": "unknown",
             "sampleContext": null,
             "secondaryMetrics": {
               "outputTokensPerTask": 45304,
@@ -1178,6 +1177,7 @@
             "publishedAt": "2026-09-12",
             "sourceUrl": "https://hub.harborframework.com/datasets/terminal-bench/terminal-bench/4/leaderboards/4-0-0/rows/f3c3d5a6-6424-4acb-bfcc-615c3f79f6dd",
             "confidence": "thirdParty",
+            "evidenceStatus": "unknown",
             "sampleContext": null,
             "secondaryMetrics": {
               "outputTokensPerTask": 32638,
@@ -1218,6 +1218,7 @@
             "publishedAt": "2026-09-12",
             "sourceUrl": "https://hub.harborframework.com/datasets/terminal-bench/terminal-bench/4/leaderboards/4-0-0/rows/5c537be4-7fc3-449b-8bfc-ceb9061c2535",
             "confidence": "thirdParty",
+            "evidenceStatus": "unknown",
             "sampleContext": null,
             "secondaryMetrics": {
               "outputTokensPerTask": 72694,
@@ -1258,6 +1259,7 @@
             "publishedAt": "2026-09-12",
             "sourceUrl": "https://hub.harborframework.com/datasets/terminal-bench/terminal-bench/4/leaderboards/4-0-0/rows/b3ad58f3-b311-4d4d-875b-3158cf0309d6",
             "confidence": "thirdParty",
+            "evidenceStatus": "unknown",
             "sampleContext": null,
             "secondaryMetrics": {
               "outputTokensPerTask": 24207,
@@ -1298,6 +1300,7 @@
             "publishedAt": "2026-09-12",
             "sourceUrl": "https://hub.harborframework.com/datasets/terminal-bench/terminal-bench/4/leaderboards/4-0-0/rows/3475050c-bf5e-4261-a3f6-0af5350af13f",
             "confidence": "thirdParty",
+            "evidenceStatus": "unknown",
             "sampleContext": null,
             "secondaryMetrics": {
               "outputTokensPerTask": 41527,
@@ -1338,6 +1341,7 @@
             "publishedAt": "2026-09-12",
             "sourceUrl": "https://hub.harborframework.com/datasets/terminal-bench/terminal-bench-2-1/1/leaderboards/main/rows/3d9a7a70-ad72-4197-b895-c73698601637",
             "confidence": "thirdParty",
+            "evidenceStatus": "unknown",
             "sampleContext": null,
             "secondaryMetrics": {
               "outputTokensPerTask": 11882,
@@ -1378,6 +1382,7 @@
             "publishedAt": "2026-09-12",
             "sourceUrl": "https://hub.harborframework.com/datasets/terminal-bench/terminal-bench-2-1/1/leaderboards/main/rows/17be4c09-ab31-4202-9d56-31a2ccf37e1b",
             "confidence": "thirdParty",
+            "evidenceStatus": "unknown",
             "sampleContext": null,
             "secondaryMetrics": {
               "outputTokensPerTask": 6517,
@@ -1418,6 +1423,7 @@
             "publishedAt": "2026-09-12",
             "sourceUrl": "https://hub.harborframework.com/datasets/terminal-bench/terminal-bench-2-1/1/leaderboards/main/rows/f8d623c8-5f1b-4f9c-8deb-d110fa91e1d2",
             "confidence": "thirdParty",
+            "evidenceStatus": "unknown",
             "sampleContext": null,
             "secondaryMetrics": {
               "outputTokensPerTask": 17028,
@@ -1458,6 +1464,7 @@
             "publishedAt": "2026-09-12",
             "sourceUrl": "https://hub.harborframework.com/datasets/terminal-bench/terminal-bench-2-1/1/leaderboards/main/rows/93fc9e32-98c9-4e4a-a6a0-89dd3da598af",
             "confidence": "thirdParty",
+            "evidenceStatus": "unknown",
             "sampleContext": null,
             "secondaryMetrics": {
               "outputTokensPerTask": 4400,
@@ -1498,6 +1505,7 @@
             "publishedAt": "2026-09-12",
             "sourceUrl": "https://hub.harborframework.com/datasets/terminal-bench/terminal-bench-2-1/1/leaderboards/main/rows/03ff7953-4955-4fc5-9ddd-911cab72d7f1",
             "confidence": "thirdParty",
+            "evidenceStatus": "unknown",
             "sampleContext": null,
             "secondaryMetrics": {
               "outputTokensPerTask": 9485,
@@ -1538,6 +1546,7 @@
             "publishedAt": "2026-09-12",
             "sourceUrl": "https://labs.scale.com/leaderboard/sweatlas-tw",
             "confidence": "thirdParty",
+            "evidenceStatus": "unknown",
             "sampleContext": null,
             "secondaryMetrics": {},
             "context": {
@@ -1567,6 +1576,7 @@
             "publishedAt": "2026-09-12",
             "sourceUrl": "https://labs.scale.com/leaderboard/sweatlas-refactoring",
             "confidence": "thirdParty",
+            "evidenceStatus": "unknown",
             "sampleContext": null,
             "secondaryMetrics": {},
             "context": {
@@ -1594,6 +1604,7 @@
             "publishedAt": "2026-09-12",
             "sourceUrl": "https://labs.scale.com/leaderboard/sweatlas-qna",
             "confidence": "thirdParty",
+            "evidenceStatus": "unknown",
             "sampleContext": null,
             "secondaryMetrics": {},
             "context": {
@@ -1621,6 +1632,7 @@
             "publishedAt": "2026-09-12",
             "sourceUrl": "https://deepswe.datacurve.ai/",
             "confidence": "thirdParty",
+            "evidenceStatus": "unknown",
             "sampleContext": null,
             "secondaryMetrics": {
               "outputTokensPerTask": 30000,
@@ -1656,6 +1668,7 @@
             "publishedAt": "2026-09-11",
             "sourceUrl": "https://artificialanalysis.ai/models/comparisons/gpt-6-astra-low-vs-gpt-5-6-sol-high",
             "confidence": "publisherReported",
+            "evidenceStatus": "unknown",
             "sampleContext": null,
             "secondaryMetrics": {
               "outputTokensPerTask": 4000,
@@ -1677,6 +1690,7 @@
             "publishedAt": "2026-09-09",
             "sourceUrl": "https://artificialanalysis.ai/articles/benchmarking-gpt-6-astra",
             "confidence": "thirdParty",
+            "evidenceStatus": "unknown",
             "sampleContext": null,
             "secondaryMetrics": {},
             "context": null,
@@ -1694,6 +1708,7 @@
             "publishedAt": "2026-09-09",
             "sourceUrl": "https://artificialanalysis.ai/articles/benchmarking-gpt-6-astra",
             "confidence": "publisherReported",
+            "evidenceStatus": "unknown",
             "sampleContext": null,
             "secondaryMetrics": {
               "outputTokensPerTask": 27000,
@@ -1714,6 +1729,7 @@
             "publishedAt": "2026-09-09",
             "sourceUrl": "https://artificialanalysis.ai/articles/benchmarking-gpt-6-astra",
             "confidence": "thirdParty",
+            "evidenceStatus": "unknown",
             "sampleContext": null,
             "secondaryMetrics": {
               "costPerTaskUsd": 7.09
@@ -1747,6 +1763,7 @@
             "publishedAt": "2026-09-09",
             "sourceUrl": "https://artificialanalysis.ai/articles/benchmarking-gpt-6-astra",
             "confidence": "publisherReported",
+            "evidenceStatus": "unknown",
             "sampleContext": null,
             "secondaryMetrics": {
               "costPerTaskUsd": 7.09
@@ -1766,6 +1783,7 @@
             "publishedAt": "2026-09-07",
             "sourceUrl": "https://thenewstack.io/astra-reasoning-effort-cost/",
             "confidence": "thirdParty",
+            "evidenceStatus": "unknown",
             "sampleContext": null,
             "secondaryMetrics": {},
             "context": null,
@@ -1783,6 +1801,7 @@
             "publishedAt": "2026-09-04",
             "sourceUrl": "https://www.coderabbit.ai/blog/gpt-6-astra-code-review-evaluation",
             "confidence": "thirdParty",
+            "evidenceStatus": "unknown",
             "sampleContext": null,
             "secondaryMetrics": {},
             "context": {
@@ -1808,6 +1827,7 @@
             "publishedAt": "2026-09-04",
             "sourceUrl": "https://www.coderabbit.ai/blog/gpt-6-astra-code-review-evaluation",
             "confidence": "thirdParty",
+            "evidenceStatus": "unknown",
             "sampleContext": null,
             "secondaryMetrics": {},
             "context": {
@@ -1833,6 +1853,7 @@
             "publishedAt": "2026-09-03",
             "sourceUrl": "https://openai.com/index/gpt-6-astra/",
             "confidence": "publisherReported",
+            "evidenceStatus": "unknown",
             "sampleContext": null,
             "secondaryMetrics": {},
             "context": null,
@@ -1850,6 +1871,7 @@
             "publishedAt": "2026-09-03",
             "sourceUrl": "https://deepswe.datacurve.ai/",
             "confidence": "publisherReported",
+            "evidenceStatus": "unknown",
             "sampleContext": null,
             "secondaryMetrics": {
               "outputTokensPerTask": 30000,
@@ -1870,6 +1892,7 @@
             "publishedAt": "2026-09-03",
             "sourceUrl": "https://openai.com/index/gpt-6-astra/",
             "confidence": "publisherReported",
+            "evidenceStatus": "unknown",
             "sampleContext": null,
             "secondaryMetrics": {},
             "context": null,
@@ -1941,7 +1964,7 @@
           ],
           "displayName": "GPT-6 Astra"
         },
-        "taskStudiesAsOfDate": "2026-08-12"
+        "taskStudiesAsOfDate": "2026-09-25"
       },
       "modelId": "gpt-6-astra",
       "vendor": "openai",
@@ -1956,71 +1979,6 @@
         "cachedInputPerMTok": 1,
         "cachedInputUsesInputFallback": false,
         "validFromUtc": "2026-09-03T00:00:00Z",
-        "unconfirmed": false
-      },
-      "effortLevels": [
-        "low",
-        "medium",
-        "high",
-        "xHigh",
-        "max"
-      ],
-      "suitability": {
-        "heavyDesign": "ideal",
-        "planning": "ideal",
-        "decisionMaking": "ideal",
-        "feature": "capable",
-        "mechanicalChore": "overkill",
-        "docEdit": "overkill",
-        "research": "capable",
-        "review": null,
-        "htmlUiImplementation": "ideal",
-        "sourceCodeReview": "overkill",
-        "securityAssessment": "ideal",
-        "redundancyDetection": "ideal",
-        "graphicalQualityJudgment": null,
-        "consistencyChecking": null
-      },
-      "restricted": false,
-      "deprecated": false,
-      "costUnconfirmed": false,
-      "selectionStatus": "selectable",
-      "evidenceStatus": "provisional",
-      "provisional": true
-    },
-    {
-      "displayName": "GPT-6 Sol",
-      "releaseDate": "2026-09-22",
-      "releaseDateSource": "https://developers.openai.com/api/docs/changelog",
-      "policy": {
-        "version": "2026-09-24",
-        "evidenceAsOfDate": "2026-07-24",
-        "reason": "Codex CLI 0.155.0 model discovery on the executing host reports low/medium/high/xhigh/max/ultra with provider default medium. Sol execution was observed successfully on 0.155.0; 0.154.0 rejected it, so 0.155.0 is the minimum observed CLI version. Selectable for explicit evaluation, compatibility comparison, and operator-pinned core tasks; no comparable local completion or review cohort is available. This support adds no default tier, fallback equivalence, or automatic migration.",
-        "workflowRoles": [
-          "coreTask"
-        ],
-        "routes": [],
-        "fallbacks": []
-      },
-      "evidence": {
-        "external": [],
-        "taskStudies": [],
-        "assessment": null,
-        "taskStudiesAsOfDate": "2026-08-12"
-      },
-      "modelId": "gpt-6-sol",
-      "vendor": "openai",
-      "cli": "codex",
-      "tier": "frontier",
-      "costClass": "standard",
-      "price": {
-        "status": "resolved",
-        "currency": "USD",
-        "inputPerMTok": 2,
-        "outputPerMTok": 10,
-        "cachedInputPerMTok": 0.2,
-        "cachedInputUsesInputFallback": false,
-        "validFromUtc": "2026-09-22T00:00:00Z",
         "unconfirmed": false
       },
       "effortLevels": [
@@ -2055,24 +2013,421 @@
       "provisional": true
     },
     {
+      "displayName": "GPT-6 Sol",
+      "releaseDate": "2026-09-22",
+      "releaseDateSource": "https://developers.openai.com/api/docs/changelog",
+      "policy": {
+        "version": "2026-09-25",
+        "evidenceAsOfDate": "2026-09-25",
+        "reason": "Operator evidence dated 2026-09-25: Codex CLI 0.155.0 exposes minimal/low/medium/high/xhigh. Sol runs on the workstation and agent-runner-01 since September 24; CLI default xhigh, policy explicitly selects medium or xhigh. Source ultra pins must be explicitly downgraded to xhigh, never silently migrated. Default core route by operator decision backed by dated prices and vendor claims; local completion and review cohorts remain unqualified. API max benchmarks do not establish Codex max support.",
+        "workflowRoles": [
+          "coreTask"
+        ],
+        "routes": [
+          {
+            "effort": "medium",
+            "role": "coreTask",
+            "minimumTaskScore": 51,
+            "maximumTaskScore": 69
+          },
+          {
+            "effort": "xhigh",
+            "role": "coreTask",
+            "minimumTaskScore": 70,
+            "maximumTaskScore": 100
+          }
+        ],
+        "fallbacks": []
+      },
+      "evidence": {
+        "external": [
+          {
+            "id": "aa-ii-v4.3.2-gpt-6-sol-max-2026-09-25",
+            "benchmarkId": "artificial-analysis-intelligence-index-v4.3.2",
+            "name": "Artificial Analysis Intelligence Index",
+            "version": "4.3.2",
+            "unit": "index points",
+            "maximumScore": 100,
+            "effort": "max",
+            "score": 48,
+            "publishedAt": "2026-09-25",
+            "sourceUrl": "https://artificialanalysis.ai/models/gpt-6-sol",
+            "confidence": "publisherReported",
+            "evidenceStatus": "provisional",
+            "sampleContext": null,
+            "secondaryMetrics": {
+              "costPerTaskUsd": 1.06
+            },
+            "context": {
+              "sourceKind": "independentEvaluator",
+              "sourcePublisher": "Artificial Analysis",
+              "dateBasis": "firstObservedPublicSnapshot",
+              "observedAt": "2026-09-25",
+              "harness": "Artificial Analysis Intelligence Index",
+              "harnessVersion": "4.3.2",
+              "sampleNotes": "Live page first observed on this date; actual run date, sample count and uncertainty interval unknown. API max is not the local Codex ladder.",
+              "costBasis": "Publisher weighted cost per Intelligence Index task; not local card cost."
+            },
+            "evidenceExcerpt": "September 25 public snapshot: gpt-6-sol at max scores 48 on Intelligence Index v4.3.2; $1.06 per index task."
+          },
+          {
+            "id": "openai-deepswe-v1.1-gpt-6-sol-max-2026-09-22",
+            "benchmarkId": "deepswe-v1.1",
+            "name": "DeepSWE v1.1",
+            "version": "1.1 (113 tasks)",
+            "unit": "percent resolved",
+            "maximumScore": 100,
+            "effort": "max",
+            "score": 68.8,
+            "publishedAt": "2026-09-22",
+            "sourceUrl": "https://openai.com/index/introducing-gpt-6-sol-and-luna/",
+            "confidence": "publisherReported",
+            "evidenceStatus": "provisional",
+            "sampleContext": null,
+            "secondaryMetrics": {},
+            "context": {
+              "sourceKind": "modelProvider",
+              "sourcePublisher": "OpenAI",
+              "dateBasis": "publishedDate",
+              "observedAt": "2026-09-25",
+              "harness": "OpenAI reported DeepSWE v1.1 evaluation; exact execution configuration not retained",
+              "harnessVersion": "1.1",
+              "sampleNotes": "Local completion cohort absent. Denominator and uncertainty interval not established from the announcement; no noRegression claim.",
+              "additionalSourceUrls": [
+                "https://developers.openai.com/api/docs/models/gpt-6-sol"
+              ]
+            },
+            "evidenceExcerpt": "OpenAI reports DeepSWE v1.1 at API max: gpt-6-sol 68.8%. This is not a local Codex medium/xhigh measurement."
+          }
+        ],
+        "taskStudies": [
+          {
+            "id": "heavy-design",
+            "label": "Heavy design",
+            "status": "policyBaseline",
+            "efforts": [
+              "medium"
+            ],
+            "primaryRecommendation": true,
+            "scenarioCount": 0,
+            "outcomeRate": null,
+            "costPerSuccessfulOutcome": null,
+            "benchmarkStatus": "GPT-6 prior is provisional; no qualifying local completion cohort. Historical measurements remain separately attributed.",
+            "references": [
+              "docs/system/domains/model-routing-policy.md"
+            ]
+          },
+          {
+            "id": "planning",
+            "label": "Planning",
+            "status": "policyBaseline",
+            "efforts": [
+              "medium"
+            ],
+            "primaryRecommendation": true,
+            "scenarioCount": 0,
+            "outcomeRate": null,
+            "costPerSuccessfulOutcome": null,
+            "benchmarkStatus": "GPT-6 prior is provisional; no qualifying local completion cohort. Historical measurements remain separately attributed.",
+            "references": [
+              "docs/system/domains/model-routing-policy.md"
+            ]
+          },
+          {
+            "id": "decision-making",
+            "label": "Decision-making",
+            "status": "policyBaseline",
+            "efforts": [
+              "medium"
+            ],
+            "primaryRecommendation": true,
+            "scenarioCount": 0,
+            "outcomeRate": null,
+            "costPerSuccessfulOutcome": null,
+            "benchmarkStatus": "GPT-6 prior is provisional; no qualifying local completion cohort. Historical measurements remain separately attributed.",
+            "references": [
+              "docs/system/domains/model-routing-policy.md"
+            ]
+          },
+          {
+            "id": "feature",
+            "label": "Feature and bug implementation",
+            "status": "policyBaseline",
+            "efforts": [
+              "medium"
+            ],
+            "primaryRecommendation": true,
+            "scenarioCount": 0,
+            "outcomeRate": null,
+            "costPerSuccessfulOutcome": null,
+            "benchmarkStatus": "GPT-6 prior is provisional; no qualifying local completion cohort. Historical measurements remain separately attributed.",
+            "references": [
+              "docs/system/domains/model-routing-policy.md"
+            ]
+          },
+          {
+            "id": "research",
+            "label": "Research and investigation",
+            "status": "policyBaseline",
+            "efforts": [
+              "medium"
+            ],
+            "primaryRecommendation": true,
+            "scenarioCount": 0,
+            "outcomeRate": null,
+            "costPerSuccessfulOutcome": null,
+            "benchmarkStatus": "GPT-6 prior is provisional; no qualifying local completion cohort. Historical measurements remain separately attributed.",
+            "references": [
+              "docs/system/domains/model-routing-policy.md"
+            ]
+          },
+          {
+            "id": "quality-studio-review",
+            "label": "Quality Studio review",
+            "status": "policyBaseline",
+            "efforts": [
+              "medium"
+            ],
+            "primaryRecommendation": true,
+            "scenarioCount": 0,
+            "outcomeRate": null,
+            "costPerSuccessfulOutcome": null,
+            "benchmarkStatus": "GPT-6 prior is provisional; no qualifying local completion cohort. Historical measurements remain separately attributed.",
+            "references": [
+              "docs/system/domains/model-routing-policy.md"
+            ]
+          },
+          {
+            "id": "html-ui-implementation",
+            "label": "HTML/UI implementation",
+            "status": "policyBaseline",
+            "efforts": [
+              "medium"
+            ],
+            "primaryRecommendation": true,
+            "scenarioCount": 0,
+            "outcomeRate": null,
+            "costPerSuccessfulOutcome": null,
+            "benchmarkStatus": "GPT-6 prior is provisional; no qualifying local completion cohort. Historical measurements remain separately attributed.",
+            "references": [
+              "docs/system/domains/model-routing-policy.md"
+            ]
+          },
+          {
+            "id": "source-code-review",
+            "label": "Source-code review",
+            "status": "policyBaseline",
+            "efforts": [
+              "medium"
+            ],
+            "primaryRecommendation": true,
+            "scenarioCount": 0,
+            "outcomeRate": null,
+            "costPerSuccessfulOutcome": null,
+            "benchmarkStatus": "GPT-6 prior is provisional; no qualifying local completion cohort. Historical measurements remain separately attributed.",
+            "references": [
+              "docs/system/domains/model-routing-policy.md"
+            ]
+          },
+          {
+            "id": "security-assessment",
+            "label": "Security assessment",
+            "status": "policyBaseline",
+            "efforts": [
+              "xHigh"
+            ],
+            "primaryRecommendation": true,
+            "scenarioCount": 0,
+            "outcomeRate": null,
+            "costPerSuccessfulOutcome": null,
+            "benchmarkStatus": "GPT-6 prior is provisional; no qualifying local completion cohort. Historical measurements remain separately attributed.",
+            "references": [
+              "docs/system/domains/model-routing-policy.md"
+            ]
+          },
+          {
+            "id": "redundancy-detection",
+            "label": "Redundancy detection",
+            "status": "policyBaseline",
+            "efforts": [
+              "medium"
+            ],
+            "primaryRecommendation": true,
+            "scenarioCount": 0,
+            "outcomeRate": null,
+            "costPerSuccessfulOutcome": null,
+            "benchmarkStatus": "GPT-6 prior is provisional; no qualifying local completion cohort. Historical measurements remain separately attributed.",
+            "references": [
+              "docs/system/domains/model-routing-policy.md"
+            ]
+          }
+        ],
+        "assessment": null,
+        "taskStudiesAsOfDate": "2026-09-25"
+      },
+      "modelId": "gpt-6-sol",
+      "vendor": "openai",
+      "cli": "codex",
+      "tier": "frontier",
+      "costClass": "standard",
+      "price": {
+        "status": "resolved",
+        "currency": "USD",
+        "inputPerMTok": 2,
+        "outputPerMTok": 10,
+        "cachedInputPerMTok": 0.2,
+        "cachedInputUsesInputFallback": false,
+        "validFromUtc": "2026-09-22T00:00:00Z",
+        "unconfirmed": false
+      },
+      "effortLevels": [
+        "minimal",
+        "low",
+        "medium",
+        "high",
+        "xHigh"
+      ],
+      "suitability": {
+        "heavyDesign": "ideal",
+        "planning": "ideal",
+        "decisionMaking": "ideal",
+        "feature": "capable",
+        "mechanicalChore": "overkill",
+        "docEdit": "overkill",
+        "research": "capable",
+        "review": null,
+        "htmlUiImplementation": "ideal",
+        "sourceCodeReview": "overkill",
+        "securityAssessment": "ideal",
+        "redundancyDetection": "ideal",
+        "graphicalQualityJudgment": null,
+        "consistencyChecking": null
+      },
+      "restricted": false,
+      "deprecated": false,
+      "costUnconfirmed": false,
+      "selectionStatus": "selectable",
+      "evidenceStatus": "provisional",
+      "provisional": true
+    },
+    {
       "displayName": "GPT-6 Luna",
       "releaseDate": "2026-09-22",
       "releaseDateSource": "https://developers.openai.com/api/docs/changelog",
       "policy": {
-        "version": "2026-09-24",
-        "evidenceAsOfDate": "2026-07-24",
-        "reason": "Codex CLI 0.155.0 model discovery on the executing host reports low/medium/high/xhigh/max with provider default medium. Luna was discovered but execution availability was not successfully probed; 0.154.0 rejected it, so support remains unverified and 0.155.0 is the minimum discovery version. Selectable for explicit evaluation, compatibility comparison, and operator-pinned core tasks; no comparable local completion or review cohort is available. This support adds no default tier, fallback equivalence, or automatic migration.",
+        "version": "2026-09-25",
+        "evidenceAsOfDate": "2026-09-25",
+        "reason": "Operator evidence dated 2026-09-25: Codex CLI 0.155.0 exposes minimal/low/medium/high/xhigh. Luna execution succeeded on agent-runner-01 on September 25; the old unverified availability note is superseded. Default core route by operator decision backed by dated prices and vendor claims; local completion and review cohorts remain unqualified. API max benchmarks do not establish Codex max support.",
         "workflowRoles": [
           "coreTask"
         ],
-        "routes": [],
+        "routes": [
+          {
+            "effort": "medium",
+            "role": "coreTask",
+            "minimumTaskScore": 0,
+            "maximumTaskScore": 20
+          }
+        ],
         "fallbacks": []
       },
       "evidence": {
-        "external": [],
-        "taskStudies": [],
+        "external": [
+          {
+            "id": "aa-ii-v4.3.2-gpt-6-luna-max-2026-09-25",
+            "benchmarkId": "artificial-analysis-intelligence-index-v4.3.2",
+            "name": "Artificial Analysis Intelligence Index",
+            "version": "4.3.2",
+            "unit": "index points",
+            "maximumScore": 100,
+            "effort": "max",
+            "score": 37,
+            "publishedAt": "2026-09-25",
+            "sourceUrl": "https://artificialanalysis.ai/models/gpt-6-luna",
+            "confidence": "publisherReported",
+            "evidenceStatus": "provisional",
+            "sampleContext": null,
+            "secondaryMetrics": {
+              "costPerTaskUsd": 0.07
+            },
+            "context": {
+              "sourceKind": "independentEvaluator",
+              "sourcePublisher": "Artificial Analysis",
+              "dateBasis": "firstObservedPublicSnapshot",
+              "observedAt": "2026-09-25",
+              "harness": "Artificial Analysis Intelligence Index",
+              "harnessVersion": "4.3.2",
+              "sampleNotes": "Live page first observed on this date; actual run date, sample count and uncertainty interval unknown. API max is not the local Codex ladder.",
+              "costBasis": "Publisher weighted cost per Intelligence Index task; not local card cost."
+            },
+            "evidenceExcerpt": "September 25 public snapshot: gpt-6-luna at max scores 37 on Intelligence Index v4.3.2; $0.07 per index task."
+          },
+          {
+            "id": "openai-deepswe-v1.1-gpt-6-luna-max-2026-09-22",
+            "benchmarkId": "deepswe-v1.1",
+            "name": "DeepSWE v1.1",
+            "version": "1.1 (113 tasks)",
+            "unit": "percent resolved",
+            "maximumScore": 100,
+            "effort": "max",
+            "score": 66.6,
+            "publishedAt": "2026-09-22",
+            "sourceUrl": "https://openai.com/index/introducing-gpt-6-sol-and-luna/",
+            "confidence": "publisherReported",
+            "evidenceStatus": "provisional",
+            "sampleContext": null,
+            "secondaryMetrics": {},
+            "context": {
+              "sourceKind": "modelProvider",
+              "sourcePublisher": "OpenAI",
+              "dateBasis": "publishedDate",
+              "observedAt": "2026-09-25",
+              "harness": "OpenAI reported DeepSWE v1.1 evaluation; exact execution configuration not retained",
+              "harnessVersion": "1.1",
+              "sampleNotes": "Local completion cohort absent. Denominator and uncertainty interval not established from the announcement; no noRegression claim.",
+              "additionalSourceUrls": [
+                "https://developers.openai.com/api/docs/models/gpt-6-luna"
+              ]
+            },
+            "evidenceExcerpt": "OpenAI reports DeepSWE v1.1 at API max: gpt-6-luna 66.6%. This is not a local Codex medium/xhigh measurement."
+          }
+        ],
+        "taskStudies": [
+          {
+            "id": "mechanical-chore",
+            "label": "Mechanical chore",
+            "status": "policyBaseline",
+            "efforts": [
+              "medium"
+            ],
+            "primaryRecommendation": true,
+            "scenarioCount": 0,
+            "outcomeRate": null,
+            "costPerSuccessfulOutcome": null,
+            "benchmarkStatus": "GPT-6 prior is provisional; no qualifying local completion cohort. Historical measurements remain separately attributed.",
+            "references": [
+              "docs/system/domains/model-routing-policy.md"
+            ]
+          },
+          {
+            "id": "doc-edit",
+            "label": "Documentation edit",
+            "status": "policyBaseline",
+            "efforts": [
+              "medium"
+            ],
+            "primaryRecommendation": true,
+            "scenarioCount": 0,
+            "outcomeRate": null,
+            "costPerSuccessfulOutcome": null,
+            "benchmarkStatus": "GPT-6 prior is provisional; no qualifying local completion cohort. Historical measurements remain separately attributed.",
+            "references": [
+              "docs/system/domains/model-routing-policy.md"
+            ]
+          }
+        ],
         "assessment": null,
-        "taskStudiesAsOfDate": "2026-08-12"
+        "taskStudiesAsOfDate": "2026-09-25"
       },
       "modelId": "gpt-6-luna",
       "vendor": "openai",
@@ -2090,11 +2445,11 @@
         "unconfirmed": false
       },
       "effortLevels": [
+        "minimal",
         "low",
         "medium",
         "high",
-        "xHigh",
-        "max"
+        "xHigh"
       ],
       "suitability": {
         "heavyDesign": "underpowered",
@@ -2124,8 +2479,8 @@
       "releaseDate": "2026-09-01",
       "releaseDateSource": "https://platform.claude.com/docs/en/models/fable-5-1/overview",
       "policy": {
-        "version": "2026-09-24",
-        "evidenceAsOfDate": "2026-07-24",
+        "version": "2026-09-25",
+        "evidenceAsOfDate": "2026-09-25",
         "reason": "Provider-supported model and five-level effort ladder: https://platform.claude.com/docs/en/models/fable-5-1/overview and https://platform.claude.com/docs/en/build-with-claude/effort (retrieved 2026-09-12). Selectable for explicit evaluation, compatibility comparison, and operator-pinned core tasks. Local completion and review fit remain unvalidated; support does not add a default tier or declare provider-fallback equivalence.",
         "workflowRoles": [
           "coreTask"
@@ -2147,6 +2502,7 @@
             "publishedAt": "2026-09-12",
             "sourceUrl": "https://hub.harborframework.com/datasets/terminal-bench/terminal-bench/4/leaderboards/4-0-0/rows/c741608e-c94e-417d-b7a8-e67111a0c887",
             "confidence": "thirdParty",
+            "evidenceStatus": "unknown",
             "sampleContext": null,
             "secondaryMetrics": {
               "outputTokensPerTask": 191277,
@@ -2187,6 +2543,7 @@
             "publishedAt": "2026-09-12",
             "sourceUrl": "https://labs.scale.com/leaderboard/sweatlas-tw",
             "confidence": "thirdParty",
+            "evidenceStatus": "unknown",
             "sampleContext": null,
             "secondaryMetrics": {},
             "context": {
@@ -2216,6 +2573,7 @@
             "publishedAt": "2026-09-12",
             "sourceUrl": "https://labs.scale.com/leaderboard/sweatlas-refactoring",
             "confidence": "thirdParty",
+            "evidenceStatus": "unknown",
             "sampleContext": null,
             "secondaryMetrics": {},
             "context": {
@@ -2243,6 +2601,7 @@
             "publishedAt": "2026-09-12",
             "sourceUrl": "https://labs.scale.com/leaderboard/sweatlas-qna",
             "confidence": "thirdParty",
+            "evidenceStatus": "unknown",
             "sampleContext": null,
             "secondaryMetrics": {},
             "context": {
@@ -2270,6 +2629,7 @@
             "publishedAt": "2026-09-09",
             "sourceUrl": "https://artificialanalysis.ai/articles/benchmarking-gpt-6-astra",
             "confidence": "thirdParty",
+            "evidenceStatus": "unknown",
             "sampleContext": null,
             "secondaryMetrics": {},
             "context": {
@@ -2302,6 +2662,7 @@
             "publishedAt": "2026-09-07",
             "sourceUrl": "https://artificialanalysis.ai/articles/artificial-analysis-intelligence-index-v4-3",
             "confidence": "thirdParty",
+            "evidenceStatus": "unknown",
             "sampleContext": null,
             "secondaryMetrics": {},
             "context": {
@@ -2328,6 +2689,7 @@
             "publishedAt": "2026-09-01",
             "sourceUrl": "https://artificialanalysis.ai/articles/claude-fable-5-1",
             "confidence": "thirdParty",
+            "evidenceStatus": "unknown",
             "sampleContext": null,
             "secondaryMetrics": {},
             "context": {
@@ -2355,6 +2717,7 @@
             "publishedAt": "2026-09-01",
             "sourceUrl": "https://www.coderabbit.ai/blog/fable-5-1-model-review",
             "confidence": "thirdParty",
+            "evidenceStatus": "unknown",
             "sampleContext": null,
             "secondaryMetrics": {
               "latencyMilliseconds": 1118000
@@ -2383,6 +2746,7 @@
             "publishedAt": "2026-09-01",
             "sourceUrl": "https://www.coderabbit.ai/blog/fable-5-1-model-review",
             "confidence": "thirdParty",
+            "evidenceStatus": "unknown",
             "sampleContext": null,
             "secondaryMetrics": {
               "latencyMilliseconds": 1118000
@@ -2411,6 +2775,7 @@
             "publishedAt": "2026-09-01",
             "sourceUrl": "https://www.coderabbit.ai/blog/fable-5-1-model-review",
             "confidence": "thirdParty",
+            "evidenceStatus": "unknown",
             "sampleContext": null,
             "secondaryMetrics": {
               "latencyMilliseconds": 1296000
@@ -2439,6 +2804,7 @@
             "publishedAt": "2026-09-01",
             "sourceUrl": "https://www.coderabbit.ai/blog/fable-5-1-model-review",
             "confidence": "thirdParty",
+            "evidenceStatus": "unknown",
             "sampleContext": null,
             "secondaryMetrics": {
               "latencyMilliseconds": 1296000
@@ -2512,7 +2878,7 @@
           ],
           "displayName": "Claude Fable 5.1"
         },
-        "taskStudiesAsOfDate": "2026-08-12"
+        "taskStudiesAsOfDate": "2026-09-25"
       },
       "modelId": "claude-fable-5-1",
       "vendor": "anthropic",
@@ -2564,8 +2930,8 @@
       "releaseDate": "2026-09-22",
       "releaseDateSource": "https://platform.claude.com/docs/en/models/opus-5-5/overview",
       "policy": {
-        "version": "2026-09-24",
-        "evidenceAsOfDate": "2026-07-24",
+        "version": "2026-09-25",
+        "evidenceAsOfDate": "2026-09-25",
         "reason": "Anthropic documents low/medium/high/xhigh/max with provider default medium for Claude Opus 5.5. Claude Code 2.1.281 execution reported the canonical model in modelUsage; 2.1.270 silently fell back after an unrecognized-model warning, so 2.1.281 is the minimum observed CLI version. Selectable for explicit evaluation, compatibility comparison, and operator-pinned core tasks; no comparable local completion or review cohort is available. This support adds no default tier, fallback equivalence, or automatic migration.",
         "workflowRoles": [
           "coreTask"
@@ -2577,7 +2943,7 @@
         "external": [],
         "taskStudies": [],
         "assessment": null,
-        "taskStudiesAsOfDate": "2026-08-12"
+        "taskStudiesAsOfDate": "2026-09-25"
       },
       "modelId": "claude-opus-5-5",
       "vendor": "anthropic",
@@ -2629,8 +2995,8 @@
       "releaseDate": "2026-03-17",
       "releaseDateSource": "https://openai.com/index/introducing-gpt-5-4-mini-and-nano/",
       "policy": {
-        "version": "2026-09-24",
-        "evidenceAsOfDate": "2026-07-24",
+        "version": "2026-09-25",
+        "evidenceAsOfDate": "2026-09-25",
         "reason": "Role exception for bounded decisions over compact structured evidence; not a core-task route.",
         "workflowRoles": [
           "boundedPipelineDecision"
@@ -2659,6 +3025,22 @@
             "scenarioCount": 0,
             "outcomeRate": null,
             "costPerSuccessfulOutcome": null,
+            "benchmarkStatus": "GPT-6 prior is provisional; no qualifying local completion cohort. Historical measurements remain separately attributed.",
+            "references": [
+              "docs/system/domains/model-routing-policy.md"
+            ]
+          },
+          {
+            "id": "graphical-quality-judgment",
+            "label": "Graphical-quality judgment (historical baseline)",
+            "status": "policyBaseline",
+            "efforts": [
+              "high"
+            ],
+            "primaryRecommendation": true,
+            "scenarioCount": 0,
+            "outcomeRate": null,
+            "costPerSuccessfulOutcome": null,
             "benchmarkStatus": "Planned slice; bounded-decision policy baseline is active.",
             "references": [
               "docs/system/domains/model-routing-policy.md"
@@ -2675,6 +3057,22 @@
             "scenarioCount": 0,
             "outcomeRate": null,
             "costPerSuccessfulOutcome": null,
+            "benchmarkStatus": "GPT-6 prior is provisional; no qualifying local completion cohort. Historical measurements remain separately attributed.",
+            "references": [
+              "docs/system/domains/model-routing-policy.md"
+            ]
+          },
+          {
+            "id": "consistency-checking",
+            "label": "Consistency checking (historical baseline)",
+            "status": "policyBaseline",
+            "efforts": [
+              "high"
+            ],
+            "primaryRecommendation": true,
+            "scenarioCount": 0,
+            "outcomeRate": null,
+            "costPerSuccessfulOutcome": null,
             "benchmarkStatus": "Planned slice; bounded-decision policy baseline is active.",
             "references": [
               "docs/system/domains/model-routing-policy.md"
@@ -2682,7 +3080,7 @@
           }
         ],
         "assessment": null,
-        "taskStudiesAsOfDate": "2026-08-12"
+        "taskStudiesAsOfDate": "2026-09-25"
       },
       "modelId": "gpt-5.4-mini",
       "vendor": "openai",
@@ -2732,8 +3130,8 @@
       "releaseDate": "2026-06-30",
       "releaseDateSource": "https://platform.claude.com/docs/en/models/sonnet-5/overview",
       "policy": {
-        "version": "2026-09-24",
-        "evidenceAsOfDate": "2026-07-24",
+        "version": "2026-09-25",
+        "evidenceAsOfDate": "2026-09-25",
         "reason": "Small favorable Claude Sonnet 5/high feature cohort; use only as an equivalent-capability provider fallback.",
         "workflowRoles": [
           "coreTask"
@@ -2763,6 +3161,7 @@
             "publishedAt": "2026-09-12",
             "sourceUrl": "https://hub.harborframework.com/datasets/terminal-bench/terminal-bench/4/leaderboards/4-0-0/rows/8180b9e4-4990-43d0-b906-cd8b43adaaa2",
             "confidence": "thirdParty",
+            "evidenceStatus": "unknown",
             "sampleContext": null,
             "secondaryMetrics": {
               "outputTokensPerTask": 353330,
@@ -2803,6 +3202,7 @@
             "publishedAt": "2026-09-12",
             "sourceUrl": "https://deepswe.datacurve.ai/",
             "confidence": "thirdParty",
+            "evidenceStatus": "unknown",
             "sampleContext": null,
             "secondaryMetrics": {
               "outputTokensPerTask": 214000,
@@ -2838,6 +3238,7 @@
             "publishedAt": "2026-08-09",
             "sourceUrl": "https://github.com/agent-orc/token-economy/blob/main/benchmarks/results/palindrome-repair/20260809T092240107Z.report.json",
             "confidence": "ownRun",
+            "evidenceStatus": "unknown",
             "sampleContext": "palindrome-repair: claude-sonnet-5/high passed 3 of 3 isolated attempts (100%).",
             "secondaryMetrics": {},
             "context": null,
@@ -2856,7 +3257,7 @@
             "scenarioCount": 0,
             "outcomeRate": null,
             "costPerSuccessfulOutcome": null,
-            "benchmarkStatus": "Planned class-specific suite; canonical policy baseline is active.",
+            "benchmarkStatus": "GPT-6 prior is provisional; no qualifying local completion cohort. Historical measurements remain separately attributed.",
             "references": [
               "docs/system/domains/model-routing-policy.md"
             ]
@@ -2872,10 +3273,9 @@
             "scenarioCount": 0,
             "outcomeRate": null,
             "costPerSuccessfulOutcome": null,
-            "benchmarkStatus": "Planned class-specific suite; operator strong-capability floor is active.",
+            "benchmarkStatus": "GPT-6 prior is provisional; no qualifying local completion cohort. Historical measurements remain separately attributed.",
             "references": [
-              "docs/operations/evidence-base/recommendation-semantics.md",
-              "docs/operations/evidence-base/evidence-map.md"
+              "docs/system/domains/model-routing-policy.md"
             ]
           },
           {
@@ -2889,29 +3289,25 @@
             "scenarioCount": 0,
             "outcomeRate": null,
             "costPerSuccessfulOutcome": null,
-            "benchmarkStatus": "Planned class-specific suite; operator strong-capability floor is active.",
+            "benchmarkStatus": "GPT-6 prior is provisional; no qualifying local completion cohort. Historical measurements remain separately attributed.",
             "references": [
-              "docs/operations/evidence-base/recommendation-semantics.md",
-              "docs/operations/evidence-base/evidence-map.md"
+              "docs/system/domains/model-routing-policy.md"
             ]
           },
           {
             "id": "feature",
             "label": "Feature and bug implementation",
-            "status": "controlledCodingEvidence",
+            "status": "policyBaseline",
             "efforts": [
               "high"
             ],
             "primaryRecommendation": false,
-            "scenarioCount": 4,
+            "scenarioCount": 0,
             "outcomeRate": null,
             "costPerSuccessfulOutcome": null,
-            "benchmarkStatus": "Controlled pilot complete; below the 20-sample validation gate.",
+            "benchmarkStatus": "GPT-6 prior is provisional; no qualifying local completion cohort. Historical measurements remain separately attributed.",
             "references": [
-              "benchmarks/results/curated-hard-coding-off-by-one/20260808T161705055Z.json",
-              "benchmarks/results/curated-hard-coding-unicode-locale/20260808T161855489Z.json",
-              "benchmarks/results/curated-hard-coding-cross-file/20260808T162154930Z.json",
-              "benchmarks/results/curated-hard-coding-underspecified/20260808T162707845Z.json"
+              "docs/system/domains/model-routing-policy.md"
             ]
           },
           {
@@ -2925,7 +3321,7 @@
             "scenarioCount": 0,
             "outcomeRate": null,
             "costPerSuccessfulOutcome": null,
-            "benchmarkStatus": "Planned class-specific suite; canonical policy baseline is active.",
+            "benchmarkStatus": "GPT-6 prior is provisional; no qualifying local completion cohort. Historical measurements remain separately attributed.",
             "references": [
               "docs/system/domains/model-routing-policy.md"
             ]
@@ -2933,19 +3329,17 @@
           {
             "id": "html-ui-implementation",
             "label": "HTML/UI implementation",
-            "status": "controlledPilot",
+            "status": "policyBaseline",
             "efforts": [
               "high"
             ],
             "primaryRecommendation": false,
-            "scenarioCount": 2,
+            "scenarioCount": 0,
             "outcomeRate": null,
             "costPerSuccessfulOutcome": null,
-            "benchmarkStatus": "Controlled two-scenario pilot complete; below the 20-attempt and five-scenario qualification gates.",
+            "benchmarkStatus": "GPT-6 prior is provisional; no qualifying local completion cohort. Historical measurements remain separately attributed.",
             "references": [
-              "benchmarks/results/html-ui-incident-console/20260812T083546713Z.json",
-              "benchmarks/results/html-ui-billing-onboarding/20260812T084429463Z.json",
-              "benchmarks/task-class-studies/html-ui-v1.json"
+              "docs/system/domains/model-routing-policy.md"
             ]
           },
           {
@@ -2959,14 +3353,14 @@
             "scenarioCount": 0,
             "outcomeRate": null,
             "costPerSuccessfulOutcome": null,
-            "benchmarkStatus": "Planned slice; canonical policy baseline is active.",
+            "benchmarkStatus": "GPT-6 prior is provisional; no qualifying local completion cohort. Historical measurements remain separately attributed.",
             "references": [
               "docs/system/domains/model-routing-policy.md"
             ]
           }
         ],
         "assessment": null,
-        "taskStudiesAsOfDate": "2026-08-12"
+        "taskStudiesAsOfDate": "2026-09-25"
       },
       "modelId": "claude-sonnet-5",
       "vendor": "anthropic",
@@ -3018,8 +3412,8 @@
       "releaseDate": "2025-08-05",
       "releaseDateSource": "https://platform.claude.com/docs/en/release-notes/overview#august-5-2025",
       "policy": {
-        "version": "2026-09-24",
-        "evidenceAsOfDate": "2026-07-24",
+        "version": "2026-09-25",
+        "evidenceAsOfDate": "2026-09-25",
         "reason": "Retires 2026-08-05.",
         "workflowRoles": [],
         "routes": [],
@@ -3029,7 +3423,7 @@
         "external": [],
         "taskStudies": [],
         "assessment": null,
-        "taskStudiesAsOfDate": "2026-08-12"
+        "taskStudiesAsOfDate": "2026-09-25"
       },
       "modelId": "claude-opus-4-1",
       "vendor": "anthropic",
@@ -3080,8 +3474,8 @@
       "releaseDate": "2026-06-09",
       "releaseDateSource": "https://platform.claude.com/docs/en/models/fable-5/overview",
       "policy": {
-        "version": "2026-09-24",
-        "evidenceAsOfDate": "2026-07-24",
+        "version": "2026-09-25",
+        "evidenceAsOfDate": "2026-09-25",
         "reason": "Known to the price catalog but not qualified by the authoritative routing policy.",
         "workflowRoles": [],
         "routes": [],
@@ -3101,6 +3495,7 @@
             "publishedAt": "2026-09-12",
             "sourceUrl": "https://hub.harborframework.com/datasets/terminal-bench/terminal-bench/4/leaderboards/4-0-0/rows/36c077e0-4879-4444-b315-8532d66401d6",
             "confidence": "thirdParty",
+            "evidenceStatus": "unknown",
             "sampleContext": null,
             "secondaryMetrics": {
               "outputTokensPerTask": 177636,
@@ -3141,6 +3536,7 @@
             "publishedAt": "2026-09-12",
             "sourceUrl": "https://deepswe.datacurve.ai/",
             "confidence": "thirdParty",
+            "evidenceStatus": "unknown",
             "sampleContext": null,
             "secondaryMetrics": {
               "outputTokensPerTask": 80000,
@@ -3167,7 +3563,7 @@
         ],
         "taskStudies": [],
         "assessment": null,
-        "taskStudiesAsOfDate": "2026-08-12"
+        "taskStudiesAsOfDate": "2026-09-25"
       },
       "modelId": "claude-fable-5",
       "vendor": "anthropic",
@@ -3219,10 +3615,12 @@
       "releaseDate": "2026-07-24",
       "releaseDateSource": "https://platform.claude.com/docs/en/models/opus-5/overview",
       "policy": {
-        "version": "2026-09-24",
-        "evidenceAsOfDate": "2026-07-24",
-        "reason": "Known to the price catalog but not qualified by the authoritative routing policy.",
-        "workflowRoles": [],
+        "version": "2026-09-25",
+        "evidenceAsOfDate": "2026-09-25",
+        "reason": "Retained Anthropic vendor override for explicit operator pins, subject to task correctness floors. No automatic equivalence to Sol/xhigh is established.",
+        "workflowRoles": [
+          "coreTask"
+        ],
         "routes": [],
         "fallbacks": []
       },
@@ -3240,6 +3638,7 @@
             "publishedAt": "2026-09-12",
             "sourceUrl": "https://hub.harborframework.com/datasets/terminal-bench/terminal-bench/4/leaderboards/4-0-0/rows/d71ac3d0-da36-49cb-89d9-323136e77111",
             "confidence": "thirdParty",
+            "evidenceStatus": "unknown",
             "sampleContext": null,
             "secondaryMetrics": {
               "outputTokensPerTask": 200037,
@@ -3280,6 +3679,7 @@
             "publishedAt": "2026-09-12",
             "sourceUrl": "https://labs.scale.com/leaderboard/sweatlas-tw",
             "confidence": "thirdParty",
+            "evidenceStatus": "unknown",
             "sampleContext": null,
             "secondaryMetrics": {},
             "context": {
@@ -3309,6 +3709,7 @@
             "publishedAt": "2026-09-12",
             "sourceUrl": "https://labs.scale.com/leaderboard/sweatlas-qna",
             "confidence": "thirdParty",
+            "evidenceStatus": "unknown",
             "sampleContext": null,
             "secondaryMetrics": {},
             "context": {
@@ -3336,6 +3737,7 @@
             "publishedAt": "2026-09-12",
             "sourceUrl": "https://deepswe.datacurve.ai/",
             "confidence": "thirdParty",
+            "evidenceStatus": "unknown",
             "sampleContext": null,
             "secondaryMetrics": {
               "outputTokensPerTask": 118000,
@@ -3371,6 +3773,7 @@
             "publishedAt": "2026-09-12",
             "sourceUrl": "https://artificialanalysis.ai/models/claude-opus-5-xhigh",
             "confidence": "thirdParty",
+            "evidenceStatus": "unknown",
             "sampleContext": null,
             "secondaryMetrics": {
               "costPerTaskUsd": 4.88
@@ -3400,6 +3803,7 @@
             "publishedAt": "2026-09-12",
             "sourceUrl": "https://artificialanalysis.ai/models/claude-opus-5",
             "confidence": "thirdParty",
+            "evidenceStatus": "unknown",
             "sampleContext": null,
             "secondaryMetrics": {
               "costPerTaskUsd": 5.86
@@ -3429,6 +3833,7 @@
             "publishedAt": "2026-09-12",
             "sourceUrl": "https://artificialanalysis.ai/models/claude-opus-5-high",
             "confidence": "thirdParty",
+            "evidenceStatus": "unknown",
             "sampleContext": null,
             "secondaryMetrics": {
               "costPerTaskUsd": 3.61
@@ -3458,6 +3863,7 @@
             "publishedAt": "2026-09-09",
             "sourceUrl": "https://artificialanalysis.ai/articles/benchmarking-gpt-6-astra",
             "confidence": "thirdParty",
+            "evidenceStatus": "unknown",
             "sampleContext": null,
             "secondaryMetrics": {},
             "context": {
@@ -3489,6 +3895,7 @@
             "publishedAt": "2026-09-04",
             "sourceUrl": "https://www.coderabbit.ai/blog/gpt-6-astra-code-review-evaluation",
             "confidence": "thirdParty",
+            "evidenceStatus": "unknown",
             "sampleContext": null,
             "secondaryMetrics": {},
             "context": {
@@ -3514,6 +3921,7 @@
             "publishedAt": "2026-09-04",
             "sourceUrl": "https://www.coderabbit.ai/blog/gpt-6-astra-code-review-evaluation",
             "confidence": "thirdParty",
+            "evidenceStatus": "unknown",
             "sampleContext": null,
             "secondaryMetrics": {},
             "context": {
@@ -3539,6 +3947,7 @@
             "publishedAt": "2026-07-24",
             "sourceUrl": "https://artificialanalysis.ai/articles/opus-5",
             "confidence": "thirdParty",
+            "evidenceStatus": "unknown",
             "sampleContext": null,
             "secondaryMetrics": {},
             "context": {
@@ -3566,6 +3975,7 @@
             "publishedAt": "2026-07-24",
             "sourceUrl": "https://www.coderabbit.ai/blog/opus-5-model-review",
             "confidence": "thirdParty",
+            "evidenceStatus": "unknown",
             "sampleContext": null,
             "secondaryMetrics": {},
             "context": {
@@ -3594,6 +4004,7 @@
             "publishedAt": "2026-07-24",
             "sourceUrl": "https://www.coderabbit.ai/blog/opus-5-model-review",
             "confidence": "thirdParty",
+            "evidenceStatus": "unknown",
             "sampleContext": null,
             "secondaryMetrics": {},
             "context": {
@@ -3622,6 +4033,7 @@
             "publishedAt": "2026-07-24",
             "sourceUrl": "https://www.coderabbit.ai/blog/opus-5-model-review",
             "confidence": "thirdParty",
+            "evidenceStatus": "unknown",
             "sampleContext": null,
             "secondaryMetrics": {},
             "context": {
@@ -3650,6 +4062,7 @@
             "publishedAt": "2026-07-24",
             "sourceUrl": "https://www.coderabbit.ai/blog/opus-5-model-review",
             "confidence": "thirdParty",
+            "evidenceStatus": "unknown",
             "sampleContext": null,
             "secondaryMetrics": {},
             "context": {
@@ -3678,6 +4091,7 @@
             "publishedAt": "2026-07-24",
             "sourceUrl": "https://www.coderabbit.ai/blog/opus-5-model-review",
             "confidence": "thirdParty",
+            "evidenceStatus": "unknown",
             "sampleContext": null,
             "secondaryMetrics": {},
             "context": {
@@ -3706,6 +4120,7 @@
             "publishedAt": "2026-07-24",
             "sourceUrl": "https://www.coderabbit.ai/blog/opus-5-model-review",
             "confidence": "thirdParty",
+            "evidenceStatus": "unknown",
             "sampleContext": null,
             "secondaryMetrics": {},
             "context": {
@@ -3734,6 +4149,7 @@
             "publishedAt": "2026-07-24",
             "sourceUrl": "https://www.coderabbit.ai/blog/opus-5-model-review",
             "confidence": "thirdParty",
+            "evidenceStatus": "unknown",
             "sampleContext": null,
             "secondaryMetrics": {},
             "context": {
@@ -3762,6 +4178,7 @@
             "publishedAt": "2026-07-24",
             "sourceUrl": "https://www.coderabbit.ai/blog/opus-5-model-review",
             "confidence": "thirdParty",
+            "evidenceStatus": "unknown",
             "sampleContext": null,
             "secondaryMetrics": {},
             "context": {
@@ -3845,7 +4262,7 @@
           ],
           "displayName": "Claude Opus 5"
         },
-        "taskStudiesAsOfDate": "2026-08-12"
+        "taskStudiesAsOfDate": "2026-09-25"
       },
       "modelId": "claude-opus-5",
       "vendor": "anthropic",
@@ -3887,17 +4304,17 @@
       "restricted": false,
       "deprecated": false,
       "costUnconfirmed": false,
-      "selectionStatus": "unsupported",
-      "evidenceStatus": "unknown",
-      "provisional": false
+      "selectionStatus": "selectable",
+      "evidenceStatus": "provisional",
+      "provisional": true
     },
     {
       "displayName": "Claude Opus 4.8",
       "releaseDate": "2026-05-28",
       "releaseDateSource": "https://platform.claude.com/docs/en/release-notes/overview#may-28-2026",
       "policy": {
-        "version": "2026-09-24",
-        "evidenceAsOfDate": "2026-07-24",
+        "version": "2026-09-25",
+        "evidenceAsOfDate": "2026-09-25",
         "reason": "Known to the price catalog but not qualified by the authoritative routing policy.",
         "workflowRoles": [],
         "routes": [],
@@ -3917,6 +4334,7 @@
             "publishedAt": "2026-09-12",
             "sourceUrl": "https://hub.harborframework.com/datasets/terminal-bench/terminal-bench/4/leaderboards/4-0-0/rows/952b4217-421f-4d14-849b-9968fcb2063b",
             "confidence": "thirdParty",
+            "evidenceStatus": "unknown",
             "sampleContext": null,
             "secondaryMetrics": {
               "outputTokensPerTask": 269131,
@@ -3957,6 +4375,7 @@
             "publishedAt": "2026-09-12",
             "sourceUrl": "https://deepswe.datacurve.ai/",
             "confidence": "thirdParty",
+            "evidenceStatus": "unknown",
             "sampleContext": null,
             "secondaryMetrics": {
               "outputTokensPerTask": 135000,
@@ -3983,7 +4402,7 @@
         ],
         "taskStudies": [],
         "assessment": null,
-        "taskStudiesAsOfDate": "2026-08-12"
+        "taskStudiesAsOfDate": "2026-09-25"
       },
       "modelId": "claude-opus-4-8",
       "vendor": "anthropic",
@@ -4034,8 +4453,8 @@
       "releaseDate": "2026-04-16",
       "releaseDateSource": "https://platform.claude.com/docs/en/release-notes/overview#april-16-2026",
       "policy": {
-        "version": "2026-09-24",
-        "evidenceAsOfDate": "2026-07-24",
+        "version": "2026-09-25",
+        "evidenceAsOfDate": "2026-09-25",
         "reason": "Known to the price catalog but not qualified by the authoritative routing policy.",
         "workflowRoles": [],
         "routes": [],
@@ -4045,7 +4464,7 @@
         "external": [],
         "taskStudies": [],
         "assessment": null,
-        "taskStudiesAsOfDate": "2026-08-12"
+        "taskStudiesAsOfDate": "2026-09-25"
       },
       "modelId": "claude-opus-4-7",
       "vendor": "anthropic",
@@ -4096,8 +4515,8 @@
       "releaseDate": "2026-02-05",
       "releaseDateSource": "https://platform.claude.com/docs/en/models/opus-4-6/overview",
       "policy": {
-        "version": "2026-09-24",
-        "evidenceAsOfDate": "2026-07-24",
+        "version": "2026-09-25",
+        "evidenceAsOfDate": "2026-09-25",
         "reason": "Known to the price catalog but not qualified by the authoritative routing policy.",
         "workflowRoles": [],
         "routes": [],
@@ -4107,7 +4526,7 @@
         "external": [],
         "taskStudies": [],
         "assessment": null,
-        "taskStudiesAsOfDate": "2026-08-12"
+        "taskStudiesAsOfDate": "2026-09-25"
       },
       "modelId": "claude-opus-4-6",
       "vendor": "anthropic",
@@ -4158,8 +4577,8 @@
       "releaseDate": "2025-11-24",
       "releaseDateSource": "https://platform.claude.com/docs/en/models/opus-4-5/overview",
       "policy": {
-        "version": "2026-09-24",
-        "evidenceAsOfDate": "2026-07-24",
+        "version": "2026-09-25",
+        "evidenceAsOfDate": "2026-09-25",
         "reason": "Known to the price catalog but not qualified by the authoritative routing policy.",
         "workflowRoles": [],
         "routes": [],
@@ -4169,7 +4588,7 @@
         "external": [],
         "taskStudies": [],
         "assessment": null,
-        "taskStudiesAsOfDate": "2026-08-12"
+        "taskStudiesAsOfDate": "2026-09-25"
       },
       "modelId": "claude-opus-4-5",
       "vendor": "anthropic",
@@ -4220,8 +4639,8 @@
       "releaseDate": "2026-02-17",
       "releaseDateSource": "https://platform.claude.com/docs/en/models/sonnet-4-6/overview",
       "policy": {
-        "version": "2026-09-24",
-        "evidenceAsOfDate": "2026-07-24",
+        "version": "2026-09-25",
+        "evidenceAsOfDate": "2026-09-25",
         "reason": "Known to the price catalog but not qualified by the authoritative routing policy.",
         "workflowRoles": [],
         "routes": [],
@@ -4231,7 +4650,7 @@
         "external": [],
         "taskStudies": [],
         "assessment": null,
-        "taskStudiesAsOfDate": "2026-08-12"
+        "taskStudiesAsOfDate": "2026-09-25"
       },
       "modelId": "claude-sonnet-4-6",
       "vendor": "anthropic",
@@ -4283,8 +4702,8 @@
       "releaseDate": "2025-09-29",
       "releaseDateSource": "https://platform.claude.com/docs/en/release-notes/overview#september-29-2025",
       "policy": {
-        "version": "2026-09-24",
-        "evidenceAsOfDate": "2026-07-24",
+        "version": "2026-09-25",
+        "evidenceAsOfDate": "2026-09-25",
         "reason": "Known to the price catalog but not qualified by the authoritative routing policy.",
         "workflowRoles": [],
         "routes": [],
@@ -4294,7 +4713,7 @@
         "external": [],
         "taskStudies": [],
         "assessment": null,
-        "taskStudiesAsOfDate": "2026-08-12"
+        "taskStudiesAsOfDate": "2026-09-25"
       },
       "modelId": "claude-sonnet-4-5",
       "vendor": "anthropic",
@@ -4346,10 +4765,12 @@
       "releaseDate": "2025-10-15",
       "releaseDateSource": "https://platform.claude.com/docs/en/models/haiku-4-5/overview",
       "policy": {
-        "version": "2026-09-24",
-        "evidenceAsOfDate": "2026-07-24",
-        "reason": "Known to the price catalog but not qualified by the authoritative routing policy.",
-        "workflowRoles": [],
+        "version": "2026-09-25",
+        "evidenceAsOfDate": "2026-09-25",
+        "reason": "Retained Anthropic vendor override for explicit operator pins, subject to task correctness floors. No automatic equivalence to Sol/xhigh is established.",
+        "workflowRoles": [
+          "coreTask"
+        ],
         "routes": [],
         "fallbacks": []
       },
@@ -4357,7 +4778,7 @@
         "external": [],
         "taskStudies": [],
         "assessment": null,
-        "taskStudiesAsOfDate": "2026-08-12"
+        "taskStudiesAsOfDate": "2026-09-25"
       },
       "modelId": "claude-haiku-4-5",
       "vendor": "anthropic",
@@ -4397,17 +4818,17 @@
       "restricted": false,
       "deprecated": false,
       "costUnconfirmed": false,
-      "selectionStatus": "unsupported",
-      "evidenceStatus": "unknown",
-      "provisional": false
+      "selectionStatus": "selectable",
+      "evidenceStatus": "provisional",
+      "provisional": true
     },
     {
       "displayName": "GPT-5.5",
       "releaseDate": "2026-04-23",
       "releaseDateSource": "https://openai.com/index/introducing-gpt-5-5/",
       "policy": {
-        "version": "2026-09-24",
-        "evidenceAsOfDate": "2026-07-24",
+        "version": "2026-09-25",
+        "evidenceAsOfDate": "2026-09-25",
         "reason": "Known to the CLI/price catalog but not a route in policy version 2026-07-24.",
         "workflowRoles": [],
         "routes": [],
@@ -4417,7 +4838,7 @@
         "external": [],
         "taskStudies": [],
         "assessment": null,
-        "taskStudiesAsOfDate": "2026-08-12"
+        "taskStudiesAsOfDate": "2026-09-25"
       },
       "modelId": "gpt-5.5",
       "vendor": "openai",
@@ -4469,8 +4890,8 @@
       "releaseDate": "2026-04-23",
       "releaseDateSource": "https://openai.com/index/introducing-gpt-5-5/",
       "policy": {
-        "version": "2026-09-24",
-        "evidenceAsOfDate": "2026-07-24",
+        "version": "2026-09-25",
+        "evidenceAsOfDate": "2026-09-25",
         "reason": "Known to the API/price catalog but not a route in policy version 2026-07-24.",
         "workflowRoles": [],
         "routes": [],
@@ -4480,7 +4901,7 @@
         "external": [],
         "taskStudies": [],
         "assessment": null,
-        "taskStudiesAsOfDate": "2026-08-12"
+        "taskStudiesAsOfDate": "2026-09-25"
       },
       "modelId": "gpt-5.5-pro",
       "vendor": "openai",
@@ -4530,8 +4951,8 @@
       "releaseDate": "2026-05-07",
       "releaseDateSource": "https://openai.com/index/gpt-5-5-with-trusted-access-for-cyber/",
       "policy": {
-        "version": "2026-09-24",
-        "evidenceAsOfDate": "2026-07-24",
+        "version": "2026-09-25",
+        "evidenceAsOfDate": "2026-09-25",
         "reason": "Limited-preview model for separately approved defenders; catalog coverage does not make it a selectable route in policy version 2026-07-24.",
         "workflowRoles": [],
         "routes": [],
@@ -4541,7 +4962,7 @@
         "external": [],
         "taskStudies": [],
         "assessment": null,
-        "taskStudiesAsOfDate": "2026-08-12"
+        "taskStudiesAsOfDate": "2026-09-25"
       },
       "modelId": "gpt-5.5-cyber-preview",
       "vendor": "openai",
@@ -4593,8 +5014,8 @@
       "releaseDate": "2025-08-07",
       "releaseDateSource": "https://openai.com/index/introducing-gpt-5/",
       "policy": {
-        "version": "2026-09-24",
-        "evidenceAsOfDate": "2026-07-24",
+        "version": "2026-09-25",
+        "evidenceAsOfDate": "2026-09-25",
         "reason": "Known to the CLI/price catalog but not a route in policy version 2026-07-24.",
         "workflowRoles": [],
         "routes": [],
@@ -4604,7 +5025,7 @@
         "external": [],
         "taskStudies": [],
         "assessment": null,
-        "taskStudiesAsOfDate": "2026-08-12"
+        "taskStudiesAsOfDate": "2026-09-25"
       },
       "modelId": "gpt-5",
       "vendor": "openai",
@@ -4656,8 +5077,8 @@
       "releaseDate": "2025-09-15",
       "releaseDateSource": "https://openai.com/index/introducing-upgrades-to-codex/",
       "policy": {
-        "version": "2026-09-24",
-        "evidenceAsOfDate": "2026-07-24",
+        "version": "2026-09-25",
+        "evidenceAsOfDate": "2026-09-25",
         "reason": "Known to the CLI/price catalog but not a route in policy version 2026-07-24.",
         "workflowRoles": [],
         "routes": [],
@@ -4667,7 +5088,7 @@
         "external": [],
         "taskStudies": [],
         "assessment": null,
-        "taskStudiesAsOfDate": "2026-08-12"
+        "taskStudiesAsOfDate": "2026-09-25"
       },
       "modelId": "gpt-5-codex",
       "vendor": "openai",

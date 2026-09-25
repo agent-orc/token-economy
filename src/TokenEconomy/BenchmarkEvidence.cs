@@ -97,6 +97,8 @@ public sealed record BenchmarkEvidenceContext
 /// <summary>One append-only, sourced model/effort measurement.</summary>
 public sealed record BenchmarkResult
 {
+    /// <summary>Local routing maturity, independent of the external publisher's measurement.</summary>
+    public PolicyEvidenceStatus EvidenceStatus { get; init; } = PolicyEvidenceStatus.Unknown;
     public required string Id { get; init; }
     public required string BenchmarkTypeId { get; init; }
     public required ModelId ModelId { get; init; }
@@ -131,6 +133,7 @@ internal sealed record BenchmarkResultDocument
 
 internal sealed record BenchmarkResultJson
 {
+    public PolicyEvidenceStatus EvidenceStatus { get; init; } = PolicyEvidenceStatus.Unknown;
     public required string Id { get; init; }
     public required string BenchmarkTypeId { get; init; }
     public required string ModelId { get; init; }
@@ -236,6 +239,7 @@ public sealed class BenchmarkEvidenceCatalog
                 RetrievalMethod = result.RetrievalMethod,
                 EvidenceExcerpt = result.EvidenceExcerpt,
                 Confidence = result.Confidence,
+                EvidenceStatus = result.EvidenceStatus,
             }),
             schemaVersion: types.SchemaVersion);
     }

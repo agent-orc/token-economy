@@ -1,6 +1,6 @@
 # Model migration catalog
 
-Version: 2026-09-24
+Version: 2026-09-25
 
 The versioned machine source is
 [`src/TokenEconomy/catalog/model-migrations.v1.json`](../src/TokenEconomy/catalog/model-migrations.v1.json),
@@ -56,34 +56,55 @@ benchmark. Astra is supported and has dated premium-class pricing; those facts
 do not authorize automatic migration. External benchmark scores do not replace
 the same-case local evidence required by this gate.
 
-The September 22 successors are proposal-only for the same evidence reason:
+The September 25 policy changes **new-card defaults**, separately from automatic
+migration of existing pins. The September 22 successors remain proposal-only:
 
-- Claude Opus 5 to Claude Opus 5.5 remains premium-to-premium, keeps the 1M
-  context window, and has a compatible ladder, but no identical-case benchmark
-  compares the two models.
-- GPT-5.6 Sol to GPT-6 Sol moves from premium to standard cost, but the observed
-  target ladder omits `minimal` and no identical-case benchmark exists.
-- GPT-5.6 Luna to GPT-6 Luna remains economy-to-economy, but the observed target
-  ladder omits `minimal` and `ultra`, execution availability is not yet
-  verified, and no identical-case benchmark exists.
+- Claude Opus 5 → 5.5: $5 / $0.50 / $25 → $4 / $0.20 / $20 per MTok
+  input/cache/output; premium-to-premium and ladder-compatible, but no identical
+  repository no-regression benchmark. Always-on thinking/tool changes also
+  need compatibility checks. Claude Code 2.1.281 is the minimum observed version.
+- GPT-5.6 Sol → GPT-6 Sol: $4 / $0.40 / $20 → $2 / $0.20 / $10;
+  premium-to-standard. Codex 0.155.0 supports minimal through xhigh, **not ultra**.
+  Source ultra → xhigh is a documented reasoning downgrade, not automatic
+  compatibility. A controlled medium pilot does not certify xhigh or ultra pins.
+- GPT-5.6 Luna → GPT-6 Luna: $0.20 / $0.02 / $1.20 → $0.10 / $0.01 / $0.50;
+  economy-to-economy (same band, lower rates). The source catalogue includes
+  ultra; the new CLI ladder stops at xhigh. Its operator-observed runner probe
+  on September 25 supersedes the old unverified availability note. Controlled
+  no-regression qualification remains missing.
 
-These entries are operator-visible proposals only. They do not alter the
-routing score bands, defaults, task-class recommendation sets, provider
-fallbacks, or the existing `sol` and `luna` aliases.
+These are the operator's September 25 CLI facts; API max benchmarks are separate
+and cannot add CLI levels. Runtime availability and dated target prices must be
+checked on every launch. Bare sol/luna aliases remain GPT-5.6 to preserve pins.
+The [policy](system/domains/model-routing-policy.md) retains scores and floors
+and defines an 80-card local completion cohort plus paired fixture comparisons.
+The TE-57 delivery retains 32 medium hard-case attempts: requested Sol models
+and GPT-5.6 Luna passed 6/8 each; requested GPT-6 Luna passed 5/8, with one
+output-contract failure. All models failed the underspecified case twice.
+None of the 16 retained transport records exposed actual returned model identity,
+so this is inconclusive, not a model-specific noRegression finding. Re-run with
+identity evidence, larger coverage and xhigh comparisons. No vendor claim
+satisfies the noRegression gate.
 
 ## Task-class view
 
 The catalog publishes the five Agent Studio task classes directly. Each
 `recommendedModelSet` is conditional on the canonical score and hard floors;
-it is not an unordered menu from which quota may pick a weaker model.
+it is not an unordered menu from which quota may pick a weaker model. GPT-6
+candidates are listed first; conditional score-band entries remain conditional.
+The richer task-class catalogue publishes separate `gpt6Candidates` and
+`legacyFallbacks`. Legacy alternatives require explicit operator selection;
+they are not silently added to quota-driven equivalent candidates. Website
+prices for both sets are derived from the dated catalogue. Historical measured
+baselines remain under `historicalBaseline` and do not supply GPT-6 outcome rates.
 
 | Task class | Normal route | Escalation | Quota-aware alternative |
 | --- | --- | --- | --- |
-| `chore` | Terra/medium | Sol/medium, then Sol/xhigh only at its floor | Claude Sonnet 5/high for Terra or Sol/medium |
-| `feature` | Terra/medium for clear one-subsystem work | Sol/medium for demanding work; Sol/xhigh at its floor | Claude Sonnet 5/high for Terra or Sol/medium |
-| `bug` | At least Terra/medium for an unclear bug | Sol/medium for broad investigation; Sol/xhigh for critical risk | Claude Sonnet 5/high for Terra or Sol/medium |
-| `dossier` | Sol/medium | Sol/xhigh only when a hard floor applies | Claude Sonnet 5/high for Sol/medium |
-| `mechanical` | Luna/medium | Terra/medium when scope or uncertainty raises the score | Claude Sonnet 5/high only for the Terra route |
+| `chore` | GPT-6 Sol/medium new-card prior; Terra remains the 21–50 score tier | Sol/medium, then Sol/xhigh only at its floor | Claude Sonnet 5/high for Terra or Sol/medium |
+| `feature` | GPT-6 Sol/medium new-card prior; Terra remains the 21–50 score tier | Sol/medium for demanding work; Sol/xhigh at its floor | Claude Sonnet 5/high for Terra or Sol/medium |
+| `bug` | GPT-6 Sol/medium prior; unclear-bug floor remains Terra/medium | Sol/medium for broad investigation; Sol/xhigh for critical risk | Claude Sonnet 5/high for Terra or Sol/medium |
+| `dossier` | GPT-6 Sol/medium | Sol/xhigh only when a hard floor applies | Claude Sonnet 5/high for Sol/medium |
+| `mechanical` | GPT-6 Luna/medium | Terra/medium when scope or uncertainty raises the score | Claude Sonnet 5/high only for the Terra route |
 
 Claude Sonnet 5/high is a provisional equivalent-provider fallback. It is not
 declared equivalent to Sol/xhigh. If no eligible route remains, the
