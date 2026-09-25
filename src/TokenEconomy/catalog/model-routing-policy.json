@@ -7,7 +7,7 @@
     "repositoryPath": "docs/system/domains/model-routing-policy.md",
     "upstreamRepository": "agent-orc/agent-studio",
     "upstreamPath": "docs/system/domains/model-routing-policy.md",
-    "contentSha256": "99a7e3182aadb6e70a9c671699753dbf9a80d1aec1a57d04cbe049c60cbe9507",
+    "contentSha256": "4d54f68f0e3c9b3ac967a083dda5d8fc8753f9dfe254aadea7cd8d5ac0510b43",
     "synchronization": "The core ladder derives from the 2026-07-24 Agent Studio document. The 2026-09-24 Token Economy revision adds local Claude Opus 5.5, GPT-6 Sol, and GPT-6 Luna support alongside Astra and Fable 5.1 without changing that ladder or its evidence date; it does not claim an upstream update. Policy changes require a new policyVersion, refreshed hash, updated machine data, regenerated public view, and passing drift tests in one change."
   },
   "providers": [

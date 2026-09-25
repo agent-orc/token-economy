@@ -153,6 +153,37 @@ that substrate instead.
 After two semantic failures at the stronger tier, stop model escalation. Narrow
 the task, improve its evidence, or ask for a human decision.
 
+## Human-friendly language constraint
+
+Human-friendly language is a dated constraint on a model, language, and
+thinking level, not a capability-tier change. `LanguageCapabilityCatalog`
+keeps readability, warmth, directness, absence of AI mannerisms, tone adherence,
+and factual restraint separate. A requested overall or per-dimension floor
+must be met by evidence for the exact execution configuration.
+
+Apply the concrete task's correctness score and hard floors first. Text work
+(copy, documentation, operator messages, and replies) may use the existing
+`DocEdit` class prior, but consequential content still inherits the task's
+correctness floor. A cheaper language-qualified model cannot lower that floor,
+change a declared provider equivalence, or become an automatic fallback.
+If no qualified route has sufficient language evidence, wait or obtain evidence.
+
+`SuggestModel` and `EvaluateModel` accept an optional
+`HumanFriendlyLanguageRequirement`. Under tight or critical budget pressure,
+the constrained compatibility menu ranks passing models by measured sample
+cost and keeps the established preference for cost ties. This is a menu for
+an already established correctness route, not admission authority. Unknown
+scores/costs remain unknown; unverified claims cannot meet a constraint, and
+provisional measurements require explicit caller opt-in.
+
+The seed dated 2026-09-25 records methodological public research with unknown
+model-specific scores. It makes no claim that any model clears the text prior.
+Voice Lint imports supply measured rows with immutable source provenance.
+See [the capability and intake contract](../../human-friendly-language.md)
+and [the API](../../model-routing-api.md#human-friendly-language-capability).
+No machine policy threshold, route, tier, or fallback changed; `policyVersion`
+therefore remains unchanged.
+
 ## Benchmark basis
 
 AGT-2243 produced `results/model-benchmark.md` and

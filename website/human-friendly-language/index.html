@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Human-friendly language · Token Economy</title>
+  <meta name="description" content="Dated evidence for plain, warm, direct model language in German and English, with quality thresholds and measured sample costs.">
+  <link rel="canonical" href="https://agent-orchestrator.dev/token-economy/human-friendly-language/">
+  <link rel="stylesheet" href="../evidence-page.css">
+  <link rel="stylesheet" href="../navigation.css">
+  <link rel="stylesheet" href="../family-navigation.css?v=3">
+  <script src="../navigation.js" defer></script>
+  <script src="language.js" defer></script>
+</head>
+<body>
+<!-- site-navigation:start -->
+<a class="site-skip-link" href="#main-content">Skip to content</a>
+<header class="site-header" data-site-navigation>
+  <div class="site-header-main">
+    <a class="site-brand" href="/token-economy/" aria-label="Token Economy home"><span class="site-brand-mark" aria-hidden="true">¢</span><span>Token Economy</span></a>
+    <button class="site-menu-button" type="button" aria-label="Menu" aria-expanded="false" aria-controls="site-navigation-groups"><span>Menu</span><span class="site-menu-icon" aria-hidden="true"></span></button>
+    <nav class="site-primary-nav" aria-label="Primary navigation">
+      <div class="site-nav-groups" id="site-navigation-groups">
+        <a class="site-nav-direct" href="/token-economy/api/">API</a>
+        <div class="site-nav-group">
+          <button class="site-nav-heading" type="button" aria-expanded="false" aria-controls="site-nav-library">Guides</button>
+          <ul class="site-nav-menu" id="site-nav-library">
+            <li><a href="/token-economy/#why">Overview</a></li>
+            <li><a href="/token-economy/#suggest">Model compatibility</a></li>
+            <li><a href="/token-economy/#install">Install</a></li>
+            <li><a href="/token-economy/api/#costs">Calculate run costs</a></li>
+            <li><a href="/token-economy/api/#routing">Route an attempt</a></li>
+            <li><a href="/token-economy/#model-recommendation">Task complexity</a></li>
+          </ul>
+        </div>
+        <div class="site-nav-group">
+          <button class="site-nav-heading" type="button" aria-expanded="false" aria-controls="site-nav-evidence">Research</button>
+          <ul class="site-nav-menu" id="site-nav-evidence">
+            <li><a href="/token-economy/context-cost/">Context cost explorer</a></li>
+            <li><a href="/token-economy/price-history/">Prices &amp; history</a></li>
+            <li><a href="/token-economy/task-class-routing/">Task studies</a></li>
+            <li><a href="/token-economy/code-review/">Code review</a></li>
+            <li><a href="/token-economy/model-benchmarks/">Price × quality</a></li>
+            <li><a href="/token-economy/#benchmarks">Benchmarks</a></li>
+            <li><a href="/token-economy/evidence/agent-studio-usage/">Usage evidence</a></li>
+            <li><a href="/token-economy/cap-forecast/">Cap forecast</a></li>
+            <li><a href="/token-economy/provider-quota-dashboard/">Quota snapshot</a></li>
+          </ul>
+        </div>
+        <div class="site-nav-group">
+          <button class="site-nav-heading" type="button" aria-expanded="false" aria-controls="site-nav-project">Project</button>
+          <ul class="site-nav-menu" id="site-nav-project">
+            <li><a href="/token-economy/#family">Related projects</a></li>
+            <li><a href="https://github.com/agent-orc/token-economy">GitHub <span aria-hidden="true">↗</span></a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+    <div class="site-utilities" role="group" aria-label="Project and ecosystem links">
+      <a class="site-github-link" href="https://github.com/agent-orc/token-economy" aria-label="Token Economy on GitHub" title="Token Economy on GitHub">
+        <svg class="site-utility-icon" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82A7.65 7.65 0 0 1 8 3.87c.68 0 1.36.09 2 .26 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8Z"/></svg>
+        <span class="site-github-label">GitHub</span>
+      </a>
+      <a class="ao-family-link" data-family-link="3" href="https://agent-orchestrator.dev/" aria-label="Up to Agent Orchestrator (agent-orc)" title="Up to Agent Orchestrator">
+        <svg class="ao-family-up" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m3 8 5-5 5 5M8 3v11"/></svg>
+        <span class="ao-family-name">agent-orc</span>
+      </a>
+    </div>
+  </div>
+</header>
+<!-- site-navigation:end -->
+<main id="main-content" tabindex="-1">
+  <div class="hero"><div class="wrap">
+    <p class="eyebrow">Language evidence</p>
+    <h1>Clear words. Measured quality.</h1>
+    <p class="lead">Compare how plainly, warmly, and directly models write in German and English. Choose the lowest measured cost that clears your quality threshold.</p>
+    <p id="load-status" role="status">Loading dated language evidence…</p>
+    <div class="summary">
+      <div class="card"><span class="metric" id="model-count">—</span>models in the catalogue</div>
+      <div class="card"><span class="metric" id="observed-count">—</span>measured observations</div>
+      <div class="card"><span class="metric" id="study-count">—</span>public studies</div>
+    </div>
+    <p class="callout">Public studies inform the method. A dash means no comparable measurement for this model, language, and thinking level. Provisional research records cannot establish a model ranking.</p>
+    <p><a href="#catalog">Model matrix</a> · <a href="#cost-quality">Cost and quality</a> · <a href="#studies">Study inventory</a> · <a href="#evidence">Dated evidence</a></p>
+    <noscript><p>This page needs JavaScript to display the matrix. <a href="../data/language-capabilities.json">Download the complete evidence data.</a></p></noscript>
+  </div></div>
+  <section id="catalog"><div class="wrap">
+    <h2>Model and language matrix</h2>
+    <p class="sub">Six independent dimensions from 0 to 1; higher is better. Overall is their equally weighted mean. Thinking levels and languages are never pooled.</p>
+    <div class="filters">
+      <label>Language <select id="language"><option value="all">German and English</option><option value="de">German (de)</option><option value="en">English (en)</option></select></label>
+      <label>Thinking level <select id="thinking"><option value="all">All levels</option><option value="unspecified">Not reported</option><option value="minimal">Minimal</option><option value="low">Low</option><option value="medium">Medium</option><option value="high">High</option><option value="xhigh">Extra high</option><option value="max">Max</option><option value="ultra">Ultra</option></select></label>
+    </div>
+    <div class="table-scroll" tabindex="0" role="region" aria-label="Language score matrix"><table>
+      <caption>Latest row of the strongest evidence status for each model, language, and thinking level</caption>
+      <thead><tr><th scope="col">Model</th><th scope="col">Language / effort</th><th scope="col">Readability</th><th scope="col">Warmth</th><th scope="col">Directness</th><th scope="col">No AI mannerisms</th><th scope="col">Tone adherence</th><th scope="col">Factual restraint</th><th scope="col">Overall</th><th scope="col">USD / sample</th><th scope="col">Evidence</th></tr></thead>
+      <tbody id="matrix-body"></tbody>
+    </table></div>
+  </div></section>
+  <section id="cost-quality"><div class="wrap">
+    <h2>What clears your quality threshold?</h2>
+    <p class="sub">Sample costs come from evidence runs, not token list prices. Compare costs within the same language, effort, prompt set, and rating method. USD per quality point is sample cost divided by overall quality; zero quality has no ratio.</p>
+    <div class="filters">
+      <label>Minimum overall <input id="threshold" type="number" min="0" max="1" step="0.05" value="0.75"></label>
+      <label><input id="allow-provisional" type="checkbox"> Include provisional measurements</label>
+    </div>
+    <p id="quality-status" role="status"></p>
+    <div class="table-scroll"><table><caption>Passing measurements, cheapest sample first</caption><thead><tr><th scope="col">Model</th><th scope="col">Language / effort</th><th scope="col">Overall</th><th scope="col">USD / sample</th><th scope="col">USD / quality point</th><th scope="col">Status</th></tr></thead><tbody id="cost-body"></tbody></table></div>
+    <details class="method-details"><summary>Text routing priors</summary><p>Copy, documentation, operator messages, and replies use the existing DocEdit task class. Their prior requires overall ≥ 0.75, readability and absence of AI mannerisms ≥ 0.75, and factual restraint ≥ 0.80 at medium effort, with observed evidence.</p><ul id="priors"></ul><p>Language quality adds a constraint. Concrete-task correctness floors still apply.</p></details>
+  </div></section>
+  <section id="studies"><div class="wrap"><h2>Study inventory</h2><p class="sub">Primary publications and one-line takeaways. Applying their methods to these models remains provisional; the papers do not supply this catalogue’s six scores.</p><div class="slices" id="study-list"></div></div></section>
+  <section id="evidence"><div class="wrap"><h2>Evidence, with dates</h2><p class="sub">All retained records, including earlier observations. Study dates show source verification; imported benchmark timestamps use the result date at UTC midnight, with day precision.</p><div id="evidence-list"></div></div></section>
+  <section><div class="wrap"><h2>Use the capability</h2><pre><code>var requirement = new HumanFriendlyLanguageRequirement
+{
+    Language = "de",
+    MinimumOverall = 0.75m,
+    ThinkingLevel = EffortLevel.Medium,
+    MinimumScores = new() { FactualRestraint = 0.80m },
+};
+var candidates = ModelEfficiencyMatrix.Default.SuggestModel(
+    TaskClass.DocEdit, BudgetPressure.Tight,
+    [Cli.Codex, Cli.ClaudeCode], DateTime.UtcNow, requirement);</code></pre>
+    <p>An empty list means no retained evidence clears the constraint. Voice Lint runs the study; Token Economy imports the shared result file and publishes the evidence.</p>
+    <p><a href="https://github.com/agent-orc/token-economy/blob/main/docs/human-friendly-language.md">Method and import contract</a> · <a href="https://github.com/agent-orc/token-economy/blob/main/docs/model-routing-api.md#human-friendly-language-capability">Typed API</a> · <a href="../data/language-capabilities.json">Download JSON</a> · <a href="../task-class-routing/">Task studies</a></p>
+  </div></section>
+</main>
+<footer><div class="wrap">Token Economy · Dated evidence for model choices · <a href="../">Home</a></div></footer>
+</body>
+</html>

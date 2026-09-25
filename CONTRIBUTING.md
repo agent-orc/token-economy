@@ -22,6 +22,7 @@ The website data step needs Python and is only relevant when you touch
 benchmark results, the backtest snapshot, or the catalog:
 
 ```bash
+python -m pip install -r scripts/requirements-language.txt
 python scripts/generate-website-data.py
 ```
 

@@ -357,5 +357,159 @@
         { "evidenceKind": "policy", "reference": "docs/system/domains/model-routing-policy.md", "summary": "Mini/high is permitted only for compact structured evidence and a deterministic output contract." }
       ]
     }
+  ],
+  "languagePriors": [
+    {
+      "textKind": "copy",
+      "taskClass": "docEdit",
+      "language": "de",
+      "asOfDate": "2026-09-25",
+      "requirement": {
+        "language": "de",
+        "minimumOverall": 0.75,
+        "minimumScores": {
+          "readability": 0.75,
+          "absenceOfAiIsms": 0.75,
+          "factualRestraint": 0.8
+        },
+        "thinkingLevel": "medium",
+        "allowProvisional": false
+      },
+      "candidates": [],
+      "note": "No retained measured row meets the requirement yet. Import Voice Lint evidence; an empty set means wait, not an invented cheapest model."
+    },
+    {
+      "textKind": "copy",
+      "taskClass": "docEdit",
+      "language": "en",
+      "asOfDate": "2026-09-25",
+      "requirement": {
+        "language": "en",
+        "minimumOverall": 0.75,
+        "minimumScores": {
+          "readability": 0.75,
+          "absenceOfAiIsms": 0.75,
+          "factualRestraint": 0.8
+        },
+        "thinkingLevel": "medium",
+        "allowProvisional": false
+      },
+      "candidates": [],
+      "note": "No retained measured row meets the requirement yet. Import Voice Lint evidence; an empty set means wait, not an invented cheapest model."
+    },
+    {
+      "textKind": "documentation",
+      "taskClass": "docEdit",
+      "language": "de",
+      "asOfDate": "2026-09-25",
+      "requirement": {
+        "language": "de",
+        "minimumOverall": 0.75,
+        "minimumScores": {
+          "readability": 0.75,
+          "absenceOfAiIsms": 0.75,
+          "factualRestraint": 0.8
+        },
+        "thinkingLevel": "medium",
+        "allowProvisional": false
+      },
+      "candidates": [],
+      "note": "No retained measured row meets the requirement yet. Import Voice Lint evidence; an empty set means wait, not an invented cheapest model."
+    },
+    {
+      "textKind": "documentation",
+      "taskClass": "docEdit",
+      "language": "en",
+      "asOfDate": "2026-09-25",
+      "requirement": {
+        "language": "en",
+        "minimumOverall": 0.75,
+        "minimumScores": {
+          "readability": 0.75,
+          "absenceOfAiIsms": 0.75,
+          "factualRestraint": 0.8
+        },
+        "thinkingLevel": "medium",
+        "allowProvisional": false
+      },
+      "candidates": [],
+      "note": "No retained measured row meets the requirement yet. Import Voice Lint evidence; an empty set means wait, not an invented cheapest model."
+    },
+    {
+      "textKind": "operatorMessages",
+      "taskClass": "docEdit",
+      "language": "de",
+      "asOfDate": "2026-09-25",
+      "requirement": {
+        "language": "de",
+        "minimumOverall": 0.75,
+        "minimumScores": {
+          "readability": 0.75,
+          "absenceOfAiIsms": 0.75,
+          "factualRestraint": 0.8
+        },
+        "thinkingLevel": "medium",
+        "allowProvisional": false
+      },
+      "candidates": [],
+      "note": "No retained measured row meets the requirement yet. Import Voice Lint evidence; an empty set means wait, not an invented cheapest model."
+    },
+    {
+      "textKind": "operatorMessages",
+      "taskClass": "docEdit",
+      "language": "en",
+      "asOfDate": "2026-09-25",
+      "requirement": {
+        "language": "en",
+        "minimumOverall": 0.75,
+        "minimumScores": {
+          "readability": 0.75,
+          "absenceOfAiIsms": 0.75,
+          "factualRestraint": 0.8
+        },
+        "thinkingLevel": "medium",
+        "allowProvisional": false
+      },
+      "candidates": [],
+      "note": "No retained measured row meets the requirement yet. Import Voice Lint evidence; an empty set means wait, not an invented cheapest model."
+    },
+    {
+      "textKind": "replies",
+      "taskClass": "docEdit",
+      "language": "de",
+      "asOfDate": "2026-09-25",
+      "requirement": {
+        "language": "de",
+        "minimumOverall": 0.75,
+        "minimumScores": {
+          "readability": 0.75,
+          "absenceOfAiIsms": 0.75,
+          "factualRestraint": 0.8
+        },
+        "thinkingLevel": "medium",
+        "allowProvisional": false
+      },
+      "candidates": [],
+      "note": "No retained measured row meets the requirement yet. Import Voice Lint evidence; an empty set means wait, not an invented cheapest model."
+    },
+    {
+      "textKind": "replies",
+      "taskClass": "docEdit",
+      "language": "en",
+      "asOfDate": "2026-09-25",
+      "requirement": {
+        "language": "en",
+        "minimumOverall": 0.75,
+        "minimumScores": {
+          "readability": 0.75,
+          "absenceOfAiIsms": 0.75,
+          "factualRestraint": 0.8
+        },
+        "thinkingLevel": "medium",
+        "allowProvisional": false
+      },
+      "candidates": [],
+      "note": "No retained measured row meets the requirement yet. Import Voice Lint evidence; an empty set means wait, not an invented cheapest model."
+    }
   ]
 }

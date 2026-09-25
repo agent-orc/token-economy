@@ -1,0 +1,503 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://agent-orchestrator.dev/token-economy/language-capabilities.schema.json",
+  "title": "Token Economy human-friendly language capabilities",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "schemaVersion": {
+      "const": 1
+    },
+    "asOfDate": {
+      "type": "string",
+      "format": "date"
+    },
+    "dimensions": {
+      "const": [
+        "readability",
+        "warmth",
+        "directness",
+        "absenceOfAiIsms",
+        "toneAdherence",
+        "factualRestraint"
+      ]
+    },
+    "weights": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "readability": {
+          "const": 1
+        },
+        "warmth": {
+          "const": 1
+        },
+        "directness": {
+          "const": 1
+        },
+        "absenceOfAiIsms": {
+          "const": 1
+        },
+        "toneAdherence": {
+          "const": 1
+        },
+        "factualRestraint": {
+          "const": 1
+        }
+      },
+      "required": [
+        "readability",
+        "warmth",
+        "directness",
+        "absenceOfAiIsms",
+        "toneAdherence",
+        "factualRestraint"
+      ]
+    },
+    "records": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "\\S"
+          },
+          "modelId": {
+            "enum": [
+              "gpt-6-astra",
+              "gpt-6-sol",
+              "gpt-6-luna",
+              "gpt-5.6-sol",
+              "gpt-5.6-terra",
+              "gpt-5.6-luna",
+              "claude-opus-5-5",
+              "claude-opus-5",
+              "claude-sonnet-5",
+              "claude-haiku-4-5",
+              "claude-fable-5-1"
+            ]
+          },
+          "cliId": {
+            "enum": [
+              "codex",
+              "claude-code"
+            ]
+          },
+          "language": {
+            "enum": [
+              "de",
+              "en"
+            ]
+          },
+          "thinkingLevel": {
+            "enum": [
+              "minimal",
+              "low",
+              "medium",
+              "high",
+              "xhigh",
+              "ultra",
+              "max",
+              "unspecified"
+            ]
+          },
+          "status": {
+            "enum": [
+              "unverifiedClaim",
+              "provisional",
+              "observed"
+            ]
+          },
+          "scores": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "readability": {
+                "type": [
+                  "number",
+                  "null"
+                ],
+                "minimum": 0,
+                "maximum": 1
+              },
+              "warmth": {
+                "type": [
+                  "number",
+                  "null"
+                ],
+                "minimum": 0,
+                "maximum": 1
+              },
+              "directness": {
+                "type": [
+                  "number",
+                  "null"
+                ],
+                "minimum": 0,
+                "maximum": 1
+              },
+              "absenceOfAiIsms": {
+                "type": [
+                  "number",
+                  "null"
+                ],
+                "minimum": 0,
+                "maximum": 1
+              },
+              "toneAdherence": {
+                "type": [
+                  "number",
+                  "null"
+                ],
+                "minimum": 0,
+                "maximum": 1
+              },
+              "factualRestraint": {
+                "type": [
+                  "number",
+                  "null"
+                ],
+                "minimum": 0,
+                "maximum": 1
+              }
+            },
+            "required": [
+              "readability",
+              "warmth",
+              "directness",
+              "absenceOfAiIsms",
+              "toneAdherence",
+              "factualRestraint"
+            ]
+          },
+          "overall": {
+            "type": [
+              "number",
+              "null"
+            ],
+            "minimum": 0,
+            "maximum": 1
+          },
+          "costPerSampleUsd": {
+            "type": [
+              "number",
+              "null"
+            ],
+            "minimum": 0
+          },
+          "notes": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "\\S"
+          },
+          "evidence": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "kind": {
+                  "enum": [
+                    "study",
+                    "localBenchmark"
+                  ]
+                },
+                "reference": {
+                  "type": "string",
+                  "minLength": 1,
+                  "pattern": "\\S"
+                },
+                "observedAtUtc": {
+                  "type": "string",
+                  "format": "date-time",
+                  "pattern": "Z$"
+                },
+                "note": {
+                  "type": "string",
+                  "minLength": 1,
+                  "pattern": "\\S"
+                }
+              },
+              "required": [
+                "kind",
+                "reference",
+                "observedAtUtc",
+                "note"
+              ],
+              "allOf": [
+                {
+                  "if": {
+                    "properties": {
+                      "kind": {
+                        "const": "study"
+                      }
+                    }
+                  },
+                  "then": {
+                    "properties": {
+                      "reference": {
+                        "type": "string",
+                        "format": "uri",
+                        "pattern": "^https://"
+                      }
+                    }
+                  },
+                  "else": {
+                    "properties": {
+                      "reference": {
+                        "type": "string",
+                        "pattern": "^benchmarks/human-friendly-language/runs/[A-Za-z0-9][A-Za-z0-9._-]*/$"
+                      }
+                    }
+                  }
+                }
+              ]
+            },
+            "minItems": 1
+          },
+          "provenance": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "sourceRepository": {
+                "type": "string",
+                "pattern": "^https://",
+                "format": "uri"
+              },
+              "sourcePath": {
+                "const": "benchmarks/human-friendly-language/results.json"
+              },
+              "sourceSha256": {
+                "type": "string",
+                "pattern": "^[a-f0-9]{64}$"
+              },
+              "mirrorPath": {
+                "type": "string",
+                "pattern": "^src/TokenEconomy/catalog/language-evidence/[a-f0-9]{64}\\.json$"
+              }
+            },
+            "required": [
+              "sourceRepository",
+              "sourcePath",
+              "sourceSha256",
+              "mirrorPath"
+            ]
+          }
+        },
+        "required": [
+          "id",
+          "modelId",
+          "cliId",
+          "language",
+          "thinkingLevel",
+          "status",
+          "scores",
+          "overall",
+          "costPerSampleUsd",
+          "notes",
+          "evidence"
+        ],
+        "allOf": [
+          {
+            "if": {
+              "properties": {
+                "status": {
+                  "const": "observed"
+                }
+              }
+            },
+            "then": {
+              "required": [
+                "provenance"
+              ],
+              "properties": {
+                "scores": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "readability": {
+                      "type": "number",
+                      "minimum": 0,
+                      "maximum": 1
+                    },
+                    "warmth": {
+                      "type": "number",
+                      "minimum": 0,
+                      "maximum": 1
+                    },
+                    "directness": {
+                      "type": "number",
+                      "minimum": 0,
+                      "maximum": 1
+                    },
+                    "absenceOfAiIsms": {
+                      "type": "number",
+                      "minimum": 0,
+                      "maximum": 1
+                    },
+                    "toneAdherence": {
+                      "type": "number",
+                      "minimum": 0,
+                      "maximum": 1
+                    },
+                    "factualRestraint": {
+                      "type": "number",
+                      "minimum": 0,
+                      "maximum": 1
+                    }
+                  },
+                  "required": [
+                    "readability",
+                    "warmth",
+                    "directness",
+                    "absenceOfAiIsms",
+                    "toneAdherence",
+                    "factualRestraint"
+                  ]
+                },
+                "overall": {
+                  "type": "number",
+                  "minimum": 0,
+                  "maximum": 1
+                },
+                "costPerSampleUsd": {
+                  "type": "number",
+                  "minimum": 0
+                },
+                "thinkingLevel": {
+                  "enum": [
+                    "minimal",
+                    "low",
+                    "medium",
+                    "high",
+                    "xhigh",
+                    "ultra",
+                    "max"
+                  ]
+                },
+                "evidence": {
+                  "contains": {
+                    "properties": {
+                      "kind": {
+                        "const": "localBenchmark"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        ]
+      },
+      "minItems": 1
+    },
+    "studies": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "\\S"
+          },
+          "title": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "\\S"
+          },
+          "authors": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "\\S"
+          },
+          "year": {
+            "type": "integer",
+            "minimum": 1900,
+            "maximum": 2100
+          },
+          "url": {
+            "type": "string",
+            "pattern": "^https://",
+            "format": "uri"
+          },
+          "kind": {
+            "enum": [
+              "peer-reviewed",
+              "preprint",
+              "vendor",
+              "community"
+            ]
+          },
+          "claim": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "\\S"
+          },
+          "relevance": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "\\S"
+          },
+          "status": {
+            "enum": [
+              "unverifiedClaim",
+              "provisional"
+            ]
+          },
+          "verifiedAtUtc": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "format": "date-time",
+            "pattern": "Z$"
+          }
+        },
+        "required": [
+          "id",
+          "title",
+          "authors",
+          "year",
+          "url",
+          "kind",
+          "claim",
+          "relevance",
+          "status",
+          "verifiedAtUtc"
+        ],
+        "allOf": [
+          {
+            "if": {
+              "properties": {
+                "status": {
+                  "const": "provisional"
+                }
+              }
+            },
+            "then": {
+              "properties": {
+                "verifiedAtUtc": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        ]
+      },
+      "minItems": 0
+    }
+  },
+  "required": [
+    "schemaVersion",
+    "asOfDate",
+    "dimensions",
+    "weights",
+    "records",
+    "studies"
+  ]
+}

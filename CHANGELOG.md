@@ -7,6 +7,15 @@ SemVer; pre-1.0 the public API may still shift).
 
 ### Added
 
+- Added the human-friendly language catalogue and schemas, German/English
+  research seeds with five verified primary studies, typed language thresholds
+  for model suggestion/evaluation, and measured sample-cost ranking with stable
+  ties. Added eight text-work priors, a validating append-only Voice Lint import
+  command with source mirrors, a generated website matrix and cost/quality
+  view, intake/API documentation, and catalogue/import/routing/browser tests
+  (TE-56). Unmeasured scores and costs remain unknown; correctness tiers and
+  machine policy are unchanged.
+
 - Added Claude Opus 5.5, GPT-6 Sol, and GPT-6 Luna to the dated price catalog,
   generated `KnownModels`, release-date documentation, proposal-only migration
   catalog, and provisional routing knowledge. The additions retain the existing
