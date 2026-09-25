@@ -136,6 +136,12 @@ selection rubric, and a standalone `ai-patterns` handoff.
   ranked cheaper-and-at-least-as-good candidates. It recommends; it does not
   route or weaken policy floors. See the [public matrix](website/model-benchmarks/)
   and [refresh recipe](docs/benchmarks-research.md).
+- **Human-friendly language capability** — dated German/English evidence for
+  six language dimensions, typed overall and per-dimension routing constraints,
+  and sample-cost ranking with stable ties. A validated Voice Lint importer
+  retains source hashes and history; the [capability guide](docs/human-friendly-language.md)
+  and [website matrix](https://agent-orchestrator.dev/token-economy/human-friendly-language/)
+  distinguish public research from measured model scores.
 - **Study-backed task-class advice** —
   `TaskClassRecommendationCatalog.Default.Recommend(taskClass)` returns the
   ranked equivalent model/thinking set, rationale version, evidence, measured

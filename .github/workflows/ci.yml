@@ -42,6 +42,9 @@ jobs:
         env:
           JOB_RESULTS_DIR: ${{ runner.temp }}/context-cost-results
         run: |
+          python3 -m pip install -r scripts/requirements-language.txt
+          python3 -m unittest discover -s scripts -p test_language_evidence.py
           python3 scripts/generate-website-data.py --check
           python3 scripts/check-website-links.py
           node scripts/test-context-cost.mjs
+          node scripts/test-language-page.mjs

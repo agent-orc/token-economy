@@ -161,3 +161,86 @@ For a money and quota comparison over local attempt evidence, see
 [`CardEconomics.Decide`](card-economics.md). Its CLI is `decide <query.json>
 <task-storage>` and its advisory result can be rendered beside a persisted
 Agent Studio admission decision.
+
+## Human-friendly language capability
+
+`LanguageCapabilityCatalog.Default` embeds the dated German/English language
+catalogue. `Find(model, language, thinkingLevel, atUtc)` returns the latest row
+of the strongest evidence status for that configuration at the UTC cutoff.
+`Records` retains all observations; `Studies` exposes publication kind, primary
+URL, takeaway, status, and verification date. An omitted effort is useful for
+inspection; routing always uses the actual selected effort.
+
+```csharp
+var at = new DateTime(2026, 9, 26, 12, 0, 0, DateTimeKind.Utc);
+var record = LanguageCapabilityCatalog.Default.Find(
+    KnownModels.Gpt6Luna, "de", EffortLevel.Medium, at);
+
+var requirement = new HumanFriendlyLanguageRequirement
+{
+    Language = "de",
+    MinimumOverall = 0.75m,
+    MinimumScores = new()
+    {
+        Readability = 0.75m,
+        AbsenceOfAiIsms = 0.75m,
+        FactualRestraint = 0.80m,
+    },
+    ThinkingLevel = EffortLevel.Medium,
+    AllowProvisional = false,
+};
+
+var candidates = ModelEfficiencyMatrix.Default.SuggestModel(
+    TaskClass.DocEdit, BudgetPressure.Tight,
+    [Cli.Codex, Cli.ClaudeCode], at, requirement);
+
+// Apply to an already policy-qualified route at its actual effort.
+var evaluated = ModelEfficiencyMatrix.Default.EvaluateModel(
+    KnownModels.Gpt56Sol, TaskClass.DocEdit, BudgetPressure.Tight, at,
+    desiredEffort: EffortLevel.Medium, requirement: requirement);
+
+var prior = TaskClassRecommendationCatalog.Default.RecommendLanguage(
+    TextWorkKind.OperatorMessages, "de");
+// Also: Copy, Documentation, Replies. Each prior retains its requirement.
+```
+
+The optional `requirement` is the fifth `SuggestModel` parameter and follows
+`desiredEffort` in both string and typed `EvaluateModel` overloads. Existing
+calls retain their behavior. `Cli.ClaudeCode` names the same runtime as the
+existing `Cli.Claude` enum value.
+
+All supplied thresholds are conjunctive and in `[0,1]`; invalid or empty
+requirements throw. A missing score cannot satisfy a threshold of zero.
+Unverified claims never pass, and provisional measured scores require explicit
+opt-in. A different language or effort cannot substitute for missing evidence.
+A requested effort that would be clamped to another level does not pass. The
+cutoff excludes future observations, and a new failure at the same evidence
+status supersedes an older passing score.
+
+For tight or critical budgets, candidates passing the constraint sort by the
+recorded USD cost per sample (known costs first), then the established
+compatibility preference for ties. Comfortable budgets retain compatibility
+ranking among passing models. `Score` remains the legacy compatibility score;
+it is not the primary sort key for constrained tight/critical results. A
+passing `ModelSuggestion.LanguageCapability` identifies the exact scores,
+status, measured cost, and dated evidence used. Empty lists or null evaluations
+mean no qualifying evidence; they do not authorize a fallback.
+
+Hosts can inject a validated `LanguageCapabilityCatalog` as the third
+`ModelEfficiencyMatrix` constructor argument. This supports evidence snapshots
+without services or filesystem access in the selection path. The core library
+has no new package dependency. Lookup resolves canonical identities through
+the repository price catalogue; imported rows require canonical ids.
+
+The initial seed contains research-informed gaps with null scores and costs,
+so the default constrained call currently returns an empty set. Import a real
+Voice Lint result to populate measured candidates. The
+[concept and intake guide](human-friendly-language.md) documents the shared
+schema, equal-weight mean, date precision, provenance, cost limitations, and
+all primary sources.
+
+Always establish correctness floors through the existing routing policy before
+using this compatibility menu. Language evidence adds a constraint; it does
+not alter model tiers, default routes, supported fallback equivalences, or
+`policyVersion`. An explicit `EvaluateModel` desired effort must be the effort
+that the policy-qualified route will actually execute.
