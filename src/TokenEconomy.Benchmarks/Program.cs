@@ -41,7 +41,7 @@ if (args.Length != 2 || (args[0] != "run" && args[0] != "document-to-text" && ar
     Console.Error.WriteLine("  dotnet run --project src/TokenEconomy.Benchmarks -- decide <query.json> <agent-studio-task-storage-or-cohort.json>");
     Console.Error.WriteLine("  dotnet run --project src/TokenEconomy.Benchmarks -- run benchmarks/setups/<setup>.json");
     Console.Error.WriteLine("  dotnet run --project src/TokenEconomy.Benchmarks -- document-to-text benchmarks/document-to-text/<corpus>.json");
-    Console.Error.WriteLine("  dotnet run --project src/TokenEconomy.Benchmarks -- aggregate <agent-studio-task-storage-or-cohort.json>");
+    Console.Error.WriteLine("  dotnet run --project src/TokenEconomy.Benchmarks -- aggregate <agent-studio-task-storage>");
     return 2;
 }
 

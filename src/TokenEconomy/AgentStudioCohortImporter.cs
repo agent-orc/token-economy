@@ -36,6 +36,13 @@ public sealed record CohortEconomicsEvidence(
 /// <summary>Imports the operator's tokenSummary export without inferring per-run levels, review joins or quota attribution.</summary>
 public sealed class AgentStudioCohortImporter(ModelPriceCatalog? prices = null)
 {
+    private static readonly string[] LocalTimestampFormats =
+        ["yyyy-MM-dd'T'HH:mm", "yyyy-MM-dd'T'HH:mm:ss", "yyyy-MM-dd'T'HH:mm:ss.FFFFFFF"];
+    private static readonly string[] OffsetTimestampFormats =
+    [
+        "yyyy-MM-dd'T'HH:mmzzz", "yyyy-MM-dd'T'HH:mm:sszzz", "yyyy-MM-dd'T'HH:mm:ss.FFFFFFFzzz",
+        "yyyy-MM-dd'T'HH:mm'Z'", "yyyy-MM-dd'T'HH:mm:ss'Z'", "yyyy-MM-dd'T'HH:mm:ss.FFFFFFF'Z'",
+    ];
     private readonly ModelPriceCatalog _prices = prices ?? ModelPriceCatalog.Default;
 
     /// <summary>Offset-free run timestamps require the caller's explicit source timezone.</summary>
@@ -72,14 +79,7 @@ public sealed class AgentStudioCohortImporter(ModelPriceCatalog? prices = null)
                 var usage = new TokenUsage(uncached, run.GetProperty("out").GetInt64(), cached, run.GetProperty("cacheWrite").GetInt64());
                 if (usage.Output < 0 || usage.CacheWrite < 0) throw new InvalidDataException("Negative usage.");
                 var rawTimestamp = Text(run, "ts");
-                DateTime executed;
-                if (DateTime.TryParseExact(rawTimestamp, "yyyy-MM-dd'T'HH:mm", CultureInfo.InvariantCulture, DateTimeStyles.None, out var local))
-                {
-                    if (sourceTimeZone.IsInvalidTime(local) || sourceTimeZone.IsAmbiguousTime(local))
-                        throw new InvalidDataException($"Ambiguous or invalid local timestamp {rawTimestamp}.");
-                    executed = TimeZoneInfo.ConvertTimeToUtc(local, sourceTimeZone);
-                }
-                else executed = DateTimeOffset.Parse(rawTimestamp, CultureInfo.InvariantCulture).UtcDateTime;
+                var executed = ParseRunTimestamp(rawTimestamp, sourceTimeZone);
                 if (executed > exported) throw new InvalidDataException("Run occurs after export.");
                 var model = Text(run, "model");
                 var cost = _prices.ComputeCost(model, usage, executed);
@@ -160,4 +160,20 @@ public sealed class AgentStudioCohortImporter(ModelPriceCatalog? prices = null)
 
     private static string Text(JsonElement value, string key) => value.GetProperty(key).GetString()
         ?? throw new InvalidDataException($"Missing {key}.");
+
+    private static DateTime ParseRunTimestamp(string value, TimeZoneInfo sourceTimeZone)
+    {
+        if (DateTime.TryParseExact(value, LocalTimestampFormats, CultureInfo.InvariantCulture, DateTimeStyles.None, out var local))
+        {
+            if (sourceTimeZone.IsInvalidTime(local) || sourceTimeZone.IsAmbiguousTime(local))
+                throw new InvalidDataException($"Ambiguous or invalid local timestamp {value}.");
+            return TimeZoneInfo.ConvertTimeToUtc(local, sourceTimeZone);
+        }
+
+        if (DateTimeOffset.TryParseExact(value, OffsetTimestampFormats, CultureInfo.InvariantCulture,
+            DateTimeStyles.AssumeUniversal | DateTimeStyles.AdjustToUniversal, out var offset))
+            return offset.UtcDateTime;
+
+        throw new InvalidDataException($"Invalid run timestamp {value}.");
+    }
 }

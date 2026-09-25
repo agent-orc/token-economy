@@ -123,6 +123,30 @@ public sealed class AgentStudioCohortImporterTests
     }
 
     [Fact]
+    public void OffsetFreeTimestampWithSecondsUsesTheExplicitSourceTimezone()
+    {
+        var json = JsonNode.Parse(Fixture())!;
+        json["cards"]![1]!["runs"]![0]!["ts"] = "2026-09-18T09:51:30";
+        var sourceTimeZone = TimeZoneInfo.CreateCustomTimeZone("fixture-offset", TimeSpan.FromHours(5.5), "fixture-offset", "fixture-offset");
+
+        var cohort = new AgentStudioCohortImporter().Import(json.ToJsonString(), "run-records.json", sourceTimeZone);
+        var record = cohort.Records.Single(r => r.TaskKey == "AGT-2804");
+
+        Assert.Equal(new DateTime(2026, 9, 18, 4, 21, 30, DateTimeKind.Utc), record.ExecutedAtUtc);
+    }
+
+    [Fact]
+    public void TimestampWithExplicitOffsetDoesNotUseTheSourceTimezone()
+    {
+        var json = JsonNode.Parse(Fixture())!;
+        json["cards"]![1]!["runs"]![0]!["ts"] = "2026-09-18T09:51:30+04:00";
+
+        var record = Import(json.ToJsonString()).Records.Single(r => r.TaskKey == "AGT-2804");
+
+        Assert.Equal(new DateTime(2026, 9, 18, 5, 51, 30, DateTimeKind.Utc), record.ExecutedAtUtc);
+    }
+
+    [Fact]
     public void EvidenceCannotLeakAcrossOrganisationOrBeforeObservation()
     {
         var cohort = Import();
