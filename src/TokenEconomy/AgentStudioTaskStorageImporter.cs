@@ -254,6 +254,13 @@ public sealed class AgentStudioTaskStorageImporter
         return new AgentStudioRunRecord
         {
             TaskKey = taskKey, Run = run, RoutingDecision = decisionRecord, OutcomeObservation = observation,
+            CardOutcome = Outcome(Text(task, "finalLane", "lane", "column")),
+            OrganisationId = Text(measurement, "organisationId", "organizationId") ?? Text(task, "organisationId", "organizationId"),
+            ProviderErrorClass = Text(measurement, "providerErrorClass") ?? Text(Object(measurement, "providerError"), "code", "type"),
+            ProviderErrorMessage = Text(measurement, "providerErrorMessage") ?? Text(Object(measurement, "providerError"), "message"),
+            WeeklyQuota = Object(measurement, "weeklyQuota") is { } quota
+                ? JsonSerializer.Deserialize<RunQuotaMeasurement>(quota.GetRawText(), new JsonSerializerOptions(JsonSerializerDefaults.Web))
+                : ParseWeeklyQuota(measurement),
             OutcomeClassification = classification, Project = Text(task, "project", "projectId"),
             Provider = listing?.Vendor ?? ProviderFromCli(Text(measurement, "actualCliType", "cliType")
                 ?? Text(route, "cliType") ?? Text(task, "cliType")),
@@ -287,6 +294,14 @@ public sealed class AgentStudioTaskStorageImporter
                 ? classification.IsSemanticFailure : null),
             StartedAtUtc = Date(measurement, "startedAt", "createdAt"), ObservedAtUtc = observedAt,
         };
+    }
+
+    private static RunQuotaMeasurement? ParseWeeklyQuota(JsonElement measurement)
+    {
+        if (Object(measurement, "quotaStart") is not { } start || Object(measurement, "quotaEnd") is not { } end
+            || Text(measurement, "subscriptionId") is not { } subscription) return null;
+        return AgentStudioQuotaEvidence.FromSnapshots(start, end, subscription,
+            Boolean(measurement, "quotaExclusiveAttribution") == true);
     }
 
     private static AgentStudioRunRecord MergeAttemptDuplicates(IGrouping<int, AgentStudioRunRecord> group)

@@ -118,6 +118,9 @@ selection rubric, and a standalone `ai-patterns` handoff.
   wait/override disposition. Card configuration is retained separately and is
   never silently rewritten. See the
   [host integration contract](docs/agent-studio-routing-integration.md).
+- **Completed-card economics:** compare model/reasoning pairs using local retries,
+  dated token costs, review evidence, organisation refusals, and subscription
+  quota share through the [decision API and CLI](docs/card-economics.md).
 
 - **Controlled A/B benchmarks** — versioned repository definitions execute the
   same task against model/effort variants in isolated workspaces, retain raw

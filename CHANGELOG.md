@@ -41,6 +41,9 @@ SemVer; pre-1.0 the public API may still shift).
 - Added a pure context-session cost forecast, dated evidence and three workload presets,
   plus a responsive long-context explorer with live catalogue repricing, cache expiry,
   compaction, restart comparisons and CSV/JSON exports (TE-54).
+- Added advisory card-economics decisions and dated Agent Studio cohort import,
+  with corrected Codex cache accounting, model-level cost observations,
+  organisation refusal evidence, and explicit subscription-attribution unknowns (TE-53).
 
 - Added the Agent Studio repository preparation definition: `.agent-studio/project.yml`
   (schema version 1, dotnet-only stack, pinned SDK via `global.json`, build/test/lint

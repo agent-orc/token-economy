@@ -37,6 +37,74 @@ public static class AgentStudioRoutingDecisionHtmlRenderer
         return html.Append("</dl></article>").ToString();
     }
 
+    /// <summary>Compose the persisted route with a freshly evaluated, advisory economics query.</summary>
+    public static string Render(AgentStudioRoutingDecisionRecord decision, CardEconomicsQuery query,
+        IEnumerable<AgentStudioRunRecord> records)
+        => Render(decision) + RenderEconomics(new CardEconomics().Decide(query, records));
+
+    /// <summary>Compose a routing decision with the dated export evidence.</summary>
+    public static string Render(AgentStudioRoutingDecisionRecord decision, CardEconomicsQuery query, AgentStudioCohort cohort)
+        => Render(decision) + RenderEconomics(new CardEconomics().Decide(query, cohort));
+
+    /// <summary>Render unknowns and evidence coverage alongside both currencies without changing admission.</summary>
+    public static string RenderEconomics(CardEconomicsDecision decision)
+    {
+        var html = new StringBuilder("<section class=\"routing-decision-card\" aria-label=\"Card economics\"><h2>Cost per completed card</h2><p>")
+            .Append(Escape(decision.Recommendation)).Append("</p><p>USD: estimated - list prices. Duration includes observed attempt time; queue time is unknown.</p>")
+            .Append("<table><thead><tr><th>Rank</th><th>Model / level</th><th>USD</th><th>Weekly quota %</th><th>Seconds</th><th>Completed / cards; rounds</th><th>Favorable / known reviews</th><th>Confidence</th><th>Availability</th><th>Eligibility</th></tr></thead><tbody>");
+        foreach (var row in decision.Rows)
+        {
+            html.Append("<tr>");
+            foreach (var cell in new[]
+            {
+                row.Rank.ToString(CultureInfo.InvariantCulture),
+                $"{row.Candidate.Model} / {row.Candidate.ThinkingLevel}; selectable={row.Selectable}; provisional={row.Provisional}",
+                Number(row.ExpectedUsdPerCompletedCard) + (row.UnconfirmedPrices ? " (unconfirmed)" : ""),
+                Number(row.ExpectedWeeklyQuotaPercentPerCompletedCard), Number(row.ExpectedDurationSeconds),
+                $"{row.CompletedCards} / {row.Cards}; {row.Runs} rounds; {row.ExcludedCards} cards excluded",
+                $"{row.FavorableReviews} / {row.KnownReviews}", row.Confidence,
+                row.Availability + $"; telemetry {row.AvailabilityObservedRuns}/{row.AvailabilityTotalRuns} runs; " + string.Join("; ", row.Errors.Select(e => $"{e.ErrorClass}: {e.Count}/{e.ObservedRuns} ({e.Rate:P1}), last {e.LastSeenUtc:O}; {e.Detail}")),
+                row.EligibilityReason + " " + string.Join("; ", row.OrganisationEvents.Select(e => $"{e.EventCount} refusal events; last seen unknown; {e.Detail}")),
+            }) html.Append("<td>").Append(Escape(cell)).Append("</td>");
+            html.Append("</tr>");
+        }
+        html.Append("</tbody></table>");
+        if (decision.CohortEvidence is { } evidence)
+        {
+            html.Append("<h3>Local export: model observations, reasoning levels unknown</h3><p>")
+                .Append(Escape(evidence.Source)).Append("</p><p>Artifact: ").Append(Escape(evidence.ArtifactReference))
+                .Append("; SHA-256: ").Append(Escape(evidence.Sha256)).Append("</p>");
+            foreach (var caveat in evidence.Caveats) html.Append("<p>").Append(Escape(caveat)).Append("</p>");
+            void Models(string label, IReadOnlyList<CohortModelSummary> models)
+            {
+                html.Append("<h4>").Append(Escape(label)).Append("</h4><table><thead><tr><th>Model</th><th>Runs</th><th>Total run USD</th><th>USD / run</th><th>Completed cards</th><th>Open cards</th><th>USD / completed history</th><th>Weekly % / run</th><th>Weekly % / completed card</th><th>Confidence</th></tr></thead><tbody>");
+                foreach (var model in models)
+                {
+                    html.Append("<tr>");
+                    foreach (var cell in new[] { model.Model, model.RecordedRuns.ToString(CultureInfo.InvariantCulture),
+                        Number(model.TotalRunUsd), Number(model.MeanUsdPerRun), model.CompletedCards.ToString(CultureInfo.InvariantCulture),
+                        model.OpenCards.ToString(CultureInfo.InvariantCulture), Number(model.UsdPerCompletedCard),
+                        Number(model.WeeklyQuotaPercentPerRun), Number(model.WeeklyQuotaPercentPerCompletedCard), model.Confidence })
+                        html.Append("<td>").Append(Escape(cell)).Append("</td>");
+                    html.Append("</tr>");
+                }
+                html.Append("</tbody></table>");
+            }
+            Models("Runs in query window; only complete histories wholly in window", evidence.WindowModels);
+            Models("All exported histories (including earlier Opus runs)", evidence.FullHistoryModels);
+            html.Append("<h4>Account quota changes (percentage points; per-card attribution unknown)</h4><ul>");
+            foreach (var interval in evidence.QuotaIntervals)
+                html.Append("<li>").Append(Escape($"{interval.From:O} to {interval.Through:O}: Codex {Number(interval.CodexPercentagePoints)}; Claude {Number(interval.ClaudePercentagePoints)}")).Append("</li>");
+            html.Append("</ul><h4>Card-level reviews (no model or attempt attribution)</h4><ul>");
+            foreach (var card in evidence.Cards)
+                html.Append("<li>").Append(Escape($"{card.TaskKey}: {card.Lane}; {string.Join("; ", card.Reviews)}")).Append("</li>");
+            html.Append("</ul>");
+        }
+        return html.Append("</section>").ToString();
+    }
+
+    private static string Number(decimal? value) => value?.ToString("0.####", CultureInfo.InvariantCulture) ?? "Unknown";
+
     private static void Fact(StringBuilder html, string label, string value)
         => html.Append("<dt>").Append(Escape(label)).Append("</dt><dd>").Append(Escape(value)).Append("</dd>");
 
