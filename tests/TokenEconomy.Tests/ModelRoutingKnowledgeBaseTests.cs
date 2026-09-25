@@ -21,6 +21,9 @@ public class ModelRoutingKnowledgeBaseTests
         Assert.Equal(Knowledge.Authority.ContentSha256, hash);
         Assert.Contains($"Version: {Knowledge.PolicyVersion:yyyy-MM-dd}", authority);
         Assert.Contains("Quota and cost never lower a hard floor.", authority);
+        var astraLevels = Knowledge.FindModel("gpt-6-astra")!.SupportedThinkingLevels;
+        Assert.Equal(new[] { "low", "medium", "high", "xhigh", "max", "ultra" }, astraLevels);
+        Assert.Contains($"- `gpt-6-astra`: {string.Join(", ", astraLevels.Select(level => $"`{level}`"))};", authority);
 
         foreach (var route in Knowledge.Routes)
         {

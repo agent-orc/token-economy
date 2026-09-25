@@ -7,6 +7,10 @@ SemVer; pre-1.0 the public API may still shift).
 
 ### Changed
 
+- Made the public benchmark matrix open on the September 25 Intelligence Index
+  v4.3.2 Sol/Luna comparison while preserving older versions as selectable
+  history. Added a policy-to-catalogue assertion for Astra's `ultra` support
+  and a regression test for the current benchmark default (TE-57 review fix).
 - Rebased Luna/medium and Sol/medium+xhigh core routes on GPT-6 in policy
   2026-09-25; retained Terra and all score/floor/reissue rules. New-card class
   priors prefer GPT-6, with priced GPT-5.6 operator alternatives and separately

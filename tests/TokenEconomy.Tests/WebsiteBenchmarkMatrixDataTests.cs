@@ -60,12 +60,22 @@ public class WebsiteBenchmarkMatrixDataTests
     }
 
     [Fact]
-    public void PublishedDrivingAnswerIsDerivedAndDoesNotCallAstraLowCheaper()
+    public void PublishedDefaultUsesLatestComparableSolLunaEvidence()
     {
         using var document = JsonDocument.Parse(File.ReadAllBytes(Path.Combine(
             RepositoryRoot(), "website", "data", "model-benchmark-matrix.json")));
-        var answer = document.RootElement.GetProperty("drivingQuestion");
+        var root = document.RootElement;
+        const string latest = "artificial-analysis-intelligence-index-v4.3.2";
+        Assert.Equal(latest, root.GetProperty("defaultBenchmarkTypeId").GetString());
+        var matrix = Assert.Single(root.GetProperty("benchmarkTypes").EnumerateArray(),
+            type => type.GetProperty("id").GetString() == latest);
+        Assert.Equal("4.3.2", matrix.GetProperty("version").GetString());
+        Assert.Equal("gpt-6-luna", matrix.GetProperty("reference").GetProperty("modelId").GetString());
+        var answer = root.GetProperty("drivingQuestion");
 
+        Assert.Equal(latest, answer.GetProperty("benchmarkTypeId").GetString());
+        Assert.Equal("gpt-6-sol", answer.GetProperty("challenger").GetProperty("modelId").GetString());
+        Assert.Equal("gpt-6-luna", answer.GetProperty("reference").GetProperty("modelId").GetString());
         Assert.True(answer.GetProperty("better").GetBoolean());
         Assert.False(answer.GetProperty("cheaper").GetBoolean());
         Assert.Contains("not cheaper", answer.GetProperty("answer").GetString(), StringComparison.OrdinalIgnoreCase);

@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
-  "generatedAtUtc": "2026-09-25T08:31:37.367374+00:00",
+  "generatedAtUtc": "2026-09-25T22:17:06.753366+00:00",
   "asOfUtc": "2026-09-25T00:00:00Z",
-  "defaultBenchmarkTypeId": "artificial-analysis-intelligence-index-v4.3",
+  "defaultBenchmarkTypeId": "artificial-analysis-intelligence-index-v4.3.2",
   "source": {
     "benchmarkTypes": "src/TokenEconomy/catalog/benchmark-types.json",
     "benchmarkResults": "src/TokenEconomy/catalog/benchmark-results.json",
@@ -33,15 +33,15 @@
     }
   ],
   "drivingQuestion": {
-    "question": "Is gpt-6-astra at effort low better and cheaper than gpt-5.6-sol at effort high?",
-    "benchmarkTypeId": "artificial-analysis-intelligence-index-v4.3",
+    "question": "Is gpt-6-sol at API max better and cheaper than gpt-6-luna at API max on Intelligence Index v4.3.2?",
+    "benchmarkTypeId": "artificial-analysis-intelligence-index-v4.3.2",
     "challenger": {
-      "modelId": "gpt-6-astra",
-      "effort": "low"
+      "modelId": "gpt-6-sol",
+      "effort": "max"
     },
     "reference": {
-      "modelId": "gpt-5.6-sol",
-      "effort": "high"
+      "modelId": "gpt-6-luna",
+      "effort": "max"
     },
     "better": true,
     "cheaper": false,
@@ -5721,7 +5721,10 @@
       "validFrom": "2026-09-25",
       "capturedAt": "2026-09-25",
       "retrievedAt": "2026-09-25",
-      "reference": null,
+      "reference": {
+        "modelId": "gpt-6-luna",
+        "effort": "max"
+      },
       "cells": [
         {
           "modelId": "gpt-6-luna",
@@ -5745,8 +5748,8 @@
           "costBasis": "publishedPerTask",
           "blendedPricePerMillionTokensUsd": 0.136364,
           "scorePerDollar": 528.571429,
-          "scoreDeltaToReference": null,
-          "costDeltaToReferenceUsd": null,
+          "scoreDeltaToReference": 0.0,
+          "costDeltaToReferenceUsd": 0.0,
           "evidenceAgeDays": 0,
           "stale": false,
           "evidence": [
@@ -5801,8 +5804,8 @@
           "costBasis": "publishedPerTask",
           "blendedPricePerMillionTokensUsd": 2.727273,
           "scorePerDollar": 45.283019,
-          "scoreDeltaToReference": null,
-          "costDeltaToReferenceUsd": null,
+          "scoreDeltaToReference": 11.0,
+          "costDeltaToReferenceUsd": 0.99,
           "evidenceAgeDays": 0,
           "stale": false,
           "evidence": [

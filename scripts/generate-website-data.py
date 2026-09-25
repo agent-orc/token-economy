@@ -827,6 +827,7 @@ def create_benchmark_matrix_payload() -> dict:
     references = {
         "artificial-analysis-intelligence-index-v4.2": {"modelId": "gpt-5.6-sol", "effort": "high"},
         "artificial-analysis-intelligence-index-v4.3": {"modelId": "gpt-5.6-sol", "effort": "high"},
+        "artificial-analysis-intelligence-index-v4.3.2": {"modelId": "gpt-6-luna", "effort": "max"},
         "artificial-analysis-coding-agent-index-2026-09-09": {"modelId": "gpt-5.6-sol", "effort": "max"},
         "deepswe-v1-aa-harness": {"modelId": "gpt-5.6-sol", "effort": "max"},
         "deepswe-v1.1": {"modelId": "gpt-5.6-sol", "effort": "max"},
@@ -912,12 +913,12 @@ def create_benchmark_matrix_payload() -> dict:
                     for row in cell["evidence"]]} for cell in candidates],
         })
 
-    default_id = "artificial-analysis-intelligence-index-v4.3"
+    default_id = "artificial-analysis-intelligence-index-v4.3.2"
     default_matrix = next(matrix for matrix in matrices if matrix["id"] == default_id)
-    astra = next(cell for cell in default_matrix["cells"] if cell["modelId"] == "gpt-6-astra" and cell["effort"] == "low")
-    sol = next(cell for cell in default_matrix["cells"] if cell["modelId"] == "gpt-5.6-sol" and cell["effort"] == "high")
-    better = astra["score"] > sol["score"]
-    cheaper = astra["costPerTaskUsd"] < sol["costPerTaskUsd"]
+    challenger = next(cell for cell in default_matrix["cells"] if cell["modelId"] == "gpt-6-sol" and cell["effort"] == "max")
+    reference = next(cell for cell in default_matrix["cells"] if cell["modelId"] == "gpt-6-luna" and cell["effort"] == "max")
+    better = challenger["score"] > reference["score"]
+    cheaper = challenger["costPerTaskUsd"] < reference["costPerTaskUsd"]
     return {
         "schemaVersion": 1,
         "generatedAtUtc": datetime.now(timezone.utc).isoformat(),
@@ -938,10 +939,10 @@ def create_benchmark_matrix_payload() -> dict:
             {"label": "Benchmark results retrieved through", "date": max(row["retrievedAt"] for row in result_document["records"]), "path": BENCHMARK_RESULTS.relative_to(ROOT).as_posix()},
         ],
         "drivingQuestion": {
-            "question": "Is gpt-6-astra at effort low better and cheaper than gpt-5.6-sol at effort high?",
+            "question": "Is gpt-6-sol at API max better and cheaper than gpt-6-luna at API max on Intelligence Index v4.3.2?",
             "benchmarkTypeId": default_id,
-            "challenger": {"modelId": "gpt-6-astra", "effort": "low"},
-            "reference": {"modelId": "gpt-5.6-sol", "effort": "high"},
+            "challenger": {"modelId": "gpt-6-sol", "effort": "max"},
+            "reference": {"modelId": "gpt-6-luna", "effort": "max"},
             "better": better,
             "cheaper": cheaper,
             "answer": "Better on this score, but not cheaper per published task or per token." if better and not cheaper else
