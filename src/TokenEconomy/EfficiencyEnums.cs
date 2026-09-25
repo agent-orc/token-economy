@@ -168,4 +168,7 @@ public enum Cli
 
     /// <summary>OpenAI's Codex CLI (runs the <c>gpt-*</c> models).</summary>
     Codex,
+
+    /// <summary>Explicit name for the Claude Code runtime; equivalent to <see cref="Claude"/>.</summary>
+    ClaudeCode = Claude,
 }

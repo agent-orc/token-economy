@@ -43,6 +43,9 @@ public sealed record ModelSuggestion
 
     /// <summary>The retained evidence-derived review quality, when the requested task is review.</summary>
     public ModelReviewQualitySummary? ReviewQuality { get; init; }
+
+    /// <summary>The exact dated row that satisfied an optional human-friendly language constraint.</summary>
+    public LanguageCapabilityRecord? LanguageCapability { get; init; }
 }
 
 /// <summary>

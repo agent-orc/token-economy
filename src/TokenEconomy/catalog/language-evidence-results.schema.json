@@ -1,0 +1,297 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://agent-orchestrator.dev/token-economy/language-evidence-results.schema.json",
+  "title": "Voice Lint shared human-friendly-language results v1",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "schemaVersion": {
+      "const": 1
+    },
+    "asOfDate": {
+      "type": "string",
+      "format": "date"
+    },
+    "method": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "rubricRef": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        "samples": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "languages": {
+          "type": "array",
+          "items": {
+            "enum": [
+              "de",
+              "en"
+            ]
+          },
+          "minItems": 1,
+          "uniqueItems": true
+        },
+        "raters": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        "promptSet": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        "weights": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "readability": {
+              "type": "number",
+              "exclusiveMinimum": 0
+            },
+            "warmth": {
+              "type": "number",
+              "exclusiveMinimum": 0
+            },
+            "directness": {
+              "type": "number",
+              "exclusiveMinimum": 0
+            },
+            "absenceOfAiIsms": {
+              "type": "number",
+              "exclusiveMinimum": 0
+            },
+            "toneAdherence": {
+              "type": "number",
+              "exclusiveMinimum": 0
+            },
+            "factualRestraint": {
+              "type": "number",
+              "exclusiveMinimum": 0
+            }
+          },
+          "required": [
+            "readability",
+            "warmth",
+            "directness",
+            "absenceOfAiIsms",
+            "toneAdherence",
+            "factualRestraint"
+          ]
+        }
+      },
+      "required": [
+        "rubricRef",
+        "samples",
+        "languages",
+        "raters",
+        "promptSet"
+      ]
+    },
+    "dimensions": {
+      "const": [
+        "readability",
+        "warmth",
+        "directness",
+        "absenceOfAiIsms",
+        "toneAdherence",
+        "factualRestraint"
+      ]
+    },
+    "results": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "modelId": {
+            "enum": [
+              "gpt-6-astra",
+              "gpt-6-sol",
+              "gpt-6-luna",
+              "gpt-5.6-sol",
+              "gpt-5.6-terra",
+              "gpt-5.6-luna",
+              "claude-opus-5-5",
+              "claude-opus-5",
+              "claude-sonnet-5",
+              "claude-haiku-4-5",
+              "claude-fable-5-1"
+            ]
+          },
+          "cliId": {
+            "enum": [
+              "codex",
+              "claude-code"
+            ]
+          },
+          "thinkingLevel": {
+            "enum": [
+              "minimal",
+              "low",
+              "medium",
+              "high",
+              "xhigh",
+              "ultra",
+              "max"
+            ]
+          },
+          "language": {
+            "enum": [
+              "de",
+              "en"
+            ]
+          },
+          "scores": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "readability": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 1
+              },
+              "warmth": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 1
+              },
+              "directness": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 1
+              },
+              "absenceOfAiIsms": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 1
+              },
+              "toneAdherence": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 1
+              },
+              "factualRestraint": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 1
+              }
+            },
+            "required": [
+              "readability",
+              "warmth",
+              "directness",
+              "absenceOfAiIsms",
+              "toneAdherence",
+              "factualRestraint"
+            ]
+          },
+          "overall": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1
+          },
+          "costPerSampleUsd": {
+            "type": "number",
+            "minimum": 0
+          },
+          "evidenceRef": {
+            "type": "string",
+            "pattern": "^benchmarks/human-friendly-language/runs/[A-Za-z0-9][A-Za-z0-9._-]*/$"
+          },
+          "notes": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "modelId",
+          "cliId",
+          "thinkingLevel",
+          "language",
+          "scores",
+          "overall",
+          "costPerSampleUsd",
+          "evidenceRef",
+          "notes"
+        ]
+      },
+      "minItems": 1
+    },
+    "studies": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "\\S"
+          },
+          "title": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "\\S"
+          },
+          "authors": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "\\S"
+          },
+          "year": {
+            "type": "integer",
+            "minimum": 1900,
+            "maximum": 2100
+          },
+          "url": {
+            "type": "string",
+            "pattern": "^https://",
+            "format": "uri"
+          },
+          "kind": {
+            "enum": [
+              "peer-reviewed",
+              "preprint",
+              "vendor",
+              "community"
+            ]
+          },
+          "claim": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "\\S"
+          },
+          "relevance": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "\\S"
+          }
+        },
+        "required": [
+          "id",
+          "title",
+          "authors",
+          "year",
+          "url",
+          "kind",
+          "claim",
+          "relevance"
+        ]
+      },
+      "minItems": 0
+    }
+  },
+  "required": [
+    "schemaVersion",
+    "asOfDate",
+    "method",
+    "dimensions",
+    "results",
+    "studies"
+  ]
+}

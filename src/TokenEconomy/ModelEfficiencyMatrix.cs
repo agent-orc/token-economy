@@ -21,6 +21,7 @@ namespace TokenEconomy;
 public sealed class ModelEfficiencyMatrix
 {
     private readonly ModelPriceCatalog _catalog;
+    private readonly LanguageCapabilityCatalog _languageCatalog;
     private readonly List<ModelEfficiencyProfile> _profiles;
     private readonly Dictionary<string, ModelEfficiencyProfile> _byId;
     private readonly Dictionary<string, int> _order;   // canonical id -> declaration index (stable final tiebreak)
@@ -28,9 +29,11 @@ public sealed class ModelEfficiencyMatrix
     /// <summary>Build a matrix over a pricing catalog from a set of profiles.</summary>
     /// <exception cref="ArgumentNullException"><paramref name="catalog"/> is null.</exception>
     /// <exception cref="ArgumentException">A profile has a blank id or no effort levels, its model id is not in the catalog, or two profiles resolve to the same catalog model.</exception>
-    public ModelEfficiencyMatrix(ModelPriceCatalog catalog, IEnumerable<ModelEfficiencyProfile> profiles)
+    public ModelEfficiencyMatrix(ModelPriceCatalog catalog, IEnumerable<ModelEfficiencyProfile> profiles,
+        LanguageCapabilityCatalog? languageCatalog = null)
     {
         _catalog = catalog ?? throw new ArgumentNullException(nameof(catalog));
+        _languageCatalog = languageCatalog ?? LanguageCapabilityCatalog.Default;
         _profiles = [.. profiles];
         _byId = new Dictionary<string, ModelEfficiencyProfile>(StringComparer.Ordinal);
         _order = new Dictionary<string, int>(StringComparer.Ordinal);
@@ -57,6 +60,9 @@ public sealed class ModelEfficiencyMatrix
 
     /// <summary>The pricing catalog this matrix derives cost from.</summary>
     public ModelPriceCatalog Catalog => _catalog;
+
+    /// <summary>The dated language evidence used for optional text constraints.</summary>
+    public LanguageCapabilityCatalog LanguageCatalog => _languageCatalog;
 
     /// <summary>The default matrix: the seeded profiles over <see cref="ModelPriceCatalog.Default"/>.</summary>
     public static ModelEfficiencyMatrix Default { get; } = new(ModelPriceCatalog.Default, ModelEfficiencySeed.Profiles());
@@ -163,6 +169,7 @@ public sealed class ModelEfficiencyMatrix
     /// <param name="budgetPressure">How hard the remaining budget constrains the choice.</param>
     /// <param name="availableClis">The CLIs with budget/quota right now; a model is a candidate only if its CLI is in this set. Null is treated as none.</param>
     /// <param name="atUtc">The instant whose prices drive the cost classes (prices have history).</param>
+    /// <param name="requirement">Optional language thresholds. Tight/critical budgets rank passing rows by measured sample cost, then the established preference.</param>
     /// <returns>
     /// The qualifying candidates, best-first. An <b>empty</b> list means no model from the available CLIs
     /// qualifies — the caller should wait (with a visible reason) rather than launch, per the control loop.
@@ -171,12 +178,14 @@ public sealed class ModelEfficiencyMatrix
         TaskClass taskClass,
         BudgetPressure budgetPressure,
         IEnumerable<Cli>? availableClis,
-        DateTime atUtc)
+        DateTime atUtc,
+        HumanFriendlyLanguageRequirement? requirement = null)
     {
+        requirement?.Validate();
         var available = new HashSet<Cli>();
         if (availableClis is not null)
             available.UnionWith(availableClis);
-        var desiredEffort = EfficiencyPolicy.SuggestedEffort(taskClass, budgetPressure);
+        var desiredEffort = requirement?.ThinkingLevel ?? EfficiencyPolicy.SuggestedEffort(taskClass, budgetPressure);
 
         var candidates = new List<ModelSuggestion>();
         foreach (var profile in _profiles)
@@ -196,10 +205,13 @@ public sealed class ModelEfficiencyMatrix
             if (suitability is null)
                 continue;
 
-            candidates.Add(CreateSuggestion(listing.ModelId, cli.Value, profile, taskClass, budgetPressure, desiredEffort, suitability.Value, atUtc));
+            var candidate = ConstrainLanguage(CreateSuggestion(listing.ModelId, cli.Value, profile,
+                taskClass, budgetPressure, desiredEffort, suitability.Value, atUtc), requirement, atUtc);
+            if (candidate is not null) candidates.Add(candidate);
         }
 
-        candidates.Sort(Compare);
+        candidates.Sort(requirement is not null && budgetPressure != BudgetPressure.Comfortable
+            ? CompareLanguageCost : Compare);
         return candidates;
     }
 
@@ -215,8 +227,10 @@ public sealed class ModelEfficiencyMatrix
         TaskClass taskClass,
         BudgetPressure budgetPressure,
         DateTime atUtc,
-        EffortLevel? desiredEffort = null)
+        EffortLevel? desiredEffort = null,
+        HumanFriendlyLanguageRequirement? requirement = null)
     {
+        requirement?.Validate();
         var listing = _catalog.Find(model);
         var profile = Find(model);
         if (listing is null || profile is null || profile.Restricted || profile.Deprecated
@@ -226,8 +240,9 @@ public sealed class ModelEfficiencyMatrix
         if (cli is null) return null;
         var suitability = SuitabilityFor(profile, taskClass);
         if (suitability is null) return null;
-        return CreateSuggestion(listing.ModelId, cli.Value, profile, taskClass, budgetPressure,
-            desiredEffort ?? EfficiencyPolicy.SuggestedEffort(taskClass, budgetPressure), suitability.Value, atUtc);
+        return ConstrainLanguage(CreateSuggestion(listing.ModelId, cli.Value, profile, taskClass, budgetPressure,
+            desiredEffort ?? requirement?.ThinkingLevel ?? EfficiencyPolicy.SuggestedEffort(taskClass, budgetPressure),
+            suitability.Value, atUtc), requirement, atUtc);
     }
 
     /// <summary>Evaluate a typed model id through the same compatibility path as <see cref="SuggestModel"/>.</summary>
@@ -236,8 +251,34 @@ public sealed class ModelEfficiencyMatrix
         TaskClass taskClass,
         BudgetPressure budgetPressure,
         DateTime atUtc,
-        EffortLevel? desiredEffort = null)
-        => EvaluateModel((string)model, taskClass, budgetPressure, atUtc, desiredEffort);
+        EffortLevel? desiredEffort = null,
+        HumanFriendlyLanguageRequirement? requirement = null)
+        => EvaluateModel((string)model, taskClass, budgetPressure, atUtc, desiredEffort, requirement);
+
+    private ModelSuggestion? ConstrainLanguage(ModelSuggestion candidate,
+        HumanFriendlyLanguageRequirement? requirement, DateTime atUtc)
+    {
+        if (requirement is null) return candidate;
+        if (candidate.Suitability == Suitability.Underpowered) return null;
+        var evidence = _languageCatalog.Find(candidate.ModelId, requirement.Language, candidate.SuggestedEffort, atUtc);
+        if (!requirement.IsSatisfiedBy(evidence)) return null;
+        return candidate with
+        {
+            LanguageCapability = evidence,
+            Rationale = candidate.Rationale + $" Language {requirement.Language} meets the requested thresholds"
+                + $" using {evidence!.Status} evidence '{evidence.Id}' dated {evidence.ObservedAtUtc:yyyy-MM-dd}.",
+        };
+    }
+
+    private int CompareLanguageCost(ModelSuggestion a, ModelSuggestion b)
+    {
+        var aCost = a.LanguageCapability!.CostPerSampleUsd;
+        var bCost = b.LanguageCapability!.CostPerSampleUsd;
+        var known = (aCost is null ? 1 : 0).CompareTo(bCost is null ? 1 : 0);
+        if (known != 0) return known;
+        var cost = Nullable.Compare(aCost, bCost);
+        return cost != 0 ? cost : Compare(a, b);
+    }
 
     private ModelSuggestion CreateSuggestion(
         string modelId,

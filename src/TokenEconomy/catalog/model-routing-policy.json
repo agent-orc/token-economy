@@ -7,7 +7,7 @@
     "repositoryPath": "docs/system/domains/model-routing-policy.md",
     "upstreamRepository": "agent-orc/agent-studio",
     "upstreamPath": "docs/system/domains/model-routing-policy.md",
-    "contentSha256": "099896e1b2e6143cd7a234ae5919ca6b26dad32ef2f00f473518146ed73b6e0c",
+    "contentSha256": "1da51b659f04bfc76755c73e18618abab3de50cefe9a2c5112e73005be69983a",
     "synchronization": "Token Economy operator revision of 2026-09-25 rebases Luna and Sol on GPT-6, retaining Terra, score bands, hard floors and reissue rules from the 2026-07-24 Agent Studio policy. Historical GPT-5.6 cohorts are not GPT-6 evidence. No upstream update is claimed. Refresh the authority hash, generated view and drift tests together."
   },
   "providers": [

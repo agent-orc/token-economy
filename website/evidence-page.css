@@ -1,4 +1,6 @@
+/* Shared evidence-page tokens and components, extracted from task-class-routing. */
 :root {
+      --border-width: .0625rem; --focus-width: .125rem;
       --bg: #ffffff; --bg-alt: #f5f7fb; --panel: #ffffff; --border: #e2e8f0;
       --text: #1a2233; --muted: #5a6577; --accent: #2f6df0; --accent-soft: #eaf1ff;
       --ok: #167a4a; --warn: #9a6b00; --code-bg: #f6f8fc; --code-text: #24324a;
@@ -47,11 +49,22 @@
     @media (max-width: 50rem) { .summary, .pilots, .slices { grid-template-columns: 1fr; } nav { gap: var(--space-3); } .optional { display: none; } }
 
     h1 { max-width: 52rem; font-size: clamp(2rem, 5vw, 3rem); line-height: 1.15; }
-    .coverage { max-width: 48rem; padding-top: var(--space-4); margin-top: var(--space-6); border-top: .0625rem solid var(--border); font-size: .95rem; }
+    .coverage { max-width: 48rem; padding-top: var(--space-4); margin-top: var(--space-6); border-top: var(--border-width) solid var(--border); font-size: .95rem; }
     .eyebrow, th, .status { font-size: .875rem; }
-    .method-details { border: .0625rem solid var(--border); padding: var(--space-4) var(--space-5); border-radius: var(--radius-sm); margin: var(--space-5) 0; }
+    .method-details { border: var(--border-width) solid var(--border); padding: var(--space-4) var(--space-5); border-radius: var(--space-2); margin: var(--space-5) 0; }
     summary { cursor: pointer; color: var(--accent); font-weight: 600; }
     .row-details { margin-top: var(--space-3); font-size: .875rem; }
     .row-details summary { font-weight: 400; }
-    a:focus-visible, summary:focus-visible { outline: .125rem solid var(--accent); outline-offset: var(--space-1); }
+    a:focus-visible, summary:focus-visible { outline: var(--focus-width) solid var(--accent); outline-offset: var(--space-1); }
     #catalog table { min-width: 56rem; }
+
+/* Form and evidence components use the same central scale as task-study cards. */
+.filters { display: flex; flex-wrap: wrap; gap: var(--space-6); align-items: center; margin-block: var(--space-6); }
+.filters label { display: flex; align-items: center; gap: var(--space-2); }
+.filters select, .filters input[type="number"] { font: inherit; padding: var(--space-2); color: var(--text); background: var(--panel); border: var(--border-width) solid var(--border); border-radius: var(--radius-sm); }
+.filters input[type="number"] { width: 6rem; }
+.filters :focus-visible { outline: var(--focus-width) solid var(--accent); outline-offset: var(--space-1); }
+caption { text-align: left; color: var(--muted); padding-block: var(--space-3); }
+time { white-space: nowrap; }
+#evidence-list details { margin-block: var(--space-4); }
+#evidence-list li, #study-list a { overflow-wrap: anywhere; }

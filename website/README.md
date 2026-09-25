@@ -166,3 +166,22 @@ and page smoke check with `JOB_RESULTS_DIR=/absolute/results node scripts/test-c
 (Node 22, .NET 10, Chromium; optionally set `CHROME_PATH`). Screenshots cover both
 themes at 390 and 1440 pixels. Unknown quota/success/TTL values stay explicit;
 reasoning levels do not imply invented token multipliers.
+
+## Human-friendly language
+
+[`human-friendly-language/`](human-friendly-language/) reads
+`data/language-capabilities.json`, generated from the language catalogue and
+text-work priors. It presents model/language/effort scores, dated provenance,
+primary studies, and cost per quality point without replacing unknowns with
+zero. The task-study and language pages share `evidence-page.css` tokens and
+components. Install the Python schema tools before generating website data:
+
+```bash
+python3 -m pip install -r scripts/requirements-language.txt
+python3 scripts/generate-website-data.py
+python3 scripts/generate-website-data.py --check
+node scripts/test-language-page.mjs /absolute/path/to/results
+```
+
+The browser check needs Node 22+ and Chromium (`CHROME_PATH` may specify it).
+See the [intake guide](../docs/human-friendly-language.md) for the importer.

@@ -356,6 +356,187 @@
           }
         }
       }
+    },
+    "languagePriors": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "textKind": {
+            "enum": [
+              "copy",
+              "documentation",
+              "operatorMessages",
+              "replies"
+            ]
+          },
+          "taskClass": {
+            "const": "docEdit"
+          },
+          "language": {
+            "enum": [
+              "de",
+              "en"
+            ]
+          },
+          "asOfDate": {
+            "type": "string",
+            "format": "date"
+          },
+          "requirement": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "language": {
+                "enum": [
+                  "de",
+                  "en"
+                ]
+              },
+              "minimumOverall": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 1
+              },
+              "minimumScores": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "readability": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1
+                  },
+                  "warmth": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1
+                  },
+                  "directness": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1
+                  },
+                  "absenceOfAiIsms": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1
+                  },
+                  "toneAdherence": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1
+                  },
+                  "factualRestraint": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1
+                  }
+                },
+                "required": []
+              },
+              "thinkingLevel": {
+                "enum": [
+                  "minimal",
+                  "low",
+                  "medium",
+                  "high",
+                  "xhigh",
+                  "ultra",
+                  "max"
+                ]
+              },
+              "allowProvisional": {
+                "type": "boolean"
+              }
+            },
+            "required": [
+              "language",
+              "minimumOverall",
+              "minimumScores",
+              "thinkingLevel",
+              "allowProvisional"
+            ]
+          },
+          "candidates": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "modelId": {
+                  "enum": [
+                    "gpt-6-astra",
+                    "gpt-6-sol",
+                    "gpt-6-luna",
+                    "gpt-5.6-sol",
+                    "gpt-5.6-terra",
+                    "gpt-5.6-luna",
+                    "claude-opus-5-5",
+                    "claude-opus-5",
+                    "claude-sonnet-5",
+                    "claude-haiku-4-5",
+                    "claude-fable-5-1"
+                  ]
+                },
+                "thinkingLevel": {
+                  "enum": [
+                    "minimal",
+                    "low",
+                    "medium",
+                    "high",
+                    "xhigh",
+                    "ultra",
+                    "max"
+                  ]
+                },
+                "evidenceStatus": {
+                  "enum": [
+                    "provisional",
+                    "observed"
+                  ]
+                },
+                "recordId": {
+                  "type": "string",
+                  "minLength": 1,
+                  "pattern": "\\S"
+                },
+                "costPerSampleUsd": {
+                  "type": [
+                    "number",
+                    "null"
+                  ],
+                  "minimum": 0
+                }
+              },
+              "required": [
+                "modelId",
+                "thinkingLevel",
+                "evidenceStatus",
+                "recordId",
+                "costPerSampleUsd"
+              ]
+            },
+            "minItems": 0
+          },
+          "note": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "\\S"
+          }
+        },
+        "required": [
+          "textKind",
+          "taskClass",
+          "language",
+          "asOfDate",
+          "requirement",
+          "candidates",
+          "note"
+        ]
+      },
+      "minItems": 8
     }
   },
   "$defs": {

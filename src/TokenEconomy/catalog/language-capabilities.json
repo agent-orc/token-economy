@@ -1,0 +1,1140 @@
+{
+  "schemaVersion": 1,
+  "asOfDate": "2026-09-25",
+  "dimensions": [
+    "readability",
+    "warmth",
+    "directness",
+    "absenceOfAiIsms",
+    "toneAdherence",
+    "factualRestraint"
+  ],
+  "weights": {
+    "readability": 1,
+    "warmth": 1,
+    "directness": 1,
+    "absenceOfAiIsms": 1,
+    "toneAdherence": 1,
+    "factualRestraint": 1
+  },
+  "records": [
+    {
+      "id": "seed-gpt-6-astra-de",
+      "modelId": "gpt-6-astra",
+      "cliId": "codex",
+      "language": "de",
+      "thinkingLevel": "unspecified",
+      "status": "provisional",
+      "scores": {
+        "readability": null,
+        "warmth": null,
+        "directness": null,
+        "absenceOfAiIsms": null,
+        "toneAdherence": null,
+        "factualRestraint": null
+      },
+      "overall": null,
+      "costPerSampleUsd": null,
+      "notes": "Research-informed evidence gap: these studies inform the rubric, but do not measure this exact model/language/thinking-level combination. Await Voice Lint; no numeric extrapolation.",
+      "evidence": [
+        {
+          "kind": "study",
+          "reference": "https://aclanthology.org/2024.emnlp-main.519/",
+          "observedAtUtc": "2026-09-25T00:00:00Z",
+          "note": "Use multiple dimensions and human spot checks; not a score for any seeded model."
+        },
+        {
+          "kind": "study",
+          "reference": "https://aclanthology.org/2024.tacl-1.24/",
+          "observedAtUtc": "2026-09-25T00:00:00Z",
+          "note": "Assess readability and factual restraint separately; no exact-model transfer."
+        },
+        {
+          "kind": "study",
+          "reference": "https://arxiv.org/abs/2404.04475",
+          "observedAtUtc": "2026-09-25T00:00:00Z",
+          "note": "Balance lengths and randomize blinded comparisons; preference scores are not our six-dimension rubric."
+        },
+        {
+          "kind": "study",
+          "reference": "https://www.nature.com/articles/s41586-026-10410-0",
+          "observedAtUtc": "2026-09-25T00:00:00Z",
+          "note": "Keep a factual-restraint floor alongside warmth; these fine-tuned models are not the catalogue models."
+        },
+        {
+          "kind": "study",
+          "reference": "https://aclanthology.org/2024.ltedi-1.9/",
+          "observedAtUtc": "2026-09-25T00:00:00Z",
+          "note": "Evaluate German separately across text genres; plain friendly language is not an Easy German certification."
+        }
+      ]
+    },
+    {
+      "id": "seed-gpt-6-astra-en",
+      "modelId": "gpt-6-astra",
+      "cliId": "codex",
+      "language": "en",
+      "thinkingLevel": "unspecified",
+      "status": "provisional",
+      "scores": {
+        "readability": null,
+        "warmth": null,
+        "directness": null,
+        "absenceOfAiIsms": null,
+        "toneAdherence": null,
+        "factualRestraint": null
+      },
+      "overall": null,
+      "costPerSampleUsd": null,
+      "notes": "Research-informed evidence gap: these studies inform the rubric, but do not measure this exact model/language/thinking-level combination. Await Voice Lint; no numeric extrapolation.",
+      "evidence": [
+        {
+          "kind": "study",
+          "reference": "https://aclanthology.org/2024.emnlp-main.519/",
+          "observedAtUtc": "2026-09-25T00:00:00Z",
+          "note": "Use multiple dimensions and human spot checks; not a score for any seeded model."
+        },
+        {
+          "kind": "study",
+          "reference": "https://aclanthology.org/2024.tacl-1.24/",
+          "observedAtUtc": "2026-09-25T00:00:00Z",
+          "note": "Assess readability and factual restraint separately; no exact-model transfer."
+        },
+        {
+          "kind": "study",
+          "reference": "https://arxiv.org/abs/2404.04475",
+          "observedAtUtc": "2026-09-25T00:00:00Z",
+          "note": "Balance lengths and randomize blinded comparisons; preference scores are not our six-dimension rubric."
+        },
+        {
+          "kind": "study",
+          "reference": "https://www.nature.com/articles/s41586-026-10410-0",
+          "observedAtUtc": "2026-09-25T00:00:00Z",
+          "note": "Keep a factual-restraint floor alongside warmth; these fine-tuned models are not the catalogue models."
+        }
+      ]
+    },
+    {
+      "id": "seed-gpt-6-sol-de",
+      "modelId": "gpt-6-sol",
+      "cliId": "codex",
+      "language": "de",
+      "thinkingLevel": "unspecified",
+      "status": "provisional",
+      "scores": {
+        "readability": null,
+        "warmth": null,
+        "directness": null,
+        "absenceOfAiIsms": null,
+        "toneAdherence": null,
+        "factualRestraint": null
+      },
+      "overall": null,
+      "costPerSampleUsd": null,
+      "notes": "Research-informed evidence gap: these studies inform the rubric, but do not measure this exact model/language/thinking-level combination. Await Voice Lint; no numeric extrapolation.",
+      "evidence": [
+        {
+          "kind": "study",
+          "reference": "https://aclanthology.org/2024.emnlp-main.519/",
+          "observedAtUtc": "2026-09-25T00:00:00Z",
+          "note": "Use multiple dimensions and human spot checks; not a score for any seeded model."
+        },
+        {
+          "kind": "study",
+          "reference": "https://aclanthology.org/2024.tacl-1.24/",
+          "observedAtUtc": "2026-09-25T00:00:00Z",
+          "note": "Assess readability and factual restraint separately; no exact-model transfer."
+        },
+        {
+          "kind": "study",
+          "reference": "https://arxiv.org/abs/2404.04475",
+          "observedAtUtc": "2026-09-25T00:00:00Z",
+          "note": "Balance lengths and randomize blinded comparisons; preference scores are not our six-dimension rubric."
+        },
+        {
+          "kind": "study",
+          "reference": "https://www.nature.com/articles/s41586-026-10410-0",
+          "observedAtUtc": "2026-09-25T00:00:00Z",
+          "note": "Keep a factual-restraint floor alongside warmth; these fine-tuned models are not the catalogue models."
+        },
+        {
+          "kind": "study",
+          "reference": "https://aclanthology.org/2024.ltedi-1.9/",
+          "observedAtUtc": "2026-09-25T00:00:00Z",
+          "note": "Evaluate German separately across text genres; plain friendly language is not an Easy German certification."
+        }
+      ]
+    },
+    {
+      "id": "seed-gpt-6-sol-en",
+      "modelId": "gpt-6-sol",
+      "cliId": "codex",
+      "language": "en",
+      "thinkingLevel": "unspecified",
+      "status": "provisional",
+      "scores": {
+        "readability": null,
+        "warmth": null,
+        "directness": null,
+        "absenceOfAiIsms": null,
+        "toneAdherence": null,
+        "factualRestraint": null
+      },
+      "overall": null,
+      "costPerSampleUsd": null,
+      "notes": "Research-informed evidence gap: these studies inform the rubric, but do not measure this exact model/language/thinking-level combination. Await Voice Lint; no numeric extrapolation.",
+      "evidence": [
+        {
+          "kind": "study",
+          "reference": "https://aclanthology.org/2024.emnlp-main.519/",
+          "observedAtUtc": "2026-09-25T00:00:00Z",
+          "note": "Use multiple dimensions and human spot checks; not a score for any seeded model."
+        },
+        {
+          "kind": "study",
+          "reference": "https://aclanthology.org/2024.tacl-1.24/",
+          "observedAtUtc": "2026-09-25T00:00:00Z",
+          "note": "Assess readability and factual restraint separately; no exact-model transfer."
+        },
+        {
+          "kind": "study",
+          "reference": "https://arxiv.org/abs/2404.04475",
+          "observedAtUtc": "2026-09-25T00:00:00Z",
+          "note": "Balance lengths and randomize blinded comparisons; preference scores are not our six-dimension rubric."
+        },
+        {
+          "kind": "study",
+          "reference": "https://www.nature.com/articles/s41586-026-10410-0",
+          "observedAtUtc": "2026-09-25T00:00:00Z",
+          "note": "Keep a factual-restraint floor alongside warmth; these fine-tuned models are not the catalogue models."
+        }
+      ]
+    },
+    {
+      "id": "seed-gpt-6-luna-de",
+      "modelId": "gpt-6-luna",
+      "cliId": "codex",
+      "language": "de",
+      "thinkingLevel": "unspecified",
+      "status": "provisional",
+      "scores": {
+        "readability": null,
+        "warmth": null,
+        "directness": null,
+        "absenceOfAiIsms": null,
+        "toneAdherence": null,
+        "factualRestraint": null
+      },
+      "overall": null,
+      "costPerSampleUsd": null,
+      "notes": "Research-informed evidence gap: these studies inform the rubric, but do not measure this exact model/language/thinking-level combination. Await Voice Lint; no numeric extrapolation.",
+      "evidence": [
+        {
+          "kind": "study",
+          "reference": "https://aclanthology.org/2024.emnlp-main.519/",
+          "observedAtUtc": "2026-09-25T00:00:00Z",
+          "note": "Use multiple dimensions and human spot checks; not a score for any seeded model."
+        },
+        {
+          "kind": "study",
+          "reference": "https://aclanthology.org/2024.tacl-1.24/",
+          "observedAtUtc": "2026-09-25T00:00:00Z",
+          "note": "Assess readability and factual restraint separately; no exact-model transfer."
+        },
+        {
+          "kind": "study",
+          "reference": "https://arxiv.org/abs/2404.04475",
+          "observedAtUtc": "2026-09-25T00:00:00Z",
+          "note": "Balance lengths and randomize blinded comparisons; preference scores are not our six-dimension rubric."
+        },
+        {
+          "kind": "study",
+          "reference": "https://www.nature.com/articles/s41586-026-10410-0",
+          "observedAtUtc": "2026-09-25T00:00:00Z",
+          "note": "Keep a factual-restraint floor alongside warmth; these fine-tuned models are not the catalogue models."
+        },
+        {
+          "kind": "study",
+          "reference": "https://aclanthology.org/2024.ltedi-1.9/",
+          "observedAtUtc": "2026-09-25T00:00:00Z",
+          "note": "Evaluate German separately across text genres; plain friendly language is not an Easy German certification."
+        }
+      ]
+    },
+    {
+      "id": "seed-gpt-6-luna-en",
+      "modelId": "gpt-6-luna",
+      "cliId": "codex",
+      "language": "en",
+      "thinkingLevel": "unspecified",
+      "status": "provisional",
+      "scores": {
+        "readability": null,
+        "warmth": null,
+        "directness": null,
+        "absenceOfAiIsms": null,
+        "toneAdherence": null,
+        "factualRestraint": null
+      },
+      "overall": null,
+      "costPerSampleUsd": null,
+      "notes": "Research-informed evidence gap: these studies inform the rubric, but do not measure this exact model/language/thinking-level combination. Await Voice Lint; no numeric extrapolation.",
+      "evidence": [
+        {
+          "kind": "study",
+          "reference": "https://aclanthology.org/2024.emnlp-main.519/",
+          "observedAtUtc": "2026-09-25T00:00:00Z",
+          "note": "Use multiple dimensions and human spot checks; not a score for any seeded model."
+        },
+        {
+          "kind": "study",
+          "reference": "https://aclanthology.org/2024.tacl-1.24/",
+          "observedAtUtc": "2026-09-25T00:00:00Z",
+          "note": "Assess readability and factual restraint separately; no exact-model transfer."
+        },
+        {
+          "kind": "study",
+          "reference": "https://arxiv.org/abs/2404.04475",
+          "observedAtUtc": "2026-09-25T00:00:00Z",
+          "note": "Balance lengths and randomize blinded comparisons; preference scores are not our six-dimension rubric."
+        },
+        {
+          "kind": "study",
+          "reference": "https://www.nature.com/articles/s41586-026-10410-0",
+          "observedAtUtc": "2026-09-25T00:00:00Z",
+          "note": "Keep a factual-restraint floor alongside warmth; these fine-tuned models are not the catalogue models."
+        }
+      ]
+    },
+    {
+      "id": "seed-gpt-5.6-sol-de",
+      "modelId": "gpt-5.6-sol",
+      "cliId": "codex",
+      "language": "de",
+      "thinkingLevel": "unspecified",
+      "status": "provisional",
+      "scores": {
+        "readability": null,
+        "warmth": null,
+        "directness": null,
+        "absenceOfAiIsms": null,
+        "toneAdherence": null,
+        "factualRestraint": null
+      },
+      "overall": null,
+      "costPerSampleUsd": null,
+      "notes": "Research-informed evidence gap: these studies inform the rubric, but do not measure this exact model/language/thinking-level combination. Await Voice Lint; no numeric extrapolation.",
+      "evidence": [
+        {
+          "kind": "study",
+          "reference": "https://aclanthology.org/2024.emnlp-main.519/",
+          "observedAtUtc": "2026-09-25T00:00:00Z",
+          "note": "Use multiple dimensions and human spot checks; not a score for any seeded model."
+        },
+        {
+          "kind": "study",
+          "reference": "https://aclanthology.org/2024.tacl-1.24/",
+          "observedAtUtc": "2026-09-25T00:00:00Z",
+          "note": "Assess readability and factual restraint separately; no exact-model transfer."
+        },
+        {
+          "kind": "study",
+          "reference": "https://arxiv.org/abs/2404.04475",
+          "observedAtUtc": "2026-09-25T00:00:00Z",
+          "note": "Balance lengths and randomize blinded comparisons; preference scores are not our six-dimension rubric."
+        },
+        {
+          "kind": "study",
+          "reference": "https://www.nature.com/articles/s41586-026-10410-0",
+          "observedAtUtc": "2026-09-25T00:00:00Z",
+          "note": "Keep a factual-restraint floor alongside warmth; these fine-tuned models are not the catalogue models."
+        },
+        {
+          "kind": "study",
+          "reference": "https://aclanthology.org/2024.ltedi-1.9/",
+          "observedAtUtc": "2026-09-25T00:00:00Z",
+          "note": "Evaluate German separately across text genres; plain friendly language is not an Easy German certification."
+        }
+      ]
+    },
+    {
+      "id": "seed-gpt-5.6-sol-en",
+      "modelId": "gpt-5.6-sol",
+      "cliId": "codex",
+      "language": "en",
+      "thinkingLevel": "unspecified",
+      "status": "provisional",
+      "scores": {
+        "readability": null,
+        "warmth": null,
+        "directness": null,
+        "absenceOfAiIsms": null,
+        "toneAdherence": null,
+        "factualRestraint": null
+      },
+      "overall": null,
+      "costPerSampleUsd": null,
+      "notes": "Research-informed evidence gap: these studies inform the rubric, but do not measure this exact model/language/thinking-level combination. Await Voice Lint; no numeric extrapolation.",
+      "evidence": [
+        {
+          "kind": "study",
+          "reference": "https://aclanthology.org/2024.emnlp-main.519/",
+          "observedAtUtc": "2026-09-25T00:00:00Z",
+          "note": "Use multiple dimensions and human spot checks; not a score for any seeded model."
+        },
+        {
+          "kind": "study",
+          "reference": "https://aclanthology.org/2024.tacl-1.24/",
+          "observedAtUtc": "2026-09-25T00:00:00Z",
+          "note": "Assess readability and factual restraint separately; no exact-model transfer."
+        },
+        {
+          "kind": "study",
+          "reference": "https://arxiv.org/abs/2404.04475",
+          "observedAtUtc": "2026-09-25T00:00:00Z",
+          "note": "Balance lengths and randomize blinded comparisons; preference scores are not our six-dimension rubric."
+        },
+        {
+          "kind": "study",
+          "reference": "https://www.nature.com/articles/s41586-026-10410-0",
+          "observedAtUtc": "2026-09-25T00:00:00Z",
+          "note": "Keep a factual-restraint floor alongside warmth; these fine-tuned models are not the catalogue models."
+        }
+      ]
+    },
+    {
+      "id": "seed-gpt-5.6-terra-de",
+      "modelId": "gpt-5.6-terra",
+      "cliId": "codex",
+      "language": "de",
+      "thinkingLevel": "unspecified",
+      "status": "provisional",
+      "scores": {
+        "readability": null,
+        "warmth": null,
+        "directness": null,
+        "absenceOfAiIsms": null,
+        "toneAdherence": null,
+        "factualRestraint": null
+      },
+      "overall": null,
+      "costPerSampleUsd": null,
+      "notes": "Research-informed evidence gap: these studies inform the rubric, but do not measure this exact model/language/thinking-level combination. Await Voice Lint; no numeric extrapolation.",
+      "evidence": [
+        {
+          "kind": "study",
+          "reference": "https://aclanthology.org/2024.emnlp-main.519/",
+          "observedAtUtc": "2026-09-25T00:00:00Z",
+          "note": "Use multiple dimensions and human spot checks; not a score for any seeded model."
+        },
+        {
+          "kind": "study",
+          "reference": "https://aclanthology.org/2024.tacl-1.24/",
+          "observedAtUtc": "2026-09-25T00:00:00Z",
+          "note": "Assess readability and factual restraint separately; no exact-model transfer."
+        },
+        {
+          "kind": "study",
+          "reference": "https://arxiv.org/abs/2404.04475",
+          "observedAtUtc": "2026-09-25T00:00:00Z",
+          "note": "Balance lengths and randomize blinded comparisons; preference scores are not our six-dimension rubric."
+        },
+        {
+          "kind": "study",
+          "reference": "https://www.nature.com/articles/s41586-026-10410-0",
+          "observedAtUtc": "2026-09-25T00:00:00Z",
+          "note": "Keep a factual-restraint floor alongside warmth; these fine-tuned models are not the catalogue models."
+        },
+        {
+          "kind": "study",
+          "reference": "https://aclanthology.org/2024.ltedi-1.9/",
+          "observedAtUtc": "2026-09-25T00:00:00Z",
+          "note": "Evaluate German separately across text genres; plain friendly language is not an Easy German certification."
+        }
+      ]
+    },
+    {
+      "id": "seed-gpt-5.6-terra-en",
+      "modelId": "gpt-5.6-terra",
+      "cliId": "codex",
+      "language": "en",
+      "thinkingLevel": "unspecified",
+      "status": "provisional",
+      "scores": {
+        "readability": null,
+        "warmth": null,
+        "directness": null,
+        "absenceOfAiIsms": null,
+        "toneAdherence": null,
+        "factualRestraint": null
+      },
+      "overall": null,
+      "costPerSampleUsd": null,
+      "notes": "Research-informed evidence gap: these studies inform the rubric, but do not measure this exact model/language/thinking-level combination. Await Voice Lint; no numeric extrapolation.",
+      "evidence": [
+        {
+          "kind": "study",
+          "reference": "https://aclanthology.org/2024.emnlp-main.519/",
+          "observedAtUtc": "2026-09-25T00:00:00Z",
+          "note": "Use multiple dimensions and human spot checks; not a score for any seeded model."
+        },
+        {
+          "kind": "study",
+          "reference": "https://aclanthology.org/2024.tacl-1.24/",
+          "observedAtUtc": "2026-09-25T00:00:00Z",
+          "note": "Assess readability and factual restraint separately; no exact-model transfer."
+        },
+        {
+          "kind": "study",
+          "reference": "https://arxiv.org/abs/2404.04475",
+          "observedAtUtc": "2026-09-25T00:00:00Z",
+          "note": "Balance lengths and randomize blinded comparisons; preference scores are not our six-dimension rubric."
+        },
+        {
+          "kind": "study",
+          "reference": "https://www.nature.com/articles/s41586-026-10410-0",
+          "observedAtUtc": "2026-09-25T00:00:00Z",
+          "note": "Keep a factual-restraint floor alongside warmth; these fine-tuned models are not the catalogue models."
+        }
+      ]
+    },
+    {
+      "id": "seed-gpt-5.6-luna-de",
+      "modelId": "gpt-5.6-luna",
+      "cliId": "codex",
+      "language": "de",
+      "thinkingLevel": "unspecified",
+      "status": "provisional",
+      "scores": {
+        "readability": null,
+        "warmth": null,
+        "directness": null,
+        "absenceOfAiIsms": null,
+        "toneAdherence": null,
+        "factualRestraint": null
+      },
+      "overall": null,
+      "costPerSampleUsd": null,
+      "notes": "Research-informed evidence gap: these studies inform the rubric, but do not measure this exact model/language/thinking-level combination. Await Voice Lint; no numeric extrapolation.",
+      "evidence": [
+        {
+          "kind": "study",
+          "reference": "https://aclanthology.org/2024.emnlp-main.519/",
+          "observedAtUtc": "2026-09-25T00:00:00Z",
+          "note": "Use multiple dimensions and human spot checks; not a score for any seeded model."
+        },
+        {
+          "kind": "study",
+          "reference": "https://aclanthology.org/2024.tacl-1.24/",
+          "observedAtUtc": "2026-09-25T00:00:00Z",
+          "note": "Assess readability and factual restraint separately; no exact-model transfer."
+        },
+        {
+          "kind": "study",
+          "reference": "https://arxiv.org/abs/2404.04475",
+          "observedAtUtc": "2026-09-25T00:00:00Z",
+          "note": "Balance lengths and randomize blinded comparisons; preference scores are not our six-dimension rubric."
+        },
+        {
+          "kind": "study",
+          "reference": "https://www.nature.com/articles/s41586-026-10410-0",
+          "observedAtUtc": "2026-09-25T00:00:00Z",
+          "note": "Keep a factual-restraint floor alongside warmth; these fine-tuned models are not the catalogue models."
+        },
+        {
+          "kind": "study",
+          "reference": "https://aclanthology.org/2024.ltedi-1.9/",
+          "observedAtUtc": "2026-09-25T00:00:00Z",
+          "note": "Evaluate German separately across text genres; plain friendly language is not an Easy German certification."
+        }
+      ]
+    },
+    {
+      "id": "seed-gpt-5.6-luna-en",
+      "modelId": "gpt-5.6-luna",
+      "cliId": "codex",
+      "language": "en",
+      "thinkingLevel": "unspecified",
+      "status": "provisional",
+      "scores": {
+        "readability": null,
+        "warmth": null,
+        "directness": null,
+        "absenceOfAiIsms": null,
+        "toneAdherence": null,
+        "factualRestraint": null
+      },
+      "overall": null,
+      "costPerSampleUsd": null,
+      "notes": "Research-informed evidence gap: these studies inform the rubric, but do not measure this exact model/language/thinking-level combination. Await Voice Lint; no numeric extrapolation.",
+      "evidence": [
+        {
+          "kind": "study",
+          "reference": "https://aclanthology.org/2024.emnlp-main.519/",
+          "observedAtUtc": "2026-09-25T00:00:00Z",
+          "note": "Use multiple dimensions and human spot checks; not a score for any seeded model."
+        },
+        {
+          "kind": "study",
+          "reference": "https://aclanthology.org/2024.tacl-1.24/",
+          "observedAtUtc": "2026-09-25T00:00:00Z",
+          "note": "Assess readability and factual restraint separately; no exact-model transfer."
+        },
+        {
+          "kind": "study",
+          "reference": "https://arxiv.org/abs/2404.04475",
+          "observedAtUtc": "2026-09-25T00:00:00Z",
+          "note": "Balance lengths and randomize blinded comparisons; preference scores are not our six-dimension rubric."
+        },
+        {
+          "kind": "study",
+          "reference": "https://www.nature.com/articles/s41586-026-10410-0",
+          "observedAtUtc": "2026-09-25T00:00:00Z",
+          "note": "Keep a factual-restraint floor alongside warmth; these fine-tuned models are not the catalogue models."
+        }
+      ]
+    },
+    {
+      "id": "seed-claude-opus-5-5-de",
+      "modelId": "claude-opus-5-5",
+      "cliId": "claude-code",
+      "language": "de",
+      "thinkingLevel": "unspecified",
+      "status": "provisional",
+      "scores": {
+        "readability": null,
+        "warmth": null,
+        "directness": null,
+        "absenceOfAiIsms": null,
+        "toneAdherence": null,
+        "factualRestraint": null
+      },
+      "overall": null,
+      "costPerSampleUsd": null,
+      "notes": "Research-informed evidence gap: these studies inform the rubric, but do not measure this exact model/language/thinking-level combination. Await Voice Lint; no numeric extrapolation.",
+      "evidence": [
+        {
+          "kind": "study",
+          "reference": "https://aclanthology.org/2024.emnlp-main.519/",
+          "observedAtUtc": "2026-09-25T00:00:00Z",
+          "note": "Use multiple dimensions and human spot checks; not a score for any seeded model."
+        },
+        {
+          "kind": "study",
+          "reference": "https://aclanthology.org/2024.tacl-1.24/",
+          "observedAtUtc": "2026-09-25T00:00:00Z",
+          "note": "Assess readability and factual restraint separately; no exact-model transfer."
+        },
+        {
+          "kind": "study",
+          "reference": "https://arxiv.org/abs/2404.04475",
+          "observedAtUtc": "2026-09-25T00:00:00Z",
+          "note": "Balance lengths and randomize blinded comparisons; preference scores are not our six-dimension rubric."
+        },
+        {
+          "kind": "study",
+          "reference": "https://www.nature.com/articles/s41586-026-10410-0",
+          "observedAtUtc": "2026-09-25T00:00:00Z",
+          "note": "Keep a factual-restraint floor alongside warmth; these fine-tuned models are not the catalogue models."
+        },
+        {
+          "kind": "study",
+          "reference": "https://aclanthology.org/2024.ltedi-1.9/",
+          "observedAtUtc": "2026-09-25T00:00:00Z",
+          "note": "Evaluate German separately across text genres; plain friendly language is not an Easy German certification."
+        }
+      ]
+    },
+    {
+      "id": "seed-claude-opus-5-5-en",
+      "modelId": "claude-opus-5-5",
+      "cliId": "claude-code",
+      "language": "en",
+      "thinkingLevel": "unspecified",
+      "status": "provisional",
+      "scores": {
+        "readability": null,
+        "warmth": null,
+        "directness": null,
+        "absenceOfAiIsms": null,
+        "toneAdherence": null,
+        "factualRestraint": null
+      },
+      "overall": null,
+      "costPerSampleUsd": null,
+      "notes": "Research-informed evidence gap: these studies inform the rubric, but do not measure this exact model/language/thinking-level combination. Await Voice Lint; no numeric extrapolation.",
+      "evidence": [
+        {
+          "kind": "study",
+          "reference": "https://aclanthology.org/2024.emnlp-main.519/",
+          "observedAtUtc": "2026-09-25T00:00:00Z",
+          "note": "Use multiple dimensions and human spot checks; not a score for any seeded model."
+        },
+        {
+          "kind": "study",
+          "reference": "https://aclanthology.org/2024.tacl-1.24/",
+          "observedAtUtc": "2026-09-25T00:00:00Z",
+          "note": "Assess readability and factual restraint separately; no exact-model transfer."
+        },
+        {
+          "kind": "study",
+          "reference": "https://arxiv.org/abs/2404.04475",
+          "observedAtUtc": "2026-09-25T00:00:00Z",
+          "note": "Balance lengths and randomize blinded comparisons; preference scores are not our six-dimension rubric."
+        },
+        {
+          "kind": "study",
+          "reference": "https://www.nature.com/articles/s41586-026-10410-0",
+          "observedAtUtc": "2026-09-25T00:00:00Z",
+          "note": "Keep a factual-restraint floor alongside warmth; these fine-tuned models are not the catalogue models."
+        }
+      ]
+    },
+    {
+      "id": "seed-claude-opus-5-de",
+      "modelId": "claude-opus-5",
+      "cliId": "claude-code",
+      "language": "de",
+      "thinkingLevel": "unspecified",
+      "status": "provisional",
+      "scores": {
+        "readability": null,
+        "warmth": null,
+        "directness": null,
+        "absenceOfAiIsms": null,
+        "toneAdherence": null,
+        "factualRestraint": null
+      },
+      "overall": null,
+      "costPerSampleUsd": null,
+      "notes": "Research-informed evidence gap: these studies inform the rubric, but do not measure this exact model/language/thinking-level combination. Await Voice Lint; no numeric extrapolation.",
+      "evidence": [
+        {
+          "kind": "study",
+          "reference": "https://aclanthology.org/2024.emnlp-main.519/",
+          "observedAtUtc": "2026-09-25T00:00:00Z",
+          "note": "Use multiple dimensions and human spot checks; not a score for any seeded model."
+        },
+        {
+          "kind": "study",
+          "reference": "https://aclanthology.org/2024.tacl-1.24/",
+          "observedAtUtc": "2026-09-25T00:00:00Z",
+          "note": "Assess readability and factual restraint separately; no exact-model transfer."
+        },
+        {
+          "kind": "study",
+          "reference": "https://arxiv.org/abs/2404.04475",
+          "observedAtUtc": "2026-09-25T00:00:00Z",
+          "note": "Balance lengths and randomize blinded comparisons; preference scores are not our six-dimension rubric."
+        },
+        {
+          "kind": "study",
+          "reference": "https://www.nature.com/articles/s41586-026-10410-0",
+          "observedAtUtc": "2026-09-25T00:00:00Z",
+          "note": "Keep a factual-restraint floor alongside warmth; these fine-tuned models are not the catalogue models."
+        },
+        {
+          "kind": "study",
+          "reference": "https://aclanthology.org/2024.ltedi-1.9/",
+          "observedAtUtc": "2026-09-25T00:00:00Z",
+          "note": "Evaluate German separately across text genres; plain friendly language is not an Easy German certification."
+        }
+      ]
+    },
+    {
+      "id": "seed-claude-opus-5-en",
+      "modelId": "claude-opus-5",
+      "cliId": "claude-code",
+      "language": "en",
+      "thinkingLevel": "unspecified",
+      "status": "provisional",
+      "scores": {
+        "readability": null,
+        "warmth": null,
+        "directness": null,
+        "absenceOfAiIsms": null,
+        "toneAdherence": null,
+        "factualRestraint": null
+      },
+      "overall": null,
+      "costPerSampleUsd": null,
+      "notes": "Research-informed evidence gap: these studies inform the rubric, but do not measure this exact model/language/thinking-level combination. Await Voice Lint; no numeric extrapolation.",
+      "evidence": [
+        {
+          "kind": "study",
+          "reference": "https://aclanthology.org/2024.emnlp-main.519/",
+          "observedAtUtc": "2026-09-25T00:00:00Z",
+          "note": "Use multiple dimensions and human spot checks; not a score for any seeded model."
+        },
+        {
+          "kind": "study",
+          "reference": "https://aclanthology.org/2024.tacl-1.24/",
+          "observedAtUtc": "2026-09-25T00:00:00Z",
+          "note": "Assess readability and factual restraint separately; no exact-model transfer."
+        },
+        {
+          "kind": "study",
+          "reference": "https://arxiv.org/abs/2404.04475",
+          "observedAtUtc": "2026-09-25T00:00:00Z",
+          "note": "Balance lengths and randomize blinded comparisons; preference scores are not our six-dimension rubric."
+        },
+        {
+          "kind": "study",
+          "reference": "https://www.nature.com/articles/s41586-026-10410-0",
+          "observedAtUtc": "2026-09-25T00:00:00Z",
+          "note": "Keep a factual-restraint floor alongside warmth; these fine-tuned models are not the catalogue models."
+        }
+      ]
+    },
+    {
+      "id": "seed-claude-sonnet-5-de",
+      "modelId": "claude-sonnet-5",
+      "cliId": "claude-code",
+      "language": "de",
+      "thinkingLevel": "unspecified",
+      "status": "provisional",
+      "scores": {
+        "readability": null,
+        "warmth": null,
+        "directness": null,
+        "absenceOfAiIsms": null,
+        "toneAdherence": null,
+        "factualRestraint": null
+      },
+      "overall": null,
+      "costPerSampleUsd": null,
+      "notes": "Research-informed evidence gap: these studies inform the rubric, but do not measure this exact model/language/thinking-level combination. Await Voice Lint; no numeric extrapolation.",
+      "evidence": [
+        {
+          "kind": "study",
+          "reference": "https://aclanthology.org/2024.emnlp-main.519/",
+          "observedAtUtc": "2026-09-25T00:00:00Z",
+          "note": "Use multiple dimensions and human spot checks; not a score for any seeded model."
+        },
+        {
+          "kind": "study",
+          "reference": "https://aclanthology.org/2024.tacl-1.24/",
+          "observedAtUtc": "2026-09-25T00:00:00Z",
+          "note": "Assess readability and factual restraint separately; no exact-model transfer."
+        },
+        {
+          "kind": "study",
+          "reference": "https://arxiv.org/abs/2404.04475",
+          "observedAtUtc": "2026-09-25T00:00:00Z",
+          "note": "Balance lengths and randomize blinded comparisons; preference scores are not our six-dimension rubric."
+        },
+        {
+          "kind": "study",
+          "reference": "https://www.nature.com/articles/s41586-026-10410-0",
+          "observedAtUtc": "2026-09-25T00:00:00Z",
+          "note": "Keep a factual-restraint floor alongside warmth; these fine-tuned models are not the catalogue models."
+        },
+        {
+          "kind": "study",
+          "reference": "https://aclanthology.org/2024.ltedi-1.9/",
+          "observedAtUtc": "2026-09-25T00:00:00Z",
+          "note": "Evaluate German separately across text genres; plain friendly language is not an Easy German certification."
+        }
+      ]
+    },
+    {
+      "id": "seed-claude-sonnet-5-en",
+      "modelId": "claude-sonnet-5",
+      "cliId": "claude-code",
+      "language": "en",
+      "thinkingLevel": "unspecified",
+      "status": "provisional",
+      "scores": {
+        "readability": null,
+        "warmth": null,
+        "directness": null,
+        "absenceOfAiIsms": null,
+        "toneAdherence": null,
+        "factualRestraint": null
+      },
+      "overall": null,
+      "costPerSampleUsd": null,
+      "notes": "Research-informed evidence gap: these studies inform the rubric, but do not measure this exact model/language/thinking-level combination. Await Voice Lint; no numeric extrapolation.",
+      "evidence": [
+        {
+          "kind": "study",
+          "reference": "https://aclanthology.org/2024.emnlp-main.519/",
+          "observedAtUtc": "2026-09-25T00:00:00Z",
+          "note": "Use multiple dimensions and human spot checks; not a score for any seeded model."
+        },
+        {
+          "kind": "study",
+          "reference": "https://aclanthology.org/2024.tacl-1.24/",
+          "observedAtUtc": "2026-09-25T00:00:00Z",
+          "note": "Assess readability and factual restraint separately; no exact-model transfer."
+        },
+        {
+          "kind": "study",
+          "reference": "https://arxiv.org/abs/2404.04475",
+          "observedAtUtc": "2026-09-25T00:00:00Z",
+          "note": "Balance lengths and randomize blinded comparisons; preference scores are not our six-dimension rubric."
+        },
+        {
+          "kind": "study",
+          "reference": "https://www.nature.com/articles/s41586-026-10410-0",
+          "observedAtUtc": "2026-09-25T00:00:00Z",
+          "note": "Keep a factual-restraint floor alongside warmth; these fine-tuned models are not the catalogue models."
+        }
+      ]
+    },
+    {
+      "id": "seed-claude-haiku-4-5-de",
+      "modelId": "claude-haiku-4-5",
+      "cliId": "claude-code",
+      "language": "de",
+      "thinkingLevel": "unspecified",
+      "status": "provisional",
+      "scores": {
+        "readability": null,
+        "warmth": null,
+        "directness": null,
+        "absenceOfAiIsms": null,
+        "toneAdherence": null,
+        "factualRestraint": null
+      },
+      "overall": null,
+      "costPerSampleUsd": null,
+      "notes": "Research-informed evidence gap: these studies inform the rubric, but do not measure this exact model/language/thinking-level combination. Await Voice Lint; no numeric extrapolation.",
+      "evidence": [
+        {
+          "kind": "study",
+          "reference": "https://aclanthology.org/2024.emnlp-main.519/",
+          "observedAtUtc": "2026-09-25T00:00:00Z",
+          "note": "Use multiple dimensions and human spot checks; not a score for any seeded model."
+        },
+        {
+          "kind": "study",
+          "reference": "https://aclanthology.org/2024.tacl-1.24/",
+          "observedAtUtc": "2026-09-25T00:00:00Z",
+          "note": "Assess readability and factual restraint separately; no exact-model transfer."
+        },
+        {
+          "kind": "study",
+          "reference": "https://arxiv.org/abs/2404.04475",
+          "observedAtUtc": "2026-09-25T00:00:00Z",
+          "note": "Balance lengths and randomize blinded comparisons; preference scores are not our six-dimension rubric."
+        },
+        {
+          "kind": "study",
+          "reference": "https://www.nature.com/articles/s41586-026-10410-0",
+          "observedAtUtc": "2026-09-25T00:00:00Z",
+          "note": "Keep a factual-restraint floor alongside warmth; these fine-tuned models are not the catalogue models."
+        },
+        {
+          "kind": "study",
+          "reference": "https://aclanthology.org/2024.ltedi-1.9/",
+          "observedAtUtc": "2026-09-25T00:00:00Z",
+          "note": "Evaluate German separately across text genres; plain friendly language is not an Easy German certification."
+        }
+      ]
+    },
+    {
+      "id": "seed-claude-haiku-4-5-en",
+      "modelId": "claude-haiku-4-5",
+      "cliId": "claude-code",
+      "language": "en",
+      "thinkingLevel": "unspecified",
+      "status": "provisional",
+      "scores": {
+        "readability": null,
+        "warmth": null,
+        "directness": null,
+        "absenceOfAiIsms": null,
+        "toneAdherence": null,
+        "factualRestraint": null
+      },
+      "overall": null,
+      "costPerSampleUsd": null,
+      "notes": "Research-informed evidence gap: these studies inform the rubric, but do not measure this exact model/language/thinking-level combination. Await Voice Lint; no numeric extrapolation.",
+      "evidence": [
+        {
+          "kind": "study",
+          "reference": "https://aclanthology.org/2024.emnlp-main.519/",
+          "observedAtUtc": "2026-09-25T00:00:00Z",
+          "note": "Use multiple dimensions and human spot checks; not a score for any seeded model."
+        },
+        {
+          "kind": "study",
+          "reference": "https://aclanthology.org/2024.tacl-1.24/",
+          "observedAtUtc": "2026-09-25T00:00:00Z",
+          "note": "Assess readability and factual restraint separately; no exact-model transfer."
+        },
+        {
+          "kind": "study",
+          "reference": "https://arxiv.org/abs/2404.04475",
+          "observedAtUtc": "2026-09-25T00:00:00Z",
+          "note": "Balance lengths and randomize blinded comparisons; preference scores are not our six-dimension rubric."
+        },
+        {
+          "kind": "study",
+          "reference": "https://www.nature.com/articles/s41586-026-10410-0",
+          "observedAtUtc": "2026-09-25T00:00:00Z",
+          "note": "Keep a factual-restraint floor alongside warmth; these fine-tuned models are not the catalogue models."
+        }
+      ]
+    },
+    {
+      "id": "seed-claude-fable-5-1-de",
+      "modelId": "claude-fable-5-1",
+      "cliId": "claude-code",
+      "language": "de",
+      "thinkingLevel": "unspecified",
+      "status": "provisional",
+      "scores": {
+        "readability": null,
+        "warmth": null,
+        "directness": null,
+        "absenceOfAiIsms": null,
+        "toneAdherence": null,
+        "factualRestraint": null
+      },
+      "overall": null,
+      "costPerSampleUsd": null,
+      "notes": "Research-informed evidence gap: these studies inform the rubric, but do not measure this exact model/language/thinking-level combination. Await Voice Lint; no numeric extrapolation.",
+      "evidence": [
+        {
+          "kind": "study",
+          "reference": "https://aclanthology.org/2024.emnlp-main.519/",
+          "observedAtUtc": "2026-09-25T00:00:00Z",
+          "note": "Use multiple dimensions and human spot checks; not a score for any seeded model."
+        },
+        {
+          "kind": "study",
+          "reference": "https://aclanthology.org/2024.tacl-1.24/",
+          "observedAtUtc": "2026-09-25T00:00:00Z",
+          "note": "Assess readability and factual restraint separately; no exact-model transfer."
+        },
+        {
+          "kind": "study",
+          "reference": "https://arxiv.org/abs/2404.04475",
+          "observedAtUtc": "2026-09-25T00:00:00Z",
+          "note": "Balance lengths and randomize blinded comparisons; preference scores are not our six-dimension rubric."
+        },
+        {
+          "kind": "study",
+          "reference": "https://www.nature.com/articles/s41586-026-10410-0",
+          "observedAtUtc": "2026-09-25T00:00:00Z",
+          "note": "Keep a factual-restraint floor alongside warmth; these fine-tuned models are not the catalogue models."
+        },
+        {
+          "kind": "study",
+          "reference": "https://aclanthology.org/2024.ltedi-1.9/",
+          "observedAtUtc": "2026-09-25T00:00:00Z",
+          "note": "Evaluate German separately across text genres; plain friendly language is not an Easy German certification."
+        }
+      ]
+    },
+    {
+      "id": "seed-claude-fable-5-1-en",
+      "modelId": "claude-fable-5-1",
+      "cliId": "claude-code",
+      "language": "en",
+      "thinkingLevel": "unspecified",
+      "status": "provisional",
+      "scores": {
+        "readability": null,
+        "warmth": null,
+        "directness": null,
+        "absenceOfAiIsms": null,
+        "toneAdherence": null,
+        "factualRestraint": null
+      },
+      "overall": null,
+      "costPerSampleUsd": null,
+      "notes": "Research-informed evidence gap: these studies inform the rubric, but do not measure this exact model/language/thinking-level combination. Await Voice Lint; no numeric extrapolation.",
+      "evidence": [
+        {
+          "kind": "study",
+          "reference": "https://aclanthology.org/2024.emnlp-main.519/",
+          "observedAtUtc": "2026-09-25T00:00:00Z",
+          "note": "Use multiple dimensions and human spot checks; not a score for any seeded model."
+        },
+        {
+          "kind": "study",
+          "reference": "https://aclanthology.org/2024.tacl-1.24/",
+          "observedAtUtc": "2026-09-25T00:00:00Z",
+          "note": "Assess readability and factual restraint separately; no exact-model transfer."
+        },
+        {
+          "kind": "study",
+          "reference": "https://arxiv.org/abs/2404.04475",
+          "observedAtUtc": "2026-09-25T00:00:00Z",
+          "note": "Balance lengths and randomize blinded comparisons; preference scores are not our six-dimension rubric."
+        },
+        {
+          "kind": "study",
+          "reference": "https://www.nature.com/articles/s41586-026-10410-0",
+          "observedAtUtc": "2026-09-25T00:00:00Z",
+          "note": "Keep a factual-restraint floor alongside warmth; these fine-tuned models are not the catalogue models."
+        }
+      ]
+    }
+  ],
+  "studies": [
+    {
+      "id": "appls-2024",
+      "title": "APPLS: Evaluating Evaluation Metrics for Plain Language Summarization",
+      "authors": "Yue Guo; Tal August; Gondy Leroy; Trevor Cohen; Lucy Lu Wang",
+      "year": 2024,
+      "url": "https://aclanthology.org/2024.emnlp-main.519/",
+      "claim": "No single tested metric captured all four plain-language criteria.",
+      "relevance": "Use multiple dimensions and human spot checks; not a score for any seeded model.",
+      "kind": "peer-reviewed",
+      "status": "provisional",
+      "verifiedAtUtc": "2026-09-25T00:00:00Z"
+    },
+    {
+      "id": "meaning-2024",
+      "title": "Do Text Simplification Systems Preserve Meaning? A Human Evaluation via Reading Comprehension",
+      "authors": "Sweta Agrawal; Marine Carpuat",
+      "year": 2024,
+      "url": "https://aclanthology.org/2024.tacl-1.24/",
+      "claim": "Simpler text can omit information needed to answer comprehension questions.",
+      "relevance": "Assess readability and factual restraint separately; no exact-model transfer.",
+      "kind": "peer-reviewed",
+      "status": "provisional",
+      "verifiedAtUtc": "2026-09-25T00:00:00Z"
+    },
+    {
+      "id": "length-2024",
+      "title": "Length-Controlled AlpacaEval: A Simple Way to Debias Automatic Evaluators",
+      "authors": "Yann Dubois; Balázs Galambosi; Percy Liang; Tatsunori B. Hashimoto",
+      "year": 2024,
+      "url": "https://arxiv.org/abs/2404.04475",
+      "claim": "Controlling response length reduces verbosity bias in automatic preference judging.",
+      "relevance": "Balance lengths and randomize blinded comparisons; preference scores are not our six-dimension rubric.",
+      "kind": "peer-reviewed",
+      "status": "provisional",
+      "verifiedAtUtc": "2026-09-25T00:00:00Z"
+    },
+    {
+      "id": "warmth-2026",
+      "title": "Training language models to be warm can reduce accuracy and increase sycophancy",
+      "authors": "Lujain Ibrahim; Franziska Sofia Hafner; Luc Rocher",
+      "year": 2026,
+      "url": "https://www.nature.com/articles/s41586-026-10410-0",
+      "claim": "Warmth fine-tuning reduced accuracy and increased sycophancy in the tested models.",
+      "relevance": "Keep a factual-restraint floor alongside warmth; these fine-tuned models are not the catalogue models.",
+      "kind": "peer-reviewed",
+      "status": "provisional",
+      "verifiedAtUtc": "2026-09-25T00:00:00Z"
+    },
+    {
+      "id": "de-lite-2024",
+      "title": "DE-Lite - a New Corpus of Easy German: Compilation, Exploration, Analysis",
+      "authors": "Sarah Jablotschkin; Elke Teich; Heike Zinsmeister",
+      "year": 2024,
+      "url": "https://aclanthology.org/2024.ltedi-1.9/",
+      "claim": "Genre affects the linguistic differences between Easy and Standard German.",
+      "relevance": "Evaluate German separately across text genres; plain friendly language is not an Easy German certification.",
+      "kind": "peer-reviewed",
+      "status": "provisional",
+      "verifiedAtUtc": "2026-09-25T00:00:00Z"
+    }
+  ]
+}

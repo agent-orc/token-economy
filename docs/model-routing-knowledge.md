@@ -5,7 +5,7 @@
 Policy version: `2026-09-25`  
 Evidence as of: `2026-09-25`  
 Authority: `docs/system/domains/model-routing-policy.md`  
-Authority SHA-256: `099896e1b2e6143cd7a234ae5919ca6b26dad32ef2f00f473518146ed73b6e0c`
+Authority SHA-256: `1da51b659f04bfc76755c73e18618abab3de50cefe9a2c5112e73005be69983a`
 Review evidence: `review-evidence-v1`
 
 The Markdown authority defines policy. The versioned JSON is its executable projection. Tests compare the authority hash, policy structure, adjacent catalogs, and this generated view so drift cannot pass unnoticed.

@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "generatedAtUtc": "2026-09-25T07:57:08.941740+00:00",
+  "generatedAtUtc": "2026-09-25T08:31:37.364304+00:00",
   "asOfUtc": "2026-09-25T00:00:00Z",
   "source": "ModelEfficiencyMatrix.Default.Describe(asOfUtc)",
   "priceCatalogPath": "src/TokenEconomy/catalog/model-prices.json",

@@ -26,6 +26,8 @@ Seven artifacts are produced:
 * ``website/data/model-benchmark-matrix.json`` — external and internal
   benchmark evidence joined to the dated price catalog, with candidate rows
   and the declared fallback token assumption.
+* ``website/data/language-capabilities.json`` — dated language observations,
+  study inventory, threshold priors, and measured sample-cost/quality ratios.
 
 Every number here is derived from checked-in evidence. Nothing is hand-authored,
 so ``--check`` fails loudly when the committed site data no longer matches the
@@ -40,6 +42,7 @@ import statistics
 from datetime import datetime, timezone
 from decimal import Decimal, ROUND_HALF_EVEN
 from pathlib import Path
+from language_evidence import validate_catalog, latest_records, refresh_priors
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -1082,6 +1085,34 @@ def canonical(value: dict) -> str:
     return json.dumps(value, sort_keys=True, separators=(",", ":"))
 
 
+def create_language_payload() -> dict:
+    document = load(ROOT / "src/TokenEconomy/catalog/language-capabilities.json")
+    validate_catalog(document, check_mirrors=True)
+    recommendations = load(TASK_CLASS_RECOMMENDATIONS)
+    refreshed = refresh_priors(document, recommendations)
+    if refreshed.get("languagePriors") != recommendations.get("languagePriors"):
+        raise ValueError("Language task priors are stale; rerun the language evidence importer")
+    return project_language_payload(document, recommendations)
+
+
+def project_language_payload(document: dict, recommendations: dict) -> dict:
+    """Pure projection, also exercised with measured test fixtures without publishing them."""
+    selected = latest_records(document)
+    return {
+        **document,
+        "source": "src/TokenEconomy/catalog/language-capabilities.json",
+        "selectedRecordIds": [r["id"] for r in selected],
+        "languagePriors": recommendations.get("languagePriors", []),
+        "costQuality": [{
+            "recordId": r["id"], "modelId": r["modelId"], "language": r["language"],
+            "thinkingLevel": r["thinkingLevel"], "status": r["status"],
+            "overall": r["overall"], "costPerSampleUsd": r["costPerSampleUsd"],
+            "costPerQualityPointUsd": r["costPerSampleUsd"] / r["overall"]
+            if r["overall"] is not None and r["overall"] > 0 and r["costPerSampleUsd"] is not None else None,
+        } for r in selected],
+    }
+
+
 def validate_site_navigation() -> None:
     """Keep the copied static-site header in sync with its canonical include."""
     expected = NAVIGATION_INCLUDE.read_text(encoding="utf-8").strip()
@@ -1135,6 +1166,7 @@ def main() -> None:
     ]
     artifacts = (
         (ROOT / "website/data/routing-policy.json", load(ROUTING_POLICY)),
+        (ROOT / "website/data/language-capabilities.json", create_language_payload()),
         (ROOT / "website/data/context-cost.json", context_payload),
         (PRICING_OUTPUT, create_price_history_payload()),
         (REVIEW_OUTPUT, create_code_review_payload()),
@@ -1149,7 +1181,7 @@ def main() -> None:
             name = path.relative_to(ROOT).as_posix()
             if not path.exists() or canonical(load(path)) != canonical(expected):
                 raise SystemExit(f"{name} is stale; run scripts/generate-website-data.py")
-        print("Website pricing, code-review, benchmark, token-usage, model-efficiency, price-performance, and task-class recommendation data are current.")
+        print("Website language-capability, pricing, code-review, benchmark, token-usage, model-efficiency, price-performance, and task-class recommendation data are current.")
         return
     OUTPUT.parent.mkdir(parents=True, exist_ok=True)
     for path, value in artifacts:

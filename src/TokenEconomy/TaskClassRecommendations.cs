@@ -36,6 +36,30 @@ public enum TaskClassSelectionDisposition
     Wait,
 }
 
+/// <summary>Text work variants sharing the existing prose task class and correctness policy.</summary>
+public enum TextWorkKind { Copy, Documentation, OperatorMessages, Replies }
+
+public sealed record LanguageRouteCandidate
+{
+    public required string ModelId { get; init; }
+    public required EffortLevel ThinkingLevel { get; init; }
+    public required LanguageEvidenceStatus EvidenceStatus { get; init; }
+    public required string RecordId { get; init; }
+    public required decimal? CostPerSampleUsd { get; init; }
+}
+
+/// <summary>A dated language constraint and its cheapest passing routes. An empty set means insufficient evidence.</summary>
+public sealed record LanguageTaskClassPrior
+{
+    public required TextWorkKind TextKind { get; init; }
+    public required TaskClass TaskClass { get; init; }
+    public required string Language { get; init; }
+    public required DateOnly AsOfDate { get; init; }
+    public required HumanFriendlyLanguageRequirement Requirement { get; init; }
+    public required IReadOnlyList<LanguageRouteCandidate> Candidates { get; init; }
+    public required string Note { get; init; }
+}
+
 /// <summary>A model and thinking-level pair exposed to card-creation callers.</summary>
 public sealed record TaskClassRouteRecommendation
 {
@@ -141,6 +165,27 @@ public sealed class TaskClassRecommendationCatalog
         TaxonomyVersion = Required(document.TaxonomyVersion, nameof(document.TaxonomyVersion));
         RationaleVersion = Required(document.RationaleVersion, nameof(document.RationaleVersion));
         EvidenceAsOfDate = document.EvidenceAsOfDate;
+        LanguagePriors = document.LanguagePriors;
+        if (LanguagePriors.Select(prior => (prior.TextKind, prior.Language)).Distinct().Count() != LanguagePriors.Count)
+            throw new InvalidDataException("Duplicate text language prior.");
+        foreach (var prior in LanguagePriors)
+        {
+            prior.Requirement.Validate();
+            if (prior.TaskClass != TaskClass.DocEdit || prior.Language != prior.Requirement.Language)
+                throw new InvalidDataException("Text language priors must constrain the DocEdit class in the same language.");
+            foreach (var candidate in prior.Candidates)
+            {
+                var evidence = LanguageCapabilityCatalog.Default.Records.SingleOrDefault(row => row.Id == candidate.RecordId);
+                if (!prior.Requirement.IsSatisfiedBy(evidence) || evidence!.ModelId != candidate.ModelId
+                    || evidence.ThinkingLevel != candidate.ThinkingLevel || evidence.Status != candidate.EvidenceStatus
+                    || evidence.CostPerSampleUsd != candidate.CostPerSampleUsd)
+                    throw new InvalidDataException("Language prior candidate lacks matching threshold-qualified evidence.");
+                var cutoff = prior.AsOfDate.ToDateTime(TimeOnly.MaxValue, DateTimeKind.Utc);
+                if (LanguageCapabilityCatalog.Default.Find(candidate.ModelId, prior.Language,
+                        candidate.ThinkingLevel, cutoff)?.Id != candidate.RecordId)
+                    throw new InvalidDataException("Language prior candidate is not the current observation at its dated cutoff.");
+            }
+        }
         Recommendations = document.Recommendations.OrderBy(item => item.Id, StringComparer.Ordinal).ToArray();
         if (Recommendations.Select(item => item.TaskClass).Distinct().Count() != Recommendations.Count)
             throw new InvalidDataException("Task-class recommendations must be unique by enum value.");
@@ -157,6 +202,11 @@ public sealed class TaskClassRecommendationCatalog
     public string RationaleVersion { get; }
     public DateOnly EvidenceAsOfDate { get; }
     public IReadOnlyList<TaskClassRecommendation> Recommendations { get; }
+    public IReadOnlyList<LanguageTaskClassPrior> LanguagePriors { get; }
+
+    /// <summary>Return the dated text-language prior; candidates still require concrete-task correctness admission.</summary>
+    public LanguageTaskClassPrior? RecommendLanguage(TextWorkKind textKind, string language)
+        => LanguagePriors.SingleOrDefault(row => row.TextKind == textKind && row.Language == language);
 
     public static TaskClassRecommendationCatalog Default { get; } = LoadEmbedded();
 
@@ -260,6 +310,8 @@ public sealed class TaskClassRecommendationCatalog
             RationaleVersion = Text(root, "rationaleVersion"),
             EvidenceAsOfDate = DateOnly.Parse(Text(root, "evidenceAsOfDate"), CultureInfo.InvariantCulture),
             Recommendations = root.GetProperty("recommendations").EnumerateArray().Select(ParseRecommendation).ToArray(),
+            LanguagePriors = root.TryGetProperty("languagePriors", out var priors)
+                ? priors.Deserialize<LanguageTaskClassPrior[]>(LanguageCapabilityCatalog.JsonOptions) ?? [] : [],
         };
         return new(document);
     }
@@ -411,6 +463,7 @@ public sealed class TaskClassRecommendationCatalog
         public string RationaleVersion { get; init; } = "";
         public DateOnly EvidenceAsOfDate { get; init; }
         public IReadOnlyList<TaskClassRecommendation> Recommendations { get; init; } = [];
+        public IReadOnlyList<LanguageTaskClassPrior> LanguagePriors { get; init; } = [];
     }
 
     private static bool CliMatches(string cliType, Cli cli) => cli switch
