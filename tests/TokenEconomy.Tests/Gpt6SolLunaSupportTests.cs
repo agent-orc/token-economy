@@ -13,12 +13,13 @@ public sealed class Gpt6SolLunaSupportTests
         { KnownModels.Gpt6Sol.Value, EffortLevel.Medium, "medium" },
         { KnownModels.Gpt6Sol.Value, EffortLevel.High, "high" },
         { KnownModels.Gpt6Sol.Value, EffortLevel.XHigh, "xhigh" },
-        { KnownModels.Gpt6Sol.Value, EffortLevel.Minimal, "minimal" },
+        { KnownModels.Gpt6Sol.Value, EffortLevel.Max, "max" },
+        { KnownModels.Gpt6Sol.Value, EffortLevel.Ultra, "ultra" },
         { KnownModels.Gpt6Luna.Value, EffortLevel.Low, "low" },
         { KnownModels.Gpt6Luna.Value, EffortLevel.Medium, "medium" },
         { KnownModels.Gpt6Luna.Value, EffortLevel.High, "high" },
         { KnownModels.Gpt6Luna.Value, EffortLevel.XHigh, "xhigh" },
-        { KnownModels.Gpt6Luna.Value, EffortLevel.Minimal, "minimal" },
+        { KnownModels.Gpt6Luna.Value, EffortLevel.Max, "max" },
     };
 
     [Theory]
@@ -56,8 +57,8 @@ public sealed class Gpt6SolLunaSupportTests
     }
 
     [Theory]
-    [InlineData("gpt-6-sol", "ultra")]
-    [InlineData("gpt-6-luna", "max")]
+    [InlineData("gpt-6-sol", "minimal")]
+    [InlineData("gpt-6-luna", "minimal")]
     [InlineData("gpt-6-luna", "ultra")]
     public void ResolutionRejectsLevelsOutsideEachObservedLadder(string model, string level)
         => Assert.Equal(ModelRouteResolutionStatus.UnsupportedThinkingLevel,

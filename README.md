@@ -77,7 +77,8 @@ selection rubric, and a standalone `ai-patterns` handoff.
   correctness floors, workflow exceptions, restrictions, deprecations,
   reissues, and evidence status. The core ladder follows Agent Studio; the local
   policy revision adds explicit Astra, Fable 5.1, Claude Opus 5.5, GPT-6 Sol,
-  and GPT-6 Luna support. The versioned policy is
+  and GPT-6 Luna support; Claude Sonnet 5.5 is priced but unsupported until the
+  runner's Claude Code reaches v2.1.284. The versioned policy is
   authoritative; pricing and quota cannot lower its correctness floors. See
   the [generated knowledge view](docs/model-routing-knowledge.md) and
   [authoritative policy](docs/system/domains/model-routing-policy.md).

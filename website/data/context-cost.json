@@ -272,15 +272,15 @@
     {
       "modelId": "gpt-5.6-sol",
       "reasoningLevels": [
-        "minimal",
         "low",
         "medium",
         "high",
         "xhigh",
+        "max",
         "ultra"
       ],
       "routingStatus": "selectable",
-      "note": "Sol/medium has the strongest favorable historical signal; Sol/xhigh remains a correctness floor, not a blanket default."
+      "note": "Sol/medium has the strongest favorable historical signal; Sol/xhigh remains a correctness floor, not a blanket default. Ladder refreshed 2026-09-29 (TE-59) from the Codex CLI model catalogue served to codex-cli 0.155.0 on 2026-09-29 (and bundled in rust-v0.157.0 through rust-v0.159.0): max added; minimal removed after the API rejected it in a runner probe."
     },
     {
       "modelId": "gpt-6-astra",
@@ -305,7 +305,7 @@
         "max"
       ],
       "routingStatus": "fallbackOnly",
-      "note": "Small favorable Claude Sonnet 5/high feature cohort; use only as an equivalent-capability provider fallback."
+      "note": "Small favorable Claude Sonnet 5/high feature cohort; use only as an equivalent-capability provider fallback. Legacy since Claude Sonnet 5.5 (2026-09-28); the policy pins the full id, so Claude Code's sonnet alias moving to Sonnet 5.5 in v2.1.284 does not change this fallback."
     },
     {
       "modelId": "claude-opus-5",
@@ -313,10 +313,11 @@
         "low",
         "medium",
         "high",
+        "xhigh",
         "max"
       ],
       "routingStatus": "selectable",
-      "note": "Retained Anthropic vendor override for explicit operator pins, subject to task correctness floors. No automatic equivalence to Sol/xhigh is established."
+      "note": "Retained Anthropic vendor override for explicit operator pins, subject to task correctness floors. No automatic equivalence to Sol/xhigh is established. Claude Code lists low/medium/high/xhigh/max for Opus 5 (xhigh added 2026-09-29, TE-59)."
     }
   ]
 }

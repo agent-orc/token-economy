@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAtUtc": "2026-09-25T08:31:37.496719+00:00",
+  "generatedAtUtc": "2026-09-29T11:04:33.886878+00:00",
   "asOfUtc": "2026-09-25T00:00:00Z",
   "source": {
     "benchmarkTypes": "src/TokenEconomy/catalog/benchmark-types.json",
@@ -941,6 +941,10 @@
   ],
   "models": [
     {
+      "modelId": "claude-sonnet-5-5",
+      "displayName": "Claude Sonnet 5.5"
+    },
+    {
       "modelId": "claude-opus-5-5",
       "displayName": "Claude Opus 5.5"
     },
@@ -1373,6 +1377,32 @@
       },
       {
         "canonicalModel": "claude-sonnet-5",
+        "taskClass": "review",
+        "runCount": 0,
+        "filesReviewed": 0,
+        "findingsReported": 0,
+        "outcomeAvailableRunCount": 0,
+        "confirmedFindings": 0,
+        "dismissedFindings": 0,
+        "assessedFindingCount": 0,
+        "findingOutcomeCoverage": null,
+        "findingConfirmationRate": null,
+        "thinkingLevels": [],
+        "reviewAspects": [],
+        "observedThrough": null,
+        "evidenceStatus": "unknown",
+        "evidenceQuality": "insufficientEvidence",
+        "suitability": null,
+        "gateFailures": [
+          "run count 0 is below 20",
+          "assessed finding count 0 is below 20",
+          "finding outcome coverage is unavailable or below the declared gate",
+          "finding confirmation rate is unavailable"
+        ],
+        "provenance": []
+      },
+      {
+        "canonicalModel": "claude-sonnet-5-5",
         "taskClass": "review",
         "runCount": 0,
         "filesReviewed": 0,

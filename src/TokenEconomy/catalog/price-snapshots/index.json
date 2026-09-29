@@ -1,0 +1,32 @@
+{
+  "schemaVersion": 1,
+  "description": "Immutable, dated copies of the price catalog. The newest entry is byte-identical to ../model-prices.json, which the library embeds; older entries are never edited.",
+  "current": "2026-09-29",
+  "snapshots": [
+    {
+      "id": "2026-09-24",
+      "retrievedOn": "2026-09-24",
+      "firstShippedIn": "0.3.5",
+      "path": "model-prices.2026-09-24.json",
+      "sha256": "76b69e30915fcf4ca53c3f70f3faa942f66ca1318ee775be55078bd5eca988ca",
+      "listings": 25,
+      "summary": "Adds Claude Opus 5.5, GPT-6 Sol and GPT-6 Luna (TE-55) to the 2026-09-12 price-history review.",
+      "sources": [
+        "docs/price-history-research-2026-09-12.md"
+      ]
+    },
+    {
+      "id": "2026-09-29",
+      "retrievedOn": "2026-09-29",
+      "firstShippedIn": "0.3.6",
+      "path": "model-prices.2026-09-29.json",
+      "sha256": "2cab4eb33b0c41ad2d1acd486f0088a736d7d676a0d712bafdbbaf6ae197c015",
+      "listings": 26,
+      "summary": "Adds Claude Sonnet 5.5 (2026-09-28, $2/$0.20/$2.50/$10). Every other current rate re-verified unchanged except GPT-5 Codex, which is absent from today's OpenAI rate card. Lifecycle notes for Claude Sonnet 5, Claude Haiku 4.5, GPT-5.5 and GPT-5.4 Mini (TE-59).",
+      "sources": [
+        "docs/model-catalogue-refresh-2026-09-29.md",
+        "docs/analyses/model-catalogue-refresh-2026-09-29.json"
+      ]
+    }
+  ]
+}

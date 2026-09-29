@@ -1,8 +1,8 @@
 {
   "$schema": "model-migrations.v1.schema.json",
   "schemaVersion": 1,
-  "catalogVersion": "2026-09-25",
-  "evidenceAsOfDate": "2026-09-25",
+  "catalogVersion": "2026-09-29",
+  "evidenceAsOfDate": "2026-09-29",
   "defaultStrategy": "latestInFamily",
   "authority": {
     "rules": "docs/model-migrations.md",
@@ -262,15 +262,15 @@
       },
       "costClassFrom": "premium",
       "costClassTo": "standard",
-      "ladderCompatible": false,
+      "ladderCompatible": true,
       "contextChange": "unknown",
       "evidence": {
         "kind": "none",
-        "reason": "No qualifying identical-case noRegression evidence: TE-57 ran 32 medium fixture attempts, but retained CLI metadata exposed no returned model identity. Requested Sol models and GPT-5.6 Luna passed 6/8 each; requested GPT-6 Luna passed 5/8 including an output-contract failure. Small sample and missing xhigh coverage remain; ultra -> xhigh is a downgrade."
+        "reason": "No qualifying identical-case noRegression evidence: TE-57 ran 32 medium fixture attempts, but retained CLI metadata exposed no returned model identity. Requested Sol models and GPT-5.6 Luna passed 6/8 each; requested GPT-6 Luna passed 5/8 including an output-contract failure. Small sample and missing xhigh, max and ultra coverage remain."
       },
       "safeAuto": false,
       "since": "2026-09-24",
-      "note": "Proposal only: same GPT family and lower dated token prices; premium to standard cost class. Source ultra is unsupported; an explicit ultra -> xhigh downgrade is required and is not ladder-compatible automatic migration. Codex CLI 0.155.0 execution is operator-observed, but controlled repository noRegression evidence remains unqualified. Recheck availability and dated price at launch."
+      "note": "Proposal only: same GPT family and lower dated token prices; premium to standard cost class. Ladders refreshed 2026-09-29 (TE-59): the Codex CLI model catalogue lists low/medium/high/xhigh/max/ultra for both models and runner probes completed GPT-6 Sol at max and ultra, so source ultra pins no longer need a downgrade and the ladders are compatible. Controlled repository noRegression evidence remains unqualified, so migration stays explicit. Recheck availability and dated price at launch."
     },
     {
       "from": "gpt-5.6-luna",
@@ -283,15 +283,15 @@
       },
       "costClassFrom": "economy",
       "costClassTo": "economy",
-      "ladderCompatible": false,
+      "ladderCompatible": true,
       "contextChange": "unknown",
       "evidence": {
         "kind": "none",
-        "reason": "No qualifying identical-case noRegression evidence: TE-57 ran 32 medium fixture attempts, but retained CLI metadata exposed no returned model identity. Requested Sol models and GPT-5.6 Luna passed 6/8 each; requested GPT-6 Luna passed 5/8 including an output-contract failure. Small sample and missing xhigh coverage remain; ultra -> xhigh is a downgrade."
+        "reason": "No qualifying identical-case noRegression evidence: TE-57 ran 32 medium fixture attempts, but retained CLI metadata exposed no returned model identity. Requested Sol models and GPT-5.6 Luna passed 6/8 each; requested GPT-6 Luna passed 5/8 including an output-contract failure. Small sample and missing xhigh, max and ultra coverage remain."
       },
       "safeAuto": false,
       "since": "2026-09-24",
-      "note": "Proposal only: same GPT family and lower dated token prices; economy to economy cost class. Source ultra is unsupported; any such pin requires explicit downgrade to xhigh. Codex CLI 0.155.0 execution is operator-observed, but controlled repository noRegression evidence remains unqualified. Recheck availability and dated price at launch."
+      "note": "Proposal only: same GPT family and lower dated token prices; economy to economy cost class. Ladders refreshed 2026-09-29 (TE-59): the Codex CLI model catalogue lists low/medium/high/xhigh/max for both models (no ultra, no minimal), so the ladders are compatible. Controlled repository noRegression evidence remains unqualified, so migration stays explicit. Recheck availability and dated price at launch."
     }
   ],
   "taskClassRecommendations": [

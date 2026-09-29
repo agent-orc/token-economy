@@ -453,7 +453,7 @@
 
 <main class="api-wrap" id="main-content" tabindex="-1">
   <div class="docs-intro">
-    <p class="eyebrow">Pricing research · reviewed 12 September 2026</p>
+    <p class="eyebrow">Pricing research · reviewed 29 September 2026</p>
     <h1>Model prices, with a history.</h1>
     <p class="lead pricing-lead">See what each model costs, when its rates changed, and which source supports them. On a subscription, use these prices to compare consumption.</p>
     <div class="price-summary" id="price-coverage" aria-live="polite">Loading catalog coverage…</div>
@@ -465,7 +465,7 @@
     <h2>Every catalog model, priced</h2>
     <p>USD per million tokens, direct-provider standard tier. Anthropic cache writes use the 5-minute rate; OpenAI writes use the model’s applicable write rate. Model rows follow release date, newest first; archived models have their own collapsed table.</p>
     <form class="price-controls" id="price-controls">
-      <label>Price date (UTC)<input id="price-date" type="date" min="2025-08-05" max="2026-09-12" value="2026-09-12" required></label>
+      <label>Price date (UTC)<input id="price-date" type="date" min="2025-08-05" max="2026-09-29" value="2026-09-29" required></label>
       <label>Provider<select id="price-provider"><option value="">All providers</option><option value="openai">OpenAI</option><option value="anthropic">Anthropic</option></select></label>
       <label>Find a model<input type="search" id="price-search" placeholder="Name or model ID"></label>
       <label>Index reference<select id="price-reference"></select></label>
@@ -536,7 +536,7 @@ if (result.Price is { } price)
 var history = catalog.PriceDevelopment(KnownModels.ClaudeSonnet5);</code></pre>
     <p><code>PriceDevelopment</code> returns the ordered price periods. <code>ResolvePrice</code> selects the applicable period; <code>ComputeCost</code> returns the component amounts and applied price. <code>NoPriceForDate</code> means the date has no supported price, not that the run was free. <a href="../api/#prices">Full API contract</a></p>
     <p>Announced daily dates are represented at 00:00 UTC. The sources generally do not establish an intraday cutover. Real price changes append periods; corrections remove claims that never took effect, as with Sonnet 5’s cancelled increase. The repository history records those corrections.</p>
-    <p class="history-meta">Research reviewed 2026-09-12. Source confirmation and local routing qualification are separate: a verified price does not prove a model will succeed on a task.</p>
+    <p class="history-meta">Research reviewed 2026-09-12; current rates re-verified 2026-09-29. Source confirmation and local routing qualification are separate: a verified price does not prove a model will succeed on a task.</p>
   </section>
   <section class="pricing-section" id="sources">
     <h2>Sources and research record</h2>
@@ -550,6 +550,7 @@ var history = catalog.PriceDevelopment(KnownModels.ClaudeSonnet5);</code></pre>
       <li><a href="https://learn.chatgpt.com/docs/pricing">Codex subscriptions and credit rates</a></li>
       <li><a href="https://code.claude.com/docs/en/costs">Claude Code consumption reporting</a></li>
       <li><a href="https://github.com/agent-orc/token-economy/blob/main/docs/price-history-research-2026-09-12.md">Research findings and remaining limits</a></li>
+      <li><a href="https://github.com/agent-orc/token-economy/blob/main/docs/model-catalogue-refresh-2026-09-29.md">29 September catalogue refresh and snapshots</a></li>
     </ul>
   </section>
 </main>

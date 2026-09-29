@@ -6,6 +6,9 @@ namespace TokenEconomy;
 /// <summary>Strongly typed canonical model ids from the default price catalog.</summary>
 public static class KnownModels
 {
+    /// <summary>The canonical <c>claude-sonnet-5-5</c> model id.</summary>
+    public static readonly ModelId ClaudeSonnet55 = ModelId.Of("claude-sonnet-5-5");
+
     /// <summary>The canonical <c>claude-opus-5-5</c> model id.</summary>
     public static readonly ModelId ClaudeOpus55 = ModelId.Of("claude-opus-5-5");
 

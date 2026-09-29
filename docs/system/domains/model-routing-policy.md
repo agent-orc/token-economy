@@ -81,27 +81,40 @@ separately attributed, with unknown GPT-6 outcome rates and costs.
 
 ## Model support and vendor overrides
 
-Operator observations of 2026-09-25 supersede the September 24 discovery notes:
+Operator observations of 2026-09-25 superseded the September 24 discovery notes.
+The TE-59 capability refresh of 2026-09-29 corrects the Codex ladders without
+changing any route, score band, floor or fallback:
 
-- `gpt-6-sol` and `gpt-6-luna`: Codex CLI 0.155.0 exposes `minimal`, `low`,
-  `medium`, `high`, `xhigh`; Sol's CLI default is `xhigh`. Policy routes pin
-  `medium` or `xhigh` explicitly. Sol runs on the workstation and agent-runner-01
-  since September 24; Luna passed the runner probe on September 25.
+- `gpt-6-sol`: `low`, `medium`, `high`, `xhigh`, `max`, `ultra`; CLI default
+  `medium`. `gpt-6-luna`: `low`, `medium`, `high`, `xhigh`, `max`; OpenAI states
+  Luna has no `ultra`. Source: the Codex model catalogue served to codex-cli
+  0.155.0 on 2026-09-29 (also bundled in rust-v0.157.0 to rust-v0.159.0).
+  Runner probes that day completed Sol at `max` and `ultra` and Luna at `max`;
+  the API rejected `minimal` for both GPT-5.6 Sol and GPT-6 Luna. Policy routes
+  still pin `medium` or `xhigh` explicitly. Sol runs on the workstation and
+  agent-runner-01 since September 24; Luna passed the runner probe on
+  September 25. Level availability is not quality evidence.
+- GPT-5.6 Sol and Terra gain `max` and lose `minimal`; GPT-5.6 Luna is
+  `low` through `max` (no `ultra`); GPT-5.5 is `low` through `xhigh`.
 - `gpt-6-astra`: `low`, `medium`, `high`, `xhigh`, `max`, `ultra`; selectable
   and provisional. Two `access_programs.cyber` HTTP 400s in about eight runs on
   September 18 are an access warning, not a quality failure rate. Keep it an
   explicit evaluation or operator pin, outside the default ladder.
-- Source GPT-5.6 `ultra` pins cannot silently become GPT-6 Sol/Luna `xhigh`.
-  That is a **reasoning downgrade**, requires explicit operator selection,
-  and blocks unconditional safe-auto migration. Both migrations remain
-  proposal-only until all [five facts](../../model-migrations.md) hold.
+- Source GPT-5.6 Sol `ultra` pins map to GPT-6 Sol `ultra`, and GPT-5.6 Luna
+  and GPT-6 Luna share one ladder, so the successor ladders are compatible.
+  Both migrations remain proposal-only until all
+  [five facts](../../model-migrations.md) hold.
+- Availability warning: OpenAI retired `gpt-5.4-mini` from Codex with ChatGPT
+  sign-in on 2026-08-31, and a runner probe on a ChatGPT account returned
+  HTTP 400. The Mini/high bounded-decision route still resolves for API-key
+  Codex; replacing it is an open operator decision.
 
 API and Codex ladders are different evidence scopes. The
 [Sol model page](https://developers.openai.com/api/docs/models/gpt-6-sol) and
 [Luna model page](https://developers.openai.com/api/docs/models/gpt-6-luna),
-retrieved 2026-09-25, list API `none` through `max` with default `medium`.
-External API `max` results must retain that effort label; they neither add
-Codex `max` support nor measure local `medium`/`xhigh` routes.
+retrieved 2026-09-29, list API `none` through `max` with default `medium`.
+External API `max` results must retain that effort label; Codex `max` support
+does not turn them into measurements of local `medium`/`xhigh` routes.
 
 Anthropic vendor overrides retain `claude-haiku-4-5`, `claude-sonnet-5`, and
 `claude-opus-5`. Haiku and Opus are selectable for explicit pins with provisional
@@ -118,6 +131,14 @@ retains dated prices. Its `low`/`medium`/`high`/`xhigh`/`max` ladder and success
 Claude Code 2.1.281 observation remain provisional; 2.1.270 silently fell back.
 Always-on thinking and tool-use changes require compatibility checks. Lower
 prices alone do not authorize automatic migration or correctness-floor equivalence.
+
+The 2026-09-29 refresh adds `claude-sonnet-5-5` (released 2026-09-28, $2 / $0.20
+/ $10, same as Sonnet 5) as **unsupported**: Claude Code needs v2.1.284 and the
+runner's 2.1.281 returned `unrecognized_model`. The Sonnet 5/high fallback keeps
+its full model id, so the `sonnet` alias moving to Sonnet 5.5 does not change it.
+Claude Code documents `xhigh` for Opus 5, 4.8 and 4.7 (now listed), no `xhigh`
+for Sonnet 4.6 (removed), and no effort at all on Haiku 4.5, whose levels stay
+nominal labels.
 
 ## External evidence, retrieved 2026-09-25
 

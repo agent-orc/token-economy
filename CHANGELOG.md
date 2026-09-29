@@ -5,8 +5,23 @@ SemVer; pre-1.0 the public API may still shift).
 
 ## [Unreleased]
 
+## [0.3.6] - 2026-09-29
+
 ### Changed
 
+- Refreshed the model catalogue against vendor price pages, model and CLI
+  documentation retrieved 2026-09-29 (TE-59). Every current rate is unchanged
+  and re-verified except GPT-5 Codex, which is no longer on the OpenAI rate
+  card. Corrected Codex ladders from the Codex CLI model catalogue and runner
+  probes: GPT-6 Sol and GPT-5.6 Sol/Terra are `low`–`max` plus `ultra`, GPT-6
+  Luna and GPT-5.6 Luna `low`–`max`, GPT-5.5 `low`–`xhigh`; `minimal` is
+  rejected by these models. Claude Opus 5, 4.8 and 4.7 gain `xhigh`, Sonnet 4.6
+  loses it, and Haiku 4.5's levels are marked nominal. The GPT-6 Sol/Luna
+  successor migrations become ladder-compatible but stay proposal-only. Routes,
+  score bands, floors and fallbacks are unchanged. Added lifecycle warnings:
+  GPT-5.4 Mini is rejected by Codex with ChatGPT sign-in (HTTP 400 on the
+  runner) and GPT-5.5 leaves Codex on 2026-10-14. The website matrix is now
+  dated 2026-09-29.
 - Made the public benchmark matrix open on the September 25 Intelligence Index
   v4.3.2 Sol/Luna comparison while preserving older versions as selectable
   history. Added a policy-to-catalogue assertion for Astra's `ultra` support
@@ -26,6 +41,13 @@ SemVer; pre-1.0 the public API may still shift).
 
 ### Added
 
+- Added Claude Sonnet 5.5 (released 2026-09-28, $2 / $0.20 / $2.50 / $10 per
+  MTok) to the price catalogue, `KnownModels`, release dates and routing
+  knowledge as `unsupported` until the runner's Claude Code reaches v2.1.284.
+  Added dated, hash-pinned price snapshots under
+  `src/TokenEconomy/catalog/price-snapshots/`: 2026-09-24 (as shipped in 0.3.5)
+  and 2026-09-29, which is the embedded catalogue. See
+  `docs/model-catalogue-refresh-2026-09-29.md` for the diff and sources (TE-59).
 - Added the human-friendly language catalogue and schemas, German/English
   research seeds with five verified primary studies, typed language thresholds
   for model suggestion/evaluation, and measured sample-cost ranking with stable
@@ -34,6 +56,17 @@ SemVer; pre-1.0 the public API may still shift).
   view, intake/API documentation, and catalogue/import/routing/browser tests
   (TE-56). Unmeasured scores and costs remain unknown; correctness tiers and
   machine policy are unchanged.
+
+- Added advisory card-economics decisions and dated Agent Studio cohort import,
+  with corrected Codex cache accounting, model-level cost observations,
+  organisation refusal evidence, and explicit subscription-attribution unknowns (TE-53).
+
+## [0.3.5] - 2026-09-24
+
+Changes tagged as 0.3.1 through 0.3.5 were not split into per-version sections;
+they accumulate below.
+
+### Added
 
 - Added Claude Opus 5.5, GPT-6 Sol, and GPT-6 Luna to the dated price catalog,
   generated `KnownModels`, release-date documentation, proposal-only migration
@@ -45,9 +78,6 @@ SemVer; pre-1.0 the public API may still shift).
 - Added a pure context-session cost forecast, dated evidence and three workload presets,
   plus a responsive long-context explorer with live catalogue repricing, cache expiry,
   compaction, restart comparisons and CSV/JSON exports (TE-54).
-- Added advisory card-economics decisions and dated Agent Studio cohort import,
-  with corrected Codex cache accounting, model-level cost observations,
-  organisation refusal evidence, and explicit subscription-attribution unknowns (TE-53).
 
 - Added the Agent Studio repository preparation definition: `.agent-studio/project.yml`
   (schema version 1, dotnet-only stack, pinned SDK via `global.json`, build/test/lint
@@ -339,6 +369,8 @@ public release.
   `Unconfirmed` or left unpriced rather than invented.
 - Dependency-free core targeting `net10.0`; ships XML docs and a symbol package.
 
-[Unreleased]: https://github.com/agent-orc/token-economy/compare/v0.3.0...HEAD
+[Unreleased]: https://github.com/agent-orc/token-economy/compare/v0.3.6...HEAD
+[0.3.6]: https://github.com/agent-orc/token-economy/compare/v0.3.5...v0.3.6
+[0.3.5]: https://github.com/agent-orc/token-economy/compare/v0.3.0...v0.3.5
 [0.3.0]: https://github.com/agent-orc/token-economy/compare/v0.2.0...v0.3.0
 [0.2.0]: https://github.com/agent-orc/token-economy/releases/tag/v0.2.0

@@ -1,0 +1,1363 @@
+{
+  "schemaVersion": 1,
+  "card": "TE-59",
+  "retrievedOn": "2026-09-29",
+  "priceSnapshot": "src/TokenEconomy/catalog/price-snapshots/model-prices.2026-09-29.json",
+  "previousPriceSnapshot": "src/TokenEconomy/catalog/price-snapshots/model-prices.2026-09-24.json",
+  "units": "USD per million tokens; standard processing; Anthropic cache write = 5-minute tariff; OpenAI short context (<=272K input) unless stated",
+  "runnerCliVersions": {
+    "claude": "2.1.281",
+    "codex": "0.155.0 (model catalogue fetched from server 2026-09-29T10:50:58Z)"
+  },
+  "models": [
+    {
+      "modelId": "claude-fable-5-1",
+      "displayName": "Claude Fable 5.1",
+      "vendor": "anthropic",
+      "price": {
+        "input": 10,
+        "cachedInput": 0.25,
+        "cacheWrite5m": 12.5,
+        "cacheWrite1h": 20,
+        "output": 50
+      },
+      "contextWindow": 1000000,
+      "maxOutput": 128000,
+      "releaseDate": "2026-09-01",
+      "api": {
+        "effortLevels": [
+          "low",
+          "medium",
+          "high",
+          "xhigh",
+          "max"
+        ],
+        "default": "high",
+        "thinking": "adaptive, always on"
+      },
+      "cli": {
+        "cli": "claude",
+        "levels": [
+          "low",
+          "medium",
+          "high",
+          "xhigh",
+          "max"
+        ],
+        "default": "high",
+        "minVersion": "2.1.257",
+        "alias": "fable"
+      },
+      "lifecycle": "Active; retirement not sooner than 2027-09-01.",
+      "sources": [
+        {
+          "url": "https://platform.claude.com/docs/en/about-claude/pricing",
+          "retrievedOn": "2026-09-29",
+          "evidence": "sources/anthropic-about-claude_pricing.md"
+        },
+        {
+          "url": "https://platform.claude.com/docs/en/about-claude/models/overview",
+          "retrievedOn": "2026-09-29",
+          "evidence": "sources/anthropic-about-claude_models_overview.md"
+        },
+        {
+          "url": "https://platform.claude.com/docs/en/build-with-claude/effort",
+          "retrievedOn": "2026-09-29",
+          "evidence": "sources/anthropic-build-with-claude_effort.md"
+        },
+        {
+          "url": "https://code.claude.com/docs/en/model-config",
+          "retrievedOn": "2026-09-29",
+          "evidence": "sources/claude-code_model-config.md"
+        },
+        {
+          "url": "https://platform.claude.com/docs/en/about-claude/model-deprecations",
+          "retrievedOn": "2026-09-29",
+          "evidence": "sources/anthropic-about-claude_model-deprecations.md"
+        },
+        {
+          "url": "https://platform.claude.com/docs/en/models/fable-5-1/overview",
+          "retrievedOn": "2026-09-29",
+          "evidence": "sources/anthropic-models_fable-5-1.md"
+        }
+      ],
+      "catalogueBefore": {
+        "displayName": "Claude Fable 5.1",
+        "releaseDate": "2026-09-01",
+        "price": {
+          "input": 10,
+          "cachedInput": 0.25,
+          "cacheWrite": 12.5,
+          "output": 50
+        },
+        "verifiedOn": "2026-09-12",
+        "thinkingLevels": [
+          "low",
+          "medium",
+          "high",
+          "xhigh",
+          "max"
+        ],
+        "routingStatus": "selectable"
+      },
+      "catalogueAfter": {
+        "displayName": "Claude Fable 5.1",
+        "releaseDate": "2026-09-01",
+        "price": {
+          "input": 10,
+          "cachedInput": 0.25,
+          "cacheWrite": 12.5,
+          "output": 50
+        },
+        "verifiedOn": "2026-09-29",
+        "thinkingLevels": [
+          "low",
+          "medium",
+          "high",
+          "xhigh",
+          "max"
+        ],
+        "routingStatus": "selectable"
+      }
+    },
+    {
+      "modelId": "claude-opus-5-5",
+      "displayName": "Claude Opus 5.5",
+      "vendor": "anthropic",
+      "price": {
+        "input": 4,
+        "cachedInput": 0.2,
+        "cacheWrite5m": 5,
+        "cacheWrite1h": 8,
+        "output": 20
+      },
+      "contextWindow": 1000000,
+      "maxOutput": 128000,
+      "releaseDate": "2026-09-22",
+      "api": {
+        "effortLevels": [
+          "low",
+          "medium",
+          "high",
+          "xhigh",
+          "max"
+        ],
+        "default": "medium",
+        "thinking": "adaptive, always on"
+      },
+      "cli": {
+        "cli": "claude",
+        "levels": [
+          "low",
+          "medium",
+          "high",
+          "xhigh",
+          "max"
+        ],
+        "default": "medium",
+        "minVersion": "2.1.280",
+        "alias": "opus"
+      },
+      "lifecycle": "Active; retirement not sooner than 2027-09-22.",
+      "sources": [
+        {
+          "url": "https://platform.claude.com/docs/en/about-claude/pricing",
+          "retrievedOn": "2026-09-29",
+          "evidence": "sources/anthropic-about-claude_pricing.md"
+        },
+        {
+          "url": "https://platform.claude.com/docs/en/about-claude/models/overview",
+          "retrievedOn": "2026-09-29",
+          "evidence": "sources/anthropic-about-claude_models_overview.md"
+        },
+        {
+          "url": "https://platform.claude.com/docs/en/build-with-claude/effort",
+          "retrievedOn": "2026-09-29",
+          "evidence": "sources/anthropic-build-with-claude_effort.md"
+        },
+        {
+          "url": "https://code.claude.com/docs/en/model-config",
+          "retrievedOn": "2026-09-29",
+          "evidence": "sources/claude-code_model-config.md"
+        },
+        {
+          "url": "https://platform.claude.com/docs/en/about-claude/model-deprecations",
+          "retrievedOn": "2026-09-29",
+          "evidence": "sources/anthropic-about-claude_model-deprecations.md"
+        },
+        {
+          "url": "https://platform.claude.com/docs/en/models/opus-5-5/overview",
+          "retrievedOn": "2026-09-29",
+          "evidence": "sources/anthropic-models_opus-5-5.md"
+        }
+      ],
+      "catalogueBefore": {
+        "displayName": "Claude Opus 5.5",
+        "releaseDate": "2026-09-22",
+        "price": {
+          "input": 4,
+          "cachedInput": 0.2,
+          "cacheWrite": 5,
+          "output": 20
+        },
+        "verifiedOn": "2026-09-24",
+        "thinkingLevels": [
+          "low",
+          "medium",
+          "high",
+          "xhigh",
+          "max"
+        ],
+        "routingStatus": "selectable"
+      },
+      "catalogueAfter": {
+        "displayName": "Claude Opus 5.5",
+        "releaseDate": "2026-09-22",
+        "price": {
+          "input": 4,
+          "cachedInput": 0.2,
+          "cacheWrite": 5,
+          "output": 20
+        },
+        "verifiedOn": "2026-09-29",
+        "thinkingLevels": [
+          "low",
+          "medium",
+          "high",
+          "xhigh",
+          "max"
+        ],
+        "routingStatus": "selectable"
+      }
+    },
+    {
+      "modelId": "claude-sonnet-5-5",
+      "displayName": "Claude Sonnet 5.5",
+      "vendor": "anthropic",
+      "price": {
+        "input": 2,
+        "cachedInput": 0.2,
+        "cacheWrite5m": 2.5,
+        "cacheWrite1h": 4,
+        "output": 10
+      },
+      "contextWindow": 1000000,
+      "maxOutput": 128000,
+      "releaseDate": "2026-09-28",
+      "api": {
+        "effortLevels": [
+          "low",
+          "medium",
+          "high",
+          "xhigh",
+          "max"
+        ],
+        "default": "high",
+        "thinking": "adaptive; between_tools lowest setting"
+      },
+      "cli": {
+        "cli": "claude",
+        "levels": [
+          "low",
+          "medium",
+          "high",
+          "xhigh",
+          "max"
+        ],
+        "default": "medium",
+        "minVersion": "2.1.284",
+        "alias": "sonnet"
+      },
+      "lifecycle": "Active (new); retirement not sooner than 2027-09-28.",
+      "sources": [
+        {
+          "url": "https://platform.claude.com/docs/en/about-claude/pricing",
+          "retrievedOn": "2026-09-29",
+          "evidence": "sources/anthropic-about-claude_pricing.md"
+        },
+        {
+          "url": "https://platform.claude.com/docs/en/about-claude/models/overview",
+          "retrievedOn": "2026-09-29",
+          "evidence": "sources/anthropic-about-claude_models_overview.md"
+        },
+        {
+          "url": "https://platform.claude.com/docs/en/build-with-claude/effort",
+          "retrievedOn": "2026-09-29",
+          "evidence": "sources/anthropic-build-with-claude_effort.md"
+        },
+        {
+          "url": "https://code.claude.com/docs/en/model-config",
+          "retrievedOn": "2026-09-29",
+          "evidence": "sources/claude-code_model-config.md"
+        },
+        {
+          "url": "https://platform.claude.com/docs/en/about-claude/model-deprecations",
+          "retrievedOn": "2026-09-29",
+          "evidence": "sources/anthropic-about-claude_model-deprecations.md"
+        },
+        {
+          "url": "https://platform.claude.com/docs/en/release-notes/overview",
+          "retrievedOn": "2026-09-29",
+          "evidence": "sources/anthropic-release-notes_overview.md"
+        },
+        {
+          "url": "https://platform.claude.com/docs/en/models/sonnet-5-5/overview",
+          "retrievedOn": "2026-09-29",
+          "evidence": "sources/anthropic-models_sonnet-5-5.md"
+        }
+      ],
+      "catalogueBefore": null,
+      "catalogueAfter": {
+        "displayName": "Claude Sonnet 5.5",
+        "releaseDate": "2026-09-28",
+        "price": {
+          "input": 2,
+          "cachedInput": 0.2,
+          "cacheWrite": 2.5,
+          "output": 10
+        },
+        "verifiedOn": "2026-09-29",
+        "thinkingLevels": [
+          "low",
+          "medium",
+          "high",
+          "xhigh",
+          "max"
+        ],
+        "routingStatus": "unsupported"
+      }
+    },
+    {
+      "modelId": "claude-sonnet-5",
+      "displayName": "Claude Sonnet 5",
+      "vendor": "anthropic",
+      "price": {
+        "input": 2,
+        "cachedInput": 0.2,
+        "cacheWrite5m": 2.5,
+        "cacheWrite1h": 4,
+        "output": 10
+      },
+      "contextWindow": 1000000,
+      "maxOutput": 128000,
+      "releaseDate": "2026-06-30",
+      "api": {
+        "effortLevels": [
+          "low",
+          "medium",
+          "high",
+          "xhigh",
+          "max"
+        ],
+        "default": "high",
+        "thinking": "adaptive"
+      },
+      "cli": {
+        "cli": "claude",
+        "levels": [
+          "low",
+          "medium",
+          "high",
+          "xhigh",
+          "max"
+        ],
+        "default": "high",
+        "minVersion": null,
+        "alias": null
+      },
+      "lifecycle": "Legacy since 2026-09-28 (Sonnet 5.5); retirement not sooner than 2027-06-30. The $2/$10 price is standard; the planned $3/$15 increase was cancelled.",
+      "sources": [
+        {
+          "url": "https://platform.claude.com/docs/en/about-claude/pricing",
+          "retrievedOn": "2026-09-29",
+          "evidence": "sources/anthropic-about-claude_pricing.md"
+        },
+        {
+          "url": "https://platform.claude.com/docs/en/build-with-claude/effort",
+          "retrievedOn": "2026-09-29",
+          "evidence": "sources/anthropic-build-with-claude_effort.md"
+        },
+        {
+          "url": "https://code.claude.com/docs/en/model-config",
+          "retrievedOn": "2026-09-29",
+          "evidence": "sources/claude-code_model-config.md"
+        },
+        {
+          "url": "https://platform.claude.com/docs/en/about-claude/model-deprecations",
+          "retrievedOn": "2026-09-29",
+          "evidence": "sources/anthropic-about-claude_model-deprecations.md"
+        },
+        {
+          "url": "https://platform.claude.com/docs/en/models/sonnet-5/overview",
+          "retrievedOn": "2026-09-29",
+          "evidence": "sources/anthropic-models_sonnet-5.md"
+        }
+      ],
+      "catalogueBefore": {
+        "displayName": "Claude Sonnet 5",
+        "releaseDate": "2026-06-30",
+        "price": {
+          "input": 2,
+          "cachedInput": 0.2,
+          "cacheWrite": 2.5,
+          "output": 10
+        },
+        "verifiedOn": "2026-09-12",
+        "thinkingLevels": [
+          "low",
+          "medium",
+          "high",
+          "xhigh",
+          "max"
+        ],
+        "routingStatus": "fallbackOnly"
+      },
+      "catalogueAfter": {
+        "displayName": "Claude Sonnet 5",
+        "releaseDate": "2026-06-30",
+        "price": {
+          "input": 2,
+          "cachedInput": 0.2,
+          "cacheWrite": 2.5,
+          "output": 10
+        },
+        "verifiedOn": "2026-09-29",
+        "thinkingLevels": [
+          "low",
+          "medium",
+          "high",
+          "xhigh",
+          "max"
+        ],
+        "routingStatus": "fallbackOnly"
+      }
+    },
+    {
+      "modelId": "claude-haiku-4-5",
+      "displayName": "Claude Haiku 4.5",
+      "vendor": "anthropic",
+      "price": {
+        "input": 1,
+        "cachedInput": 0.1,
+        "cacheWrite5m": 1.25,
+        "cacheWrite1h": 2,
+        "output": 5
+      },
+      "contextWindow": 200000,
+      "maxOutput": 64000,
+      "releaseDate": "2025-10-15",
+      "api": {
+        "effortLevels": [],
+        "default": null,
+        "thinking": "extended (budget_tokens); effort not supported"
+      },
+      "cli": {
+        "cli": "claude",
+        "levels": [],
+        "default": null,
+        "minVersion": null,
+        "alias": "haiku"
+      },
+      "lifecycle": "Active; retirement not sooner than 2026-10-15; no deprecation announced.",
+      "sources": [
+        {
+          "url": "https://platform.claude.com/docs/en/about-claude/pricing",
+          "retrievedOn": "2026-09-29",
+          "evidence": "sources/anthropic-about-claude_pricing.md"
+        },
+        {
+          "url": "https://platform.claude.com/docs/en/about-claude/models/overview",
+          "retrievedOn": "2026-09-29",
+          "evidence": "sources/anthropic-about-claude_models_overview.md"
+        },
+        {
+          "url": "https://code.claude.com/docs/en/model-config",
+          "retrievedOn": "2026-09-29",
+          "evidence": "sources/claude-code_model-config.md"
+        },
+        {
+          "url": "https://platform.claude.com/docs/en/about-claude/model-deprecations",
+          "retrievedOn": "2026-09-29",
+          "evidence": "sources/anthropic-about-claude_model-deprecations.md"
+        },
+        {
+          "url": "https://platform.claude.com/docs/en/models/haiku-4-5/overview",
+          "retrievedOn": "2026-09-29",
+          "evidence": "sources/anthropic-models_haiku-4-5.md"
+        }
+      ],
+      "catalogueBefore": {
+        "displayName": "Claude Haiku 4.5",
+        "releaseDate": "2025-10-15",
+        "price": {
+          "input": 1,
+          "cachedInput": 0.1,
+          "cacheWrite": 1.25,
+          "output": 5
+        },
+        "verifiedOn": "2026-09-12",
+        "thinkingLevels": [
+          "low",
+          "medium"
+        ],
+        "routingStatus": "selectable"
+      },
+      "catalogueAfter": {
+        "displayName": "Claude Haiku 4.5",
+        "releaseDate": "2025-10-15",
+        "price": {
+          "input": 1,
+          "cachedInput": 0.1,
+          "cacheWrite": 1.25,
+          "output": 5
+        },
+        "verifiedOn": "2026-09-29",
+        "thinkingLevels": [
+          "low",
+          "medium"
+        ],
+        "routingStatus": "selectable"
+      }
+    },
+    {
+      "modelId": "gpt-6-astra",
+      "displayName": "GPT-6 Astra",
+      "vendor": "openai",
+      "price": {
+        "input": 10,
+        "cachedInput": 1,
+        "cacheWrite": 12.5,
+        "output": 50,
+        "longContextOver272k": {
+          "input": 20,
+          "cachedInput": 2,
+          "cacheWrite": 25,
+          "output": 75
+        }
+      },
+      "contextWindow": 1050000,
+      "maxInput": 922000,
+      "maxOutput": 128000,
+      "releaseDate": "2026-09-03",
+      "api": {
+        "effortLevels": [
+          "low",
+          "medium",
+          "high",
+          "xhigh",
+          "max"
+        ],
+        "default": null
+      },
+      "cli": {
+        "cli": "codex",
+        "levels": [
+          "low",
+          "medium",
+          "high",
+          "xhigh",
+          "max",
+          "ultra"
+        ],
+        "default": "low",
+        "minVersion": "0.153.0",
+        "uiNames": "Light (app/IDE) = low, Medium, High, Extra High = xhigh, Max, Ultra (subagents)",
+        "cliContextWindow": [
+          272000,
+          872000
+        ]
+      },
+      "lifecycle": "Active; no deprecation notice.",
+      "sources": [
+        {
+          "url": "https://developers.openai.com/api/docs/pricing",
+          "retrievedOn": "2026-09-29",
+          "evidence": "sources/openai-api_docs_pricing.md"
+        },
+        {
+          "url": "https://developers.openai.com/api/docs/changelog",
+          "retrievedOn": "2026-09-29",
+          "evidence": "sources/openai-api_docs_changelog.md"
+        },
+        {
+          "url": "https://learn.chatgpt.com/docs/models",
+          "retrievedOn": "2026-09-29",
+          "evidence": "sources/openai-codex_models.md"
+        },
+        {
+          "url": "https://github.com/openai/codex/blob/rust-v0.159.0/codex-rs/models-manager/models.json",
+          "retrievedOn": "2026-09-29",
+          "evidence": "sources/openai-codex-rust-v0.159.0_models.json; evidence/codex-models-cache-0.155.0.json"
+        },
+        {
+          "url": "https://developers.openai.com/api/docs/models/gpt-6-astra",
+          "retrievedOn": "2026-09-29",
+          "evidence": "sources/openai-api_docs_models_gpt-6-astra.md"
+        }
+      ],
+      "catalogueBefore": {
+        "displayName": "GPT-6 Astra",
+        "releaseDate": "2026-09-03",
+        "price": {
+          "input": 10,
+          "cachedInput": 1,
+          "cacheWrite": 12.5,
+          "output": 50
+        },
+        "verifiedOn": "2026-09-12",
+        "thinkingLevels": [
+          "low",
+          "medium",
+          "high",
+          "xhigh",
+          "max",
+          "ultra"
+        ],
+        "routingStatus": "selectable"
+      },
+      "catalogueAfter": {
+        "displayName": "GPT-6 Astra",
+        "releaseDate": "2026-09-03",
+        "price": {
+          "input": 10,
+          "cachedInput": 1,
+          "cacheWrite": 12.5,
+          "output": 50
+        },
+        "verifiedOn": "2026-09-29",
+        "thinkingLevels": [
+          "low",
+          "medium",
+          "high",
+          "xhigh",
+          "max",
+          "ultra"
+        ],
+        "routingStatus": "selectable"
+      }
+    },
+    {
+      "modelId": "gpt-6-sol",
+      "displayName": "GPT-6 Sol",
+      "vendor": "openai",
+      "price": {
+        "input": 2,
+        "cachedInput": 0.2,
+        "cacheWrite": 2.5,
+        "output": 10,
+        "longContextOver272k": {
+          "input": 4,
+          "cachedInput": 0.4,
+          "cacheWrite": 5,
+          "output": 15
+        }
+      },
+      "contextWindow": 1050000,
+      "maxInput": 922000,
+      "maxOutput": 128000,
+      "releaseDate": "2026-09-22",
+      "api": {
+        "effortLevels": [
+          "none",
+          "low",
+          "medium",
+          "high",
+          "xhigh",
+          "max"
+        ],
+        "default": "medium"
+      },
+      "cli": {
+        "cli": "codex",
+        "levels": [
+          "low",
+          "medium",
+          "high",
+          "xhigh",
+          "max",
+          "ultra"
+        ],
+        "default": "medium",
+        "minVersion": "0.155.0",
+        "cliContextWindow": [
+          272000,
+          872000
+        ]
+      },
+      "lifecycle": "Active; recommended Codex replacement for gpt-5.5 and gpt-5.4.",
+      "sources": [
+        {
+          "url": "https://developers.openai.com/api/docs/pricing",
+          "retrievedOn": "2026-09-29",
+          "evidence": "sources/openai-api_docs_pricing.md"
+        },
+        {
+          "url": "https://developers.openai.com/api/docs/changelog",
+          "retrievedOn": "2026-09-29",
+          "evidence": "sources/openai-api_docs_changelog.md"
+        },
+        {
+          "url": "https://learn.chatgpt.com/docs/models",
+          "retrievedOn": "2026-09-29",
+          "evidence": "sources/openai-codex_models.md"
+        },
+        {
+          "url": "https://github.com/openai/codex/blob/rust-v0.159.0/codex-rs/models-manager/models.json",
+          "retrievedOn": "2026-09-29",
+          "evidence": "sources/openai-codex-rust-v0.159.0_models.json; evidence/codex-models-cache-0.155.0.json"
+        },
+        {
+          "url": "https://developers.openai.com/api/docs/models/gpt-6-sol",
+          "retrievedOn": "2026-09-29",
+          "evidence": "sources/openai-api_docs_models_gpt-6-sol.md"
+        }
+      ],
+      "catalogueBefore": {
+        "displayName": "GPT-6 Sol",
+        "releaseDate": "2026-09-22",
+        "price": {
+          "input": 2,
+          "cachedInput": 0.2,
+          "cacheWrite": 2.5,
+          "output": 10
+        },
+        "verifiedOn": "2026-09-24",
+        "thinkingLevels": [
+          "minimal",
+          "low",
+          "medium",
+          "high",
+          "xhigh"
+        ],
+        "routingStatus": "selectable"
+      },
+      "catalogueAfter": {
+        "displayName": "GPT-6 Sol",
+        "releaseDate": "2026-09-22",
+        "price": {
+          "input": 2,
+          "cachedInput": 0.2,
+          "cacheWrite": 2.5,
+          "output": 10
+        },
+        "verifiedOn": "2026-09-29",
+        "thinkingLevels": [
+          "low",
+          "medium",
+          "high",
+          "xhigh",
+          "max",
+          "ultra"
+        ],
+        "routingStatus": "selectable"
+      }
+    },
+    {
+      "modelId": "gpt-6-luna",
+      "displayName": "GPT-6 Luna",
+      "vendor": "openai",
+      "price": {
+        "input": 0.1,
+        "cachedInput": 0.01,
+        "cacheWrite": 0.125,
+        "output": 0.5,
+        "longContextOver272k": {
+          "input": 0.2,
+          "cachedInput": 0.02,
+          "cacheWrite": 0.25,
+          "output": 0.75
+        }
+      },
+      "contextWindow": 1050000,
+      "maxInput": 922000,
+      "maxOutput": 128000,
+      "releaseDate": "2026-09-22",
+      "api": {
+        "effortLevels": [
+          "none",
+          "low",
+          "medium",
+          "high",
+          "xhigh",
+          "max"
+        ],
+        "default": "medium"
+      },
+      "cli": {
+        "cli": "codex",
+        "levels": [
+          "low",
+          "medium",
+          "high",
+          "xhigh",
+          "max"
+        ],
+        "default": "medium",
+        "minVersion": "0.155.0",
+        "cliContextWindow": [
+          272000,
+          872000
+        ],
+        "note": "OpenAI: Luna supports efforts up to Max but not Ultra."
+      },
+      "lifecycle": "Active; recommended Codex replacement for gpt-5.4-mini.",
+      "sources": [
+        {
+          "url": "https://developers.openai.com/api/docs/pricing",
+          "retrievedOn": "2026-09-29",
+          "evidence": "sources/openai-api_docs_pricing.md"
+        },
+        {
+          "url": "https://developers.openai.com/api/docs/changelog",
+          "retrievedOn": "2026-09-29",
+          "evidence": "sources/openai-api_docs_changelog.md"
+        },
+        {
+          "url": "https://learn.chatgpt.com/docs/models",
+          "retrievedOn": "2026-09-29",
+          "evidence": "sources/openai-codex_models.md"
+        },
+        {
+          "url": "https://github.com/openai/codex/blob/rust-v0.159.0/codex-rs/models-manager/models.json",
+          "retrievedOn": "2026-09-29",
+          "evidence": "sources/openai-codex-rust-v0.159.0_models.json; evidence/codex-models-cache-0.155.0.json"
+        },
+        {
+          "url": "https://developers.openai.com/api/docs/models/gpt-6-luna",
+          "retrievedOn": "2026-09-29",
+          "evidence": "sources/openai-api_docs_models_gpt-6-luna.md"
+        }
+      ],
+      "catalogueBefore": {
+        "displayName": "GPT-6 Luna",
+        "releaseDate": "2026-09-22",
+        "price": {
+          "input": 0.1,
+          "cachedInput": 0.01,
+          "cacheWrite": 0.125,
+          "output": 0.5
+        },
+        "verifiedOn": "2026-09-24",
+        "thinkingLevels": [
+          "minimal",
+          "low",
+          "medium",
+          "high",
+          "xhigh"
+        ],
+        "routingStatus": "selectable"
+      },
+      "catalogueAfter": {
+        "displayName": "GPT-6 Luna",
+        "releaseDate": "2026-09-22",
+        "price": {
+          "input": 0.1,
+          "cachedInput": 0.01,
+          "cacheWrite": 0.125,
+          "output": 0.5
+        },
+        "verifiedOn": "2026-09-29",
+        "thinkingLevels": [
+          "low",
+          "medium",
+          "high",
+          "xhigh",
+          "max"
+        ],
+        "routingStatus": "selectable"
+      }
+    },
+    {
+      "modelId": "gpt-5.6-sol",
+      "displayName": "GPT-5.6 Sol",
+      "vendor": "openai",
+      "price": {
+        "input": 4,
+        "cachedInput": 0.4,
+        "cacheWrite": 5,
+        "output": 20
+      },
+      "contextWindow": 1050000,
+      "maxInput": 922000,
+      "maxOutput": 128000,
+      "releaseDate": "2026-06-26",
+      "api": {
+        "effortLevels": [
+          "none",
+          "low",
+          "medium",
+          "high",
+          "xhigh",
+          "max"
+        ],
+        "default": "medium"
+      },
+      "cli": {
+        "cli": "codex",
+        "levels": [
+          "low",
+          "medium",
+          "high",
+          "xhigh",
+          "max",
+          "ultra"
+        ],
+        "default": "low",
+        "minVersion": "0.144.0",
+        "upgradeTo": "gpt-6-sol"
+      },
+      "lifecycle": "Available during the GPT-6 rollout; promotional $4/$20 price at least through 2026-11-21.",
+      "sources": [
+        {
+          "url": "https://developers.openai.com/api/docs/pricing",
+          "retrievedOn": "2026-09-29",
+          "evidence": "sources/openai-api_docs_pricing.md"
+        },
+        {
+          "url": "https://learn.chatgpt.com/docs/models",
+          "retrievedOn": "2026-09-29",
+          "evidence": "sources/openai-codex_models.md"
+        },
+        {
+          "url": "https://github.com/openai/codex/blob/rust-v0.159.0/codex-rs/models-manager/models.json",
+          "retrievedOn": "2026-09-29",
+          "evidence": "sources/openai-codex-rust-v0.159.0_models.json; evidence/codex-models-cache-0.155.0.json"
+        },
+        {
+          "url": "https://developers.openai.com/api/docs/models/gpt-5.6-sol",
+          "retrievedOn": "2026-09-29",
+          "evidence": "sources/openai-api_docs_models_gpt-5.6-sol.md"
+        }
+      ],
+      "catalogueBefore": {
+        "displayName": "GPT-5.6 Sol",
+        "releaseDate": "2026-06-26",
+        "price": {
+          "input": 4,
+          "cachedInput": 0.4,
+          "cacheWrite": 5,
+          "output": 20
+        },
+        "verifiedOn": "2026-09-12",
+        "thinkingLevels": [
+          "minimal",
+          "low",
+          "medium",
+          "high",
+          "xhigh",
+          "ultra"
+        ],
+        "routingStatus": "selectable"
+      },
+      "catalogueAfter": {
+        "displayName": "GPT-5.6 Sol",
+        "releaseDate": "2026-06-26",
+        "price": {
+          "input": 4,
+          "cachedInput": 0.4,
+          "cacheWrite": 5,
+          "output": 20
+        },
+        "verifiedOn": "2026-09-29",
+        "thinkingLevels": [
+          "low",
+          "medium",
+          "high",
+          "xhigh",
+          "max",
+          "ultra"
+        ],
+        "routingStatus": "selectable"
+      }
+    },
+    {
+      "modelId": "gpt-5.6-terra",
+      "displayName": "GPT-5.6 Terra",
+      "vendor": "openai",
+      "price": {
+        "input": 2,
+        "cachedInput": 0.2,
+        "cacheWrite": 2.5,
+        "output": 12
+      },
+      "contextWindow": 1050000,
+      "maxInput": 922000,
+      "maxOutput": 128000,
+      "releaseDate": "2026-06-26",
+      "api": {
+        "effortLevels": [
+          "none",
+          "low",
+          "medium",
+          "high",
+          "xhigh",
+          "max"
+        ],
+        "default": "medium"
+      },
+      "cli": {
+        "cli": "codex",
+        "levels": [
+          "low",
+          "medium",
+          "high",
+          "xhigh",
+          "max",
+          "ultra"
+        ],
+        "default": "medium",
+        "minVersion": "0.144.0",
+        "upgradeTo": "gpt-6-sol"
+      },
+      "lifecycle": "Available during the GPT-6 rollout.",
+      "sources": [
+        {
+          "url": "https://developers.openai.com/api/docs/pricing",
+          "retrievedOn": "2026-09-29",
+          "evidence": "sources/openai-api_docs_pricing.md"
+        },
+        {
+          "url": "https://learn.chatgpt.com/docs/models",
+          "retrievedOn": "2026-09-29",
+          "evidence": "sources/openai-codex_models.md"
+        },
+        {
+          "url": "https://github.com/openai/codex/blob/rust-v0.159.0/codex-rs/models-manager/models.json",
+          "retrievedOn": "2026-09-29",
+          "evidence": "sources/openai-codex-rust-v0.159.0_models.json; evidence/codex-models-cache-0.155.0.json"
+        },
+        {
+          "url": "https://developers.openai.com/api/docs/models/gpt-5.6-terra",
+          "retrievedOn": "2026-09-29",
+          "evidence": "sources/openai-api_docs_models_gpt-5.6-terra.md"
+        }
+      ],
+      "catalogueBefore": {
+        "displayName": "GPT-5.6 Terra",
+        "releaseDate": "2026-06-26",
+        "price": {
+          "input": 2,
+          "cachedInput": 0.2,
+          "cacheWrite": 2.5,
+          "output": 12
+        },
+        "verifiedOn": "2026-09-12",
+        "thinkingLevels": [
+          "minimal",
+          "low",
+          "medium",
+          "high",
+          "xhigh",
+          "ultra"
+        ],
+        "routingStatus": "selectable"
+      },
+      "catalogueAfter": {
+        "displayName": "GPT-5.6 Terra",
+        "releaseDate": "2026-06-26",
+        "price": {
+          "input": 2,
+          "cachedInput": 0.2,
+          "cacheWrite": 2.5,
+          "output": 12
+        },
+        "verifiedOn": "2026-09-29",
+        "thinkingLevels": [
+          "low",
+          "medium",
+          "high",
+          "xhigh",
+          "max",
+          "ultra"
+        ],
+        "routingStatus": "selectable"
+      }
+    },
+    {
+      "modelId": "gpt-5.6-luna",
+      "displayName": "GPT-5.6 Luna",
+      "vendor": "openai",
+      "price": {
+        "input": 0.2,
+        "cachedInput": 0.02,
+        "cacheWrite": 0.25,
+        "output": 1.2
+      },
+      "contextWindow": 1050000,
+      "maxInput": 922000,
+      "maxOutput": 128000,
+      "releaseDate": "2026-06-26",
+      "api": {
+        "effortLevels": [
+          "none",
+          "low",
+          "medium",
+          "high",
+          "xhigh",
+          "max"
+        ],
+        "default": "medium"
+      },
+      "cli": {
+        "cli": "codex",
+        "levels": [
+          "low",
+          "medium",
+          "high",
+          "xhigh",
+          "max"
+        ],
+        "default": "medium",
+        "minVersion": "0.144.0",
+        "upgradeTo": "gpt-6-luna"
+      },
+      "lifecycle": "Available during the GPT-6 rollout.",
+      "sources": [
+        {
+          "url": "https://developers.openai.com/api/docs/pricing",
+          "retrievedOn": "2026-09-29",
+          "evidence": "sources/openai-api_docs_pricing.md"
+        },
+        {
+          "url": "https://learn.chatgpt.com/docs/models",
+          "retrievedOn": "2026-09-29",
+          "evidence": "sources/openai-codex_models.md"
+        },
+        {
+          "url": "https://github.com/openai/codex/blob/rust-v0.159.0/codex-rs/models-manager/models.json",
+          "retrievedOn": "2026-09-29",
+          "evidence": "sources/openai-codex-rust-v0.159.0_models.json; evidence/codex-models-cache-0.155.0.json"
+        },
+        {
+          "url": "https://developers.openai.com/api/docs/models/gpt-5.6-luna",
+          "retrievedOn": "2026-09-29",
+          "evidence": "sources/openai-api_docs_models_gpt-5.6-luna.md"
+        }
+      ],
+      "catalogueBefore": {
+        "displayName": "GPT-5.6 Luna",
+        "releaseDate": "2026-06-26",
+        "price": {
+          "input": 0.2,
+          "cachedInput": 0.02,
+          "cacheWrite": 0.25,
+          "output": 1.2
+        },
+        "verifiedOn": "2026-09-12",
+        "thinkingLevels": [
+          "minimal",
+          "low",
+          "medium",
+          "high",
+          "xhigh",
+          "ultra"
+        ],
+        "routingStatus": "selectable"
+      },
+      "catalogueAfter": {
+        "displayName": "GPT-5.6 Luna",
+        "releaseDate": "2026-06-26",
+        "price": {
+          "input": 0.2,
+          "cachedInput": 0.02,
+          "cacheWrite": 0.25,
+          "output": 1.2
+        },
+        "verifiedOn": "2026-09-29",
+        "thinkingLevels": [
+          "low",
+          "medium",
+          "high",
+          "xhigh",
+          "max"
+        ],
+        "routingStatus": "selectable"
+      }
+    },
+    {
+      "modelId": "gpt-5.5",
+      "displayName": "GPT-5.5",
+      "vendor": "openai",
+      "price": {
+        "input": 5,
+        "cachedInput": 0.5,
+        "cacheWrite": null,
+        "output": 30
+      },
+      "contextWindow": 1050000,
+      "maxOutput": 128000,
+      "releaseDate": "2026-04-23",
+      "api": {
+        "effortLevels": [
+          "none",
+          "low",
+          "medium",
+          "high",
+          "xhigh"
+        ],
+        "default": "medium"
+      },
+      "cli": {
+        "cli": "codex",
+        "levels": [
+          "low",
+          "medium",
+          "high",
+          "xhigh"
+        ],
+        "default": "medium",
+        "minVersion": "0.124.0",
+        "upgradeTo": "gpt-6-sol"
+      },
+      "lifecycle": "Retires from ChatGPT, ChatGPT Work and Codex (ChatGPT sign-in) on 2026-10-14; API unaffected.",
+      "sources": [
+        {
+          "url": "https://developers.openai.com/api/docs/pricing",
+          "retrievedOn": "2026-09-29",
+          "evidence": "sources/openai-api_docs_pricing.md"
+        },
+        {
+          "url": "https://learn.chatgpt.com/docs/models",
+          "retrievedOn": "2026-09-29",
+          "evidence": "sources/openai-codex_models.md"
+        },
+        {
+          "url": "https://github.com/openai/codex/blob/rust-v0.159.0/codex-rs/models-manager/models.json",
+          "retrievedOn": "2026-09-29",
+          "evidence": "sources/openai-codex-rust-v0.159.0_models.json; evidence/codex-models-cache-0.155.0.json"
+        },
+        {
+          "url": "https://developers.openai.com/api/docs/models/gpt-5.5",
+          "retrievedOn": "2026-09-29",
+          "evidence": "sources/openai-api_docs_models_gpt-5.5.md"
+        }
+      ],
+      "catalogueBefore": {
+        "displayName": "GPT-5.5",
+        "releaseDate": "2026-04-23",
+        "price": {
+          "input": 5,
+          "cachedInput": 0.5,
+          "cacheWrite": null,
+          "output": 30
+        },
+        "verifiedOn": "2026-09-12",
+        "thinkingLevels": [
+          "minimal",
+          "low",
+          "medium",
+          "high",
+          "xhigh"
+        ],
+        "routingStatus": "unsupported"
+      },
+      "catalogueAfter": {
+        "displayName": "GPT-5.5",
+        "releaseDate": "2026-04-23",
+        "price": {
+          "input": 5,
+          "cachedInput": 0.5,
+          "cacheWrite": null,
+          "output": 30
+        },
+        "verifiedOn": "2026-09-29",
+        "thinkingLevels": [
+          "low",
+          "medium",
+          "high",
+          "xhigh"
+        ],
+        "routingStatus": "unsupported"
+      }
+    },
+    {
+      "modelId": "gpt-5.4-mini",
+      "displayName": "GPT-5.4 Mini",
+      "vendor": "openai",
+      "price": {
+        "input": 0.75,
+        "cachedInput": 0.075,
+        "cacheWrite": null,
+        "output": 4.5
+      },
+      "contextWindow": 400000,
+      "maxInput": 272000,
+      "maxOutput": 128000,
+      "releaseDate": "2026-03-17",
+      "api": {
+        "effortLevels": [
+          "none",
+          "low",
+          "medium",
+          "high",
+          "xhigh"
+        ],
+        "default": "none"
+      },
+      "cli": {
+        "cli": "codex",
+        "levels": [],
+        "default": null,
+        "minVersion": null,
+        "note": "Absent from the Codex model catalogue; retired from Codex with ChatGPT sign-in on 2026-08-31. Runner probe: HTTP 400."
+      },
+      "lifecycle": "Retired from Codex with ChatGPT sign-in 2026-08-31 (replace with gpt-6-luna); API and API-key Codex unaffected.",
+      "sources": [
+        {
+          "url": "https://developers.openai.com/api/docs/pricing",
+          "retrievedOn": "2026-09-29",
+          "evidence": "sources/openai-api_docs_pricing.md"
+        },
+        {
+          "url": "https://learn.chatgpt.com/docs/models",
+          "retrievedOn": "2026-09-29",
+          "evidence": "sources/openai-codex_models.md"
+        },
+        {
+          "url": "https://github.com/openai/codex/blob/rust-v0.159.0/codex-rs/models-manager/models.json",
+          "retrievedOn": "2026-09-29",
+          "evidence": "sources/openai-codex-rust-v0.159.0_models.json; evidence/codex-models-cache-0.155.0.json"
+        },
+        {
+          "url": "https://developers.openai.com/api/docs/models/gpt-5.4-mini",
+          "retrievedOn": "2026-09-29",
+          "evidence": "sources/openai-api_docs_models_gpt-5.4-mini.md"
+        }
+      ],
+      "catalogueBefore": {
+        "displayName": "GPT-5.4 Mini",
+        "releaseDate": "2026-03-17",
+        "price": {
+          "input": 0.75,
+          "cachedInput": 0.075,
+          "cacheWrite": null,
+          "output": 4.5
+        },
+        "verifiedOn": "2026-09-12",
+        "thinkingLevels": [
+          "low",
+          "medium",
+          "high"
+        ],
+        "routingStatus": "selectable"
+      },
+      "catalogueAfter": {
+        "displayName": "GPT-5.4 Mini",
+        "releaseDate": "2026-03-17",
+        "price": {
+          "input": 0.75,
+          "cachedInput": 0.075,
+          "cacheWrite": null,
+          "output": 4.5
+        },
+        "verifiedOn": "2026-09-29",
+        "thinkingLevels": [
+          "low",
+          "medium",
+          "high"
+        ],
+        "routingStatus": "selectable"
+      }
+    }
+  ]
+}

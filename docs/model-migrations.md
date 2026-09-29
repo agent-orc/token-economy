@@ -64,14 +64,18 @@ migration of existing pins. The September 22 successors remain proposal-only:
   repository no-regression benchmark. Always-on thinking/tool changes also
   need compatibility checks. Claude Code 2.1.281 is the minimum observed version.
 - GPT-5.6 Sol → GPT-6 Sol: $4 / $0.40 / $20 → $2 / $0.20 / $10;
-  premium-to-standard. Codex 0.155.0 supports minimal through xhigh, **not ultra**.
-  Source ultra → xhigh is a documented reasoning downgrade, not automatic
-  compatibility. A controlled medium pilot does not certify xhigh or ultra pins.
+  premium-to-standard. The 2026-09-29 refresh (TE-59) found both ladders at
+  `low` through `max` plus `ultra` in the Codex model catalogue, and runner
+  probes completed GPT-6 Sol at `max` and `ultra`. The ladders are therefore
+  compatible and source `ultra` pins need no downgrade. This corrects the
+  2026-09-25 minimal-through-xhigh reading. A controlled medium pilot still
+  does not certify xhigh, max or ultra pins.
 - GPT-5.6 Luna → GPT-6 Luna: $0.20 / $0.02 / $1.20 → $0.10 / $0.01 / $0.50;
-  economy-to-economy (same band, lower rates). The source catalogue includes
-  ultra; the new CLI ladder stops at xhigh. Its operator-observed runner probe
-  on September 25 supersedes the old unverified availability note. Controlled
-  no-regression qualification remains missing.
+  economy-to-economy (same band, lower rates). Both ladders are `low` through
+  `max`; the Codex catalogue advertises no `ultra` for either Luna, so the
+  previous GPT-5.6 Luna `ultra` entry was removed (TE-59). Its operator-observed
+  runner probe on September 25 supersedes the old unverified availability note.
+  Controlled no-regression qualification remains missing.
 
 These are the operator's September 25 CLI facts; API max benchmarks are separate
 and cannot add CLI levels. Runtime availability and dated target prices must be

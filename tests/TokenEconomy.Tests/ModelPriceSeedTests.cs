@@ -6,6 +6,13 @@ namespace TokenEconomy.Tests;
 public class ModelPriceSeedTests
 {
     private static readonly ModelPriceCatalog Catalog = ModelPriceCatalog.Default;
+    private static readonly DateOnly CurrentRateVerification = new(2026, 9, 29);
+
+    /// <summary>Current rates were re-verified on 2026-09-29 (TE-59); superseded periods keep their 2026-09-12 review.</summary>
+    private static DateOnly ExpectedVerification(string model, ModelPrice price)
+        => price.ValidFrom == Catalog.PriceDevelopment(model).Max(entry => entry.ValidFrom)
+            ? CurrentRateVerification
+            : new DateOnly(2026, 9, 12);
 
     [Fact]
     public void DefaultCatalog_BuildsWithoutDuplicateKeys()
@@ -102,7 +109,7 @@ public class ModelPriceSeedTests
         Assert.Null(price.CacheWritePerMTok);
         Assert.False(price.Unconfirmed);
         Assert.Contains("https://", price.Source);
-        Assert.Equal(new DateOnly(2026, 9, 12), price.VerifiedOn);
+        Assert.Equal(ExpectedVerification(model, price), price.VerifiedOn);
     }
 
     [Fact]
@@ -126,8 +133,8 @@ public class ModelPriceSeedTests
         Assert.NotNull(sol);
         Assert.Equal((4m, 20m, 0.4m, 5m),
             (sol!.InputPerMTok, sol.OutputPerMTok, sol.CacheReadPerMTok, sol.CacheWritePerMTok));
-        Assert.Equal(new DateOnly(2026, 9, 12), astra.VerifiedOn);
-        Assert.Equal(new DateOnly(2026, 9, 12), sol.VerifiedOn);
+        Assert.Equal(CurrentRateVerification, astra.VerifiedOn);
+        Assert.Equal(ExpectedVerification(KnownModels.Gpt56Sol.Value, sol), sol.VerifiedOn);
         Assert.Equal(2, Catalog.PriceDevelopment(KnownModels.Gpt56Sol).Count);
     }
 
@@ -144,7 +151,7 @@ public class ModelPriceSeedTests
         Assert.Equal((decimal)cacheRead, price.CacheReadPerMTok);
         Assert.Equal((decimal)cacheWrite, price.CacheWritePerMTok);
         Assert.False(price.Unconfirmed);
-        Assert.Equal(new DateOnly(2026, 9, 24), price.VerifiedOn);
+        Assert.Equal(CurrentRateVerification, price.VerifiedOn);
     }
 
     [Theory]
@@ -163,7 +170,7 @@ public class ModelPriceSeedTests
         Assert.Equal((decimal)cacheWrite, price.CacheWritePerMTok);
         Assert.False(price.Unconfirmed);
         Assert.Contains("https://", price.Source);
-        Assert.Equal(new DateOnly(2026, 9, 12), price.VerifiedOn);
+        Assert.Equal(ExpectedVerification(model, price), price.VerifiedOn);
     }
 
     [Fact]
@@ -220,7 +227,7 @@ public class ModelPriceSeedTests
             foreach (var price in Catalog.PriceDevelopment(id))
             {
                 Assert.Contains("https://", price.Source);
-                Assert.Equal(new DateOnly(2026, 9, 12), price.VerifiedOn);
+                Assert.Equal(ExpectedVerification(id, price), price.VerifiedOn);
             }
 
         Assert.All(Catalog.PriceDevelopment("gpt-5.6-sol"), price => Assert.Contains("https://", price.Source));
@@ -229,7 +236,7 @@ public class ModelPriceSeedTests
             foreach (var price in Catalog.PriceDevelopment(id))
             {
                 Assert.Contains("https://", price.Source);
-                Assert.Equal(new DateOnly(2026, 9, 12), price.VerifiedOn);
+                Assert.Equal(ExpectedVerification(id, price), price.VerifiedOn);
             }
     }
 
@@ -264,7 +271,7 @@ public class ModelPriceSeedTests
             foreach (var price in Catalog.PriceDevelopment(id))
             {
                 Assert.Contains("https://platform.claude.com/docs/en/about-claude/pricing", price.SourceUrls);
-                Assert.Equal(new DateOnly(2026, 9, 12), price.VerifiedOn);
+                Assert.Equal(ExpectedVerification(id, price), price.VerifiedOn);
             }
     }
 

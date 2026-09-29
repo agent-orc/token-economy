@@ -2,13 +2,13 @@
   "$schema": "model-routing-policy.schema.json",
   "schemaVersion": 1,
   "policyVersion": "2026-09-25",
-  "evidenceAsOfDate": "2026-09-25",
+  "evidenceAsOfDate": "2026-09-29",
   "authority": {
     "repositoryPath": "docs/system/domains/model-routing-policy.md",
     "upstreamRepository": "agent-orc/agent-studio",
     "upstreamPath": "docs/system/domains/model-routing-policy.md",
-    "contentSha256": "1da51b659f04bfc76755c73e18618abab3de50cefe9a2c5112e73005be69983a",
-    "synchronization": "Token Economy operator revision of 2026-09-25 rebases Luna and Sol on GPT-6, retaining Terra, score bands, hard floors and reissue rules from the 2026-07-24 Agent Studio policy. Historical GPT-5.6 cohorts are not GPT-6 evidence. No upstream update is claimed. Refresh the authority hash, generated view and drift tests together."
+    "contentSha256": "5cd48550be2adc40b153164617f99107468c3f05905b082b52c22cb53d6fa9dd",
+    "synchronization": "Token Economy operator revision of 2026-09-25 rebases Luna and Sol on GPT-6, retaining Terra, score bands, hard floors and reissue rules from the 2026-07-24 Agent Studio policy. Historical GPT-5.6 cohorts are not GPT-6 evidence. The TE-59 capability refresh of 2026-09-29 corrects model thinking ladders and adds Claude Sonnet 5.5 as unsupported without changing routes. No upstream update is claimed. Refresh the authority hash, generated view and drift tests together."
   },
   "providers": [
     {
@@ -73,12 +73,11 @@
       "mediaCatalogModelId": "*",
       "trustModelId": "gpt-5.6-luna",
       "supportedThinkingLevels": [
-        "minimal",
         "low",
         "medium",
         "high",
         "xhigh",
-        "ultra"
+        "max"
       ],
       "routingStatus": "selectable",
       "evidenceStatus": "provisional",
@@ -87,7 +86,7 @@
       "workflowRoles": [
         "coreTask"
       ],
-      "note": "No Luna cohort existed in the 2026-07-23 benchmark; this is an unvalidated cost-saving hypothesis."
+      "note": "No Luna cohort existed in the 2026-07-23 benchmark; this is an unvalidated cost-saving hypothesis. Ladder refreshed 2026-09-29 (TE-59) from the Codex CLI model catalogue served to codex-cli 0.155.0 on 2026-09-29 (and bundled in rust-v0.157.0 through rust-v0.159.0): max added; minimal and ultra removed because the CLI does not advertise them for this model (a CLI that accepts an ultra flag without advertising it is not treated as support)."
     },
     {
       "canonicalId": "gpt-5.6-terra",
@@ -100,11 +99,11 @@
       "mediaCatalogModelId": "*",
       "trustModelId": "gpt-5.6-terra",
       "supportedThinkingLevels": [
-        "minimal",
         "low",
         "medium",
         "high",
         "xhigh",
+        "max",
         "ultra"
       ],
       "routingStatus": "selectable",
@@ -114,7 +113,7 @@
       "workflowRoles": [
         "coreTask"
       ],
-      "note": "Eight historical Terra/medium records had no known grades and no trustworthy terminal cohort."
+      "note": "Eight historical Terra/medium records had no known grades and no trustworthy terminal cohort. Ladder refreshed 2026-09-29 (TE-59) from the Codex CLI model catalogue served to codex-cli 0.155.0 on 2026-09-29 (and bundled in rust-v0.157.0 through rust-v0.159.0): max added and minimal removed."
     },
     {
       "canonicalId": "gpt-5.6-sol",
@@ -128,11 +127,11 @@
       "mediaCatalogModelId": "*",
       "trustModelId": "gpt-5.6-sol",
       "supportedThinkingLevels": [
-        "minimal",
         "low",
         "medium",
         "high",
         "xhigh",
+        "max",
         "ultra"
       ],
       "routingStatus": "selectable",
@@ -143,7 +142,7 @@
         "coreTask",
         "boundedPipelineDecision"
       ],
-      "note": "Sol/medium has the strongest favorable historical signal; Sol/xhigh remains a correctness floor, not a blanket default."
+      "note": "Sol/medium has the strongest favorable historical signal; Sol/xhigh remains a correctness floor, not a blanket default. Ladder refreshed 2026-09-29 (TE-59) from the Codex CLI model catalogue served to codex-cli 0.155.0 on 2026-09-29 (and bundled in rust-v0.157.0 through rust-v0.159.0): max added; minimal removed after the API rejected it in a runner probe."
     },
     {
       "canonicalId": "gpt-6-astra",
@@ -181,11 +180,12 @@
       "mediaCatalogModelId": "*",
       "trustModelId": "gpt-6-sol",
       "supportedThinkingLevels": [
-        "minimal",
         "low",
         "medium",
         "high",
-        "xhigh"
+        "xhigh",
+        "max",
+        "ultra"
       ],
       "routingStatus": "selectable",
       "evidenceStatus": "provisional",
@@ -194,7 +194,7 @@
       "workflowRoles": [
         "coreTask"
       ],
-      "note": "Operator evidence dated 2026-09-25: Codex CLI 0.155.0 exposes minimal/low/medium/high/xhigh. Sol runs on the workstation and agent-runner-01 since September 24; CLI default xhigh, policy explicitly selects medium or xhigh. Source ultra pins must be explicitly downgraded to xhigh, never silently migrated. Default core route by operator decision backed by dated prices and vendor claims; local completion and review cohorts remain unqualified. API max benchmarks do not establish Codex max support."
+      "note": "Ladder refreshed 2026-09-29 (TE-59): the Codex CLI model catalogue served to codex-cli 0.155.0 on 2026-09-29 (and bundled in rust-v0.157.0 through rust-v0.159.0) lists low/medium/high/xhigh/max/ultra with default medium; runner probes on 2026-09-29 completed at max and ultra, and the API rejects minimal for this generation. This supersedes the 2026-09-25 minimal-through-xhigh observation. Sol runs on the workstation and agent-runner-01 since September 24; policy explicitly selects medium or xhigh. Default core route by operator decision backed by dated prices and vendor claims; local completion and review cohorts remain unqualified. Level availability is not quality evidence: max and ultra have no local cohort."
     },
     {
       "canonicalId": "gpt-6-luna",
@@ -205,11 +205,11 @@
       "mediaCatalogModelId": "*",
       "trustModelId": "gpt-6-luna",
       "supportedThinkingLevels": [
-        "minimal",
         "low",
         "medium",
         "high",
-        "xhigh"
+        "xhigh",
+        "max"
       ],
       "routingStatus": "selectable",
       "evidenceStatus": "provisional",
@@ -218,7 +218,7 @@
       "workflowRoles": [
         "coreTask"
       ],
-      "note": "Operator evidence dated 2026-09-25: Codex CLI 0.155.0 exposes minimal/low/medium/high/xhigh. Luna execution succeeded on agent-runner-01 on September 25; the old unverified availability note is superseded. Default core route by operator decision backed by dated prices and vendor claims; local completion and review cohorts remain unqualified. API max benchmarks do not establish Codex max support."
+      "note": "Ladder refreshed 2026-09-29 (TE-59): the Codex CLI model catalogue served to codex-cli 0.155.0 on 2026-09-29 (and bundled in rust-v0.157.0 through rust-v0.159.0) lists low/medium/high/xhigh/max with default medium, and OpenAI states Luna supports efforts up to max but not ultra; a runner probe on 2026-09-29 completed at max and the API rejected minimal. Luna execution succeeded on agent-runner-01 on September 25. Default core route by operator decision backed by dated prices and vendor claims; local completion and review cohorts remain unqualified. Level availability is not quality evidence."
     },
     {
       "canonicalId": "claude-fable-5-1",
@@ -290,7 +290,29 @@
       "workflowRoles": [
         "boundedPipelineDecision"
       ],
-      "note": "Role exception for bounded decisions over compact structured evidence; not a core-task route."
+      "note": "Role exception for bounded decisions over compact structured evidence; not a core-task route. Availability warning (TE-59, 2026-09-29): OpenAI retired gpt-5.4-mini from Codex with ChatGPT sign-in on 2026-08-31, and a runner probe with codex-cli 0.155.0 on a ChatGPT account returned HTTP 400. The route still resolves for API-key Codex; replacing it (OpenAI names gpt-6-luna) is an open policy decision."
+    },
+    {
+      "canonicalId": "claude-sonnet-5-5",
+      "aliases": [],
+      "providerId": "anthropic",
+      "cliId": "claude-code",
+      "priceCatalogId": "claude-sonnet-5-5",
+      "mediaCatalogModelId": "*",
+      "trustModelId": "claude-sonnet-5-5",
+      "supportedThinkingLevels": [
+        "low",
+        "medium",
+        "high",
+        "xhigh",
+        "max"
+      ],
+      "routingStatus": "unsupported",
+      "evidenceStatus": "unknown",
+      "provisional": false,
+      "capabilityTier": "frontier",
+      "workflowRoles": [],
+      "note": "Released 2026-09-28 at $2/$0.20/$2.50/$10 per MTok (same as Sonnet 5). Anthropic and Claude Code document low/medium/high/xhigh/max with a recalibrated scale (Claude Code default medium, API default high). Claude Code needs v2.1.284 or later; the runner's Claude Code 2.1.281 returned unrecognized_model on 2026-09-29, so the model stays unsupported until the CLI is upgraded and a probe records the canonical model. It adds no fallback equivalence or automatic migration (TE-59)."
     },
     {
       "canonicalId": "claude-sonnet-5",
@@ -314,7 +336,7 @@
       "workflowRoles": [
         "coreTask"
       ],
-      "note": "Small favorable Claude Sonnet 5/high feature cohort; use only as an equivalent-capability provider fallback."
+      "note": "Small favorable Claude Sonnet 5/high feature cohort; use only as an equivalent-capability provider fallback. Legacy since Claude Sonnet 5.5 (2026-09-28); the policy pins the full id, so Claude Code's sonnet alias moving to Sonnet 5.5 in v2.1.284 does not change this fallback."
     },
     {
       "canonicalId": "claude-opus-4-1",
@@ -373,6 +395,7 @@
         "low",
         "medium",
         "high",
+        "xhigh",
         "max"
       ],
       "routingStatus": "selectable",
@@ -382,7 +405,7 @@
       "workflowRoles": [
         "coreTask"
       ],
-      "note": "Retained Anthropic vendor override for explicit operator pins, subject to task correctness floors. No automatic equivalence to Sol/xhigh is established."
+      "note": "Retained Anthropic vendor override for explicit operator pins, subject to task correctness floors. No automatic equivalence to Sol/xhigh is established. Claude Code lists low/medium/high/xhigh/max for Opus 5 (xhigh added 2026-09-29, TE-59)."
     },
     {
       "canonicalId": "claude-opus-4-8",
@@ -396,6 +419,7 @@
         "low",
         "medium",
         "high",
+        "xhigh",
         "max"
       ],
       "routingStatus": "unsupported",
@@ -403,7 +427,7 @@
       "provisional": false,
       "capabilityTier": "frontier",
       "workflowRoles": [],
-      "note": "Known to the price catalog but not qualified by the authoritative routing policy."
+      "note": "Known to the price catalog but not qualified by the authoritative routing policy. Claude Code lists low/medium/high/xhigh/max (xhigh added 2026-09-29, TE-59)."
     },
     {
       "canonicalId": "claude-opus-4-7",
@@ -417,6 +441,7 @@
         "low",
         "medium",
         "high",
+        "xhigh",
         "max"
       ],
       "routingStatus": "unsupported",
@@ -424,7 +449,7 @@
       "provisional": false,
       "capabilityTier": "frontier",
       "workflowRoles": [],
-      "note": "Known to the price catalog but not qualified by the authoritative routing policy."
+      "note": "Known to the price catalog but not qualified by the authoritative routing policy. Claude Code lists low/medium/high/xhigh/max with default xhigh (xhigh added 2026-09-29, TE-59)."
     },
     {
       "canonicalId": "claude-opus-4-6",
@@ -484,7 +509,6 @@
         "low",
         "medium",
         "high",
-        "xhigh",
         "max"
       ],
       "routingStatus": "unsupported",
@@ -492,7 +516,7 @@
       "provisional": false,
       "capabilityTier": "balanced",
       "workflowRoles": [],
-      "note": "Known to the price catalog but not qualified by the authoritative routing policy."
+      "note": "Known to the price catalog but not qualified by the authoritative routing policy. Claude Code lists low/medium/high/max; xhigh removed 2026-09-29 (TE-59) because Claude Code runs it as high."
     },
     {
       "canonicalId": "claude-sonnet-4-5",
@@ -539,7 +563,7 @@
       "workflowRoles": [
         "coreTask"
       ],
-      "note": "Retained Anthropic vendor override for explicit operator pins, subject to task correctness floors. No automatic equivalence to Sol/xhigh is established."
+      "note": "Retained Anthropic vendor override for explicit operator pins, subject to task correctness floors. No automatic equivalence to Sol/xhigh is established. Claude Code and the Claude API do not support effort on Haiku 4.5 (extended thinking only), so the low/medium levels are nominal labels that do not change the request (verified 2026-09-29, TE-59). Retirement not sooner than 2026-10-15."
     },
     {
       "canonicalId": "gpt-5.5",
@@ -552,7 +576,6 @@
       "mediaCatalogModelId": "*",
       "trustModelId": "gpt-5.5",
       "supportedThinkingLevels": [
-        "minimal",
         "low",
         "medium",
         "high",
@@ -563,7 +586,7 @@
       "provisional": false,
       "capabilityTier": "balanced",
       "workflowRoles": [],
-      "note": "Known to the CLI/price catalog but not a route in policy version 2026-07-24."
+      "note": "Known to the CLI/price catalog but not a route in policy version 2026-07-24. Retires from ChatGPT, ChatGPT Work and Codex with ChatGPT sign-in on 2026-10-14 (API unaffected). Ladder refreshed 2026-09-29 (TE-59): the Codex CLI lists low through xhigh; minimal failed on the runner because Codex's web_search tool is incompatible with it."
     },
     {
       "canonicalId": "gpt-5.5-pro",
