@@ -1,8 +1,8 @@
 {
   "$schema": "model-migrations.v1.schema.json",
   "schemaVersion": 1,
-  "catalogVersion": "2026-09-29",
-  "evidenceAsOfDate": "2026-09-29",
+  "catalogVersion": "2026-10-04",
+  "evidenceAsOfDate": "2026-10-04",
   "defaultStrategy": "latestInFamily",
   "authority": {
     "rules": "docs/model-migrations.md",
@@ -271,6 +271,27 @@
       "safeAuto": false,
       "since": "2026-09-24",
       "note": "Proposal only: same GPT family and lower dated token prices; premium to standard cost class. Ladders refreshed 2026-09-29 (TE-59): the Codex CLI model catalogue lists low/medium/high/xhigh/max/ultra for both models and runner probes completed GPT-6 Sol at max and ultra, so source ultra pins no longer need a downgrade and the ladders are compatible. Controlled repository noRegression evidence remains unqualified, so migration stays explicit. Recheck availability and dated price at launch."
+    },
+    {
+      "from": "gpt-6-sol",
+      "to": "gpt-6.1-sol",
+      "family": "gpt",
+      "vendor": "openai",
+      "generationOrder": {
+        "from": 60002,
+        "to": 60102
+      },
+      "costClassFrom": "standard",
+      "costClassTo": "standard",
+      "ladderCompatible": false,
+      "contextChange": "unknown",
+      "evidence": {
+        "kind": "none",
+        "reason": "No qualifying identical-case repository benchmark for GPT-6 Sol and GPT-6.1 Sol; provider comparisons do not authorize automatic migration."
+      },
+      "safeAuto": false,
+      "since": "2026-10-04",
+      "note": "Proposal only. Standard short-context input and output remain $2/$10 per MTok; cached input halves from $0.20 to $0.10. GPT-6 Sol max and ultra pins have no target rung; explicitly downgrade those pins to xhigh only after operator review. Codex CLI 0.155.0 on this ChatGPT account rejected the target (HTTP 400); runtime availability must be checked."
     },
     {
       "from": "gpt-5.6-luna",

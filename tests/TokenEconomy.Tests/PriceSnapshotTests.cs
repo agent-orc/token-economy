@@ -60,6 +60,23 @@ public sealed class PriceSnapshotTests
         Assert.Equal(new DateOnly(2026, 9, 12), previous[KnownModels.Gpt6Astra.Value].History.Single().VerifiedOn);
     }
 
+    [Fact]
+    public void October4RefreshAddsOnlyGpt61Sol()
+    {
+        var previous = Load(File.ReadAllBytes(SnapshotPath("model-prices.2026-09-29.json"))).ToDictionary(item => item.ModelId);
+        var current = Load(File.ReadAllBytes(SnapshotPath("model-prices.2026-10-04.json")));
+
+        Assert.Equal([KnownModels.Gpt61Sol.Value], current.Select(item => item.ModelId).Except(previous.Keys));
+        Assert.Empty(previous.Keys.Except(current.Select(item => item.ModelId)));
+        foreach (var listing in current.Where(item => previous.ContainsKey(item.ModelId)))
+        {
+            var before = previous[listing.ModelId];
+            Assert.Equal(before.DisplayName, listing.DisplayName);
+            Assert.Equal(before.ReleaseDate, listing.ReleaseDate);
+            Assert.Equal(Rates(before), Rates(listing));
+        }
+    }
+
     private static IEnumerable<string> Rates(ModelListing listing)
         => listing.History.Select(price =>
             $"{price.ValidFrom:O}|{price.InputPerMTok}|{price.CacheReadPerMTok}|{price.CacheWritePerMTok}|{price.OutputPerMTok}|{price.Currency}|{price.Unconfirmed}");

@@ -17,7 +17,7 @@ public class ModelPriceProvenanceTests
                 Assert.True(price.ValidFrom > DateTime.UnixEpoch);
                 Assert.Equal(DateTimeKind.Utc, price.ValidFrom.Kind);
                 Assert.NotNull(price.VerifiedOn);
-                Assert.InRange(price.VerifiedOn.Value, new DateOnly(2026, 9, 12), new DateOnly(2026, 9, 29));
+                Assert.InRange(price.VerifiedOn.Value, new DateOnly(2026, 9, 12), new DateOnly(2026, 10, 4));
                 Assert.NotEmpty(price.SourceUrls);
                 Assert.All(price.SourceUrls, source => Assert.True(Uri.TryCreate(source, UriKind.Absolute, out var uri) && uri.Scheme == "https"));
                 Assert.False(price.Unconfirmed);

@@ -3,6 +3,22 @@
   "schemaVersion": 1,
   "records": [
     {
+      "id": "openai-flagged-error-factuality-2026-09-29",
+      "version": "2026-09-29 launch report",
+      "name": "OpenAI flagged-error factuality evaluation",
+      "publisher": "OpenAI",
+      "capabilityClass": "reasoning",
+      "unit": "percent responses with a factual error",
+      "minimumScore": 0,
+      "maximumScore": 100,
+      "direction": "lowerIsBetter",
+      "methodologyUrl": "https://openai.com/index/introducing-gpt-6-1-sol/",
+      "citationNote": "Publisher evaluation of de-identified ChatGPT conversations where users had flagged an earlier factual error; deliberately difficult prompts are not representative of typical use. Do not equate this with general factual accuracy.",
+      "validFrom": "2026-09-29",
+      "capturedAt": "2026-10-04",
+      "retrievedAt": "2026-10-04"
+    },
+    {
       "id": "artificial-analysis-intelligence-index-v4.2",
       "version": "4.2",
       "name": "Artificial Analysis Intelligence Index",

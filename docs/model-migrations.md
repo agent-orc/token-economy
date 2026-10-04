@@ -1,6 +1,6 @@
 # Model migration catalog
 
-Version: 2026-09-25
+Version: 2026-10-04
 
 The versioned machine source is
 [`src/TokenEconomy/catalog/model-migrations.v1.json`](../src/TokenEconomy/catalog/model-migrations.v1.json),
@@ -49,6 +49,8 @@ higher or unknown cost class, has an incompatible reasoning ladder, has no
 comparable evidence, carries an open regression, or crosses into a new model
 generation without qualification. A same-model entry such as Haiku 4.5 or
 GPT-5.4 Mini is a retention rule, not a migration, and is also false.
+
+GPT-6 Sol → GPT-6.1 Sol is a proposal only (`safeAuto: false`, `evidence.kind: none`). Standard short-context input/output rates stay $2/$10 per MTok and cached input falls from $0.20 to $0.10. The source allows `max` and `ultra`, while the target discovery tops out at `xhigh`; those source pins need an explicit `xhigh` downgrade and operator review. No identical-case repository benchmark qualifies the target, and codex-cli 0.155.0 on the executing ChatGPT account returned HTTP 400 for the model on 2026-10-04. The catalogue does not silently migrate any pin.
 
 GPT-5.6 Sol to GPT-6 Astra is intentionally proposal-only: it crosses a major
 generation, changes the ladder, and has no comparable repository no-regression

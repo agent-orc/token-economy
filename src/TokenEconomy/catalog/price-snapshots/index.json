@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "description": "Immutable, dated copies of the price catalog. The newest entry is byte-identical to ../model-prices.json, which the library embeds; older entries are never edited.",
-  "current": "2026-09-29",
+  "current": "2026-10-04",
   "snapshots": [
     {
       "id": "2026-09-24",
@@ -26,6 +26,18 @@
       "sources": [
         "docs/model-catalogue-refresh-2026-09-29.md",
         "docs/analyses/model-catalogue-refresh-2026-09-29.json"
+      ]
+    },
+    {
+      "id": "2026-10-04",
+      "retrievedOn": "2026-10-04",
+      "firstShippedIn": "0.3.7",
+      "path": "model-prices.2026-10-04.json",
+      "sha256": "b27c85bcd78bb7b4c8b833c2cc35c26b12b4374155c2673fbc484ed8ff30ac24",
+      "listings": 27,
+      "summary": "Adds GPT-6.1 Sol with OpenAI-dated standard short-context pricing; every shared listing and rate remains unchanged from 2026-09-29.",
+      "sources": [
+        "docs/model-catalogue-refresh-2026-10-04.md"
       ]
     }
   ]

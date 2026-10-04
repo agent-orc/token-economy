@@ -1,6 +1,6 @@
 # Model Routing Policy
 
-Version: 2026-09-25
+Version: 2026-10-04
 
 Status: GPT-6 operator baseline, effective 2026-09-25; local completion evidence remains provisional
 
@@ -108,6 +108,10 @@ changing any route, score band, floor or fallback:
   sign-in on 2026-08-31, and a runner probe on a ChatGPT account returned
   HTTP 400. The Mini/high bounded-decision route still resolves for API-key
   Codex; replacing it is an open operator decision.
+
+### Additional supported models
+
+- `gpt-6.1-sol`: `minimal`, `low`, `medium`, `high`, `xhigh`; selectable, provisional, frontier, core task only. The production Agent Studio backend model discovery on 2026-10-04 advertises these Codex levels with default `xhigh`. No level was executable on this host: codex-cli 0.155.0 returned HTTP 400, model not supported with this ChatGPT account. The [OpenAI API model page](https://developers.openai.com/api/docs/models/gpt-6.1-sol) says API `minimal` is unsupported, so CLI `minimal` support remains unconfirmed. Explicit evaluation and operator pins may select the model where available. It has no default route, task-class prior or provider fallback; language and media performance are unmeasured.
 
 API and Codex ladders are different evidence scopes. The
 [Sol model page](https://developers.openai.com/api/docs/models/gpt-6-sol) and
@@ -243,7 +247,7 @@ Voice Lint imports supply measured rows with immutable source provenance.
 See [the capability and intake contract](../../human-friendly-language.md)
 and [the API](../../model-routing-api.md#human-friendly-language-capability).
 The language constraint itself changes no machine policy threshold, route, tier,
-or fallback. The GPT-6 ladder revision above sets `policyVersion` to 2026-09-25.
+or fallback. This support revision sets `policyVersion` to 2026-10-04.
 
 ## Historical GPT-5.6 benchmark basis
 

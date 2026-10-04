@@ -29,10 +29,10 @@ public sealed class ModelReleaseDateTests
         Assert.Equal(new DateTime(2026, 4, 24, 0, 0, 0, DateTimeKind.Utc), catalog.PriceDevelopment(KnownModels.Gpt55)[0].ValidFrom);
         var newest = catalog.Listings.OrderByDescending(listing => listing.ReleaseDate).ToArray();
         Assert.Equal(
-            [KnownModels.ClaudeSonnet55.Value, KnownModels.ClaudeOpus55.Value, KnownModels.Gpt6Sol.Value, KnownModels.Gpt6Luna.Value],
-            newest.Take(4).Select(listing => listing.ModelId));
-        Assert.Equal(KnownModels.Gpt6Astra.Value, newest[4].ModelId);
-        Assert.Equal(KnownModels.ClaudeFable51.Value, newest[5].ModelId);
+            [KnownModels.Gpt61Sol.Value, KnownModels.ClaudeSonnet55.Value, KnownModels.ClaudeOpus55.Value, KnownModels.Gpt6Sol.Value, KnownModels.Gpt6Luna.Value],
+            newest.Take(5).Select(listing => listing.ModelId));
+        Assert.Equal(KnownModels.Gpt6Astra.Value, newest[5].ModelId);
+        Assert.Equal(KnownModels.ClaudeFable51.Value, newest[6].ModelId);
         Assert.Equal(KnownModels.ClaudeOpus41.Value, newest[^1].ModelId);
     }
 

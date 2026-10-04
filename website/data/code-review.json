@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
-  "generatedAtUtc": "2026-09-29T11:04:33.886878+00:00",
-  "asOfUtc": "2026-09-25T00:00:00Z",
+  "generatedAtUtc": "2026-10-04T13:55:40.678265+00:00",
+  "asOfUtc": "2026-10-04T00:00:00Z",
   "source": {
     "benchmarkTypes": "src/TokenEconomy/catalog/benchmark-types.json",
     "benchmarkResults": "src/TokenEconomy/catalog/benchmark-results.json",
@@ -1001,6 +1001,10 @@
       "displayName": "GPT-6 Astra"
     },
     {
+      "modelId": "gpt-6.1-sol",
+      "displayName": "GPT-6.1 Sol"
+    },
+    {
       "modelId": "gpt-6-sol",
       "displayName": "GPT-6 Sol"
     },
@@ -1715,6 +1719,32 @@
       },
       {
         "canonicalModel": "gpt-6-sol",
+        "taskClass": "review",
+        "runCount": 0,
+        "filesReviewed": 0,
+        "findingsReported": 0,
+        "outcomeAvailableRunCount": 0,
+        "confirmedFindings": 0,
+        "dismissedFindings": 0,
+        "assessedFindingCount": 0,
+        "findingOutcomeCoverage": null,
+        "findingConfirmationRate": null,
+        "thinkingLevels": [],
+        "reviewAspects": [],
+        "observedThrough": null,
+        "evidenceStatus": "unknown",
+        "evidenceQuality": "insufficientEvidence",
+        "suitability": null,
+        "gateFailures": [
+          "run count 0 is below 20",
+          "assessed finding count 0 is below 20",
+          "finding outcome coverage is unavailable or below the declared gate",
+          "finding confirmation rate is unavailable"
+        ],
+        "provenance": []
+      },
+      {
+        "canonicalModel": "gpt-6.1-sol",
         "taskClass": "review",
         "runCount": 0,
         "filesReviewed": 0,

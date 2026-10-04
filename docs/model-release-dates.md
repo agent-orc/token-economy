@@ -2,7 +2,7 @@
 
 Verified against provider documentation on 2026-09-12. On 2026-09-29 the Fable
 5.1, Opus 5.5, Sonnet 5, Haiku 4.5 and GPT-6 rows were re-checked unchanged and
-Claude Sonnet 5.5 was added. The price catalog stores these facts in
+Claude Sonnet 5.5 was added. GPT-6.1 Sol was verified and added on 2026-10-04. The price catalog stores these facts in
 `ModelListing.ReleaseDate` and `ReleaseDateSource`.
 
 A release date is the provider's initial public release or limited-preview
@@ -20,6 +20,7 @@ model is collapsed, independently of its release date.
 
 | Model | Initial publication | Evidence |
 | --- | --- | --- |
+| GPT-6.1 Sol | `2026-09-29` | [OpenAI API changelog](https://developers.openai.com/api/docs/changelog) |
 | Claude Sonnet 5.5 | `2026-09-28` | [Provider source](https://platform.claude.com/docs/en/models/sonnet-5-5/overview) |
 | Claude Opus 5.5 | `2026-09-22` | [Provider source](https://platform.claude.com/docs/en/models/opus-5-5/overview) |
 | GPT-6 Luna | `2026-09-22` | [Provider source](https://developers.openai.com/api/docs/changelog) |

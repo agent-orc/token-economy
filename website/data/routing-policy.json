@@ -1,14 +1,14 @@
 {
   "$schema": "model-routing-policy.schema.json",
   "schemaVersion": 1,
-  "policyVersion": "2026-09-25",
-  "evidenceAsOfDate": "2026-09-29",
+  "policyVersion": "2026-10-04",
+  "evidenceAsOfDate": "2026-10-04",
   "authority": {
     "repositoryPath": "docs/system/domains/model-routing-policy.md",
     "upstreamRepository": "agent-orc/agent-studio",
     "upstreamPath": "docs/system/domains/model-routing-policy.md",
-    "contentSha256": "5cd48550be2adc40b153164617f99107468c3f05905b082b52c22cb53d6fa9dd",
-    "synchronization": "Token Economy operator revision of 2026-09-25 rebases Luna and Sol on GPT-6, retaining Terra, score bands, hard floors and reissue rules from the 2026-07-24 Agent Studio policy. Historical GPT-5.6 cohorts are not GPT-6 evidence. The TE-59 capability refresh of 2026-09-29 corrects model thinking ladders and adds Claude Sonnet 5.5 as unsupported without changing routes. No upstream update is claimed. Refresh the authority hash, generated view and drift tests together."
+    "contentSha256": "32a9eead38dc35eeff1434eeb2b1d1e4addf53b160f4e3c1a71b9729e86cab80",
+    "synchronization": "Token Economy 2026-10-04 revision adds GPT-6.1 Sol as selectable and provisional for explicit pins. Existing defaults, score bands, hard floors, priors and fallbacks remain unchanged. The runner ChatGPT account rejected execution on codex-cli 0.155.0. No upstream update is claimed. Refresh the authority hash, generated view and drift tests together."
   },
   "providers": [
     {
@@ -195,6 +195,30 @@
         "coreTask"
       ],
       "note": "Ladder refreshed 2026-09-29 (TE-59): the Codex CLI model catalogue served to codex-cli 0.155.0 on 2026-09-29 (and bundled in rust-v0.157.0 through rust-v0.159.0) lists low/medium/high/xhigh/max/ultra with default medium; runner probes on 2026-09-29 completed at max and ultra, and the API rejects minimal for this generation. This supersedes the 2026-09-25 minimal-through-xhigh observation. Sol runs on the workstation and agent-runner-01 since September 24; policy explicitly selects medium or xhigh. Default core route by operator decision backed by dated prices and vendor claims; local completion and review cohorts remain unqualified. Level availability is not quality evidence: max and ultra have no local cohort."
+    },
+    {
+      "canonicalId": "gpt-6.1-sol",
+      "aliases": [],
+      "providerId": "openai",
+      "cliId": "codex",
+      "priceCatalogId": "gpt-6.1-sol",
+      "mediaCatalogModelId": "*",
+      "trustModelId": "gpt-6.1-sol",
+      "supportedThinkingLevels": [
+        "minimal",
+        "low",
+        "medium",
+        "high",
+        "xhigh"
+      ],
+      "routingStatus": "selectable",
+      "evidenceStatus": "provisional",
+      "provisional": true,
+      "capabilityTier": "frontier",
+      "workflowRoles": [
+        "coreTask"
+      ],
+      "note": "Additional supported model for explicit evaluation or operator pin only; no default route, task-class prior or fallback equivalence. Production Agent Studio Codex discovery on 2026-10-04 listed minimal/low/medium/high/xhigh (default xhigh). codex-cli 0.155.0 on this ChatGPT account returned HTTP 400 model not supported, so no level could be executed here; minimal is advertised but runtime support is unconfirmed. The OpenAI API model page separately says API minimal is unsupported. Language and media capability are unmeasured."
     },
     {
       "canonicalId": "gpt-6-luna",

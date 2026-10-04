@@ -20,8 +20,8 @@ An agent run bills for input, output, and cache tokens at a rate that changes
 over time, per model. Getting that wrong is not a rounding error: a hard-coded
 price silently costs the wrong amount for every historic run, and a missing
 price that defaults to `0` reports a budget as healthy while it drains.
-All 25 catalog models have dated Standard API price histories and primary-source
-provenance, verified through 2026-09-25. See
+All 27 catalog models have dated Standard API price histories and primary-source
+provenance; the newest listing was verified on 2026-10-04. See
 [price history and scope](docs/price-history-research-2026-09-12.md) for
 historical corrections, cache semantics, and API cost versus subscription
 consumption.

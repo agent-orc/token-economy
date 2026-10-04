@@ -51,6 +51,9 @@ public static class KnownModels
     /// <summary>The canonical <c>gpt-6-astra</c> model id.</summary>
     public static readonly ModelId Gpt6Astra = ModelId.Of("gpt-6-astra");
 
+    /// <summary>The canonical <c>gpt-6.1-sol</c> model id.</summary>
+    public static readonly ModelId Gpt61Sol = ModelId.Of("gpt-6.1-sol");
+
     /// <summary>The canonical <c>gpt-6-sol</c> model id.</summary>
     public static readonly ModelId Gpt6Sol = ModelId.Of("gpt-6-sol");
 

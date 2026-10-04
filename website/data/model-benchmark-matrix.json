@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
-  "generatedAtUtc": "2026-09-29T11:04:33.688149+00:00",
-  "asOfUtc": "2026-09-25T00:00:00Z",
+  "generatedAtUtc": "2026-10-04T13:55:40.477027+00:00",
+  "asOfUtc": "2026-10-04T00:00:00Z",
   "defaultBenchmarkTypeId": "artificial-analysis-intelligence-index-v4.3.2",
   "source": {
     "benchmarkTypes": "src/TokenEconomy/catalog/benchmark-types.json",
@@ -18,17 +18,17 @@
   "provenanceFacts": [
     {
       "label": "Price catalog snapshot",
-      "date": "2026-09-29",
+      "date": "2026-10-04",
       "path": "src/TokenEconomy/catalog/model-prices.json"
     },
     {
       "label": "Benchmark definitions captured through",
-      "date": "2026-09-25",
+      "date": "2026-10-04",
       "path": "src/TokenEconomy/catalog/benchmark-types.json"
     },
     {
       "label": "Benchmark results retrieved through",
-      "date": "2026-09-25",
+      "date": "2026-10-04",
       "path": "src/TokenEconomy/catalog/benchmark-results.json"
     }
   ],
@@ -235,6 +235,69 @@
   ],
   "benchmarkTypes": [
     {
+      "id": "openai-flagged-error-factuality-2026-09-29",
+      "version": "2026-09-29 launch report",
+      "name": "OpenAI flagged-error factuality evaluation",
+      "publisher": "OpenAI",
+      "capabilityClass": "reasoning",
+      "unit": "percent responses with a factual error",
+      "minimumScore": 0,
+      "maximumScore": 100,
+      "direction": "lowerIsBetter",
+      "methodologyUrl": "https://openai.com/index/introducing-gpt-6-1-sol/",
+      "citationNote": "Publisher evaluation of de-identified ChatGPT conversations where users had flagged an earlier factual error; deliberately difficult prompts are not representative of typical use. Do not equate this with general factual accuracy.",
+      "validFrom": "2026-09-29",
+      "capturedAt": "2026-10-04",
+      "retrievedAt": "2026-10-04",
+      "reference": null,
+      "cells": [
+        {
+          "modelId": "gpt-6.1-sol",
+          "effort": "low",
+          "score": 7.7,
+          "scoreIsNormalized": false,
+          "prices": {
+            "status": "Resolved",
+            "currency": "USD",
+            "inputPerMTok": 2,
+            "outputPerMTok": 10,
+            "cacheReadPerMTok": 0.1,
+            "cacheWritePerMTok": 2.5,
+            "validFromUtc": "2026-09-29T00:00:00Z",
+            "unconfirmed": false
+          },
+          "publishedInputTokensPerTask": null,
+          "publishedOutputTokensPerTask": null,
+          "publishedCostPerTaskUsd": null,
+          "costPerTaskUsd": 0.3,
+          "costBasis": "declaredTokenAssumption",
+          "blendedPricePerMillionTokensUsd": 2.727273,
+          "scorePerDollar": 25.666667,
+          "scoreDeltaToReference": null,
+          "costDeltaToReferenceUsd": null,
+          "evidenceAgeDays": 5,
+          "stale": false,
+          "evidence": [
+            {
+              "id": "openai-flagged-error-factuality-2026-09-29-gpt-6.1-sol-low",
+              "benchmarkTypeId": "openai-flagged-error-factuality-2026-09-29",
+              "modelId": "gpt-6.1-sol",
+              "reasoningEffort": "low",
+              "score": 7.7,
+              "publishedAt": "2026-09-29",
+              "retrievedAt": "2026-10-04",
+              "sourceUrl": "https://openai.com/index/introducing-gpt-6-1-sol/",
+              "retrievalMethod": "manual",
+              "evidenceExcerpt": "OpenAI reports 7.7% of low-effort GPT-6.1 Sol responses contained a factual error on deliberately difficult flagged-error conversations; comparator GPT-6 Sol is 11.4%.",
+              "confidence": "publisherReported",
+              "evidenceStatus": "provisional"
+            }
+          ]
+        }
+      ],
+      "candidates": []
+    },
+    {
       "id": "artificial-analysis-intelligence-index-v4.2",
       "version": "4.2",
       "name": "Artificial Analysis Intelligence Index",
@@ -278,7 +341,7 @@
           "scorePerDollar": 80.0,
           "scoreDeltaToReference": 0.0,
           "costDeltaToReferenceUsd": 0.0,
-          "evidenceAgeDays": 18,
+          "evidenceAgeDays": 27,
           "stale": false,
           "evidence": [
             {
@@ -320,7 +383,7 @@
           "scorePerDollar": 32.666667,
           "scoreDeltaToReference": 1.0,
           "costDeltaToReferenceUsd": 0.9,
-          "evidenceAgeDays": 18,
+          "evidenceAgeDays": 27,
           "stale": false,
           "evidence": [
             {
@@ -385,7 +448,7 @@
           "scorePerDollar": 35.333333,
           "scoreDeltaToReference": 11.0,
           "costDeltaToReferenceUsd": 0.69,
-          "evidenceAgeDays": 18,
+          "evidenceAgeDays": 27,
           "stale": false,
           "evidence": [
             {
@@ -437,7 +500,7 @@
           "scorePerDollar": 13.296399,
           "scoreDeltaToReference": 6.0,
           "costDeltaToReferenceUsd": 2.8,
-          "evidenceAgeDays": 13,
+          "evidenceAgeDays": 22,
           "stale": false,
           "evidence": [
             {
@@ -493,7 +556,7 @@
           "scorePerDollar": 10.245902,
           "scoreDeltaToReference": 8.0,
           "costDeltaToReferenceUsd": 4.07,
-          "evidenceAgeDays": 13,
+          "evidenceAgeDays": 22,
           "stale": false,
           "evidence": [
             {
@@ -549,7 +612,7 @@
           "scorePerDollar": 8.703072,
           "scoreDeltaToReference": 9.0,
           "costDeltaToReferenceUsd": 5.05,
-          "evidenceAgeDays": 13,
+          "evidenceAgeDays": 22,
           "stale": false,
           "evidence": [
             {
@@ -627,7 +690,7 @@
           "scorePerDollar": 51.851852,
           "scoreDeltaToReference": 0.0,
           "costDeltaToReferenceUsd": 0.0,
-          "evidenceAgeDays": 14,
+          "evidenceAgeDays": 23,
           "stale": false,
           "evidence": [
             {
@@ -674,7 +737,7 @@
           "scorePerDollar": 23.61809,
           "scoreDeltaToReference": 5.0,
           "costDeltaToReferenceUsd": 1.18,
-          "evidenceAgeDays": 14,
+          "evidenceAgeDays": 23,
           "stale": false,
           "evidence": [
             {
@@ -720,7 +783,7 @@
           "scorePerDollar": 56.097561,
           "scoreDeltaToReference": 4.0,
           "costDeltaToReferenceUsd": 0.01,
-          "evidenceAgeDays": 14,
+          "evidenceAgeDays": 23,
           "stale": false,
           "evidence": [
             {
@@ -767,7 +830,7 @@
           "scorePerDollar": 16.257669,
           "scoreDeltaToReference": 11.0,
           "costDeltaToReferenceUsd": 2.45,
-          "evidenceAgeDays": 16,
+          "evidenceAgeDays": 25,
           "stale": false,
           "evidence": [
             {
@@ -858,7 +921,7 @@
           "scorePerDollar": 91.666667,
           "scoreDeltaToReference": 0.0,
           "costDeltaToReferenceUsd": 0.0,
-          "evidenceAgeDays": 16,
+          "evidenceAgeDays": 25,
           "stale": false,
           "evidence": [
             {
@@ -900,7 +963,7 @@
           "scorePerDollar": 8.744711,
           "scoreDeltaToReference": 7.0,
           "costDeltaToReferenceUsd": 6.49,
-          "evidenceAgeDays": 16,
+          "evidenceAgeDays": 25,
           "stale": false,
           "evidence": [
             {
@@ -987,7 +1050,7 @@
           "scorePerDollar": 120.0,
           "scoreDeltaToReference": 0.0,
           "costDeltaToReferenceUsd": 0.0,
-          "evidenceAgeDays": 16,
+          "evidenceAgeDays": 25,
           "stale": false,
           "evidence": [
             {
@@ -1029,7 +1092,7 @@
           "scorePerDollar": 45.333333,
           "scoreDeltaToReference": -4.0,
           "costDeltaToReferenceUsd": 0.9,
-          "evidenceAgeDays": 16,
+          "evidenceAgeDays": 25,
           "stale": false,
           "evidence": [
             {
@@ -1094,7 +1157,7 @@
           "scorePerDollar": 11.30031,
           "scoreDeltaToReference": 0.0,
           "costDeltaToReferenceUsd": 0.0,
-          "evidenceAgeDays": 22,
+          "evidenceAgeDays": 31,
           "stale": false,
           "evidence": [
             {
@@ -1140,7 +1203,7 @@
           "scorePerDollar": 121.166667,
           "scoreDeltaToReference": -0.3,
           "costDeltaToReferenceUsd": -5.86,
-          "evidenceAgeDays": 22,
+          "evidenceAgeDays": 31,
           "stale": false,
           "evidence": [
             {
@@ -1182,7 +1245,7 @@
           "scorePerDollar": 11.349693,
           "scoreDeltaToReference": 1.0,
           "costDeltaToReferenceUsd": 0.06,
-          "evidenceAgeDays": 22,
+          "evidenceAgeDays": 31,
           "stale": false,
           "evidence": [
             {
@@ -1228,7 +1291,7 @@
           "scorePerDollar": 49.4,
           "scoreDeltaToReference": 1.1,
           "costDeltaToReferenceUsd": -4.96,
-          "evidenceAgeDays": 22,
+          "evidenceAgeDays": 31,
           "stale": false,
           "evidence": [
             {
@@ -1270,7 +1333,7 @@
           "scorePerDollar": 4440.0,
           "scoreDeltaToReference": -6.4,
           "costDeltaToReferenceUsd": -6.445,
-          "evidenceAgeDays": 3,
+          "evidenceAgeDays": 12,
           "stale": false,
           "evidence": [
             {
@@ -1325,7 +1388,7 @@
           "scorePerDollar": 229.333333,
           "scoreDeltaToReference": -4.2,
           "costDeltaToReferenceUsd": -6.16,
-          "evidenceAgeDays": 3,
+          "evidenceAgeDays": 12,
           "stale": false,
           "evidence": [
             {
@@ -1376,7 +1439,7 @@
               "retrievalMethod": "manual",
               "evidenceExcerpt": "DeepSWE v1.1: GPT-6 Astra 74.1%; GPT-5.6 Sol 72.7%.",
               "confidence": "publisherReported",
-              "evidenceAgeDays": 22,
+              "evidenceAgeDays": 31,
               "stale": false
             }
           ]
@@ -1427,7 +1490,7 @@
           "scorePerDollar": 62.166667,
           "scoreDeltaToReference": 0.0,
           "costDeltaToReferenceUsd": 0.0,
-          "evidenceAgeDays": 22,
+          "evidenceAgeDays": 31,
           "stale": false,
           "evidence": [
             {
@@ -1469,7 +1532,7 @@
           "scorePerDollar": 38.6,
           "scoreDeltaToReference": 20.6,
           "costDeltaToReferenceUsd": 0.9,
-          "evidenceAgeDays": 22,
+          "evidenceAgeDays": 31,
           "stale": false,
           "evidence": [
             {
@@ -1531,7 +1594,7 @@
           "scorePerDollar": 333.333333,
           "scoreDeltaToReference": null,
           "costDeltaToReferenceUsd": null,
-          "evidenceAgeDays": 47,
+          "evidenceAgeDays": 56,
           "stale": false,
           "evidence": [
             {
@@ -1573,7 +1636,7 @@
           "scorePerDollar": 166.666667,
           "scoreDeltaToReference": null,
           "costDeltaToReferenceUsd": null,
-          "evidenceAgeDays": 47,
+          "evidenceAgeDays": 56,
           "stale": false,
           "evidence": [
             {
@@ -1615,7 +1678,7 @@
           "scorePerDollar": 312.5,
           "scoreDeltaToReference": null,
           "costDeltaToReferenceUsd": null,
-          "evidenceAgeDays": 47,
+          "evidenceAgeDays": 56,
           "stale": false,
           "evidence": [
             {
@@ -1677,7 +1740,7 @@
           "scorePerDollar": 2.023604,
           "scoreDeltaToReference": null,
           "costDeltaToReferenceUsd": null,
-          "evidenceAgeDays": 13,
+          "evidenceAgeDays": 22,
           "stale": false,
           "evidence": [
             {
@@ -1744,7 +1807,7 @@
           "scorePerDollar": 3.059246,
           "scoreDeltaToReference": null,
           "costDeltaToReferenceUsd": null,
-          "evidenceAgeDays": 13,
+          "evidenceAgeDays": 22,
           "stale": false,
           "evidence": [
             {
@@ -1811,7 +1874,7 @@
           "scorePerDollar": 1.203655,
           "scoreDeltaToReference": null,
           "costDeltaToReferenceUsd": null,
-          "evidenceAgeDays": 13,
+          "evidenceAgeDays": 22,
           "stale": false,
           "evidence": [
             {
@@ -1878,7 +1941,7 @@
           "scorePerDollar": 2.864849,
           "scoreDeltaToReference": null,
           "costDeltaToReferenceUsd": null,
-          "evidenceAgeDays": 13,
+          "evidenceAgeDays": 22,
           "stale": false,
           "evidence": [
             {
@@ -1945,7 +2008,7 @@
           "scorePerDollar": 0.426766,
           "scoreDeltaToReference": null,
           "costDeltaToReferenceUsd": null,
-          "evidenceAgeDays": 13,
+          "evidenceAgeDays": 22,
           "stale": false,
           "evidence": [
             {
@@ -2012,7 +2075,7 @@
           "scorePerDollar": 16.439556,
           "scoreDeltaToReference": null,
           "costDeltaToReferenceUsd": null,
-          "evidenceAgeDays": 13,
+          "evidenceAgeDays": 22,
           "stale": false,
           "evidence": [
             {
@@ -2079,7 +2142,7 @@
           "scorePerDollar": 4.838927,
           "scoreDeltaToReference": null,
           "costDeltaToReferenceUsd": null,
-          "evidenceAgeDays": 13,
+          "evidenceAgeDays": 22,
           "stale": false,
           "evidence": [
             {
@@ -2146,7 +2209,7 @@
           "scorePerDollar": 4.096636,
           "scoreDeltaToReference": null,
           "costDeltaToReferenceUsd": null,
-          "evidenceAgeDays": 13,
+          "evidenceAgeDays": 22,
           "stale": false,
           "evidence": [
             {
@@ -2213,7 +2276,7 @@
           "scorePerDollar": 10.724523,
           "scoreDeltaToReference": null,
           "costDeltaToReferenceUsd": null,
-          "evidenceAgeDays": 13,
+          "evidenceAgeDays": 22,
           "stale": false,
           "evidence": [
             {
@@ -2280,7 +2343,7 @@
           "scorePerDollar": 9.347817,
           "scoreDeltaToReference": null,
           "costDeltaToReferenceUsd": null,
-          "evidenceAgeDays": 13,
+          "evidenceAgeDays": 22,
           "stale": false,
           "evidence": [
             {
@@ -2347,7 +2410,7 @@
           "scorePerDollar": 8.416424,
           "scoreDeltaToReference": null,
           "costDeltaToReferenceUsd": null,
-          "evidenceAgeDays": 13,
+          "evidenceAgeDays": 22,
           "stale": false,
           "evidence": [
             {
@@ -2414,7 +2477,7 @@
           "scorePerDollar": 8.126066,
           "scoreDeltaToReference": null,
           "costDeltaToReferenceUsd": null,
-          "evidenceAgeDays": 13,
+          "evidenceAgeDays": 22,
           "stale": false,
           "evidence": [
             {
@@ -2481,7 +2544,7 @@
           "scorePerDollar": 5.876444,
           "scoreDeltaToReference": null,
           "costDeltaToReferenceUsd": null,
-          "evidenceAgeDays": 13,
+          "evidenceAgeDays": 22,
           "stale": false,
           "evidence": [
             {
@@ -2568,7 +2631,7 @@
           "scorePerDollar": 83.286844,
           "scoreDeltaToReference": null,
           "costDeltaToReferenceUsd": null,
-          "evidenceAgeDays": 13,
+          "evidenceAgeDays": 22,
           "stale": false,
           "evidence": [
             {
@@ -2635,7 +2698,7 @@
           "scorePerDollar": 62.515769,
           "scoreDeltaToReference": null,
           "costDeltaToReferenceUsd": null,
-          "evidenceAgeDays": 13,
+          "evidenceAgeDays": 22,
           "stale": false,
           "evidence": [
             {
@@ -2702,7 +2765,7 @@
           "scorePerDollar": 50.293349,
           "scoreDeltaToReference": null,
           "costDeltaToReferenceUsd": null,
-          "evidenceAgeDays": 13,
+          "evidenceAgeDays": 22,
           "stale": false,
           "evidence": [
             {
@@ -2769,7 +2832,7 @@
           "scorePerDollar": 42.990526,
           "scoreDeltaToReference": null,
           "costDeltaToReferenceUsd": null,
-          "evidenceAgeDays": 13,
+          "evidenceAgeDays": 22,
           "stale": false,
           "evidence": [
             {
@@ -2836,7 +2899,7 @@
           "scorePerDollar": 36.082536,
           "scoreDeltaToReference": null,
           "costDeltaToReferenceUsd": null,
-          "evidenceAgeDays": 13,
+          "evidenceAgeDays": 22,
           "stale": false,
           "evidence": [
             {
@@ -2923,7 +2986,7 @@
           "scorePerDollar": 5.219985,
           "scoreDeltaToReference": null,
           "costDeltaToReferenceUsd": null,
-          "evidenceAgeDays": 13,
+          "evidenceAgeDays": 22,
           "stale": false,
           "evidence": [
             {
@@ -2985,7 +3048,7 @@
           "scorePerDollar": 4.462935,
           "scoreDeltaToReference": null,
           "costDeltaToReferenceUsd": null,
-          "evidenceAgeDays": 13,
+          "evidenceAgeDays": 22,
           "stale": false,
           "evidence": [
             {
@@ -3047,7 +3110,7 @@
           "scorePerDollar": 6.25,
           "scoreDeltaToReference": null,
           "costDeltaToReferenceUsd": null,
-          "evidenceAgeDays": 13,
+          "evidenceAgeDays": 22,
           "stale": false,
           "evidence": [
             {
@@ -3109,7 +3172,7 @@
           "scorePerDollar": 2.045455,
           "scoreDeltaToReference": null,
           "costDeltaToReferenceUsd": null,
-          "evidenceAgeDays": 13,
+          "evidenceAgeDays": 22,
           "stale": false,
           "evidence": [
             {
@@ -3171,7 +3234,7 @@
           "scorePerDollar": 11.30031,
           "scoreDeltaToReference": null,
           "costDeltaToReferenceUsd": null,
-          "evidenceAgeDays": 13,
+          "evidenceAgeDays": 22,
           "stale": false,
           "evidence": [
             {
@@ -3233,7 +3296,7 @@
           "scorePerDollar": 11.349693,
           "scoreDeltaToReference": null,
           "costDeltaToReferenceUsd": null,
-          "evidenceAgeDays": 13,
+          "evidenceAgeDays": 22,
           "stale": false,
           "evidence": [
             {
@@ -3315,7 +3378,7 @@
           "scorePerDollar": 41.333333,
           "scoreDeltaToReference": null,
           "costDeltaToReferenceUsd": null,
-          "evidenceAgeDays": 16,
+          "evidenceAgeDays": 25,
           "stale": false,
           "evidence": [
             {
@@ -3373,7 +3436,7 @@
           "scorePerDollar": 80.0,
           "scoreDeltaToReference": null,
           "costDeltaToReferenceUsd": null,
-          "evidenceAgeDays": 16,
+          "evidenceAgeDays": 25,
           "stale": false,
           "evidence": [
             {
@@ -3430,7 +3493,7 @@
           "scorePerDollar": 91.666667,
           "scoreDeltaToReference": null,
           "costDeltaToReferenceUsd": null,
-          "evidenceAgeDays": 16,
+          "evidenceAgeDays": 25,
           "stale": false,
           "evidence": [
             {
@@ -3487,7 +3550,7 @@
           "scorePerDollar": 8.744711,
           "scoreDeltaToReference": null,
           "costDeltaToReferenceUsd": null,
-          "evidenceAgeDays": 16,
+          "evidenceAgeDays": 25,
           "stale": false,
           "evidence": [
             {
@@ -3567,7 +3630,7 @@
           "scorePerDollar": 39.966667,
           "scoreDeltaToReference": null,
           "costDeltaToReferenceUsd": null,
-          "evidenceAgeDays": 13,
+          "evidenceAgeDays": 22,
           "stale": false,
           "evidence": [
             {
@@ -3620,7 +3683,7 @@
           "scorePerDollar": 84.226667,
           "scoreDeltaToReference": null,
           "costDeltaToReferenceUsd": null,
-          "evidenceAgeDays": 13,
+          "evidenceAgeDays": 22,
           "stale": false,
           "evidence": [
             {
@@ -3673,7 +3736,7 @@
           "scorePerDollar": 39.426667,
           "scoreDeltaToReference": null,
           "costDeltaToReferenceUsd": null,
-          "evidenceAgeDays": 13,
+          "evidenceAgeDays": 22,
           "stale": false,
           "evidence": [
             {
@@ -3746,7 +3809,7 @@
           "scorePerDollar": 44.693333,
           "scoreDeltaToReference": null,
           "costDeltaToReferenceUsd": null,
-          "evidenceAgeDays": 13,
+          "evidenceAgeDays": 22,
           "stale": false,
           "evidence": [
             {
@@ -3801,7 +3864,7 @@
           "scorePerDollar": 82.96,
           "scoreDeltaToReference": null,
           "costDeltaToReferenceUsd": null,
-          "evidenceAgeDays": 13,
+          "evidenceAgeDays": 22,
           "stale": false,
           "evidence": [
             {
@@ -3856,7 +3919,7 @@
           "scorePerDollar": 33.826667,
           "scoreDeltaToReference": null,
           "costDeltaToReferenceUsd": null,
-          "evidenceAgeDays": 13,
+          "evidenceAgeDays": 22,
           "stale": false,
           "evidence": [
             {
@@ -3931,7 +3994,7 @@
           "scorePerDollar": 37.78,
           "scoreDeltaToReference": null,
           "costDeltaToReferenceUsd": null,
-          "evidenceAgeDays": 13,
+          "evidenceAgeDays": 22,
           "stale": false,
           "evidence": [
             {
@@ -3984,7 +4047,7 @@
           "scorePerDollar": 39.366667,
           "scoreDeltaToReference": null,
           "costDeltaToReferenceUsd": null,
-          "evidenceAgeDays": 13,
+          "evidenceAgeDays": 22,
           "stale": false,
           "evidence": [
             {
@@ -4057,7 +4120,7 @@
           "scorePerDollar": 60.933333,
           "scoreDeltaToReference": null,
           "costDeltaToReferenceUsd": null,
-          "evidenceAgeDays": 24,
+          "evidenceAgeDays": 33,
           "stale": false,
           "evidence": [
             {
@@ -4110,7 +4173,7 @@
           "scorePerDollar": 118.666667,
           "scoreDeltaToReference": null,
           "costDeltaToReferenceUsd": null,
-          "evidenceAgeDays": 63,
+          "evidenceAgeDays": 72,
           "stale": false,
           "evidence": [
             {
@@ -4183,7 +4246,7 @@
           "scorePerDollar": 66.933333,
           "scoreDeltaToReference": null,
           "costDeltaToReferenceUsd": null,
-          "evidenceAgeDays": 21,
+          "evidenceAgeDays": 30,
           "stale": false,
           "evidence": [
             {
@@ -4234,7 +4297,7 @@
           "scorePerDollar": 98.333333,
           "scoreDeltaToReference": null,
           "costDeltaToReferenceUsd": null,
-          "evidenceAgeDays": 21,
+          "evidenceAgeDays": 30,
           "stale": false,
           "evidence": [
             {
@@ -4285,7 +4348,7 @@
           "scorePerDollar": 40.866667,
           "scoreDeltaToReference": null,
           "costDeltaToReferenceUsd": null,
-          "evidenceAgeDays": 21,
+          "evidenceAgeDays": 30,
           "stale": false,
           "evidence": [
             {
@@ -4356,7 +4419,7 @@
           "scorePerDollar": 57.2,
           "scoreDeltaToReference": null,
           "costDeltaToReferenceUsd": null,
-          "evidenceAgeDays": 21,
+          "evidenceAgeDays": 30,
           "stale": false,
           "evidence": [
             {
@@ -4407,7 +4470,7 @@
           "scorePerDollar": 79.333333,
           "scoreDeltaToReference": null,
           "costDeltaToReferenceUsd": null,
-          "evidenceAgeDays": 21,
+          "evidenceAgeDays": 30,
           "stale": false,
           "evidence": [
             {
@@ -4458,7 +4521,7 @@
           "scorePerDollar": 38.066667,
           "scoreDeltaToReference": null,
           "costDeltaToReferenceUsd": null,
-          "evidenceAgeDays": 21,
+          "evidenceAgeDays": 30,
           "stale": false,
           "evidence": [
             {
@@ -4529,7 +4592,7 @@
           "scorePerDollar": 74.133333,
           "scoreDeltaToReference": null,
           "costDeltaToReferenceUsd": null,
-          "evidenceAgeDays": 63,
+          "evidenceAgeDays": 72,
           "stale": false,
           "evidence": [
             {
@@ -4583,7 +4646,7 @@
           "scorePerDollar": 73.6,
           "scoreDeltaToReference": null,
           "costDeltaToReferenceUsd": null,
-          "evidenceAgeDays": 63,
+          "evidenceAgeDays": 72,
           "stale": false,
           "evidence": [
             {
@@ -4657,7 +4720,7 @@
           "scorePerDollar": 83.733333,
           "scoreDeltaToReference": null,
           "costDeltaToReferenceUsd": null,
-          "evidenceAgeDays": 63,
+          "evidenceAgeDays": 72,
           "stale": false,
           "evidence": [
             {
@@ -4711,7 +4774,7 @@
           "scorePerDollar": 81.066667,
           "scoreDeltaToReference": null,
           "costDeltaToReferenceUsd": null,
-          "evidenceAgeDays": 63,
+          "evidenceAgeDays": 72,
           "stale": false,
           "evidence": [
             {
@@ -4785,7 +4848,7 @@
           "scorePerDollar": 47.466667,
           "scoreDeltaToReference": null,
           "costDeltaToReferenceUsd": null,
-          "evidenceAgeDays": 63,
+          "evidenceAgeDays": 72,
           "stale": false,
           "evidence": [
             {
@@ -4839,7 +4902,7 @@
           "scorePerDollar": 52.4,
           "scoreDeltaToReference": null,
           "costDeltaToReferenceUsd": null,
-          "evidenceAgeDays": 63,
+          "evidenceAgeDays": 72,
           "stale": false,
           "evidence": [
             {
@@ -4913,7 +4976,7 @@
           "scorePerDollar": 36.4,
           "scoreDeltaToReference": null,
           "costDeltaToReferenceUsd": null,
-          "evidenceAgeDays": 63,
+          "evidenceAgeDays": 72,
           "stale": false,
           "evidence": [
             {
@@ -4967,7 +5030,7 @@
           "scorePerDollar": 38.133333,
           "scoreDeltaToReference": null,
           "costDeltaToReferenceUsd": null,
-          "evidenceAgeDays": 63,
+          "evidenceAgeDays": 72,
           "stale": false,
           "evidence": [
             {
@@ -5041,7 +5104,7 @@
           "scorePerDollar": 40.666667,
           "scoreDeltaToReference": null,
           "costDeltaToReferenceUsd": null,
-          "evidenceAgeDays": 24,
+          "evidenceAgeDays": 33,
           "stale": false,
           "evidence": [
             {
@@ -5116,7 +5179,7 @@
           "scorePerDollar": 24.866667,
           "scoreDeltaToReference": null,
           "costDeltaToReferenceUsd": null,
-          "evidenceAgeDays": 24,
+          "evidenceAgeDays": 33,
           "stale": false,
           "evidence": [
             {
@@ -5191,7 +5254,7 @@
           "scorePerDollar": 38.066667,
           "scoreDeltaToReference": null,
           "costDeltaToReferenceUsd": null,
-          "evidenceAgeDays": 24,
+          "evidenceAgeDays": 33,
           "stale": false,
           "evidence": [
             {
@@ -5266,7 +5329,7 @@
           "scorePerDollar": 24.266667,
           "scoreDeltaToReference": null,
           "costDeltaToReferenceUsd": null,
-          "evidenceAgeDays": 24,
+          "evidenceAgeDays": 33,
           "stale": false,
           "evidence": [
             {
@@ -5341,7 +5404,7 @@
           "scorePerDollar": 116.166667,
           "scoreDeltaToReference": null,
           "costDeltaToReferenceUsd": null,
-          "evidenceAgeDays": 78,
+          "evidenceAgeDays": 87,
           "stale": false,
           "evidence": [
             {
@@ -5412,7 +5475,7 @@
           "scorePerDollar": 52.666667,
           "scoreDeltaToReference": null,
           "costDeltaToReferenceUsd": null,
-          "evidenceAgeDays": 78,
+          "evidenceAgeDays": 87,
           "stale": false,
           "evidence": [
             {
@@ -5483,7 +5546,7 @@
           "scorePerDollar": 9.210526,
           "scoreDeltaToReference": null,
           "costDeltaToReferenceUsd": null,
-          "evidenceAgeDays": 13,
+          "evidenceAgeDays": 22,
           "stale": false,
           "evidence": [
             {
@@ -5539,7 +5602,7 @@
           "scorePerDollar": 0.723684,
           "scoreDeltaToReference": null,
           "costDeltaToReferenceUsd": null,
-          "evidenceAgeDays": 13,
+          "evidenceAgeDays": 22,
           "stale": false,
           "evidence": [
             {
@@ -5615,7 +5678,7 @@
           "scorePerDollar": 18.028846,
           "scoreDeltaToReference": null,
           "costDeltaToReferenceUsd": null,
-          "evidenceAgeDays": 13,
+          "evidenceAgeDays": 22,
           "stale": false,
           "evidence": [
             {
@@ -5671,7 +5734,7 @@
           "scorePerDollar": 1.375,
           "scoreDeltaToReference": null,
           "costDeltaToReferenceUsd": null,
-          "evidenceAgeDays": 13,
+          "evidenceAgeDays": 22,
           "stale": false,
           "evidence": [
             {
@@ -5750,7 +5813,7 @@
           "scorePerDollar": 528.571429,
           "scoreDeltaToReference": 0.0,
           "costDeltaToReferenceUsd": 0.0,
-          "evidenceAgeDays": 0,
+          "evidenceAgeDays": 9,
           "stale": false,
           "evidence": [
             {
@@ -5806,7 +5869,7 @@
           "scorePerDollar": 45.283019,
           "scoreDeltaToReference": 11.0,
           "costDeltaToReferenceUsd": 0.99,
-          "evidenceAgeDays": 0,
+          "evidenceAgeDays": 9,
           "stale": false,
           "evidence": [
             {
