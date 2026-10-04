@@ -3,20 +3,6 @@
   "schemaVersion": 1,
   "records": [
     {
-      "id": "openai-flagged-error-factuality-2026-09-29-gpt-6.1-sol-low",
-      "benchmarkTypeId": "openai-flagged-error-factuality-2026-09-29",
-      "modelId": "gpt-6.1-sol",
-      "reasoningEffort": "low",
-      "score": 7.7,
-      "publishedAt": "2026-09-29",
-      "retrievedAt": "2026-10-04",
-      "sourceUrl": "https://openai.com/index/introducing-gpt-6-1-sol/",
-      "retrievalMethod": "manual",
-      "evidenceExcerpt": "OpenAI reports 7.7% of low-effort GPT-6.1 Sol responses contained a factual error on deliberately difficult flagged-error conversations; comparator GPT-6 Sol is 11.4%.",
-      "confidence": "publisherReported",
-      "evidenceStatus": "provisional"
-    },
-    {
       "id": "aa-ii-v4.2-astra-low-2026-09-07",
       "benchmarkTypeId": "artificial-analysis-intelligence-index-v4.2",
       "modelId": "gpt-6-astra",

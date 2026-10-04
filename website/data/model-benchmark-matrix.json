@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAtUtc": "2026-10-04T13:55:40.477027+00:00",
+  "generatedAtUtc": "2026-10-04T22:24:23.989691+00:00",
   "asOfUtc": "2026-10-04T00:00:00Z",
   "defaultBenchmarkTypeId": "artificial-analysis-intelligence-index-v4.3.2",
   "source": {
@@ -23,12 +23,12 @@
     },
     {
       "label": "Benchmark definitions captured through",
-      "date": "2026-10-04",
+      "date": "2026-09-25",
       "path": "src/TokenEconomy/catalog/benchmark-types.json"
     },
     {
       "label": "Benchmark results retrieved through",
-      "date": "2026-10-04",
+      "date": "2026-09-25",
       "path": "src/TokenEconomy/catalog/benchmark-results.json"
     }
   ],
@@ -234,69 +234,6 @@
     }
   ],
   "benchmarkTypes": [
-    {
-      "id": "openai-flagged-error-factuality-2026-09-29",
-      "version": "2026-09-29 launch report",
-      "name": "OpenAI flagged-error factuality evaluation",
-      "publisher": "OpenAI",
-      "capabilityClass": "reasoning",
-      "unit": "percent responses with a factual error",
-      "minimumScore": 0,
-      "maximumScore": 100,
-      "direction": "lowerIsBetter",
-      "methodologyUrl": "https://openai.com/index/introducing-gpt-6-1-sol/",
-      "citationNote": "Publisher evaluation of de-identified ChatGPT conversations where users had flagged an earlier factual error; deliberately difficult prompts are not representative of typical use. Do not equate this with general factual accuracy.",
-      "validFrom": "2026-09-29",
-      "capturedAt": "2026-10-04",
-      "retrievedAt": "2026-10-04",
-      "reference": null,
-      "cells": [
-        {
-          "modelId": "gpt-6.1-sol",
-          "effort": "low",
-          "score": 7.7,
-          "scoreIsNormalized": false,
-          "prices": {
-            "status": "Resolved",
-            "currency": "USD",
-            "inputPerMTok": 2,
-            "outputPerMTok": 10,
-            "cacheReadPerMTok": 0.1,
-            "cacheWritePerMTok": 2.5,
-            "validFromUtc": "2026-09-29T00:00:00Z",
-            "unconfirmed": false
-          },
-          "publishedInputTokensPerTask": null,
-          "publishedOutputTokensPerTask": null,
-          "publishedCostPerTaskUsd": null,
-          "costPerTaskUsd": 0.3,
-          "costBasis": "declaredTokenAssumption",
-          "blendedPricePerMillionTokensUsd": 2.727273,
-          "scorePerDollar": 25.666667,
-          "scoreDeltaToReference": null,
-          "costDeltaToReferenceUsd": null,
-          "evidenceAgeDays": 5,
-          "stale": false,
-          "evidence": [
-            {
-              "id": "openai-flagged-error-factuality-2026-09-29-gpt-6.1-sol-low",
-              "benchmarkTypeId": "openai-flagged-error-factuality-2026-09-29",
-              "modelId": "gpt-6.1-sol",
-              "reasoningEffort": "low",
-              "score": 7.7,
-              "publishedAt": "2026-09-29",
-              "retrievedAt": "2026-10-04",
-              "sourceUrl": "https://openai.com/index/introducing-gpt-6-1-sol/",
-              "retrievalMethod": "manual",
-              "evidenceExcerpt": "OpenAI reports 7.7% of low-effort GPT-6.1 Sol responses contained a factual error on deliberately difficult flagged-error conversations; comparator GPT-6 Sol is 11.4%.",
-              "confidence": "publisherReported",
-              "evidenceStatus": "provisional"
-            }
-          ]
-        }
-      ],
-      "candidates": []
-    },
     {
       "id": "artificial-analysis-intelligence-index-v4.2",
       "version": "4.2",

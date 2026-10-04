@@ -35,6 +35,26 @@ public class ModelBenchmarkMatrixTests
     }
 
     [Fact]
+    public void LowerIsBetterDoesNotTreatErrorsPerDollarAsEfficiency()
+    {
+        var prices = BenchmarkEvidenceCatalogTests.Prices(("current", 3m), ("better", 1m), ("worse", 1m));
+        var evidence = new BenchmarkEvidenceCatalog(
+            [BenchmarkEvidenceCatalogTests.Type("error-rate", BenchmarkScoreDirection.LowerIsBetter)],
+            [
+                BenchmarkEvidenceCatalogTests.Result("current", "error-rate", "current", EffortLevel.Low, 8m),
+                BenchmarkEvidenceCatalogTests.Result("better", "error-rate", "better", EffortLevel.Low, 5m),
+                BenchmarkEvidenceCatalogTests.Result("worse", "error-rate", "worse", EffortLevel.Low, 12m),
+            ], prices);
+        var matrix = new ModelBenchmarkMatrix(evidence, prices);
+
+        Assert.All(matrix.Build("error-rate", Assumption, null, AsOf).Cells,
+            cell => Assert.Null(cell.ScorePerDollar));
+        Assert.Equal("better", Assert.Single(matrix.FindCandidates(
+            new(ModelId.Of("current"), EffortLevel.Low), "error-rate", Assumption, AsOf))
+            .Cell.Key.ModelId.Value);
+    }
+
+    [Fact]
     public void WeightedMatrixNormalizesDirectionAndRequiresCompleteCells()
     {
         var prices = BenchmarkEvidenceCatalogTests.Prices(("model-a", 1m), ("model-b", 1m));

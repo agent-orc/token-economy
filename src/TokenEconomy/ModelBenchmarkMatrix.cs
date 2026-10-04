@@ -177,7 +177,9 @@ public sealed class ModelBenchmarkMatrix
                 CostBasis = costBasis,
                 BlendedPricePerMillionTokensUsd = assumed.Total is null
                     ? null : assumed.Total.Value / tokenAssumption.Total * 1_000_000m,
-                ScorePerDollar = cost is > 0 ? score / cost.Value : null,
+                ScorePerDollar = cost is > 0 && (weights.Length > 1
+                    || typeById[weights[0].BenchmarkTypeId].Direction == BenchmarkScoreDirection.HigherIsBetter)
+                    ? score / cost.Value : null,
                 EvidenceAgeDays = ages.Max(),
                 IsStale = ages.Any(age => age > StaleAfterDays),
                 Evidence = group.OrderByDescending(result => result.PublishedAt)
@@ -227,9 +229,11 @@ public sealed class ModelBenchmarkMatrix
         var matrix = Build(benchmarkTypeId, tokenAssumption, current, asOfUtc);
         var baseline = matrix.Cells.SingleOrDefault(cell => cell.Key == current)
             ?? throw new ArgumentException("The current model/effort cell has no evidence for this benchmark.", nameof(current));
+        var lowerIsBetter = _evidence.FindType(benchmarkTypeId)!.Direction == BenchmarkScoreDirection.LowerIsBetter;
         return matrix.Cells
-            .Where(cell => cell.Key != current && cell.Score >= baseline.Score && Cheaper(cell, baseline))
-            .OrderByDescending(cell => cell.Score)
+            .Where(cell => cell.Key != current && (lowerIsBetter ? cell.Score <= baseline.Score : cell.Score >= baseline.Score)
+                && Cheaper(cell, baseline))
+            .OrderBy(cell => lowerIsBetter ? cell.Score : -cell.Score)
             .ThenBy(cell => cell.CostPerTaskUsd ?? decimal.MaxValue)
             .ThenBy(cell => cell.BlendedPricePerMillionTokensUsd ?? decimal.MaxValue)
             .ThenBy(cell => cell.Key.ModelId.Value, StringComparer.Ordinal)

@@ -866,7 +866,7 @@ def create_benchmark_matrix_payload() -> dict:
                 "costBasis": "publishedPerTask" if published is not None else
                     "declaredTokenAssumption" if cost is not None else "unavailable",
                 "blendedPricePerMillionTokensUsd": blended,
-                "scorePerDollar": None if not cost else float(
+                "scorePerDollar": None if not cost or benchmark_type["direction"] == "lowerIsBetter" else float(
                     (Decimal(str(selected["score"])) / Decimal(str(cost))).quantize(CENT_MICRO, rounding=ROUND_HALF_EVEN)),
                 "scoreDeltaToReference": None,
                 "costDeltaToReferenceUsd": None,
@@ -889,7 +889,9 @@ def create_benchmark_matrix_payload() -> dict:
                         Decimal(str(cell["costPerTaskUsd"])) - Decimal(str(reference_cell["costPerTaskUsd"])))
         candidates = [] if reference_cell is None else [
             cell for cell in cells
-            if cell is not reference_cell and cell["score"] >= reference_cell["score"]
+            if cell is not reference_cell and (
+                cell["score"] <= reference_cell["score"] if benchmark_type["direction"] == "lowerIsBetter"
+                else cell["score"] >= reference_cell["score"])
             and (
                 cell["costPerTaskUsd"] is not None and reference_cell["costPerTaskUsd"] is not None
                 and cell["costPerTaskUsd"] < reference_cell["costPerTaskUsd"]
@@ -899,7 +901,8 @@ def create_benchmark_matrix_payload() -> dict:
             )
         ]
         candidates.sort(key=lambda cell: (
-            -cell["score"], cell["costPerTaskUsd"] if cell["costPerTaskUsd"] is not None else float("inf"),
+            cell["score"] if benchmark_type["direction"] == "lowerIsBetter" else -cell["score"],
+            cell["costPerTaskUsd"] if cell["costPerTaskUsd"] is not None else float("inf"),
             cell["modelId"], effort_order[cell["effort"]]))
         matrices.append({
             **benchmark_type,

@@ -67,6 +67,13 @@ public sealed class Gpt61SolSupportTests
     }
 
     [Fact]
+    public void UnpublishedBenchmarkDateDoesNotCreateAResult()
+    {
+        Assert.DoesNotContain(BenchmarkEvidenceCatalog.Default.Results,
+            result => result.ModelId == KnownModels.Gpt61Sol);
+    }
+
+    [Fact]
     public void SuccessorMigrationIsProposalOnlyWithExplicitDowngrade()
     {
         using var document = JsonDocument.Parse(File.ReadAllText(Path.Combine(RepositoryRoot(),

@@ -53,6 +53,7 @@ public class WebsiteBenchmarkMatrixDataTests
                 Assert.Equal(cell.IsStale, row.GetProperty("stale").GetBoolean());
                 Assert.Equal(cell.Evidence.Count, row.GetProperty("evidence").GetArrayLength());
                 AssertNullable(cell.CostPerTaskUsd, row.GetProperty("costPerTaskUsd"));
+                AssertNullable(cell.ScorePerDollar, row.GetProperty("scorePerDollar"));
                 AssertNullable(cell.ScoreDeltaToReference, row.GetProperty("scoreDeltaToReference"));
                 AssertNullable(cell.CostDeltaToReferenceUsd, row.GetProperty("costDeltaToReferenceUsd"));
             }

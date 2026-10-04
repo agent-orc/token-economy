@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "generatedAtUtc": "2026-10-04T13:55:40.470118+00:00",
+  "generatedAtUtc": "2026-10-04T22:24:23.977400+00:00",
   "asOfUtc": "2026-10-04T00:00:00Z",
   "source": "ModelEfficiencyMatrix.Default.Describe(asOfUtc)",
   "priceCatalogPath": "src/TokenEconomy/catalog/model-prices.json",
@@ -2325,26 +2325,7 @@
         "fallbacks": []
       },
       "evidence": {
-        "external": [
-          {
-            "id": "openai-flagged-error-factuality-2026-09-29-gpt-6.1-sol-low",
-            "benchmarkId": "openai-flagged-error-factuality-2026-09-29",
-            "name": "OpenAI flagged-error factuality evaluation",
-            "version": "2026-09-29 launch report",
-            "unit": "percent responses with a factual error",
-            "maximumScore": 100,
-            "effort": "low",
-            "score": 7.7,
-            "publishedAt": "2026-09-29",
-            "sourceUrl": "https://openai.com/index/introducing-gpt-6-1-sol/",
-            "confidence": "publisherReported",
-            "evidenceStatus": "provisional",
-            "sampleContext": null,
-            "secondaryMetrics": {},
-            "context": null,
-            "evidenceExcerpt": "OpenAI reports 7.7% of low-effort GPT-6.1 Sol responses contained a factual error on deliberately difficult flagged-error conversations; comparator GPT-6 Sol is 11.4%."
-          }
-        ],
+        "external": [],
         "taskStudies": [],
         "assessment": null,
         "taskStudiesAsOfDate": "2026-09-25"

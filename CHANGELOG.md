@@ -7,7 +7,7 @@ SemVer; pre-1.0 the public API may still shift).
 
 ### Added
 
-- Added GPT-6.1 Sol with a September 29 release date, OpenAI-sourced short-context prices ($2/$0.10/$2.50/$10 per MTok), a dated snapshot, and generated catalogue views, plus one dated publisher-reported factuality result. The provider also prints a long-context tariff ($4/$0.20/$5/$15), recorded as a note.
+- Added GPT-6.1 Sol with a September 29 release date, OpenAI-sourced short-context prices ($2/$0.10/$2.50/$10 per MTok), a dated snapshot, and generated catalogue views. The provider also prints a long-context tariff ($4/$0.20/$5/$15), recorded as a note.
 - Added a proposal-only GPT-6 Sol → GPT-6.1 Sol migration and selectable, provisional routing support for explicit pins. Source `max` and `ultra` pins require an explicit `xhigh` downgrade. No route, task-class prior, or fallback changed.
 
 ## [0.3.6] - 2026-09-29
