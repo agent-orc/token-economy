@@ -1,3 +1,8 @@
+---
+tags: [token-economy, execution-and-runner, dossiers-and-documentation, architecture, docs]
+taggingStatus: tagged
+---
+
 # CLI integration and source register
 
 **Status:** decision-pending · **Phase:** concept · **Source card:** TE-61 · **Evidence retrieval:** 2026-10-16
