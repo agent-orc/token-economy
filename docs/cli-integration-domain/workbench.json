@@ -1,0 +1,31 @@
+{
+  "schemaVersion": 1,
+  "id": "cli-integration-domain",
+  "title": "CLI integration and source register",
+  "summary": "Decision-ready Token Economy concept for versioned coding-agent CLI capability records and a citable evidence register, with live-source conflicts retained explicitly.",
+  "entrypoint": "index.html",
+  "status": "decision-pending",
+  "phase": "concept",
+  "updatedAt": "2026-10-16T11:18:42Z",
+  "sourceTaskKeys": [
+    "TE-61"
+  ],
+  "implementationTasks": [
+    {
+      "title": "CLI domain and capability catalog",
+      "promptMarkdown": "Implement docs/system/domains/cli-integration.md and a versioned src/TokenEconomy/catalog/cli-capabilities.json using this Dossier's schema proposal. Seed Claude Code, Codex CLI, agy, and historical Gemini CLI. Preserve unknowns and evidence scopes; keep model floors separate from successful-version observations. Add schema validation only for fields actually populated. Promote the staged CHANGELOG.proposed.md entry into root CHANGELOG.md under Unreleased as a docs-only entry."
+    },
+    {
+      "title": "Source register and citation validation",
+      "promptMarkdown": "Implement the source register schema and a stable-id register under src/TokenEconomy/catalog from this Dossier. Require at least one resolvable primary or independent/operator source ID for each catalog fact; record conflicts and supersession; exclude account identifiers. Add CI checks and a 30-day stale flag. Migrate catalog citations incrementally without changing numeric values."
+    },
+    {
+      "title": "Benchmark and price citation migration",
+      "promptMarkdown": "Backfill source IDs for model-prices.json, benchmark-results.json, benchmark-types.json, routing evidence, and dated snapshots. Preserve legacy source/sourceUrls/sourceUrl/verifiedOn/unconfirmed fields during a compatibility window. Resolve secondary-only benchmark rows with a primary benchmark-operator source or mark unresolved. No score or price changes without a separate evidence review."
+    },
+    {
+      "title": "Source pages and CLI verification",
+      "promptMarkdown": "Render the source register as a TE docs page and website page in the existing website style. Add a narrow CLI probe protocol for model discovery, effective model identity, permission denials, output events, timeout behavior, and anonymized quota visibility. Capture version, date, auth class, and redacted method; do not record account identifiers. Resolve the agy /usage and timeout documentation conflicts with version-pinned probes."
+    }
+  ]
+}

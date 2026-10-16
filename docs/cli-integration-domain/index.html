@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>CLI integration and source register | Token Economy Dossier</title><style>:root{color-scheme:light;--surface-1:#fcfcfb;--surface-2:#f2f1ee;--surface-3:#e9e8e3;--ink-1:#0b0b0b;--ink-2:#52514e;--ink-3:#8a8983;--line:#d8d6cf;--develop:#2a78d6;--accent-soft:#eaf1fb}@media (prefers-color-scheme:dark){:root{color-scheme:dark;--surface-1:#1a1a19;--surface-2:#232322;--surface-3:#2c2c2a;--ink-1:#fff;--ink-2:#c3c2b7;--ink-3:#8a8983;--line:#3d3d3a;--develop:#3987e5;--accent-soft:#1e2a3a}}*{box-sizing:border-box}body{margin:0;padding:0 0 80px;background:var(--surface-1);color:var(--ink-1);font:16px/1.6 system-ui,"Segoe UI",sans-serif}main{max-width:1080px;margin:0 auto;padding:0 28px}header.page{border-bottom:1px solid var(--line);padding:44px 0 26px;margin-bottom:8px}.kicker{font-size:13px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3);margin:0 0 10px}h1{font-size:34px;line-height:1.2;margin:0 0 12px}.lede{font-size:18px;color:var(--ink-2);max-width:62ch;margin:0}h2{font-size:24px;margin:56px 0 6px;scroll-margin-top:20px}h3{font-size:18px;margin:34px 0 4px}p,li{max-width:76ch}.box{border:1px solid var(--line);border-radius:10px;background:var(--surface-2);padding:18px 22px;margin:20px 0}.box.accent{background:var(--accent-soft);border-color:color-mix(in srgb,var(--develop) 30%,var(--line))}.box h4{margin:0 0 8px;font-size:15px}table{border-collapse:collapse;width:100%;margin:18px 0;font-size:14.5px}th,td{text-align:left;padding:9px 12px;border-bottom:1px solid var(--line);vertical-align:top}th{font-size:12.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-3)}code{font:13px/1.5 ui-monospace,Consolas,monospace;background:var(--surface-3);border-radius:4px;padding:1px 5px}pre{background:var(--surface-3);border-radius:8px;padding:12px 16px;overflow:auto}pre code{background:none;padding:0}.chapter{border-top:1px solid var(--line);margin-top:40px;padding-top:8px}.src{font-size:12.5px;color:var(--ink-3);margin:12px 0 0}ul{padding-left:22px}li{margin:5px 0}a{color:var(--develop)}
+nav.contents{position:relative;margin:24px 0 42px}nav.contents ul{display:flex;flex-wrap:wrap;gap:8px 20px;list-style:none;padding:0;margin:0}nav.contents li{margin:0}article{min-width:0}.chapter{scroll-margin-top:24px}.chapter h2{margin-top:24px}blockquote{border-left:3px solid var(--develop);padding:4px 0 4px 18px;margin:20px 0;color:var(--ink-2)}figure.diagram{margin:30px 0;padding:16px 10px 8px;background:var(--surface-2);border:1px solid var(--line);border-radius:10px}figure.diagram svg{display:block;width:100%;height:auto;max-height:210px}figcaption{font-size:13px;color:var(--ink-2);padding:4px 12px 10px}table{display:block;overflow-x:auto}table td{min-width:150px}a:focus-visible{outline:2px solid var(--develop);outline-offset:2px}@media(max-width:620px){main{padding:0 16px}h1{font-size:29px}h2{font-size:23px}table{font-size:13px}}</style></head><body><main><header class="page"><p class="kicker">Concept Dossier · Token Economy · TE-61</p><h1>CLI integration and source register</h1><p class="lede">A versioned domain for coding-agent CLI behavior and one citable source register for Token Economy facts.</p></header><nav class="box contents" aria-label="Contents"><h4>Contents</h4><ul><li><a href="#alternatives">Alternatives</a></li><li><a href="#recommendation">Recommendation</a></li><li><a href="#evidence">Evidence</a></li><li><a href="#open-decisions">Open decisions</a></li><li><a href="#implementation-cards">Implementation cards</a></li></ul></nav><article><h1>CLI integration and source register</h1>
+<p><strong>Status:</strong> decision-pending · <strong>Phase:</strong> concept · <strong>Source card:</strong> TE-61 · <strong>Evidence retrieval:</strong> 2026-10-16</p>
+<p>This is the editable TE concept Dossier. The self-contained <a href="index.html">article</a> is its review surface. The proposed domain page is <code>docs/system/domains/cli-integration.md</code>, adjacent to the existing <a href="../system/domains/model-routing-policy.md">model routing policy</a>. The proposed machine catalog is <code>src/TokenEconomy/catalog/cli-capabilities.json</code>. Neither is implemented in this card.</p>
+<p>The repository constraint for TE-61 permits changes only inside this Dossier directory. Consequently, the originally requested <code>docs/concepts/cli-integration-domain.md</code> is represented by this file inside the Dossier, and the Unreleased wording is staged in <a href="CHANGELOG.proposed.md">CHANGELOG.proposed.md</a>. Promotion is a follow-up documentation edit.</p>
+<figure class="diagram"><svg viewBox="0 0 900 190" role="img" aria-label="Proposed relation: the source register cites CLI capabilities, model prices, benchmarks and routing evidence; routing policy reads model and CLI facts."><defs><marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0 0 L10 5 L0 10 Z" fill="var(--ink-3)"/></marker></defs><rect x="338" y="8" width="224" height="48" rx="8" fill="var(--accent-soft)" stroke="var(--develop)"/><text x="450" y="38" text-anchor="middle" fill="var(--ink-1)" font-size="15" font-family="system-ui">Source register</text><rect x="20" y="116" width="185" height="48" rx="8" fill="var(--surface-1)" stroke="var(--line)"/><text x="112" y="146" text-anchor="middle" fill="var(--ink-1)" font-size="15" font-family="system-ui">CLI capabilities</text><rect x="252" y="116" width="185" height="48" rx="8" fill="var(--surface-1)" stroke="var(--line)"/><text x="344" y="146" text-anchor="middle" fill="var(--ink-1)" font-size="15" font-family="system-ui">Model catalog</text><rect x="484" y="116" width="185" height="48" rx="8" fill="var(--surface-1)" stroke="var(--line)"/><text x="576" y="146" text-anchor="middle" fill="var(--ink-1)" font-size="15" font-family="system-ui">Benchmark evidence</text><rect x="716" y="116" width="165" height="48" rx="8" fill="var(--surface-1)" stroke="var(--line)"/><text x="798" y="146" text-anchor="middle" fill="var(--ink-1)" font-size="15" font-family="system-ui">Routing policy</text><path d="M393 56 L112 116 M430 56 L344 116 M470 56 L576 116 M510 56 L798 116" stroke="var(--ink-3)" stroke-width="1.5" marker-end="url(#arrow)" fill="none"/></svg><figcaption>Proposed TE ownership: one register cites distinct CLI, model, benchmark, and routing claims. This is a design diagram, not a capture of a current product surface.</figcaption></figure><section id="alternatives" class="chapter" data-concept-section="alternatives">
+<h2>Alternatives</h2>
+<table>
+<thead>
+<tr>
+<th>Option</th>
+<th>Shape</th>
+<th>Consequence</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>A. Operator notes</td>
+<td>Keep CLI knowledge in routing notes and runner descriptors.</td>
+<td>Version and auth differences remain difficult to validate and cite.</td>
+</tr>
+<tr>
+<td>B. CLI domain with a common source register</td>
+<td>Give each CLI a versioned capability record; cite stable IDs in one TE register.</td>
+<td>Allows a CLI change or disputed vendor text to be tracked without changing routing policy or prices.</td>
+</tr>
+<tr>
+<td>C. Provider-only records</td>
+<td>Put capabilities under each model or provider.</td>
+<td>Repeats headless and permission facts for every model and obscures CLI version floors.</td>
+</tr>
+</tbody>
+</table>
+</section><section id="recommendation" class="chapter" data-concept-section="recommendation">
+<h2>Recommendation</h2>
+<p>Choose <strong>B</strong>. The CLI record describes what a named CLI version can do under a named auth class. The model catalog continues to own model identity and API price. Routing policy continues to choose candidates and floors. Availability snapshots continue to record time-specific quota observations. The source register owns citations, excerpts, snapshots, conflict links, and verification dates. No CLI capability, quota observation, or vendor text should silently become a routing permission.</p>
+<h3>Domain contract</h3>
+<p>One record per <code>cliId</code> (<code>claude-code</code>, <code>codex</code>, <code>agy</code>, <code>gemini-cli</code>) contains version ranges, headless invocation, prompt transport, output and event schema, continuation, timeout, permissions, model discovery, quota topology and visibility, auth modes, and model floor observations. Gemini CLI is historical in TE; the <a href="https://antigravity.google/docs/gcli-migration">Google migration guide</a> describes migration to <code>agy</code>, while the <a href="https://geminicli.com/docs/cli/headless/">Gemini CLI headless reference</a> remains useful for historical runs. Historical does not assert that Google has discontinued Gemini CLI.</p>
+<p>Every fact is a <code>{value,evidence}</code> pair. <code>null</code> with <code>status: unknown</code> is distinct from <code>false</code>, zero, or an empty list. A <code>versionRange</code> scopes the behavior; a source's retrieval date does not establish the earliest supporting binary. A model floor has separate <code>proven-minimum</code>, <code>works-at</code>, <code>fails-at</code>, <code>bounded</code>, and <code>unknown</code> states, plus effective model identity. Discovery, selection, successful execution, and actual model used are separate evidence steps.</p>
+<p>The <a href="cli-capabilities.schema.proposal.json">CLI schema proposal</a> and <a href="source-register.schema.proposal.json">source schema proposal</a> are Draft 2020-12 documents kept outside the build. The <a href="cli-capabilities.seed.proposal.json">four proposed CLI records</a> exercise the schema, including explicit unknowns and unpromoted operator observations. The sample <a href="source-register.seed.proposal.json">source register</a> contains 34 live-source entries and their 2026-10-16 retrieval dates. These seeds are design artifacts, not a completed catalog migration.</p>
+<h3>Capability inventory</h3>
+<table>
+<thead>
+<tr>
+<th>CLI</th>
+<th>Headless transport and output</th>
+<th>Permissions and timeouts</th>
+<th>Discovery and quota</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Claude Code</td>
+<td><code>claude -p</code>; prompt in argv plus piped stdin (10 MB cap); <code>text</code>, <code>json</code>, <code>stream-json</code>; final <code>result</code>, <code>session_id</code>, usage; <code>--continue</code> or <code>--resume</code> [<a href="https://code.claude.com/docs/en/headless">anthropic-code-headless</a>].</td>
+<td><code>--permission-mode</code> includes <code>auto</code>, <code>dontAsk</code>, <code>acceptEdits</code>; <code>--permission-prompts none</code> denies unresolved requests and <code>permission_denials</code> appears in the result from v2.1.259. <code>--bare</code> changes startup and background behavior; process timeout is caller controlled, with a separate background idle ceiling [<a href="https://code.claude.com/docs/en/headless">anthropic-code-headless</a>].</td>
+<td>Interactive <code>/model</code> lists account-available models [<a href="https://support.claude.com/en/articles/14552983-models-usage-and-limits-in-claude-code">anthropic-claude-models-usage</a>]. Paid plans describe five-hour and weekly limits [<a href="https://support.claude.com/en/articles/11647753-how-do-usage-and-length-limits-work">anthropic-claude-limits</a>]; interactive <code>/usage</code> shows plan limits [<a href="https://code.claude.com/docs/en/commands">anthropic-code-commands</a>].</td>
+</tr>
+<tr>
+<td>Codex CLI</td>
+<td><code>codex exec</code> takes argv or <code>-</code> stdin; stdout final text by default; <code>--json</code> emits JSONL with <code>thread.*</code>, <code>turn.*</code>, <code>item.*</code>, <code>error</code>; <code>codex exec resume</code> continues [<a href="https://learn.chatgpt.com/docs/non-interactive-mode">openai-codex-exec</a>].</td>
+<td>Read-only sandbox by default in <code>exec</code>; explicit <code>--sandbox</code> and approval policy; <code>--approve-for-me</code> routes requests to automatic review. Caller owns job timeout; no universal CLI wall-time ceiling was established by reviewed docs [<a href="https://learn.chatgpt.com/docs/non-interactive-mode">openai-codex-exec</a>].</td>
+<td><code>codex debug models</code> prints the live catalog; <code>--bundled</code> isolates bundled metadata [<a href="https://learn.chatgpt.com/docs/developer-commands">openai-codex-debug-models</a>]. App-server <code>model/list</code> returns account/client dependent capabilities [<a href="https://learn.chatgpt.com/docs/app-server">openai-codex-appserver</a>]. Subscription usage dashboard reports limits/reset times and interactive <code>/status</code> shows remaining limits; Plus and Standard Business have five-hour estimates and weekly limits may apply, while Pro currently has no five-hour limit [<a href="https://learn.chatgpt.com/docs/pricing">openai-codex-pricing</a>].</td>
+</tr>
+<tr>
+<td>Antigravity CLI</td>
+<td><code>agy -p</code> argv, <code>--input-format stream-json</code> stdin; <code>text</code>, one-object <code>json</code>, or <code>stream-json</code> events <code>init</code>, <code>step_update</code>, <code>result</code>; <code>--continue</code> or <code>--conversation</code> [<a href="https://antigravity.google/docs/cli/headless/">google-agy-headless</a>].</td>
+<td>Headless Ask actions are soft-denied and can still exit 0; check stderr and structured result. <code>--sandbox</code> enables terminal restrictions and permissions rules govern tools [<a href="https://antigravity.google/docs/cli/headless/">google-agy-headless</a>], [<a href="https://antigravity.google/docs/permissions/">google-agy-permissions</a>]. Timeout is <strong>conflicted</strong>: headless reference says default five minutes, v1.2.6 changelog says unlimited [<a href="https://antigravity.google/docs/changelog?tab=cli">google-agy-change-1.2.6</a>].</td>
+<td><code>agy models</code> is referenced by the <a href="https://antigravity.google/docs/cli/headless/">headless flag table</a>; interactive <code>/model</code> is account-specific. Plans describe five-hour and weekly quota for Pro/Ultra [<a href="https://antigravity.google/docs/plans">google-agy-plans</a>]. <code>/usage</code> is an interactive panel and, since v1.1.11, <code>agy -p &quot;/usage&quot;</code> has dedicated non-interactive output [<a href="https://antigravity.google/docs/changelog?tab=cli">Google CLI changelog</a>].</td>
+</tr>
+<tr>
+<td>Gemini CLI (historical)</td>
+<td>Non-TTY or <code>-p</code>; JSON object or JSONL events <code>init</code>, <code>message</code>, <code>tool_use</code>, <code>tool_result</code>, <code>error</code>, <code>result</code> [<a href="https://geminicli.com/docs/cli/headless/">gemini-cli-headless</a>].</td>
+<td>Historical approval flags and sandbox behavior require versioned extraction before catalog promotion. The referenced headless page documents exit codes 0, 1, 42, 53.</td>
+<td>Model discovery and remaining-quota surfaces remain <code>unknown</code> in this seed. Historical auth docs describe Google login, API key, and Vertex/ADC [<a href="https://geminicli.com/docs/get-started/authentication/">gemini-cli-auth</a>].</td>
+</tr>
+</tbody>
+</table>
+<p>The <code>agy</code> JSON result documents <code>conversation_id</code>, <code>status</code>, <code>response</code>, <code>error</code>, duration, turn count, and token usage. <code>stream-json</code> event <code>step_update</code> includes step state/type, tool details, and text deltas [<a href="https://antigravity.google/docs/cli/headless/">google-agy-headless</a>]. The provided TE-61 operator note adds <code>denied_actions</code>; this field was <strong>not found in the reviewed vendor page</strong> and needs a version-pinned, redacted output probe before it becomes a documented schema field. Headless exit 0 alone does not prove all requested actions ran.</p>
+<h3>Model floors</h3>
+<table>
+<thead>
+<tr>
+<th>Model and CLI</th>
+<th>Current evidence</th>
+<th>Catalog treatment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>claude-sonnet-5-5</code> / Claude Code</td>
+<td>The existing <a href="../../src/TokenEconomy/catalog/model-prices.json">TE price catalog</a> states v2.1.284 or later; its 2026-09-29 note says v2.1.281 returned <code>unrecognized_model</code>.</td>
+<td>Proposed <code>proven-minimum: 2.1.284</code> <strong>only after</strong> the underlying successful 2.1.284 probe is attached. Until then retain <code>bounded</code> and cite the local catalog as a migration lead.</td>
+</tr>
+<tr>
+<td><code>claude-haiku-5-5</code> / Claude Code</td>
+<td>TE-61 operator input reports v2.1.301 <code>modelUsage: claude-haiku-5-5</code> on 2026-10-16; v2.1.281 emitted <code>[claude-code:unrecognized_model]</code> and ran <code>claude-haiku-4-5-20251001</code>.</td>
+<td><code>works-at: 2.1.301</code>, <code>fails-at: 2.1.281</code>, effective fallback recorded; minimum remains unknown within 2.1.282–2.1.301 pending intermediate probes. This is user-supplied probe evidence, not a public vendor assertion.</td>
+</tr>
+<tr>
+<td>Codex models</td>
+<td>The <a href="../system/domains/model-routing-policy.md">routing policy</a> already separates a live catalog shown to Codex 0.155.0 from actual access errors for GPT-6.1 Sol.</td>
+<td>Do not infer a minimum CLI version from a bundled catalog entry, app-server <code>model/list</code>, or an HTTP 400 on one auth class. Store each observation with version, auth class, discovery time, and effective model result.</td>
+</tr>
+</tbody>
+</table>
+<p>Model probes should run a bounded identity prompt, capture exact CLI version, requested model, auth class, exit status, response metadata, effective model ID, and redacted error; never retain credentials or account identifiers. A <code>works-at</code> observation gives an upper bound on the unknown floor, not the floor itself. Silent fallback is a separate failure state.</p>
+<h3>Quota topology</h3>
+<p>Quota is a set of independent windows and pools, not one scalar. Each row needs plan tier, auth class, pool ID and label, window kind (<code>five-hour</code>, <code>weekly</code>, other), unit, remaining/used if exposed, observed-at time, reset time if exposed, and source ID. Unknown amounts remain null. <code>agy</code>'s <a href="https://antigravity.google/docs/plans">plans</a> give broad five-hour and weekly rules, but the TE-61 operator note describes three Google AI Pro pools: Gemini Flash + Pro (five-hour and weekly), Claude and GPT models (five-hour and weekly), and Gemini 4 Argon (weekly only). It also supplies the text “Quota is consumed proportionally to the cost of the tokens.” These pool labels and wording are <strong>unpromoted operator observations</strong> until a redacted, dated, version-pinned capture or vendor text is attached. No account identifier or raw meter belonging to a person enters this public Dossier.</p>
+<p>The older input assertion that <code>agy -p &quot;/usage&quot;</code> sends <code>/usage</code> to the model is version dependent and now conflicts with Google's dated v1.1.11 changelog. Record the older behavior as a historical observation whose version is unknown; represent current capability as documented since v1.1.11, subject to a runtime probe. Likewise, store the v1.2.6 timeout statement and the current headless reference as a conflict, rather than choosing one silently. [<a href="https://antigravity.google/docs/changelog?tab=cli">google-agy-change-1.1.11</a>], [<a href="https://antigravity.google/docs/changelog?tab=cli">google-agy-change-1.2.6</a>], [<a href="https://antigravity.google/docs/cli/headless/">google-agy-headless</a>]</p>
+<h3>Auth documentation</h3>
+<p>The public capability catalog should store auth mechanism and citation IDs. Dated verbatim vendor language belongs in the separate source register and rendered source page. The following short excerpts are the basis for the three contexts; they describe documentation, not a determination about any deployment.</p>
+<table>
+<thead>
+<tr>
+<th>CLI</th>
+<th>Mechanisms documented in reviewed sources</th>
+<th>Mechanisms still unknown in this seed</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Claude Code</td>
+<td>Claude subscription login, <code>claude setup-token</code> long-lived OAuth token, Anthropic API key, Bedrock, Vertex/Google Cloud Agent Platform, and Microsoft Foundry [<a href="https://code.claude.com/docs/en/authentication">anthropic-code-auth</a>].</td>
+<td>No additional credential class asserted.</td>
+</tr>
+<tr>
+<td>Codex CLI</td>
+<td>ChatGPT login, OpenAI API key, organization gateway/provider credentials, and direct Bedrock where configured [<a href="https://learn.chatgpt.com/docs/auth">openai-codex-auth</a>].</td>
+<td>A generic long-lived subscription token is not established by the reviewed pages.</td>
+</tr>
+<tr>
+<td><code>agy</code></td>
+<td>Consumer Google login, Google Cloud/Agent Platform ADC, and Gemini API key; support depends on CLI version [<a href="https://antigravity.google/docs/changelog?tab=cli">google-agy-change-1.1.10</a>], [<a href="https://antigravity.google/docs/changelog?tab=cli">google-agy-change-1.1.13</a>].</td>
+<td>A separate long-lived token mode is not established.</td>
+</tr>
+<tr>
+<td>Gemini CLI (historical)</td>
+<td>Google login, Gemini API key, Vertex AI and ambient ADC in some Google Cloud environments [<a href="https://geminicli.com/docs/get-started/authentication/">gemini-cli-auth</a>].</td>
+<td>Third-party subscription delegation and a separate long-lived token mode remain unknown.</td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th>CLI context</th>
+<th>Verbatim vendor text and date</th>
+<th>Status</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>agy</code>, direct scripting/CI</td>
+<td>“Antigravity CLI headless mode (<code>agy -p</code>) is intended for direct scripting and CI workflows.” [<a href="https://antigravity.google/docs/faq/">google-agy-faq</a>, retrieved 2026-10-16].</td>
+<td>Documented for consumer CLI.</td>
+</tr>
+<tr>
+<td><code>agy</code>, third-party product</td>
+<td>“Wrapping <code>agy</code> inside third-party coding agents or applications, or automating account rotation, is not supported under consumer plans.” [<a href="https://antigravity.google/docs/faq/">google-agy-faq-thirdparty</a>, retrieved 2026-10-16]. Clause 6 is separately retained [<a href="https://antigravity.google/terms/">google-agy-terms</a>].</td>
+<td>Documented scope; enterprise, ADC and API-key contexts need separate vendor text.</td>
+</tr>
+<tr>
+<td><code>agy</code>, cloud/API credentials</td>
+<td>“Added sign-in with Application Default Credentials so you can use Agent Platform.” [<a href="https://antigravity.google/docs/changelog?tab=cli">google-agy-change-1.1.10</a>, 2026-08-03]. “Added support for <code>GEMINI_API_KEY</code>” [<a href="https://antigravity.google/docs/changelog?tab=cli">google-agy-change-1.1.13</a>, 2026-08-14].</td>
+<td>Mechanisms documented; self-built/third-party use terms remain unknown.</td>
+</tr>
+<tr>
+<td>Claude Code, scripting/CI</td>
+<td>“For CI pipelines, scripts, or other environments where interactive browser login isn’t available, generate a one-year OAuth token with <code>claude setup-token</code>” [<a href="https://code.claude.com/docs/en/authentication">anthropic-code-auth</a>, retrieved 2026-10-16].</td>
+<td>Documented; same page says <code>--bare</code> does not read that token and uses API key or helper.</td>
+</tr>
+<tr>
+<td>Claude Agent SDK/self-built product</td>
+<td>“Unless previously approved, Anthropic does not allow third party developers to offer claude.ai login or rate limits for their products” [<a href="https://code.claude.com/docs/en/agent-sdk/overview">anthropic-agent-sdk</a>, retrieved 2026-10-16].</td>
+<td>Documented SDK context.</td>
+</tr>
+<tr>
+<td>Claude Code in products</td>
+<td>“should use API key authentication through Claude Console or a supported cloud provider.” [<a href="https://code.claude.com/docs/en/legal-and-compliance">anthropic-code-legal</a>, retrieved 2026-10-16].</td>
+<td>Additional unmodified-binary and end-user-auth language is in the same page; do not collapse it into SDK terms.</td>
+</tr>
+<tr>
+<td>Anthropic subscription/Agent SDK update</td>
+<td>“We’ve paused the previously-announced changes to Claude Agent SDK usage.” [<a href="https://support.claude.com/en/articles/15036540">anthropic-plan-pause</a>, 2026-06-15]. October 7 adds monthly API credits for Max/Team including SDK, <code>claude -p</code>, API, and Managed Agents [<a href="https://support.claude.com/en/articles/15036540">anthropic-plan-update</a>].</td>
+<td>The help article and legal/SDK pages use different scopes; ask Anthropic to clarify applicability before any policy conclusion.</td>
+</tr>
+<tr>
+<td>Anthropic consumer automation</td>
+<td>“Except when you are accessing our Services via an Anthropic API Key or where we otherwise explicitly permit it” [<a href="https://www.anthropic.com/legal/consumer-terms">anthropic-consumer-terms</a>, retrieved 2026-10-16, section 3 item 7].</td>
+<td>Exception wording retained without interpretation.</td>
+</tr>
+<tr>
+<td>Codex, scripting/CI</td>
+<td>“This is an advanced workflow for enterprise and other trusted private automation. API keys are still the recommended option for most CI/CD jobs.” [<a href="https://learn.chatgpt.com/docs/auth/ci-cd-auth">openai-codex-ci-eligibility</a>, retrieved 2026-10-16].</td>
+<td>ChatGPT auth conditions and one <code>auth.json</code> per serialized stream are documented separately [<a href="https://learn.chatgpt.com/docs/auth/ci-cd-auth">openai-codex-ci</a>].</td>
+</tr>
+<tr>
+<td>Codex, self-built orchestration</td>
+<td>“You can use <code>CODEX_API_KEY</code> with <code>codex exec</code>, <code>codex review</code>, the TypeScript SDK, and <code>codex exec-server --remote</code>.” [<a href="https://learn.chatgpt.com/docs/non-interactive-mode">openai-codex-exec</a>, retrieved 2026-10-16].</td>
+<td>API key path documented; subscription path is context-specific.</td>
+</tr>
+<tr>
+<td>Codex, third-party partner</td>
+<td>“We’re making it easier to use your ChatGPT plan with other tools.” [<a href="https://openai.com/index/devday-2026-recap/">openai-devday-2026</a>, 2026-09-29].</td>
+<td>OpenAI's announced Sign in with ChatGPT partner program is distinct from generic CLI auth. Participating-tool requirements need their own source.</td>
+</tr>
+<tr>
+<td>Gemini CLI, historical</td>
+<td>“Headless mode will use your existing authentication method, if an existing authentication credential is cached.” [<a href="https://geminicli.com/docs/get-started/authentication/">gemini-cli-auth</a>, last updated 2026-09-18].</td>
+<td>Third-party-product context unknown in this seed.</td>
+</tr>
+</tbody>
+</table>
+<p><code>agy</code> consumer terms distinguish the named service from Google Cloud/Gemini Enterprise cases in their opening paragraph [<a href="https://antigravity.google/terms/">google-agy-terms</a>]. Anthropic's <a href="https://code.claude.com/docs/en/legal-and-compliance">legal page</a> has a specific section about an unmodified Claude Code binary in products; its <a href="https://code.claude.com/docs/en/agent-sdk/overview">Agent SDK overview</a> separately addresses SDK products. OpenAI's <a href="https://learn.chatgpt.com/docs/auth">auth guide</a> distinguishes ChatGPT sign-in, API key, and direct Bedrock/gateway options. The schema therefore records <code>scriptingCi</code>, <code>selfBuiltOrchestrator</code>, and <code>thirdPartyProduct</code> independently for every auth mode, each with <code>documented</code>, <code>ambiguous</code>, <code>conflicted</code>, or <code>unknown</code> and the exact quote source IDs. It must not contain an <code>allowed</code> boolean derived by TE.</p>
+<h3>API boundary</h3>
+<p>First implementation: no new runtime endpoint. Add a read-only domain page, a machine catalog, and source register consumed by existing catalog generation. The routing policy may reference <code>cliId</code> plus a required model/CLI/auth combination, but must not infer policy from vendor quotes. A later read-only API can expose <code>GET /cli-capabilities?cliId=&amp;version=&amp;authClass=</code> and <code>GET /sources/{id}</code> only when a caller needs them; its payload should include <code>unknown</code>, <code>stale</code>, and <code>conflicted</code> states rather than smoothing them into booleans. Credentials, account-specific quota values, and legal conclusions are outside the public API.</p>
+</section><section id="evidence" class="chapter" data-concept-section="evidence">
+<h2>Evidence</h2>
+<h3>Register contract</h3>
+<p>The single proposed register stores stable source ID, URL, title, publisher, publication date (nullable), retrieval date, evidence class, confidence, verbatim excerpt for normative or contested claims, full-page archive URL or content SHA-256, supersedes/superseded-by, and known conflicts. Own measurements additionally require anonymized method, date, CLI version, auth class and plan tier; account identifiers are forbidden. The <a href="source-register.schema.proposal.json">register schema</a> expresses the shape. The <a href="source-register.seed.proposal.json">seed</a> records source hashes; one OpenAI page has a stored-extract hash because its raw page blocked direct archival retrieval, and therefore needs a full snapshot before catalog promotion. A hash records retrieved bytes, not proof that the page was unchanged before retrieval.</p>
+<p>Evidence classes are exactly: <code>primary vendor documentation</code>, <code>vendor announcement or changelog</code>, <code>independent measurement or benchmark operator</code>, <code>own measurement</code>, <code>secondary press</code>, <code>forum or social post</code>. Confidence is an assessment of fit to a specific claim, not a source popularity score. A secondary press or forum source may corroborate but never be the sole basis of a catalog value. Conflicts stay linked in both directions, with scope and date in <code>conflictNote</code>; newer text does not automatically supersede older text if auth context differs. Unknown stays unknown. At render time, <code>verifiedOn</code> more than <strong>30 calendar days</strong> old shows <code>stale</code>; this is a visual review flag, not invalidation of historical price or benchmark values. A historical observation has its own immutable observed date and a separate last-verification date.</p>
+<p>The seed checks all requested live URLs on 2026-10-16. Google docs confirm the FAQ, clause 6, plans, CLI credits, headless and changelog passages [<a href="https://antigravity.google/docs/faq/">google-agy-faq</a>], [<a href="https://antigravity.google/terms/">google-agy-terms</a>], [<a href="https://antigravity.google/docs/plans">google-agy-plans</a>], [<a href="https://antigravity.google/docs/cli/credits/">google-agy-credits</a>], [<a href="https://antigravity.google/docs/cli/headless/">google-agy-headless</a>], [<a href="https://antigravity.google/docs/changelog?tab=cli">Google changelog</a>]. Anthropic pages confirm the auth, headless, SDK, legal, help and consumer-term passages [<a href="https://code.claude.com/docs/en/authentication">anthropic-code-auth</a>], [<a href="https://code.claude.com/docs/en/headless">anthropic-code-headless</a>], [<a href="https://code.claude.com/docs/en/agent-sdk/overview">anthropic-agent-sdk</a>], [<a href="https://code.claude.com/docs/en/legal-and-compliance">anthropic-code-legal</a>], [<a href="https://support.claude.com/en/articles/15036540">anthropic-plan-update</a>], [<a href="https://www.anthropic.com/legal/consumer-terms">anthropic-consumer-terms</a>]. OpenAI documentation confirms auth, CI, non-interactive mode and pricing; its dated DevDay recap is the primary announcement [<a href="https://learn.chatgpt.com/docs/auth">openai-codex-auth</a>], [<a href="https://learn.chatgpt.com/docs/auth/ci-cd-auth">openai-codex-ci</a>], [<a href="https://learn.chatgpt.com/docs/non-interactive-mode">openai-codex-exec</a>], [<a href="https://learn.chatgpt.com/docs/pricing">openai-codex-pricing</a>], [<a href="https://openai.com/index/devday-2026-recap/">openai-devday-2026</a>].</p>
+<h3>Migration</h3>
+<ol>
+<li>Inventory every factual field and row in <code>model-prices.json</code>, dated price snapshots, benchmark results/types, and routing evidence. Split compound prose into claims only where different sources support different facts. Do not change values.</li>
+<li>Deduplicate existing <code>sourceUrls</code> and <code>sourceUrl</code> by canonical URL <strong>plus version/claim scope</strong>, issue stable IDs, retrieve and archive primary pages, and record publication/retrieval dates. Keep historical page versions separate. Do not convert a URL into a primary source just because its text claims a value.</li>
+<li>Add <code>sourceIds</code> beside legacy fields during one compatibility window. <code>source</code> becomes an optional human summary rendered from IDs; <code>sourceUrls</code> and benchmark <code>sourceUrl</code>/<code>additionalSourceUrls</code> remain as compatibility fields until all consumers migrate. <code>verifiedOn</code> becomes a claim-level <code>verifiedOn</code> tied to a documented review event; historical <code>validFrom</code> and <code>publishedAt</code> remain distinct. <code>unconfirmed</code> maps to <code>evidenceStatus: unconfirmed</code> plus a reason, not to zero confidence or a changed price.</li>
+<li>For benchmark records, keep benchmark operator, version, model, effort, score unit, sample denominator/method and retrieval date together. A secondary news article already present in <code>benchmark-results.json</code> may remain as corroboration, but add a benchmark-operator source or mark the score unresolved. Backfill existing scores retroactively under decision D3; never regenerate scores by reading a newer live leaderboard.</li>
+<li>Once coverage is complete, remove legacy fields in a versioned catalog/schema migration and publish a compatibility note. Preserve immutable price snapshots and report any before/after numeric diff as a separate review.</li>
+</ol>
+<h3>Validation and rendering</h3>
+<p>CI checks JSON Schema; unique IDs; resolvable citations; source publication/retrieval chronology; required quote for normative, contested, limit, and price claims; a full-page snapshot or verified archive link for promoted values; reciprocal conflict/supersession links; no account identifiers; and at least one source ID for every catalog record and every independently factual nested record. The proposal seed intentionally has provisional model-floor rows without registered raw probes; these must fail the promoted-catalog gate until evidence is attached or the rows become explicit unknowns. A secondary/forum-only citation fails. Unknown values pass with an explicit <code>unknown</code> status and an evidence gap reason; they do not pass as known. The validator reports stale facts separately from schema failures. It should not compare source text to inferred legal meanings. Structured docs and generated website claims must carry source IDs; prose-only pages receive an editorial citation audit until a tractable linter exists.</p>
+<p>Render a TE documentation page listing claims, source IDs, excerpts, dates, snapshot links/hashes and conflict badges; render a website page using the existing TE website layout with filters for CLI, model, evidence class and freshness. Both pages are generated from the same register and catalog. Keep a direct link from each public price, release-date, benchmark and CLI fact to its cited source detail. For operator measurements, show anonymized method and result only. No screenshot of an existing TE product surface is used here: this Dossier proposes new surfaces and cites vendor documents, and makes no claim about a current visual TE page.</p>
+</section><section id="open-decisions" class="chapter" data-concept-section="open-decisions">
+<h2>Open decisions</h2>
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Decision</th>
+<th>Working recommendation</th>
+<th>Alternative and consequence</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>D1</td>
+<td>Placement of vendor usage-term excerpts</td>
+<td>Keep verbatim excerpts in the public source register and its page; keep only stable IDs and neutral context states in <code>cli-capabilities.json</code>.</td>
+<td>Put excerpts inside capability rows; duplicates volatile text and obscures conflicts.</td>
+</tr>
+<tr>
+<td>D2</td>
+<td>Staleness threshold</td>
+<td>30 calendar days from <code>verifiedOn</code>, rendered as a warning across current facts; preserve historical observation dates.</td>
+<td>90 days reduces review load but leaves changing CLI and terms text visibly fresh for longer.</td>
+</tr>
+<tr>
+<td>D3</td>
+<td>Benchmark coverage</td>
+<td>Backfill all existing benchmark rows retroactively, with staged unresolved states and no score rewrite.</td>
+<td>Prospective-only coverage leaves old cited numbers outside the promised source base.</td>
+</tr>
+<tr>
+<td>D4</td>
+<td>CLI API</td>
+<td>Start with catalog and generated pages; add read-only API only when a consumer needs it.</td>
+<td>Implement API now; increases contract surface before records stabilize.</td>
+</tr>
+<tr>
+<td>D5</td>
+<td>Model floor promotion</td>
+<td>Require an identity-confirmed successful probe at the claimed minimum and a lower-version failure or dated vendor floor statement.</td>
+<td>Treat first successful version as minimum; can hide earlier support and silent fallback.</td>
+</tr>
+</tbody>
+</table>
+<p>Each recommendation is the working decision for promoted implementation cards unless an operator decision recorded later selects another option. Sight review and acceptance follow delivery.</p>
+</section><section id="implementation-cards" class="chapter">
+<h2>Implementation cards</h2>
+<p>The <a href="workbench.json">workbench manifest</a> contains implementation-ready <code>promptMarkdown</code> for four workflow-sized cards: (1) CLI domain/catalog, (2) source register/CI, (3) price and benchmark migration, and (4) pages and verification probes. The final card must resolve the Google <code>/usage</code> and timeout conflicts with version-pinned evidence and should capture any visible product surface it presents using the then-available deterministic presentation capture workflow. This Dossier does not modify library code, catalogs, website code, tests, or build files.</p>
+</section></article><footer class="src">TE-61 · Reviewed sources retrieved 2026-10-16 · Status: decision-pending</footer></main></body></html>

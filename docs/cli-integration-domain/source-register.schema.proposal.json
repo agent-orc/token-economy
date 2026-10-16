@@ -1,0 +1,51 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://token-economy.example/schema/source-register.proposal.json",
+  "title": "Source register proposal",
+  "type": "object", "additionalProperties": false,
+  "required": ["schemaVersion", "sources"],
+  "properties": {
+    "schemaVersion": {"const": 1},
+    "sources": {"type": "array", "items": {"$ref": "#/$defs/source"}}
+  },
+  "$defs": {
+    "source": {
+      "type": "object", "additionalProperties": false,
+      "required": ["id", "url", "title", "publisher", "publicationDate", "retrievedOn", "evidenceClass", "confidence", "snapshot", "supersedes", "supersededBy", "conflictsWith"],
+      "allOf": [
+        {
+          "if": {"properties": {"evidenceClass": {"const": "own measurement"}}},
+          "then": {"required": ["method", "measurementDate"], "properties": {"method": {"type": "string", "minLength": 1}}}
+        }
+      ],
+      "properties": {
+        "id": {"type": "string", "pattern": "^[a-z0-9][a-z0-9.-]+$"},
+        "url": {"type": "string", "format": "uri"},
+        "title": {"type": "string"},
+        "publisher": {"type": "string"},
+        "publicationDate": {"type": ["string", "null"], "format": "date"},
+        "retrievedOn": {"type": "string", "format": "date"},
+        "evidenceClass": {"enum": ["primary vendor documentation", "vendor announcement or changelog", "independent measurement or benchmark operator", "own measurement", "secondary press", "forum or social post"]},
+        "confidence": {"enum": ["high", "moderate", "low", "unresolved"]},
+        "verbatimExcerpt": {"type": ["string", "null"]},
+        "snapshot": {
+          "type": "object", "additionalProperties": false,
+          "required": ["kind", "value", "scope"],
+          "properties": {
+            "kind": {"enum": ["sha256", "web.archive.org"]},
+            "value": {"type": "string"},
+            "scope": {"enum": ["full-page", "stored-extract"]},
+            "capturedOn": {"type": "string", "format": "date"}
+          }
+        },
+        "method": {"type": ["string", "null"]},
+        "measurementDate": {"type": "string", "format": "date"},
+        "planTier": {"type": ["string", "null"]},
+        "supersedes": {"type": "array", "uniqueItems": true, "items": {"type": "string"}},
+        "supersededBy": {"type": "array", "uniqueItems": true, "items": {"type": "string"}},
+        "conflictsWith": {"type": "array", "uniqueItems": true, "items": {"type": "string"}},
+        "conflictNote": {"type": ["string", "null"]}
+      }
+    }
+  }
+}

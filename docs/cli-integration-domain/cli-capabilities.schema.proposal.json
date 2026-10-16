@@ -1,0 +1,129 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://token-economy.example/schema/cli-capabilities.proposal.json",
+  "title": "CLI capability catalog proposal",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "records"],
+  "properties": {
+    "schemaVersion": {"const": 1},
+    "records": {"type": "array", "items": {"$ref": "#/$defs/cli"}}
+  },
+  "$defs": {
+    "evidence": {
+      "type": "object", "additionalProperties": false,
+      "required": ["sourceIds", "verifiedOn", "status"],
+      "properties": {
+        "sourceIds": {"type": "array", "uniqueItems": true, "items": {"type": "string", "pattern": "^[a-z0-9][a-z0-9.-]+$"}},
+        "verifiedOn": {"type": "string", "format": "date"},
+        "status": {"enum": ["documented", "observed", "provisional", "conflicted", "unknown"]},
+        "method": {"type": ["string", "null"]},
+        "note": {"type": ["string", "null"]}
+      }
+    },
+    "fact": {
+      "type": "object", "additionalProperties": false,
+      "required": ["value", "evidence"],
+      "properties": {
+        "value": {},
+        "evidence": {"$ref": "#/$defs/evidence"}
+      }
+    },
+    "modelFloor": {
+      "type": "object", "additionalProperties": false,
+      "required": ["modelId", "authClass", "supportState", "evidence"],
+      "properties": {
+        "modelId": {"type": "string"},
+        "authClass": {"enum": ["subscription", "long-lived-token", "api-key", "cloud-credentials", "unknown"]},
+        "supportState": {"enum": ["proven-minimum", "works-at", "fails-at", "bounded", "unknown"]},
+        "minimumVersion": {"type": ["string", "null"]},
+        "workingVersion": {"type": ["string", "null"]},
+        "failingVersion": {"type": ["string", "null"]},
+        "effectiveModelId": {"type": ["string", "null"]},
+        "failureSignature": {"type": ["string", "null"]},
+        "evidence": {"$ref": "#/$defs/evidence"}
+      }
+    },
+    "authMode": {
+      "type": "object", "additionalProperties": false,
+      "required": ["kind", "supported", "contexts"],
+      "properties": {
+        "kind": {"enum": ["subscription", "long-lived-token", "api-key", "adc", "vertex", "bedrock", "gateway", "other"]},
+        "supported": {"type": ["boolean", "null"]},
+        "contexts": {
+          "type": "object", "additionalProperties": false,
+          "required": ["scriptingCi", "selfBuiltOrchestrator", "thirdPartyProduct"],
+          "properties": {
+            "scriptingCi": {"$ref": "#/$defs/context"},
+            "selfBuiltOrchestrator": {"$ref": "#/$defs/context"},
+            "thirdPartyProduct": {"$ref": "#/$defs/context"}
+          }
+        }
+      }
+    },
+    "context": {
+      "type": "object", "additionalProperties": false,
+      "required": ["documentationState", "quoteSourceIds"],
+      "properties": {
+        "documentationState": {"enum": ["documented", "ambiguous", "conflicted", "unknown"]},
+        "quoteSourceIds": {"type": "array", "uniqueItems": true, "items": {"type": "string"}},
+        "question": {"type": ["string", "null"]}
+      }
+    },
+    "cli": {
+      "type": "object", "additionalProperties": false,
+      "required": ["cliId", "vendor", "lifecycle", "recordSourceIds", "versions", "authModes", "modelFloors"],
+      "properties": {
+        "cliId": {"enum": ["claude-code", "codex", "agy", "gemini-cli"]},
+        "vendor": {"type": "string"},
+        "lifecycle": {"enum": ["active", "historical", "deprecated"]},
+        "recordSourceIds": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string"}},
+        "versions": {
+          "type": "array", "minItems": 1,
+          "items": {
+            "type": "object", "additionalProperties": false,
+            "required": ["versionRange", "headless", "permissions", "modelDiscovery", "quota"],
+            "properties": {
+              "versionRange": {"type": "string"},
+              "headless": {
+                "type": "object", "additionalProperties": false,
+                "required": ["invocation", "promptTransports", "outputFormats", "eventSchema", "continuation", "timeout"],
+                "properties": {
+                  "invocation": {"$ref": "#/$defs/fact"},
+                  "promptTransports": {"$ref": "#/$defs/fact"},
+                  "outputFormats": {"$ref": "#/$defs/fact"},
+                  "eventSchema": {"$ref": "#/$defs/fact"},
+                  "continuation": {"$ref": "#/$defs/fact"},
+                  "timeout": {"$ref": "#/$defs/fact"}
+                }
+              },
+              "permissions": {
+                "type": "object", "additionalProperties": false,
+                "required": ["approvalFlags", "sandbox", "headlessDenial", "exitSemantics"],
+                "properties": {
+                  "approvalFlags": {"$ref": "#/$defs/fact"},
+                  "sandbox": {"$ref": "#/$defs/fact"},
+                  "headlessDenial": {"$ref": "#/$defs/fact"},
+                  "exitSemantics": {"$ref": "#/$defs/fact"}
+                }
+              },
+              "modelDiscovery": {"$ref": "#/$defs/fact"},
+              "quota": {
+                "type": "object", "additionalProperties": false,
+                "required": ["windows", "pools", "visibility", "unit"],
+                "properties": {
+                  "windows": {"$ref": "#/$defs/fact"},
+                  "pools": {"$ref": "#/$defs/fact"},
+                  "visibility": {"$ref": "#/$defs/fact"},
+                  "unit": {"$ref": "#/$defs/fact"}
+                }
+              }
+            }
+          }
+        },
+        "authModes": {"type": "array", "items": {"$ref": "#/$defs/authMode"}},
+        "modelFloors": {"type": "array", "items": {"$ref": "#/$defs/modelFloor"}}
+      }
+    }
+  }
+}
