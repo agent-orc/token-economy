@@ -5,6 +5,10 @@ SemVer; pre-1.0 the public API may still shift).
 
 ## [Unreleased]
 
+### Documentation
+
+- Added the TE-61 concept Dossier for a versioned CLI integration domain and citable source register, including schema proposals, source conflicts, migration plan, and implementation card cut.
+
 ## [0.3.7] - 2026-10-09
 
 ### Added
