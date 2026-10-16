@@ -4,7 +4,7 @@
 
 This is the editable TE concept Dossier. The self-contained [article](index.html) is its review surface. The proposed domain page is `docs/system/domains/cli-integration.md`, adjacent to the existing [model routing policy](../system/domains/model-routing-policy.md). The proposed machine catalog is `src/TokenEconomy/catalog/cli-capabilities.json`. Neither is implemented in this card.
 
-The repository constraint for TE-61 permits changes only inside this Dossier directory. Consequently, the originally requested `docs/concepts/cli-integration-domain.md` is represented by this file inside the Dossier, and the Unreleased wording is staged in [CHANGELOG.proposed.md](CHANGELOG.proposed.md). Promotion is a follow-up documentation edit.
+The concept deliverable is inside this Dossier directory. The docs-only entry is recorded under Unreleased in the root [CHANGELOG.md](../../CHANGELOG.md).
 
 ## Alternatives
 

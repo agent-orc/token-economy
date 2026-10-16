@@ -13,7 +13,7 @@
   "implementationTasks": [
     {
       "title": "CLI domain and capability catalog",
-      "promptMarkdown": "Implement docs/system/domains/cli-integration.md and a versioned src/TokenEconomy/catalog/cli-capabilities.json using this Dossier's schema proposal. Seed Claude Code, Codex CLI, agy, and historical Gemini CLI. Preserve unknowns and evidence scopes; keep model floors separate from successful-version observations. Add schema validation only for fields actually populated. Promote the staged CHANGELOG.proposed.md entry into root CHANGELOG.md under Unreleased as a docs-only entry."
+      "promptMarkdown": "Implement docs/system/domains/cli-integration.md and a versioned src/TokenEconomy/catalog/cli-capabilities.json using this Dossier's schema proposal. Seed Claude Code, Codex CLI, agy, and historical Gemini CLI. Preserve unknowns and evidence scopes; keep model floors separate from successful-version observations. Add schema validation only for fields actually populated."
     },
     {
       "title": "Source register and citation validation",
