@@ -89,6 +89,8 @@ public sealed record ModelRoutingModel
     public required ModelRoutingStatus RoutingStatus { get; init; }
     public required PolicyEvidenceStatus EvidenceStatus { get; init; }
     public bool Provisional { get; init; }
+    /// <summary>Selectable only through an explicit operator pin; excluded from automatic menus.</summary>
+    public bool TestOnly { get; init; }
     public required CapabilityTier CapabilityTier { get; init; }
     public IReadOnlyList<RoutingWorkflowRole> WorkflowRoles { get; init; } = [];
     public required string Note { get; init; }

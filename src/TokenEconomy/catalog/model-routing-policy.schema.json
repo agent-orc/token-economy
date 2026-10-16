@@ -51,7 +51,7 @@
         "supportedThinkingLevels": { "type": "array", "items": { "type": "string" }, "minItems": 1 },
         "routingStatus": { "enum": ["selectable", "fallbackOnly", "unsupported", "restricted", "deprecated"] },
         "evidenceStatus": { "enum": ["unknown", "provisional", "observational", "observed", "correctnessFloor"] },
-        "provisional": { "type": "boolean" }, "capabilityTier": { "enum": ["light", "balanced", "frontier"] },
+        "provisional": { "type": "boolean" }, "testOnly": { "type": "boolean" }, "capabilityTier": { "enum": ["light", "balanced", "frontier"] },
         "workflowRoles": { "type": "array", "items": { "enum": ["coreTask", "boundedPipelineDecision"] } }, "note": { "type": "string" }
       }
     },

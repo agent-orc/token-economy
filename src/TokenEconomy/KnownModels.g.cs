@@ -12,6 +12,15 @@ public static class KnownModels
     /// <summary>The canonical <c>claude-opus-5-5</c> model id.</summary>
     public static readonly ModelId ClaudeOpus55 = ModelId.Of("claude-opus-5-5");
 
+    /// <summary>The canonical <c>claude-haiku-5-5</c> model id.</summary>
+    public static readonly ModelId ClaudeHaiku55 = ModelId.Of("claude-haiku-5-5");
+
+    /// <summary>The canonical <c>gemini-4-argon</c> model id.</summary>
+    public static readonly ModelId Gemini4Argon = ModelId.Of("gemini-4-argon");
+
+    /// <summary>The canonical <c>gemini-3.8-flash</c> model id.</summary>
+    public static readonly ModelId Gemini38Flash = ModelId.Of("gemini-3.8-flash");
+
     /// <summary>The canonical <c>claude-fable-5-1</c> model id.</summary>
     public static readonly ModelId ClaudeFable51 = ModelId.Of("claude-fable-5-1");
 

@@ -21,6 +21,7 @@ internal static class ModelEfficiencySeed
             EvidenceStatus = model.EvidenceStatus,
             WorkflowRoles = model.WorkflowRoles,
             Provisional = model.Provisional,
+            TestOnly = model.TestOnly,
             Note = model.Note,
             ReviewQuality = knowledge.ReviewQualityFor(model.CanonicalId),
         }).ToArray();

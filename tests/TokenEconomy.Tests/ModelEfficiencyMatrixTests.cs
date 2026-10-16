@@ -59,13 +59,14 @@ public class ModelEfficiencyMatrixTests
     [InlineData("anthropic", Cli.Claude)]
     [InlineData("ANTHROPIC", Cli.Claude)]
     [InlineData("openai", Cli.Codex)]
+    [InlineData("google", Cli.Antigravity)]
     public void CliForVendor_MapsKnownVendors(string vendor, Cli expected)
         => Assert.Equal(expected, ModelEfficiencyMatrix.CliForVendor(vendor));
 
     [Theory]
     [InlineData(null)]
     [InlineData("")]
-    [InlineData("google")]
+    [InlineData("unknown-provider")]
     public void CliForVendor_IsNullForUnknownVendor(string? vendor)
         => Assert.Null(ModelEfficiencyMatrix.CliForVendor(vendor));
 

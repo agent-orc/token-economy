@@ -25,6 +25,7 @@
           "outputPerMTok": 10,
           "cacheReadPerMTok": 0.2,
           "cacheWritePerMTok": 2.5,
+          "promptSizeTiers": [],
           "validFromUtc": "2026-09-22T00:00:00Z",
           "unconfirmed": false
         }
@@ -91,6 +92,7 @@
             "outputPerMTok": 10,
             "cacheReadPerMTok": 0.2,
             "cacheWritePerMTok": 2.5,
+            "promptSizeTiers": [],
             "validFromUtc": "2026-09-22T00:00:00Z",
             "unconfirmed": false
           }
@@ -109,6 +111,7 @@
             "outputPerMTok": 20,
             "cacheReadPerMTok": 0.4,
             "cacheWritePerMTok": 5,
+            "promptSizeTiers": [],
             "validFromUtc": "2026-08-21T00:00:00Z",
             "unconfirmed": false
           }
@@ -125,6 +128,7 @@
             "outputPerMTok": 12,
             "cacheReadPerMTok": 0.2,
             "cacheWritePerMTok": 2.5,
+            "promptSizeTiers": [],
             "validFromUtc": "2026-07-30T00:00:00Z",
             "unconfirmed": false
           }
@@ -152,6 +156,7 @@
           "outputPerMTok": 10,
           "cacheReadPerMTok": 0.2,
           "cacheWritePerMTok": 2.5,
+          "promptSizeTiers": [],
           "validFromUtc": "2026-09-22T00:00:00Z",
           "unconfirmed": false
         }
@@ -223,6 +228,7 @@
             "outputPerMTok": 10,
             "cacheReadPerMTok": 0.2,
             "cacheWritePerMTok": 2.5,
+            "promptSizeTiers": [],
             "validFromUtc": "2026-09-22T00:00:00Z",
             "unconfirmed": false
           }
@@ -241,6 +247,7 @@
             "outputPerMTok": 20,
             "cacheReadPerMTok": 0.4,
             "cacheWritePerMTok": 5,
+            "promptSizeTiers": [],
             "validFromUtc": "2026-08-21T00:00:00Z",
             "unconfirmed": false
           }
@@ -257,6 +264,7 @@
             "outputPerMTok": 12,
             "cacheReadPerMTok": 0.2,
             "cacheWritePerMTok": 2.5,
+            "promptSizeTiers": [],
             "validFromUtc": "2026-07-30T00:00:00Z",
             "unconfirmed": false
           }
@@ -284,6 +292,7 @@
           "outputPerMTok": 10,
           "cacheReadPerMTok": 0.2,
           "cacheWritePerMTok": 2.5,
+          "promptSizeTiers": [],
           "validFromUtc": "2026-09-22T00:00:00Z",
           "unconfirmed": false
         }
@@ -355,6 +364,7 @@
             "outputPerMTok": 10,
             "cacheReadPerMTok": 0.2,
             "cacheWritePerMTok": 2.5,
+            "promptSizeTiers": [],
             "validFromUtc": "2026-09-22T00:00:00Z",
             "unconfirmed": false
           }
@@ -373,6 +383,7 @@
             "outputPerMTok": 20,
             "cacheReadPerMTok": 0.4,
             "cacheWritePerMTok": 5,
+            "promptSizeTiers": [],
             "validFromUtc": "2026-08-21T00:00:00Z",
             "unconfirmed": false
           }
@@ -389,6 +400,7 @@
             "outputPerMTok": 12,
             "cacheReadPerMTok": 0.2,
             "cacheWritePerMTok": 2.5,
+            "promptSizeTiers": [],
             "validFromUtc": "2026-07-30T00:00:00Z",
             "unconfirmed": false
           }
@@ -416,6 +428,7 @@
           "outputPerMTok": 10,
           "cacheReadPerMTok": 0.2,
           "cacheWritePerMTok": 2.5,
+          "promptSizeTiers": [],
           "validFromUtc": "2026-09-22T00:00:00Z",
           "unconfirmed": false
         }
@@ -510,6 +523,7 @@
             "outputPerMTok": 10,
             "cacheReadPerMTok": 0.2,
             "cacheWritePerMTok": 2.5,
+            "promptSizeTiers": [],
             "validFromUtc": "2026-09-22T00:00:00Z",
             "unconfirmed": false
           }
@@ -528,6 +542,7 @@
             "outputPerMTok": 20,
             "cacheReadPerMTok": 0.4,
             "cacheWritePerMTok": 5,
+            "promptSizeTiers": [],
             "validFromUtc": "2026-08-21T00:00:00Z",
             "unconfirmed": false
           }
@@ -544,6 +559,7 @@
             "outputPerMTok": 12,
             "cacheReadPerMTok": 0.2,
             "cacheWritePerMTok": 2.5,
+            "promptSizeTiers": [],
             "validFromUtc": "2026-07-30T00:00:00Z",
             "unconfirmed": false
           }
@@ -571,6 +587,7 @@
           "outputPerMTok": 0.5,
           "cacheReadPerMTok": 0.01,
           "cacheWritePerMTok": 0.125,
+          "promptSizeTiers": [],
           "validFromUtc": "2026-09-22T00:00:00Z",
           "unconfirmed": false
         }
@@ -629,6 +646,7 @@
             "outputPerMTok": 0.5,
             "cacheReadPerMTok": 0.01,
             "cacheWritePerMTok": 0.125,
+            "promptSizeTiers": [],
             "validFromUtc": "2026-09-22T00:00:00Z",
             "unconfirmed": false
           }
@@ -647,6 +665,7 @@
             "outputPerMTok": 1.2,
             "cacheReadPerMTok": 0.02,
             "cacheWritePerMTok": 0.25,
+            "promptSizeTiers": [],
             "validFromUtc": "2026-07-30T00:00:00Z",
             "unconfirmed": false
           }
@@ -674,6 +693,7 @@
           "outputPerMTok": 0.5,
           "cacheReadPerMTok": 0.01,
           "cacheWritePerMTok": 0.125,
+          "promptSizeTiers": [],
           "validFromUtc": "2026-09-22T00:00:00Z",
           "unconfirmed": false
         }
@@ -732,6 +752,7 @@
             "outputPerMTok": 0.5,
             "cacheReadPerMTok": 0.01,
             "cacheWritePerMTok": 0.125,
+            "promptSizeTiers": [],
             "validFromUtc": "2026-09-22T00:00:00Z",
             "unconfirmed": false
           }
@@ -750,6 +771,7 @@
             "outputPerMTok": 1.2,
             "cacheReadPerMTok": 0.02,
             "cacheWritePerMTok": 0.25,
+            "promptSizeTiers": [],
             "validFromUtc": "2026-07-30T00:00:00Z",
             "unconfirmed": false
           }
@@ -777,6 +799,7 @@
           "outputPerMTok": 10,
           "cacheReadPerMTok": 0.2,
           "cacheWritePerMTok": 2.5,
+          "promptSizeTiers": [],
           "validFromUtc": "2026-09-22T00:00:00Z",
           "unconfirmed": false
         }
@@ -849,6 +872,7 @@
             "outputPerMTok": 10,
             "cacheReadPerMTok": 0.2,
             "cacheWritePerMTok": 2.5,
+            "promptSizeTiers": [],
             "validFromUtc": "2026-09-22T00:00:00Z",
             "unconfirmed": false
           }
@@ -867,6 +891,7 @@
             "outputPerMTok": 20,
             "cacheReadPerMTok": 0.4,
             "cacheWritePerMTok": 5,
+            "promptSizeTiers": [],
             "validFromUtc": "2026-08-21T00:00:00Z",
             "unconfirmed": false
           }
@@ -883,6 +908,7 @@
             "outputPerMTok": 12,
             "cacheReadPerMTok": 0.2,
             "cacheWritePerMTok": 2.5,
+            "promptSizeTiers": [],
             "validFromUtc": "2026-07-30T00:00:00Z",
             "unconfirmed": false
           }
@@ -910,6 +936,7 @@
           "outputPerMTok": 10,
           "cacheReadPerMTok": 0.2,
           "cacheWritePerMTok": 2.5,
+          "promptSizeTiers": [],
           "validFromUtc": "2026-09-22T00:00:00Z",
           "unconfirmed": false
         }
@@ -969,6 +996,7 @@
             "outputPerMTok": 10,
             "cacheReadPerMTok": 0.2,
             "cacheWritePerMTok": 2.5,
+            "promptSizeTiers": [],
             "validFromUtc": "2026-09-22T00:00:00Z",
             "unconfirmed": false
           }
@@ -987,6 +1015,7 @@
             "outputPerMTok": 20,
             "cacheReadPerMTok": 0.4,
             "cacheWritePerMTok": 5,
+            "promptSizeTiers": [],
             "validFromUtc": "2026-08-21T00:00:00Z",
             "unconfirmed": false
           }
@@ -1003,6 +1032,7 @@
             "outputPerMTok": 12,
             "cacheReadPerMTok": 0.2,
             "cacheWritePerMTok": 2.5,
+            "promptSizeTiers": [],
             "validFromUtc": "2026-07-30T00:00:00Z",
             "unconfirmed": false
           }
@@ -1030,6 +1060,7 @@
           "outputPerMTok": 10,
           "cacheReadPerMTok": 0.2,
           "cacheWritePerMTok": 2.5,
+          "promptSizeTiers": [],
           "validFromUtc": "2026-09-22T00:00:00Z",
           "unconfirmed": false
         }
@@ -1119,6 +1150,7 @@
             "outputPerMTok": 10,
             "cacheReadPerMTok": 0.2,
             "cacheWritePerMTok": 2.5,
+            "promptSizeTiers": [],
             "validFromUtc": "2026-09-22T00:00:00Z",
             "unconfirmed": false
           }
@@ -1137,6 +1169,7 @@
             "outputPerMTok": 20,
             "cacheReadPerMTok": 0.4,
             "cacheWritePerMTok": 5,
+            "promptSizeTiers": [],
             "validFromUtc": "2026-08-21T00:00:00Z",
             "unconfirmed": false
           }
@@ -1153,6 +1186,7 @@
             "outputPerMTok": 12,
             "cacheReadPerMTok": 0.2,
             "cacheWritePerMTok": 2.5,
+            "promptSizeTiers": [],
             "validFromUtc": "2026-07-30T00:00:00Z",
             "unconfirmed": false
           }
@@ -1180,6 +1214,7 @@
           "outputPerMTok": 10,
           "cacheReadPerMTok": 0.2,
           "cacheWritePerMTok": 2.5,
+          "promptSizeTiers": [],
           "validFromUtc": "2026-09-22T00:00:00Z",
           "unconfirmed": false
         }
@@ -1260,6 +1295,7 @@
             "outputPerMTok": 10,
             "cacheReadPerMTok": 0.2,
             "cacheWritePerMTok": 2.5,
+            "promptSizeTiers": [],
             "validFromUtc": "2026-09-22T00:00:00Z",
             "unconfirmed": false
           }
@@ -1278,6 +1314,7 @@
             "outputPerMTok": 20,
             "cacheReadPerMTok": 0.4,
             "cacheWritePerMTok": 5,
+            "promptSizeTiers": [],
             "validFromUtc": "2026-08-21T00:00:00Z",
             "unconfirmed": false
           }
@@ -1294,6 +1331,7 @@
             "outputPerMTok": 12,
             "cacheReadPerMTok": 0.2,
             "cacheWritePerMTok": 2.5,
+            "promptSizeTiers": [],
             "validFromUtc": "2026-07-30T00:00:00Z",
             "unconfirmed": false
           }
@@ -1321,6 +1359,7 @@
           "outputPerMTok": 10,
           "cacheReadPerMTok": 0.2,
           "cacheWritePerMTok": 2.5,
+          "promptSizeTiers": [],
           "validFromUtc": "2026-09-22T00:00:00Z",
           "unconfirmed": false
         }
@@ -1380,6 +1419,7 @@
             "outputPerMTok": 10,
             "cacheReadPerMTok": 0.2,
             "cacheWritePerMTok": 2.5,
+            "promptSizeTiers": [],
             "validFromUtc": "2026-09-22T00:00:00Z",
             "unconfirmed": false
           }
@@ -1398,6 +1438,7 @@
             "outputPerMTok": 20,
             "cacheReadPerMTok": 0.4,
             "cacheWritePerMTok": 5,
+            "promptSizeTiers": [],
             "validFromUtc": "2026-08-21T00:00:00Z",
             "unconfirmed": false
           }
@@ -1425,6 +1466,7 @@
           "outputPerMTok": 10,
           "cacheReadPerMTok": 0.2,
           "cacheWritePerMTok": 2.5,
+          "promptSizeTiers": [],
           "validFromUtc": "2026-09-22T00:00:00Z",
           "unconfirmed": false
         }
@@ -1497,6 +1539,7 @@
             "outputPerMTok": 10,
             "cacheReadPerMTok": 0.2,
             "cacheWritePerMTok": 2.5,
+            "promptSizeTiers": [],
             "validFromUtc": "2026-09-22T00:00:00Z",
             "unconfirmed": false
           }
@@ -1515,6 +1558,7 @@
             "outputPerMTok": 20,
             "cacheReadPerMTok": 0.4,
             "cacheWritePerMTok": 5,
+            "promptSizeTiers": [],
             "validFromUtc": "2026-08-21T00:00:00Z",
             "unconfirmed": false
           }
@@ -1531,6 +1575,7 @@
             "outputPerMTok": 12,
             "cacheReadPerMTok": 0.2,
             "cacheWritePerMTok": 2.5,
+            "promptSizeTiers": [],
             "validFromUtc": "2026-07-30T00:00:00Z",
             "unconfirmed": false
           }
@@ -1558,6 +1603,7 @@
           "outputPerMTok": 4.5,
           "cacheReadPerMTok": 0.075,
           "cacheWritePerMTok": null,
+          "promptSizeTiers": [],
           "validFromUtc": "2026-03-17T00:00:00Z",
           "unconfirmed": false
         }
@@ -1616,6 +1662,7 @@
             "outputPerMTok": 10,
             "cacheReadPerMTok": 0.2,
             "cacheWritePerMTok": 2.5,
+            "promptSizeTiers": [],
             "validFromUtc": "2026-09-22T00:00:00Z",
             "unconfirmed": false
           }
@@ -1634,6 +1681,7 @@
             "outputPerMTok": 20,
             "cacheReadPerMTok": 0.4,
             "cacheWritePerMTok": 5,
+            "promptSizeTiers": [],
             "validFromUtc": "2026-08-21T00:00:00Z",
             "unconfirmed": false
           }
@@ -1650,6 +1698,7 @@
             "outputPerMTok": 12,
             "cacheReadPerMTok": 0.2,
             "cacheWritePerMTok": 2.5,
+            "promptSizeTiers": [],
             "validFromUtc": "2026-07-30T00:00:00Z",
             "unconfirmed": false
           }
@@ -1677,6 +1726,7 @@
           "outputPerMTok": 4.5,
           "cacheReadPerMTok": 0.075,
           "cacheWritePerMTok": null,
+          "promptSizeTiers": [],
           "validFromUtc": "2026-03-17T00:00:00Z",
           "unconfirmed": false
         }
@@ -1735,6 +1785,7 @@
             "outputPerMTok": 10,
             "cacheReadPerMTok": 0.2,
             "cacheWritePerMTok": 2.5,
+            "promptSizeTiers": [],
             "validFromUtc": "2026-09-22T00:00:00Z",
             "unconfirmed": false
           }
@@ -1753,6 +1804,7 @@
             "outputPerMTok": 20,
             "cacheReadPerMTok": 0.4,
             "cacheWritePerMTok": 5,
+            "promptSizeTiers": [],
             "validFromUtc": "2026-08-21T00:00:00Z",
             "unconfirmed": false
           }
@@ -1769,6 +1821,7 @@
             "outputPerMTok": 12,
             "cacheReadPerMTok": 0.2,
             "cacheWritePerMTok": 2.5,
+            "promptSizeTiers": [],
             "validFromUtc": "2026-07-30T00:00:00Z",
             "unconfirmed": false
           }
@@ -1930,6 +1983,6 @@
       "note": "No retained measured row meets the requirement yet. Import Voice Lint evidence; an empty set means wait, not an invented cheapest model."
     }
   ],
-  "generatedAtUtc": "2026-10-04T22:24:23.998662+00:00",
+  "generatedAtUtc": "2026-10-16T11:21:26.413309+00:00",
   "source": "src/TokenEconomy/catalog/task-class-recommendations.json"
 }

@@ -56,7 +56,7 @@ PRICING_OUTPUT = ROOT / "website" / "data" / "price-history.json"
 REVIEW_OUTPUT = ROOT / "website" / "data" / "code-review.json"
 REVIEW_STUDIES = ROOT / "docs" / "analyses" / "code-review-studies-2026-09-12.json"
 REVIEW_OPERATIONAL = ROOT / "results" / "routing-evidence" / "review" / "v1" / "review-evidence.json"
-MATRIX_AS_OF_UTC = "2026-10-04T00:00:00Z"
+MATRIX_AS_OF_UTC = "2026-10-16T00:00:00Z"
 BENCHMARK_AS_OF_UTC = "2026-10-04T00:00:00Z"
 
 PRICE_CATALOG = ROOT / "src" / "TokenEconomy" / "catalog" / "model-prices.json"
@@ -307,11 +307,20 @@ def compute_cost(index: dict[str, dict], model: str, usage: dict[str, int], at_u
     if price is None:
         return {"status": "NoPriceForDate", "totalUsd": None}
 
+    tiers = price.get("promptSizeTiers", [])
+    if tiers and usage.get("promptTokens") is None:
+        return {"status": "AmbiguousPromptSize", "totalUsd": None}
+    selected = max((tier for tier in tiers if tier["minPromptTokens"] <= usage["promptTokens"]),
+                   key=lambda tier: tier["minPromptTokens"], default=None) if tiers else None
+    tariff = selected or price
+    input_rate = tariff["inputPerMTok"]
+    cache_read_rate = tariff.get("cacheReadPerMTok")
+    cache_write_rate = tariff.get("cacheWritePerMTok")
     rates = {
-        "input": Decimal(str(price["inputPerMTok"])),
-        "output": Decimal(str(price["outputPerMTok"])),
-        "cacheRead": Decimal(str(price.get("cacheReadPerMTok", price["inputPerMTok"]))),
-        "cacheWrite": Decimal(str(price.get("cacheWritePerMTok", price["inputPerMTok"]))),
+        "input": Decimal(str(input_rate)),
+        "output": Decimal(str(tariff["outputPerMTok"])),
+        "cacheRead": Decimal(str(input_rate if cache_read_rate is None else cache_read_rate)),
+        "cacheWrite": Decimal(str(input_rate if cache_write_rate is None else cache_write_rate)),
     }
     costs = {
         component: Decimal(max(usage[component], 0)) / Decimal(1_000_000) * rates[component]
@@ -347,6 +356,7 @@ def resolve_price(index: dict[str, dict], model: str, at_utc: datetime) -> dict:
         "outputPerMTok": selected["outputPerMTok"],
         "cacheReadPerMTok": selected.get("cacheReadPerMTok"),
         "cacheWritePerMTok": selected.get("cacheWritePerMTok"),
+        "promptSizeTiers": selected.get("promptSizeTiers", []),
         "validFromUtc": selected["validFrom"],
         "unconfirmed": bool(selected.get("unconfirmed", False)),
     }
@@ -749,7 +759,8 @@ def create_matrix_payload() -> dict:
         if listing is None:
             raise ValueError(
                 f"Matrix model '{model['priceCatalogId']}' is missing from the price catalog")
-        reference = {"input": 1_000_000, "output": 200_000, "cacheRead": 0, "cacheWrite": 0}
+        reference = {"input": 1_000_000, "output": 200_000, "cacheRead": 0, "cacheWrite": 0,
+                     "promptTokens": 20_000}
         cost = compute_cost(price_index, listing["modelId"], reference, as_of)
         price = resolve_price(price_index, listing["modelId"], as_of)
         total = cost["totalUsd"]
@@ -767,6 +778,7 @@ def create_matrix_payload() -> dict:
                 if price["cacheReadPerMTok"] is not None else price["inputPerMTok"],
                 "cachedInputUsesInputFallback": price["cacheReadPerMTok"] is None,
                 "validFromUtc": price["validFromUtc"],
+                "promptSizeTiers": price["promptSizeTiers"],
                 "unconfirmed": price["unconfirmed"],
             }
         else:
@@ -776,7 +788,7 @@ def create_matrix_payload() -> dict:
             **matrix_context(model, listing, policy, as_of),
             "modelId": listing["modelId"],
             "vendor": listing.get("vendor"),
-            "cli": {"anthropic": "claude", "openai": "codex"}.get(listing.get("vendor")),
+            "cli": {"anthropic": "claude", "openai": "codex", "google": "antigravity"}.get(listing.get("vendor")),
             "tier": model["capabilityTier"],
             "costClass": cost_class,
             "price": matrix_price,
@@ -788,6 +800,7 @@ def create_matrix_payload() -> dict:
             "selectionStatus": status,
             "evidenceStatus": model["evidenceStatus"],
             "provisional": model["provisional"],
+            "testOnly": model.get("testOnly", False),
         })
 
     # Generation-time coverage gate: a catalog price that is already in effect
@@ -1034,13 +1047,14 @@ def create_price_history_payload() -> dict:
             "vendor": listing.get("vendor"), "releaseDate": listing.get("releaseDate"),
             "releaseDateSource": listing.get("releaseDateSource"), "note": listing.get("note"),
             "selectionStatus": profile.get("routingStatus", "unsupported"),
+            "testOnly": profile.get("testOnly", False),
             "deprecated": profile.get("routingStatus") == "deprecated", "history": history,
         })
     return {
         "schemaVersion": 1, "generatedAtUtc": datetime.now(timezone.utc).isoformat(),
         "asOfUtc": MATRIX_AS_OF_UTC, "currency": "USD", "unit": "per-million-tokens",
         "source": PRICE_CATALOG.relative_to(ROOT).as_posix(),
-        "scope": "Direct-provider standard text-token rates; Anthropic 5-minute cache writes; context and service tiers require explicit custom rates.",
+        "scope": "Direct-provider standard text-token rates, including catalogued prompt-size tiers; Anthropic 5-minute cache writes. Other service tiers require explicit custom rates.",
         "coverage": {"catalogModels": len(models), "pricedModels": sum(bool(m["history"]) for m in models),
                      "pricePeriods": sum(len(m["history"]) for m in models)},
         "models": models,

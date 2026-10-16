@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "generatedAtUtc": "2026-10-04T22:24:23.863302+00:00",
+  "generatedAtUtc": "2026-10-16T11:21:26.370107+00:00",
   "priceCatalogPath": "src/TokenEconomy/catalog/model-prices.json",
   "workedExample": {
     "source": {
@@ -25,6 +25,7 @@
       "outputPerMTok": 12,
       "cacheReadPerMTok": 0.2,
       "cacheWritePerMTok": 2.5,
+      "promptSizeTiers": [],
       "validFromUtc": "2026-07-30T00:00:00Z",
       "unconfirmed": false
     },

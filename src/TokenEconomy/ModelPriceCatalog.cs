@@ -101,17 +101,25 @@ public sealed class ModelPriceCatalog
             return new CostBreakdown { Status = resolution.Status, ModelId = resolution.ModelId, Total = null };
 
         var price = resolution.Price;
-        var input = CostOf(usage.Input, price.InputPerMTok);
-        var output = CostOf(usage.Output, price.OutputPerMTok);
+        if (price.PromptSizeTiers.Count > 0 && usage.PromptTokens is null)
+            return new CostBreakdown { Status = PriceStatus.AmbiguousPromptSize, ModelId = resolution.ModelId, Price = price, Total = null };
+        if (usage.PromptTokens < 0)
+            throw new ArgumentOutOfRangeException(nameof(usage), "PromptTokens must be non-negative.");
+        var tier = price.PromptSizeTiers.Where(candidate => candidate.MinPromptTokens <= usage.PromptTokens)
+            .MaxBy(candidate => candidate.MinPromptTokens);
+        var inputRate = tier?.InputPerMTok ?? price.InputPerMTok;
+        var input = CostOf(usage.Input, inputRate);
+        var output = CostOf(usage.Output, tier?.OutputPerMTok ?? price.OutputPerMTok);
         // A missing cache rate falls back to the input rate so cache tokens are still priced, not dropped.
-        var cacheRead = CostOf(usage.CacheRead, price.CacheReadPerMTok ?? price.InputPerMTok);
-        var cacheWrite = CostOf(usage.CacheWrite, price.CacheWritePerMTok ?? price.InputPerMTok);
+        var cacheRead = CostOf(usage.CacheRead, tier?.CacheReadPerMTok ?? price.CacheReadPerMTok ?? inputRate);
+        var cacheWrite = CostOf(usage.CacheWrite, tier?.CacheWritePerMTok ?? price.CacheWritePerMTok ?? inputRate);
 
         return new CostBreakdown
         {
             Status = PriceStatus.Resolved,
             ModelId = resolution.ModelId,
             Price = price,
+            AppliedPromptSizeTier = tier,
             Caveat = ModelPrice.EstimatedListPricesCaveat,
             Currency = price.Currency,
             InputCost = input,
@@ -162,6 +170,9 @@ public sealed class ModelPriceCatalog
         {
             if (price.ValidTo is { } validTo && validTo < price.ValidFrom)
                 throw new ArgumentException($"Model '{listing.ModelId}' has a price period ending before it starts.", nameof(listing));
+            if (price.PromptSizeTiers.Any(tier => tier.MinPromptTokens <= 0)
+                || price.PromptSizeTiers.Select(tier => tier.MinPromptTokens).Distinct().Count() != price.PromptSizeTiers.Count)
+                throw new ArgumentException($"Model '{listing.ModelId}' has invalid prompt-size tiers.", nameof(listing));
         }
 
         var ordered = listing.History.OrderBy(price => price.ValidFrom).ToArray();

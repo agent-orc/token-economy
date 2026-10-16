@@ -471,6 +471,8 @@ public sealed class TaskClassRecommendationCatalog
         Cli.Codex => string.Equals(cliType, "codex", StringComparison.OrdinalIgnoreCase),
         Cli.Claude => string.Equals(cliType, "claude", StringComparison.OrdinalIgnoreCase)
             || string.Equals(cliType, "claude-code", StringComparison.OrdinalIgnoreCase),
+        Cli.Antigravity => string.Equals(cliType, "antigravity", StringComparison.OrdinalIgnoreCase)
+            || string.Equals(cliType, "agy", StringComparison.OrdinalIgnoreCase),
         _ => false,
     };
 
