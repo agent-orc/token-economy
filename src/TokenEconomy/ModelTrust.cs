@@ -390,6 +390,7 @@ public static class RoutingEvidenceTrust
                 {
                     "codex" => TokenEconomy.Cli.Codex,
                     "claude" or "claude-code" => TokenEconomy.Cli.Claude,
+                    "antigravity" or "agy" => TokenEconomy.Cli.Antigravity,
                     _ => null,
                 },
                 ObservedAtUtc = record.ObservedAtUtc,

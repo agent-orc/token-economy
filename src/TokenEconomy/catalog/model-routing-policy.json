@@ -1,14 +1,14 @@
 {
   "$schema": "model-routing-policy.schema.json",
   "schemaVersion": 1,
-  "policyVersion": "2026-10-04",
-  "evidenceAsOfDate": "2026-10-04",
+  "policyVersion": "2026-10-21",
+  "evidenceAsOfDate": "2026-10-21",
   "authority": {
     "repositoryPath": "docs/system/domains/model-routing-policy.md",
     "upstreamRepository": "agent-orc/agent-studio",
     "upstreamPath": "docs/system/domains/model-routing-policy.md",
-    "contentSha256": "32a9eead38dc35eeff1434eeb2b1d1e4addf53b160f4e3c1a71b9729e86cab80",
-    "synchronization": "Token Economy 2026-10-04 revision adds GPT-6.1 Sol as selectable and provisional for explicit pins. Existing defaults, score bands, hard floors, priors and fallbacks remain unchanged. The runner ChatGPT account rejected execution on codex-cli 0.155.0. No upstream update is claimed. Refresh the authority hash, generated view and drift tests together."
+    "contentSha256": "12cf4b05eb97ac16ff088e15ff94fe0fdeee7a2f1137b3482294bc34212f87cd",
+    "synchronization": "Token Economy 2026-10-21 revision adds selectable Sonnet 5.5 and documented CLI version gates for Sonnet 5.5 and Haiku 5.5. Defaults, score bands, correctness floors, priors and fallbacks remain unchanged. TE-62 and TE-63 catalogue changes are included. No upstream update is claimed."
   },
   "providers": [
     {
@@ -21,6 +21,12 @@
       "id": "anthropic",
       "cliId": "claude-code",
       "cliLabel": "Claude Code CLI",
+      "evidenceStatus": "observed"
+    },
+    {
+      "id": "google",
+      "cliId": "antigravity",
+      "cliLabel": "Antigravity CLI (agy)",
       "evidenceStatus": "observed"
     }
   ],
@@ -62,6 +68,86 @@
     }
   ],
   "models": [
+    {
+      "canonicalId": "claude-haiku-5-5",
+      "aliases": [],
+      "minimumCliVersion": "2.1.293",
+      "providerId": "anthropic",
+      "cliId": "claude-code",
+      "priceCatalogId": "claude-haiku-5-5",
+      "mediaCatalogModelId": "*",
+      "trustModelId": "claude-haiku-5-5",
+      "supportedThinkingLevels": [
+        "low",
+        "medium",
+        "high",
+        "xhigh",
+        "max"
+      ],
+      "routingStatus": "selectable",
+      "evidenceStatus": "provisional",
+      "provisional": true,
+      "capabilityTier": "light",
+      "workflowRoles": [
+        "boundedPipelineDecision"
+      ],
+      "note": "Claude Code documents low/medium/high/xhigh/max with default medium and minimum v2.1.293: https://code.claude.com/docs/en/model-config (retrieved 2026-10-21). Operator reports Claude Code 2.1.305 installed on TUFI2, agent-runner-01 and KORI review containers, with the KORI Dockerfile pinned; agent-runner-01 runner-credential claude -p --model claude-haiku-5-5 answered on 2026-10-20. Earlier v2.1.301 modelUsage confirmed the canonical model; v2.1.281 fell back to Haiku 4.5. Explicit bounded classification, auto-tagging and fixture pin only; Sonnet low remains the coding economy floor. No default route, fallback or automatic migration.",
+      "testOnly": false
+    },
+    {
+      "canonicalId": "gemini-4-argon",
+      "aliases": [
+        "gemini-4-argon-low",
+        "gemini-4-argon-medium",
+        "gemini-4-argon-high"
+      ],
+      "providerId": "google",
+      "cliId": "antigravity",
+      "priceCatalogId": "gemini-4-argon",
+      "mediaCatalogModelId": "*",
+      "trustModelId": "gemini-4-argon",
+      "supportedThinkingLevels": [
+        "low",
+        "medium",
+        "high"
+      ],
+      "routingStatus": "selectable",
+      "evidenceStatus": "provisional",
+      "provisional": true,
+      "capabilityTier": "frontier",
+      "workflowRoles": [
+        "coreTask"
+      ],
+      "note": "Test-only: explicit operator pin only; no default tier, automatic migration, or fallback. agy 1.4.0 models output on 2026-10-16 listed low/medium/high suffixed ids; agy also accepts --effort low|medium|high|xhigh|max, but the model docs confirm only low/medium/high for this model. Access path for orchestrated runs is unresolved. Vendor FAQ: direct agy -p scripting/CI is intended; wrapping agy in third-party coding agents is not supported under consumer plans; API-key path is documented separately: https://www.antigravity.google/docs/faq/. API prices do not establish CLI subscription costs.",
+      "testOnly": true
+    },
+    {
+      "canonicalId": "gemini-3.8-flash",
+      "aliases": [
+        "gemini-3.8-flash-low",
+        "gemini-3.8-flash-medium",
+        "gemini-3.8-flash-high"
+      ],
+      "providerId": "google",
+      "cliId": "antigravity",
+      "priceCatalogId": "gemini-3.8-flash",
+      "mediaCatalogModelId": "*",
+      "trustModelId": "gemini-3.8-flash",
+      "supportedThinkingLevels": [
+        "low",
+        "medium",
+        "high"
+      ],
+      "routingStatus": "selectable",
+      "evidenceStatus": "provisional",
+      "provisional": true,
+      "capabilityTier": "balanced",
+      "workflowRoles": [
+        "coreTask"
+      ],
+      "note": "Test-only: explicit operator pin only; no default tier, automatic migration, or fallback. agy 1.4.0 models output on 2026-10-16 listed low/medium/high suffixed ids; agy also accepts --effort low|medium|high|xhigh|max, but the model docs confirm only low/medium/high for this model. Access path for orchestrated runs is unresolved. Vendor FAQ: direct agy -p scripting/CI is intended; wrapping agy in third-party coding agents is not supported under consumer plans; API-key path is documented separately: https://www.antigravity.google/docs/faq/. API prices do not establish CLI subscription costs.",
+      "testOnly": true
+    },
     {
       "canonicalId": "gpt-5.6-luna",
       "aliases": [
@@ -319,6 +405,7 @@
     {
       "canonicalId": "claude-sonnet-5-5",
       "aliases": [],
+      "minimumCliVersion": "2.1.284",
       "providerId": "anthropic",
       "cliId": "claude-code",
       "priceCatalogId": "claude-sonnet-5-5",
@@ -331,12 +418,12 @@
         "xhigh",
         "max"
       ],
-      "routingStatus": "unsupported",
-      "evidenceStatus": "unknown",
-      "provisional": false,
+      "routingStatus": "selectable",
+      "evidenceStatus": "provisional",
+      "provisional": true,
       "capabilityTier": "frontier",
-      "workflowRoles": [],
-      "note": "Released 2026-09-28 at $2/$0.20/$2.50/$10 per MTok (same as Sonnet 5). Anthropic and Claude Code document low/medium/high/xhigh/max with a recalibrated scale (Claude Code default medium, API default high). Claude Code needs v2.1.284 or later; the runner's Claude Code 2.1.281 returned unrecognized_model on 2026-09-29, so the model stays unsupported until the CLI is upgraded and a probe records the canonical model. It adds no fallback equivalence or automatic migration (TE-59)."
+      "workflowRoles": ["coreTask"],
+      "note": "Claude Code documents low/medium/high/xhigh/max with default medium: https://code.claude.com/docs/en/model-config (retrieved 2026-10-21). Minimum Claude Code 2.1.284; 2.1.281 returned unrecognized_model on 2026-09-29. Operator reports Claude Code 2.1.305 installed on TUFI2, agent-runner-01 and KORI review containers, with the KORI Dockerfile pinned; agent-runner-01 runner-credential claude -p --model claude-sonnet-5-5 answered on 2026-10-20. Selectable for explicit evaluation and operator-pinned core tasks only; no correctness-floor equivalence, default route, provider fallback or automatic migration."
     },
     {
       "canonicalId": "claude-sonnet-5",

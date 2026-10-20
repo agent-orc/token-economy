@@ -4,7 +4,7 @@
   const escape = value => String(value ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]);
   const words = value => String(value).replace(/([a-z])([A-Z])/g, '$1 $2').toLowerCase();
   const source = path => `https://github.com/agent-orc/token-economy/blob/main/${path}`;
-  const money = value => `$${Number(value).toFixed(2)}`;
+  const money = value => '$' + Number(value).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 5 });
   const status = {
     selectable: ['✓', 'Selectable', 'Allowed for the workflow roles listed below.'],
     fallbackOnly: ['↪', 'Fallback only', 'Requires an explicitly qualified fallback.'],
@@ -12,6 +12,9 @@
     restricted: ['⏸', 'Restricted', 'Blocked by the current policy.'],
     deprecated: ['−', 'Deprecated', 'Retained for history; excluded from new selections.'],
   };
+  const statusOf = row => row.testOnly
+    ? ['△', 'Test-only pin', 'Selectable only on an explicit operator pin. No default route, migration, or fallback.']
+    : status[row.selectionStatus] || status.unsupported;
   const effort = value => `<span class="effort-level">${escape(value === 'xHigh' ? 'xhigh' : value)}</span>`;
   const taskStudy = study => `<li><a href="/token-economy/task-class-routing/#${escape(study.id)}">${escape(study.label)}</a> · ${escape(study.efforts.join(' / '))}`
     + (study.outcomeRate == null ? '' : ` · <strong>${Math.round(study.outcomeRate * 100)}% passed</strong> in ${study.scenarioCount} scenarios`)
@@ -31,10 +34,10 @@
   const routeLabel = row => {
     const routes = row.policy.routes.map(route => `${route.effort}${route.minimumTaskScore == null ? ' · bounded decisions' : ` · task score ${route.minimumTaskScore}–${route.maximumTaskScore}`}`);
     if (row.policy.fallbacks.length) routes.push(...row.policy.fallbacks.map(route => `${route.effort} · provider fallback`));
-    return routes.length ? routes.map(line => `<span>${escape(line)}</span>`).join('') : row.selectionStatus === 'selectable' ? '<span>Explicit selection</span>' : '<span>No permitted route</span>';
+    return routes.length ? routes.map(line => `<span>${escape(line)}</span>`).join('') : row.testOnly ? '<span>Test-only operator pin</span>' : row.selectionStatus === 'selectable' ? '<span>Explicit selection</span>' : '<span>No permitted route</span>';
   };
   const details = row => {
-    const [, label, explanation] = status[row.selectionStatus] || status.unsupported;
+    const [, label, explanation] = statusOf(row);
     const local = measured(row);
     const published = row.evidence.external.filter(item => item.confidence !== 'ownRun');
     const own = row.evidence.external.filter(item => item.confidence === 'ownRun');
@@ -44,7 +47,7 @@
     return (assessment ? `<h4>Benchmark assessment</h4><p>${escape(assessment.summary)}</p><p><a href="model-benchmarks/#assessment-${escape(row.modelId)}">Strengths, tradeoffs and effort guidance →</a></p>` : '')
       + (published.length ? `<h4>Published benchmarks · primary comparison evidence</h4>${benchmarkTable(published)}` : '<p>No published benchmark score is linked for this model.</p>')
       + `<div class="model-detail-grid"><div><h4>${escape(label)}</h4><p>${escape(explanation)} Roles: ${escape(row.policy.workflowRoles.map(words).join(', ') || 'none')}.</p>`
-      + `<p>Dated cost class: <strong>${escape(words(row.costClass))}</strong>${row.costUnconfirmed ? ' · price unconfirmed' : ''}. Reference: 1M input + 200k output tokens.</p>`
+      + `<p>Dated cost class: <strong>${escape(words(row.costClass))}</strong>${row.costUnconfirmed ? ' · price unconfirmed' : ''}. Reference: 1M input + 200k output tokens across 20k-token prompts.</p>`
       + `<h4>${row.provisional ? 'Why provisional?' : 'Local qualification'}</h4><p>${published.length ? 'Benchmarks support the assessment above. ' : ''}${local.length ? 'The linked local task studies are pilots.' : 'A matching local task trial has not been completed.'} Qualification still requires 20 attempts, five scenarios and outcome/review coverage for the specific model, effort and task class.</p>`
       + `<p><a href="${source('docs/routing-evidence.md')}">Qualification criteria</a> · <a href="/token-economy/api/#evidence-status">Status definitions</a></p>`
       + `<details><summary>Routing policy reason and version</summary><p>${escape(row.policy.reason)}</p><p>Policy ${escape(row.policy.version)} · policy evidence ${escape(row.policy.evidenceAsOfDate)}. Newer benchmark measurements are listed above.</p></details></div>`
@@ -54,7 +57,7 @@
       + `<details class="task-fit-details"><summary>AGT and policy fit · supporting signals</summary><div class="task-fit-grid">${Object.entries(row.suitability).map(([task, fit]) => `<span>${escape(words(task))}: <strong>${fit == null ? 'not assessed' : escape(fit)}</strong></span>`).join('')}</div><p>These are maintained fit estimates. The compatibility score combines task fit with dated cost weighting. AGT observations help calibrate local routing; the benchmark measurements above provide the primary model comparison.</p></details>`;
   };
   const renderRow = row => {
-    const [icon, label] = status[row.selectionStatus] || status.unsupported;
+    const [icon, label] = statusOf(row);
     const id = `evidence-${row.modelId}`;
     const buttonAttrs = `type="button" data-evidence-toggle="${escape(id)}" aria-controls="${escape(id)}" aria-expanded="false"`;
     const price = row.price;
@@ -63,7 +66,7 @@
       + `</th><td class="routing-icons"><button ${buttonAttrs} class="status-icon status-${escape(row.selectionStatus)}" title="${escape(label)} — show why" aria-label="${escape(label)}: show policy and evidence for ${escape(row.displayName)}">${icon}</button>`
       + (row.provisional ? `<button ${buttonAttrs} class="status-icon status-provisional" title="Provisional evidence — show what is missing" aria-label="Provisional evidence: show what is missing for ${escape(row.displayName)}">△</button>` : '')
       + `</td><td><div class="effort-ladder">${row.effortLevels.map(effort).join('')}</div><div class="policy-effort">${routeLabel(row)}</div></td>`
-      + `<td>${price.status === 'resolved' ? `<span class="matrix-price"><span>In</span> ${money(price.inputPerMTok)}</span><span class="matrix-price"><span>Out</span> ${money(price.outputPerMTok)}</span><span class="matrix-price"><span>Cache</span> ${money(price.cachedInputPerMTok)}${price.cachedInputUsesInputFallback ? '*' : ''}</span><a class="release-date" href="price-history/#price-${escape(row.modelId)}">History &amp; sources</a>` : '<span class="muted">Unpriced</span>'}</td>`
+      + `<td>${price.status === 'resolved' ? `<span class="matrix-price"><span>In</span> ${money(price.inputPerMTok)}</span><span class="matrix-price"><span>Out</span> ${money(price.outputPerMTok)}</span><span class="matrix-price"><span>Cache</span> ${money(price.cachedInputPerMTok)}${price.cachedInputUsesInputFallback ? '*' : ''}</span>${price.promptSizeTiers?.length ? '<small>Prompt-size tiers apply; see history.</small>' : ''}<a class="release-date" href="price-history/#price-${escape(row.modelId)}">History &amp; sources</a>` : '<span class="muted">Unpriced</span>'}</td>`
       + `<td><button ${buttonAttrs} class="evidence-button" aria-label="Show scores and evidence for ${escape(row.displayName)}">${evidenceTeaser(row)}<span class="evidence-link">Scores &amp; evidence <span aria-hidden="true">＋</span></span></button></td></tr>`
       + `<tr class="model-detail-row" id="${escape(id)}" hidden><td colspan="5"><div class="model-detail-content">${details(row)}</div></td></tr>`;
   };

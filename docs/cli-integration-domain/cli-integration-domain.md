@@ -15,6 +15,10 @@ The concept deliverable is inside this Dossier directory. The docs-only entry is
 
 TE-63 implements recommended **option B** for subscriptions: a machine catalogue with stable source IDs and a source register in this Dossier. The card explicitly requires a per-login API, so the recommended D4 “API only when a consumer needs it” condition is met by Agent Studio. This implementation adds the read-only subscription API; it does not promote the separate proposed CLI capability catalogue or migrate historical price/benchmark citations. See the [subscription domain page](../system/domains/subscription-catalogue.md).
 
+## TE-64 update
+
+The model-floor table below records the earlier TE-61 concept evidence. On 2026-10-21, the [Claude Code model configuration documentation](https://code.claude.com/docs/en/model-config) states v2.1.284 for Sonnet 5.5 and v2.1.293 for Haiku 5.5. The operator reported successful `claude -p --model` answers on Claude Code 2.1.305 for both models using the agent-runner-01 credential on 2026-10-20. The routing catalogue now carries those documented minimum versions and can reject an explicitly supplied older CLI version. This does not promote the separate proposed CLI capability catalogue or claim a successful probe at the exact minimum version.
+
 ## Alternatives
 
 | Option | Shape | Consequence |

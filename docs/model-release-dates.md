@@ -2,7 +2,7 @@
 
 Verified against provider documentation on 2026-09-12. On 2026-09-29 the Fable
 5.1, Opus 5.5, Sonnet 5, Haiku 4.5 and GPT-6 rows were re-checked unchanged and
-Claude Sonnet 5.5 was added. GPT-6.1 Sol was verified and added on 2026-10-04. The price catalog stores these facts in
+Claude Sonnet 5.5 was added. GPT-6.1 Sol was verified and added on 2026-10-04. Claude Haiku 5.5, Gemini 4 Argon, and Gemini 3.8 Flash were verified and added on 2026-10-16. The price catalog stores these facts in
 `ModelListing.ReleaseDate` and `ReleaseDateSource`.
 
 A release date is the provider's initial public release or limited-preview
@@ -20,11 +20,14 @@ model is collapsed, independently of its release date.
 
 | Model | Initial publication | Evidence |
 | --- | --- | --- |
+| Gemini 4 Argon | `2026-10-13` | [Google API release notes](https://ai.google.dev/gemini-api/docs/changelog) and [Antigravity announcement](https://www.antigravity.google/blog/gemini-4-argon-in-google-antigravity) |
+| Claude Haiku 5.5 | `2026-10-07` | [Anthropic release notes](https://platform.claude.com/docs/en/release-notes/overview#october-7-2026) |
 | GPT-6.1 Sol | `2026-09-29` | [OpenAI API changelog](https://developers.openai.com/api/docs/changelog) |
 | Claude Sonnet 5.5 | `2026-09-28` | [Provider source](https://platform.claude.com/docs/en/models/sonnet-5-5/overview) |
 | Claude Opus 5.5 | `2026-09-22` | [Provider source](https://platform.claude.com/docs/en/models/opus-5-5/overview) |
 | GPT-6 Luna | `2026-09-22` | [Provider source](https://developers.openai.com/api/docs/changelog) |
 | GPT-6 Sol | `2026-09-22` | [Provider source](https://developers.openai.com/api/docs/changelog) |
+| Gemini 3.8 Flash | `2026-09-01` | [Antigravity announcement](https://www.antigravity.google/blog/gemini-3-8-flash-in-google-antigravity); API GA followed September 2 |
 | GPT-6 Astra | `2026-09-03` | [Provider source](https://openai.com/index/safety-overview-gpt-6-astra/) |
 | Claude Fable 5.1 | `2026-09-01` | [Provider source](https://platform.claude.com/docs/en/models/fable-5-1/overview) |
 | Claude Opus 5 | `2026-07-24` | [Provider source](https://platform.claude.com/docs/en/models/opus-5/overview) |

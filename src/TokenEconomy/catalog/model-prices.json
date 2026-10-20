@@ -40,7 +40,7 @@
       {
         "validFrom": "2026-09-22T00:00:00Z",
         "inputPerMTok": 4,
-        "cacheReadPerMTok": 0.20,
+        "cacheReadPerMTok": 0.2,
         "cacheWritePerMTok": 5,
         "outputPerMTok": 20,
         "currency": "USD",
@@ -56,6 +56,143 @@
         "unconfirmed": false
       }
     ]
+  },
+  {
+    "modelId": "claude-haiku-5-5",
+    "displayName": "Claude Haiku 5.5",
+    "releaseDate": "2026-10-07",
+    "releaseDateSource": "https://platform.claude.com/docs/en/release-notes/overview#october-7-2026",
+    "vendor": "anthropic",
+    "history": [
+      {
+        "validFrom": "2026-10-07T00:00:00Z",
+        "inputPerMTok": 0.1,
+        "outputPerMTok": 0.5,
+        "cacheReadPerMTok": 0.01,
+        "currency": "USD",
+        "source": "Anthropic pricing, model overview, and October 7 release notes; verified 2026-10-16.",
+        "sourceUrls": [
+          "https://platform.claude.com/docs/en/about-claude/pricing",
+          "https://platform.claude.com/docs/en/models/haiku-5-5/overview",
+          "https://platform.claude.com/docs/en/release-notes/overview#october-7-2026"
+        ],
+        "verifiedOn": "2026-10-16",
+        "validFromBasis": "provider-announced-date",
+        "note": "Standard global Claude API rates. Prompt size includes fresh input and cache reads/writes; above 100K the higher tariff applies to every token of the request. Cache-write rates use 5-minute retention; 1-hour writes are $0.20/$1 per MTok. Batch input/output are 50% of standard.",
+        "unconfirmed": false,
+        "cacheWritePerMTok": 0.125,
+        "promptSizeTiers": [
+          {
+            "minPromptTokens": 100001,
+            "inputPerMTok": 0.5,
+            "outputPerMTok": 2.5,
+            "cacheReadPerMTok": 0.05,
+            "cacheWritePerMTok": 0.625
+          }
+        ]
+      }
+    ],
+    "note": "1M context, 128K max output; adaptive thinking at low/medium/high/xhigh/max (medium default). Claude Code changelog first lists support in v2.1.293; operator probe on 2026-10-16: v2.1.301 returned modelUsage claude-haiku-5-5 and $0.0033, while v2.1.281 rejected the id and silently used claude-haiku-4-5-20251001."
+  },
+  {
+    "modelId": "gemini-4-argon",
+    "displayName": "Gemini 4 Argon",
+    "releaseDate": "2026-10-13",
+    "releaseDateSource": "https://ai.google.dev/gemini-api/docs/changelog",
+    "vendor": "google",
+    "aliases": [
+      "gemini-4-argon-low",
+      "gemini-4-argon-medium",
+      "gemini-4-argon-high"
+    ],
+    "history": [
+      {
+        "validFrom": "2026-10-13T00:00:00Z",
+        "inputPerMTok": 2,
+        "outputPerMTok": 10,
+        "cacheReadPerMTok": 0.1,
+        "currency": "USD",
+        "source": "Google Gemini API pricing and October 13 release notes; verified 2026-10-16.",
+        "sourceUrls": [
+          "https://ai.google.dev/gemini-api/docs/pricing",
+          "https://ai.google.dev/gemini-api/docs/changelog",
+          "https://ai.google.dev/gemini-api/docs/models/gemini-4-argon"
+        ],
+        "verifiedOn": "2026-10-16",
+        "validFromBasis": "provider-announced-date",
+        "note": "Standard paid Gemini API text rate; implicit cache reads only, explicit cache writes unsupported. Introductory tariff through November 30, 2026. API rates are not Antigravity subscription charges.",
+        "unconfirmed": false,
+        "validTo": "2026-11-30T23:59:59.9999999Z"
+      },
+      {
+        "validFrom": "2026-12-01T00:00:00Z",
+        "inputPerMTok": 4,
+        "outputPerMTok": 20,
+        "cacheReadPerMTok": 0.2,
+        "currency": "USD",
+        "source": "Google Gemini API announced December 1 tariff; verified 2026-10-16.",
+        "sourceUrls": [
+          "https://ai.google.dev/gemini-api/docs/pricing",
+          "https://ai.google.dev/gemini-api/docs/changelog",
+          "https://ai.google.dev/gemini-api/docs/models/gemini-4-argon"
+        ],
+        "verifiedOn": "2026-10-16",
+        "validFromBasis": "provider-announced-date",
+        "note": "Announced future standard paid Gemini API text rate; implicit cache reads only, explicit cache writes unsupported. API rates are not Antigravity subscription charges.",
+        "unconfirmed": false
+      }
+    ],
+    "note": "1,048,576 unified context tokens; default synchronous output 65,536, long decode up to 1,048,576. Gemini API thinking low/medium/high. Antigravity CLI rollout was announced October 13; agy 1.4.0 operator model listing observed October 16."
+  },
+  {
+    "modelId": "gemini-3.8-flash",
+    "displayName": "Gemini 3.8 Flash",
+    "releaseDate": "2026-09-01",
+    "releaseDateSource": "https://www.antigravity.google/blog/gemini-3-8-flash-in-google-antigravity",
+    "vendor": "google",
+    "aliases": [
+      "gemini-3.8-flash-low",
+      "gemini-3.8-flash-medium",
+      "gemini-3.8-flash-high"
+    ],
+    "history": [
+      {
+        "validFrom": "2026-09-02T00:00:00Z",
+        "inputPerMTok": 0.75,
+        "outputPerMTok": 3.75,
+        "cacheReadPerMTok": 0.075,
+        "currency": "USD",
+        "source": "Google Gemini API pricing and September 2 release notes; verified 2026-10-16.",
+        "sourceUrls": [
+          "https://ai.google.dev/gemini-api/docs/pricing",
+          "https://ai.google.dev/gemini-api/docs/changelog",
+          "https://ai.google.dev/gemini-api/docs/models/gemini-3.8-flash"
+        ],
+        "verifiedOn": "2026-10-16",
+        "validFromBasis": "provider-announced-date",
+        "note": "Standard paid Gemini API text rate. Explicit caching storage adds $0.50 per million tokens per hour; this time-based charge is outside ComputeCost. API rates are not Antigravity subscription charges.",
+        "unconfirmed": false,
+        "validTo": "2026-12-31T23:59:59.9999999Z"
+      },
+      {
+        "validFrom": "2027-01-01T00:00:00Z",
+        "inputPerMTok": 1.5,
+        "outputPerMTok": 7.5,
+        "cacheReadPerMTok": 0.15,
+        "currency": "USD",
+        "source": "Google Gemini API announced January 1 tariff; verified 2026-10-16.",
+        "sourceUrls": [
+          "https://ai.google.dev/gemini-api/docs/pricing",
+          "https://ai.google.dev/gemini-api/docs/changelog",
+          "https://ai.google.dev/gemini-api/docs/models/gemini-3.8-flash"
+        ],
+        "verifiedOn": "2026-10-16",
+        "validFromBasis": "provider-announced-date",
+        "note": "Announced future standard paid Gemini API text rate. Explicit caching storage adds $1.00 per million tokens per hour; this time-based charge is outside ComputeCost. API rates are not Antigravity subscription charges.",
+        "unconfirmed": false
+      }
+    ],
+    "note": "Antigravity announced availability September 1; Gemini API GA release notes date September 2, which begins this API tariff. Input limit 1,048,576 tokens, output limit 65,536. Gemini API thinking low/medium/high; agy 1.4.0 operator model listing observed October 16."
   },
   {
     "modelId": "claude-fable-5-1",
@@ -456,16 +593,25 @@
         "cacheWritePerMTok": 2.5,
         "outputPerMTok": 10,
         "currency": "USD",
-        "source": "OpenAI API changelog, pricing page and model page; verified 2026-10-04. https://developers.openai.com/api/docs/changelog; https://developers.openai.com/api/docs/pricing; https://developers.openai.com/api/docs/models/gpt-6.1-sol",
+        "source": "OpenAI API changelog, pricing page and model page; verified 2026-10-04. https://developers.openai.com/api/docs/changelog; https://developers.openai.com/api/docs/pricing; https://developers.openai.com/api/docs/models/gpt-6.1-sol Long-context tariff re-verified 2026-10-16 against the official model and pricing pages.",
         "sourceUrls": [
           "https://developers.openai.com/api/docs/changelog",
           "https://developers.openai.com/api/docs/pricing",
           "https://developers.openai.com/api/docs/models/gpt-6.1-sol"
         ],
-        "verifiedOn": "2026-10-04",
+        "verifiedOn": "2026-10-16",
         "validFromBasis": "provider-announced-date",
-        "note": "Standard short-context direct API tariff for prompts up to 272K input tokens. The provider pricing and model pages print the long-context tariff above 272K as $4 input, $0.20 cached input, $5 cache write and $15 output per MTok for the full request; that alternate tariff is not represented by this entry. Midnight UTC normalizes the announced calendar date, not a published intraday billing cutover.",
-        "unconfirmed": false
+        "note": "Standard short-context direct API tariff for prompts up to 272K input tokens. The provider pricing and model pages print the long-context tariff above 272K as $4 input, $0.20 cached input, $5 cache write and $15 output per MTok for the full request; the long-context tariff is represented by promptSizeTiers. Midnight UTC normalizes the announced calendar date, not a published intraday billing cutover.",
+        "unconfirmed": false,
+        "promptSizeTiers": [
+          {
+            "minPromptTokens": 272001,
+            "inputPerMTok": 4,
+            "outputPerMTok": 15,
+            "cacheReadPerMTok": 0.2,
+            "cacheWritePerMTok": 5
+          }
+        ]
       }
     ],
     "note": "Codex CLI 0.155.0 probe on 2026-10-04 returned HTTP 400: model not supported with this ChatGPT account; CLI execution availability remains unconfirmed."
@@ -480,7 +626,7 @@
       {
         "validFrom": "2026-09-22T00:00:00Z",
         "inputPerMTok": 2,
-        "cacheReadPerMTok": 0.20,
+        "cacheReadPerMTok": 0.2,
         "cacheWritePerMTok": 2.5,
         "outputPerMTok": 10,
         "currency": "USD",
@@ -506,10 +652,10 @@
     "history": [
       {
         "validFrom": "2026-09-22T00:00:00Z",
-        "inputPerMTok": 0.10,
+        "inputPerMTok": 0.1,
         "cacheReadPerMTok": 0.01,
         "cacheWritePerMTok": 0.125,
-        "outputPerMTok": 0.50,
+        "outputPerMTok": 0.5,
         "currency": "USD",
         "source": "OpenAI official pricing, model, and dated changelog evidence; retrieved 2026-09-24. https://developers.openai.com/api/docs/changelog; https://developers.openai.com/api/docs/pricing; https://developers.openai.com/api/docs/models/gpt-6-luna. Re-verified unchanged on 2026-09-29: https://developers.openai.com/api/docs/pricing; https://developers.openai.com/api/docs/models/gpt-6-luna",
         "sourceUrls": [

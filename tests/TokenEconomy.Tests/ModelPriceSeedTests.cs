@@ -32,6 +32,14 @@ public class ModelPriceSeedTests
                 Assert.True(price.OutputPerMTok > 0m, $"{listing.ModelId} output rate");
                 if (price.CacheReadPerMTok is { } cr) Assert.True(cr > 0m);
                 if (price.CacheWritePerMTok is { } cw) Assert.True(cw > 0m);
+                foreach (var tier in price.PromptSizeTiers)
+                {
+                    Assert.True(tier.MinPromptTokens > 0);
+                    Assert.True(tier.InputPerMTok > 0m);
+                    Assert.True(tier.OutputPerMTok > 0m);
+                    if (tier.CacheReadPerMTok is { } tierRead) Assert.True(tierRead > 0m);
+                    if (tier.CacheWritePerMTok is { } tierWrite) Assert.True(tierWrite > 0m);
+                }
                 Assert.Equal("USD", price.Currency);
             }
         }

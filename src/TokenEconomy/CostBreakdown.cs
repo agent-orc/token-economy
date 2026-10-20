@@ -17,6 +17,9 @@ public enum PriceStatus
 
     /// <summary>No usage measurement was present, so a price calculation was not attempted.</summary>
     UsageUnavailable,
+
+    /// <summary>A prompt-size tariff applies, but the request's prompt length was not supplied.</summary>
+    AmbiguousPromptSize,
 }
 
 /// <summary>
@@ -55,6 +58,9 @@ public sealed record CostBreakdown
 
     /// <summary>The price entry used, or null when none applied.</summary>
     public ModelPrice? Price { get; init; }
+
+    /// <summary>The prompt-size tariff applied to this request, or null when the base tariff applied.</summary>
+    public PromptSizePriceTier? AppliedPromptSizeTier { get; init; }
 
     /// <summary>
     /// Consumer-facing caveat for a computed catalog price. It is present whenever a price was

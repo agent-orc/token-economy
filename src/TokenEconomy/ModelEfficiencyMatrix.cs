@@ -90,6 +90,7 @@ public sealed class ModelEfficiencyMatrix
     {
         "anthropic" => Cli.Claude,
         "openai" => Cli.Codex,
+        "google" => Cli.Antigravity,
         _ => null,
     };
 
@@ -190,7 +191,7 @@ public sealed class ModelEfficiencyMatrix
         var candidates = new List<ModelSuggestion>();
         foreach (var profile in _profiles)
         {
-            if (profile.Restricted || profile.Deprecated
+            if (profile.Restricted || profile.Deprecated || profile.TestOnly
                 || profile.RoutingStatus is ModelRoutingStatus.Restricted or ModelRoutingStatus.Deprecated or ModelRoutingStatus.Unsupported
                 || profile.RoutingStatus == ModelRoutingStatus.FallbackOnly
                 || !profile.WorkflowRoles.Contains(RoutingWorkflowRole.CoreTask))

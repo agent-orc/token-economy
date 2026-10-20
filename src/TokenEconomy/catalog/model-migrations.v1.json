@@ -1,8 +1,8 @@
 {
   "$schema": "model-migrations.v1.schema.json",
   "schemaVersion": 1,
-  "catalogVersion": "2026-10-04",
-  "evidenceAsOfDate": "2026-10-04",
+  "catalogVersion": "2026-10-16",
+  "evidenceAsOfDate": "2026-10-16",
   "defaultStrategy": "latestInFamily",
   "authority": {
     "rules": "docs/model-migrations.md",
@@ -155,21 +155,24 @@
     },
     {
       "from": "claude-haiku-4-5",
-      "to": "claude-haiku-4-5",
+      "to": "claude-haiku-5-5",
       "family": "claude-haiku",
       "vendor": "anthropic",
       "generationOrder": {
         "from": 405,
-        "to": 405
+        "to": 505
       },
       "costClassFrom": "economy",
       "costClassTo": "economy",
-      "ladderCompatible": true,
-      "contextChange": "same",
-      "evidence": "none",
+      "ladderCompatible": false,
+      "contextChange": "increase",
+      "evidence": {
+        "kind": "none",
+        "reason": "No qualifying identical-case local evaluation for Haiku 4.5 and Haiku 5.5; release and vendor claims do not authorize automatic migration."
+      },
       "safeAuto": false,
-      "since": "2026-09-06",
-      "note": "No Haiku 5 successor is available; retain Haiku 4.5 and re-evaluate when a same-family successor is cataloged."
+      "since": "2026-10-16",
+      "note": "Proposal only. Haiku 5.5 uses a new tokenizer, adaptive thinking, and a 100K prompt-size price boundary. Its operator use is bounded classification/auto-tagging/fixtures; coding floor remains Sonnet low. Review API compatibility and CLI version (v2.1.293 minimum documented) before a pin change."
     },
     {
       "from": "gpt-5.5",
