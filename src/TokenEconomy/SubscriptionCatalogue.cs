@@ -18,7 +18,7 @@ public sealed record SubscriptionSource
 public sealed record SubscriptionModelAccess
 {
     public required string Mode { get; init; }
-    public required string[] ModelIds { get; init; }
+    public required IReadOnlyList<string> ModelIds { get; init; }
 }
 
 public sealed record SubscriptionUseContext
@@ -42,13 +42,13 @@ public sealed record SubscriptionPlan
     public required string Id { get; init; }
     public required string Provider { get; init; }
     public required string Name { get; init; }
-    public required string[] CliIds { get; init; }
+    public required IReadOnlyList<string> CliIds { get; init; }
     public decimal? MonthlyUsd { get; init; }
     public required string Billing { get; init; }
     public required SubscriptionModelAccess ModelAccess { get; init; }
-    public required SubscriptionLimit[] Limits { get; init; }
-    public required string[] SourceIds { get; init; }
-    public required string[] TermsSourceIds { get; init; }
+    public required IReadOnlyList<SubscriptionLimit> Limits { get; init; }
+    public required IReadOnlyList<string> SourceIds { get; init; }
+    public required IReadOnlyList<string> TermsSourceIds { get; init; }
     public required SubscriptionUseContext HeadlessUse { get; init; }
     public required SubscriptionUseContext ThirdPartyUse { get; init; }
     public required string Notes { get; init; }
@@ -64,10 +64,10 @@ public sealed record SubscriptionObservation
     public required DateTime ObservedToUtc { get; init; }
     public required string Method { get; init; }
     public required string CliId { get; init; }
-    public string[]? AllowedModelIds { get; init; }
-    public string[]? RejectedModelIds { get; init; }
+    public IReadOnlyList<string>? AllowedModelIds { get; init; }
+    public IReadOnlyList<string>? RejectedModelIds { get; init; }
     public string? Window { get; init; }
-    public DateTime[]? ResetAtUtc { get; init; }
+    public IReadOnlyList<DateTime>? ResetAtUtc { get; init; }
     public decimal? PercentagePointsPerHour { get; init; }
     public decimal? PercentagePoints { get; init; }
     public decimal? CorrespondingWeeklyPercentagePoints { get; init; }
@@ -121,12 +121,26 @@ public sealed class SubscriptionCatalogue
         IEnumerable<QuotaTokenObservation> quotaTokenObservations)
     {
         AsOfDate = asOfDate;
-        Plans = plans.ToArray();
-        Sources = sources.ToArray();
-        Observations = observations.ToArray();
-        QuotaTokenObservations = quotaTokenObservations.ToArray();
+        Plans = Freeze(plans.Select(p => p with
+        {
+            CliIds = Freeze(p.CliIds),
+            ModelAccess = p.ModelAccess with { ModelIds = Freeze(p.ModelAccess.ModelIds) },
+            Limits = Freeze(p.Limits),
+            SourceIds = Freeze(p.SourceIds),
+            TermsSourceIds = Freeze(p.TermsSourceIds),
+        }));
+        Sources = Freeze(sources);
+        Observations = Freeze(observations.Select(o => o with
+        {
+            AllowedModelIds = o.AllowedModelIds is null ? null : Freeze(o.AllowedModelIds),
+            RejectedModelIds = o.RejectedModelIds is null ? null : Freeze(o.RejectedModelIds),
+            ResetAtUtc = o.ResetAtUtc is null ? null : Freeze(o.ResetAtUtc),
+        }));
+        QuotaTokenObservations = Freeze(quotaTokenObservations);
         Validate();
     }
+
+    private static IReadOnlyList<T> Freeze<T>(IEnumerable<T> items) => Array.AsReadOnly(items.ToArray());
 
     public static SubscriptionCatalogue Default { get; } = LoadDefault();
 
@@ -185,7 +199,7 @@ public sealed class SubscriptionCatalogue
                 ? "account-specific" : string.Join(",", plan.SourceIds);
             return new LoginPlanModel(modelId, status, evidence);
         }).ToArray();
-        return new LoginSubscriptionView(loginId, provider.ToLowerInvariant(), planClaim, plan?.Id, observedAtUtc, models);
+        return new LoginSubscriptionView(loginId, provider.ToLowerInvariant(), planClaim, plan?.Id, observedAtUtc, Freeze(models));
     }
 
     /// <summary>Warn only on candidate-to-unavailable regressions; unknown access remains unknown.</summary>
@@ -199,10 +213,10 @@ public sealed class SubscriptionCatalogue
             throw new ArgumentException("Views must cover the same required models.");
         if (previous.PlanId == current.PlanId || previous.PlanId is null || current.PlanId is null) return [];
         var previousModels = previous.Models.Where(m => m.Status == PlanModelStatus.Candidate).Select(m => m.ModelId).ToHashSet();
-        return current.Models.Where(m => previousModels.Contains(m.ModelId) && m.Status == PlanModelStatus.Unavailable)
+        return Freeze(current.Models.Where(m => previousModels.Contains(m.ModelId) && m.Status == PlanModelStatus.Unavailable)
             .Select(m => new PlanChangeWarning(current.LoginId, m.ModelId, previous.PlanId, current.PlanId,
                 "Plan change removed this model from the catalogue candidates; verify access before routing."))
-            .ToArray();
+            .ToArray());
     }
 
     private void Validate()
@@ -216,14 +230,14 @@ public sealed class SubscriptionCatalogue
         foreach (var plan in Plans)
         {
             if (string.IsNullOrWhiteSpace(plan.Provider) || string.IsNullOrWhiteSpace(plan.Name)
-                || plan.MonthlyUsd < 0 || plan.CliIds.Length == 0 || plan.Limits.Length == 0
-                || plan.SourceIds.Length == 0 || plan.TermsSourceIds.Length == 0
+                || plan.MonthlyUsd < 0 || plan.CliIds.Count == 0 || plan.Limits.Count == 0
+                || plan.SourceIds.Count == 0 || plan.TermsSourceIds.Count == 0
                 || plan.HeadlessUse.Status is not ("documented" or "conditional" or "restricted" or "ambiguous" or "unknown")
                 || plan.ThirdPartyUse.Status is not ("documented" or "conditional" or "restricted" or "ambiguous" or "unknown")
                 || string.IsNullOrWhiteSpace(plan.HeadlessUse.Note) || string.IsNullOrWhiteSpace(plan.ThirdPartyUse.Note)
                 || plan.SourceIds.Concat(plan.TermsSourceIds).Any(id => !sourceIds.Contains(id))
                 || plan.ModelAccess.Mode is not ("listed" or "account" or "dynamic" or "automatic")
-                || (plan.ModelAccess.Mode == "listed" && plan.ModelAccess.ModelIds.Length == 0)
+                || (plan.ModelAccess.Mode == "listed" && plan.ModelAccess.ModelIds.Count == 0)
                 || plan.Limits.Any(l => string.IsNullOrWhiteSpace(l.Window) || string.IsNullOrWhiteSpace(l.Pool)
                     || string.IsNullOrWhiteSpace(l.Unit) || l.Value < 0))
                 throw new ArgumentException($"Invalid plan or missing source: {plan.Id}");

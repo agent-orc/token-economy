@@ -97,7 +97,7 @@ public sealed class SubscriptionCatalogueTests
         var freeProbe = catalogue.Observations.Single(x => x.Id == "codex-free-20261019");
         Assert.Contains("gpt-6-luna", freeProbe.AllowedModelIds!);
         Assert.Contains("gpt-6-sol", freeProbe.RejectedModelIds!);
-        Assert.Contains(catalogue.Observations, x => x.Kind == "quota-reset" && x.ResetAtUtc!.Length == 5);
+        Assert.Contains(catalogue.Observations, x => x.Kind == "quota-reset" && x.ResetAtUtc!.Count == 5);
         Assert.Contains(catalogue.Observations, x => x.Kind == "window-ratio" && x.PlanId is null);
         var points = catalogue.QuotaTokenObservations.OrderBy(x => x.Period).ToArray();
         Assert.Equal(3, points.Length);
@@ -122,5 +122,37 @@ public sealed class SubscriptionCatalogueTests
             [catalog.Plans[0]], [catalog.Sources[0] with { RetrievedOn = new DateOnly(2026, 10, 21) }], [], []));
         Assert.Throws<ArgumentException>(() => new SubscriptionCatalogue(catalog.AsOfDate,
             [catalog.Plans[0] with { MonthlyUsd = -1 }], catalog.Sources, [], []));
+    }
+
+    [Fact]
+    public void Catalogue_detaches_input_and_exposes_read_only_collections_at_every_level()
+    {
+        var original = SubscriptionCatalogue.Default;
+        var mutableModels = new[] { "gpt-6-luna" };
+        var mutableSources = new[] { "openai-plan-models" };
+        var plan = original.Find("openai-free")! with
+        {
+            ModelAccess = original.Find("openai-free")!.ModelAccess with { ModelIds = mutableModels },
+            SourceIds = mutableSources,
+        };
+        var plans = new[] { plan };
+        var catalogue = new SubscriptionCatalogue(original.AsOfDate, plans, original.Sources, [], []);
+        mutableModels[0] = "gpt-6-sol";
+        mutableSources[0] = "missing";
+        plans[0] = original.Find("openai-pro")!;
+
+        var saved = catalogue.Find("openai-free")!;
+        Assert.Equal("gpt-6-luna", saved.ModelAccess.ModelIds.Single());
+        Assert.Equal("openai-plan-models", saved.SourceIds.Single());
+        Assert.Throws<NotSupportedException>(() => ((IList<SubscriptionPlan>)catalogue.Plans)[0] = plan);
+        Assert.Throws<NotSupportedException>(() => ((IList<string>)saved.ModelAccess.ModelIds)[0] = "gpt-6-sol");
+        Assert.Throws<NotSupportedException>(() => ((IList<string>)saved.SourceIds)[0] = "missing");
+        Assert.Throws<NotSupportedException>(() => ((IList<SubscriptionLimit>)saved.Limits)[0] = saved.Limits[0]);
+
+        var observation = original.Observations.Single(x => x.Id == "codex-free-20261019");
+        Assert.Throws<NotSupportedException>(() => ((IList<string>)observation.AllowedModelIds!)[0] = "gpt-6-sol");
+        Assert.Throws<NotSupportedException>(() => ((IList<DateTime>)original.Observations.Single(x => x.Kind == "quota-reset").ResetAtUtc!)[0] = After);
+        var view = original.ResolveOpenAiLogin("login-1", new Dictionary<string, string> { ["chatgpt_plan_type"] = "free" }, After, ["gpt-6-luna"]);
+        Assert.Throws<NotSupportedException>(() => ((IList<LoginPlanModel>)view.Models)[0] = view.Models[0]);
     }
 }
