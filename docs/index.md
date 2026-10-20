@@ -1,3 +1,8 @@
+---
+tags: [dossiers-and-documentation, docs]
+taggingStatus: tagged
+---
+
 # Documentation index
 
 ## Domain guides
