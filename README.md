@@ -72,6 +72,12 @@ selection rubric, and a standalone `ai-patterns` handoff.
 - **Cost API** — `ComputeCost(model, usage, atUtc)` → deterministic
   breakdown + total; unknown models return an explicit unknown, never a
   silent zero.
+- **Subscription catalogue** — sourced provider plans, candidate CLI models,
+  published quota windows, monthly costs, and headless/third-party use context.
+  `SubscriptionCatalogue` resolves a login's plan and model candidates and
+  reports plan-change regressions; dated operator quota observations remain
+  separate from published facts. See the [domain guide](docs/system/domains/subscription-catalogue.md)
+  and its [TE-61 source register](docs/cli-integration-domain/source-register.json).
 - **Versioned model-routing policy** — one embedded, schema-backed knowledge
   base resolves model aliases, providers/CLIs, reasoning levels, score tiers,
   correctness floors, workflow exceptions, restrictions, deprecations,
