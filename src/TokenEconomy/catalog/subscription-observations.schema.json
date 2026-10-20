@@ -1,0 +1,32 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Dated operator subscription observations",
+  "type": "object", "additionalProperties": false,
+  "required": ["schemaVersion", "asOfDate", "observations"],
+  "properties": {
+    "schemaVersion": {"const": 1}, "asOfDate": {"type": "string", "format": "date"},
+    "observations": {"type": "array", "items": {"$ref": "#/$defs/observation"}}
+  },
+  "$defs": {
+    "observation": {
+      "type": "object", "additionalProperties": false,
+      "required": ["id", "provider", "planId", "kind", "observedFromUtc", "observedToUtc", "method", "cliId", "note"],
+      "properties": {
+        "id": {"type": "string", "minLength": 1}, "provider": {"type": "string", "minLength": 1},
+        "planId": {"type": ["string", "null"]},
+        "kind": {"enum": ["model-probe", "quota-reset", "burn-rate", "window-ratio"]},
+        "observedFromUtc": {"type": "string", "format": "date-time"},
+        "observedToUtc": {"type": "string", "format": "date-time"},
+        "method": {"type": "string", "minLength": 1}, "cliId": {"type": "string", "minLength": 1},
+        "allowedModelIds": {"type": "array", "items": {"type": "string"}},
+        "rejectedModelIds": {"type": "array", "items": {"type": "string"}},
+        "window": {"type": "string"},
+        "resetAtUtc": {"type": "array", "items": {"type": "string", "format": "date-time"}},
+        "percentagePointsPerHour": {"type": "number", "minimum": 0},
+        "percentagePoints": {"type": "number", "minimum": 0},
+        "correspondingWeeklyPercentagePoints": {"type": "number", "minimum": 0},
+        "note": {"type": "string"}
+      }
+    }
+  }
+}

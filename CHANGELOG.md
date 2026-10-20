@@ -5,6 +5,10 @@ SemVer; pre-1.0 the public API may still shift).
 
 ## [Unreleased]
 
+### Added
+
+- Added a sourced subscription catalogue, a per-login OpenAI plan and model mapping API, plan-change warnings, and dated quota/token observation logs (TE-63).
+
 ### Documentation
 
 - Added the TE-61 concept Dossier for a versioned CLI integration domain and citable source register, including schema proposals, source conflicts, migration plan, and implementation card cut.

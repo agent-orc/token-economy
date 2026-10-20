@@ -1,0 +1,931 @@
+{
+  "schemaVersion": 1,
+  "sources": [
+    {
+      "id": "google-agy-faq",
+      "url": "https://antigravity.google/docs/faq/",
+      "title": "FAQ",
+      "publisher": "Google",
+      "publicationDate": null,
+      "retrievedOn": "2026-10-16",
+      "evidenceClass": "primary vendor documentation",
+      "confidence": "high",
+      "verbatimExcerpt": "Antigravity CLI headless mode (`agy -p`) is intended for direct scripting and CI workflows.",
+      "snapshot": {
+        "kind": "sha256",
+        "value": "7188865e1cccbc267b6f708a627300d29ee4f4791e7897f7bf439912a44ef238",
+        "scope": "full-page",
+        "capturedOn": "2026-10-16"
+      },
+      "supersedes": [],
+      "supersededBy": [],
+      "conflictsWith": []
+    },
+    {
+      "id": "google-agy-terms",
+      "url": "https://antigravity.google/terms/",
+      "title": "Google Antigravity Additional Terms of Service",
+      "publisher": "Google",
+      "publicationDate": null,
+      "retrievedOn": "2026-10-16",
+      "evidenceClass": "primary vendor documentation",
+      "confidence": "high",
+      "verbatimExcerpt": "Using third party software, tools, or services to access the Service (e.g. using OpenClaw with Antigravity OAuth) is a breach of this Agreement.",
+      "snapshot": {
+        "kind": "sha256",
+        "value": "9fd25b4c2460abdec55a86b6f8393e8c923c23027578ce3e637cec504cf52b58",
+        "scope": "full-page",
+        "capturedOn": "2026-10-16"
+      },
+      "supersedes": [],
+      "supersededBy": [],
+      "conflictsWith": []
+    },
+    {
+      "id": "google-agy-plans",
+      "url": "https://antigravity.google/docs/plans",
+      "title": "Plans",
+      "publisher": "Google",
+      "publicationDate": null,
+      "retrievedOn": "2026-10-16",
+      "evidenceClass": "primary vendor documentation",
+      "confidence": "high",
+      "verbatimExcerpt": "A high, generous quota, refreshed every five hours until the weekly limit is reached",
+      "snapshot": {
+        "kind": "sha256",
+        "value": "f65e7940f5f4896a2afcf4eb517dfcf1c30733dfbc273964c011df216382603a",
+        "scope": "full-page",
+        "capturedOn": "2026-10-16"
+      },
+      "supersedes": [],
+      "supersededBy": [],
+      "conflictsWith": []
+    },
+    {
+      "id": "google-agy-credits",
+      "url": "https://antigravity.google/docs/cli/credits/",
+      "title": "CLI AI credits",
+      "publisher": "Google",
+      "publicationDate": null,
+      "retrievedOn": "2026-10-16",
+      "evidenceClass": "primary vendor documentation",
+      "confidence": "high",
+      "verbatimExcerpt": "You can monitor your active quota and credit consumption directly inside the CLI:",
+      "snapshot": {
+        "kind": "sha256",
+        "value": "f1f4cf9c39701c549b548c87831f72600cad293dd2475cb9dda94fbab105398b",
+        "scope": "full-page",
+        "capturedOn": "2026-10-16"
+      },
+      "supersedes": [],
+      "supersededBy": [],
+      "conflictsWith": []
+    },
+    {
+      "id": "google-agy-headless",
+      "url": "https://antigravity.google/docs/cli/headless/",
+      "title": "Headless mode",
+      "publisher": "Google",
+      "publicationDate": null,
+      "retrievedOn": "2026-10-16",
+      "evidenceClass": "primary vendor documentation",
+      "confidence": "moderate",
+      "verbatimExcerpt": "A tool that requires approval it can’t obtain is soft-denied: the run continues, exits `0`",
+      "snapshot": {
+        "kind": "sha256",
+        "value": "0e082e6126aca342a01bfb312c0c250df1bed413d34e24e222cd49a2222ee343",
+        "scope": "full-page",
+        "capturedOn": "2026-10-16"
+      },
+      "supersedes": [],
+      "supersededBy": [],
+      "conflictsWith": [
+        "google-agy-change-1.2.6"
+      ],
+      "conflictNote": "Headless flag table still says default 5m; v1.2.6 changelog says unlimited. Verify by version-pinned probe."
+    },
+    {
+      "id": "google-agy-permissions",
+      "url": "https://antigravity.google/docs/permissions/",
+      "title": "Permissions",
+      "publisher": "Google",
+      "publicationDate": null,
+      "retrievedOn": "2026-10-16",
+      "evidenceClass": "primary vendor documentation",
+      "confidence": "high",
+      "verbatimExcerpt": "Under Default, terminal commands run inside the isolated Terminal sandbox",
+      "snapshot": {
+        "kind": "sha256",
+        "value": "ac77bbc6c7c06d94e07b31e3e5043e145c22a7e44de3a1e0039ab8fd76228a7a",
+        "scope": "full-page",
+        "capturedOn": "2026-10-16"
+      },
+      "supersedes": [],
+      "supersededBy": [],
+      "conflictsWith": []
+    },
+    {
+      "id": "google-agy-change-1.1.11",
+      "url": "https://antigravity.google/docs/changelog?tab=cli",
+      "title": "Antigravity CLI v1.1.11 changelog",
+      "publisher": "Google",
+      "publicationDate": "2026-08-07",
+      "retrievedOn": "2026-10-16",
+      "evidenceClass": "vendor announcement or changelog",
+      "confidence": "high",
+      "verbatimExcerpt": "Added non-interactive answers for the read-only slash commands in print mode, so `-p \"/usage\"`",
+      "snapshot": {
+        "kind": "sha256",
+        "value": "ab24a466ef88ad7b0ab1c16a3497208718323df9595a75206e123e8d46853a8f",
+        "scope": "full-page",
+        "capturedOn": "2026-10-16"
+      },
+      "supersedes": [],
+      "supersededBy": [],
+      "conflictsWith": [],
+      "conflictNote": "User-provided older observation says -p /usage becomes a model prompt; changelog documents dedicated read-only command output since v1.1.11."
+    },
+    {
+      "id": "google-agy-change-1.2.6",
+      "url": "https://antigravity.google/docs/changelog?tab=cli",
+      "title": "Antigravity CLI v1.2.6 changelog",
+      "publisher": "Google",
+      "publicationDate": "2026-09-18",
+      "retrievedOn": "2026-10-16",
+      "evidenceClass": "vendor announcement or changelog",
+      "confidence": "high",
+      "verbatimExcerpt": "Changed the default timeout for headless (`-p` / `--prompt`) runs from 5 minutes to unlimited",
+      "snapshot": {
+        "kind": "sha256",
+        "value": "ab24a466ef88ad7b0ab1c16a3497208718323df9595a75206e123e8d46853a8f",
+        "scope": "full-page",
+        "capturedOn": "2026-10-16"
+      },
+      "supersedes": [],
+      "supersededBy": [],
+      "conflictsWith": [
+        "google-agy-headless"
+      ],
+      "conflictNote": "Headless flag table still says default 5m; v1.2.6 changelog says unlimited. Verify by version-pinned probe."
+    },
+    {
+      "id": "google-agy-change-1.1.10",
+      "url": "https://antigravity.google/docs/changelog?tab=cli",
+      "title": "Antigravity CLI v1.1.10 changelog",
+      "publisher": "Google",
+      "publicationDate": "2026-08-03",
+      "retrievedOn": "2026-10-16",
+      "evidenceClass": "vendor announcement or changelog",
+      "confidence": "high",
+      "verbatimExcerpt": "Added sign-in with Application Default Credentials so you can use Agent Platform.",
+      "snapshot": {
+        "kind": "sha256",
+        "value": "ab24a466ef88ad7b0ab1c16a3497208718323df9595a75206e123e8d46853a8f",
+        "scope": "full-page",
+        "capturedOn": "2026-10-16"
+      },
+      "supersedes": [],
+      "supersededBy": [],
+      "conflictsWith": []
+    },
+    {
+      "id": "google-agy-change-1.1.13",
+      "url": "https://antigravity.google/docs/changelog?tab=cli",
+      "title": "Antigravity CLI v1.1.13 changelog",
+      "publisher": "Google",
+      "publicationDate": "2026-08-14",
+      "retrievedOn": "2026-10-16",
+      "evidenceClass": "vendor announcement or changelog",
+      "confidence": "high",
+      "verbatimExcerpt": "Added support for `GEMINI_API_KEY`, allowing the CLI to run directly against the Gemini API without signing in.",
+      "snapshot": {
+        "kind": "sha256",
+        "value": "ab24a466ef88ad7b0ab1c16a3497208718323df9595a75206e123e8d46853a8f",
+        "scope": "full-page",
+        "capturedOn": "2026-10-16"
+      },
+      "supersedes": [],
+      "supersededBy": [],
+      "conflictsWith": []
+    },
+    {
+      "id": "google-agy-change-1.3.6",
+      "url": "https://antigravity.google/docs/changelog?tab=cli",
+      "title": "Antigravity CLI v1.3.6 changelog",
+      "publisher": "Google",
+      "publicationDate": "2026-10-15",
+      "retrievedOn": "2026-10-16",
+      "evidenceClass": "vendor announcement or changelog",
+      "confidence": "high",
+      "verbatimExcerpt": "Added Claude Opus 5.5 and Claude Sonnet 5.5 for Application Default Credentials (`AGY_ADC_AUTH`) sign-in.",
+      "snapshot": {
+        "kind": "sha256",
+        "value": "ab24a466ef88ad7b0ab1c16a3497208718323df9595a75206e123e8d46853a8f",
+        "scope": "full-page",
+        "capturedOn": "2026-10-16"
+      },
+      "supersedes": [],
+      "supersededBy": [],
+      "conflictsWith": []
+    },
+    {
+      "id": "anthropic-code-legal",
+      "url": "https://code.claude.com/docs/en/legal-and-compliance",
+      "title": "Legal and compliance",
+      "publisher": "Anthropic",
+      "publicationDate": null,
+      "retrievedOn": "2026-10-16",
+      "evidenceClass": "primary vendor documentation",
+      "confidence": "high",
+      "verbatimExcerpt": "Developers building products or services that interact with Claude’s capabilities, including those using the Agent SDK, should use API key authentication",
+      "snapshot": {
+        "kind": "sha256",
+        "value": "118cc192eeff889d68c7e790f43b523b767ad79a9255ddfcf2f88e6bc12dd5c7",
+        "scope": "full-page",
+        "capturedOn": "2026-10-16"
+      },
+      "supersedes": [],
+      "supersededBy": [],
+      "conflictsWith": [
+        "anthropic-plan-update",
+        "anthropic-plan-pause"
+      ]
+    },
+    {
+      "id": "anthropic-code-auth",
+      "url": "https://code.claude.com/docs/en/authentication",
+      "title": "Authentication",
+      "publisher": "Anthropic",
+      "publicationDate": null,
+      "retrievedOn": "2026-10-16",
+      "evidenceClass": "primary vendor documentation",
+      "confidence": "high",
+      "verbatimExcerpt": "For CI pipelines, scripts, or other environments where interactive browser login isn’t available, generate a one-year OAuth token with `claude setup-token`",
+      "snapshot": {
+        "kind": "sha256",
+        "value": "462a0b5610ba91cac1b00eeadf21cba2668909dbcdf6be043d4c249e9e771227",
+        "scope": "full-page",
+        "capturedOn": "2026-10-16"
+      },
+      "supersedes": [],
+      "supersededBy": [],
+      "conflictsWith": []
+    },
+    {
+      "id": "anthropic-code-headless",
+      "url": "https://code.claude.com/docs/en/headless",
+      "title": "Run Claude Code programmatically",
+      "publisher": "Anthropic",
+      "publicationDate": null,
+      "retrievedOn": "2026-10-16",
+      "evidenceClass": "primary vendor documentation",
+      "confidence": "high",
+      "verbatimExcerpt": "Use `--output-format` to control how responses are returned:",
+      "snapshot": {
+        "kind": "sha256",
+        "value": "1c2297dfe81f46c5e4a704ed6dbca92363cb631aae8f3c999d305bad8e4bba98",
+        "scope": "full-page",
+        "capturedOn": "2026-10-16"
+      },
+      "supersedes": [],
+      "supersededBy": [],
+      "conflictsWith": []
+    },
+    {
+      "id": "anthropic-agent-sdk",
+      "url": "https://code.claude.com/docs/en/agent-sdk/overview",
+      "title": "Agent SDK overview",
+      "publisher": "Anthropic",
+      "publicationDate": null,
+      "retrievedOn": "2026-10-16",
+      "evidenceClass": "primary vendor documentation",
+      "confidence": "high",
+      "verbatimExcerpt": "Unless previously approved, Anthropic does not allow third party developers to offer claude.ai login or rate limits for their products",
+      "snapshot": {
+        "kind": "sha256",
+        "value": "583eb70663cb426f19fa90aa6405d37ebe78ecc4f96bf29772a3ac4ff3e462e4",
+        "scope": "full-page",
+        "capturedOn": "2026-10-16"
+      },
+      "supersedes": [],
+      "supersededBy": [],
+      "conflictsWith": [
+        "anthropic-plan-update",
+        "anthropic-plan-pause"
+      ]
+    },
+    {
+      "id": "anthropic-plan-update",
+      "url": "https://support.claude.com/en/articles/15036540",
+      "title": "Use the Claude Agent SDK with your Claude plan",
+      "publisher": "Anthropic",
+      "publicationDate": "2026-10-07",
+      "retrievedOn": "2026-10-16",
+      "evidenceClass": "vendor announcement or changelog",
+      "confidence": "high",
+      "verbatimExcerpt": "Claude Max and Team plans now include monthly API credits, which cover the Claude Agent SDK, `claude -p`, the Claude API, and Claude Managed Agents.",
+      "snapshot": {
+        "kind": "sha256",
+        "value": "528d2f37430cb31b307f8057d97c5859fce08b382dc636c0bf9694ab7aaea74b",
+        "scope": "full-page",
+        "capturedOn": "2026-10-16"
+      },
+      "supersedes": [],
+      "supersededBy": [],
+      "conflictsWith": [
+        "anthropic-code-legal",
+        "anthropic-agent-sdk",
+        "anthropic-consumer-terms"
+      ],
+      "conflictNote": "October 7 help wording about subscription limits and API credits sits beside product and consumer-auth restrictions; scope needs vendor clarification."
+    },
+    {
+      "id": "anthropic-consumer-terms",
+      "url": "https://www.anthropic.com/legal/consumer-terms",
+      "title": "Consumer Terms of Service",
+      "publisher": "Anthropic",
+      "publicationDate": null,
+      "retrievedOn": "2026-10-16",
+      "evidenceClass": "primary vendor documentation",
+      "confidence": "high",
+      "verbatimExcerpt": "Except when you are accessing our Services via an Anthropic API Key or where we otherwise explicitly permit it",
+      "snapshot": {
+        "kind": "sha256",
+        "value": "5a0b1e3598f8d06844360eb6f8284eaa5319229ac98a37a049e5e3206b7a9380",
+        "scope": "full-page",
+        "capturedOn": "2026-10-16"
+      },
+      "supersedes": [],
+      "supersededBy": [],
+      "conflictsWith": [
+        "anthropic-plan-update",
+        "anthropic-plan-pause"
+      ]
+    },
+    {
+      "id": "openai-codex-auth",
+      "url": "https://learn.chatgpt.com/docs/auth",
+      "title": "Authentication",
+      "publisher": "OpenAI",
+      "publicationDate": null,
+      "retrievedOn": "2026-10-16",
+      "evidenceClass": "primary vendor documentation",
+      "confidence": "high",
+      "verbatimExcerpt": "The ChatGPT desktop app, Codex CLI, and IDE extension support both sign-in methods for local work.",
+      "snapshot": {
+        "kind": "sha256",
+        "value": "6a0c54e101cb903a26e3c3c6c401348fd336adbd7d67e6950d6efa37e456e875",
+        "scope": "full-page",
+        "capturedOn": "2026-10-16"
+      },
+      "supersedes": [],
+      "supersededBy": [],
+      "conflictsWith": []
+    },
+    {
+      "id": "openai-codex-ci",
+      "url": "https://learn.chatgpt.com/docs/auth/ci-cd-auth",
+      "title": "Maintain Codex account auth in CI/CD (advanced)",
+      "publisher": "OpenAI",
+      "publicationDate": null,
+      "retrievedOn": "2026-10-16",
+      "evidenceClass": "primary vendor documentation",
+      "confidence": "high",
+      "verbatimExcerpt": "Use one `auth.json` per runner or per serialized workflow stream.",
+      "snapshot": {
+        "kind": "sha256",
+        "value": "28a61ce4daa39d9d96896e03a60dad5efd4b94811ac8dd2a3cb3a1930c08e8a4",
+        "scope": "full-page",
+        "capturedOn": "2026-10-16"
+      },
+      "supersedes": [],
+      "supersededBy": [],
+      "conflictsWith": []
+    },
+    {
+      "id": "openai-codex-exec",
+      "url": "https://learn.chatgpt.com/docs/non-interactive-mode",
+      "title": "Non-interactive mode",
+      "publisher": "OpenAI",
+      "publicationDate": null,
+      "retrievedOn": "2026-10-16",
+      "evidenceClass": "primary vendor documentation",
+      "confidence": "high",
+      "verbatimExcerpt": "Use `codex exec` when you want Codex to run as part of a pipeline",
+      "snapshot": {
+        "kind": "sha256",
+        "value": "c0e7af724a1d53769fa08962f234360ee782282a5e6f34aaaf599b4e391b9450",
+        "scope": "full-page",
+        "capturedOn": "2026-10-16"
+      },
+      "supersedes": [],
+      "supersededBy": [],
+      "conflictsWith": []
+    },
+    {
+      "id": "openai-codex-pricing",
+      "url": "https://learn.chatgpt.com/docs/pricing",
+      "title": "Pricing",
+      "publisher": "OpenAI",
+      "publicationDate": null,
+      "retrievedOn": "2026-10-16",
+      "evidenceClass": "primary vendor documentation",
+      "confidence": "high",
+      "verbatimExcerpt": "The estimates below show local messages per five-hour period for Plus and Standard Business.",
+      "snapshot": {
+        "kind": "sha256",
+        "value": "2e03ac80882d122e06dbc0983a294e551374c2a4cb54c675f6b6a9d0b70e6eba",
+        "scope": "full-page",
+        "capturedOn": "2026-10-16"
+      },
+      "supersedes": [],
+      "supersededBy": [],
+      "conflictsWith": []
+    },
+    {
+      "id": "openai-codex-appserver",
+      "url": "https://learn.chatgpt.com/docs/app-server",
+      "title": "Codex App Server",
+      "publisher": "OpenAI",
+      "publicationDate": null,
+      "retrievedOn": "2026-10-16",
+      "evidenceClass": "primary vendor documentation",
+      "confidence": "high",
+      "verbatimExcerpt": "Call `model/list` to discover available models and their capabilities before rendering model or personality selectors.",
+      "snapshot": {
+        "kind": "sha256",
+        "value": "a3d83963cacda13974ca8f3bb5f43440483d14b837b6021cdc5473ddb48681db",
+        "scope": "full-page",
+        "capturedOn": "2026-10-16"
+      },
+      "supersedes": [],
+      "supersededBy": [],
+      "conflictsWith": []
+    },
+    {
+      "id": "openai-codex-debug-models",
+      "url": "https://learn.chatgpt.com/docs/developer-commands",
+      "title": "Developer commands",
+      "publisher": "OpenAI",
+      "publicationDate": null,
+      "retrievedOn": "2026-10-16",
+      "evidenceClass": "primary vendor documentation",
+      "confidence": "high",
+      "verbatimExcerpt": "Print the raw model catalog Codex sees as JSON.",
+      "snapshot": {
+        "kind": "sha256",
+        "value": "744756d53bdc2e392a7d6343e71449006e41cbc003e772c78f9bcc861a8ccc90",
+        "scope": "full-page",
+        "capturedOn": "2026-10-16"
+      },
+      "supersedes": [],
+      "supersededBy": [],
+      "conflictsWith": []
+    },
+    {
+      "id": "openai-devday-2026",
+      "url": "https://openai.com/index/devday-2026-recap/",
+      "title": "DevDay 2026 Recap",
+      "publisher": "OpenAI",
+      "publicationDate": "2026-09-29",
+      "retrievedOn": "2026-10-16",
+      "evidenceClass": "vendor announcement or changelog",
+      "confidence": "moderate",
+      "verbatimExcerpt": "We’re making it easier to use your ChatGPT plan with other tools.",
+      "snapshot": {
+        "kind": "sha256",
+        "value": "04523bd383b33fe9111aa3a3599541cdcac0131f75a42a6dc7a631cbc873e4b6",
+        "scope": "stored-extract",
+        "capturedOn": "2026-10-16"
+      },
+      "supersedes": [],
+      "supersededBy": [],
+      "conflictsWith": []
+    },
+    {
+      "id": "gemini-cli-headless",
+      "url": "https://geminicli.com/docs/cli/headless/",
+      "title": "Headless mode reference",
+      "publisher": "Google",
+      "publicationDate": "2026-03-10",
+      "retrievedOn": "2026-10-16",
+      "evidenceClass": "primary vendor documentation",
+      "confidence": "high",
+      "verbatimExcerpt": "Headless mode provides a programmatic interface to Gemini CLI, returning structured text or JSON output",
+      "snapshot": {
+        "kind": "sha256",
+        "value": "8388192b3052db4763e0228cbb4a006e7bbc3a2214f52e1ef95223c128751ac6",
+        "scope": "full-page",
+        "capturedOn": "2026-10-16"
+      },
+      "supersedes": [],
+      "supersededBy": [],
+      "conflictsWith": []
+    },
+    {
+      "id": "gemini-cli-auth",
+      "url": "https://geminicli.com/docs/get-started/authentication/",
+      "title": "Gemini CLI authentication setup",
+      "publisher": "Google",
+      "publicationDate": "2026-09-18",
+      "retrievedOn": "2026-10-16",
+      "evidenceClass": "primary vendor documentation",
+      "confidence": "high",
+      "verbatimExcerpt": "Headless mode will use your existing authentication method, if an existing authentication credential is cached.",
+      "snapshot": {
+        "kind": "sha256",
+        "value": "7c39f7d2e6d090f27d3235eeb43a1888976d1c947e4565bab140e33243d1dc38",
+        "scope": "full-page",
+        "capturedOn": "2026-10-16"
+      },
+      "supersedes": [],
+      "supersededBy": [],
+      "conflictsWith": []
+    },
+    {
+      "id": "google-agy-faq-thirdparty",
+      "url": "https://antigravity.google/docs/faq/",
+      "title": "FAQ",
+      "publisher": "Google",
+      "publicationDate": null,
+      "retrievedOn": "2026-10-16",
+      "evidenceClass": "primary vendor documentation",
+      "confidence": "high",
+      "verbatimExcerpt": "Wrapping `agy` inside third-party coding agents or applications, or automating account rotation, is not supported under consumer plans.",
+      "snapshot": {
+        "kind": "sha256",
+        "value": "7188865e1cccbc267b6f708a627300d29ee4f4791e7897f7bf439912a44ef238",
+        "scope": "full-page",
+        "capturedOn": "2026-10-16"
+      },
+      "supersedes": [],
+      "supersededBy": [],
+      "conflictsWith": []
+    },
+    {
+      "id": "anthropic-plan-pause",
+      "url": "https://support.claude.com/en/articles/15036540",
+      "title": "Use the Claude Agent SDK with your Claude plan",
+      "publisher": "Anthropic",
+      "publicationDate": "2026-06-15",
+      "retrievedOn": "2026-10-16",
+      "evidenceClass": "vendor announcement or changelog",
+      "confidence": "high",
+      "verbatimExcerpt": "We’ve paused the previously-announced changes to Claude Agent SDK usage.",
+      "snapshot": {
+        "kind": "sha256",
+        "value": "528d2f37430cb31b307f8057d97c5859fce08b382dc636c0bf9694ab7aaea74b",
+        "scope": "full-page",
+        "capturedOn": "2026-10-16"
+      },
+      "supersedes": [],
+      "supersededBy": [],
+      "conflictsWith": [
+        "anthropic-code-legal",
+        "anthropic-agent-sdk",
+        "anthropic-consumer-terms"
+      ],
+      "conflictNote": "October 7 help wording about subscription limits and API credits sits beside product and consumer-auth restrictions; scope needs vendor clarification."
+    },
+    {
+      "id": "openai-codex-ci-eligibility",
+      "url": "https://learn.chatgpt.com/docs/auth/ci-cd-auth",
+      "title": "Maintain Codex account auth in CI/CD (advanced)",
+      "publisher": "OpenAI",
+      "publicationDate": null,
+      "retrievedOn": "2026-10-16",
+      "evidenceClass": "primary vendor documentation",
+      "confidence": "high",
+      "verbatimExcerpt": "This is an advanced workflow for enterprise and other trusted private automation. API keys are still the recommended option for most CI/CD jobs.",
+      "snapshot": {
+        "kind": "sha256",
+        "value": "28a61ce4daa39d9d96896e03a60dad5efd4b94811ac8dd2a3cb3a1930c08e8a4",
+        "scope": "full-page",
+        "capturedOn": "2026-10-16"
+      },
+      "supersedes": [],
+      "supersededBy": [],
+      "conflictsWith": []
+    },
+    {
+      "id": "google-agy-usage",
+      "url": "https://antigravity.google/docs/cli/commands/usage",
+      "title": "Model quotas (/usage)",
+      "publisher": "Google",
+      "publicationDate": null,
+      "retrievedOn": "2026-10-16",
+      "evidenceClass": "primary vendor documentation",
+      "confidence": "high",
+      "verbatimExcerpt": "The command refreshes your model configuration and quota status from the backend and opens an interactive TUI panel.",
+      "snapshot": {
+        "kind": "sha256",
+        "value": "20141d71104c8a456eec483670c7f73c3161417a5c393c80a40e7288b83850b9",
+        "scope": "full-page",
+        "capturedOn": "2026-10-16"
+      },
+      "supersedes": [],
+      "supersededBy": [],
+      "conflictsWith": []
+    },
+    {
+      "id": "anthropic-claude-limits",
+      "url": "https://support.claude.com/en/articles/11647753-how-do-usage-and-length-limits-work",
+      "title": "How do usage and length limits work?",
+      "publisher": "Anthropic",
+      "publicationDate": null,
+      "retrievedOn": "2026-10-16",
+      "evidenceClass": "primary vendor documentation",
+      "confidence": "high",
+      "verbatimExcerpt": "Paid plans have two types of usage limits: a session limit that resets every five hours, and weekly limits",
+      "snapshot": {
+        "kind": "sha256",
+        "value": "f4a058f8d4f8d673780124f67e508455be6a41e1910a59460f14d698b5864934",
+        "scope": "full-page",
+        "capturedOn": "2026-10-16"
+      },
+      "supersedes": [],
+      "supersededBy": [],
+      "conflictsWith": []
+    },
+    {
+      "id": "anthropic-claude-models-usage",
+      "url": "https://support.claude.com/en/articles/14552983-models-usage-and-limits-in-claude-code",
+      "title": "Models, usage, and limits in Claude Code",
+      "publisher": "Anthropic",
+      "publicationDate": null,
+      "retrievedOn": "2026-10-16",
+      "evidenceClass": "primary vendor documentation",
+      "confidence": "high",
+      "verbatimExcerpt": "Run `/model` at any time to see which model you’re using, check which models are available to your account",
+      "snapshot": {
+        "kind": "sha256",
+        "value": "ee5e1d52eedb18d5989138652195c9bd8e4adf2b65babed68ec08ab0f929ed2a",
+        "scope": "full-page",
+        "capturedOn": "2026-10-16"
+      },
+      "supersedes": [],
+      "supersededBy": [],
+      "conflictsWith": []
+    },
+    {
+      "id": "google-agy-gemini-migration",
+      "url": "https://antigravity.google/docs/gcli-migration",
+      "title": "Migrating from Gemini CLI",
+      "publisher": "Google",
+      "publicationDate": null,
+      "retrievedOn": "2026-10-16",
+      "evidenceClass": "primary vendor documentation",
+      "confidence": "high",
+      "verbatimExcerpt": "Convert your legacy configurations, import Gemini CLI extensions as native plugins, adapt custom skills paths",
+      "snapshot": {
+        "kind": "sha256",
+        "value": "4c2aef076677bee3aeec94589c1e40debf783a1ae164f165d02d4c65074bdc23",
+        "scope": "full-page",
+        "capturedOn": "2026-10-16"
+      },
+      "supersedes": [],
+      "supersededBy": [],
+      "conflictsWith": []
+    },
+    {
+      "id": "anthropic-code-commands",
+      "url": "https://code.claude.com/docs/en/commands",
+      "title": "Commands",
+      "publisher": "Anthropic",
+      "publicationDate": null,
+      "retrievedOn": "2026-10-16",
+      "evidenceClass": "primary vendor documentation",
+      "confidence": "high",
+      "verbatimExcerpt": "Show session cost, plan usage limits, and activity stats.",
+      "snapshot": {
+        "kind": "sha256",
+        "value": "20a9e79b88af7a0082f4148535a4aa8c68302160c320f2574605dbb372a2790d",
+        "scope": "full-page",
+        "capturedOn": "2026-10-16"
+      },
+      "supersedes": [],
+      "supersededBy": [],
+      "conflictsWith": []
+    },
+    {
+      "id": "anthropic-pricing",
+      "url": "https://claude.com/pricing",
+      "title": "Claude pricing",
+      "publisher": "Anthropic",
+      "publicationDate": null,
+      "retrievedOn": "2026-10-20",
+      "evidenceClass": "primary vendor documentation",
+      "confidence": "high",
+      "verbatimExcerpt": "$20 if billed monthly.",
+      "snapshot": {
+        "kind": "sha256",
+        "value": "0742c5e3ae254bdb0b878bac40aec86b157ebc328dfb3aa7d6ab4739c2d999ed",
+        "scope": "full-page",
+        "capturedOn": "2026-10-20"
+      },
+      "supersedes": [],
+      "supersededBy": [],
+      "conflictsWith": []
+    },
+    {
+      "id": "anthropic-max",
+      "url": "https://support.claude.com/en/articles/11049741-what-is-the-max-plan",
+      "title": "What is the Max plan?",
+      "publisher": "Anthropic",
+      "publicationDate": null,
+      "retrievedOn": "2026-10-20",
+      "evidenceClass": "primary vendor documentation",
+      "confidence": "high",
+      "verbatimExcerpt": "Max 5x : $100 per month Max 20x : $200 per month",
+      "snapshot": {
+        "kind": "sha256",
+        "value": "783ce27fd4c19ffad923b9fe91f6185d22df20753995c285de5bdff75a312cf7",
+        "scope": "full-page",
+        "capturedOn": "2026-10-20"
+      },
+      "supersedes": [],
+      "supersededBy": [],
+      "conflictsWith": []
+    },
+    {
+      "id": "anthropic-api-credits",
+      "url": "https://support.claude.com/en/articles/17154008-monthly-api-credits-for-max-and-team-plans",
+      "title": "Monthly API credits for Max and Team plans",
+      "publisher": "Anthropic",
+      "publicationDate": null,
+      "retrievedOn": "2026-10-20",
+      "evidenceClass": "primary vendor documentation",
+      "confidence": "high",
+      "verbatimExcerpt": "Max and Team plans include monthly credits for the Claude Platform.",
+      "snapshot": {
+        "kind": "sha256",
+        "value": "5fde9d64517946a682bc01e50a2516cc03dff0cc12a8e1a776fc4a643fa12007",
+        "scope": "full-page",
+        "capturedOn": "2026-10-20"
+      },
+      "supersedes": [],
+      "supersededBy": [],
+      "conflictsWith": []
+    },
+    {
+      "id": "openai-plan-pricing",
+      "url": "https://learn.chatgpt.com/docs/pricing",
+      "title": "Codex pricing",
+      "publisher": "OpenAI",
+      "publicationDate": null,
+      "retrievedOn": "2026-10-20",
+      "evidenceClass": "primary vendor documentation",
+      "confidence": "high",
+      "verbatimExcerpt": "Pro plans currently have no five-hour limit.",
+      "snapshot": {
+        "kind": "sha256",
+        "value": "231200d13c26cba2ffa89bbcbe4c15cf77df626946f00560ba52129781f16812",
+        "scope": "full-page",
+        "capturedOn": "2026-10-20"
+      },
+      "supersedes": [],
+      "supersededBy": [],
+      "conflictsWith": []
+    },
+    {
+      "id": "openai-plan-models",
+      "url": "https://learn.chatgpt.com/docs/models",
+      "title": "Codex models",
+      "publisher": "OpenAI",
+      "publicationDate": null,
+      "retrievedOn": "2026-10-20",
+      "evidenceClass": "primary vendor documentation",
+      "confidence": "high",
+      "verbatimExcerpt": "On Free and Go plans, choose GPT-6 Luna",
+      "snapshot": {
+        "kind": "sha256",
+        "value": "fc2b2d89bc56fa6b0aff3350d68f10861c6c6d53eb4b55920f5b2ba63f2500f5",
+        "scope": "full-page",
+        "capturedOn": "2026-10-20"
+      },
+      "supersedes": [],
+      "supersededBy": [],
+      "conflictsWith": []
+    },
+    {
+      "id": "google-agy-models",
+      "url": "https://antigravity.google/docs/models/",
+      "title": "Choose a model",
+      "publisher": "Google",
+      "publicationDate": null,
+      "retrievedOn": "2026-10-20",
+      "evidenceClass": "primary vendor documentation",
+      "confidence": "high",
+      "verbatimExcerpt": "Gemini 3.8 Flash",
+      "snapshot": {
+        "kind": "sha256",
+        "value": "ff3e6911ec12a106ea047b3745087bb2a5a2006f2cf1dfe8f27f1fb2eca17ea7",
+        "scope": "full-page",
+        "capturedOn": "2026-10-20"
+      },
+      "supersedes": [],
+      "supersededBy": [],
+      "conflictsWith": []
+    },
+    {
+      "id": "google-agy-pricing",
+      "url": "https://antigravity.google/blog/changes-to-antigravity-plans/",
+      "title": "Changes to Antigravity plans",
+      "publisher": "Google",
+      "publicationDate": null,
+      "retrievedOn": "2026-10-20",
+      "evidenceClass": "vendor announcement or changelog",
+      "confidence": "high",
+      "verbatimExcerpt": "$100/month",
+      "snapshot": {
+        "kind": "sha256",
+        "value": "cf690dc301bce986b607a6ff001f9dc288b018e2279ee8f0c56c71d14f902e36",
+        "scope": "full-page",
+        "capturedOn": "2026-10-20"
+      },
+      "supersedes": [],
+      "supersededBy": [],
+      "conflictsWith": []
+    },
+    {
+      "id": "gemini-cli-quotas",
+      "url": "https://geminicli.com/docs/resources/quota-and-pricing/",
+      "title": "Gemini CLI quotas and pricing",
+      "publisher": "Google",
+      "publicationDate": null,
+      "retrievedOn": "2026-10-20",
+      "evidenceClass": "primary vendor documentation",
+      "confidence": "high",
+      "verbatimExcerpt": "1,500 requests",
+      "snapshot": {
+        "kind": "sha256",
+        "value": "9934d0c79ec0cacad883e9ba3dfa628001b6c9933852a23ca617ab027c4fb0b7",
+        "scope": "full-page",
+        "capturedOn": "2026-10-20"
+      },
+      "supersedes": [],
+      "supersededBy": [],
+      "conflictsWith": []
+    },
+    {
+      "id": "github-copilot-plans",
+      "url": "https://docs.github.com/en/copilot/get-started/plans",
+      "title": "Plans for GitHub Copilot",
+      "publisher": "GitHub",
+      "publicationDate": null,
+      "retrievedOn": "2026-10-20",
+      "evidenceClass": "primary vendor documentation",
+      "confidence": "high",
+      "verbatimExcerpt": "All plans include Copilot CLI and the Copilot app.",
+      "snapshot": {
+        "kind": "sha256",
+        "value": "35a89f20a76a1bc49ca88f99e7d54b8e9cd187aff6c443203732aceb517ea86d",
+        "scope": "full-page",
+        "capturedOn": "2026-10-20"
+      },
+      "supersedes": [],
+      "supersededBy": [],
+      "conflictsWith": []
+    },
+    {
+      "id": "github-copilot-cli",
+      "url": "https://docs.github.com/en/copilot/reference/copilot-cli-reference/cli-programmatic-reference",
+      "title": "GitHub Copilot CLI programmatic reference",
+      "publisher": "GitHub",
+      "publicationDate": null,
+      "retrievedOn": "2026-10-20",
+      "evidenceClass": "primary vendor documentation",
+      "confidence": "high",
+      "verbatimExcerpt": "To see the model strings for all available models, run the /model command in an interactive Copilot CLI session.",
+      "snapshot": {
+        "kind": "sha256",
+        "value": "fec7cf4e08024fa137ccfda5c0f3c5b3179c140003ba151ef4a1457bb03593c1",
+        "scope": "full-page",
+        "capturedOn": "2026-10-20"
+      },
+      "supersedes": [],
+      "supersededBy": [],
+      "conflictsWith": []
+    },
+    {
+      "id": "google-ai-plus-pricing",
+      "url": "https://blog.google/products-and-platforms/products/google-one/google-ai-plus-availability/",
+      "title": "Google AI Plus is now available everywhere our AI plans are available",
+      "publisher": "Google",
+      "publicationDate": "2026-01-27",
+      "retrievedOn": "2026-10-20",
+      "evidenceClass": "vendor announcement or changelog",
+      "confidence": "high",
+      "verbatimExcerpt": "In the U.S., Google AI Plus is available for $7.99/month",
+      "snapshot": {
+        "kind": "sha256",
+        "value": "5507c4fb2f72ade62d1aeee94e7a9461efa36ccd04080e0bb6313c08b9690e40",
+        "scope": "full-page",
+        "capturedOn": "2026-10-20"
+      },
+      "supersedes": [],
+      "supersededBy": [],
+      "conflictsWith": []
+    }
+  ]
+}

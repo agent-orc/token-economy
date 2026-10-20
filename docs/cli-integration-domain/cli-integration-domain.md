@@ -11,6 +11,10 @@ This is the editable TE concept Dossier. The self-contained [article](index.html
 
 The concept deliverable is inside this Dossier directory. The docs-only entry is recorded under Unreleased in the root [CHANGELOG.md](../../CHANGELOG.md).
 
+## TE-63 implementation decision
+
+TE-63 implements recommended **option B** for subscriptions: a machine catalogue with stable source IDs and a source register in this Dossier. The card explicitly requires a per-login API, so the recommended D4 “API only when a consumer needs it” condition is met by Agent Studio. This implementation adds the read-only subscription API; it does not promote the separate proposed CLI capability catalogue or migrate historical price/benchmark citations. See the [subscription domain page](../system/domains/subscription-catalogue.md).
+
 ## Alternatives
 
 | Option | Shape | Consequence |

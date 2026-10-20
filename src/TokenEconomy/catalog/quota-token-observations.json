@@ -1,0 +1,59 @@
+{
+  "schemaVersion": 1,
+  "observations": [
+    {
+      "id": "openai-pro-2026-10-13-14",
+      "provider": "openai",
+      "planId": "openai-pro",
+      "cliId": "codex",
+      "window": "weekly",
+      "period": "2026-10-13/14",
+      "percentagePoints": 1,
+      "totalTokensApprox": 29000000,
+      "uncachedInputTokensApprox": 340000,
+      "cachedInputTokensApprox": 28580000,
+      "outputTokensApprox": 80000,
+      "reasoningTokensApprox": null,
+      "outputIncludesReasoning": true,
+      "method": "Workspace token ledger; cached input is residual from approximate total.",
+      "completeness": "approximate",
+      "note": "Per percentage point; values approximate, not a published quota."
+    },
+    {
+      "id": "openai-pro-2026-10-16",
+      "provider": "openai",
+      "planId": "openai-pro",
+      "cliId": "codex",
+      "window": "weekly",
+      "period": "2026-10-16",
+      "percentagePoints": 1,
+      "totalTokensApprox": 48000000,
+      "uncachedInputTokensApprox": 450000,
+      "cachedInputTokensApprox": 47450000,
+      "outputTokensApprox": 100000,
+      "reasoningTokensApprox": null,
+      "outputIncludesReasoning": true,
+      "method": "Workspace token ledger; cached input is residual from approximate total.",
+      "completeness": "approximate",
+      "note": "Per percentage point; values approximate, not a published quota."
+    },
+    {
+      "id": "openai-pro-2026-10-20",
+      "provider": "openai",
+      "planId": "openai-pro",
+      "cliId": "codex",
+      "window": "weekly",
+      "period": "2026-10-20",
+      "percentagePoints": 1,
+      "totalTokensApprox": 22000000,
+      "uncachedInputTokensApprox": 290000,
+      "cachedInputTokensApprox": 21660000,
+      "outputTokensApprox": 50000,
+      "reasoningTokensApprox": null,
+      "outputIncludesReasoning": true,
+      "method": "Workspace token ledger; cached input is residual from approximate total. Local Codex review sessions added from ~/.codex/sessions; in-flight runs missing.",
+      "completeness": "incomplete",
+      "note": "Per percentage point; values approximate, not a published quota."
+    }
+  ]
+}

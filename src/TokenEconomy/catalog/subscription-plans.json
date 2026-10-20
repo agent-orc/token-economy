@@ -1,0 +1,1388 @@
+{
+  "schemaVersion": 1,
+  "asOfDate": "2026-10-20",
+  "plans": [
+    {
+      "id": "anthropic-pro",
+      "provider": "anthropic",
+      "name": "Claude Pro",
+      "cliIds": [
+        "claude-code"
+      ],
+      "monthlyUsd": 20,
+      "billing": "monthly",
+      "modelAccess": {
+        "mode": "listed",
+        "modelIds": [
+          "claude-sonnet-5-5",
+          "claude-opus-5-5",
+          "claude-haiku-5-5"
+        ]
+      },
+      "limits": [
+        {
+          "window": "five-hour",
+          "pool": "shared",
+          "unit": "usage",
+          "value": null,
+          "note": "Rolling shared session allowance; amount depends on work."
+        },
+        {
+          "window": "weekly",
+          "pool": "all-models",
+          "unit": "usage",
+          "value": null,
+          "note": "Additional weekly allowance; amount is not published."
+        }
+      ],
+      "sourceIds": [
+        "anthropic-pricing",
+        "anthropic-claude-limits",
+        "anthropic-claude-models-usage"
+      ],
+      "termsSourceIds": [
+        "anthropic-code-headless",
+        "anthropic-code-legal",
+        "anthropic-agent-sdk",
+        "anthropic-consumer-terms",
+        "anthropic-plan-update"
+      ],
+      "notes": "Models are a current family inventory; account and CLI version decide actual access.",
+      "headlessUse": {
+        "status": "documented",
+        "note": "The named CLI documents non-interactive use; authentication conditions still apply."
+      },
+      "thirdPartyUse": {
+        "status": "ambiguous",
+        "note": "Claude Code, Agent SDK, product embedding and the subscription update have different scopes; see TE-61 terms analysis."
+      }
+    },
+    {
+      "id": "anthropic-max-5x",
+      "provider": "anthropic",
+      "name": "Claude Max 5x",
+      "cliIds": [
+        "claude-code"
+      ],
+      "monthlyUsd": 100,
+      "billing": "monthly",
+      "modelAccess": {
+        "mode": "listed",
+        "modelIds": [
+          "claude-sonnet-5-5",
+          "claude-opus-5-5",
+          "claude-haiku-5-5"
+        ]
+      },
+      "limits": [
+        {
+          "window": "five-hour",
+          "pool": "shared",
+          "unit": "usage",
+          "value": null,
+          "note": "Rolling shared session allowance; amount depends on work."
+        },
+        {
+          "window": "weekly",
+          "pool": "all-models",
+          "unit": "usage",
+          "value": null,
+          "note": "Additional weekly allowance; amount is not published."
+        }
+      ],
+      "sourceIds": [
+        "anthropic-pricing",
+        "anthropic-claude-limits",
+        "anthropic-claude-models-usage",
+        "anthropic-max"
+      ],
+      "termsSourceIds": [
+        "anthropic-code-headless",
+        "anthropic-code-legal",
+        "anthropic-agent-sdk",
+        "anthropic-consumer-terms",
+        "anthropic-plan-update"
+      ],
+      "notes": "5x/20x applies to Pro five-hour usage; weekly limits are separate.",
+      "headlessUse": {
+        "status": "documented",
+        "note": "The named CLI documents non-interactive use; authentication conditions still apply."
+      },
+      "thirdPartyUse": {
+        "status": "ambiguous",
+        "note": "Claude Code, Agent SDK, product embedding and the subscription update have different scopes; see TE-61 terms analysis."
+      }
+    },
+    {
+      "id": "anthropic-max-20x",
+      "provider": "anthropic",
+      "name": "Claude Max 20x",
+      "cliIds": [
+        "claude-code"
+      ],
+      "monthlyUsd": 200,
+      "billing": "monthly",
+      "modelAccess": {
+        "mode": "listed",
+        "modelIds": [
+          "claude-sonnet-5-5",
+          "claude-opus-5-5",
+          "claude-haiku-5-5"
+        ]
+      },
+      "limits": [
+        {
+          "window": "five-hour",
+          "pool": "shared",
+          "unit": "usage",
+          "value": null,
+          "note": "Rolling shared session allowance; amount depends on work."
+        },
+        {
+          "window": "weekly",
+          "pool": "all-models",
+          "unit": "usage",
+          "value": null,
+          "note": "Additional weekly allowance; amount is not published."
+        }
+      ],
+      "sourceIds": [
+        "anthropic-pricing",
+        "anthropic-claude-limits",
+        "anthropic-claude-models-usage",
+        "anthropic-max"
+      ],
+      "termsSourceIds": [
+        "anthropic-code-headless",
+        "anthropic-code-legal",
+        "anthropic-agent-sdk",
+        "anthropic-consumer-terms",
+        "anthropic-plan-update"
+      ],
+      "notes": "5x/20x applies to Pro five-hour usage; weekly limits are separate.",
+      "headlessUse": {
+        "status": "documented",
+        "note": "The named CLI documents non-interactive use; authentication conditions still apply."
+      },
+      "thirdPartyUse": {
+        "status": "ambiguous",
+        "note": "Claude Code, Agent SDK, product embedding and the subscription update have different scopes; see TE-61 terms analysis."
+      }
+    },
+    {
+      "id": "anthropic-team-standard",
+      "provider": "anthropic",
+      "name": "Claude Team Standard",
+      "cliIds": [
+        "claude-code"
+      ],
+      "monthlyUsd": 25,
+      "billing": "monthly per seat",
+      "modelAccess": {
+        "mode": "listed",
+        "modelIds": [
+          "claude-sonnet-5-5",
+          "claude-opus-5-5",
+          "claude-haiku-5-5"
+        ]
+      },
+      "limits": [
+        {
+          "window": "five-hour",
+          "pool": "shared",
+          "unit": "usage",
+          "value": null,
+          "note": "Rolling shared session allowance; amount depends on work."
+        },
+        {
+          "window": "weekly",
+          "pool": "all-models",
+          "unit": "usage",
+          "value": null,
+          "note": "Additional weekly allowance; amount is not published."
+        }
+      ],
+      "sourceIds": [
+        "anthropic-pricing",
+        "anthropic-claude-limits",
+        "anthropic-claude-models-usage"
+      ],
+      "termsSourceIds": [
+        "anthropic-code-headless",
+        "anthropic-code-legal",
+        "anthropic-agent-sdk",
+        "anthropic-consumer-terms",
+        "anthropic-plan-update"
+      ],
+      "notes": "Team annual prices differ; Enterprise usage is billed at API rates.",
+      "headlessUse": {
+        "status": "documented",
+        "note": "The named CLI documents non-interactive use; authentication conditions still apply."
+      },
+      "thirdPartyUse": {
+        "status": "ambiguous",
+        "note": "Claude Code, Agent SDK, product embedding and the subscription update have different scopes; see TE-61 terms analysis."
+      }
+    },
+    {
+      "id": "anthropic-team-premium",
+      "provider": "anthropic",
+      "name": "Claude Team Premium",
+      "cliIds": [
+        "claude-code"
+      ],
+      "monthlyUsd": 125,
+      "billing": "monthly per seat",
+      "modelAccess": {
+        "mode": "listed",
+        "modelIds": [
+          "claude-sonnet-5-5",
+          "claude-opus-5-5",
+          "claude-haiku-5-5"
+        ]
+      },
+      "limits": [
+        {
+          "window": "five-hour",
+          "pool": "shared",
+          "unit": "usage",
+          "value": null,
+          "note": "Rolling shared session allowance; amount depends on work."
+        },
+        {
+          "window": "weekly",
+          "pool": "all-models",
+          "unit": "usage",
+          "value": null,
+          "note": "Additional weekly allowance; amount is not published."
+        }
+      ],
+      "sourceIds": [
+        "anthropic-pricing",
+        "anthropic-claude-limits",
+        "anthropic-claude-models-usage"
+      ],
+      "termsSourceIds": [
+        "anthropic-code-headless",
+        "anthropic-code-legal",
+        "anthropic-agent-sdk",
+        "anthropic-consumer-terms",
+        "anthropic-plan-update"
+      ],
+      "notes": "Team annual prices differ; Enterprise usage is billed at API rates.",
+      "headlessUse": {
+        "status": "documented",
+        "note": "The named CLI documents non-interactive use; authentication conditions still apply."
+      },
+      "thirdPartyUse": {
+        "status": "ambiguous",
+        "note": "Claude Code, Agent SDK, product embedding and the subscription update have different scopes; see TE-61 terms analysis."
+      }
+    },
+    {
+      "id": "anthropic-enterprise",
+      "provider": "anthropic",
+      "name": "Claude Enterprise",
+      "cliIds": [
+        "claude-code"
+      ],
+      "monthlyUsd": 20,
+      "billing": "annual commitment per seat; API usage extra",
+      "modelAccess": {
+        "mode": "listed",
+        "modelIds": [
+          "claude-sonnet-5-5",
+          "claude-opus-5-5",
+          "claude-haiku-5-5"
+        ]
+      },
+      "limits": [
+        {
+          "window": "account",
+          "pool": "enterprise-usage",
+          "unit": "API-rate tokens",
+          "value": null,
+          "note": "Usage billed at API rates; admin spend controls apply. No fixed five-hour or weekly cap asserted."
+        }
+      ],
+      "sourceIds": [
+        "anthropic-pricing",
+        "anthropic-claude-limits",
+        "anthropic-claude-models-usage"
+      ],
+      "termsSourceIds": [
+        "anthropic-code-headless",
+        "anthropic-code-legal",
+        "anthropic-agent-sdk",
+        "anthropic-consumer-terms",
+        "anthropic-plan-update"
+      ],
+      "notes": "Team annual prices differ; Enterprise usage is billed at API rates.",
+      "headlessUse": {
+        "status": "documented",
+        "note": "The named CLI documents non-interactive use; authentication conditions still apply."
+      },
+      "thirdPartyUse": {
+        "status": "ambiguous",
+        "note": "Claude Code, Agent SDK, product embedding and the subscription update have different scopes; see TE-61 terms analysis."
+      }
+    },
+    {
+      "id": "anthropic-api",
+      "provider": "anthropic",
+      "name": "Anthropic API",
+      "cliIds": [
+        "claude-code"
+      ],
+      "monthlyUsd": null,
+      "billing": "metered API tokens",
+      "modelAccess": {
+        "mode": "account",
+        "modelIds": []
+      },
+      "limits": [
+        {
+          "window": "rate-limit",
+          "pool": "organization",
+          "unit": "requests/tokens",
+          "value": null,
+          "note": "Account tier and model dependent."
+        }
+      ],
+      "sourceIds": [
+        "anthropic-pricing",
+        "anthropic-code-auth"
+      ],
+      "termsSourceIds": [
+        "anthropic-code-auth",
+        "anthropic-agent-sdk"
+      ],
+      "notes": "No subscription fee asserted; API model access follows the key.",
+      "headlessUse": {
+        "status": "documented",
+        "note": "The named CLI documents non-interactive use; authentication conditions still apply."
+      },
+      "thirdPartyUse": {
+        "status": "documented",
+        "note": "API key use is documented."
+      }
+    },
+    {
+      "id": "openai-free",
+      "provider": "openai",
+      "name": "ChatGPT Free",
+      "cliIds": [
+        "codex"
+      ],
+      "monthlyUsd": 0,
+      "billing": "monthly",
+      "modelAccess": {
+        "mode": "listed",
+        "modelIds": [
+          "gpt-6-luna"
+        ]
+      },
+      "limits": [
+        {
+          "window": "account",
+          "pool": "codex",
+          "unit": "usage",
+          "value": null,
+          "note": "Usage dashboard shows effective limit; no fixed token amount published."
+        }
+      ],
+      "sourceIds": [
+        "openai-plan-pricing",
+        "openai-plan-models"
+      ],
+      "termsSourceIds": [
+        "openai-codex-ci-eligibility",
+        "openai-codex-exec",
+        "openai-codex-auth"
+      ],
+      "notes": "Luna is the published Free replacement and was the only successful model in the dated operator probe.",
+      "headlessUse": {
+        "status": "documented",
+        "note": "The named CLI documents non-interactive use; authentication conditions still apply."
+      },
+      "thirdPartyUse": {
+        "status": "conditional",
+        "note": "Subscription automation is context-specific; trusted CI and partner sharing have conditions. See TE-61 terms analysis."
+      }
+    },
+    {
+      "id": "openai-plus",
+      "provider": "openai",
+      "name": "ChatGPT Plus",
+      "cliIds": [
+        "codex"
+      ],
+      "monthlyUsd": 20,
+      "billing": "monthly",
+      "modelAccess": {
+        "mode": "listed",
+        "modelIds": [
+          "gpt-6-luna",
+          "gpt-6-sol",
+          "gpt-6.1-sol",
+          "gpt-6-astra",
+          "gpt-5.6-sol",
+          "gpt-5.6-terra",
+          "gpt-5.6-luna"
+        ]
+      },
+      "limits": [
+        {
+          "window": "five-hour",
+          "pool": "codex",
+          "unit": "estimated local messages",
+          "value": null,
+          "note": "Model-specific estimates, not fixed request counts."
+        },
+        {
+          "window": "weekly",
+          "pool": "codex",
+          "unit": "usage",
+          "value": null,
+          "note": "May apply; amount and reset are account-specific."
+        }
+      ],
+      "sourceIds": [
+        "openai-plan-pricing",
+        "openai-plan-models"
+      ],
+      "termsSourceIds": [
+        "openai-codex-ci-eligibility",
+        "openai-codex-exec",
+        "openai-codex-auth"
+      ],
+      "notes": "Listed models are candidates; rollout, client version, seat type and workspace policy can restrict access.",
+      "headlessUse": {
+        "status": "documented",
+        "note": "The named CLI documents non-interactive use; authentication conditions still apply."
+      },
+      "thirdPartyUse": {
+        "status": "conditional",
+        "note": "Subscription automation is context-specific; trusted CI and partner sharing have conditions. See TE-61 terms analysis."
+      }
+    },
+    {
+      "id": "openai-pro",
+      "provider": "openai",
+      "name": "ChatGPT Pro",
+      "cliIds": [
+        "codex"
+      ],
+      "monthlyUsd": 100,
+      "billing": "from monthly; $100 and $200 tiers",
+      "modelAccess": {
+        "mode": "listed",
+        "modelIds": [
+          "gpt-6-luna",
+          "gpt-6-sol",
+          "gpt-6.1-sol",
+          "gpt-6-astra",
+          "gpt-5.6-sol",
+          "gpt-5.6-terra",
+          "gpt-5.6-luna"
+        ]
+      },
+      "limits": [
+        {
+          "window": "weekly",
+          "pool": "codex",
+          "unit": "usage",
+          "value": null,
+          "note": "May apply; amount and reset are account-specific."
+        }
+      ],
+      "sourceIds": [
+        "openai-plan-pricing",
+        "openai-plan-models"
+      ],
+      "termsSourceIds": [
+        "openai-codex-ci-eligibility",
+        "openai-codex-exec",
+        "openai-codex-auth"
+      ],
+      "notes": "Listed models are candidates; rollout, client version, seat type and workspace policy can restrict access.",
+      "headlessUse": {
+        "status": "documented",
+        "note": "The named CLI documents non-interactive use; authentication conditions still apply."
+      },
+      "thirdPartyUse": {
+        "status": "conditional",
+        "note": "Subscription automation is context-specific; trusted CI and partner sharing have conditions. See TE-61 terms analysis."
+      }
+    },
+    {
+      "id": "openai-business",
+      "provider": "openai",
+      "name": "ChatGPT Business",
+      "cliIds": [
+        "codex"
+      ],
+      "monthlyUsd": 20,
+      "billing": "from monthly per Standard seat",
+      "modelAccess": {
+        "mode": "listed",
+        "modelIds": [
+          "gpt-6-luna",
+          "gpt-6-sol",
+          "gpt-6.1-sol",
+          "gpt-6-astra",
+          "gpt-5.6-sol",
+          "gpt-5.6-terra",
+          "gpt-5.6-luna"
+        ]
+      },
+      "limits": [
+        {
+          "window": "five-hour",
+          "pool": "codex",
+          "unit": "estimated local messages",
+          "value": null,
+          "note": "Model-specific estimates, not fixed request counts."
+        },
+        {
+          "window": "weekly",
+          "pool": "codex",
+          "unit": "usage",
+          "value": null,
+          "note": "May apply; amount and reset are account-specific."
+        }
+      ],
+      "sourceIds": [
+        "openai-plan-pricing",
+        "openai-plan-models"
+      ],
+      "termsSourceIds": [
+        "openai-codex-ci-eligibility",
+        "openai-codex-exec",
+        "openai-codex-auth"
+      ],
+      "notes": "Listed models are candidates; rollout, client version, seat type and workspace policy can restrict access.",
+      "headlessUse": {
+        "status": "documented",
+        "note": "The named CLI documents non-interactive use; authentication conditions still apply."
+      },
+      "thirdPartyUse": {
+        "status": "conditional",
+        "note": "Subscription automation is context-specific; trusted CI and partner sharing have conditions. See TE-61 terms analysis."
+      }
+    },
+    {
+      "id": "openai-enterprise",
+      "provider": "openai",
+      "name": "ChatGPT Enterprise",
+      "cliIds": [
+        "codex"
+      ],
+      "monthlyUsd": null,
+      "billing": "contract or credit based",
+      "modelAccess": {
+        "mode": "listed",
+        "modelIds": [
+          "gpt-6-luna",
+          "gpt-6-sol",
+          "gpt-6.1-sol",
+          "gpt-6-astra",
+          "gpt-5.6-sol",
+          "gpt-5.6-terra",
+          "gpt-5.6-luna"
+        ]
+      },
+      "limits": [
+        {
+          "window": "weekly",
+          "pool": "codex",
+          "unit": "usage",
+          "value": null,
+          "note": "May apply; amount and reset are account-specific."
+        }
+      ],
+      "sourceIds": [
+        "openai-plan-pricing",
+        "openai-plan-models"
+      ],
+      "termsSourceIds": [
+        "openai-codex-ci-eligibility",
+        "openai-codex-exec",
+        "openai-codex-auth"
+      ],
+      "notes": "Listed models are candidates; rollout, client version, seat type and workspace policy can restrict access.",
+      "headlessUse": {
+        "status": "documented",
+        "note": "The named CLI documents non-interactive use; authentication conditions still apply."
+      },
+      "thirdPartyUse": {
+        "status": "conditional",
+        "note": "Subscription automation is context-specific; trusted CI and partner sharing have conditions. See TE-61 terms analysis."
+      }
+    },
+    {
+      "id": "openai-api",
+      "provider": "openai",
+      "name": "OpenAI API key",
+      "cliIds": [
+        "codex"
+      ],
+      "monthlyUsd": null,
+      "billing": "metered API tokens",
+      "modelAccess": {
+        "mode": "account",
+        "modelIds": []
+      },
+      "limits": [
+        {
+          "window": "rate-limit",
+          "pool": "organization",
+          "unit": "requests/tokens",
+          "value": null,
+          "note": "API tier and model dependent."
+        }
+      ],
+      "sourceIds": [
+        "openai-plan-pricing",
+        "openai-codex-auth"
+      ],
+      "termsSourceIds": [
+        "openai-codex-ci-eligibility",
+        "openai-codex-exec",
+        "openai-codex-auth"
+      ],
+      "notes": "API access follows models enabled for the key.",
+      "headlessUse": {
+        "status": "documented",
+        "note": "The named CLI documents non-interactive use; authentication conditions still apply."
+      },
+      "thirdPartyUse": {
+        "status": "documented",
+        "note": "API-key automation is documented."
+      }
+    },
+    {
+      "id": "google-free",
+      "provider": "google",
+      "name": "Google AI Free",
+      "cliIds": [
+        "agy"
+      ],
+      "monthlyUsd": 0,
+      "billing": "monthly",
+      "modelAccess": {
+        "mode": "listed",
+        "modelIds": [
+          "gemini-3.8-flash",
+          "claude-sonnet-4.6",
+          "claude-opus-4.6",
+          "gpt-oss-120b"
+        ]
+      },
+      "limits": [
+        {
+          "window": "weekly",
+          "pool": "gemini-models",
+          "unit": "usage",
+          "value": null,
+          "note": "Capacity based."
+        }
+      ],
+      "sourceIds": [
+        "google-agy-plans",
+        "google-agy-models",
+        "google-agy-pricing",
+        "gemini-cli-quotas",
+        "gemini-cli-auth"
+      ],
+      "termsSourceIds": [
+        "google-agy-faq",
+        "google-agy-faq-thirdparty",
+        "google-agy-terms",
+        "gemini-cli-auth"
+      ],
+      "notes": "Paid Pro trial excludes some models.",
+      "headlessUse": {
+        "status": "documented",
+        "note": "The named CLI documents non-interactive use; authentication conditions still apply."
+      },
+      "thirdPartyUse": {
+        "status": "restricted",
+        "note": "Antigravity consumer FAQ says wrapping agy in third-party coding agents or applications is unsupported."
+      }
+    },
+    {
+      "id": "google-ai-pro",
+      "provider": "google",
+      "name": "Google AI Pro",
+      "cliIds": [
+        "agy"
+      ],
+      "monthlyUsd": 20,
+      "billing": "monthly",
+      "modelAccess": {
+        "mode": "listed",
+        "modelIds": [
+          "gemini-3.8-flash",
+          "claude-sonnet-4.6",
+          "claude-opus-4.6",
+          "gpt-oss-120b",
+          "gemini-4-argon",
+          "claude-sonnet-5.5",
+          "claude-opus-5.5"
+        ]
+      },
+      "limits": [
+        {
+          "window": "five-hour",
+          "pool": "gemini-models",
+          "unit": "usage",
+          "value": null,
+          "note": ""
+        },
+        {
+          "window": "weekly",
+          "pool": "gemini-models",
+          "unit": "usage",
+          "value": null,
+          "note": ""
+        },
+        {
+          "window": "five-hour",
+          "pool": "third-party-models",
+          "unit": "usage",
+          "value": null,
+          "note": ""
+        },
+        {
+          "window": "weekly",
+          "pool": "third-party-models",
+          "unit": "usage",
+          "value": null,
+          "note": ""
+        }
+      ],
+      "sourceIds": [
+        "google-agy-plans",
+        "google-agy-models",
+        "google-agy-pricing",
+        "gemini-cli-quotas",
+        "gemini-cli-auth"
+      ],
+      "termsSourceIds": [
+        "google-agy-faq",
+        "google-agy-faq-thirdparty",
+        "google-agy-terms",
+        "gemini-cli-auth"
+      ],
+      "notes": "Paid Pro trial excludes some models.",
+      "headlessUse": {
+        "status": "documented",
+        "note": "The named CLI documents non-interactive use; authentication conditions still apply."
+      },
+      "thirdPartyUse": {
+        "status": "restricted",
+        "note": "Antigravity consumer FAQ says wrapping agy in third-party coding agents or applications is unsupported."
+      }
+    },
+    {
+      "id": "google-ai-ultra-5x",
+      "provider": "google",
+      "name": "Google AI Ultra 5x",
+      "cliIds": [
+        "agy"
+      ],
+      "monthlyUsd": 100,
+      "billing": "monthly",
+      "modelAccess": {
+        "mode": "listed",
+        "modelIds": [
+          "gemini-3.8-flash",
+          "claude-sonnet-4.6",
+          "claude-opus-4.6",
+          "gpt-oss-120b",
+          "gemini-4-argon",
+          "claude-sonnet-5.5",
+          "claude-opus-5.5"
+        ]
+      },
+      "limits": [
+        {
+          "window": "five-hour",
+          "pool": "gemini-models",
+          "unit": "usage",
+          "value": null,
+          "note": ""
+        },
+        {
+          "window": "weekly",
+          "pool": "gemini-models",
+          "unit": "usage",
+          "value": null,
+          "note": ""
+        }
+      ],
+      "sourceIds": [
+        "google-agy-plans",
+        "google-agy-models",
+        "google-agy-pricing",
+        "gemini-cli-quotas",
+        "gemini-cli-auth"
+      ],
+      "termsSourceIds": [
+        "google-agy-faq",
+        "google-agy-faq-thirdparty",
+        "google-agy-terms",
+        "gemini-cli-auth"
+      ],
+      "notes": "Paid Pro trial excludes some models.",
+      "headlessUse": {
+        "status": "documented",
+        "note": "The named CLI documents non-interactive use; authentication conditions still apply."
+      },
+      "thirdPartyUse": {
+        "status": "restricted",
+        "note": "Antigravity consumer FAQ says wrapping agy in third-party coding agents or applications is unsupported."
+      }
+    },
+    {
+      "id": "google-ai-ultra-20x",
+      "provider": "google",
+      "name": "Google AI Ultra 20x",
+      "cliIds": [
+        "agy"
+      ],
+      "monthlyUsd": 200,
+      "billing": "monthly",
+      "modelAccess": {
+        "mode": "listed",
+        "modelIds": [
+          "gemini-3.8-flash",
+          "claude-sonnet-4.6",
+          "claude-opus-4.6",
+          "gpt-oss-120b",
+          "gemini-4-argon",
+          "claude-sonnet-5.5",
+          "claude-opus-5.5"
+        ]
+      },
+      "limits": [
+        {
+          "window": "five-hour",
+          "pool": "gemini-models",
+          "unit": "usage",
+          "value": null,
+          "note": ""
+        },
+        {
+          "window": "weekly",
+          "pool": "gemini-models",
+          "unit": "usage",
+          "value": null,
+          "note": ""
+        }
+      ],
+      "sourceIds": [
+        "google-agy-plans",
+        "google-agy-models",
+        "google-agy-pricing",
+        "gemini-cli-quotas",
+        "gemini-cli-auth"
+      ],
+      "termsSourceIds": [
+        "google-agy-faq",
+        "google-agy-faq-thirdparty",
+        "google-agy-terms",
+        "gemini-cli-auth"
+      ],
+      "notes": "Paid Pro trial excludes some models.",
+      "headlessUse": {
+        "status": "documented",
+        "note": "The named CLI documents non-interactive use; authentication conditions still apply."
+      },
+      "thirdPartyUse": {
+        "status": "restricted",
+        "note": "Antigravity consumer FAQ says wrapping agy in third-party coding agents or applications is unsupported."
+      }
+    },
+    {
+      "id": "google-gemini-api",
+      "provider": "google",
+      "name": "Gemini API key",
+      "cliIds": [
+        "gemini-cli",
+        "agy"
+      ],
+      "monthlyUsd": null,
+      "billing": "metered API tokens",
+      "modelAccess": {
+        "mode": "account",
+        "modelIds": []
+      },
+      "limits": [
+        {
+          "window": "daily",
+          "pool": "gemini-cli-free-key",
+          "unit": "requests",
+          "value": 250,
+          "note": "Unpaid key only; paid quotas vary."
+        }
+      ],
+      "sourceIds": [
+        "gemini-cli-quotas",
+        "gemini-cli-auth"
+      ],
+      "termsSourceIds": [
+        "gemini-cli-auth"
+      ],
+      "notes": "Antigravity API key support is version dependent; account models vary.",
+      "headlessUse": {
+        "status": "documented",
+        "note": "The named CLI documents non-interactive use; authentication conditions still apply."
+      },
+      "thirdPartyUse": {
+        "status": "unknown",
+        "note": "Enterprise or API credentials need their own terms assessment; consumer restriction does not establish this context."
+      }
+    },
+    {
+      "id": "github-free",
+      "provider": "github",
+      "name": "Copilot Free",
+      "cliIds": [
+        "copilot"
+      ],
+      "monthlyUsd": 0,
+      "billing": "monthly",
+      "modelAccess": {
+        "mode": "automatic",
+        "modelIds": []
+      },
+      "limits": [
+        {
+          "window": "monthly",
+          "pool": "copilot",
+          "unit": "AI credits",
+          "value": null,
+          "note": "Free allowance and model list are account dependent."
+        }
+      ],
+      "sourceIds": [
+        "github-copilot-plans",
+        "github-copilot-cli"
+      ],
+      "termsSourceIds": [
+        "github-copilot-cli"
+      ],
+      "notes": "Use /model for account-specific CLI models; Free is auto-only.",
+      "headlessUse": {
+        "status": "documented",
+        "note": "The named CLI documents non-interactive use; authentication conditions still apply."
+      },
+      "thirdPartyUse": {
+        "status": "unknown",
+        "note": "Programmatic Copilot CLI is documented; third-party product embedding terms were not established in TE-61."
+      }
+    },
+    {
+      "id": "github-pro",
+      "provider": "github",
+      "name": "Copilot Pro",
+      "cliIds": [
+        "copilot"
+      ],
+      "monthlyUsd": 10,
+      "billing": "monthly",
+      "modelAccess": {
+        "mode": "dynamic",
+        "modelIds": []
+      },
+      "limits": [
+        {
+          "window": "monthly",
+          "pool": "copilot",
+          "unit": "AI credits",
+          "value": 1000,
+          "note": "Additional usage may incur charges."
+        }
+      ],
+      "sourceIds": [
+        "github-copilot-plans",
+        "github-copilot-cli"
+      ],
+      "termsSourceIds": [
+        "github-copilot-cli"
+      ],
+      "notes": "Use /model for account-specific CLI models; Free is auto-only.",
+      "headlessUse": {
+        "status": "documented",
+        "note": "The named CLI documents non-interactive use; authentication conditions still apply."
+      },
+      "thirdPartyUse": {
+        "status": "unknown",
+        "note": "Programmatic Copilot CLI is documented; third-party product embedding terms were not established in TE-61."
+      }
+    },
+    {
+      "id": "github-pro-plus",
+      "provider": "github",
+      "name": "Copilot Pro+",
+      "cliIds": [
+        "copilot"
+      ],
+      "monthlyUsd": 39,
+      "billing": "monthly",
+      "modelAccess": {
+        "mode": "dynamic",
+        "modelIds": []
+      },
+      "limits": [
+        {
+          "window": "monthly",
+          "pool": "copilot",
+          "unit": "AI credits",
+          "value": 3900,
+          "note": "Additional usage may incur charges."
+        }
+      ],
+      "sourceIds": [
+        "github-copilot-plans",
+        "github-copilot-cli"
+      ],
+      "termsSourceIds": [
+        "github-copilot-cli"
+      ],
+      "notes": "Use /model for account-specific CLI models; Free is auto-only.",
+      "headlessUse": {
+        "status": "documented",
+        "note": "The named CLI documents non-interactive use; authentication conditions still apply."
+      },
+      "thirdPartyUse": {
+        "status": "unknown",
+        "note": "Programmatic Copilot CLI is documented; third-party product embedding terms were not established in TE-61."
+      }
+    },
+    {
+      "id": "github-max",
+      "provider": "github",
+      "name": "Copilot Max",
+      "cliIds": [
+        "copilot"
+      ],
+      "monthlyUsd": 100,
+      "billing": "monthly",
+      "modelAccess": {
+        "mode": "dynamic",
+        "modelIds": []
+      },
+      "limits": [
+        {
+          "window": "monthly",
+          "pool": "copilot",
+          "unit": "AI credits",
+          "value": 10000,
+          "note": "Additional usage may incur charges."
+        }
+      ],
+      "sourceIds": [
+        "github-copilot-plans",
+        "github-copilot-cli"
+      ],
+      "termsSourceIds": [
+        "github-copilot-cli"
+      ],
+      "notes": "Use /model for account-specific CLI models; Free is auto-only.",
+      "headlessUse": {
+        "status": "documented",
+        "note": "The named CLI documents non-interactive use; authentication conditions still apply."
+      },
+      "thirdPartyUse": {
+        "status": "unknown",
+        "note": "Programmatic Copilot CLI is documented; third-party product embedding terms were not established in TE-61."
+      }
+    },
+    {
+      "id": "github-business",
+      "provider": "github",
+      "name": "Copilot Business",
+      "cliIds": [
+        "copilot"
+      ],
+      "monthlyUsd": 19,
+      "billing": "monthly per seat",
+      "modelAccess": {
+        "mode": "dynamic",
+        "modelIds": []
+      },
+      "limits": [
+        {
+          "window": "monthly",
+          "pool": "copilot",
+          "unit": "AI credits",
+          "value": 1900,
+          "note": "Additional usage may incur charges."
+        }
+      ],
+      "sourceIds": [
+        "github-copilot-plans",
+        "github-copilot-cli"
+      ],
+      "termsSourceIds": [
+        "github-copilot-cli"
+      ],
+      "notes": "Use /model for account-specific CLI models; Free is auto-only.",
+      "headlessUse": {
+        "status": "documented",
+        "note": "The named CLI documents non-interactive use; authentication conditions still apply."
+      },
+      "thirdPartyUse": {
+        "status": "unknown",
+        "note": "Programmatic Copilot CLI is documented; third-party product embedding terms were not established in TE-61."
+      }
+    },
+    {
+      "id": "github-enterprise",
+      "provider": "github",
+      "name": "Copilot Enterprise",
+      "cliIds": [
+        "copilot"
+      ],
+      "monthlyUsd": 39,
+      "billing": "monthly per seat",
+      "modelAccess": {
+        "mode": "dynamic",
+        "modelIds": []
+      },
+      "limits": [
+        {
+          "window": "monthly",
+          "pool": "copilot",
+          "unit": "AI credits",
+          "value": 3900,
+          "note": "Additional usage may incur charges."
+        }
+      ],
+      "sourceIds": [
+        "github-copilot-plans",
+        "github-copilot-cli"
+      ],
+      "termsSourceIds": [
+        "github-copilot-cli"
+      ],
+      "notes": "Use /model for account-specific CLI models; Free is auto-only.",
+      "headlessUse": {
+        "status": "documented",
+        "note": "The named CLI documents non-interactive use; authentication conditions still apply."
+      },
+      "thirdPartyUse": {
+        "status": "unknown",
+        "note": "Programmatic Copilot CLI is documented; third-party product embedding terms were not established in TE-61."
+      }
+    },
+    {
+      "id": "google-gemini-cli-free",
+      "provider": "google",
+      "name": "Gemini CLI Free",
+      "cliIds": [
+        "gemini-cli"
+      ],
+      "monthlyUsd": 0,
+      "billing": "monthly",
+      "modelAccess": {
+        "mode": "dynamic",
+        "modelIds": []
+      },
+      "limits": [
+        {
+          "window": "daily",
+          "pool": "gemini-cli",
+          "unit": "requests",
+          "value": 1000,
+          "note": "Requests across Gemini model family; per-minute limits and capacity may also apply."
+        }
+      ],
+      "sourceIds": [
+        "gemini-cli-quotas",
+        "gemini-cli-auth",
+        "google-agy-pricing"
+      ],
+      "termsSourceIds": [
+        "gemini-cli-auth"
+      ],
+      "notes": "Exact Gemini CLI model selection and fallback depend on CLI version and account.",
+      "headlessUse": {
+        "status": "documented",
+        "note": "The named CLI documents non-interactive use; authentication conditions still apply."
+      },
+      "thirdPartyUse": {
+        "status": "unknown",
+        "note": "Gemini CLI authentication is documented; third-party subscription delegation is not established in TE-61."
+      }
+    },
+    {
+      "id": "google-gemini-cli-pro",
+      "provider": "google",
+      "name": "Gemini CLI with Google AI Pro",
+      "cliIds": [
+        "gemini-cli"
+      ],
+      "monthlyUsd": 20,
+      "billing": "monthly",
+      "modelAccess": {
+        "mode": "dynamic",
+        "modelIds": []
+      },
+      "limits": [
+        {
+          "window": "daily",
+          "pool": "gemini-cli",
+          "unit": "requests",
+          "value": 1500,
+          "note": "Requests across Gemini model family; per-minute limits and capacity may also apply."
+        }
+      ],
+      "sourceIds": [
+        "gemini-cli-quotas",
+        "gemini-cli-auth",
+        "google-agy-pricing"
+      ],
+      "termsSourceIds": [
+        "gemini-cli-auth"
+      ],
+      "notes": "Exact Gemini CLI model selection and fallback depend on CLI version and account.",
+      "headlessUse": {
+        "status": "documented",
+        "note": "The named CLI documents non-interactive use; authentication conditions still apply."
+      },
+      "thirdPartyUse": {
+        "status": "unknown",
+        "note": "Gemini CLI authentication is documented; third-party subscription delegation is not established in TE-61."
+      }
+    },
+    {
+      "id": "google-gemini-cli-ultra",
+      "provider": "google",
+      "name": "Gemini CLI with Google AI Ultra",
+      "cliIds": [
+        "gemini-cli"
+      ],
+      "monthlyUsd": 200,
+      "billing": "monthly",
+      "modelAccess": {
+        "mode": "dynamic",
+        "modelIds": []
+      },
+      "limits": [
+        {
+          "window": "daily",
+          "pool": "gemini-cli",
+          "unit": "requests",
+          "value": 2000,
+          "note": "Requests across Gemini model family; per-minute limits and capacity may also apply."
+        }
+      ],
+      "sourceIds": [
+        "gemini-cli-quotas",
+        "gemini-cli-auth",
+        "google-agy-pricing"
+      ],
+      "termsSourceIds": [
+        "gemini-cli-auth"
+      ],
+      "notes": "Exact Gemini CLI model selection and fallback depend on CLI version and account.",
+      "headlessUse": {
+        "status": "documented",
+        "note": "The named CLI documents non-interactive use; authentication conditions still apply."
+      },
+      "thirdPartyUse": {
+        "status": "unknown",
+        "note": "Gemini CLI authentication is documented; third-party subscription delegation is not established in TE-61."
+      }
+    },
+    {
+      "id": "google-ai-plus",
+      "provider": "google",
+      "name": "Google AI Plus (Antigravity)",
+      "cliIds": [
+        "agy"
+      ],
+      "monthlyUsd": 7.99,
+      "billing": "monthly US list price; varies by market",
+      "modelAccess": {
+        "mode": "listed",
+        "modelIds": [
+          "gemini-3.8-flash",
+          "claude-sonnet-4.6",
+          "claude-opus-4.6",
+          "gpt-oss-120b"
+        ]
+      },
+      "limits": [
+        {
+          "window": "weekly",
+          "pool": "gemini-models",
+          "unit": "usage",
+          "value": null,
+          "note": "Free/Plus baseline; numeric cap not published."
+        }
+      ],
+      "sourceIds": [
+        "google-agy-plans",
+        "google-agy-models",
+        "google-ai-plus-pricing"
+      ],
+      "termsSourceIds": [
+        "google-agy-faq-thirdparty",
+        "google-agy-terms"
+      ],
+      "notes": "Google AI Plus does not raise Gemini CLI subscription quota according to Gemini CLI quota docs.",
+      "headlessUse": {
+        "status": "documented",
+        "note": "The named CLI documents non-interactive use; authentication conditions still apply."
+      },
+      "thirdPartyUse": {
+        "status": "restricted",
+        "note": "Antigravity consumer FAQ says wrapping agy in third-party coding agents or applications is unsupported."
+      }
+    },
+    {
+      "id": "google-enterprise",
+      "provider": "google",
+      "name": "Gemini Enterprise Agent Platform",
+      "cliIds": [
+        "agy"
+      ],
+      "monthlyUsd": 30,
+      "billing": "from $30 per seat monthly or consumption based",
+      "modelAccess": {
+        "mode": "account",
+        "modelIds": []
+      },
+      "limits": [
+        {
+          "window": "account",
+          "pool": "cloud",
+          "unit": "tokens",
+          "value": null,
+          "note": "Contract or consumption based."
+        }
+      ],
+      "sourceIds": [
+        "google-agy-pricing",
+        "google-agy-plans"
+      ],
+      "termsSourceIds": [
+        "google-agy-plans"
+      ],
+      "notes": "Model grants and quotas depend on Cloud account agreement.",
+      "headlessUse": {
+        "status": "documented",
+        "note": "The named CLI documents non-interactive use; authentication conditions still apply."
+      },
+      "thirdPartyUse": {
+        "status": "unknown",
+        "note": "Enterprise or API credentials need their own terms assessment; consumer restriction does not establish this context."
+      }
+    }
+  ]
+}

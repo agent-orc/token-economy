@@ -1,0 +1,113 @@
+{
+  "schemaVersion": 1,
+  "asOfDate": "2026-10-20",
+  "observations": [
+    {
+      "id": "codex-free-20261019",
+      "provider": "openai",
+      "planId": "openai-free",
+      "kind": "model-probe",
+      "observedFromUtc": "2026-10-18T22:45:00Z",
+      "observedToUtc": "2026-10-20T08:00:00Z",
+      "method": "Agent Studio operator probes after token refresh; Codex CLI HTTP status and model response.",
+      "cliId": "codex",
+      "allowedModelIds": [
+        "gpt-6-luna"
+      ],
+      "rejectedModelIds": [
+        "gpt-6-sol",
+        "gpt-6.1-sol",
+        "gpt-5.5",
+        "gpt-5.6-sol"
+      ],
+      "note": "400 unsupported when using Codex with a ChatGPT account; one account, not a provider-wide guarantee."
+    },
+    {
+      "id": "codex-pro-20261020",
+      "provider": "openai",
+      "planId": "openai-pro",
+      "kind": "model-probe",
+      "observedFromUtc": "2026-10-20T08:00:00Z",
+      "observedToUtc": "2026-10-20T08:09:00Z",
+      "method": "Agent Studio operator probe after subscription restoration and next token refresh.",
+      "cliId": "codex",
+      "allowedModelIds": [
+        "gpt-6-sol"
+      ],
+      "rejectedModelIds": [],
+      "note": "Expired token refreshed on first call."
+    },
+    {
+      "id": "codex-weekly-resets-20261020",
+      "provider": "openai",
+      "planId": "openai-pro",
+      "kind": "quota-reset",
+      "observedFromUtc": "2026-10-11T08:04:00Z",
+      "observedToUtc": "2026-10-20T08:09:00Z",
+      "method": "Agent Studio quota history; observed reset times in UTC.",
+      "cliId": "codex",
+      "window": "weekly",
+      "resetAtUtc": [
+        "2026-10-11T08:04:00Z",
+        "2026-10-13T05:09:00Z",
+        "2026-10-15T06:19:00Z",
+        "2026-10-17T20:45:00Z",
+        "2026-10-20T08:09:00Z"
+      ],
+      "note": "Early resets observed; cause unknown."
+    },
+    {
+      "id": "codex-burn-20261013",
+      "provider": "openai",
+      "planId": "openai-pro",
+      "kind": "burn-rate",
+      "observedFromUtc": "2026-10-13T00:00:00Z",
+      "observedToUtc": "2026-10-14T23:59:59Z",
+      "method": "Agent Studio quota history and workspace token ledger.",
+      "cliId": "codex",
+      "window": "weekly",
+      "percentagePointsPerHour": 0.9,
+      "note": "Approximate."
+    },
+    {
+      "id": "codex-burn-20261016",
+      "provider": "openai",
+      "planId": "openai-pro",
+      "kind": "burn-rate",
+      "observedFromUtc": "2026-10-16T00:00:00Z",
+      "observedToUtc": "2026-10-16T23:59:59Z",
+      "method": "Agent Studio quota history and workspace token ledger.",
+      "cliId": "codex",
+      "window": "weekly",
+      "percentagePointsPerHour": 2.2,
+      "note": "Approximate."
+    },
+    {
+      "id": "codex-burn-20261020",
+      "provider": "openai",
+      "planId": "openai-pro",
+      "kind": "burn-rate",
+      "observedFromUtc": "2026-10-20T08:09:00Z",
+      "observedToUtc": "2026-10-20T14:00:00Z",
+      "method": "Agent Studio quota history; 9-14 parallel gpt-6-sol xhigh runs plus local reviews.",
+      "cliId": "codex",
+      "window": "weekly",
+      "percentagePointsPerHour": 11.5,
+      "note": "Range observed: 11-12 percent/hour."
+    },
+    {
+      "id": "claude-window-ratio-20261020",
+      "provider": "anthropic",
+      "planId": null,
+      "kind": "window-ratio",
+      "observedFromUtc": "2026-10-19T00:00:00Z",
+      "observedToUtc": "2026-10-20T23:59:59Z",
+      "method": "Operator comparison of Claude 5-hour and weekly all-model quota meters.",
+      "cliId": "claude-code",
+      "window": "five-hour",
+      "percentagePoints": 100,
+      "correspondingWeeklyPercentagePoints": 15,
+      "note": "20 five-hour points corresponded to about 3 weekly points. The operator did not specify the Max variant; plan attribution is unknown."
+    }
+  ]
+}

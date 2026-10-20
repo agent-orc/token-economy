@@ -26,6 +26,10 @@
     <EmbeddedResource Include="catalog\model-prices.json" />
     <EmbeddedResource Include="catalog\benchmark-types.json" />
     <EmbeddedResource Include="catalog\benchmark-results.json" />
+    <EmbeddedResource Include="catalog\subscription-plans.json" />
+    <EmbeddedResource Include="catalog\subscription-observations.json" />
+    <EmbeddedResource Include="catalog\quota-token-observations.json" />
+    <EmbeddedResource Include="..\..\docs\cli-integration-domain\source-register.json" LogicalName="TokenEconomy.catalog.source-register.json" />
     <EmbeddedResource Include="..\..\results\routing-evidence\review\v1\review-evidence.json"
                       Condition="Exists('..\..\results\routing-evidence\review\v1\review-evidence.json')"
                       LogicalName="TokenEconomy.catalog.review-evidence.json" />
