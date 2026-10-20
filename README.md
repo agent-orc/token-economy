@@ -34,7 +34,8 @@ the most for the tokens I have left?* Unknown is always returned as unknown.
 
 **API guide:** <https://agent-orchestrator.dev/token-economy/api/> — inputs, return types, reasoning effort, scores, and executable C# examples.
 
-**Docs & website:** <https://agent-orchestrator.dev/token-economy/> — a static
+**Docs & website:** [Documentation index](docs/index.md) ·
+<https://agent-orchestrator.dev/token-economy/> — a static
 site built from [`website/`](website/) and deployed by
 [`deploy-website.yml`](.github/workflows/deploy-website.yml) (see
 [`website/DEPLOY.md`](website/DEPLOY.md)).
