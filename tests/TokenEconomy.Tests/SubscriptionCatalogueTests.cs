@@ -83,6 +83,8 @@ public sealed class SubscriptionCatalogueTests
         Assert.Null(unknown.PlanId);
         Assert.Equal(PlanModelStatus.Unknown, unknown.Models.Single().Status);
         var api = catalogue.ResolveLogin("openai", "api-1", "openai-api", After, ["gpt-6-sol"]);
+        Assert.Equal("openai-api", api.PlanId);
+        Assert.Equal("openai-api", api.PlanClaim);
         Assert.Equal(PlanModelStatus.Unknown, api.Models.Single().Status);
         Assert.Throws<ArgumentException>(() => catalogue.ResolveLogin("openai", "login-1", "free",
             DateTime.SpecifyKind(After, DateTimeKind.Unspecified), ["gpt-6-sol"]));

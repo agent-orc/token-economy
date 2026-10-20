@@ -170,7 +170,8 @@ public sealed class SubscriptionCatalogue
         var planId = provider.ToLowerInvariant() == "openai" ? planClaim?.ToLowerInvariant() switch
         {
             "free" => "openai-free", "plus" => "openai-plus", "pro" => "openai-pro",
-            "team" or "business" => "openai-business", "enterprise" => "openai-enterprise", _ => null,
+            "team" or "business" => "openai-business", "enterprise" => "openai-enterprise",
+            "openai-api" => "openai-api", _ => null,
         } : planClaim;
         var plan = planId is null ? null : Find(planId);
         if (plan?.Provider != provider.ToLowerInvariant()) plan = null;
