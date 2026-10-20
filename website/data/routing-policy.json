@@ -7,8 +7,8 @@
     "repositoryPath": "docs/system/domains/model-routing-policy.md",
     "upstreamRepository": "agent-orc/agent-studio",
     "upstreamPath": "docs/system/domains/model-routing-policy.md",
-    "contentSha256": "12cf4b05eb97ac16ff088e15ff94fe0fdeee7a2f1137b3482294bc34212f87cd",
-    "synchronization": "Token Economy 2026-10-21 revision adds selectable Sonnet 5.5 and documented CLI version gates for Sonnet 5.5 and Haiku 5.5. Defaults, score bands, correctness floors, priors and fallbacks remain unchanged. TE-62 and TE-63 catalogue changes are included. No upstream update is claimed."
+    "contentSha256": "241781f1c62ee971643036a1287067d9d11e541787430debf03ff3cd5b3d1363",
+    "synchronization": "Token Economy 2026-10-21 revision adds selectable Sonnet 5.5 and documented CLI version gates for Sonnet 5.5 and Haiku 5.5. Defaults, score bands, correctness floors, priors and fallbacks remain unchanged. The policy text also documents the Antigravity provider and test-only Gemini pins. TE-62 and TE-63 catalogue changes are included. No upstream update is claimed."
   },
   "providers": [
     {

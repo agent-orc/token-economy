@@ -17,6 +17,7 @@ SemVer; pre-1.0 the public API may still shift).
 
 ### Documentation
 
+- Documented the Antigravity CLI provider and the test-only Gemini 4 Argon and Gemini 3.8 Flash pins in the routing policy next to the Sonnet/Haiku 5.5 entries. The 2026-10-16 price snapshot is first shipped in 0.3.8.
 - Added the TE-61 concept Dossier for a versioned CLI integration domain and citable source register, including schema proposals, source conflicts, migration plan, and implementation card cut.
 
 ## [0.3.7] - 2026-10-09
@@ -390,7 +391,9 @@ public release.
   `Unconfirmed` or left unpriced rather than invented.
 - Dependency-free core targeting `net10.0`; ships XML docs and a symbol package.
 
-[Unreleased]: https://github.com/agent-orc/token-economy/compare/v0.3.6...HEAD
+[Unreleased]: https://github.com/agent-orc/token-economy/compare/v0.3.8...HEAD
+[0.3.8]: https://github.com/agent-orc/token-economy/compare/v0.3.7...v0.3.8
+[0.3.7]: https://github.com/agent-orc/token-economy/compare/v0.3.6...v0.3.7
 [0.3.6]: https://github.com/agent-orc/token-economy/compare/v0.3.5...v0.3.6
 [0.3.5]: https://github.com/agent-orc/token-economy/compare/v0.3.0...v0.3.5
 [0.3.0]: https://github.com/agent-orc/token-economy/compare/v0.2.0...v0.3.0

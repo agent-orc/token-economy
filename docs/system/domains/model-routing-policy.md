@@ -158,6 +158,30 @@ Claude Code documents `xhigh` for Opus 5, 4.8 and 4.7 (now listed), no `xhigh`
 for Sonnet 4.6 (removed), and no effort at all on Haiku 4.5, whose levels stay
 nominal labels.
 
+The same revision registers a third provider, `google`, with the
+**Antigravity CLI (`agy`)** as its CLI (`cliId` `antigravity`), alongside
+Codex for OpenAI and Claude Code for Anthropic. Two Gemini models are
+**test-only pins** (`testOnly: true`): explicit evaluation or operator pins
+only, with no default tier, task-class prior, provider fallback, automatic
+migration or correctness-floor equivalence.
+
+- `gemini-4-argon`: `low`, `medium`, `high`; selectable, provisional, frontier,
+  core task only. Aliases `gemini-4-argon-low`, `-medium` and `-high` are the
+  effort-suffixed ids listed by agy 1.4.0 on 2026-10-16; they resolve to the
+  same model and do not change its 2026-10-13 publication date.
+- `gemini-3.8-flash`: `low`, `medium`, `high`; selectable, provisional,
+  balanced, core task only, with the same `-low`/`-medium`/`-high` aliases.
+  Antigravity announced it on 2026-09-01; its API tariff starts with the
+  2026-09-02 Gemini API GA.
+
+agy also accepts `--effort xhigh` and `max`, but the Gemini model
+documentation confirms only `low`/`medium`/`high`, so only those are
+supported. The access path for orchestrated runs is unresolved: the
+[Antigravity FAQ](https://www.antigravity.google/docs/faq/) supports direct
+`agy -p` scripting, but not wrapping agy in third-party coding agents under
+consumer plans. Gemini API prices in the catalogue do not establish
+Antigravity subscription costs.
+
 ## External evidence, retrieved 2026-09-25
 
 The [September 22 OpenAI announcement](https://openai.com/index/introducing-gpt-6-sol-and-luna/)

@@ -43,7 +43,7 @@
     {
       "id": "2026-10-16",
       "retrievedOn": "2026-10-16",
-      "firstShippedIn": "Unreleased",
+      "firstShippedIn": "0.3.8",
       "path": "model-prices.2026-10-16.json",
       "sha256": "5007ff7361558d55c78b03d4f6017ea85eae523a3eadff9acf49de4ffbfae54b",
       "listings": 30,
