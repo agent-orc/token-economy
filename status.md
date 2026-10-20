@@ -28,3 +28,15 @@ Verification (agent-runner-01):
 - `dotnet test --no-build -c Release --filter 'FullyQualifiedName~.Architecture.|Category=Guard'`: no tests match in this repository.
 - `dotnet format style --verify-no-changes --severity error` passed; `python3 scripts/generate-website-data.py --check` passed.
 - `dotnet pack src/TokenEconomy/TokenEconomy.csproj --no-build --no-restore -c Release -o "$JOB_RESULTS_DIR"` rebuilt `TokenEconomy.0.3.8.nupkg` and `.snupkg`.
+
+## Review decision round 2026-10-21 (orch_120676101b52434b87b01a7523fd645d)
+
+The code-quality finding confirms that prompt-size tier pricing, the per-model Claude Code version gate (`MinimumCliVersion`, `CliVersionTooOld`) and test-only handling (`TestOnly`, which is excluded from automatic suggestions) are wired correctly. It reports no defect, so I changed no code. `origin/main` (12072486da) is still contained in this branch, so no merge was needed. I did no rebase or squash.
+
+Verification (agent-runner-01):
+- `dotnet build --no-restore -c Release` passed.
+- `dotnet test --no-build -c Release --filter 'FullyQualifiedName~ModelPriceSeedTests|FullyQualifiedName~ModelRoutingKnowledgeBaseTests|FullyQualifiedName~October2026ModelOnboardingTests|FullyQualifiedName~Sonnet55SupportTests|FullyQualifiedName~ModelReleaseDateTests|FullyQualifiedName~ModelEfficiencyMatrixTests|FullyQualifiedName~ModelRouterTests'` passed 136/136.
+- `dotnet test --no-build -c Release --filter 'FullyQualifiedName~.Architecture.|Category=Guard'`: no tests match in this repository.
+- `dotnet format style --verify-no-changes --severity error` passed.
+
+Result SHA: the commit that adds this section (reported in the delivery reply). The implementation content is unchanged from `acaacf4eccf38381c054fe5ada0476b8d036402f`.
