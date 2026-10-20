@@ -52,3 +52,16 @@ Verification (agent-runner-01):
 - `dotnet format style --verify-no-changes --severity error` passed.
 
 Result SHA: the commit that adds this section (reported in the delivery reply). The implementation content is unchanged from `acaacf4eccf38381c054fe5ada0476b8d036402f`.
+
+## Review decision round 2026-10-21 (orch_3c94680577c340289e26d7d7732170ce)
+
+This is the third time the same code-quality finding has come back. It says that prompt-size tier pricing, the Claude Code version gate and test-only handling are wired correctly, and it names no defect. I re-checked the code. `ModelPriceCatalog` applies the highest `PromptSizeTiers` entry whose `MinPromptTokens` is at or below the prompt size, and it rejects tiers that are not positive or are duplicated. `ModelRoutingKnowledgeBase.Resolve` returns `CliVersionTooOld` when the installed CLI is older than `MinimumCliVersion`, and catalogue load validates that version. `ModelEfficiencyMatrix` leaves `TestOnly` profiles out of automatic suggestions. I changed no code. `origin/main` (1207248) is still contained in this branch, so no merge was needed. I did no rebase or squash. The results directory of this run contains a freshly packed `TokenEconomy.0.3.8.nupkg`/`.snupkg` again.
+
+Verification (agent-runner-01):
+- `dotnet build --no-restore -c Release` passed.
+- `dotnet test --no-build -c Release --filter 'FullyQualifiedName~ModelPriceSeedTests|FullyQualifiedName~ModelPriceCatalogTests|FullyQualifiedName~ModelRoutingKnowledgeBaseTests|FullyQualifiedName~October2026ModelOnboardingTests|FullyQualifiedName~Sonnet55SupportTests|FullyQualifiedName~ModelReleaseDateTests|FullyQualifiedName~ModelEfficiencyMatrixTests|FullyQualifiedName~ModelRouterTests'` passed 167/167.
+- `dotnet test --no-build -c Release --filter 'FullyQualifiedName~.Architecture.|Category=Guard'`: no tests match in this repository.
+- `dotnet format style --verify-no-changes --severity error` passed.
+- `dotnet pack src/TokenEconomy/TokenEconomy.csproj --no-build --no-restore -c Release -o "$JOB_RESULTS_DIR"` passed.
+
+Result SHA: the commit that adds this section (reported in the delivery reply). The implementation content is unchanged from `acaacf4eccf38381c054fe5ada0476b8d036402f`.
