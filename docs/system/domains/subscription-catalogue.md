@@ -1,3 +1,8 @@
+---
+tags: [token-economy, docs]
+taggingStatus: tagged
+---
+
 # Subscription catalogue
 
 As of 2026-10-20. Prices are USD before tax. A blank numeric limit means the provider did not publish an absolute amount in the cited source. Annual commitments, per-seat charges, credits and metered API usage are stated separately. Model lists are candidate inventory; the live login, client version, rollout and workspace policy still decide access.
