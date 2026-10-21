@@ -1,11 +1,10 @@
-import { spawn, execFileSync } from 'node:child_process';
-import { readFile, writeFile, mkdir, mkdtemp, rm, readdir } from 'node:fs/promises';
-import { readFileSync, existsSync } from 'node:fs';
+import { execFileSync } from 'node:child_process';
+import { readFile, writeFile, mkdir, readdir, rm } from 'node:fs/promises';
 import { createServer } from 'node:http';
 import { resolve, join, extname } from 'node:path';
-import { tmpdir } from 'node:os';
 import assert from 'node:assert/strict';
 import { forecast } from '../website/context-cost/model.mjs';
+import { launchBrowser } from './headless-browser.mjs';
 const root=resolve(import.meta.dirname,'..');
 const results=process.env.JOB_RESULTS_DIR || process.argv[2];
 if(!results)throw new Error('Set JOB_RESULTS_DIR or supply an absolute results directory.');
@@ -27,101 +26,6 @@ for(const c of report.cases){
    check(Math.abs(a.components[key]-b.cost[property]-(b.compactionCost?.[property]??0))<1e-8,'component '+key+' parity');
  }
 }
-function waitForDevTools(browserProcess) {
-  return new Promise((resolveUrl, reject) => {
-    let stderr = "";
-    const timeout = setTimeout(() => reject(new Error(`Timed out waiting for DevTools. ${stderr}`)), 15_000);
-
-    browserProcess.stderr.setEncoding("utf8");
-    browserProcess.stderr.on("data", (chunk) => {
-      stderr += chunk;
-      const match = stderr.match(/DevTools listening on (ws:\/\/[^\s]+)/);
-      if (match) {
-        clearTimeout(timeout);
-        resolveUrl(match[1]);
-      }
-    });
-    browserProcess.once("exit", (code) => {
-      clearTimeout(timeout);
-      reject(new Error(`Browser exited before DevTools started (code ${code}). ${stderr}`));
-    });
-  });
-}
-
-function createCdpClient(webSocketUrl) {
-  const socket = new WebSocket(webSocketUrl);
-  const pending = new Map();
-  const eventWaiters = new Map();
-  let nextId = 1;
-
-  socket.addEventListener("message", ({ data }) => {
-    const message = JSON.parse(data);
-    if (message.id) {
-      const request = pending.get(message.id);
-      if (!request) return;
-      pending.delete(message.id);
-      if (message.error) request.reject(new Error(message.error.message));
-      else request.resolve(message.result);
-      return;
-    }
-
-    const waiters = eventWaiters.get(message.method);
-    if (!waiters?.length) return;
-    eventWaiters.delete(message.method);
-    for (const waiter of waiters) waiter(message.params);
-  });
-
-  const opened = new Promise((resolveOpen, reject) => {
-    socket.addEventListener("open", resolveOpen, { once: true });
-    socket.addEventListener("error", () => reject(new Error("Could not connect to the page DevTools socket.")), { once: true });
-  });
-
-  return {
-    async send(method, params = {}) {
-      await opened;
-      const id = nextId++;
-      const response = new Promise((resolveResponse, rejectResponse) => {
-        const timeout = setTimeout(() => {
-          pending.delete(id);
-          rejectResponse(new Error(`Timed out waiting for ${method}.`));
-        }, 15_000);
-        pending.set(id, {
-          resolve(result) {
-            clearTimeout(timeout);
-            resolveResponse(result);
-          },
-          reject(error) {
-            clearTimeout(timeout);
-            rejectResponse(error);
-          },
-        });
-      });
-      socket.send(JSON.stringify({ id, method, params }));
-      return response;
-    },
-    waitFor(method) {
-      return new Promise((resolveEvent, rejectEvent) => {
-        const waiters = eventWaiters.get(method) ?? [];
-        const timeout = setTimeout(() => {
-          const activeWaiters = eventWaiters.get(method) ?? [];
-          eventWaiters.set(method, activeWaiters.filter((waiter) => waiter !== complete));
-          rejectEvent(new Error(`Timed out waiting for ${method}.`));
-        }, 15_000);
-        const complete = (params) => {
-          clearTimeout(timeout);
-          resolveEvent(params);
-        };
-        waiters.push(complete);
-        eventWaiters.set(method, waiters);
-      });
-    },
-    close() {
-      socket.close();
-    },
-  };
-}
-
-
 const mime={'.html':'text/html','.css':'text/css','.js':'text/javascript','.mjs':'text/javascript','.json':'application/json'};
 const server=createServer(async(req,res)=>{try{
  let path=decodeURIComponent(new URL(req.url,'http://localhost').pathname);
@@ -131,22 +35,17 @@ const server=createServer(async(req,res)=>{try{
  if(!file.startsWith(join(root,'website')+'/'))throw new Error('outside root');
  res.setHeader('Content-Type',mime[extname(file)]??'application/octet-stream');res.end(await readFile(file));
 }catch{res.writeHead(404).end();}});
-await new Promise(r=>server.listen(0,'127.0.0.1',r));
-const url=`http://127.0.0.1:${server.address().port}/token-economy/context-cost/`;
-const browserPath=process.env.CHROME_PATH || ['/usr/bin/chromium','/usr/bin/google-chrome',...['1243','1217'].map(v=>`/home/agent/.cache/ms-playwright/chromium_headless_shell-${v}/chrome-headless-shell-linux64/chrome-headless-shell`)].find(existsSync);
-if(!browserPath)throw new Error('Set CHROME_PATH to Chromium.');
-const profile=await mkdtemp(join(tmpdir(),'te54-browser-'));
-const browser=spawn(browserPath,['--headless=new','--no-sandbox','--disable-gpu','--remote-debugging-port=0',`--user-data-dir=${profile}`,'about:blank'],{stdio:['ignore','ignore','pipe']});
-let client;
+const session=await launchBrowser({name:'context-cost explorer'});
+const {client,evaluate}=session;
 try{
- const socket=await waitForDevTools(browser);const http=new URL(socket);http.protocol='http:';http.pathname='/json/list';
- const pages=await(await fetch(http)).json();client=createCdpClient(pages.find(p=>p.type==='page').webSocketDebuggerUrl);
- await client.send('Page.enable');await client.send('Runtime.enable');
+ await new Promise(r=>server.listen(0,'127.0.0.1',r));
+ const url=`http://127.0.0.1:${server.address().port}/token-economy/context-cost/`;
  await client.send('Browser.setDownloadBehavior',{behavior:'allow',downloadPath:resolve(results)});
- const evaluate=async expression=>{const r=await client.send('Runtime.evaluate',{expression,returnByValue:true,awaitPromise:true});if(r.exceptionDetails)throw new Error(JSON.stringify(r.exceptionDetails));return r.result.value;};
  const set=async(id,value)=>evaluate(`(()=>{const e=document.getElementById(${JSON.stringify(id)});e.value=${JSON.stringify(String(value))};e.dispatchEvent(new Event('input',{bubbles:true}));return document.getElementById('error').textContent;})()`);
- const loaded=client.waitFor('Page.loadEventFired');await client.send('Page.navigate',{url});await loaded;
- await evaluate(`new Promise((resolve,reject)=>{let n=0;const t=setInterval(()=>{if(!document.getElementById('app').hidden){clearInterval(t);resolve(true);}else if(++n>100){clearInterval(t);reject(new Error(document.getElementById('loading').textContent));}},100);})`);
+ await session.navigate(url);
+ // The explorer shows #app only after both data files loaded and the first forecast rendered.
+ await session.waitUntil('explorer data loaded',`!document.getElementById('app').hidden`,{failure:`document.getElementById('loading').textContent.startsWith('Loading')?'':document.getElementById('loading').textContent`});
+ session.step='assertions';
  check(await evaluate(`document.querySelectorAll('.chart svg').length===8`),'eight charts render');
  check(await evaluate(`!document.getElementById('output').hidden && !document.getElementById('error').textContent`),'initial forecast renders');
  for(const id of ['coding','orchestrator','general']){
@@ -187,10 +86,16 @@ try{
   await writeFile(join(results,`context-cost-${theme}-${width}-charts.png`),Buffer.from(chartShot.data,'base64'));
   await evaluate('window.scrollTo(0,0)');
  }
+ // Chrome renames a download to its final name only when it is complete, so the file name is the readiness signal.
+ const downloads=['context-cost-forecast.json','cumulative.csv','context-cost-models.csv'];
+ for(const f of downloads)await rm(join(results,f),{force:true});
  await evaluate(`document.getElementById('export-all').click();document.querySelector('.chart button').click();document.getElementById('export-models').click()`);
- await new Promise(r=>setTimeout(r,800));
- const files=await readdir(results);check(files.includes('context-cost-forecast.json'),'JSON download');check(files.includes('cumulative.csv'),'chart CSV download');check(files.includes('context-cost-models.csv'),'model CSV download');
+ session.step='wait for downloads';
+ const deadline=Date.now()+30_000;
+ let files=await readdir(results);
+ while(!downloads.every(f=>files.includes(f))&&Date.now()<deadline){await new Promise(r=>setTimeout(r,100));files=await readdir(results);}
+ check(files.includes('context-cost-forecast.json'),'JSON download');check(files.includes('cumulative.csv'),'chart CSV download');check(files.includes('context-cost-models.csv'),'model CSV download');
  const exported=JSON.parse(await readFile(join(results,'context-cost-forecast.json'),'utf8'));check(exported.long.total>0 && exported.evidence.length>=10,'export includes data and sources');
  await writeFile(join(results,'browser-smoke.json'),JSON.stringify({passed:true,assertions,parityCases:report.cases.length,themes:['light','dark'],widths:[1440,390],charts:8},null,2));
  console.log(`${assertions} assertions passed; screenshots and exports in ${results}`);
-}finally{client?.close();browser.kill();server.close();await rm(profile,{recursive:true,force:true}).catch(()=>{});}
+}catch(error){console.error(await session.diagnostics(error));throw error;}finally{await session.close();server.close();}
