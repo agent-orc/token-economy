@@ -65,3 +65,16 @@ Verification (agent-runner-01):
 - `dotnet pack src/TokenEconomy/TokenEconomy.csproj --no-build --no-restore -c Release -o "$JOB_RESULTS_DIR"` passed.
 
 Result SHA: the commit that adds this section (reported in the delivery reply). The implementation content is unchanged from `acaacf4eccf38381c054fe5ada0476b8d036402f`.
+
+## Review decision round 2026-10-21 (orch_942f47eb481a4cd4bdedf5b897337396)
+
+This is the fourth time the same code-quality finding has come back. This time it is worded as "test-only exclusion are correctly wired". It confirms the wiring and names no defect. I re-checked the exclusion. `ModelEfficiencyMatrix.SuggestModel` skips any profile with `TestOnly` set (`src/TokenEconomy/ModelEfficiencyMatrix.cs:194`). `ModelEfficiencySeed` copies the flag from the routing policy. `October2026ModelOnboardingTests.GoogleModelsRequirePinsAndHaikuCannotFillACodingRole` checks three things for the test-only Gemini pins: they resolve as explicit pins, they have no default route or provider fallback, and `SuggestModel` never returns them even when only Antigravity is available. I changed no code. `origin/main` (1207248) is still contained in this branch, so no merge was needed. I did no rebase or squash.
+
+Verification (agent-runner-01):
+- `dotnet build --no-restore -c Release` passed.
+- `dotnet test --no-build -c Release --filter 'FullyQualifiedName~ModelPriceSeedTests|FullyQualifiedName~ModelPriceCatalogTests|FullyQualifiedName~ModelRoutingKnowledgeBaseTests|FullyQualifiedName~October2026ModelOnboardingTests|FullyQualifiedName~Sonnet55SupportTests|FullyQualifiedName~ModelReleaseDateTests|FullyQualifiedName~ModelEfficiencyMatrixTests|FullyQualifiedName~ModelRouterTests'` passed 167/167.
+- `dotnet test --no-build -c Release --filter 'FullyQualifiedName~.Architecture.|Category=Guard'`: no tests match in this repository.
+- `dotnet format style --verify-no-changes --severity error` passed.
+- `dotnet pack src/TokenEconomy/TokenEconomy.csproj --no-build --no-restore -c Release -o "$JOB_RESULTS_DIR"` packed `TokenEconomy.0.3.8.nupkg`/`.snupkg` again.
+
+Result SHA: the commit that adds this section (reported in the delivery reply). The implementation content is unchanged from `acaacf4eccf38381c054fe5ada0476b8d036402f`.
