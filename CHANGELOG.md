@@ -5,12 +5,19 @@ SemVer; pre-1.0 the public API may still shift).
 
 ## [Unreleased]
 
+## [0.3.8] - 2026-10-21
+
 ### Added
 
 - Added a sourced subscription catalogue, a per-login OpenAI plan and model mapping API, plan-change warnings, and dated quota/token observation logs (TE-63).
+- Added Claude Haiku 5.5, Gemini 4 Argon and Gemini 3.8 Flash to the sourced, dated price catalog, `KnownModels`, release dates, routing knowledge, website data and price snapshot. Gemini Standard prices include their announced December 2026 and January 2027 changes. Missing cache-write tariffs remain unknown.
+- Added whole-request prompt-size tiers and explicit ambiguity for costs without a per-request prompt length. Haiku 5.5 uses the 100K threshold, and GPT-6.1 Sol now uses its documented 272K threshold.
+- Added a proposal-only Haiku 4.5 → 5.5 migration. Haiku 5.5 is an explicit bounded classification/auto-tagging/fixture pin, with Sonnet low retained as the coding economy floor. Gemini models are test-only pins without default routes, automatic migrations or fallbacks; their orchestration access path remains unresolved.
+- Made Claude Sonnet 5.5 selectable for explicit pins after the operator verified Claude Code 2.1.305. Added documented CLI version gates for Sonnet 5.5 (2.1.284) and Haiku 5.5 (2.1.293), preserving correctness floors, default routes, and existing pins.
 
 ### Documentation
 
+- Documented the Antigravity CLI provider and the test-only Gemini 4 Argon and Gemini 3.8 Flash pins in the routing policy next to the Sonnet/Haiku 5.5 entries. The 2026-10-16 price snapshot is first shipped in 0.3.8.
 - Added the TE-61 concept Dossier for a versioned CLI integration domain and citable source register, including schema proposals, source conflicts, migration plan, and implementation card cut.
 
 ## [0.3.7] - 2026-10-09
@@ -384,7 +391,9 @@ public release.
   `Unconfirmed` or left unpriced rather than invented.
 - Dependency-free core targeting `net10.0`; ships XML docs and a symbol package.
 
-[Unreleased]: https://github.com/agent-orc/token-economy/compare/v0.3.6...HEAD
+[Unreleased]: https://github.com/agent-orc/token-economy/compare/v0.3.8...HEAD
+[0.3.8]: https://github.com/agent-orc/token-economy/compare/v0.3.7...v0.3.8
+[0.3.7]: https://github.com/agent-orc/token-economy/compare/v0.3.6...v0.3.7
 [0.3.6]: https://github.com/agent-orc/token-economy/compare/v0.3.5...v0.3.6
 [0.3.5]: https://github.com/agent-orc/token-economy/compare/v0.3.0...v0.3.5
 [0.3.0]: https://github.com/agent-orc/token-economy/compare/v0.2.0...v0.3.0

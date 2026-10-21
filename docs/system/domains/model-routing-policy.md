@@ -1,6 +1,6 @@
 # Model Routing Policy
 
-Version: 2026-10-04
+Version: 2026-10-21
 
 Status: GPT-6 operator baseline, effective 2026-09-25; local completion evidence remains provisional
 
@@ -136,13 +136,51 @@ Claude Code 2.1.281 observation remain provisional; 2.1.270 silently fell back.
 Always-on thinking and tool-use changes require compatibility checks. Lower
 prices alone do not authorize automatic migration or correctness-floor equivalence.
 
-The 2026-09-29 refresh adds `claude-sonnet-5-5` (released 2026-09-28, $2 / $0.20
-/ $10, same as Sonnet 5) as **unsupported**: Claude Code needs v2.1.284 and the
-runner's 2.1.281 returned `unrecognized_model`. The Sonnet 5/high fallback keeps
-its full model id, so the `sonnet` alias moving to Sonnet 5.5 does not change it.
+The 2026-10-21 revision makes `claude-sonnet-5-5` selectable for explicit
+evaluation and operator-pinned core tasks. [Claude Code model configuration](https://code.claude.com/docs/en/model-config)
+documents v2.1.284 or later for Sonnet 5.5 and v2.1.293 or later for Haiku 5.5.
+Both support `low`, `medium`, `high`, `xhigh`, `max`, with `medium` as the CLI default.
+The operator reports Claude Code 2.1.305 on TUFI2, agent-runner-01, and all
+KORI review containers, with the KORI Dockerfile pinned. On 2026-10-20,
+agent-runner-01 answered `claude -p --model claude-sonnet-5-5` and
+`--model claude-haiku-5-5` using the runner credential. Earlier v2.1.281
+returned `unrecognized_model`; Haiku 5.5 fell back to Haiku 4.5.
+The version-aware resolver rejects a known model when the supplied installed
+CLI version is below its documented minimum. It does not infer CLI availability
+when no installed version is supplied.
+
+Haiku 5.5 is selectable only for operator-pinned bounded classification,
+auto-tagging and fixture tasks. Sonnet low remains the coding economy floor.
+No default route, correctness floor, provider fallback or automatic migration
+changes. The Sonnet 5/high fallback keeps its full model id, so the `sonnet`
+alias moving to Sonnet 5.5 does not change it.
 Claude Code documents `xhigh` for Opus 5, 4.8 and 4.7 (now listed), no `xhigh`
 for Sonnet 4.6 (removed), and no effort at all on Haiku 4.5, whose levels stay
 nominal labels.
+
+The same revision registers a third provider, `google`, with the
+**Antigravity CLI (`agy`)** as its CLI (`cliId` `antigravity`), alongside
+Codex for OpenAI and Claude Code for Anthropic. Two Gemini models are
+**test-only pins** (`testOnly: true`): explicit evaluation or operator pins
+only, with no default tier, task-class prior, provider fallback, automatic
+migration or correctness-floor equivalence.
+
+- `gemini-4-argon`: `low`, `medium`, `high`; selectable, provisional, frontier,
+  core task only. Aliases `gemini-4-argon-low`, `-medium` and `-high` are the
+  effort-suffixed ids listed by agy 1.4.0 on 2026-10-16; they resolve to the
+  same model and do not change its 2026-10-13 publication date.
+- `gemini-3.8-flash`: `low`, `medium`, `high`; selectable, provisional,
+  balanced, core task only, with the same `-low`/`-medium`/`-high` aliases.
+  Antigravity announced it on 2026-09-01; its API tariff starts with the
+  2026-09-02 Gemini API GA.
+
+agy also accepts `--effort xhigh` and `max`, but the Gemini model
+documentation confirms only `low`/`medium`/`high`, so only those are
+supported. The access path for orchestrated runs is unresolved: the
+[Antigravity FAQ](https://www.antigravity.google/docs/faq/) supports direct
+`agy -p` scripting, but not wrapping agy in third-party coding agents under
+consumer plans. Gemini API prices in the catalogue do not establish
+Antigravity subscription costs.
 
 ## External evidence, retrieved 2026-09-25
 

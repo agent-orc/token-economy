@@ -2,3 +2,7 @@
 docs/system/domains/model-routing-policy.md text eol=lf
 # Generated source is byte-compared with its LF-rendered catalog projection.
 src/TokenEconomy/KnownModels.g.cs text eol=lf
+# Price snapshots are SHA-256 pinned in their index, and the embedded catalog is
+# byte-compared with the current snapshot; both hold LF repository bytes.
+src/TokenEconomy/catalog/price-snapshots/*.json text eol=lf
+src/TokenEconomy/catalog/model-prices.json text eol=lf

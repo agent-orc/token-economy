@@ -49,9 +49,10 @@
         "providerId": { "type": "string" }, "cliId": { "type": "string" }, "priceCatalogId": { "type": "string" },
         "mediaCatalogModelId": { "type": "string" }, "trustModelId": { "type": "string" },
         "supportedThinkingLevels": { "type": "array", "items": { "type": "string" }, "minItems": 1 },
+        "minimumCliVersion": { "type": "string", "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$" },
         "routingStatus": { "enum": ["selectable", "fallbackOnly", "unsupported", "restricted", "deprecated"] },
         "evidenceStatus": { "enum": ["unknown", "provisional", "observational", "observed", "correctnessFloor"] },
-        "provisional": { "type": "boolean" }, "capabilityTier": { "enum": ["light", "balanced", "frontier"] },
+        "provisional": { "type": "boolean" }, "testOnly": { "type": "boolean" }, "capabilityTier": { "enum": ["light", "balanced", "frontier"] },
         "workflowRoles": { "type": "array", "items": { "enum": ["coreTask", "boundedPipelineDecision"] } }, "note": { "type": "string" }
       }
     },

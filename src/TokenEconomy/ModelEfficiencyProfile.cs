@@ -47,6 +47,9 @@ public sealed record ModelEfficiencyProfile
     /// <summary>True when the route is a visible hypothesis pending stronger controlled evidence.</summary>
     public bool Provisional { get; init; }
 
+    /// <summary>True when the model may be evaluated for a pin but not automatically suggested.</summary>
+    public bool TestOnly { get; init; }
+
     /// <summary>Optional human note explaining the tier choice or a routing caveat.</summary>
     public string? Note { get; init; }
 

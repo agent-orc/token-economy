@@ -131,7 +131,7 @@ public static class EfficiencyPolicy
     /// every model, so the resulting order reflects relative price. (Input-heavy with modest output, as a
     /// typical agent turn is.)
     /// </summary>
-    public static readonly TokenUsage CostReferenceUsage = new(Input: 1_000_000, Output: 200_000);
+    public static readonly TokenUsage CostReferenceUsage = new(Input: 1_000_000, Output: 200_000, PromptTokens: 20_000);
 
     /// <summary>
     /// Bucket the cost of <see cref="CostReferenceUsage"/> into a <see cref="CostClass"/>. A null cost

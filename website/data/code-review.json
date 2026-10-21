@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAtUtc": "2026-10-04T22:24:24.360680+00:00",
+  "generatedAtUtc": "2026-10-20T22:10:58.020470+00:00",
   "asOfUtc": "2026-10-04T00:00:00Z",
   "source": {
     "benchmarkTypes": "src/TokenEconomy/catalog/benchmark-types.json",
@@ -949,6 +949,18 @@
       "displayName": "Claude Opus 5.5"
     },
     {
+      "modelId": "claude-haiku-5-5",
+      "displayName": "Claude Haiku 5.5"
+    },
+    {
+      "modelId": "gemini-4-argon",
+      "displayName": "Gemini 4 Argon"
+    },
+    {
+      "modelId": "gemini-3.8-flash",
+      "displayName": "Gemini 3.8 Flash"
+    },
+    {
       "modelId": "claude-fable-5-1",
       "displayName": "Claude Fable 5.1"
     },
@@ -1121,6 +1133,32 @@
       },
       {
         "canonicalModel": "claude-haiku-4-5",
+        "taskClass": "review",
+        "runCount": 0,
+        "filesReviewed": 0,
+        "findingsReported": 0,
+        "outcomeAvailableRunCount": 0,
+        "confirmedFindings": 0,
+        "dismissedFindings": 0,
+        "assessedFindingCount": 0,
+        "findingOutcomeCoverage": null,
+        "findingConfirmationRate": null,
+        "thinkingLevels": [],
+        "reviewAspects": [],
+        "observedThrough": null,
+        "evidenceStatus": "unknown",
+        "evidenceQuality": "insufficientEvidence",
+        "suitability": null,
+        "gateFailures": [
+          "run count 0 is below 20",
+          "assessed finding count 0 is below 20",
+          "finding outcome coverage is unavailable or below the declared gate",
+          "finding confirmation rate is unavailable"
+        ],
+        "provenance": []
+      },
+      {
+        "canonicalModel": "claude-haiku-5-5",
         "taskClass": "review",
         "runCount": 0,
         "filesReviewed": 0,
@@ -1407,6 +1445,58 @@
       },
       {
         "canonicalModel": "claude-sonnet-5-5",
+        "taskClass": "review",
+        "runCount": 0,
+        "filesReviewed": 0,
+        "findingsReported": 0,
+        "outcomeAvailableRunCount": 0,
+        "confirmedFindings": 0,
+        "dismissedFindings": 0,
+        "assessedFindingCount": 0,
+        "findingOutcomeCoverage": null,
+        "findingConfirmationRate": null,
+        "thinkingLevels": [],
+        "reviewAspects": [],
+        "observedThrough": null,
+        "evidenceStatus": "unknown",
+        "evidenceQuality": "insufficientEvidence",
+        "suitability": null,
+        "gateFailures": [
+          "run count 0 is below 20",
+          "assessed finding count 0 is below 20",
+          "finding outcome coverage is unavailable or below the declared gate",
+          "finding confirmation rate is unavailable"
+        ],
+        "provenance": []
+      },
+      {
+        "canonicalModel": "gemini-3.8-flash",
+        "taskClass": "review",
+        "runCount": 0,
+        "filesReviewed": 0,
+        "findingsReported": 0,
+        "outcomeAvailableRunCount": 0,
+        "confirmedFindings": 0,
+        "dismissedFindings": 0,
+        "assessedFindingCount": 0,
+        "findingOutcomeCoverage": null,
+        "findingConfirmationRate": null,
+        "thinkingLevels": [],
+        "reviewAspects": [],
+        "observedThrough": null,
+        "evidenceStatus": "unknown",
+        "evidenceQuality": "insufficientEvidence",
+        "suitability": null,
+        "gateFailures": [
+          "run count 0 is below 20",
+          "assessed finding count 0 is below 20",
+          "finding outcome coverage is unavailable or below the declared gate",
+          "finding confirmation rate is unavailable"
+        ],
+        "provenance": []
+      },
+      {
+        "canonicalModel": "gemini-4-argon",
         "taskClass": "review",
         "runCount": 0,
         "filesReviewed": 0,

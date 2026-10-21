@@ -1,15 +1,15 @@
 {
   "schemaVersion": 1,
-  "generatedAtUtc": "2026-10-04T22:24:24.358642+00:00",
-  "asOfUtc": "2026-10-04T00:00:00Z",
+  "generatedAtUtc": "2026-10-20T22:10:58.016191+00:00",
+  "asOfUtc": "2026-10-16T00:00:00Z",
   "currency": "USD",
   "unit": "per-million-tokens",
   "source": "src/TokenEconomy/catalog/model-prices.json",
-  "scope": "Direct-provider standard text-token rates; Anthropic 5-minute cache writes; context and service tiers require explicit custom rates.",
+  "scope": "Direct-provider standard text-token rates, including catalogued prompt-size tiers; Anthropic 5-minute cache writes. Other service tiers require explicit custom rates.",
   "coverage": {
-    "catalogModels": 27,
-    "pricedModels": 27,
-    "pricePeriods": 30
+    "catalogModels": 30,
+    "pricedModels": 30,
+    "pricePeriods": 35
   },
   "models": [
     {
@@ -19,7 +19,8 @@
       "releaseDate": "2026-09-28",
       "releaseDateSource": "https://platform.claude.com/docs/en/models/sonnet-5-5/overview",
       "note": "Current Sonnet since 2026-09-28 at the Sonnet 5 price. Claude Code needs v2.1.284 or later; a 2026-09-29 probe with Claude Code 2.1.281 returned unrecognized_model.",
-      "selectionStatus": "unsupported",
+      "selectionStatus": "selectable",
+      "testOnly": false,
       "deprecated": false,
       "history": [
         {
@@ -50,6 +51,7 @@
       "releaseDateSource": "https://platform.claude.com/docs/en/models/opus-5-5/overview",
       "note": null,
       "selectionStatus": "selectable",
+      "testOnly": false,
       "deprecated": false,
       "history": [
         {
@@ -73,6 +75,142 @@
       ]
     },
     {
+      "modelId": "claude-haiku-5-5",
+      "displayName": "Claude Haiku 5.5",
+      "vendor": "anthropic",
+      "releaseDate": "2026-10-07",
+      "releaseDateSource": "https://platform.claude.com/docs/en/release-notes/overview#october-7-2026",
+      "note": "1M context, 128K max output; adaptive thinking at low/medium/high/xhigh/max (medium default). Claude Code changelog first lists support in v2.1.293; operator probe on 2026-10-16: v2.1.301 returned modelUsage claude-haiku-5-5 and $0.0033, while v2.1.281 rejected the id and silently used claude-haiku-4-5-20251001.",
+      "selectionStatus": "selectable",
+      "testOnly": false,
+      "deprecated": false,
+      "history": [
+        {
+          "validFrom": "2026-10-07T00:00:00Z",
+          "inputPerMTok": 0.1,
+          "outputPerMTok": 0.5,
+          "cacheReadPerMTok": 0.01,
+          "currency": "USD",
+          "source": "Anthropic pricing, model overview, and October 7 release notes; verified 2026-10-16.",
+          "sourceUrls": [
+            "https://platform.claude.com/docs/en/about-claude/pricing",
+            "https://platform.claude.com/docs/en/models/haiku-5-5/overview",
+            "https://platform.claude.com/docs/en/release-notes/overview#october-7-2026"
+          ],
+          "verifiedOn": "2026-10-16",
+          "validFromBasis": "provider-announced-date",
+          "note": "Standard global Claude API rates. Prompt size includes fresh input and cache reads/writes; above 100K the higher tariff applies to every token of the request. Cache-write rates use 5-minute retention; 1-hour writes are $0.20/$1 per MTok. Batch input/output are 50% of standard.",
+          "unconfirmed": false,
+          "cacheWritePerMTok": 0.125,
+          "promptSizeTiers": [
+            {
+              "minPromptTokens": 100001,
+              "inputPerMTok": 0.5,
+              "outputPerMTok": 2.5,
+              "cacheReadPerMTok": 0.05,
+              "cacheWritePerMTok": 0.625
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "modelId": "gemini-4-argon",
+      "displayName": "Gemini 4 Argon",
+      "vendor": "google",
+      "releaseDate": "2026-10-13",
+      "releaseDateSource": "https://ai.google.dev/gemini-api/docs/changelog",
+      "note": "1,048,576 unified context tokens; default synchronous output 65,536, long decode up to 1,048,576. Gemini API thinking low/medium/high. Antigravity CLI rollout was announced October 13; agy 1.4.0 operator model listing observed October 16.",
+      "selectionStatus": "selectable",
+      "testOnly": true,
+      "deprecated": false,
+      "history": [
+        {
+          "validFrom": "2026-10-13T00:00:00Z",
+          "inputPerMTok": 2,
+          "outputPerMTok": 10,
+          "cacheReadPerMTok": 0.1,
+          "currency": "USD",
+          "source": "Google Gemini API pricing and October 13 release notes; verified 2026-10-16.",
+          "sourceUrls": [
+            "https://ai.google.dev/gemini-api/docs/pricing",
+            "https://ai.google.dev/gemini-api/docs/changelog",
+            "https://ai.google.dev/gemini-api/docs/models/gemini-4-argon"
+          ],
+          "verifiedOn": "2026-10-16",
+          "validFromBasis": "provider-announced-date",
+          "note": "Standard paid Gemini API text rate; implicit cache reads only, explicit cache writes unsupported. Introductory tariff through November 30, 2026. API rates are not Antigravity subscription charges.",
+          "unconfirmed": false,
+          "validTo": "2026-11-30T23:59:59.9999999Z"
+        },
+        {
+          "validFrom": "2026-12-01T00:00:00Z",
+          "inputPerMTok": 4,
+          "outputPerMTok": 20,
+          "cacheReadPerMTok": 0.2,
+          "currency": "USD",
+          "source": "Google Gemini API announced December 1 tariff; verified 2026-10-16.",
+          "sourceUrls": [
+            "https://ai.google.dev/gemini-api/docs/pricing",
+            "https://ai.google.dev/gemini-api/docs/changelog",
+            "https://ai.google.dev/gemini-api/docs/models/gemini-4-argon"
+          ],
+          "verifiedOn": "2026-10-16",
+          "validFromBasis": "provider-announced-date",
+          "note": "Announced future standard paid Gemini API text rate; implicit cache reads only, explicit cache writes unsupported. API rates are not Antigravity subscription charges.",
+          "unconfirmed": false
+        }
+      ]
+    },
+    {
+      "modelId": "gemini-3.8-flash",
+      "displayName": "Gemini 3.8 Flash",
+      "vendor": "google",
+      "releaseDate": "2026-09-01",
+      "releaseDateSource": "https://www.antigravity.google/blog/gemini-3-8-flash-in-google-antigravity",
+      "note": "Antigravity announced availability September 1; Gemini API GA release notes date September 2, which begins this API tariff. Input limit 1,048,576 tokens, output limit 65,536. Gemini API thinking low/medium/high; agy 1.4.0 operator model listing observed October 16.",
+      "selectionStatus": "selectable",
+      "testOnly": true,
+      "deprecated": false,
+      "history": [
+        {
+          "validFrom": "2026-09-02T00:00:00Z",
+          "inputPerMTok": 0.75,
+          "outputPerMTok": 3.75,
+          "cacheReadPerMTok": 0.075,
+          "currency": "USD",
+          "source": "Google Gemini API pricing and September 2 release notes; verified 2026-10-16.",
+          "sourceUrls": [
+            "https://ai.google.dev/gemini-api/docs/pricing",
+            "https://ai.google.dev/gemini-api/docs/changelog",
+            "https://ai.google.dev/gemini-api/docs/models/gemini-3.8-flash"
+          ],
+          "verifiedOn": "2026-10-16",
+          "validFromBasis": "provider-announced-date",
+          "note": "Standard paid Gemini API text rate. Explicit caching storage adds $0.50 per million tokens per hour; this time-based charge is outside ComputeCost. API rates are not Antigravity subscription charges.",
+          "unconfirmed": false,
+          "validTo": "2026-12-31T23:59:59.9999999Z"
+        },
+        {
+          "validFrom": "2027-01-01T00:00:00Z",
+          "inputPerMTok": 1.5,
+          "outputPerMTok": 7.5,
+          "cacheReadPerMTok": 0.15,
+          "currency": "USD",
+          "source": "Google Gemini API announced January 1 tariff; verified 2026-10-16.",
+          "sourceUrls": [
+            "https://ai.google.dev/gemini-api/docs/pricing",
+            "https://ai.google.dev/gemini-api/docs/changelog",
+            "https://ai.google.dev/gemini-api/docs/models/gemini-3.8-flash"
+          ],
+          "verifiedOn": "2026-10-16",
+          "validFromBasis": "provider-announced-date",
+          "note": "Announced future standard paid Gemini API text rate. Explicit caching storage adds $1.00 per million tokens per hour; this time-based charge is outside ComputeCost. API rates are not Antigravity subscription charges.",
+          "unconfirmed": false
+        }
+      ]
+    },
+    {
       "modelId": "claude-fable-5-1",
       "displayName": "Claude Fable 5.1",
       "vendor": "anthropic",
@@ -80,6 +218,7 @@
       "releaseDateSource": "https://platform.claude.com/docs/en/models/fable-5-1/overview",
       "note": null,
       "selectionStatus": "selectable",
+      "testOnly": false,
       "deprecated": false,
       "history": [
         {
@@ -111,6 +250,7 @@
       "releaseDateSource": "https://platform.claude.com/docs/en/models/fable-5/overview",
       "note": null,
       "selectionStatus": "unsupported",
+      "testOnly": false,
       "deprecated": false,
       "history": [
         {
@@ -141,6 +281,7 @@
       "releaseDateSource": "https://platform.claude.com/docs/en/models/opus-5/overview",
       "note": null,
       "selectionStatus": "selectable",
+      "testOnly": false,
       "deprecated": false,
       "history": [
         {
@@ -171,6 +312,7 @@
       "releaseDateSource": "https://platform.claude.com/docs/en/models/sonnet-5/overview",
       "note": "Sonnet 5 retains its launch price: the scheduled September increase was cancelled on 2026-08-10. Legacy since Claude Sonnet 5.5 launched on 2026-09-28; retirement not sooner than 2027-06-30 (Anthropic model deprecations, retrieved 2026-09-29).",
       "selectionStatus": "fallbackOnly",
+      "testOnly": false,
       "deprecated": false,
       "history": [
         {
@@ -202,6 +344,7 @@
       "releaseDateSource": "https://platform.claude.com/docs/en/release-notes/overview#may-28-2026",
       "note": null,
       "selectionStatus": "unsupported",
+      "testOnly": false,
       "deprecated": false,
       "history": [
         {
@@ -232,6 +375,7 @@
       "releaseDateSource": "https://platform.claude.com/docs/en/release-notes/overview#april-16-2026",
       "note": null,
       "selectionStatus": "unsupported",
+      "testOnly": false,
       "deprecated": false,
       "history": [
         {
@@ -262,6 +406,7 @@
       "releaseDateSource": "https://platform.claude.com/docs/en/models/opus-4-6/overview",
       "note": null,
       "selectionStatus": "unsupported",
+      "testOnly": false,
       "deprecated": false,
       "history": [
         {
@@ -293,6 +438,7 @@
       "releaseDateSource": "https://platform.claude.com/docs/en/models/opus-4-5/overview",
       "note": "Standard Claude API rates are officially confirmed; earlier provisional pricing flags were corrected on 2026-09-12.",
       "selectionStatus": "unsupported",
+      "testOnly": false,
       "deprecated": false,
       "history": [
         {
@@ -324,6 +470,7 @@
       "releaseDateSource": "https://platform.claude.com/docs/en/release-notes/overview#august-5-2025",
       "note": "Historical $15/$75 Standard Claude API prices confirmed. Direct API retired on 2026-08-05; kept for historical logs and deprecated-model comparison.",
       "selectionStatus": "deprecated",
+      "testOnly": false,
       "deprecated": true,
       "history": [
         {
@@ -356,6 +503,7 @@
       "releaseDateSource": "https://platform.claude.com/docs/en/models/sonnet-4-6/overview",
       "note": null,
       "selectionStatus": "unsupported",
+      "testOnly": false,
       "deprecated": false,
       "history": [
         {
@@ -387,6 +535,7 @@
       "releaseDateSource": "https://platform.claude.com/docs/en/release-notes/overview#september-29-2025",
       "note": "Standard Claude API rates are officially confirmed; earlier provisional pricing flags were corrected on 2026-09-12.",
       "selectionStatus": "unsupported",
+      "testOnly": false,
       "deprecated": false,
       "history": [
         {
@@ -418,6 +567,7 @@
       "releaseDateSource": "https://platform.claude.com/docs/en/models/haiku-4-5/overview",
       "note": "Active; Anthropic commits to retirement not sooner than 2026-10-15 and has announced no deprecation (retrieved 2026-09-29).",
       "selectionStatus": "selectable",
+      "testOnly": false,
       "deprecated": false,
       "history": [
         {
@@ -449,6 +599,7 @@
       "releaseDateSource": "https://openai.com/index/safety-overview-gpt-6-astra/",
       "note": null,
       "selectionStatus": "selectable",
+      "testOnly": false,
       "deprecated": false,
       "history": [
         {
@@ -481,6 +632,7 @@
       "releaseDateSource": "https://developers.openai.com/api/docs/changelog",
       "note": "Codex CLI 0.155.0 probe on 2026-10-04 returned HTTP 400: model not supported with this ChatGPT account; CLI execution availability remains unconfirmed.",
       "selectionStatus": "selectable",
+      "testOnly": false,
       "deprecated": false,
       "history": [
         {
@@ -490,16 +642,25 @@
           "cacheWritePerMTok": 2.5,
           "outputPerMTok": 10,
           "currency": "USD",
-          "source": "OpenAI API changelog, pricing page and model page; verified 2026-10-04. https://developers.openai.com/api/docs/changelog; https://developers.openai.com/api/docs/pricing; https://developers.openai.com/api/docs/models/gpt-6.1-sol",
+          "source": "OpenAI API changelog, pricing page and model page; verified 2026-10-04. https://developers.openai.com/api/docs/changelog; https://developers.openai.com/api/docs/pricing; https://developers.openai.com/api/docs/models/gpt-6.1-sol Long-context tariff re-verified 2026-10-16 against the official model and pricing pages.",
           "sourceUrls": [
             "https://developers.openai.com/api/docs/changelog",
             "https://developers.openai.com/api/docs/pricing",
             "https://developers.openai.com/api/docs/models/gpt-6.1-sol"
           ],
-          "verifiedOn": "2026-10-04",
+          "verifiedOn": "2026-10-16",
           "validFromBasis": "provider-announced-date",
-          "note": "Standard short-context direct API tariff for prompts up to 272K input tokens. The provider pricing and model pages print the long-context tariff above 272K as $4 input, $0.20 cached input, $5 cache write and $15 output per MTok for the full request; that alternate tariff is not represented by this entry. Midnight UTC normalizes the announced calendar date, not a published intraday billing cutover.",
-          "unconfirmed": false
+          "note": "Standard short-context direct API tariff for prompts up to 272K input tokens. The provider pricing and model pages print the long-context tariff above 272K as $4 input, $0.20 cached input, $5 cache write and $15 output per MTok for the full request; the long-context tariff is represented by promptSizeTiers. Midnight UTC normalizes the announced calendar date, not a published intraday billing cutover.",
+          "unconfirmed": false,
+          "promptSizeTiers": [
+            {
+              "minPromptTokens": 272001,
+              "inputPerMTok": 4,
+              "outputPerMTok": 15,
+              "cacheReadPerMTok": 0.2,
+              "cacheWritePerMTok": 5
+            }
+          ]
         }
       ]
     },
@@ -511,6 +672,7 @@
       "releaseDateSource": "https://developers.openai.com/api/docs/changelog",
       "note": null,
       "selectionStatus": "selectable",
+      "testOnly": false,
       "deprecated": false,
       "history": [
         {
@@ -541,6 +703,7 @@
       "releaseDateSource": "https://developers.openai.com/api/docs/changelog",
       "note": null,
       "selectionStatus": "selectable",
+      "testOnly": false,
       "deprecated": false,
       "history": [
         {
@@ -571,6 +734,7 @@
       "releaseDateSource": "https://openai.com/index/previewing-gpt-5-6-sol/",
       "note": null,
       "selectionStatus": "selectable",
+      "testOnly": false,
       "deprecated": false,
       "history": [
         {
@@ -622,6 +786,7 @@
       "releaseDateSource": "https://openai.com/index/previewing-gpt-5-6-sol/",
       "note": null,
       "selectionStatus": "selectable",
+      "testOnly": false,
       "deprecated": false,
       "history": [
         {
@@ -673,6 +838,7 @@
       "releaseDateSource": "https://openai.com/index/previewing-gpt-5-6-sol/",
       "note": "GPT-5.6 Sol; gpt-5.6 remains a compatibility alias. The current promotion began 2026-08-21 and is available at least through 2026-11-21; no reversion date or future rate is announced.",
       "selectionStatus": "selectable",
+      "testOnly": false,
       "deprecated": false,
       "history": [
         {
@@ -725,6 +891,7 @@
       "releaseDateSource": "https://openai.com/index/introducing-gpt-5-4-mini-and-nano/",
       "note": "Retired from Codex with ChatGPT sign-in on 2026-08-31 (replacement: gpt-6-luna); the OpenAI API and API-key Codex are unaffected. A 2026-09-29 runner probe with codex-cli 0.155.0 on a ChatGPT account returned HTTP 400 'not supported when using Codex with a ChatGPT account'.",
       "selectionStatus": "selectable",
+      "testOnly": false,
       "deprecated": false,
       "history": [
         {
@@ -756,6 +923,7 @@
       "releaseDateSource": "https://openai.com/index/introducing-gpt-5-5/",
       "note": "Retires from ChatGPT, ChatGPT Work and Codex with ChatGPT sign-in on 2026-10-14; the OpenAI API is unaffected (Codex models page, retrieved 2026-09-29).",
       "selectionStatus": "unsupported",
+      "testOnly": false,
       "deprecated": false,
       "history": [
         {
@@ -787,6 +955,7 @@
       "releaseDateSource": "https://openai.com/index/introducing-gpt-5-5/",
       "note": null,
       "selectionStatus": "unsupported",
+      "testOnly": false,
       "deprecated": false,
       "history": [
         {
@@ -816,6 +985,7 @@
       "releaseDateSource": "https://openai.com/index/gpt-5-5-with-trusted-access-for-cyber/",
       "note": "Restricted-access Cyber model; gpt-5.5-cyber is its pricing-table alias. Current price is confirmed, while the first historical price date remains a release-date inference.",
       "selectionStatus": "restricted",
+      "testOnly": false,
       "deprecated": false,
       "history": [
         {
@@ -845,6 +1015,7 @@
       "releaseDateSource": "https://openai.com/index/introducing-gpt-5/",
       "note": "Historical Standard direct API prices are confirmed. Routing policy and API lifecycle are independent of price coverage.",
       "selectionStatus": "unsupported",
+      "testOnly": false,
       "deprecated": false,
       "history": [
         {
@@ -875,6 +1046,7 @@
       "releaseDateSource": "https://openai.com/index/introducing-upgrades-to-codex/",
       "note": "Historical Standard direct API prices are confirmed. Routing policy and API lifecycle are independent of price coverage.",
       "selectionStatus": "unsupported",
+      "testOnly": false,
       "deprecated": false,
       "history": [
         {

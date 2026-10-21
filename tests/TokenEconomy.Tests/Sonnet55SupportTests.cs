@@ -29,16 +29,20 @@ public sealed class Sonnet55SupportTests
     }
 
     [Fact]
-    public void RunnerCliGapKeepsTheModelUnsupportedWithTheDocumentedLadder()
+    public void UpdatedRunnerMakesSonnetSelectableWithTheDocumentedLadder()
     {
         var knowledge = ModelRoutingKnowledgeBase.Default;
         var model = knowledge.FindModel(KnownModels.ClaudeSonnet55.Value)!;
 
         Assert.Equal(new[] { "low", "medium", "high", "xhigh", "max" }, model.SupportedThinkingLevels);
-        Assert.Equal(ModelRoutingStatus.Unsupported, model.RoutingStatus);
-        Assert.Contains("2.1.284", model.Note);
-        Assert.Equal(ModelRouteResolutionStatus.UnsupportedModel,
-            knowledge.Resolve(KnownModels.ClaudeSonnet55, "medium", RoutingWorkflowRole.CoreTask).Status);
+        Assert.Equal(ModelRoutingStatus.Selectable, model.RoutingStatus);
+        Assert.Equal("2.1.284", model.MinimumCliVersion);
+        Assert.Equal(ModelRouteResolutionStatus.CliVersionTooOld,
+            knowledge.Resolve(KnownModels.ClaudeSonnet55, "medium", RoutingWorkflowRole.CoreTask, new Version(2, 1, 281)).Status);
+        Assert.True(knowledge.Resolve(KnownModels.ClaudeSonnet55, "medium", RoutingWorkflowRole.CoreTask,
+            new Version(2, 1, 284)).IsResolved);
+        Assert.True(knowledge.Resolve(KnownModels.ClaudeSonnet55, "medium", RoutingWorkflowRole.CoreTask,
+            new Version(2, 1, 305)).IsResolved);
     }
 
     [Fact]

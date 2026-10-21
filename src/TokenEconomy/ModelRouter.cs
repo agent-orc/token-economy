@@ -665,6 +665,7 @@ public sealed class ModelRouter
     {
         "codex" => Cli.Codex,
         "claude-code" => Cli.Claude,
+        "antigravity" or "agy" => Cli.Antigravity,
         _ => throw new InvalidOperationException($"Unknown policy CLI '{model.CliId}'."),
     };
 
@@ -677,6 +678,7 @@ public sealed class ModelRouter
     {
         "codex" => cli == Cli.Codex,
         "claude" or "claude-code" => cli == Cli.Claude,
+        "antigravity" or "agy" => cli == Cli.Antigravity,
         _ => false,
     };
 

@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "description": "Immutable, dated copies of the price catalog. The newest entry is byte-identical to ../model-prices.json, which the library embeds; older entries are never edited.",
-  "current": "2026-10-04",
+  "current": "2026-10-16",
   "snapshots": [
     {
       "id": "2026-09-24",
@@ -38,6 +38,18 @@
       "summary": "Adds GPT-6.1 Sol with OpenAI-dated standard short-context pricing; every shared listing and rate remains unchanged from 2026-09-29.",
       "sources": [
         "docs/model-catalogue-refresh-2026-10-04.md"
+      ]
+    },
+    {
+      "id": "2026-10-16",
+      "retrievedOn": "2026-10-16",
+      "firstShippedIn": "0.3.8",
+      "path": "model-prices.2026-10-16.json",
+      "sha256": "5007ff7361558d55c78b03d4f6017ea85eae523a3eadff9acf49de4ffbfae54b",
+      "listings": 30,
+      "summary": "Adds Claude Haiku 5.5, Gemini 4 Argon, and Gemini 3.8 Flash with prompt-size tiers and announced future Gemini tariffs (TE-62).",
+      "sources": [
+        "docs/model-catalogue-refresh-2026-10-16.md"
       ]
     }
   ]

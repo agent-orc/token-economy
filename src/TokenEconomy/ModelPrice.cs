@@ -39,6 +39,9 @@ public sealed record ModelPrice
     /// </summary>
     public decimal? CacheWritePerMTok { get; init; }
 
+    /// <summary>Whole-request tariffs selected by prompt length. The base rates apply below the first threshold.</summary>
+    public IReadOnlyList<PromptSizePriceTier> PromptSizeTiers { get; init; } = [];
+
     /// <summary>ISO 4217 currency code the rates are quoted in. Defaults to <see cref="Currencies.Usd"/>.</summary>
     public string Currency { get; init; } = Currencies.Usd;
 
@@ -86,6 +89,21 @@ public sealed record ModelPrice
 
     /// <summary>The required consumer-facing caveat for catalog-derived list-price estimates.</summary>
     public const string EstimatedListPricesCaveat = "estimated - list prices";
+}
+
+/// <summary>A whole-request tariff that starts when a single request's prompt reaches <see cref="MinPromptTokens"/>.</summary>
+public sealed record PromptSizePriceTier
+{
+    /// <summary>Inclusive prompt length, including cache reads and writes.</summary>
+    public required long MinPromptTokens { get; init; }
+    /// <summary>Input rate per million tokens for the full request.</summary>
+    public required decimal InputPerMTok { get; init; }
+    /// <summary>Output rate per million tokens for the full request.</summary>
+    public required decimal OutputPerMTok { get; init; }
+    /// <summary>Cache-read rate per million tokens, or null to use the input rate.</summary>
+    public decimal? CacheReadPerMTok { get; init; }
+    /// <summary>Cache-write rate per million tokens, or null to use the input rate.</summary>
+    public decimal? CacheWritePerMTok { get; init; }
 }
 
 /// <summary>
@@ -138,4 +156,5 @@ public sealed record ModelListing
 /// <param name="Output">Generated output tokens (reasoning tokens are billed as output by the providers that report them).</param>
 /// <param name="CacheRead">Cache-read (cache-hit) input tokens.</param>
 /// <param name="CacheWrite">Cache-write (cache-creation) input tokens.</param>
-public readonly record struct TokenUsage(long Input, long Output, long CacheRead = 0, long CacheWrite = 0);
+/// <param name="PromptTokens">Length of one request's full prompt, including cached tokens. Required for prompt-size tariffs; aggregate usage alone cannot establish a tier.</param>
+public readonly record struct TokenUsage(long Input, long Output, long CacheRead = 0, long CacheWrite = 0, long? PromptTokens = null);
