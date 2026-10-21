@@ -1,29 +1,36 @@
-# TE-66 status
+# TE-67 status
 
 Result: done
-Implementation result SHA: `9b45805f15adeb54934ab186e86b3c5f5210beb4` (fix). The branch head after it changes only this file.
+Implementation result SHA: `be31b5bf3a2aa2bc0bfa16bb8fcc4c493adaffab`. Commits after it on the branch change only this file.
 
-## Failing test on windows-latest
+## Why the check timed out
 
-I read the logs of every failing `ci` run on main through the Actions API. The logs are saved as `ci-main-c6d1de5-windows.log` in the results directory. In every failing windows-latest Test step, exactly one test failed, out of 584 in c6d1de5:
+The failing ubuntu job on main (run 39551990303, `9b1dc1d`, log `ci-main-9b1dc1d-ubuntu.log` in the results directory) failed in `scripts/test-context-cost.mjs` with `Timed out waiting for DevTools.` The stderr was empty after 15 s. The script used three timing-dependent waits:
 
-- `TokenEconomy.Tests.PriceSnapshotTests.EverySnapshotIsHashPinnedAndLoadsAsACatalog`. The expected hash was `76b69e30…` (the `sha256` in `price-snapshots/index.json` for `model-prices.2026-09-24.json`), the actual hash was `b432b938…`.
+- **Browser start:** it waited a fixed 15 s for Chrome to print `DevTools listening on …` to stderr. It had no retry. The first Chrome start in a fresh runner job is a cold start (disk, font cache, profile creation), and Chrome prints nothing until DevTools listens. The passing probe run measured this cold start at **12.6 s** on the runner. The second Chrome start in the same job took 0.5 s. So a normal cold start sits close to the 15 s limit, which explains the intermittent failures (c6d1de5 passed, TE-66 probe run 39534648628 and 9b1dc1d failed).
+- **App readiness:** an in-page poll capped at 10 s. It did not report which step was waiting.
+- **Downloads:** a fixed 800 ms sleep before it read the downloaded files.
 
-Correction to the timeline in the card: the windows-latest Test step has failed since 99fb473 (2026-09-29), the commit that added `price-snapshots/`. It failed in the runs for 99fb473, a96995d, 61f2fa3, b925640, ca09e34, 1207248 and c6d1de5. In the runs for bf6f8a9, bd67a08, 7fe56fb and a0bfadd, windows-latest passed 498/498. Those runs failed only because of the ubuntu "Check website and context-cost explorer" step.
+`scripts/test-language-page.mjs` runs in the same CI step and had the same 15 s stderr wait, so I fixed it the same way.
 
-## Classification
+## Change
 
-This is a checkout line-ending problem, not a product defect, and the test's assumption is correct. In the repository, the snapshots and `model-prices.json` are stored with LF (`git ls-files --eol`: `i/lf`). The SHA-256 pins in `index.json` are taken over those repository bytes. The windows-latest checkout uses `core.autocrlf=true`, so the files arrived with CRLF and the hash differed. At runtime, `ModelPriceCatalogData` only deserializes the embedded JSON, and line endings do not change the parsed catalog. The release packages are built on ubuntu.
+New shared module `scripts/headless-browser.mjs`. Both website checks use it:
 
-## Fix
+- **Explicit readiness signal for the start:** Chrome writes `DevToolsActivePort` into its profile once DevTools listens. The harness waits for that file, then for a page target on `/json/list`, then for `Page.enable`/`Runtime.enable`/`Log.enable` to answer. It does not parse stderr. Each attempt has a 60 s budget. It also adds the standard headless flags (`--no-first-run`, `--disable-dev-shm-usage`, `--disable-background-networking`, `--disable-component-update`, …).
+- **Bounded retry only around the browser start:** up to 3 attempts. Each attempt uses a fresh profile, and a failed Chrome process is killed with SIGKILL before the next attempt. Nothing after the start is retried.
+- **Explicit page conditions instead of sleeps:** `waitUntil` polls a page expression until a deadline (30 s). For the explorer it waits until `#app` is visible, which `explorer.mjs` does only after both data files loaded and the first forecast rendered. If `#loading` shows an error text, the wait stops at once with that text. Downloads are deleted first, then the harness polls until the three final file names exist (Chrome renames a download only when it is complete). The language page waits until `#load-status` no longer starts with `Loading`, and the task-study page waits until it shows 14 rows.
+- **Diagnostics on failure:** every failure prints the current step, the elapsed time, the live page URL (or the last navigated URL if the page does not answer), the last 25 console, exception and log messages, and the tail of Chrome's stderr. A start failure lists every attempt with its duration and error.
+- The CDP command timeout went from 15 s to 30 s. A closed socket now rejects pending commands at once instead of waiting for a timeout.
+- The old `.catch(() => {})` around profile removal is gone. A failed removal now logs a warning, so there is no empty catch.
 
-`.gitattributes` now declares `text eol=lf` for `src/TokenEconomy/catalog/price-snapshots/*.json` and `src/TokenEconomy/catalog/model-prices.json`. This follows the existing rules for the byte-hashed policy snapshot and `KnownModels.g.cs`. Every checkout now has the same bytes that the pins describe. That also keeps the embedded catalog identical to the current snapshot when the package is built on Windows. The test is unchanged and still proves the hash pin for every snapshot. `git add --renormalize .` changed no file content, so there was no line-ending rewrite. No test was skipped, so there is no open decision.
+The check still proves the same things. All assertions are unchanged: C#/browser parity for all 108 cases, eight charts, 3 presets × 4 models matching the C# totals, reasoning, quota, TTL, date, gap and compaction cases, no overflow at 1440/390 in light and dark, screenshots, and the three downloads with source evidence. The language page checks are also unchanged. `docs/context-cost-explorer.md` describes the harness. No line endings were changed (the three scripts are LF, with no CR before or after).
 
 ## Verification (remote, GitHub Actions)
 
-`ci` does not run for branch pushes and the runner token cannot open a PR (HTTP 403). I therefore pushed a temporary probe branch, `runner/agent-runner-01/TE-66-ci-probe`. It holds this branch's content plus one temporary commit that adds the probe branch to the `push` trigger of `ci.yml`. That commit is not part of this branch.
+`ci` does not run for branch pushes, so, as in TE-66, I pushed the temporary probe branch `runner/agent-runner-01/TE-67-ci-probe`. It holds this branch plus one temporary commit that adds the probe branch to the `push` trigger of `ci.yml`. That commit is not part of this branch.
 
-- Probe run 39534648628 on the fix commit: build & test (windows-latest) **passed 584/584**. build & test (ubuntu-latest) passed Restore, Build and Test (584/584). Its later step "Check website and context-cost explorer" failed because headless Chrome timed out (`scripts/test-context-cost.mjs`: "Timed out waiting for DevTools", dbus errors). That step does not touch the changed files. The token cannot re-run jobs (HTTP 403), so I pushed the probe again on the final head (see below).
-- Probe run 39534838902 on `e968ff2`, which is the branch head `594a2fa` plus the temporary trigger commit: the whole workflow is **success**. build & test (windows-latest) passed 584/584. build & test (ubuntu-latest) passed 584/584 and the website and context-cost checks passed. The logs are `ci-probe-e968ff2-windows.log` and `ci-probe-e968ff2-ubuntu.log` in the results directory. The probe branch was deleted afterwards.
-- The ubuntu website-check failure in the first probe run was a headless-Chrome timeout and did not recur on the same check with the same content. The ubuntu failures on main from bf6f8a9 to 99fb473 were in the same step. I did not investigate them further, because main has been green on ubuntu since a96995d.
-- Lint: `dotnet format style --verify-no-changes --severity error` is part of the review gate. This change touches no C# source.
+- Probe run 39553862059 on `c088d3e` (`be31b5b` plus the trigger commit): **success**. build & test (windows-latest) passed 584/584. build & test (ubuntu-latest) passed 584/584 and the step "Check website and context-cost explorer": `context-cost explorer: /usr/bin/chromium ready after 12566 ms (attempt 1/3)`, `34471 assertions passed`, `language page: … ready after 513 ms`, `23 language browser checks passed`. The logs are `ci-probe-c088d3e-ubuntu.log` and `ci-probe-c088d3e-windows.log` in the results directory.
+- The TE-66 probe branch `runner/agent-runner-01/TE-66-ci-probe` no longer existed on origin (`git ls-remote`), so there was nothing to delete.
+- Local checks: `node --check` on the three scripts. I did not build or test locally, because builds and tests run remotely. This change touches no C# source, so `dotnet format style --verify-no-changes --severity error` and the guard filter are unaffected. CI ran the full build and tests on both operating systems.
+- main itself turns green for both jobs once this branch is merged. The probe shows the merged content passing on both jobs.
