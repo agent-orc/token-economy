@@ -1,38 +1,27 @@
-# TE-67 status
+# TE-65 status
 
-Result: done
-Implementation result SHA: `be31b5bf3a2aa2bc0bfa16bb8fcc4c493adaffab`. Commits after it on the branch change only this file.
+Result: done. Implemented option: record verification only.
 
-## Why the check timed out
+The remaining TE-64 code-quality finding says tier pricing, the CLI version gate, and test-only exclusion are correctly wired. It identifies no defect. The original TE-65 delivery commit `9a5cc660a3a8e27d764e6836a725054f81b519c7` therefore records the checked behavior and why no code changed. It also addresses the earlier empty-diff and missing-evidence review findings.
 
-The failing ubuntu job on main (run 39551990303, `9b1dc1d`, log `ci-main-9b1dc1d-ubuntu.log` in the results directory) failed in `scripts/test-context-cost.mjs` with `Timed out waiting for DevTools.` The stderr was empty after 15 s. The script used three timing-dependent waits:
+## Integration recovery
 
-- **Browser start:** it waited a fixed 15 s for Chrome to print `DevTools listening on …` to stderr. It had no retry. The first Chrome start in a fresh runner job is a cold start (disk, font cache, profile creation), and Chrome prints nothing until DevTools listens. The two passing probe runs measured this cold start at **12.6 s** and **15.1 s** on the runner. The second Chrome start in the same job took 0.4–0.5 s. So a normal cold start sits at the 15 s limit (the old script would have failed the second probe run), which explains the intermittent failures (c6d1de5 passed, TE-66 probe run 39534648628 and 9b1dc1d failed).
-- **App readiness:** an in-page poll capped at 10 s. It did not report which step was waiting.
-- **Downloads:** a fixed 800 ms sleep before it read the downloaded files.
+The previous delivery failed at `merge-into-develop`: direct merge, mechanical merge, and rebase fallback all conflicted in `status.md` against integration tip `c6d1de5fcf37cc25d047811138f4e12e71b8de1a`. I restored the existing delivery commit and merged the latest `origin/main` (`47ec3ce6f500f4318948458db0fff50b8d3221fd`) into it. I resolved `status.md` as this TE-65 delivery report; the TE-64, TE-66, and TE-67 status reports remain available in the merge parent's history. The original TE-65 commit is retained unchanged as a parent of this merge. No integration branch was moved.
 
-`scripts/test-language-page.mjs` runs in the same CI step and had the same 15 s stderr wait, so I fixed it the same way.
+TE-64 is now on `main` through `c6d1de5`. In the merged tree:
 
-## Change
+- `ModelPriceCatalog` selects the highest eligible prompt-size tier and rejects invalid tier definitions.
+- `ModelRoutingKnowledgeBase.Resolve` returns `CliVersionTooOld` below each model's minimum CLI version; catalogue load validates that version.
+- `ModelEfficiencyMatrix.SuggestModel` skips `TestOnly` profiles. The onboarding tests check explicit pins and their exclusion from automatic suggestions.
 
-New shared module `scripts/headless-browser.mjs`. Both website checks use it:
+No implementation change was needed for this finding.
 
-- **Explicit readiness signal for the start:** Chrome writes `DevToolsActivePort` into its profile once DevTools listens. The harness waits for that file, then for a page target on `/json/list`, then for `Page.enable`/`Runtime.enable`/`Log.enable` to answer. It does not parse stderr. Each attempt has a 60 s budget. It also adds the standard headless flags (`--no-first-run`, `--disable-dev-shm-usage`, `--disable-background-networking`, `--disable-component-update`, …).
-- **Bounded retry only around the browser start:** up to 3 attempts. Each attempt uses a fresh profile, and a failed Chrome process is killed with SIGKILL before the next attempt. Nothing after the start is retried.
-- **Explicit page conditions instead of sleeps:** `waitUntil` polls a page expression until a deadline (30 s). For the explorer it waits until `#app` is visible, which `explorer.mjs` does only after both data files loaded and the first forecast rendered. If `#loading` shows an error text, the wait stops at once with that text. Downloads are deleted first, then the harness polls until the three final file names exist (Chrome renames a download only when it is complete). The language page waits until `#load-status` no longer starts with `Loading`, and the task-study page waits until it shows 14 rows.
-- **Diagnostics on failure:** every failure prints the current step, the elapsed time, the live page URL (or the last navigated URL if the page does not answer), the last 25 console, exception and log messages, and the tail of Chrome's stderr. A start failure lists every attempt with its duration and error.
-- The CDP command timeout went from 15 s to 30 s. A closed socket now rejects pending commands at once instead of waiting for a timeout.
-- The old `.catch(() => {})` around profile removal is gone. A failed removal now logs a warning, so there is no empty catch.
+## Verification
 
-The check still proves the same things. All assertions are unchanged: C#/browser parity for all 108 cases, eight charts, 3 presets × 4 models matching the C# totals, reasoning, quota, TTL, date, gap and compaction cases, no overflow at 1440/390 in light and dark, screenshots, and the three downloads with source evidence. The language page checks are also unchanged. `docs/context-cost-explorer.md` describes the harness. No line endings were changed (the three scripts are LF, with no CR before or after).
+Fresh logs from this recovery run are shipped in the task results directory:
 
-## Verification (remote, GitHub Actions)
-
-`ci` does not run for branch pushes, so, as in TE-66, I pushed the temporary probe branch `runner/agent-runner-01/TE-67-ci-probe`. It holds this branch plus one temporary commit that adds the probe branch to the `push` trigger of `ci.yml`. That commit is not part of this branch.
-
-- Probe run 39553862059 on `c088d3e` (`be31b5b` plus the trigger commit): **success**. build & test (windows-latest) passed 584/584. build & test (ubuntu-latest) passed 584/584 and the step "Check website and context-cost explorer": `context-cost explorer: /usr/bin/chromium ready after 12566 ms (attempt 1/3)`, `34471 assertions passed`, `language page: … ready after 513 ms`, `23 language browser checks passed`. The logs are `ci-probe-c088d3e-ubuntu.log` and `ci-probe-c088d3e-windows.log` in the results directory.
-- Probe run 39554098700 on `a5ec1fb` (`ef98b02` plus the trigger commit): **success**. windows-latest passed 584/584. ubuntu-latest passed 584/584 and the website step: `context-cost explorer: /usr/bin/chromium ready after 15120 ms (attempt 1/3)`, `34471 assertions passed`, `23 language browser checks passed`. The old fixed 15 s wait would have failed this run. The logs are `ci-probe-a5ec1fb-ubuntu.log` and `ci-probe-a5ec1fb-windows.log`.
-- I deleted the probe branch `runner/agent-runner-01/TE-67-ci-probe` after both runs. `git ls-remote origin` shows no probe branch.
-- The TE-66 probe branch `runner/agent-runner-01/TE-66-ci-probe` no longer existed on origin (`git ls-remote`), so there was nothing to delete.
-- Local checks: `node --check` on the three scripts. I did not build or test locally, because builds and tests run remotely. This change touches no C# source, so `dotnet format style --verify-no-changes --severity error` and the guard filter are unaffected. CI ran the full build and tests on both operating systems.
-- main itself turns green for both jobs once this branch is merged. The probe shows the merged content passing on both jobs.
+- `te65-build.log`: `dotnet build --no-restore -c Release` passed with 0 warnings and 0 errors.
+- `te65-focused-tests.log`: the `ModelPriceCatalogTests`, `ModelPriceSeedTests`, `ModelRoutingKnowledgeBaseTests`, `October2026ModelOnboardingTests`, `Sonnet55SupportTests`, `ModelEfficiencyMatrixTests`, and `ModelRouterTests` class filter passed 164/164 tests.
+- `te65-guard-tests.log`: `dotnet test --no-build -c Release --filter 'FullyQualifiedName~.Architecture.|Category=Guard'` completed; no tests match this filter in the repository's test project.
+- `te65-lint.log`: `dotnet format style --verify-no-changes --severity error` passed.
+- `te65-merge-evidence.txt`: commit and parent information, branch containment, and the final file diff for the merge resolution.
