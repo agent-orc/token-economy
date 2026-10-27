@@ -110,6 +110,23 @@ public sealed class October2026ModelOnboardingTests
         Assert.Equal("none", migration.GetProperty("evidence").GetProperty("kind").GetString());
     }
 
+    [Fact]
+    public void HaikuCliVersionGateKeepsItsBoundedRole()
+    {
+        var policy = ModelRoutingKnowledgeBase.Default;
+        var model = policy.FindModel(KnownModels.ClaudeHaiku55.Value)!;
+        Assert.Equal("2.1.293", model.MinimumCliVersion);
+        Assert.Equal(new[] { "low", "medium", "high", "xhigh", "max" }, model.SupportedThinkingLevels);
+        Assert.Equal(ModelRouteResolutionStatus.CliVersionTooOld,
+            policy.Resolve(model.CanonicalId, "medium", RoutingWorkflowRole.BoundedPipelineDecision,
+                new Version(2, 1, 284)).Status);
+        Assert.True(policy.Resolve(model.CanonicalId, "medium", RoutingWorkflowRole.BoundedPipelineDecision,
+            new Version(2, 1, 293)).IsResolved);
+        Assert.Equal(ModelRouteResolutionStatus.WorkflowRoleMismatch,
+            policy.Resolve(model.CanonicalId, "medium", RoutingWorkflowRole.CoreTask,
+                new Version(2, 1, 305)).Status);
+    }
+
     private static string RepositoryRoot()
     {
         for (var dir = new DirectoryInfo(AppContext.BaseDirectory); dir is not null; dir = dir.Parent)

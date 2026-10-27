@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAtUtc": "2026-10-16T11:21:26.511902+00:00",
+  "generatedAtUtc": "2026-10-20T22:10:58.016191+00:00",
   "asOfUtc": "2026-10-16T00:00:00Z",
   "currency": "USD",
   "unit": "per-million-tokens",
@@ -19,7 +19,7 @@
       "releaseDate": "2026-09-28",
       "releaseDateSource": "https://platform.claude.com/docs/en/models/sonnet-5-5/overview",
       "note": "Current Sonnet since 2026-09-28 at the Sonnet 5 price. Claude Code needs v2.1.284 or later; a 2026-09-29 probe with Claude Code 2.1.281 returned unrecognized_model.",
-      "selectionStatus": "unsupported",
+      "selectionStatus": "selectable",
       "testOnly": false,
       "deprecated": false,
       "history": [

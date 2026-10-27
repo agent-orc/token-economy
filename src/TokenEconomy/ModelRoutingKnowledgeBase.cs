@@ -45,6 +45,7 @@ public enum ModelRouteResolutionStatus
     UnsupportedModel,
     RestrictedModel,
     DeprecatedModel,
+    CliVersionTooOld,
     WorkflowRoleMismatch,
 }
 
@@ -86,6 +87,8 @@ public sealed record ModelRoutingModel
     public required string MediaCatalogModelId { get; init; }
     public required string TrustModelId { get; init; }
     public IReadOnlyList<string> SupportedThinkingLevels { get; init; } = [];
+    /// <summary>Minimum documented CLI version for this model, when known.</summary>
+    public string? MinimumCliVersion { get; init; }
     public required ModelRoutingStatus RoutingStatus { get; init; }
     public required PolicyEvidenceStatus EvidenceStatus { get; init; }
     public bool Provisional { get; init; }
@@ -308,7 +311,7 @@ public sealed class ModelRoutingKnowledgeBase
     /// Resolve a model and reasoning level canonically. Unsupported, restricted, deprecated, unknown,
     /// and workflow-incompatible inputs remain explicit and are never clamped to a different value.
     /// </summary>
-    public ModelRouteResolution Resolve(string? model, string? thinkingLevel, RoutingWorkflowRole? workflowRole = null)
+    public ModelRouteResolution Resolve(string? model, string? thinkingLevel, RoutingWorkflowRole? workflowRole = null, Version? installedCliVersion = null)
     {
         var canonicalModel = FindModel(model);
         if (canonicalModel is null)
@@ -323,6 +326,11 @@ public sealed class ModelRoutingKnowledgeBase
         };
         if (modelStatus != ModelRouteResolutionStatus.Resolved)
             return Unresolved(modelStatus, $"Model '{canonicalModel.CanonicalId}' is {canonicalModel.RoutingStatus.ToString().ToLowerInvariant()}.", canonicalModel);
+
+        if (installedCliVersion is not null && canonicalModel.MinimumCliVersion is { } minimum
+            && installedCliVersion.CompareTo(Version.Parse(minimum)) < 0)
+            return Unresolved(ModelRouteResolutionStatus.CliVersionTooOld,
+                $"Model '{canonicalModel.CanonicalId}' requires {canonicalModel.CliId} {minimum} or later; installed version is {installedCliVersion}.", canonicalModel);
 
         if (workflowRole is { } role && !canonicalModel.WorkflowRoles.Contains(role))
             return Unresolved(ModelRouteResolutionStatus.WorkflowRoleMismatch, $"Model '{canonicalModel.CanonicalId}' is not selectable for {role}.", canonicalModel);
@@ -381,6 +389,8 @@ public sealed class ModelRoutingKnowledgeBase
                     throw new InvalidOperationException($"Model '{model.CanonicalId}' references unknown thinking level '{level}'.");
             if (model.Provisional && model.EvidenceStatus != PolicyEvidenceStatus.Provisional)
                 throw new InvalidOperationException($"Model '{model.CanonicalId}' is provisional without provisional evidence status.");
+            if (model.MinimumCliVersion is { } minimum && (!Version.TryParse(minimum, out var parsed) || parsed.Major < 1))
+                throw new InvalidOperationException($"Model '{model.CanonicalId}' has an invalid minimum CLI version '{minimum}'.");
         }
 
         foreach (var route in Routes)

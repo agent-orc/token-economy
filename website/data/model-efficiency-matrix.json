@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "generatedAtUtc": "2026-10-16T11:21:26.407547+00:00",
+  "generatedAtUtc": "2026-10-20T22:10:54.311289+00:00",
   "asOfUtc": "2026-10-16T00:00:00Z",
   "source": "ModelEfficiencyMatrix.Default.Describe(asOfUtc)",
   "priceCatalogPath": "src/TokenEconomy/catalog/model-prices.json",
@@ -11,9 +11,9 @@
       "releaseDate": "2026-10-07",
       "releaseDateSource": "https://platform.claude.com/docs/en/release-notes/overview#october-7-2026",
       "policy": {
-        "version": "2026-10-04",
-        "evidenceAsOfDate": "2026-10-16",
-        "reason": "Explicit operator pin for bounded classification, auto-tagging, and fixture tasks only; no coding tier. Operator coding economy floor is Sonnet low. Anthropic supports adaptive thinking at low/medium/high/xhigh/max (medium default): https://platform.claude.com/docs/en/build-with-claude/effort. Claude Code changelog first lists Haiku 5.5 in v2.1.293: https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md. Operator probe 2026-10-16: v2.1.301 verified working (modelUsage claude-haiku-5-5; $0.0033); v2.1.281 rejects [claude-code:unrecognized_model] and silently used claude-haiku-4-5-20251001. No default route or fallback.",
+        "version": "2026-10-21",
+        "evidenceAsOfDate": "2026-10-21",
+        "reason": "Claude Code documents low/medium/high/xhigh/max with default medium and minimum v2.1.293: https://code.claude.com/docs/en/model-config (retrieved 2026-10-21). Operator reports Claude Code 2.1.305 installed on TUFI2, agent-runner-01 and KORI review containers, with the KORI Dockerfile pinned; agent-runner-01 runner-credential claude -p --model claude-haiku-5-5 answered on 2026-10-20. Earlier v2.1.301 modelUsage confirmed the canonical model; v2.1.281 fell back to Haiku 4.5. Explicit bounded classification, auto-tagging and fixture pin only; Sonnet low remains the coding economy floor. No default route, fallback or automatic migration.",
         "workflowRoles": [
           "boundedPipelineDecision"
         ],
@@ -86,8 +86,8 @@
       "releaseDate": "2026-10-13",
       "releaseDateSource": "https://ai.google.dev/gemini-api/docs/changelog",
       "policy": {
-        "version": "2026-10-04",
-        "evidenceAsOfDate": "2026-10-16",
+        "version": "2026-10-21",
+        "evidenceAsOfDate": "2026-10-21",
         "reason": "Test-only: explicit operator pin only; no default tier, automatic migration, or fallback. agy 1.4.0 models output on 2026-10-16 listed low/medium/high suffixed ids; agy also accepts --effort low|medium|high|xhigh|max, but the model docs confirm only low/medium/high for this model. Access path for orchestrated runs is unresolved. Vendor FAQ: direct agy -p scripting/CI is intended; wrapping agy in third-party coding agents is not supported under consumer plans; API-key path is documented separately: https://www.antigravity.google/docs/faq/. API prices do not establish CLI subscription costs.",
         "workflowRoles": [
           "coreTask"
@@ -151,8 +151,8 @@
       "releaseDate": "2026-09-01",
       "releaseDateSource": "https://www.antigravity.google/blog/gemini-3-8-flash-in-google-antigravity",
       "policy": {
-        "version": "2026-10-04",
-        "evidenceAsOfDate": "2026-10-16",
+        "version": "2026-10-21",
+        "evidenceAsOfDate": "2026-10-21",
         "reason": "Test-only: explicit operator pin only; no default tier, automatic migration, or fallback. agy 1.4.0 models output on 2026-10-16 listed low/medium/high suffixed ids; agy also accepts --effort low|medium|high|xhigh|max, but the model docs confirm only low/medium/high for this model. Access path for orchestrated runs is unresolved. Vendor FAQ: direct agy -p scripting/CI is intended; wrapping agy in third-party coding agents is not supported under consumer plans; API-key path is documented separately: https://www.antigravity.google/docs/faq/. API prices do not establish CLI subscription costs.",
         "workflowRoles": [
           "coreTask"
@@ -216,8 +216,8 @@
       "releaseDate": "2026-06-26",
       "releaseDateSource": "https://openai.com/index/previewing-gpt-5-6-sol/",
       "policy": {
-        "version": "2026-10-04",
-        "evidenceAsOfDate": "2026-10-16",
+        "version": "2026-10-21",
+        "evidenceAsOfDate": "2026-10-21",
         "reason": "No Luna cohort existed in the 2026-07-23 benchmark; this is an unvalidated cost-saving hypothesis. Ladder refreshed 2026-09-29 (TE-59) from the Codex CLI model catalogue served to codex-cli 0.155.0 on 2026-09-29 (and bundled in rust-v0.157.0 through rust-v0.159.0): max added; minimal and ultra removed because the CLI does not advertise them for this model (a CLI that accepts an ultra flag without advertising it is not treated as support).",
         "workflowRoles": [
           "coreTask"
@@ -420,8 +420,8 @@
       "releaseDate": "2026-06-26",
       "releaseDateSource": "https://openai.com/index/previewing-gpt-5-6-sol/",
       "policy": {
-        "version": "2026-10-04",
-        "evidenceAsOfDate": "2026-10-16",
+        "version": "2026-10-21",
+        "evidenceAsOfDate": "2026-10-21",
         "reason": "Eight historical Terra/medium records had no known grades and no trustworthy terminal cohort. Ladder refreshed 2026-09-29 (TE-59) from the Codex CLI model catalogue served to codex-cli 0.155.0 on 2026-09-29 (and bundled in rust-v0.157.0 through rust-v0.159.0): max added and minimal removed.",
         "workflowRoles": [
           "coreTask"
@@ -706,8 +706,8 @@
       "releaseDate": "2026-06-26",
       "releaseDateSource": "https://openai.com/index/previewing-gpt-5-6-sol/",
       "policy": {
-        "version": "2026-10-04",
-        "evidenceAsOfDate": "2026-10-16",
+        "version": "2026-10-21",
+        "evidenceAsOfDate": "2026-10-21",
         "reason": "Sol/medium has the strongest favorable historical signal; Sol/xhigh remains a correctness floor, not a blanket default. Ladder refreshed 2026-09-29 (TE-59) from the Codex CLI model catalogue served to codex-cli 0.155.0 on 2026-09-29 (and bundled in rust-v0.157.0 through rust-v0.159.0): max added; minimal removed after the API rejected it in a runner probe.",
         "workflowRoles": [
           "coreTask",
@@ -1323,8 +1323,8 @@
       "releaseDate": "2026-09-03",
       "releaseDateSource": "https://openai.com/index/safety-overview-gpt-6-astra/",
       "policy": {
-        "version": "2026-10-04",
-        "evidenceAsOfDate": "2026-10-16",
+        "version": "2026-10-21",
+        "evidenceAsOfDate": "2026-10-21",
         "reason": "Selectable for explicit evaluation and operator pins, provisional. Operator observed two access_programs.cyber HTTP 400s in about eight runs on 2026-09-18. No comparable local completion cohort; not a default tier or equivalent provider fallback.",
         "workflowRoles": [
           "coreTask"
@@ -2229,8 +2229,8 @@
       "releaseDate": "2026-09-22",
       "releaseDateSource": "https://developers.openai.com/api/docs/changelog",
       "policy": {
-        "version": "2026-10-04",
-        "evidenceAsOfDate": "2026-10-16",
+        "version": "2026-10-21",
+        "evidenceAsOfDate": "2026-10-21",
         "reason": "Ladder refreshed 2026-09-29 (TE-59): the Codex CLI model catalogue served to codex-cli 0.155.0 on 2026-09-29 (and bundled in rust-v0.157.0 through rust-v0.159.0) lists low/medium/high/xhigh/max/ultra with default medium; runner probes on 2026-09-29 completed at max and ultra, and the API rejects minimal for this generation. This supersedes the 2026-09-25 minimal-through-xhigh observation. Sol runs on the workstation and agent-runner-01 since September 24; policy explicitly selects medium or xhigh. Default core route by operator decision backed by dated prices and vendor claims; local completion and review cohorts remain unqualified. Level availability is not quality evidence: max and ultra have no local cohort.",
         "workflowRoles": [
           "coreTask"
@@ -2530,8 +2530,8 @@
       "releaseDate": "2026-09-29",
       "releaseDateSource": "https://developers.openai.com/api/docs/changelog",
       "policy": {
-        "version": "2026-10-04",
-        "evidenceAsOfDate": "2026-10-16",
+        "version": "2026-10-21",
+        "evidenceAsOfDate": "2026-10-21",
         "reason": "Additional supported model for explicit evaluation or operator pin only; no default route, task-class prior or fallback equivalence. Production Agent Studio Codex discovery on 2026-10-04 listed minimal/low/medium/high/xhigh (default xhigh). codex-cli 0.155.0 on this ChatGPT account returned HTTP 400 model not supported, so no level could be executed here; minimal is advertised but runtime support is unconfirmed. The OpenAI API model page separately says API minimal is unsupported. Language and media capability are unmeasured.",
         "workflowRoles": [
           "coreTask"
@@ -2605,8 +2605,8 @@
       "releaseDate": "2026-09-22",
       "releaseDateSource": "https://developers.openai.com/api/docs/changelog",
       "policy": {
-        "version": "2026-10-04",
-        "evidenceAsOfDate": "2026-10-16",
+        "version": "2026-10-21",
+        "evidenceAsOfDate": "2026-10-21",
         "reason": "Ladder refreshed 2026-09-29 (TE-59): the Codex CLI model catalogue served to codex-cli 0.155.0 on 2026-09-29 (and bundled in rust-v0.157.0 through rust-v0.159.0) lists low/medium/high/xhigh/max with default medium, and OpenAI states Luna supports efforts up to max but not ultra; a runner probe on 2026-09-29 completed at max and the API rejected minimal. Luna execution succeeded on agent-runner-01 on September 25. Default core route by operator decision backed by dated prices and vendor claims; local completion and review cohorts remain unqualified. Level availability is not quality evidence.",
         "workflowRoles": [
           "coreTask"
@@ -2771,8 +2771,8 @@
       "releaseDate": "2026-09-01",
       "releaseDateSource": "https://platform.claude.com/docs/en/models/fable-5-1/overview",
       "policy": {
-        "version": "2026-10-04",
-        "evidenceAsOfDate": "2026-10-16",
+        "version": "2026-10-21",
+        "evidenceAsOfDate": "2026-10-21",
         "reason": "Provider-supported model and five-level effort ladder: https://platform.claude.com/docs/en/models/fable-5-1/overview and https://platform.claude.com/docs/en/build-with-claude/effort (retrieved 2026-09-12). Selectable for explicit evaluation, compatibility comparison, and operator-pinned core tasks. Local completion and review fit remain unvalidated; support does not add a default tier or declare provider-fallback equivalence.",
         "workflowRoles": [
           "coreTask"
@@ -3224,8 +3224,8 @@
       "releaseDate": "2026-09-22",
       "releaseDateSource": "https://platform.claude.com/docs/en/models/opus-5-5/overview",
       "policy": {
-        "version": "2026-10-04",
-        "evidenceAsOfDate": "2026-10-16",
+        "version": "2026-10-21",
+        "evidenceAsOfDate": "2026-10-21",
         "reason": "Anthropic documents low/medium/high/xhigh/max with provider default medium for Claude Opus 5.5. Claude Code 2.1.281 execution reported the canonical model in modelUsage; 2.1.270 silently fell back after an unrecognized-model warning, so 2.1.281 is the minimum observed CLI version. Selectable for explicit evaluation, compatibility comparison, and operator-pinned core tasks; no comparable local completion or review cohort is available. This support adds no default tier, fallback equivalence, or automatic migration.",
         "workflowRoles": [
           "coreTask"
@@ -3291,8 +3291,8 @@
       "releaseDate": "2026-03-17",
       "releaseDateSource": "https://openai.com/index/introducing-gpt-5-4-mini-and-nano/",
       "policy": {
-        "version": "2026-10-04",
-        "evidenceAsOfDate": "2026-10-16",
+        "version": "2026-10-21",
+        "evidenceAsOfDate": "2026-10-21",
         "reason": "Role exception for bounded decisions over compact structured evidence; not a core-task route. Availability warning (TE-59, 2026-09-29): OpenAI retired gpt-5.4-mini from Codex with ChatGPT sign-in on 2026-08-31, and a runner probe with codex-cli 0.155.0 on a ChatGPT account returned HTTP 400. The route still resolves for API-key Codex; replacing it (OpenAI names gpt-6-luna) is an open policy decision.",
         "workflowRoles": [
           "boundedPipelineDecision"
@@ -3428,10 +3428,12 @@
       "releaseDate": "2026-09-28",
       "releaseDateSource": "https://platform.claude.com/docs/en/models/sonnet-5-5/overview",
       "policy": {
-        "version": "2026-10-04",
-        "evidenceAsOfDate": "2026-10-16",
-        "reason": "Released 2026-09-28 at $2/$0.20/$2.50/$10 per MTok (same as Sonnet 5). Anthropic and Claude Code document low/medium/high/xhigh/max with a recalibrated scale (Claude Code default medium, API default high). Claude Code needs v2.1.284 or later; the runner's Claude Code 2.1.281 returned unrecognized_model on 2026-09-29, so the model stays unsupported until the CLI is upgraded and a probe records the canonical model. It adds no fallback equivalence or automatic migration (TE-59).",
-        "workflowRoles": [],
+        "version": "2026-10-21",
+        "evidenceAsOfDate": "2026-10-21",
+        "reason": "Claude Code documents low/medium/high/xhigh/max with default medium: https://code.claude.com/docs/en/model-config (retrieved 2026-10-21). Minimum Claude Code 2.1.284; 2.1.281 returned unrecognized_model on 2026-09-29. Operator reports Claude Code 2.1.305 installed on TUFI2, agent-runner-01 and KORI review containers, with the KORI Dockerfile pinned; agent-runner-01 runner-credential claude -p --model claude-sonnet-5-5 answered on 2026-10-20. Selectable for explicit evaluation and operator-pinned core tasks only; no correctness-floor equivalence, default route, provider fallback or automatic migration.",
+        "workflowRoles": [
+          "coreTask"
+        ],
         "routes": [],
         "fallbacks": []
       },
@@ -3483,9 +3485,9 @@
       "restricted": false,
       "deprecated": false,
       "costUnconfirmed": false,
-      "selectionStatus": "unsupported",
-      "evidenceStatus": "unknown",
-      "provisional": false,
+      "selectionStatus": "selectable",
+      "evidenceStatus": "provisional",
+      "provisional": true,
       "testOnly": false
     },
     {
@@ -3493,8 +3495,8 @@
       "releaseDate": "2026-06-30",
       "releaseDateSource": "https://platform.claude.com/docs/en/models/sonnet-5/overview",
       "policy": {
-        "version": "2026-10-04",
-        "evidenceAsOfDate": "2026-10-16",
+        "version": "2026-10-21",
+        "evidenceAsOfDate": "2026-10-21",
         "reason": "Small favorable Claude Sonnet 5/high feature cohort; use only as an equivalent-capability provider fallback. Legacy since Claude Sonnet 5.5 (2026-09-28); the policy pins the full id, so Claude Code's sonnet alias moving to Sonnet 5.5 in v2.1.284 does not change this fallback.",
         "workflowRoles": [
           "coreTask"
@@ -3777,8 +3779,8 @@
       "releaseDate": "2025-08-05",
       "releaseDateSource": "https://platform.claude.com/docs/en/release-notes/overview#august-5-2025",
       "policy": {
-        "version": "2026-10-04",
-        "evidenceAsOfDate": "2026-10-16",
+        "version": "2026-10-21",
+        "evidenceAsOfDate": "2026-10-21",
         "reason": "Retires 2026-08-05.",
         "workflowRoles": [],
         "routes": [],
@@ -3841,8 +3843,8 @@
       "releaseDate": "2026-06-09",
       "releaseDateSource": "https://platform.claude.com/docs/en/models/fable-5/overview",
       "policy": {
-        "version": "2026-10-04",
-        "evidenceAsOfDate": "2026-10-16",
+        "version": "2026-10-21",
+        "evidenceAsOfDate": "2026-10-21",
         "reason": "Known to the price catalog but not qualified by the authoritative routing policy.",
         "workflowRoles": [],
         "routes": [],
@@ -3984,8 +3986,8 @@
       "releaseDate": "2026-07-24",
       "releaseDateSource": "https://platform.claude.com/docs/en/models/opus-5/overview",
       "policy": {
-        "version": "2026-10-04",
-        "evidenceAsOfDate": "2026-10-16",
+        "version": "2026-10-21",
+        "evidenceAsOfDate": "2026-10-21",
         "reason": "Retained Anthropic vendor override for explicit operator pins, subject to task correctness floors. No automatic equivalence to Sol/xhigh is established. Claude Code lists low/medium/high/xhigh/max for Opus 5 (xhigh added 2026-09-29, TE-59).",
         "workflowRoles": [
           "coreTask"
@@ -4685,8 +4687,8 @@
       "releaseDate": "2026-05-28",
       "releaseDateSource": "https://platform.claude.com/docs/en/release-notes/overview#may-28-2026",
       "policy": {
-        "version": "2026-10-04",
-        "evidenceAsOfDate": "2026-10-16",
+        "version": "2026-10-21",
+        "evidenceAsOfDate": "2026-10-21",
         "reason": "Known to the price catalog but not qualified by the authoritative routing policy. Claude Code lists low/medium/high/xhigh/max (xhigh added 2026-09-29, TE-59).",
         "workflowRoles": [],
         "routes": [],
@@ -4828,8 +4830,8 @@
       "releaseDate": "2026-04-16",
       "releaseDateSource": "https://platform.claude.com/docs/en/release-notes/overview#april-16-2026",
       "policy": {
-        "version": "2026-10-04",
-        "evidenceAsOfDate": "2026-10-16",
+        "version": "2026-10-21",
+        "evidenceAsOfDate": "2026-10-21",
         "reason": "Known to the price catalog but not qualified by the authoritative routing policy. Claude Code lists low/medium/high/xhigh/max with default xhigh (xhigh added 2026-09-29, TE-59).",
         "workflowRoles": [],
         "routes": [],
@@ -4893,8 +4895,8 @@
       "releaseDate": "2026-02-05",
       "releaseDateSource": "https://platform.claude.com/docs/en/models/opus-4-6/overview",
       "policy": {
-        "version": "2026-10-04",
-        "evidenceAsOfDate": "2026-10-16",
+        "version": "2026-10-21",
+        "evidenceAsOfDate": "2026-10-21",
         "reason": "Known to the price catalog but not qualified by the authoritative routing policy.",
         "workflowRoles": [],
         "routes": [],
@@ -4957,8 +4959,8 @@
       "releaseDate": "2025-11-24",
       "releaseDateSource": "https://platform.claude.com/docs/en/models/opus-4-5/overview",
       "policy": {
-        "version": "2026-10-04",
-        "evidenceAsOfDate": "2026-10-16",
+        "version": "2026-10-21",
+        "evidenceAsOfDate": "2026-10-21",
         "reason": "Known to the price catalog but not qualified by the authoritative routing policy.",
         "workflowRoles": [],
         "routes": [],
@@ -5021,8 +5023,8 @@
       "releaseDate": "2026-02-17",
       "releaseDateSource": "https://platform.claude.com/docs/en/models/sonnet-4-6/overview",
       "policy": {
-        "version": "2026-10-04",
-        "evidenceAsOfDate": "2026-10-16",
+        "version": "2026-10-21",
+        "evidenceAsOfDate": "2026-10-21",
         "reason": "Known to the price catalog but not qualified by the authoritative routing policy. Claude Code lists low/medium/high/max; xhigh removed 2026-09-29 (TE-59) because Claude Code runs it as high.",
         "workflowRoles": [],
         "routes": [],
@@ -5085,8 +5087,8 @@
       "releaseDate": "2025-09-29",
       "releaseDateSource": "https://platform.claude.com/docs/en/release-notes/overview#september-29-2025",
       "policy": {
-        "version": "2026-10-04",
-        "evidenceAsOfDate": "2026-10-16",
+        "version": "2026-10-21",
+        "evidenceAsOfDate": "2026-10-21",
         "reason": "Known to the price catalog but not qualified by the authoritative routing policy.",
         "workflowRoles": [],
         "routes": [],
@@ -5150,8 +5152,8 @@
       "releaseDate": "2025-10-15",
       "releaseDateSource": "https://platform.claude.com/docs/en/models/haiku-4-5/overview",
       "policy": {
-        "version": "2026-10-04",
-        "evidenceAsOfDate": "2026-10-16",
+        "version": "2026-10-21",
+        "evidenceAsOfDate": "2026-10-21",
         "reason": "Retained Anthropic vendor override for explicit operator pins, subject to task correctness floors. No automatic equivalence to Sol/xhigh is established. Claude Code and the Claude API do not support effort on Haiku 4.5 (extended thinking only), so the low/medium levels are nominal labels that do not change the request (verified 2026-09-29, TE-59). Retirement not sooner than 2026-10-15.",
         "workflowRoles": [
           "coreTask"
@@ -5214,8 +5216,8 @@
       "releaseDate": "2026-04-23",
       "releaseDateSource": "https://openai.com/index/introducing-gpt-5-5/",
       "policy": {
-        "version": "2026-10-04",
-        "evidenceAsOfDate": "2026-10-16",
+        "version": "2026-10-21",
+        "evidenceAsOfDate": "2026-10-21",
         "reason": "Known to the CLI/price catalog but not a route in policy version 2026-07-24. Retires from ChatGPT, ChatGPT Work and Codex with ChatGPT sign-in on 2026-10-14 (API unaffected). Ladder refreshed 2026-09-29 (TE-59): the Codex CLI lists low through xhigh; minimal failed on the runner because Codex's web_search tool is incompatible with it.",
         "workflowRoles": [],
         "routes": [],
@@ -5278,8 +5280,8 @@
       "releaseDate": "2026-04-23",
       "releaseDateSource": "https://openai.com/index/introducing-gpt-5-5/",
       "policy": {
-        "version": "2026-10-04",
-        "evidenceAsOfDate": "2026-10-16",
+        "version": "2026-10-21",
+        "evidenceAsOfDate": "2026-10-21",
         "reason": "Known to the API/price catalog but not a route in policy version 2026-07-24.",
         "workflowRoles": [],
         "routes": [],
@@ -5341,8 +5343,8 @@
       "releaseDate": "2026-05-07",
       "releaseDateSource": "https://openai.com/index/gpt-5-5-with-trusted-access-for-cyber/",
       "policy": {
-        "version": "2026-10-04",
-        "evidenceAsOfDate": "2026-10-16",
+        "version": "2026-10-21",
+        "evidenceAsOfDate": "2026-10-21",
         "reason": "Limited-preview model for separately approved defenders; catalog coverage does not make it a selectable route in policy version 2026-07-24.",
         "workflowRoles": [],
         "routes": [],
@@ -5406,8 +5408,8 @@
       "releaseDate": "2025-08-07",
       "releaseDateSource": "https://openai.com/index/introducing-gpt-5/",
       "policy": {
-        "version": "2026-10-04",
-        "evidenceAsOfDate": "2026-10-16",
+        "version": "2026-10-21",
+        "evidenceAsOfDate": "2026-10-21",
         "reason": "Known to the CLI/price catalog but not a route in policy version 2026-07-24.",
         "workflowRoles": [],
         "routes": [],
@@ -5471,8 +5473,8 @@
       "releaseDate": "2025-09-15",
       "releaseDateSource": "https://openai.com/index/introducing-upgrades-to-codex/",
       "policy": {
-        "version": "2026-10-04",
-        "evidenceAsOfDate": "2026-10-16",
+        "version": "2026-10-21",
+        "evidenceAsOfDate": "2026-10-21",
         "reason": "Known to the CLI/price catalog but not a route in policy version 2026-07-24.",
         "workflowRoles": [],
         "routes": [],

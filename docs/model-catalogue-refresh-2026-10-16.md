@@ -1,3 +1,8 @@
+---
+tags: [token-economy, execution-and-runner, decision, evidence]
+taggingStatus: tagged
+---
+
 # Model catalogue refresh, 16 October 2026 (TE-62)
 
 Implemented the proposed onboarding option: three dated, sourced price listings; a Haiku 4.5 → 5.5 proposal only; Haiku 5.5 as a bounded classification, auto-tagging and fixture pin; and both Gemini models as test-only pins. The operator's economy floor for coding remains Sonnet low. No default route, task-class prior, automatic migration, or provider fallback was added. Benchmark values were omitted because this card has no retained identical-case primary run artifacts.

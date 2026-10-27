@@ -34,7 +34,8 @@ the most for the tokens I have left?* Unknown is always returned as unknown.
 
 **API guide:** <https://agent-orchestrator.dev/token-economy/api/> — inputs, return types, reasoning effort, scores, and executable C# examples.
 
-**Docs & website:** <https://agent-orchestrator.dev/token-economy/> — a static
+**Docs & website:** [Documentation index](docs/index.md) ·
+<https://agent-orchestrator.dev/token-economy/> — a static
 site built from [`website/`](website/) and deployed by
 [`deploy-website.yml`](.github/workflows/deploy-website.yml) (see
 [`website/DEPLOY.md`](website/DEPLOY.md)).
@@ -72,13 +73,19 @@ selection rubric, and a standalone `ai-patterns` handoff.
 - **Cost API** — `ComputeCost(model, usage, atUtc)` → deterministic
   breakdown + total; unknown models return an explicit unknown, never a
   silent zero.
+- **Subscription catalogue** — sourced provider plans, candidate CLI models,
+  published quota windows, monthly costs, and headless/third-party use context.
+  `SubscriptionCatalogue` resolves a login's plan and model candidates and
+  reports plan-change regressions; dated operator quota observations remain
+  separate from published facts. See the [domain guide](docs/system/domains/subscription-catalogue.md)
+  and its [TE-61 source register](docs/cli-integration-domain/source-register.json).
 - **Versioned model-routing policy** — one embedded, schema-backed knowledge
   base resolves model aliases, providers/CLIs, reasoning levels, score tiers,
   correctness floors, workflow exceptions, restrictions, deprecations,
   reissues, and evidence status. The core ladder follows Agent Studio; the local
   policy revision adds explicit Astra, Fable 5.1, Claude Opus 5.5, GPT-6 Sol,
-  and GPT-6 Luna support; Claude Sonnet 5.5 is priced but unsupported until the
-  runner's Claude Code reaches v2.1.284. The versioned policy is
+  and GPT-6 Luna support; Claude Sonnet 5.5 is selectable for explicit pins on
+  Claude Code v2.1.284 or later, while Haiku 5.5 needs v2.1.293 or later. The versioned policy is
   authoritative; pricing and quota cannot lower its correctness floors. See
   the [generated knowledge view](docs/model-routing-knowledge.md) and
   [authoritative policy](docs/system/domains/model-routing-policy.md).

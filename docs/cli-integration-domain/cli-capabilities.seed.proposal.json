@@ -1,0 +1,1180 @@
+{
+  "schemaVersion": 1,
+  "records": [
+    {
+      "cliId": "claude-code",
+      "vendor": "Anthropic",
+      "lifecycle": "active",
+      "recordSourceIds": [
+        "anthropic-code-headless",
+        "anthropic-code-auth",
+        "anthropic-code-legal"
+      ],
+      "versions": [
+        {
+          "versionRange": "current documentation retrieved 2026-10-16; exact first version varies by feature",
+          "headless": {
+            "invocation": {
+              "value": "claude -p",
+              "evidence": {
+                "sourceIds": [
+                  "anthropic-code-headless"
+                ],
+                "verifiedOn": "2026-10-16",
+                "status": "documented"
+              }
+            },
+            "promptTransports": {
+              "value": [
+                "argv",
+                "piped stdin (10 MB maximum)"
+              ],
+              "evidence": {
+                "sourceIds": [
+                  "anthropic-code-headless"
+                ],
+                "verifiedOn": "2026-10-16",
+                "status": "documented"
+              }
+            },
+            "outputFormats": {
+              "value": [
+                "text",
+                "json",
+                "stream-json"
+              ],
+              "evidence": {
+                "sourceIds": [
+                  "anthropic-code-headless"
+                ],
+                "verifiedOn": "2026-10-16",
+                "status": "documented"
+              }
+            },
+            "eventSchema": {
+              "value": {
+                "jsonResult": [
+                  "result",
+                  "session_id",
+                  "usage"
+                ],
+                "streamTerminal": "result",
+                "streamDenial": "permission_denied system message"
+              },
+              "evidence": {
+                "sourceIds": [
+                  "anthropic-code-headless"
+                ],
+                "verifiedOn": "2026-10-16",
+                "status": "documented"
+              }
+            },
+            "continuation": {
+              "value": [
+                "--continue",
+                "--resume <session-id>"
+              ],
+              "evidence": {
+                "sourceIds": [
+                  "anthropic-code-headless"
+                ],
+                "verifiedOn": "2026-10-16",
+                "status": "documented"
+              }
+            },
+            "timeout": {
+              "value": {
+                "wallClock": "caller-owned/unknown CLI global ceiling",
+                "backgroundIdle": "10 minutes unless configured"
+              },
+              "evidence": {
+                "sourceIds": [
+                  "anthropic-code-headless"
+                ],
+                "verifiedOn": "2026-10-16",
+                "status": "documented"
+              }
+            }
+          },
+          "permissions": {
+            "approvalFlags": {
+              "value": [
+                "--permission-mode auto",
+                "--permission-mode dontAsk",
+                "--permission-mode acceptEdits",
+                "--permission-prompts none (>=2.1.259)"
+              ],
+              "evidence": {
+                "sourceIds": [
+                  "anthropic-code-headless"
+                ],
+                "verifiedOn": "2026-10-16",
+                "status": "documented"
+              }
+            },
+            "sandbox": {
+              "value": "Permission rules and mode govern tools; --bare changes startup, not a permission grant.",
+              "evidence": {
+                "sourceIds": [
+                  "anthropic-code-headless"
+                ],
+                "verifiedOn": "2026-10-16",
+                "status": "documented"
+              }
+            },
+            "headlessDenial": {
+              "value": "Unresolved prompts denied without a host; permission_denials in result.",
+              "evidence": {
+                "sourceIds": [
+                  "anthropic-code-headless"
+                ],
+                "verifiedOn": "2026-10-16",
+                "status": "documented"
+              }
+            },
+            "exitSemantics": {
+              "value": null,
+              "evidence": {
+                "sourceIds": [],
+                "verifiedOn": "2026-10-16",
+                "status": "unknown",
+                "note": "Exit status for a final answer containing denied tools needs a version-pinned probe."
+              }
+            }
+          },
+          "modelDiscovery": {
+            "value": "Interactive /model shows account-available models.",
+            "evidence": {
+              "sourceIds": [
+                "anthropic-claude-models-usage"
+              ],
+              "verifiedOn": "2026-10-16",
+              "status": "documented"
+            }
+          },
+          "quota": {
+            "windows": {
+              "value": [
+                "five-hour",
+                "weekly"
+              ],
+              "evidence": {
+                "sourceIds": [
+                  "anthropic-claude-limits"
+                ],
+                "verifiedOn": "2026-10-16",
+                "status": "documented"
+              }
+            },
+            "pools": {
+              "value": null,
+              "evidence": {
+                "sourceIds": [],
+                "verifiedOn": "2026-10-16",
+                "status": "unknown",
+                "note": "Plan-specific pools require verified capture."
+              }
+            },
+            "visibility": {
+              "value": "Interactive /usage shows plan usage limits.",
+              "evidence": {
+                "sourceIds": [
+                  "anthropic-code-commands"
+                ],
+                "verifiedOn": "2026-10-16",
+                "status": "documented"
+              }
+            },
+            "unit": {
+              "value": null,
+              "evidence": {
+                "sourceIds": [],
+                "verifiedOn": "2026-10-16",
+                "status": "unknown",
+                "note": "No absolute subscription token cap established."
+              }
+            }
+          }
+        }
+      ],
+      "authModes": [
+        {
+          "kind": "subscription",
+          "supported": true,
+          "contexts": {
+            "scriptingCi": {
+              "documentationState": "documented",
+              "quoteSourceIds": [
+                "anthropic-plan-pause"
+              ]
+            },
+            "selfBuiltOrchestrator": {
+              "documentationState": "conflicted",
+              "quoteSourceIds": [
+                "anthropic-plan-pause",
+                "anthropic-agent-sdk"
+              ],
+              "question": "Which self-built SDK contexts can draw subscription limits?"
+            },
+            "thirdPartyProduct": {
+              "documentationState": "conflicted",
+              "quoteSourceIds": [
+                "anthropic-plan-update",
+                "anthropic-code-legal"
+              ],
+              "question": "How does help wording apply beside the product and credential sections?"
+            }
+          }
+        },
+        {
+          "kind": "long-lived-token",
+          "supported": true,
+          "contexts": {
+            "scriptingCi": {
+              "documentationState": "documented",
+              "quoteSourceIds": [
+                "anthropic-code-auth"
+              ]
+            },
+            "selfBuiltOrchestrator": {
+              "documentationState": "unknown",
+              "quoteSourceIds": []
+            },
+            "thirdPartyProduct": {
+              "documentationState": "unknown",
+              "quoteSourceIds": []
+            }
+          }
+        },
+        {
+          "kind": "api-key",
+          "supported": true,
+          "contexts": {
+            "scriptingCi": {
+              "documentationState": "documented",
+              "quoteSourceIds": [
+                "anthropic-code-auth"
+              ]
+            },
+            "selfBuiltOrchestrator": {
+              "documentationState": "documented",
+              "quoteSourceIds": [
+                "anthropic-code-legal",
+                "anthropic-agent-sdk"
+              ]
+            },
+            "thirdPartyProduct": {
+              "documentationState": "documented",
+              "quoteSourceIds": [
+                "anthropic-code-legal"
+              ]
+            }
+          }
+        },
+        {
+          "kind": "bedrock",
+          "supported": true,
+          "contexts": {
+            "scriptingCi": {
+              "documentationState": "documented",
+              "quoteSourceIds": [
+                "anthropic-code-auth"
+              ]
+            },
+            "selfBuiltOrchestrator": {
+              "documentationState": "documented",
+              "quoteSourceIds": [
+                "anthropic-code-legal"
+              ]
+            },
+            "thirdPartyProduct": {
+              "documentationState": "documented",
+              "quoteSourceIds": [
+                "anthropic-code-legal"
+              ]
+            }
+          }
+        },
+        {
+          "kind": "vertex",
+          "supported": true,
+          "contexts": {
+            "scriptingCi": {
+              "documentationState": "documented",
+              "quoteSourceIds": [
+                "anthropic-code-auth"
+              ]
+            },
+            "selfBuiltOrchestrator": {
+              "documentationState": "documented",
+              "quoteSourceIds": [
+                "anthropic-code-legal"
+              ]
+            },
+            "thirdPartyProduct": {
+              "documentationState": "documented",
+              "quoteSourceIds": [
+                "anthropic-code-legal"
+              ]
+            }
+          }
+        }
+      ],
+      "modelFloors": [
+        {
+          "modelId": "claude-sonnet-5-5",
+          "authClass": "subscription",
+          "supportState": "bounded",
+          "minimumVersion": null,
+          "workingVersion": null,
+          "failingVersion": "2.1.281",
+          "effectiveModelId": null,
+          "failureSignature": "unrecognized_model",
+          "evidence": {
+            "sourceIds": [],
+            "verifiedOn": "2026-10-16",
+            "status": "provisional",
+            "note": "Existing TE catalog asserts >=2.1.284, but original minimum-version probe is not registered here; verify before promotion."
+          }
+        },
+        {
+          "modelId": "claude-haiku-5-5",
+          "authClass": "subscription",
+          "supportState": "bounded",
+          "minimumVersion": null,
+          "workingVersion": "2.1.301",
+          "failingVersion": "2.1.281",
+          "effectiveModelId": "claude-haiku-4-5-20251001 on failing version; claude-haiku-5-5 on working version",
+          "failureSignature": "[claude-code:unrecognized_model]",
+          "evidence": {
+            "sourceIds": [],
+            "verifiedOn": "2026-10-16",
+            "status": "provisional",
+            "note": "TE-61 user-provided operator probe dated 2026-10-16; raw redacted artifact not supplied. Minimum unknown."
+          }
+        }
+      ]
+    },
+    {
+      "cliId": "codex",
+      "vendor": "OpenAI",
+      "lifecycle": "active",
+      "recordSourceIds": [
+        "openai-codex-exec",
+        "openai-codex-auth",
+        "openai-codex-pricing"
+      ],
+      "versions": [
+        {
+          "versionRange": "current documentation retrieved 2026-10-16; exact first version unknown",
+          "headless": {
+            "invocation": {
+              "value": "codex exec",
+              "evidence": {
+                "sourceIds": [
+                  "openai-codex-exec"
+                ],
+                "verifiedOn": "2026-10-16",
+                "status": "documented"
+              }
+            },
+            "promptTransports": {
+              "value": [
+                "argv",
+                "stdin with -",
+                "prompt plus piped context"
+              ],
+              "evidence": {
+                "sourceIds": [
+                  "openai-codex-exec"
+                ],
+                "verifiedOn": "2026-10-16",
+                "status": "documented"
+              }
+            },
+            "outputFormats": {
+              "value": [
+                "final text",
+                "JSONL via --json",
+                "schema-constrained final output"
+              ],
+              "evidence": {
+                "sourceIds": [
+                  "openai-codex-exec"
+                ],
+                "verifiedOn": "2026-10-16",
+                "status": "documented"
+              }
+            },
+            "eventSchema": {
+              "value": [
+                "thread.started",
+                "turn.started",
+                "turn.completed",
+                "turn.failed",
+                "item.*",
+                "error"
+              ],
+              "evidence": {
+                "sourceIds": [
+                  "openai-codex-exec"
+                ],
+                "verifiedOn": "2026-10-16",
+                "status": "documented"
+              }
+            },
+            "continuation": {
+              "value": [
+                "codex exec resume --last",
+                "codex exec resume <session-id>"
+              ],
+              "evidence": {
+                "sourceIds": [
+                  "openai-codex-exec"
+                ],
+                "verifiedOn": "2026-10-16",
+                "status": "documented"
+              }
+            },
+            "timeout": {
+              "value": null,
+              "evidence": {
+                "sourceIds": [],
+                "verifiedOn": "2026-10-16",
+                "status": "unknown",
+                "note": "No CLI-wide wall-clock ceiling established; caller policy applies."
+              }
+            }
+          },
+          "permissions": {
+            "approvalFlags": {
+              "value": [
+                "--sandbox",
+                "--approve-for-me"
+              ],
+              "evidence": {
+                "sourceIds": [
+                  "openai-codex-exec"
+                ],
+                "verifiedOn": "2026-10-16",
+                "status": "documented"
+              }
+            },
+            "sandbox": {
+              "value": "exec defaults to read-only sandbox; workspace-write and danger-full-access are explicit settings.",
+              "evidence": {
+                "sourceIds": [
+                  "openai-codex-exec"
+                ],
+                "verifiedOn": "2026-10-16",
+                "status": "documented"
+              }
+            },
+            "headlessDenial": {
+              "value": null,
+              "evidence": {
+                "sourceIds": [],
+                "verifiedOn": "2026-10-16",
+                "status": "unknown",
+                "note": "Version-pinned denied-approval event and fallback behavior need a probe."
+              }
+            },
+            "exitSemantics": {
+              "value": null,
+              "evidence": {
+                "sourceIds": [],
+                "verifiedOn": "2026-10-16",
+                "status": "unknown",
+                "note": "Exit code for denied tool with otherwise completed turn needs a probe."
+              }
+            }
+          },
+          "modelDiscovery": {
+            "value": [
+              "codex debug models (live)",
+              "codex debug models --bundled",
+              "app-server model/list"
+            ],
+            "evidence": {
+              "sourceIds": [
+                "openai-codex-debug-models",
+                "openai-codex-appserver"
+              ],
+              "verifiedOn": "2026-10-16",
+              "status": "documented"
+            }
+          },
+          "quota": {
+            "windows": {
+              "value": [
+                "five-hour estimates for Plus/Standard Business",
+                "weekly may apply",
+                "no five-hour limit currently for Pro"
+              ],
+              "evidence": {
+                "sourceIds": [
+                  "openai-codex-pricing"
+                ],
+                "verifiedOn": "2026-10-16",
+                "status": "documented"
+              }
+            },
+            "pools": {
+              "value": null,
+              "evidence": {
+                "sourceIds": [],
+                "verifiedOn": "2026-10-16",
+                "status": "unknown",
+                "note": "Plan and model-specific pools must be read from current dashboard."
+              }
+            },
+            "visibility": {
+              "value": [
+                "usage dashboard",
+                "interactive /status"
+              ],
+              "evidence": {
+                "sourceIds": [
+                  "openai-codex-pricing"
+                ],
+                "verifiedOn": "2026-10-16",
+                "status": "documented"
+              }
+            },
+            "unit": {
+              "value": "Subscription allowance varies by model and task; API-key usage follows API pricing.",
+              "evidence": {
+                "sourceIds": [
+                  "openai-codex-pricing"
+                ],
+                "verifiedOn": "2026-10-16",
+                "status": "documented"
+              }
+            }
+          }
+        }
+      ],
+      "authModes": [
+        {
+          "kind": "subscription",
+          "supported": true,
+          "contexts": {
+            "scriptingCi": {
+              "documentationState": "documented",
+              "quoteSourceIds": [
+                "openai-codex-ci-eligibility",
+                "openai-codex-ci"
+              ]
+            },
+            "selfBuiltOrchestrator": {
+              "documentationState": "ambiguous",
+              "quoteSourceIds": [
+                "openai-codex-ci"
+              ],
+              "question": "Which self-built product contexts are documented beyond trusted private automation?"
+            },
+            "thirdPartyProduct": {
+              "documentationState": "ambiguous",
+              "quoteSourceIds": [
+                "openai-devday-2026"
+              ],
+              "question": "Partner program is distinct from arbitrary CLI embedding."
+            }
+          }
+        },
+        {
+          "kind": "api-key",
+          "supported": true,
+          "contexts": {
+            "scriptingCi": {
+              "documentationState": "documented",
+              "quoteSourceIds": [
+                "openai-codex-exec",
+                "openai-codex-pricing"
+              ]
+            },
+            "selfBuiltOrchestrator": {
+              "documentationState": "documented",
+              "quoteSourceIds": [
+                "openai-codex-exec"
+              ]
+            },
+            "thirdPartyProduct": {
+              "documentationState": "unknown",
+              "quoteSourceIds": []
+            }
+          }
+        },
+        {
+          "kind": "gateway",
+          "supported": true,
+          "contexts": {
+            "scriptingCi": {
+              "documentationState": "documented",
+              "quoteSourceIds": [
+                "openai-codex-auth"
+              ]
+            },
+            "selfBuiltOrchestrator": {
+              "documentationState": "unknown",
+              "quoteSourceIds": []
+            },
+            "thirdPartyProduct": {
+              "documentationState": "unknown",
+              "quoteSourceIds": []
+            }
+          }
+        },
+        {
+          "kind": "bedrock",
+          "supported": true,
+          "contexts": {
+            "scriptingCi": {
+              "documentationState": "documented",
+              "quoteSourceIds": [
+                "openai-codex-auth"
+              ]
+            },
+            "selfBuiltOrchestrator": {
+              "documentationState": "unknown",
+              "quoteSourceIds": []
+            },
+            "thirdPartyProduct": {
+              "documentationState": "unknown",
+              "quoteSourceIds": []
+            }
+          }
+        }
+      ],
+      "modelFloors": []
+    },
+    {
+      "cliId": "agy",
+      "vendor": "Google",
+      "lifecycle": "active",
+      "recordSourceIds": [
+        "google-agy-headless",
+        "google-agy-faq",
+        "google-agy-change-1.1.11"
+      ],
+      "versions": [
+        {
+          "versionRange": "v1.3.6 documented on 2026-10-16; older feature introductions recorded separately",
+          "headless": {
+            "invocation": {
+              "value": "agy -p",
+              "evidence": {
+                "sourceIds": [
+                  "google-agy-headless"
+                ],
+                "verifiedOn": "2026-10-16",
+                "status": "documented"
+              }
+            },
+            "promptTransports": {
+              "value": [
+                "argv",
+                "stdin stream-json user events"
+              ],
+              "evidence": {
+                "sourceIds": [
+                  "google-agy-headless"
+                ],
+                "verifiedOn": "2026-10-16",
+                "status": "documented"
+              }
+            },
+            "outputFormats": {
+              "value": [
+                "text",
+                "json",
+                "stream-json"
+              ],
+              "evidence": {
+                "sourceIds": [
+                  "google-agy-headless"
+                ],
+                "verifiedOn": "2026-10-16",
+                "status": "documented"
+              }
+            },
+            "eventSchema": {
+              "value": [
+                "init",
+                "step_update",
+                "result"
+              ],
+              "evidence": {
+                "sourceIds": [
+                  "google-agy-headless"
+                ],
+                "verifiedOn": "2026-10-16",
+                "status": "documented"
+              }
+            },
+            "continuation": {
+              "value": [
+                "--continue",
+                "--conversation <id>",
+                "single-process stream-json turns"
+              ],
+              "evidence": {
+                "sourceIds": [
+                  "google-agy-headless"
+                ],
+                "verifiedOn": "2026-10-16",
+                "status": "documented"
+              }
+            },
+            "timeout": {
+              "value": null,
+              "evidence": {
+                "sourceIds": [
+                  "google-agy-headless",
+                  "google-agy-change-1.2.6"
+                ],
+                "verifiedOn": "2026-10-16",
+                "status": "conflicted",
+                "note": "Headless reference says default 5m; v1.2.6 changelog says unlimited."
+              }
+            }
+          },
+          "permissions": {
+            "approvalFlags": {
+              "value": [
+                "permissions.allow rules",
+                "--dangerously-skip-permissions"
+              ],
+              "evidence": {
+                "sourceIds": [
+                  "google-agy-headless"
+                ],
+                "verifiedOn": "2026-10-16",
+                "status": "documented"
+              }
+            },
+            "sandbox": {
+              "value": "--sandbox enables terminal sandbox restrictions in headless mode.",
+              "evidence": {
+                "sourceIds": [
+                  "google-agy-headless",
+                  "google-agy-permissions"
+                ],
+                "verifiedOn": "2026-10-16",
+                "status": "documented"
+              }
+            },
+            "headlessDenial": {
+              "value": "Ask action soft-denied without interactive approval; run continues.",
+              "evidence": {
+                "sourceIds": [
+                  "google-agy-headless"
+                ],
+                "verifiedOn": "2026-10-16",
+                "status": "documented"
+              }
+            },
+            "exitSemantics": {
+              "value": "Soft-denied action may leave process exit 0; inspect structured status and stderr. denied_actions field remains unverified.",
+              "evidence": {
+                "sourceIds": [
+                  "google-agy-headless"
+                ],
+                "verifiedOn": "2026-10-16",
+                "status": "provisional",
+                "note": "Exit 0 documented; denied_actions is TE-61 operator note without attached output."
+              }
+            }
+          },
+          "modelDiscovery": {
+            "value": [
+              "agy models",
+              "interactive /model"
+            ],
+            "evidence": {
+              "sourceIds": [
+                "google-agy-headless"
+              ],
+              "verifiedOn": "2026-10-16",
+              "status": "documented"
+            }
+          },
+          "quota": {
+            "windows": {
+              "value": [
+                "five-hour",
+                "weekly"
+              ],
+              "evidence": {
+                "sourceIds": [
+                  "google-agy-plans"
+                ],
+                "verifiedOn": "2026-10-16",
+                "status": "documented"
+              }
+            },
+            "pools": {
+              "value": null,
+              "evidence": {
+                "sourceIds": [],
+                "verifiedOn": "2026-10-16",
+                "status": "unknown",
+                "note": "Three Google AI Pro pools in TE-61 operator note need a redacted capture."
+              }
+            },
+            "visibility": {
+              "value": [
+                "interactive /usage",
+                "agy -p /usage since v1.1.11",
+                "interactive /credits for credits"
+              ],
+              "evidence": {
+                "sourceIds": [
+                  "google-agy-usage",
+                  "google-agy-change-1.1.11",
+                  "google-agy-credits"
+                ],
+                "verifiedOn": "2026-10-16",
+                "status": "documented"
+              }
+            },
+            "unit": {
+              "value": null,
+              "evidence": {
+                "sourceIds": [],
+                "verifiedOn": "2026-10-16",
+                "status": "unknown",
+                "note": "Operator-supplied proportional token-cost wording needs source capture."
+              }
+            }
+          }
+        }
+      ],
+      "authModes": [
+        {
+          "kind": "subscription",
+          "supported": true,
+          "contexts": {
+            "scriptingCi": {
+              "documentationState": "documented",
+              "quoteSourceIds": [
+                "google-agy-faq"
+              ]
+            },
+            "selfBuiltOrchestrator": {
+              "documentationState": "unknown",
+              "quoteSourceIds": []
+            },
+            "thirdPartyProduct": {
+              "documentationState": "documented",
+              "quoteSourceIds": [
+                "google-agy-faq-thirdparty",
+                "google-agy-terms"
+              ]
+            }
+          }
+        },
+        {
+          "kind": "api-key",
+          "supported": true,
+          "contexts": {
+            "scriptingCi": {
+              "documentationState": "documented",
+              "quoteSourceIds": [
+                "google-agy-change-1.1.13"
+              ]
+            },
+            "selfBuiltOrchestrator": {
+              "documentationState": "unknown",
+              "quoteSourceIds": []
+            },
+            "thirdPartyProduct": {
+              "documentationState": "unknown",
+              "quoteSourceIds": []
+            }
+          }
+        },
+        {
+          "kind": "adc",
+          "supported": true,
+          "contexts": {
+            "scriptingCi": {
+              "documentationState": "documented",
+              "quoteSourceIds": [
+                "google-agy-change-1.1.10"
+              ]
+            },
+            "selfBuiltOrchestrator": {
+              "documentationState": "unknown",
+              "quoteSourceIds": []
+            },
+            "thirdPartyProduct": {
+              "documentationState": "unknown",
+              "quoteSourceIds": []
+            }
+          }
+        }
+      ],
+      "modelFloors": []
+    },
+    {
+      "cliId": "gemini-cli",
+      "vendor": "Google",
+      "lifecycle": "historical",
+      "recordSourceIds": [
+        "gemini-cli-headless",
+        "gemini-cli-auth",
+        "google-agy-gemini-migration"
+      ],
+      "versions": [
+        {
+          "versionRange": "historical documentation last updated 2026-03-10 for headless; binary version not established",
+          "headless": {
+            "invocation": {
+              "value": "gemini -p or non-TTY",
+              "evidence": {
+                "sourceIds": [
+                  "gemini-cli-headless"
+                ],
+                "verifiedOn": "2026-10-16",
+                "status": "documented"
+              }
+            },
+            "promptTransports": {
+              "value": null,
+              "evidence": {
+                "sourceIds": [],
+                "verifiedOn": "2026-10-16",
+                "status": "unknown",
+                "note": "Exact argv/stdin distinction requires versioned historical reference review."
+              }
+            },
+            "outputFormats": {
+              "value": [
+                "text",
+                "json",
+                "stream-json"
+              ],
+              "evidence": {
+                "sourceIds": [
+                  "gemini-cli-headless"
+                ],
+                "verifiedOn": "2026-10-16",
+                "status": "documented"
+              }
+            },
+            "eventSchema": {
+              "value": [
+                "init",
+                "message",
+                "tool_use",
+                "tool_result",
+                "error",
+                "result"
+              ],
+              "evidence": {
+                "sourceIds": [
+                  "gemini-cli-headless"
+                ],
+                "verifiedOn": "2026-10-16",
+                "status": "documented"
+              }
+            },
+            "continuation": {
+              "value": null,
+              "evidence": {
+                "sourceIds": [],
+                "verifiedOn": "2026-10-16",
+                "status": "unknown",
+                "note": "Historical resume behavior not extracted in this seed."
+              }
+            },
+            "timeout": {
+              "value": null,
+              "evidence": {
+                "sourceIds": [],
+                "verifiedOn": "2026-10-16",
+                "status": "unknown",
+                "note": "Historical timeout behavior not extracted in this seed."
+              }
+            }
+          },
+          "permissions": {
+            "approvalFlags": {
+              "value": null,
+              "evidence": {
+                "sourceIds": [],
+                "verifiedOn": "2026-10-16",
+                "status": "unknown",
+                "note": "Historical flag and version range need extraction."
+              }
+            },
+            "sandbox": {
+              "value": null,
+              "evidence": {
+                "sourceIds": [],
+                "verifiedOn": "2026-10-16",
+                "status": "unknown",
+                "note": "Historical sandbox default needs extraction."
+              }
+            },
+            "headlessDenial": {
+              "value": null,
+              "evidence": {
+                "sourceIds": [],
+                "verifiedOn": "2026-10-16",
+                "status": "unknown",
+                "note": "Historical denial behavior needs a probe or archived reference."
+              }
+            },
+            "exitSemantics": {
+              "value": {
+                "success": 0,
+                "generalOrApi": 1,
+                "input": 42,
+                "turnLimit": 53
+              },
+              "evidence": {
+                "sourceIds": [
+                  "gemini-cli-headless"
+                ],
+                "verifiedOn": "2026-10-16",
+                "status": "documented"
+              }
+            }
+          },
+          "modelDiscovery": {
+            "value": null,
+            "evidence": {
+              "sourceIds": [],
+              "verifiedOn": "2026-10-16",
+              "status": "unknown",
+              "note": "Historical model listing command not established."
+            }
+          },
+          "quota": {
+            "windows": {
+              "value": null,
+              "evidence": {
+                "sourceIds": [],
+                "verifiedOn": "2026-10-16",
+                "status": "unknown",
+                "note": "Historical quota windows depend on auth and plan."
+              }
+            },
+            "pools": {
+              "value": null,
+              "evidence": {
+                "sourceIds": [],
+                "verifiedOn": "2026-10-16",
+                "status": "unknown",
+                "note": "Historical pools not established."
+              }
+            },
+            "visibility": {
+              "value": null,
+              "evidence": {
+                "sourceIds": [],
+                "verifiedOn": "2026-10-16",
+                "status": "unknown",
+                "note": "Remaining quota surface not established in this seed."
+              }
+            },
+            "unit": {
+              "value": null,
+              "evidence": {
+                "sourceIds": [],
+                "verifiedOn": "2026-10-16",
+                "status": "unknown",
+                "note": "Unknown."
+              }
+            }
+          }
+        }
+      ],
+      "authModes": [
+        {
+          "kind": "subscription",
+          "supported": true,
+          "contexts": {
+            "scriptingCi": {
+              "documentationState": "documented",
+              "quoteSourceIds": [
+                "gemini-cli-auth"
+              ]
+            },
+            "selfBuiltOrchestrator": {
+              "documentationState": "unknown",
+              "quoteSourceIds": []
+            },
+            "thirdPartyProduct": {
+              "documentationState": "unknown",
+              "quoteSourceIds": []
+            }
+          }
+        },
+        {
+          "kind": "api-key",
+          "supported": true,
+          "contexts": {
+            "scriptingCi": {
+              "documentationState": "documented",
+              "quoteSourceIds": [
+                "gemini-cli-auth"
+              ]
+            },
+            "selfBuiltOrchestrator": {
+              "documentationState": "unknown",
+              "quoteSourceIds": []
+            },
+            "thirdPartyProduct": {
+              "documentationState": "unknown",
+              "quoteSourceIds": []
+            }
+          }
+        },
+        {
+          "kind": "vertex",
+          "supported": true,
+          "contexts": {
+            "scriptingCi": {
+              "documentationState": "documented",
+              "quoteSourceIds": [
+                "gemini-cli-auth"
+              ]
+            },
+            "selfBuiltOrchestrator": {
+              "documentationState": "unknown",
+              "quoteSourceIds": []
+            },
+            "thirdPartyProduct": {
+              "documentationState": "unknown",
+              "quoteSourceIds": []
+            }
+          }
+        },
+        {
+          "kind": "adc",
+          "supported": true,
+          "contexts": {
+            "scriptingCi": {
+              "documentationState": "documented",
+              "quoteSourceIds": [
+                "gemini-cli-auth"
+              ]
+            },
+            "selfBuiltOrchestrator": {
+              "documentationState": "unknown",
+              "quoteSourceIds": []
+            },
+            "thirdPartyProduct": {
+              "documentationState": "unknown",
+              "quoteSourceIds": []
+            }
+          }
+        }
+      ],
+      "modelFloors": []
+    }
+  ]
+}
