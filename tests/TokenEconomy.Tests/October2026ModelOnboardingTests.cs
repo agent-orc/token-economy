@@ -8,6 +8,28 @@ public sealed class October2026ModelOnboardingTests
 {
     private static readonly DateTime At = new(2026, 10, 16, 0, 0, 0, DateTimeKind.Utc);
 
+    [Fact]
+    public void OnboardedTariffsHaveCurrentPrimaryProvenanceAndNoInventedCacheWrites()
+    {
+        foreach (var model in new[] { KnownModels.ClaudeHaiku55, KnownModels.Gemini4Argon,
+                     KnownModels.Gemini38Flash })
+        {
+            var listing = ModelPriceCatalog.Default.Find(model)!;
+            Assert.NotNull(listing.ReleaseDate);
+            Assert.StartsWith("https://", listing.ReleaseDateSource);
+            foreach (var price in listing.History)
+            {
+                Assert.Equal(new DateOnly(2026, 10, 27), price.VerifiedOn);
+                Assert.Equal("provider-announced-date", price.ValidFromBasis);
+                Assert.False(price.Unconfirmed);
+                Assert.NotEmpty(price.SourceUrls);
+                Assert.All(price.SourceUrls, url => Assert.StartsWith("https://", url));
+                if (listing.Vendor == "google") Assert.Null(price.CacheWritePerMTok);
+                else Assert.True(price.CacheWritePerMTok > 0);
+            }
+        }
+    }
+
     [Theory]
     [InlineData(100_000, 0.10, 0.50, 0.01, 0.125)]
     [InlineData(100_001, 0.50, 2.50, 0.05, 0.625)]

@@ -182,6 +182,14 @@ supported. The access path for orchestrated runs is unresolved: the
 consumer plans. Gemini API prices in the catalogue do not establish
 Antigravity subscription costs.
 
+The Haiku, Argon and Flash limits above were rechecked on 2026-10-27 against
+[Claude Code model configuration](https://code.claude.com/docs/en/model-config),
+the [Argon model page](https://ai.google.dev/gemini-api/docs/models/gemini-4-argon),
+the [Flash model page](https://ai.google.dev/gemini-api/docs/models/gemini-3.8-flash),
+and Google's [Argon Antigravity announcement](https://antigravity.google/blog/gemini-4-argon-in-google-antigravity).
+The announcement dates the Antigravity rollout October 13; the October 16
+`agy` listing is a separate operator observation.
+
 ## External evidence, retrieved 2026-09-25
 
 The [September 22 OpenAI announcement](https://openai.com/index/introducing-gpt-6-sol-and-luna/)

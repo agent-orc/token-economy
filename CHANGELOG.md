@@ -5,6 +5,10 @@ SemVer; pre-1.0 the public API may still shift).
 
 ## [Unreleased]
 
+### Changed
+
+- Rechecked the Haiku 5.5, Gemini 4 Argon, and Gemini 3.8 Flash tariffs, cache rates, release dates, and routing limits against primary vendor documentation on 2026-10-27; refreshed current price provenance and the generated website price history (TE-62 review delivery).
+
 ## [0.3.8] - 2026-10-21
 
 ### Added

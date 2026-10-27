@@ -70,13 +70,13 @@
         "outputPerMTok": 0.5,
         "cacheReadPerMTok": 0.01,
         "currency": "USD",
-        "source": "Anthropic pricing, model overview, and October 7 release notes; verified 2026-10-16.",
+        "source": "Anthropic pricing, model overview, and October 7 release notes; verified 2026-10-27.",
         "sourceUrls": [
           "https://platform.claude.com/docs/en/about-claude/pricing",
           "https://platform.claude.com/docs/en/models/haiku-5-5/overview",
           "https://platform.claude.com/docs/en/release-notes/overview#october-7-2026"
         ],
-        "verifiedOn": "2026-10-16",
+        "verifiedOn": "2026-10-27",
         "validFromBasis": "provider-announced-date",
         "note": "Standard global Claude API rates. Prompt size includes fresh input and cache reads/writes; above 100K the higher tariff applies to every token of the request. Cache-write rates use 5-minute retention; 1-hour writes are $0.20/$1 per MTok. Batch input/output are 50% of standard.",
         "unconfirmed": false,
@@ -112,13 +112,13 @@
         "outputPerMTok": 10,
         "cacheReadPerMTok": 0.1,
         "currency": "USD",
-        "source": "Google Gemini API pricing and October 13 release notes; verified 2026-10-16.",
+        "source": "Google Gemini API pricing and October 13 release notes; verified 2026-10-27.",
         "sourceUrls": [
           "https://ai.google.dev/gemini-api/docs/pricing",
           "https://ai.google.dev/gemini-api/docs/changelog",
           "https://ai.google.dev/gemini-api/docs/models/gemini-4-argon"
         ],
-        "verifiedOn": "2026-10-16",
+        "verifiedOn": "2026-10-27",
         "validFromBasis": "provider-announced-date",
         "note": "Standard paid Gemini API text rate; implicit cache reads only, explicit cache writes unsupported. Introductory tariff through November 30, 2026. API rates are not Antigravity subscription charges.",
         "unconfirmed": false,
@@ -130,13 +130,13 @@
         "outputPerMTok": 20,
         "cacheReadPerMTok": 0.2,
         "currency": "USD",
-        "source": "Google Gemini API announced December 1 tariff; verified 2026-10-16.",
+        "source": "Google Gemini API announced December 1 tariff; verified 2026-10-27.",
         "sourceUrls": [
           "https://ai.google.dev/gemini-api/docs/pricing",
           "https://ai.google.dev/gemini-api/docs/changelog",
           "https://ai.google.dev/gemini-api/docs/models/gemini-4-argon"
         ],
-        "verifiedOn": "2026-10-16",
+        "verifiedOn": "2026-10-27",
         "validFromBasis": "provider-announced-date",
         "note": "Announced future standard paid Gemini API text rate; implicit cache reads only, explicit cache writes unsupported. API rates are not Antigravity subscription charges.",
         "unconfirmed": false
@@ -162,13 +162,13 @@
         "outputPerMTok": 3.75,
         "cacheReadPerMTok": 0.075,
         "currency": "USD",
-        "source": "Google Gemini API pricing and September 2 release notes; verified 2026-10-16.",
+        "source": "Google Gemini API pricing and September 2 release notes; verified 2026-10-27.",
         "sourceUrls": [
           "https://ai.google.dev/gemini-api/docs/pricing",
           "https://ai.google.dev/gemini-api/docs/changelog",
           "https://ai.google.dev/gemini-api/docs/models/gemini-3.8-flash"
         ],
-        "verifiedOn": "2026-10-16",
+        "verifiedOn": "2026-10-27",
         "validFromBasis": "provider-announced-date",
         "note": "Standard paid Gemini API text rate. Explicit caching storage adds $0.50 per million tokens per hour; this time-based charge is outside ComputeCost. API rates are not Antigravity subscription charges.",
         "unconfirmed": false,
@@ -180,13 +180,13 @@
         "outputPerMTok": 7.5,
         "cacheReadPerMTok": 0.15,
         "currency": "USD",
-        "source": "Google Gemini API announced January 1 tariff; verified 2026-10-16.",
+        "source": "Google Gemini API announced January 1 tariff; verified 2026-10-27.",
         "sourceUrls": [
           "https://ai.google.dev/gemini-api/docs/pricing",
           "https://ai.google.dev/gemini-api/docs/changelog",
           "https://ai.google.dev/gemini-api/docs/models/gemini-3.8-flash"
         ],
-        "verifiedOn": "2026-10-16",
+        "verifiedOn": "2026-10-27",
         "validFromBasis": "provider-announced-date",
         "note": "Announced future standard paid Gemini API text rate. Explicit caching storage adds $1.00 per million tokens per hour; this time-based charge is outside ComputeCost. API rates are not Antigravity subscription charges.",
         "unconfirmed": false

@@ -2,7 +2,7 @@
 
 Verified against provider documentation on 2026-09-12. On 2026-09-29 the Fable
 5.1, Opus 5.5, Sonnet 5, Haiku 4.5 and GPT-6 rows were re-checked unchanged and
-Claude Sonnet 5.5 was added. GPT-6.1 Sol was verified and added on 2026-10-04. Claude Haiku 5.5, Gemini 4 Argon, and Gemini 3.8 Flash were verified and added on 2026-10-16. The price catalog stores these facts in
+Claude Sonnet 5.5 was added. GPT-6.1 Sol was verified and added on 2026-10-04. Claude Haiku 5.5, Gemini 4 Argon, and Gemini 3.8 Flash were added on 2026-10-16 and rechecked against their provider announcements on 2026-10-27. The price catalog stores these facts in
 `ModelListing.ReleaseDate` and `ReleaseDateSource`.
 
 A release date is the provider's initial public release or limited-preview

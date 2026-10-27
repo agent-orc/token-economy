@@ -2,13 +2,13 @@
   "$schema": "model-routing-policy.schema.json",
   "schemaVersion": 1,
   "policyVersion": "2026-10-21",
-  "evidenceAsOfDate": "2026-10-21",
+  "evidenceAsOfDate": "2026-10-27",
   "authority": {
     "repositoryPath": "docs/system/domains/model-routing-policy.md",
     "upstreamRepository": "agent-orc/agent-studio",
     "upstreamPath": "docs/system/domains/model-routing-policy.md",
-    "contentSha256": "241781f1c62ee971643036a1287067d9d11e541787430debf03ff3cd5b3d1363",
-    "synchronization": "Token Economy 2026-10-21 revision adds selectable Sonnet 5.5 and documented CLI version gates for Sonnet 5.5 and Haiku 5.5. Defaults, score bands, correctness floors, priors and fallbacks remain unchanged. The policy text also documents the Antigravity provider and test-only Gemini pins. TE-62 and TE-63 catalogue changes are included. No upstream update is claimed."
+    "contentSha256": "30dba06cbb429567df65f886a6eec58a77ba0509715fb0f81dc92b4233fdcf9b",
+    "synchronization": "Token Economy 2026-10-21 revision adds selectable Sonnet 5.5 and documented CLI version gates for Sonnet 5.5 and Haiku 5.5. Defaults, score bands, correctness floors, priors and fallbacks remain unchanged. The policy text also documents the Antigravity provider and test-only Gemini pins. TE-62 and TE-63 catalogue changes are included. Primary vendor routing limits were rechecked on 2026-10-27. No upstream update is claimed."
   },
   "providers": [
     {

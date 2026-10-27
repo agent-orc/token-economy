@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "description": "Immutable, dated copies of the price catalog. The newest entry is byte-identical to ../model-prices.json, which the library embeds; older entries are never edited.",
-  "current": "2026-10-16",
+  "current": "2026-10-27",
   "snapshots": [
     {
       "id": "2026-09-24",
@@ -50,6 +50,19 @@
       "summary": "Adds Claude Haiku 5.5, Gemini 4 Argon, and Gemini 3.8 Flash with prompt-size tiers and announced future Gemini tariffs (TE-62).",
       "sources": [
         "docs/model-catalogue-refresh-2026-10-16.md"
+      ]
+    },
+    {
+      "id": "2026-10-27",
+      "retrievedOn": "2026-10-27",
+      "firstShippedIn": "0.3.8",
+      "path": "model-prices.2026-10-27.json",
+      "sha256": "df72595fe042b54ca97e2cf108984c7d1a8784a16e6fc0877b913ace8f9638c6",
+      "listings": 30,
+      "summary": "Re-verifies the Haiku 5.5, Gemini 4 Argon and Gemini 3.8 Flash tariffs, cache rates and release dates against primary vendor pages; all numerical rates remain unchanged (TE-62 review delivery).",
+      "sources": [
+        "docs/model-catalogue-refresh-2026-10-16.md",
+        "docs/model-release-dates.md"
       ]
     }
   ]
