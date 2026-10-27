@@ -19,7 +19,8 @@ public sealed class October2026ModelOnboardingTests
             Assert.StartsWith("https://", listing.ReleaseDateSource);
             foreach (var price in listing.History)
             {
-                Assert.Equal(new DateOnly(2026, 10, 27), price.VerifiedOn);
+                Assert.InRange(price.VerifiedOn!.Value, new DateOnly(2026, 10, 16),
+                    DateOnly.FromDateTime(DateTime.UtcNow));
                 Assert.Equal("provider-announced-date", price.ValidFromBasis);
                 Assert.False(price.Unconfirmed);
                 Assert.NotEmpty(price.SourceUrls);

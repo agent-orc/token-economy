@@ -2,7 +2,7 @@
   "$schema": "model-routing-policy.schema.json",
   "schemaVersion": 1,
   "policyVersion": "2026-10-21",
-  "evidenceAsOfDate": "2026-10-27",
+  "evidenceAsOfDate": "2026-10-21",
   "authority": {
     "repositoryPath": "docs/system/domains/model-routing-policy.md",
     "upstreamRepository": "agent-orc/agent-studio",
