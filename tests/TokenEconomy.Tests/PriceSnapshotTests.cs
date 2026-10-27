@@ -21,6 +21,9 @@ public sealed class PriceSnapshotTests
             var catalog = new ModelPriceCatalog(Load(bytes));
             Assert.Equal(snapshot.GetProperty("listings").GetInt32(), catalog.Listings.Count);
             Assert.Equal(snapshot.GetProperty("id").GetString(), snapshot.GetProperty("retrievedOn").GetString());
+            var retrievedOn = DateOnly.Parse(snapshot.GetProperty("retrievedOn").GetString()!);
+            Assert.All(catalog.Listings, listing => Assert.All(listing.History,
+                price => Assert.True(price.VerifiedOn <= retrievedOn)));
         }
     }
 

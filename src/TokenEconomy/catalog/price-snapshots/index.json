@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "description": "Immutable, dated copies of the price catalog. The newest entry is byte-identical to ../model-prices.json, which the library embeds; older entries are never edited.",
+  "description": "Immutable, dated copies of the price catalog. The newest entry is byte-identical to ../model-prices.json, which the library embeds; older entries are never edited. firstShippedIn is recorded after a snapshot ships in a release.",
   "current": "2026-10-27",
   "snapshots": [
     {
@@ -55,7 +55,6 @@
     {
       "id": "2026-10-27",
       "retrievedOn": "2026-10-27",
-      "firstShippedIn": "0.3.8",
       "path": "model-prices.2026-10-27.json",
       "sha256": "df72595fe042b54ca97e2cf108984c7d1a8784a16e6fc0877b913ace8f9638c6",
       "listings": 30,

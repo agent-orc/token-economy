@@ -523,8 +523,7 @@ public class ModelRouterTests
         Assert.NotNull(result.CorrectnessFloor);
         Assert.Equal("2026-10-21", result.PolicyVersion);
         Assert.Equal(1, result.ModelKnowledgeSchemaVersion);
-        Assert.Equal(ModelRoutingKnowledgeBase.Default.EvidenceAsOfDate.ToString("yyyy-MM-dd"),
-            result.ModelKnowledgeEvidenceVersion);
+        Assert.Equal("2026-10-21", result.ModelKnowledgeEvidenceVersion);
         Assert.False(string.IsNullOrWhiteSpace(result.BenchmarkEvidenceVersion));
         Assert.False(string.IsNullOrWhiteSpace(result.FallbackOrWaitReason));
         Assert.False(string.IsNullOrWhiteSpace(result.PolicyReason));

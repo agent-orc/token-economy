@@ -11,20 +11,30 @@ public sealed class October2026ModelOnboardingTests
     [Fact]
     public void OnboardedTariffsHaveCurrentPrimaryProvenanceAndNoInventedCacheWrites()
     {
-        foreach (var model in new[] { KnownModels.ClaudeHaiku55, KnownModels.Gemini4Argon,
-                     KnownModels.Gemini38Flash })
+        foreach (var (model, vendor, sourceHost) in new[]
+                 {
+                     (KnownModels.ClaudeHaiku55, "anthropic", "platform.claude.com"),
+                     (KnownModels.Gemini4Argon, "google", "ai.google.dev"),
+                     (KnownModels.Gemini38Flash, "google", "ai.google.dev")
+                 })
         {
             var listing = ModelPriceCatalog.Default.Find(model)!;
+            Assert.Equal(vendor, listing.Vendor);
             Assert.NotNull(listing.ReleaseDate);
             Assert.StartsWith("https://", listing.ReleaseDateSource);
             foreach (var price in listing.History)
             {
-                Assert.InRange(price.VerifiedOn!.Value, new DateOnly(2026, 10, 16),
-                    DateOnly.FromDateTime(DateTime.UtcNow));
+                Assert.NotNull(price.VerifiedOn);
+                Assert.True(price.VerifiedOn >= new DateOnly(2026, 10, 16));
                 Assert.Equal("provider-announced-date", price.ValidFromBasis);
                 Assert.False(price.Unconfirmed);
                 Assert.NotEmpty(price.SourceUrls);
-                Assert.All(price.SourceUrls, url => Assert.StartsWith("https://", url));
+                Assert.All(price.SourceUrls, url =>
+                {
+                    var uri = new Uri(url);
+                    Assert.Equal("https", uri.Scheme);
+                    Assert.Equal(sourceHost, uri.Host);
+                });
                 if (listing.Vendor == "google") Assert.Null(price.CacheWritePerMTok);
                 else Assert.True(price.CacheWritePerMTok > 0);
             }
