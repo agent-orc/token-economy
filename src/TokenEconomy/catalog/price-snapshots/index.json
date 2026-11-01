@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "description": "Immutable, dated copies of the price catalog. The newest entry is byte-identical to ../model-prices.json, which the library embeds; older entries are never edited.",
-  "current": "2026-10-16",
+  "current": "2026-11-01",
   "snapshots": [
     {
       "id": "2026-09-24",
@@ -50,6 +50,19 @@
       "summary": "Adds Claude Haiku 5.5, Gemini 4 Argon, and Gemini 3.8 Flash with prompt-size tiers and announced future Gemini tariffs (TE-62).",
       "sources": [
         "docs/model-catalogue-refresh-2026-10-16.md"
+      ]
+    },
+    {
+      "id": "2026-11-01",
+      "retrievedOn": "2026-11-01",
+      "firstShippedIn": "unreleased",
+      "path": "model-prices.2026-11-01.json",
+      "sha256": "dcc83fb9a0052dbf4e4c9ba6e8ee5f200c7208a7e7c0f7b41e586f2f01953098",
+      "listings": 32,
+      "summary": "Adds GPT-6.1 Terra and restricted Gemini 4 Carbon; Carbon $4/$20 conflicts with Arena $2/$10 and is unconfirmed. Release posts are retained separately from price effective dates.",
+      "sources": [
+        "docs/benchmarks-research.md",
+        "docs/model-release-dates.md"
       ]
     }
   ]

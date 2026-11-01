@@ -52,11 +52,13 @@ USAGE_OUTPUT = ROOT / "website" / "data" / "token-usage.json"
 MATRIX_OUTPUT = ROOT / "website" / "data" / "model-efficiency-matrix.json"
 RECOMMENDATIONS_OUTPUT = ROOT / "website" / "data" / "task-class-recommendations.json"
 BENCHMARK_MATRIX_OUTPUT = ROOT / "website" / "data" / "model-benchmark-matrix.json"
+FRONTIER_OUTPUT = ROOT / "website" / "data" / "cost-frontier.json"
+FRONTIER_METADATA = ROOT / "src" / "TokenEconomy" / "catalog" / "cost-frontier-metadata.json"
 PRICING_OUTPUT = ROOT / "website" / "data" / "price-history.json"
 REVIEW_OUTPUT = ROOT / "website" / "data" / "code-review.json"
 REVIEW_STUDIES = ROOT / "docs" / "analyses" / "code-review-studies-2026-09-12.json"
 REVIEW_OPERATIONAL = ROOT / "results" / "routing-evidence" / "review" / "v1" / "review-evidence.json"
-MATRIX_AS_OF_UTC = "2026-10-16T00:00:00Z"
+MATRIX_AS_OF_UTC = "2026-11-01T00:00:00Z"
 BENCHMARK_AS_OF_UTC = "2026-10-04T00:00:00Z"
 
 PRICE_CATALOG = ROOT / "src" / "TokenEconomy" / "catalog" / "model-prices.json"
@@ -648,6 +650,8 @@ def matrix_context(model, listing, policy, as_of):
     benchmark_types = {item['id']: item for item in load(BENCHMARK_TYPES)['records']}
     latest = {}
     for record in load(BENCHMARK_RESULTS)['records']:
+        if record["benchmarkTypeId"].startswith("cost-frontier-"):
+            continue  # Explorer-only evidence never changes the existing policy matrix.
         if record['modelId'] != model_id or record['publishedAt'] > as_of.date().isoformat():
             continue
         key = (record['benchmarkTypeId'], record['reasoningEffort'])
@@ -848,6 +852,8 @@ def create_benchmark_matrix_payload() -> dict:
     }
     matrices = []
     for benchmark_type in type_document["records"]:
+        if benchmark_type["id"].startswith("cost-frontier-"):
+            continue  # This explorer retains named rungs and chart-read costs separately.
         type_id = benchmark_type["id"]
         source_rows = [row for row in result_document["records"] if row["benchmarkTypeId"] == type_id]
         groups: dict[tuple[str, str], list[dict]] = {}
@@ -951,8 +957,8 @@ def create_benchmark_matrix_payload() -> dict:
         },
         "provenanceFacts": [
             {"label": "Price catalog snapshot", "date": MATRIX_AS_OF_UTC[:10], "path": PRICE_CATALOG.relative_to(ROOT).as_posix()},
-            {"label": "Benchmark definitions captured through", "date": max(row["capturedAt"] for row in type_document["records"]), "path": BENCHMARK_TYPES.relative_to(ROOT).as_posix()},
-            {"label": "Benchmark results retrieved through", "date": max(row["retrievedAt"] for row in result_document["records"]), "path": BENCHMARK_RESULTS.relative_to(ROOT).as_posix()},
+            {"label": "Benchmark definitions captured through", "date": max(row["capturedAt"] for row in type_document["records"] if not row["id"].startswith("cost-frontier-")), "path": BENCHMARK_TYPES.relative_to(ROOT).as_posix()},
+            {"label": "Benchmark results retrieved through", "date": max(row["retrievedAt"] for row in result_document["records"] if not row["benchmarkTypeId"].startswith("cost-frontier-")), "path": BENCHMARK_RESULTS.relative_to(ROOT).as_posix()},
         ],
         "drivingQuestion": {
             "question": "Is gpt-6-sol at API max better and cheaper than gpt-6-luna at API max on Intelligence Index v4.3.2?",
@@ -1036,8 +1042,7 @@ def create_price_history_payload() -> dict:
     models = []
     for listing in listings:
         history = sorted(listing.get("history", []), key=lambda price: price["validFrom"])
-        if not history:
-            raise ValueError(f"Price history missing for {listing['modelId']}")
+        # A benchmark-only model may have no confirmed list price yet.
         for price in history:
             if not price.get("sourceUrls") or not price.get("verifiedOn") or not price.get("validFromBasis"):
                 raise ValueError(f"Price provenance missing for {listing['modelId']}")
@@ -1064,7 +1069,8 @@ def create_price_history_payload() -> dict:
 def create_code_review_payload() -> dict:
     """Publish direct review metrics without collapsing different study configurations."""
     types = [entry for entry in load(BENCHMARK_TYPES)["records"]
-             if entry["capabilityClass"] == "codeReview"]
+             if entry["capabilityClass"] == "codeReview"
+             and not entry["id"].startswith("cost-frontier-")]
     type_ids = {entry["id"] for entry in types}
     records = [entry for entry in load(BENCHMARK_RESULTS)["records"]
                if entry["benchmarkTypeId"] in type_ids
@@ -1131,6 +1137,95 @@ def project_language_payload(document: dict, recommendations: dict) -> dict:
     }
 
 
+def create_cost_frontier_payload() -> dict:
+    """Project the interactive explorer from dated catalog prices and evidence."""
+    meta = load(FRONTIER_METADATA)
+    prices = load_price_index()
+    results = load(BENCHMARK_RESULTS)["records"]
+    as_of = parse_utc(meta["AS_OF"] + "T00:00:00Z")
+    model_ids = meta["modelIds"]
+    models = {}
+    restricted = {}
+    price_claims = {}
+    for short, model_id in model_ids.items():
+        listing = prices.get(normalize_model_key(model_id))
+        external = meta.get("externalModels", {}).get(short)
+        if listing is None and external is None:
+            raise ValueError(f"Missing frontier model: {model_id}")
+        price = resolve_price(prices, model_id, as_of)
+        source = listing or external
+        vendor = {"anthropic": "a", "openai": "o", "google": "g"}.get(source.get("vendor"), "x")
+        models[short] = [source["displayName"], vendor]
+        if price["status"] == "Resolved":
+            models[short].extend([price["inputPerMTok"], price["outputPerMTok"]])
+        elif short in meta.get("externalPriceClaims", {}):
+            claim = meta["externalPriceClaims"][short]
+            models[short].extend([claim["inputPerMTok"], claim["outputPerMTok"]])
+        if source.get("availability") == "restricted":
+            restricted[short] = source.get("availabilityNote", "Not generally available")
+        if source.get("priceClaims"):
+            price_claims[short] = source["priceClaims"]
+    benches = {}
+    for short, definition in meta["benchmarks"].items():
+        rows = [row for row in results if row["benchmarkTypeId"] == "cost-frontier-" + short]
+        rows.sort(key=lambda row: row["id"])
+        projected = dict(definition)
+        projected["rows"] = []
+        projected["evidence"] = []
+        projected["noCost"] = []
+        projected["scoreOnlyEvidence"] = []
+        for row in rows:
+            if row.get("costSource") == "unavailable":
+                if row.get("secondaryMetrics", {}).get("costPerTaskUsd") is not None or not row.get("scoreOnlyLabel"):
+                    raise ValueError(f"Invalid score-only frontier row: {row['id']}")
+                projected["noCost"].append([row["scoreOnlyLabel"], row["score"]])
+                fact = {key: row[key] for key in
+                    ("id", "sourceUrl", "publishedAt", "retrievedAt", "evidenceExcerpt", "confidence", "costSource")}
+                fact["stale"] = (as_of.date() - datetime.fromisoformat(row["publishedAt"][:10]).date()).days > 90
+                projected["scoreOnlyEvidence"].append(fact)
+                continue
+            model = next((key for key, value in model_ids.items() if value == row["modelId"]), None)
+            if model is None:
+                raise ValueError(f"Missing frontier model: {row['modelId']}")
+            expected = {"measured": "measured", "chartread": "chartRead", "modelled": "estimated"}[definition["cost"]]
+            if row.get("costSource") != expected:
+                raise ValueError(f"Frontier cost provenance mismatch: {row['id']}")
+            cost = row.get("secondaryMetrics", {}).get("costPerTaskUsd")
+            if expected == "estimated" and cost is not None:
+                raise ValueError(f"Estimated row cannot carry a published cost: {row['id']}")
+            if expected != "estimated" and cost is None:
+                raise ValueError(f"Missing sourced cost: {row['id']}")
+            entry = [model, row["settingLabel"], row["score"]]
+            if cost is not None:
+                entry.append(cost)
+            projected["rows"].append(entry)
+            fact = {key: row[key] for key in
+                ("id", "sourceUrl", "publishedAt", "retrievedAt", "evidenceExcerpt", "confidence", "costSource")}
+            fact["stale"] = (as_of.date() - datetime.fromisoformat(row["publishedAt"][:10]).date()).days > 90
+            projected["evidence"].append(fact)
+        projected["stale"] = (as_of.date() - datetime.fromisoformat(definition["date"]).date()).days > 90
+        benches[short] = projected
+    releases = []
+    def release_post(short: str) -> dict | None:
+        listing = prices.get(normalize_model_key(model_ids[short]))
+        return (listing or meta.get("externalModels", {}).get(short) or {}).get("releasePost")
+
+    for short in meta["releaseOrder"]:
+        post = release_post(short)
+        if post is None:
+            raise ValueError(f"Missing frontier release post: {short}")
+        same_post = [key for key, mid in model_ids.items()
+                     if (release_post(key) or {}).get("url") == post["url"]]
+        releases.append({"ms": same_post, "l": models[short][1], "d": post["date"],
+                         "approx": post["approximate"], "t": post["title"],
+                         "u": post["url"], "c": post["claim"]})
+    return {**{key: value for key, value in meta.items() if key not in
+               ("modelIds", "benchmarks", "releaseOrder")},
+            "M": models, "B": benches, "RESTRICTED": restricted,
+            "PRICE_CLAIMS": price_claims, "RELEASES": releases,
+            "asOf": meta["AS_OF"], "schemaVersion": 1}
+
+
 def validate_site_navigation() -> None:
     """Keep the copied static-site header in sync with its canonical include."""
     expected = NAVIGATION_INCLUDE.read_text(encoding="utf-8").strip()
@@ -1161,6 +1256,7 @@ def main() -> None:
     usage_payload = create_usage_payload()
     matrix_payload = create_matrix_payload()
     benchmark_matrix_payload = create_benchmark_matrix_payload()
+    frontier_payload = create_cost_frontier_payload()
     recommendation_payload = create_recommendation_payload()
     context_payload = load(ROOT / "src/TokenEconomy/catalog/context-cost-evidence.json")
     evidence_ids = {e["id"] for e in context_payload["evidence"]}
@@ -1192,6 +1288,7 @@ def main() -> None:
         (USAGE_OUTPUT, usage_payload),
         (MATRIX_OUTPUT, matrix_payload),
         (BENCHMARK_MATRIX_OUTPUT, benchmark_matrix_payload),
+        (FRONTIER_OUTPUT, frontier_payload),
         (RECOMMENDATIONS_OUTPUT, recommendation_payload),
     )
     if args.check:

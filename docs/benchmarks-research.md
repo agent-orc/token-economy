@@ -127,3 +127,30 @@ a similarly rounded max-effort result.
 The generated page uses a declared 100,000 input + 10,000 output token task only
 when a result lacks published cost/task. That assumption is a comparison input,
 not measured benchmark usage.
+
+## Cost Frontier snapshot (2026-11-01)
+
+The [Cost Frontier](/token-economy/cost-frontier/) uses append-only rows with
+`costSource` set to `measured`, `chartRead`, or `estimated`. `chartRead` is reserved
+for figures 8.13.1.B and 8.13.3.B in the [Claude Opus 5.5 system card](https://www-cdn.anthropic.com/fc1b44717c85dc068bc6ba5024219938094694bd/Claude%20Opus%205.5%20System%20Card.pdf),
+with about ±5% cost reading uncertainty. Estimated rows carry no measured cost;
+the generator joins them to dated list prices and the page defaults to 100k
+input and 10k output tokens. Rating boards such as Arena and GDPval-AA have no
+cost per point. Benchmarks are compared only within a version.
+
+The additional register is in `src/TokenEconomy/catalog/cost-frontier-metadata.json`:
+benchmark owner links, number sources, category copy, 14 insights, 10 missions,
+and five Quality dial workloads. The result and type catalogs contain the score
+rows; `model-prices.json` contains release posts, availability, and dated prices.
+All category sources should be checked monthly, and within a week after a new
+leaderboard or model release. Reopen both the benchmark's own page and the page
+that supplies the numbers. Check release posts at each model announcement.
+The browser check log is delivered with TE-72; a 200 response with no readable
+body is a retrieval gap, not a verified numeric row. Arena blocks browser
+access with Cloudflare. OpenAI announcements returned 403 in this environment.
+
+Carbon's $4/$20 Artificial Analysis claim conflicts with Arena's $2/$10;
+Google's pricing page had no Carbon listing at the snapshot. The catalog uses
+the former as an unconfirmed exploration price, and `availability=restricted`
+excludes Carbon from all picks and Quality dial results. This has no effect on
+the versioned recommendation policy or its correctness floors.

@@ -16,7 +16,8 @@ public class BenchmarkEvidenceCatalogTests
         Assert.Contains(catalog.Types, type => type.Id == "token-economy-controlled-setups-v1");
         Assert.All(catalog.Results, result =>
         {
-            Assert.NotNull(ModelPriceCatalog.Default.Find(result.ModelId));
+            if (ModelPriceCatalog.Default.Find(result.ModelId) is null)
+                Assert.True(catalog.FindType(result.BenchmarkTypeId)!.AllowUnpricedModels);
             Assert.NotEqual(default, result.RetrievedAt);
             Assert.True(Uri.TryCreate(result.SourceUrl, UriKind.Absolute, out _));
             Assert.False(string.IsNullOrWhiteSpace(result.EvidenceExcerpt));

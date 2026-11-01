@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAtUtc": "2026-10-20T22:10:58.020470+00:00",
+  "generatedAtUtc": "2026-11-01T18:55:23.203378+00:00",
   "asOfUtc": "2026-10-04T00:00:00Z",
   "source": {
     "benchmarkTypes": "src/TokenEconomy/catalog/benchmark-types.json",
@@ -1059,6 +1059,14 @@
     {
       "modelId": "gpt-5-codex",
       "displayName": "GPT-5 Codex"
+    },
+    {
+      "modelId": "gpt-6.1-terra",
+      "displayName": "GPT-6.1 Terra"
+    },
+    {
+      "modelId": "gemini-4-carbon",
+      "displayName": "Gemini 4 Carbon"
     }
   ],
   "operational": {
