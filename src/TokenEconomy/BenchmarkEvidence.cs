@@ -37,6 +37,8 @@ public enum BenchmarkRetrievalMethod
     Manual,
     Script,
     Api,
+    BrowserRendered,
+    PublishedData,
 }
 
 [JsonConverter(typeof(JsonStringEnumConverter<BenchmarkConfidence>))]
@@ -123,6 +125,8 @@ public sealed record BenchmarkResult
     public BenchmarkCostSource? CostSource { get; init; }
     public string? SettingLabel { get; init; }
     public string? ScoreOnlyLabel { get; init; }
+    public ModelId? ScoreOnlyModelId { get; init; }
+    public string? CostDerivation { get; init; }
     public BenchmarkSecondaryMetrics? SecondaryMetrics { get; init; }
     public BenchmarkEvidenceContext? Context { get; init; }
     /// <summary>Publication date, or conservative availability date for an explicitly marked first-observed snapshot.</summary>

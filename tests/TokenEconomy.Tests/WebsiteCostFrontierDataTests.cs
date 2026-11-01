@@ -1,4 +1,5 @@
 using System.Text.Json;
+using System.Text.RegularExpressions;
 using TokenEconomy;
 using Xunit;
 
@@ -24,15 +25,18 @@ public class WebsiteCostFrontierDataTests
     }
 
     [Fact]
-    public void ScoreOnlyRowsNeverAcquireAnEstimatedCost()
+    public void ScoreOnlyRowsRemainUnpricedInTheGeneratedExplorer()
     {
-        var matrix = ModelBenchmarkMatrix.Default.Build("cost-frontier-arc2",
-            new BenchmarkTokenAssumption(100_000, 10_000), null,
-            new DateTime(2026, 11, 1, 0, 0, 0, DateTimeKind.Utc));
-        var scoreOnly = Assert.Single(matrix.Cells, cell =>
-            cell.Key.ModelId.Value == "claude-opus-5-5" && cell.Key.Effort == EffortLevel.Max);
-        Assert.Equal(BenchmarkCostBasis.Unavailable, scoreOnly.CostBasis);
-        Assert.Null(scoreOnly.CostPerTaskUsd);
+        using var document = JsonDocument.Parse(File.ReadAllBytes(Path.Combine(
+            RepositoryRoot(), "website", "data", "cost-frontier.json")));
+        var benchmark = document.RootElement.GetProperty("B").GetProperty("aacode");
+        Assert.Contains(benchmark.GetProperty("noCost").EnumerateArray(),
+            row => row[0].GetString() == "Claude Fable 5.1" && row[1].GetDecimal() == 58m);
+        Assert.All(benchmark.GetProperty("scoreOnlyEvidence").EnumerateArray(),
+            row => Assert.Equal("unavailable", row.GetProperty("costSource").GetString()));
+        Assert.DoesNotContain(document.RootElement.GetProperty("B").GetProperty("osw2")
+            .GetProperty("noCost").EnumerateArray(),
+            row => row[0].GetString()!.Contains("Haiku 5.5", StringComparison.Ordinal));
     }
 
     [Fact]
@@ -46,13 +50,13 @@ public class WebsiteCostFrontierDataTests
             RepositoryRoot(), "src", "TokenEconomy", "catalog", "cost-frontier-metadata.json")))
             .RootElement.GetProperty("modelIds").Clone();
         var asOf = new DateTime(2026, 11, 1, 0, 0, 0, DateTimeKind.Utc);
-        Assert.Equal(9, root.GetProperty("CATS").GetArrayLength());
-        Assert.Equal(14, root.GetProperty("INSIGHTS").GetArrayLength());
+        Assert.Equal(8, root.GetProperty("CATS").GetArrayLength());
+        Assert.Equal(16, root.GetProperty("INSIGHTS").GetArrayLength());
         Assert.Equal(10, root.GetProperty("MISSIONS").GetArrayLength());
         Assert.Equal(2, root.GetProperty("MISSIONS").EnumerateArray()
             .Count(item => item.TryGetProperty("check", out var check) && check.GetBoolean()));
-        Assert.Equal(25, root.GetProperty("RELEASES").GetArrayLength());
-        Assert.Equal(26, root.GetProperty("B").EnumerateObject()
+        Assert.Equal(18, root.GetProperty("RELEASES").GetArrayLength());
+        Assert.Equal(16, root.GetProperty("B").EnumerateObject()
             .Sum(item => item.Value.GetProperty("noCost").GetArrayLength()));
         Assert.True(root.GetProperty("RESTRICTED").TryGetProperty("carbon", out _));
 
@@ -102,7 +106,75 @@ public class WebsiteCostFrontierDataTests
         AssertSpot(root, "aa5", "opus-5.5", "max", 58m, 10.04m);
         AssertSpot(root, "aa5", "sol-6.1", "max", 55m, 1.27m);
         AssertSpot(root, "deepswe", "flash-3.8", "high", 74m, 2.36m);
-        AssertSpot(root, "deepswe", "sonnet-5", "max", 54m, 26.40m);
+        AssertSpot(root, "tb4", "sol-6.1", "max", 58.18m, 1.92m);
+        AssertSpot(root, "tb4", "opus-5.5", "max", 64.85m, 14.30m);
+        AssertSpot(root, "arc2", "sol-6.1", "max", 94.2m, 0.2537m);
+        AssertSpot(root, "aacode", "opus-5.5", "max", 62m, 11.42m);
+    }
+
+    [Fact]
+    public void SupersededModelsCannotReachAnyBenchmarkOrMission()
+    {
+        using var document = JsonDocument.Parse(File.ReadAllBytes(Path.Combine(
+            RepositoryRoot(), "website", "data", "cost-frontier.json")));
+        var root = document.RootElement;
+        var current = root.GetProperty("CURRENT").EnumerateArray().Select(value => value.GetString()!).ToHashSet();
+        var models = root.GetProperty("M").EnumerateObject().Select(value => value.Name).ToHashSet();
+        Assert.Equal(current.Order(), models.Order());
+        using var metadata = JsonDocument.Parse(File.ReadAllBytes(Path.Combine(
+            RepositoryRoot(), "src", "TokenEconomy", "catalog", "cost-frontier-metadata.json")));
+        using var results = JsonDocument.Parse(File.ReadAllBytes(Path.Combine(
+            RepositoryRoot(), "src", "TokenEconomy", "catalog", "benchmark-results.json")));
+        using var prices = JsonDocument.Parse(File.ReadAllBytes(Path.Combine(
+            RepositoryRoot(), "src", "TokenEconomy", "catalog", "model-prices.json")));
+        var canonicalCurrent = current.Select(id => metadata.RootElement.GetProperty("modelIds").GetProperty(id).GetString()!).ToHashSet();
+        var catalogRows = results.RootElement.GetProperty("records").EnumerateArray()
+            .ToDictionary(row => row.GetProperty("id").GetString()!);
+        var used = new HashSet<string>();
+        foreach (var benchmark in root.GetProperty("B").EnumerateObject())
+        {
+            foreach (var row in benchmark.Value.GetProperty("rows").EnumerateArray())
+            {
+                var model = row[0].GetString()!;
+                Assert.Contains(model, current);
+                used.Add(model);
+            }
+        }
+        foreach (var benchmark in metadata.RootElement.GetProperty("benchmarks").EnumerateObject())
+        {
+            foreach (var rowId in benchmark.Value.GetProperty("displayScoreOnlyIds").EnumerateArray())
+            {
+                var catalogRow = catalogRows[rowId.GetString()!];
+                Assert.Contains(catalogRow.GetProperty("scoreOnlyModelId").GetString()!, canonicalCurrent);
+            }
+        }
+        foreach (var mission in root.GetProperty("MISSIONS").EnumerateArray())
+        {
+            if (!mission.TryGetProperty("opts", out var options)) continue;
+            foreach (var option in options.EnumerateArray()) Assert.Contains(option[0].GetString()!, current);
+        }
+        foreach (var insight in root.GetProperty("INSIGHTS").EnumerateArray())
+        {
+            if (insight.GetProperty("on").TryGetProperty("m", out var model))
+                Assert.Contains(model.GetString()!, current);
+        }
+        foreach (var release in root.GetProperty("RELEASES").EnumerateArray())
+            foreach (var model in release.GetProperty("ms").EnumerateArray())
+                Assert.Contains(model.GetString()!, current);
+        var storyText = root.GetProperty("INSIGHTS").ToString() + root.GetProperty("MISSIONS").ToString();
+        var supersededNames = prices.RootElement.EnumerateArray()
+            .Where(model => model.TryGetProperty("lifecycleStatus", out var lifecycle) && lifecycle.GetString() == "superseded")
+            .Select(model => model.GetProperty("displayName").GetString()!)
+            .Concat(metadata.RootElement.GetProperty("externalModels").EnumerateObject()
+                .Where(model => model.Value.GetProperty("lifecycleStatus").GetString() == "superseded")
+                .Select(model => model.Value.GetProperty("displayName").GetString()!));
+        foreach (var name in supersededNames)
+            Assert.False(Regex.IsMatch(storyText, Regex.Escape(name) + "(?![.\\dA-Za-z])", RegexOptions.IgnoreCase),
+                $"Superseded model appears in mission or insight: {name}");
+        Assert.DoesNotContain("sol-6", models);
+        Assert.DoesNotContain("sonnet-5", models);
+        Assert.DoesNotContain("grok-4.6", models);
+        Assert.True(used.Count >= 15);
     }
 
     private static void AssertEvidenceAge(JsonElement fact)

@@ -803,6 +803,23 @@
       "capturedAt": "2026-09-04",
       "retrievedAt": "2026-11-01",
       "allowUnpricedModels": true
+    },
+    {
+      "id": "cost-frontier-aacode",
+      "version": "Artificial Analysis Coding Agent Index v2.0",
+      "name": "Artificial Analysis Coding Agent Index v2.0",
+      "publisher": "Artificial Analysis",
+      "capabilityClass": "codingAgent",
+      "unit": "index points",
+      "minimumScore": 0,
+      "maximumScore": 100,
+      "direction": "higherIsBetter",
+      "methodologyUrl": "https://artificialanalysis.ai/agents/coding-agents",
+      "citationNote": "Composite of FrontierCode v1.1, Terminal-Bench 4.0 and SWE-Atlas-QnA-AA; average pay-per-token API cost per task.",
+      "validFrom": "2026-11-01",
+      "capturedAt": "2026-11-01",
+      "retrievedAt": "2026-11-01",
+      "allowUnpricedModels": true
     }
   ]
 }
