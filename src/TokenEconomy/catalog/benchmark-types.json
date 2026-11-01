@@ -513,7 +513,14 @@
       "validFrom": "2026-10-28",
       "capturedAt": "2026-10-28",
       "retrievedAt": "2026-11-01",
-      "allowUnpricedModels": true
+      "allowedUnpricedModelIds": [
+        "deepseek-v4.1-flash",
+        "glm-5.3",
+        "grok-4.7",
+        "kimi-k3.1-pro",
+        "mimo-v2.6-pro",
+        "qwen3.8-max"
+      ]
     },
     {
       "id": "cost-frontier-arc2",
@@ -530,7 +537,12 @@
       "validFrom": "2026-10-17",
       "capturedAt": "2026-10-17",
       "retrievedAt": "2026-11-01",
-      "allowUnpricedModels": true
+      "allowedUnpricedModelIds": [
+        "deepseek-v4.1-flash",
+        "glm-5.3-flash",
+        "grok-4.6",
+        "grok-4.7"
+      ]
     },
     {
       "id": "cost-frontier-deepswe",
@@ -547,7 +559,14 @@
       "validFrom": "2026-09-22",
       "capturedAt": "2026-09-22",
       "retrievedAt": "2026-11-01",
-      "allowUnpricedModels": true
+      "allowedUnpricedModelIds": [
+        "deepseek-v4-flash",
+        "deepseek-v4-pro",
+        "glm-5.3",
+        "glm-5.3-flash",
+        "grok-4.6",
+        "qwen3.8-max"
+      ]
     },
     {
       "id": "cost-frontier-tb4",
@@ -564,7 +583,13 @@
       "validFrom": "2026-09-12",
       "capturedAt": "2026-09-12",
       "retrievedAt": "2026-11-01",
-      "allowUnpricedModels": true
+      "allowedUnpricedModelIds": [
+        "glm-5.3",
+        "glm-5.3-flash",
+        "grok-4.7",
+        "kimi-k3.1-pro",
+        "qwen3.8-max"
+      ]
     },
     {
       "id": "cost-frontier-osw2",
@@ -580,8 +605,7 @@
       "citationNote": "108 long computer-use workflows across 31 websites and desktop apps, about 318 tool calls each. Credit is given per checkpoint.",
       "validFrom": "2026-09-22",
       "capturedAt": "2026-09-22",
-      "retrievedAt": "2026-11-01",
-      "allowUnpricedModels": true
+      "retrievedAt": "2026-11-01"
     },
     {
       "id": "cost-frontier-oswv",
@@ -598,7 +622,9 @@
       "validFrom": "2026-08-01",
       "capturedAt": "2026-08-01",
       "retrievedAt": "2026-11-01",
-      "allowUnpricedModels": true
+      "allowedUnpricedModelIds": [
+        "qwen3.8-max"
+      ]
     },
     {
       "id": "cost-frontier-exploit",
@@ -615,7 +641,9 @@
       "validFrom": "2026-09-22",
       "capturedAt": "2026-09-22",
       "retrievedAt": "2026-11-01",
-      "allowUnpricedModels": true
+      "allowedUnpricedModelIds": [
+        "claude-mythos-5-1"
+      ]
     },
     {
       "id": "cost-frontier-cyscen",
@@ -632,7 +660,9 @@
       "validFrom": "2026-09-22",
       "capturedAt": "2026-09-22",
       "retrievedAt": "2026-11-01",
-      "allowUnpricedModels": true
+      "allowedUnpricedModelIds": [
+        "claude-mythos-5-1"
+      ]
     },
     {
       "id": "cost-frontier-cybergym",
@@ -649,7 +679,13 @@
       "validFrom": "2026-09-22",
       "capturedAt": "2026-09-22",
       "retrievedAt": "2026-11-01",
-      "allowUnpricedModels": true
+      "allowedUnpricedModelIds": [
+        "claude-mythos-5",
+        "deepseek-v4-pro",
+        "deepseek-v4.1-flash",
+        "mimo-v2.6-flash",
+        "mimo-v2.6-pro"
+      ]
     },
     {
       "id": "cost-frontier-arena",
@@ -666,7 +702,11 @@
       "validFrom": "2026-10-27",
       "capturedAt": "2026-10-27",
       "retrievedAt": "2026-11-01",
-      "allowUnpricedModels": true
+      "allowedUnpricedModelIds": [
+        "deepseek-v4.1-flash",
+        "grok-4.7",
+        "qwen3.8-max"
+      ]
     },
     {
       "id": "cost-frontier-xpro",
@@ -682,8 +722,7 @@
       "citationNote": "100 synthetic long-tail documents, 2,622 pages. A document only counts when every single value matches.",
       "validFrom": "2026-10-28",
       "capturedAt": "2026-10-28",
-      "retrievedAt": "2026-11-01",
-      "allowUnpricedModels": true
+      "retrievedAt": "2026-11-01"
     },
     {
       "id": "cost-frontier-xf1",
@@ -699,8 +738,7 @@
       "citationNote": "The same runs as the perfect-document board, but counting each extracted value on its own.",
       "validFrom": "2026-10-28",
       "capturedAt": "2026-10-28",
-      "retrievedAt": "2026-11-01",
-      "allowUnpricedModels": true
+      "retrievedAt": "2026-11-01"
     },
     {
       "id": "cost-frontier-gdpval",
@@ -717,7 +755,11 @@
       "validFrom": "2026-10-28",
       "capturedAt": "2026-10-28",
       "retrievedAt": "2026-11-01",
-      "allowUnpricedModels": true
+      "allowedUnpricedModelIds": [
+        "deepseek-v4.1-flash",
+        "grok-4.7",
+        "qwen3.8-max"
+      ]
     },
     {
       "id": "cost-frontier-chart",
@@ -733,8 +775,7 @@
       "citationNote": "Professional chart understanding from Surge AI. Without tools, the model has to read the image itself.",
       "validFrom": "2026-09-22",
       "capturedAt": "2026-09-22",
-      "retrievedAt": "2026-11-01",
-      "allowUnpricedModels": true
+      "retrievedAt": "2026-11-01"
     },
     {
       "id": "cost-frontier-mmmu",
@@ -750,8 +791,7 @@
       "citationNote": "Multiple-choice questions over images across many academic disciplines.",
       "validFrom": "2026-09-01",
       "capturedAt": "2026-09-01",
-      "retrievedAt": "2026-11-01",
-      "allowUnpricedModels": true
+      "retrievedAt": "2026-11-01"
     },
     {
       "id": "cost-frontier-ownrev",
@@ -767,8 +807,7 @@
       "citationNote": "Our own pilot. Two small C# files hold ten seeded contract defects. Terra medium and Sol xhigh both found 10 of 10, Sol medium found 9 of 10.",
       "validFrom": "2026-08-12",
       "capturedAt": "2026-08-12",
-      "retrievedAt": "2026-11-01",
-      "allowUnpricedModels": true
+      "retrievedAt": "2026-11-01"
     },
     {
       "id": "cost-frontier-ownui",
@@ -776,7 +815,7 @@
       "name": "Token Economy pilot: HTML UI",
       "publisher": "Own controlled run",
       "capabilityClass": "codeReview",
-      "unit": "quality \u00d7 100",
+      "unit": "quality × 100",
       "minimumScore": 0,
       "maximumScore": 100,
       "direction": "higherIsBetter",
@@ -784,8 +823,7 @@
       "citationNote": "Our own pilot. Two self-contained UI pages, graded 75% by a blinded screenshot jury and 25% by deterministic checks.",
       "validFrom": "2026-08-12",
       "capturedAt": "2026-08-12",
-      "retrievedAt": "2026-11-01",
-      "allowUnpricedModels": true
+      "retrievedAt": "2026-11-01"
     },
     {
       "id": "cost-frontier-rabbit",
@@ -801,8 +839,7 @@
       "citationNote": "Share of labelled bugs caught with actionable comments in CodeRabbit's pipeline.",
       "validFrom": "2026-09-04",
       "capturedAt": "2026-09-04",
-      "retrievedAt": "2026-11-01",
-      "allowUnpricedModels": true
+      "retrievedAt": "2026-11-01"
     },
     {
       "id": "cost-frontier-aacode",
@@ -819,7 +856,12 @@
       "validFrom": "2026-11-01",
       "capturedAt": "2026-11-01",
       "retrievedAt": "2026-11-01",
-      "allowUnpricedModels": true
+      "allowedUnpricedModelIds": [
+        "deepseek-v4.1-flash",
+        "glm-5.3",
+        "grok-4.7",
+        "mistral-large-4"
+      ]
     }
   ]
 }

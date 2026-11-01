@@ -1156,23 +1156,23 @@
       "what": "Agents complete 66 command-line tasks in a sandbox, checked by test suites, over 330 trials. Each row runs in its vendor's native agent.",
       "notes": [
         "Cost per task is the published total run cost divided by the 330 trials.",
-        "Margins are about \u00b13 points, so GPT-6.1 Sol, GPT-6 Astra and Fable 5.1 near 58% are a tie.",
+        "Margins are about ±3 points, so GPT-6.1 Sol, GPT-6 Astra and Fable 5.1 near 58% are a tie.",
         "Vendor figures can differ from the board: Anthropic reports 70.6% for Sonnet 5.5 and 66.4% for Opus 5.5."
       ],
       "displayRowIds": [
         "cf-tb4-refresh-001",
         "cf-tb4-refresh-002",
-        "cf-selected-tb4-001",
-        "cf-selected-tb4-002",
-        "cf-selected-tb4-003",
-        "cf-selected-tb4-004",
-        "cf-selected-tb4-005",
+        "cf-tb4-001",
+        "cf-tb4-002",
+        "cf-tb4-003",
+        "cf-tb4-004",
+        "cf-tb4-005",
         "cf-tb4-refresh-003",
         "cf-tb4-refresh-004",
         "cf-tb4-live-001",
         "cf-tb4-refresh-006",
         "cf-tb4-refresh-007",
-        "cf-selected-tb4-006",
+        "cf-tb4-006",
         "cf-tb4-refresh-008",
         "cf-tb4-refresh-009",
         "cf-tb4-refresh-010",
@@ -1181,8 +1181,8 @@
         "cf-tb4-refresh-013"
       ],
       "displayScoreOnlyIds": [
-        "cf-selected-scoreonly-tb4-002",
-        "cf-selected-scoreonly-tb4-004"
+        "cf-scoreonly-tb4-002",
+        "cf-scoreonly-tb4-004"
       ],
       "costMethod": "Derived from published total_cost_usd / n_trials; not a separately published per-task value."
     },
@@ -1199,7 +1199,7 @@
       "what": "Long-horizon software tasks written from scratch across 91 repositories, scored by hand-written verifiers. The same mini agent harness runs every model.",
       "notes": [
         "The board was last updated on 22 Sept. Claude 5.5, GPT-6.1 and Gemini 4 are not on it yet.",
-        "Margins are \u00b11 to \u00b16 points, so GPT-6 Astra and Gemini 3.8 Flash at 74% are a tie.",
+        "Margins are ±1 to ±6 points, so GPT-6 Astra and Gemini 3.8 Flash at 74% are a tie.",
         "Artificial Analysis replaced DeepSWE with FrontierCode in its Coding Agent Index v2.0."
       ],
       "displayRowIds": [
@@ -1211,7 +1211,7 @@
         "cf-deepswe-010"
       ],
       "displayScoreOnlyIds": [
-        "cf-selected-scoreonly-deepswe-002"
+        "cf-scoreonly-deepswe-002"
       ]
     },
     "osw2": {
@@ -1239,7 +1239,7 @@
       ],
       "what": "108 long computer-use workflows across 31 websites and desktop apps, about 318 tool calls each. Credit is given per checkpoint.",
       "notes": [
-        "Costs are read off Figure 8.13.3.B of the Claude Opus 5.5 system card, accurate to about \u00b15%. Effort levels differ by model, so they are shown as rungs in cost order.",
+        "Costs are read off Figure 8.13.3.B of the Claude Opus 5.5 system card, accurate to about ±5%. Effort levels differ by model, so they are shown as rungs in cost order.",
         "Strict pass rate is far lower: 48.7% for Opus 5.5 at max.",
         "The official board, updated 15 Oct, has no row for the current models yet. Other vendors publish no cost, so their scores sit in the strip on the right.",
         "Haiku 5.5 reports 72.4% on an OSWorld 2.1 offline subset; that is a different benchmark version and is not plotted or compared here."
@@ -1258,7 +1258,7 @@
       ],
       "displayScoreOnlyIds": [
         "cf-osw2-gap-001",
-        "cf-selected-scoreonly-osw2-002"
+        "cf-scoreonly-osw2-002"
       ]
     },
     "exploit": {
@@ -1328,10 +1328,10 @@
         "cf-cybergym-001"
       ],
       "displayScoreOnlyIds": [
-        "cf-selected-scoreonly-cybergym-001",
-        "cf-selected-scoreonly-cybergym-002",
-        "cf-selected-scoreonly-cybergym-003",
-        "cf-selected-scoreonly-cybergym-005"
+        "cf-scoreonly-cybergym-001",
+        "cf-scoreonly-cybergym-002",
+        "cf-scoreonly-cybergym-003",
+        "cf-scoreonly-cybergym-005"
       ]
     },
     "arena": {
@@ -1347,7 +1347,7 @@
       "url": "https://arena.ai/leaderboard/text",
       "what": "Blind pairwise preference from 9 million human votes on open chat. It captures how a reply reads, not whether it is correct.",
       "notes": [
-        "Confidence intervals run \u00b14 to \u00b19, so neighbouring rows are ties. Carbon and Gemini 3.8 Flash are preliminary.",
+        "Confidence intervals run ±4 to ±9, so neighbouring rows are ties. Carbon and Gemini 3.8 Flash are preliminary.",
         "Arena has no public per-task cost, so cost is an estimate from list prices.",
         "Rating gaps do not divide: 1500 is not twice 750."
       ],
@@ -1495,7 +1495,7 @@
       ],
       "what": "Professional chart understanding from Surge AI. Without tools, the model has to read the image itself.",
       "notes": [
-        "Costs and scores are read off Figure 8.13.1.B of the Opus 5.5 system card, accurate to about \u00b15% on cost and \u00b11 on score.",
+        "Costs and scores are read off Figure 8.13.1.B of the Opus 5.5 system card, accurate to about ±5% on cost and ±1 on score.",
         "Anthropic ran its own grader, and only Claude rows have costs. Other current models have scores in the strip on the right, reported by their vendors.",
         "Rungs are effort levels in cost order."
       ],
@@ -1512,8 +1512,8 @@
         "cf-chart-010"
       ],
       "displayScoreOnlyIds": [
-        "cf-selected-scoreonly-chart-001",
-        "cf-selected-scoreonly-chart-002"
+        "cf-scoreonly-chart-001",
+        "cf-scoreonly-chart-002"
       ]
     },
     "mmmu": {

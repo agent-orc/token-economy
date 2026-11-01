@@ -17,11 +17,23 @@ public class BenchmarkEvidenceCatalogTests
         Assert.All(catalog.Results, result =>
         {
             if (ModelPriceCatalog.Default.Find(result.ModelId) is null)
-                Assert.True(catalog.FindType(result.BenchmarkTypeId)!.AllowUnpricedModels);
+                Assert.Contains(result.ModelId.Value, catalog.FindType(result.BenchmarkTypeId)!.AllowedUnpricedModelIds);
             Assert.NotEqual(default, result.RetrievedAt);
             Assert.True(Uri.TryCreate(result.SourceUrl, UriKind.Absolute, out _));
             Assert.False(string.IsNullOrWhiteSpace(result.EvidenceExcerpt));
         });
+    }
+
+    [Fact]
+    public void ScoreOnlyIdentityAndCostDerivationSurviveCatalogLoading()
+    {
+        var catalog = BenchmarkEvidenceCatalog.Default;
+        var scoreOnly = Assert.Single(catalog.Results, result => result.Id == "cf-aacode-gap-001");
+        Assert.Equal(scoreOnly.ModelId, scoreOnly.ScoreOnlyModelId);
+        Assert.Equal("claude-fable-5-1", scoreOnly.ModelId.Value);
+
+        var derived = Assert.Single(catalog.Results, result => result.Id == "cf-tb4-001");
+        Assert.Contains("total_cost_usd / n_trials", derived.CostDerivation);
     }
 
     [Fact]
@@ -57,6 +69,12 @@ public class BenchmarkEvidenceCatalogTests
             [type], [Result("bad-model", "quality", "missing", EffortLevel.Low, 50m)], prices));
         Assert.Throws<ArgumentException>(() => new BenchmarkEvidenceCatalog(
             [type], [Result("bad-score", "quality", "model-a", EffortLevel.Low, 101m)], prices));
+        Assert.Throws<ArgumentException>(() => new BenchmarkEvidenceCatalog(
+            [type with { AllowedUnpricedModelIds = ["model-b"] }],
+            [Result("bad-model", "quality", "model-c", EffortLevel.Low, 50m)], prices));
+        Assert.Throws<ArgumentException>(() => new BenchmarkEvidenceCatalog(
+            [type], [Result("bad-identity", "quality", "model-a", EffortLevel.Low, 50m) with
+            { ScoreOnlyModelId = ModelId.Of("model-b") }], prices));
     }
 
     internal static BenchmarkType Type(string id, BenchmarkScoreDirection direction = BenchmarkScoreDirection.HigherIsBetter) => new()
