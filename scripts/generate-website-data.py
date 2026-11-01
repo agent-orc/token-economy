@@ -54,6 +54,7 @@ RECOMMENDATIONS_OUTPUT = ROOT / "website" / "data" / "task-class-recommendations
 BENCHMARK_MATRIX_OUTPUT = ROOT / "website" / "data" / "model-benchmark-matrix.json"
 FRONTIER_OUTPUT = ROOT / "website" / "data" / "cost-frontier.json"
 FRONTIER_METADATA = ROOT / "src" / "TokenEconomy" / "catalog" / "cost-frontier-metadata.json"
+FRONTIER_EXTERNAL_VENDORS = frozenset({"xai", "deepseek", "alibaba", "moonshot", "zai", "xiaomi", "mistral"})
 PRICING_OUTPUT = ROOT / "website" / "data" / "price-history.json"
 REVIEW_OUTPUT = ROOT / "website" / "data" / "code-review.json"
 REVIEW_STUDIES = ROOT / "docs" / "analyses" / "code-review-studies-2026-09-12.json"
@@ -1147,7 +1148,9 @@ def create_cost_frontier_payload() -> dict:
     selected_ids = [row_id for definition in meta["benchmarks"].values()
                     for row_id in definition["displayRowIds"] + definition["displayScoreOnlyIds"]]
     frontier_rows = [row for row in results if row["benchmarkTypeId"].startswith("cost-frontier-")]
-    if len(selected_ids) != len(set(selected_ids)) or set(selected_ids) != {row["id"] for row in frontier_rows}:
+    if (len(selected_ids) != len(set(selected_ids))
+            or len(frontier_rows) != len({row["id"] for row in frontier_rows})
+            or set(selected_ids) != {row["id"] for row in frontier_rows}):
         raise ValueError("Frontier catalog rows must each be selected exactly once")
     model_ids = meta["modelIds"]
     models = {}
@@ -1167,9 +1170,10 @@ def create_cost_frontier_payload() -> dict:
         current.add(short)
         price = resolve_price(prices, model_id, as_of)
         vendor = source.get("vendor")
-        if vendor not in meta["vendors"]:
+        if vendor not in meta["vendors"] and vendor not in FRONTIER_EXTERNAL_VENDORS:
             raise ValueError(f"Unknown frontier vendor: {vendor}")
-        models[short] = [source["displayName"], vendor]
+        vendor_group = vendor if vendor in meta["vendors"] else "other"
+        models[short] = [source["displayName"], vendor_group]
         if price["status"] == "Resolved":
             models[short].extend([price["inputPerMTok"], price["outputPerMTok"]])
         elif short in meta.get("externalPriceClaims", {}):
@@ -1209,7 +1213,7 @@ def create_cost_frontier_payload() -> dict:
                 raise ValueError(f"Missing frontier model: {row['modelId']}")
             if model not in current:
                 raise ValueError(f"Superseded frontier model: {row['id']}")
-            expected = {"measured": "measured", "chartread": "chartRead", "modelled": "estimated"}[definition["cost"]]
+            expected = {"measured": "measured", "chartRead": "chartRead", "estimated": "estimated"}[definition["cost"]]
             if row.get("costSource") != expected:
                 raise ValueError(f"Frontier cost provenance mismatch: {row['id']}")
             cost = row.get("secondaryMetrics", {}).get("costPerTaskUsd")

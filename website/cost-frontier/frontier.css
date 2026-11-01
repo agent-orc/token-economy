@@ -141,8 +141,8 @@ input[type=range] { width: 100%; accent-color: var(--gold); margin: 0; }
 .chips { display: flex; flex-wrap: wrap; gap: .25rem; }
 .chip { font-size: .7rem; font-weight: 700; padding: .12rem .45rem; border-radius: var(--pill); background: var(--bg-alt); color: var(--muted); border: 1px solid var(--border); white-space: nowrap; }
 .chip.measured { background: var(--ok-soft); color: var(--ok); border-color: transparent; }
-.chip.chartread { background: var(--accent-soft); color: var(--accent); border-color: transparent; }
-.chip.modelled, .chip.stale { background: var(--warn-soft); color: var(--warn); border-color: transparent; }
+.chip.chartRead { background: var(--accent-soft); color: var(--accent); border-color: transparent; }
+.chip.estimated, .chip.stale { background: var(--warn-soft); color: var(--warn); border-color: transparent; }
 .picks { display: grid; gap: .45rem; }
 .pick { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 0 .6rem; align-items: baseline; }
 .pick small { grid-column: 1 / -1; color: var(--muted); font-size: .74rem; }

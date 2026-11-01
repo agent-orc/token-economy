@@ -188,6 +188,9 @@ See the [intake guide](../docs/human-friendly-language.md) for the importer.
 `data/cost-frontier.json` and makes no third-party requests. The generated file
 joins curated Cost Frontier evidence, dated list prices, release posts and the
 editorial/interaction catalog in `src/TokenEconomy/catalog/cost-frontier-metadata.json`.
+Benchmark cost kinds use `measured`, `chartRead`, and `estimated` throughout the
+catalog, generated data, and page. External models retain their lab-specific
+vendor codes in metadata; the chart groups those labs under “Other labs.”
 The catalog's `lifecycleStatus` selects current models before generation. The
 generator checks that every Cost Frontier row is selected once, rejects superseded rows, and
 requires each current model on a chart or in a documented gap list. Eight

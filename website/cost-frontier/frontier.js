@@ -34,12 +34,12 @@ function points(bid, profileId=S.profile) {
   const b = benchmarks[bid], p = PROFILES.find(x => x.id === profileId);
   return b.rows.map(r => {
     const m = models[r[0]]; let cost = r[3];
-    if (b.cost === 'modelled') cost = m[2] == null ? null : (m[2]*p.i + m[3]*p.o) / 1e6;
-    return { key:r[0]+'|'+r[1], model:r[0], name:m[0], v:m[1], effort:r[1], score:r[2], cost, modelled:b.cost==='modelled', bench:bid, restricted:!!restricted[r[0]] };
+    if (b.cost === 'estimated') cost = m[2] == null ? null : (m[2]*p.i + m[3]*p.o) / 1e6;
+    return { key:r[0]+'|'+r[1], model:r[0], name:m[0], v:m[1], effort:r[1], score:r[2], cost, estimated:b.cost==='estimated', bench:bid, restricted:!!restricted[r[0]] };
   }).filter(x => x.cost != null);
 }
 function unplaced(bid) {
-  const b = benchmarks[bid], extra = b.cost === 'modelled' ? b.rows.filter(r => models[r[0]][2] == null).map(r => [models[r[0]][0], r[2]]) : [];
+  const b = benchmarks[bid], extra = b.cost === 'estimated' ? b.rows.filter(r => models[r[0]][2] == null).map(r => [models[r[0]][0], r[2]]) : [];
   return (b.noCost || []).concat(extra);
 }
 function frontier(pts) {
@@ -116,9 +116,9 @@ function drawChart(host, pts, o={}) {
       if(o.onHover){ n.addEventListener('pointerenter',e=>o.onHover(n._p,n,e)); n.addEventListener('pointerleave',()=>o.onHover(null)); n.addEventListener('focus',e=>o.onHover(n._p,n,e)); n.addEventListener('blur',()=>o.onHover(null)); }
       if(o.onPick){ n.addEventListener('click',()=>o.onPick(n._p)); n.addEventListener('keydown',e=>{ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); o.onPick(n._p); } }); } }
     used.add(n); n._p=p; next.set(p.key,n);
-    n.querySelector('.mark').setAttribute('d',shape(p.v, narrow?5.8:6.5)); n.querySelector('.mark').setAttribute('fill',vendors[p.v][1]); n.querySelector('.mark').style.stroke=p.restricted?'var(--gold)':p.modelled?vendors[p.v][1]:'';
+    n.querySelector('.mark').setAttribute('d',shape(p.v, narrow?5.8:6.5)); n.querySelector('.mark').setAttribute('fill',vendors[p.v][1]); n.querySelector('.mark').style.stroke=p.restricted?'var(--gold)':p.estimated?vendors[p.v][1]:'';
     const overB=o.budget!=null&&p.cost>o.budget, offV=o.off&&o.off.has(p.v);
-    let cls='pt'+(p.modelled?' hollow':'')+(p.restricted?' restricted':'')+(overB?' over':'')+(o.sel===p.key?' sel':'');
+    let cls='pt'+(p.estimated?' hollow':'')+(p.restricted?' restricted':'')+(overB?' over':'')+(o.sel===p.key?' sel':'');
     if(o.effort&&o.effort!=='all'&&p.effort!==o.effort&&p.effort!=='default') cls+=' hide';
     if(offV) cls+=' hide';
     n.setAttribute('class',cls);
@@ -160,15 +160,15 @@ function drawChart(host, pts, o={}) {
 const shortName=n=>n.replace('Claude ','').replace('Gemini ','Gem ').replace('DeepSeek ','DS ');
 
 /* ---------- Atlas ---------- */
-function benchXLabel(b) { return (b.cost==='modelled'?'Estimated cost per ':b.cost==='chartread'?'Cost per ':'Cost per ')+b.per; }
-const costChip={ measured:['measured','Cost measured'], chartread:['chartread','Cost read from chart'], modelled:['modelled','Cost estimated from list price'] };
+function benchXLabel(b) { return (b.cost==='estimated'?'Estimated cost per ':b.cost==='chartRead'?'Cost per ':'Cost per ')+b.per; }
+const costChip={ measured:['measured','Cost measured'], chartRead:['chartRead','Cost read from chart'], estimated:['estimated','Cost estimated from list price'] };
 function sparkFor(bid) {
   const pts=points(bid); const fr=frontier(pts); if(fr.length<1) return '';
   const lo=Math.log10(Math.min(...pts.map(p=>p.cost))), hi=Math.log10(Math.max(...pts.map(p=>p.cost))), sLo=Math.min(...pts.map(p=>p.score)), sHi=Math.max(...pts.map(p=>p.score));
   const px=c=>4+(hi===lo?.5:(Math.log10(c)-lo)/(hi-lo))*132, py=s=>26-(sHi===sLo?.5:(s-sLo)/(sHi-sLo))*22;
   const d='M'+fr.map(p=>px(p.cost).toFixed(1)+','+py(p.score).toFixed(1)).join('L');
   const dots=pts.map(p=>`<circle class="spark-dot" r="1.4" cx="${px(p.cost).toFixed(1)}" cy="${py(p.score).toFixed(1)}"/>`).join('');
-  return `<svg viewBox="0 0 140 30" aria-hidden="true">${dots}${fr.length>1?`<path class="spark${benchmarks[bid].cost==='modelled'?' dashed':''}" d="${d}"/>`:''}</svg>`;
+  return `<svg viewBox="0 0 140 30" aria-hidden="true">${dots}${fr.length>1?`<path class="spark${benchmarks[bid].cost==='estimated'?' dashed':''}" d="${d}"/>`:''}</svg>`;
 }
 function renderAtlasShell() {
   $('#view-atlas').innerHTML=`
@@ -192,7 +192,7 @@ function renderAtlasShell() {
 }
 function renderCats() {
   $('#cats').innerHTML=categories.map(c=>{ const bid=c.benches[0], pr=premium(bid), b=benchmarks[bid];
-    const tag=b.cost==='modelled'?'estimated':b.cost==='chartread'?'chart-read':'measured';
+    const tag=b.cost==='estimated'?'estimated':b.cost==='chartRead'?'chart-read':'measured';
     return `<button class="cat" data-cat="${c.id}" aria-pressed="${S.cat===c.id}"><b>${esc(c.name)}</b>${sparkFor(bid)}<small><span>${!pr?'few rows':pr.ratio<1.05?'No premium':'Last 10%: ×'+(pr.ratio>=10?pr.ratio.toFixed(0):pr.ratio.toFixed(1))}</span><span>${tag}</span></small></button>`; }).join('');
   $('#cats').querySelectorAll('.cat').forEach(el=>el.onclick=()=>{ stopPlay(); S.cat=el.dataset.cat; S.bench=categories.find(c=>c.id===S.cat).benches[0]; resetBench(); renderAtlas(); });
 }
@@ -214,7 +214,7 @@ function renderChart() {
 function showTip(p,node) {
   const tip=$('#tip'); if(!p){ tip.hidden=true; return; }
   const b=benchmarks[p.bench], ratio=b.elo?'':`<div>${money(p.cost/Math.max(p.score,.01))} per point</div>`;
-  tip.innerHTML=`<b>${esc(p.name)}${p.effort!=='default'?' · '+esc(eff(p.effort)):''}</b><div class="num">${p.score} ${esc(b.unit)}</div><div class="num">${money(p.cost)} per ${esc(b.per)}${p.modelled?' (estimate)':b.cost==='chartread'?' (read from chart)':''}</div>${ratio}${p.restricted?'<div>Not generally available</div>':''}`;
+  tip.innerHTML=`<b>${esc(p.name)}${p.effort!=='default'?' · '+esc(eff(p.effort)):''}</b><div class="num">${p.score} ${esc(b.unit)}</div><div class="num">${money(p.cost)} per ${esc(b.per)}${p.estimated?' (estimate)':b.cost==='chartRead'?' (read from chart)':''}</div>${ratio}${p.restricted?'<div>Not generally available</div>':''}`;
   tip.hidden=false;
   const r=$('#plot').getBoundingClientRect(), n=node.querySelector('.mark').getBoundingClientRect();
   const tw=tip.offsetWidth, th=tip.offsetHeight; let left=n.left-r.left+16, top=n.top-r.top-th-6;
@@ -226,7 +226,7 @@ function renderControls() {
   const t=(Math.log10(budget)-Math.log10(lo))/(Math.log10(hi)-Math.log10(lo));
   let html=`<div class="ctrl"><label for="budget">Budget per ${esc(b.per)}: <output id="budget-out">${money(budget)}</output></label><input id="budget" type="range" min="0" max="1000" value="${Math.round(t*1000)}"></div>`;
   if(b.ladder) html+=`<div class="ctrl"><span>${b.ladder===rungs?'Effort rung (levels differ by model)':'Effort level'}</span><div class="ctrl-row"><div class="seg" id="effort-seg" role="group" aria-label="Effort">${['all',...b.ladder].map(e=>`<button data-e="${e}" aria-pressed="${S.effort===e}">${e==='all'?'All':esc(eff(e)).replace('rung ','R')}</button>`).join('')}</div><button class="play" id="play">${S.playing?'Stop':'Play ladder'}</button></div></div>`;
-  else if(b.cost==='modelled') html+=`<div class="ctrl"><span>Estimate assumes this token volume per task</span><div class="seg" id="profile-seg" role="group" aria-label="Token profile">${PROFILES.map(p=>`<button data-p="${p.id}" aria-pressed="${S.profile===p.id}">${p.label}: ${p.i>=1e6?p.i/1e6+'M':p.i/1000+'k'} in, ${p.o/1000}k out</button>`).join('')}</div></div>`;
+  else if(b.cost==='estimated') html+=`<div class="ctrl"><span>Estimate assumes this token volume per task</span><div class="seg" id="profile-seg" role="group" aria-label="Token profile">${PROFILES.map(p=>`<button data-p="${p.id}" aria-pressed="${S.profile===p.id}">${p.label}: ${p.i>=1e6?p.i/1e6+'M':p.i/1000+'k'} in, ${p.o/1000}k out</button>`).join('')}</div></div>`;
   $('#controls').innerHTML=html;
   $('#budget').oninput=e=>{ stopPlay(); S.budgetT=e.target.value/1000; const v=budgetValue(all); $('#budget-out').textContent=money(v); renderChart(); renderPicks(); };
   $('#effort-seg')?.querySelectorAll('button').forEach(el=>el.onclick=()=>{ stopPlay(); S.effort=el.dataset.e; syncEffort(); });
@@ -239,7 +239,7 @@ function togglePlay(){ if(S.playing){ stopPlay(); return; }
   step(); S.playing=setInterval(step,1300); $('#play').textContent='Stop'; }
 function stopPlay(){ if(S.playing){ clearInterval(S.playing); S.playing=null; if($('#play')) $('#play').textContent='Play ladder'; } }
 function renderLegend(){ const used=[...new Set(points(S.bench).map(p=>p.v))]; const b=benchmarks[S.bench];
-  $('#legend').innerHTML=used.map(v=>`<button data-v="${v}" aria-pressed="${!S.off.has(v)}" title="Show or hide ${vendors[v][0]}">${glyph(v,b.cost==='modelled')}${vendors[v][0]}</button>`).join('')+`<span>${b.cost==='modelled'?'Hollow: cost is an estimate':b.cost==='chartread'?'Filled: cost read from chart':'Filled: cost measured'}</span><span>White line: frontier</span>${points(S.bench).some(p=>p.restricted)?'<span>Gold dashes: not generally available</span>':''}`;
+  $('#legend').innerHTML=used.map(v=>`<button data-v="${v}" aria-pressed="${!S.off.has(v)}" title="Show or hide ${vendors[v][0]}">${glyph(v,b.cost==='estimated')}${vendors[v][0]}</button>`).join('')+`<span>${b.cost==='estimated'?'Hollow: cost is an estimate':b.cost==='chartRead'?'Filled: cost read from chart':'Filled: cost measured'}</span><span>White line: frontier</span>${points(S.bench).some(p=>p.restricted)?'<span>Gold dashes: not generally available</span>':''}`;
   $('#legend').querySelectorAll('button').forEach(el=>el.onclick=()=>{ const v=el.dataset.v; S.off.has(v)?S.off.delete(v):S.off.add(v); S.budgetT=null; renderLegend(); renderChart(); renderPicks(); renderControls(); }); }
 function renderPicks(){ const host=$('#picks'); if(!host) return; const b=benchmarks[S.bench], pts=currentPts(), budget=budgetValue(points(S.bench)), under=bestUnder(pts,budget), fr=frontier(pts);
   if(!pts.length){ host.innerHTML='<p class="detail-quote">No rows match this filter.</p>'; return; }

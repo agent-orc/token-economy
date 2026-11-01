@@ -26,7 +26,18 @@ public class WebsiteCostFrontierDataTests
             property.Name.Length > 0 && char.IsUpper(property.Name[0]));
         Assert.All(metadata.RootElement.GetProperty("externalModels").EnumerateObject(), model =>
             Assert.Contains(model.Value.GetProperty("vendor").GetString(),
-                new[] { "anthropic", "openai", "google", "other" }));
+                new[] { "xai", "deepseek", "alibaba", "moonshot", "zai", "xiaomi", "mistral" }));
+        var external = metadata.RootElement.GetProperty("externalModels");
+        foreach (var (model, vendor) in new Dictionary<string, string>
+        {
+            ["grok-4.7"] = "xai", ["ds-4.1f"] = "deepseek", ["qwen-3.8"] = "alibaba",
+            ["kimi-3.1"] = "moonshot", ["glm-5.3"] = "zai", ["mimo-p"] = "xiaomi",
+            ["mistral-4"] = "mistral",
+        })
+            Assert.Equal(vendor, external.GetProperty(model).GetProperty("vendor").GetString());
+        Assert.All(metadata.RootElement.GetProperty("benchmarks").EnumerateObject(), benchmark =>
+            Assert.Contains(benchmark.Value.GetProperty("cost").GetString(),
+                new[] { "measured", "chartRead", "estimated" }));
         Assert.DoesNotContain(rows, row => row.GetProperty("modelId").GetString() == "unpriced-score-only");
         var observations = rows.Select(row => string.Join('|',
             row.GetProperty("benchmarkTypeId").GetString(), row.GetProperty("modelId").GetString(),
@@ -62,6 +73,33 @@ public class WebsiteCostFrontierDataTests
         var astra = Assert.Single(rows, row => row.GetProperty("id").GetString() == "cf-exploit-001");
         Assert.Equal("https://openai.com/index/gpt-6-astra/", astra.GetProperty("sourceUrl").GetString());
         Assert.Contains("100%", astra.GetProperty("evidenceExcerpt").GetString());
+        var arcRows = rows.Where(row => row.GetProperty("benchmarkTypeId").GetString() == "cost-frontier-arc2").ToArray();
+        Assert.Equal(49, arcRows.Length);
+        Assert.All(arcRows, row =>
+        {
+            using var source = JsonDocument.Parse(row.GetProperty("evidenceExcerpt").GetString()!);
+            var excerpt = source.RootElement;
+            Assert.Equal("v2_Semi_Private", excerpt.GetProperty("datasetId").GetString());
+            Assert.InRange(Math.Abs(row.GetProperty("score").GetDecimal()
+                - excerpt.GetProperty("score").GetDecimal() * 100m), 0m, 0.05m);
+            Assert.Equal(row.GetProperty("secondaryMetrics").GetProperty("costPerTaskUsd").GetDecimal(),
+                decimal.Round(excerpt.GetProperty("costPerTask").GetDecimal(), 4));
+            Assert.Contains(row.GetProperty("modelId").GetString()!.Replace('.', '-'),
+                excerpt.GetProperty("modelId").GetString()!, StringComparison.Ordinal);
+        });
+        var presenc = Assert.Single(rows, row => row.GetProperty("id").GetString() == "cf-osw2-gap-001");
+        Assert.Contains("GPT-6 Astra | 72.6%", presenc.GetProperty("evidenceExcerpt").GetString());
+        var sol = Assert.Single(rows, row => row.GetProperty("id").GetString() == "cf-scoreonly-osw2-002");
+        Assert.Contains("GPT-6.1 Sol 71.4%", sol.GetProperty("evidenceExcerpt").GetString());
+        using var types = JsonDocument.Parse(File.ReadAllBytes(Path.Combine(
+            RepositoryRoot(), "src", "TokenEconomy", "catalog", "benchmark-types.json")));
+        foreach (var type in types.RootElement.GetProperty("records").EnumerateArray()
+            .Where(type => type.GetProperty("id").GetString() is "cost-frontier-arena" or "cost-frontier-gdpval"))
+        {
+            var highest = rows.Where(row => row.GetProperty("benchmarkTypeId").GetString() == type.GetProperty("id").GetString())
+                .Max(row => row.GetProperty("score").GetDecimal());
+            Assert.True(type.GetProperty("maximumScore").GetDecimal() > highest);
+        }
     }
 
     [Fact]
@@ -126,7 +164,7 @@ public class WebsiteCostFrontierDataTests
             var expectedSource = value.GetProperty("cost").GetString() switch
             {
                 "measured" => "measured",
-                "chartread" => "chartRead",
+                "chartRead" => "chartRead",
                 _ => "estimated",
             };
             var rows = value.GetProperty("rows").EnumerateArray().ToArray();

@@ -2218,7 +2218,7 @@
           "sourceUrl": "https://arcprize.org/media/data/evaluations.json",
           "publishedAt": "2026-11-01",
           "retrievedAt": "2026-11-01",
-          "evidenceExcerpt": "\"modelId\": \"anthropic-claude-opus-5-5-low\",   \"score\": 0.9225,   \"costPerTask\": 0.09473719000000001",
+          "evidenceExcerpt": "{\n  \"datasetId\": \"v2_Semi_Private\",\n  \"modelId\": \"anthropic-claude-opus-5-5-low\",\n  \"score\": 0.701388888888889,\n  \"costPerTask\": 0.24127179999999998,\n  \"resultsUrl\": \"/results/anthropic-claude-opus-5-5\",\n  \"display\": true\n}",
           "confidence": "publisherReported",
           "costSource": "measured",
           "stale": false
@@ -2228,7 +2228,7 @@
           "sourceUrl": "https://arcprize.org/media/data/evaluations.json",
           "publishedAt": "2026-11-01",
           "retrievedAt": "2026-11-01",
-          "evidenceExcerpt": "\"modelId\": \"anthropic-claude-opus-5-5-medium\",   \"score\": 0.9825,   \"costPerTask\": 0.11824849",
+          "evidenceExcerpt": "{\n  \"datasetId\": \"v2_Semi_Private\",\n  \"modelId\": \"anthropic-claude-opus-5-5-medium\",\n  \"score\": 0.875,\n  \"costPerTask\": 0.3369188,\n  \"resultsUrl\": \"/results/anthropic-claude-opus-5-5\",\n  \"display\": true\n}",
           "confidence": "publisherReported",
           "costSource": "measured",
           "stale": false
@@ -2238,7 +2238,7 @@
           "sourceUrl": "https://arcprize.org/media/data/evaluations.json",
           "publishedAt": "2026-11-01",
           "retrievedAt": "2026-11-01",
-          "evidenceExcerpt": "\"modelId\": \"anthropic-claude-opus-5-5-high\",   \"score\": 0.9825,   \"costPerTask\": 0.12628094",
+          "evidenceExcerpt": "{\n  \"datasetId\": \"v2_Semi_Private\",\n  \"modelId\": \"anthropic-claude-opus-5-5-high\",\n  \"score\": 0.9333333333333333,\n  \"costPerTask\": 0.4078964666666666,\n  \"resultsUrl\": \"/results/anthropic-claude-opus-5-5\",\n  \"display\": true\n}",
           "confidence": "publisherReported",
           "costSource": "measured",
           "stale": false
@@ -2248,7 +2248,7 @@
           "sourceUrl": "https://arcprize.org/media/data/evaluations.json",
           "publishedAt": "2026-11-01",
           "retrievedAt": "2026-11-01",
-          "evidenceExcerpt": "\"modelId\": \"anthropic-claude-opus-5-5-xhigh\",   \"score\": 0.98625,   \"costPerTask\": 0.16022644",
+          "evidenceExcerpt": "{\n  \"datasetId\": \"v2_Semi_Private\",\n  \"modelId\": \"anthropic-claude-opus-5-5-xhigh\",\n  \"score\": 0.925,\n  \"costPerTask\": 0.6709066333333333,\n  \"resultsUrl\": \"/results/anthropic-claude-opus-5-5\",\n  \"display\": true\n}",
           "confidence": "publisherReported",
           "costSource": "measured",
           "stale": false
@@ -2258,7 +2258,7 @@
           "sourceUrl": "https://arcprize.org/media/data/evaluations.json",
           "publishedAt": "2026-11-01",
           "retrievedAt": "2026-11-01",
-          "evidenceExcerpt": "\"modelId\": \"anthropic-claude-opus-5-5-max\",   \"score\": 0.9825,   \"costPerTask\": 0.38976489000000003",
+          "evidenceExcerpt": "{\n  \"datasetId\": \"v2_Semi_Private\",\n  \"modelId\": \"anthropic-claude-opus-5-5-max\",\n  \"score\": 0.9166666666666666,\n  \"costPerTask\": 1.8517409666666667,\n  \"resultsUrl\": \"/results/anthropic-claude-opus-5-5\",\n  \"display\": true\n}",
           "confidence": "publisherReported",
           "costSource": "measured",
           "stale": false
@@ -2268,7 +2268,7 @@
           "sourceUrl": "https://arcprize.org/media/data/evaluations.json",
           "publishedAt": "2026-11-01",
           "retrievedAt": "2026-11-01",
-          "evidenceExcerpt": "\"modelId\": \"anthropic-claude-sonnet-5-5-low\",   \"score\": 0.7475,   \"costPerTask\": 0.05149072000000002",
+          "evidenceExcerpt": "{\n  \"datasetId\": \"v2_Semi_Private\",\n  \"modelId\": \"anthropic-claude-sonnet-5-5-low\",\n  \"score\": 0.24027777777777776,\n  \"costPerTask\": 0.10923548333333331,\n  \"resultsUrl\": \"/results/anthropic-claude-sonnet-5-5\",\n  \"display\": true\n}",
           "confidence": "publisherReported",
           "costSource": "measured",
           "stale": false
@@ -2278,7 +2278,7 @@
           "sourceUrl": "https://arcprize.org/media/data/evaluations.json",
           "publishedAt": "2026-11-01",
           "retrievedAt": "2026-11-01",
-          "evidenceExcerpt": "\"modelId\": \"anthropic-claude-sonnet-5-5-medium\",   \"score\": 0.81375,   \"costPerTask\": 0.05598867000000004",
+          "evidenceExcerpt": "{\n  \"datasetId\": \"v2_Semi_Private\",\n  \"modelId\": \"anthropic-claude-sonnet-5-5-medium\",\n  \"score\": 0.3277777777777777,\n  \"costPerTask\": 0.15537473333333335,\n  \"resultsUrl\": \"/results/anthropic-claude-sonnet-5-5\",\n  \"display\": true\n}",
           "confidence": "publisherReported",
           "costSource": "measured",
           "stale": false
@@ -2288,7 +2288,7 @@
           "sourceUrl": "https://arcprize.org/media/data/evaluations.json",
           "publishedAt": "2026-11-01",
           "retrievedAt": "2026-11-01",
-          "evidenceExcerpt": "\"modelId\": \"anthropic-claude-sonnet-5-5-high\",   \"score\": 0.92375,   \"costPerTask\": 0.07114364500000002",
+          "evidenceExcerpt": "{\n  \"datasetId\": \"v2_Semi_Private\",\n  \"modelId\": \"anthropic-claude-sonnet-5-5-high\",\n  \"score\": 0.6736111111111112,\n  \"costPerTask\": 0.2767547333333332,\n  \"resultsUrl\": \"/results/anthropic-claude-sonnet-5-5\",\n  \"display\": true\n}",
           "confidence": "publisherReported",
           "costSource": "measured",
           "stale": false
@@ -2298,7 +2298,7 @@
           "sourceUrl": "https://arcprize.org/media/data/evaluations.json",
           "publishedAt": "2026-11-01",
           "retrievedAt": "2026-11-01",
-          "evidenceExcerpt": "\"modelId\": \"anthropic-claude-sonnet-5-5-xhigh\",   \"score\": 0.95875,   \"costPerTask\": 0.09937019500000012",
+          "evidenceExcerpt": "{\n  \"datasetId\": \"v2_Semi_Private\",\n  \"modelId\": \"anthropic-claude-sonnet-5-5-xhigh\",\n  \"score\": 0.8388888888888889,\n  \"costPerTask\": 0.5461994833333332,\n  \"resultsUrl\": \"/results/anthropic-claude-sonnet-5-5\",\n  \"display\": true\n}",
           "confidence": "publisherReported",
           "costSource": "measured",
           "stale": false
@@ -2308,7 +2308,7 @@
           "sourceUrl": "https://arcprize.org/media/data/evaluations.json",
           "publishedAt": "2026-11-01",
           "retrievedAt": "2026-11-01",
-          "evidenceExcerpt": "\"modelId\": \"anthropic-claude-haiku-5-5-low\",   \"score\": 0.57875,   \"costPerTask\": 0.0052227260000000005",
+          "evidenceExcerpt": "{\n  \"datasetId\": \"v2_Semi_Private\",\n  \"modelId\": \"anthropic-claude-haiku-5-5-low\",\n  \"score\": 0.027777777777777776,\n  \"costPerTask\": 0.007986432500000003,\n  \"resultsUrl\": \"/results/anthropic-claude-haiku-5-5\",\n  \"display\": true\n}",
           "confidence": "publisherReported",
           "costSource": "measured",
           "stale": false
@@ -2318,7 +2318,7 @@
           "sourceUrl": "https://arcprize.org/media/data/evaluations.json",
           "publishedAt": "2026-11-01",
           "retrievedAt": "2026-11-01",
-          "evidenceExcerpt": "\"modelId\": \"anthropic-claude-haiku-5-5-medium\",   \"score\": 0.74,   \"costPerTask\": 0.0077006972500000045",
+          "evidenceExcerpt": "{\n  \"datasetId\": \"v2_Semi_Private\",\n  \"modelId\": \"anthropic-claude-haiku-5-5-medium\",\n  \"score\": 0.09444444444444443,\n  \"costPerTask\": 0.014974957499999999,\n  \"resultsUrl\": \"/results/anthropic-claude-haiku-5-5\",\n  \"display\": true\n}",
           "confidence": "publisherReported",
           "costSource": "measured",
           "stale": false
@@ -2328,7 +2328,7 @@
           "sourceUrl": "https://arcprize.org/media/data/evaluations.json",
           "publishedAt": "2026-11-01",
           "retrievedAt": "2026-11-01",
-          "evidenceExcerpt": "\"modelId\": \"anthropic-claude-haiku-5-5-high\",   \"score\": 0.86875,   \"costPerTask\": 0.013303028500000003",
+          "evidenceExcerpt": "{\n  \"datasetId\": \"v2_Semi_Private\",\n  \"modelId\": \"anthropic-claude-haiku-5-5-high\",\n  \"score\": 0.3069444444444444,\n  \"costPerTask\": 0.046677990833333315,\n  \"resultsUrl\": \"/results/anthropic-claude-haiku-5-5\",\n  \"display\": true\n}",
           "confidence": "publisherReported",
           "costSource": "measured",
           "stale": false
@@ -2338,7 +2338,7 @@
           "sourceUrl": "https://arcprize.org/media/data/evaluations.json",
           "publishedAt": "2026-11-01",
           "retrievedAt": "2026-11-01",
-          "evidenceExcerpt": "\"modelId\": \"anthropic-claude-haiku-5-5-xhigh\",   \"score\": 0.88875,   \"costPerTask\": 0.020487420250000003",
+          "evidenceExcerpt": "{\n  \"datasetId\": \"v2_Semi_Private\",\n  \"modelId\": \"anthropic-claude-haiku-5-5-xhigh\",\n  \"score\": 0.6125,\n  \"costPerTask\": 0.08498917333333329,\n  \"resultsUrl\": \"/results/anthropic-claude-haiku-5-5\",\n  \"display\": true\n}",
           "confidence": "publisherReported",
           "costSource": "measured",
           "stale": false
@@ -2348,7 +2348,7 @@
           "sourceUrl": "https://arcprize.org/media/data/evaluations.json",
           "publishedAt": "2026-11-01",
           "retrievedAt": "2026-11-01",
-          "evidenceExcerpt": "\"modelId\": \"anthropic-claude-fable-5-1-low\",   \"score\": 0.955,   \"costPerTask\": 0.28662135",
+          "evidenceExcerpt": "{\n  \"datasetId\": \"v2_Semi_Private\",\n  \"modelId\": \"anthropic-claude-fable-5-1-low\",\n  \"score\": 0.7833333333333333,\n  \"costPerTask\": 0.9523265833333336,\n  \"resultsUrl\": \"/results/anthropic-claude-fable-5-1\",\n  \"display\": true\n}",
           "confidence": "publisherReported",
           "costSource": "measured",
           "stale": false
@@ -2358,7 +2358,7 @@
           "sourceUrl": "https://arcprize.org/media/data/evaluations.json",
           "publishedAt": "2026-11-01",
           "retrievedAt": "2026-11-01",
-          "evidenceExcerpt": "\"modelId\": \"anthropic-claude-fable-5-1-medium\",   \"score\": 0.96625,   \"costPerTask\": 0.3191132249999999",
+          "evidenceExcerpt": "{\n  \"datasetId\": \"v2_Semi_Private\",\n  \"modelId\": \"anthropic-claude-fable-5-1-medium\",\n  \"score\": 0.8625,\n  \"costPerTask\": 1.2239411666666673,\n  \"resultsUrl\": \"/results/anthropic-claude-fable-5-1\",\n  \"display\": true\n}",
           "confidence": "publisherReported",
           "costSource": "measured",
           "stale": false
@@ -2368,7 +2368,7 @@
           "sourceUrl": "https://arcprize.org/media/data/evaluations.json",
           "publishedAt": "2026-11-01",
           "retrievedAt": "2026-11-01",
-          "evidenceExcerpt": "\"modelId\": \"anthropic-claude-fable-5-1-high\",   \"score\": 0.97625,   \"costPerTask\": 0.3808375999999998",
+          "evidenceExcerpt": "{\n  \"datasetId\": \"v2_Semi_Private\",\n  \"modelId\": \"anthropic-claude-fable-5-1-high\",\n  \"score\": 0.8875,\n  \"costPerTask\": 1.6673061666666666,\n  \"resultsUrl\": \"/results/anthropic-claude-fable-5-1\",\n  \"display\": true\n}",
           "confidence": "publisherReported",
           "costSource": "measured",
           "stale": false
@@ -2378,7 +2378,7 @@
           "sourceUrl": "https://arcprize.org/media/data/evaluations.json",
           "publishedAt": "2026-11-01",
           "retrievedAt": "2026-11-01",
-          "evidenceExcerpt": "\"modelId\": \"anthropic-claude-fable-5-1-xhigh\",   \"score\": 0.9875,   \"costPerTask\": 0.6313754750000006",
+          "evidenceExcerpt": "{\n  \"datasetId\": \"v2_Semi_Private\",\n  \"modelId\": \"anthropic-claude-fable-5-1-xhigh\",\n  \"score\": 0.9,\n  \"costPerTask\": 3.120216916666669,\n  \"resultsUrl\": \"/results/anthropic-claude-fable-5-1\",\n  \"display\": true\n}",
           "confidence": "publisherReported",
           "costSource": "measured",
           "stale": false
@@ -2388,7 +2388,7 @@
           "sourceUrl": "https://arcprize.org/media/data/evaluations.json",
           "publishedAt": "2026-11-01",
           "retrievedAt": "2026-11-01",
-          "evidenceExcerpt": "\"modelId\": \"anthropic-claude-fable-5-1-max\",   \"score\": 0.99,   \"costPerTask\": 0.892544475000001",
+          "evidenceExcerpt": "{\n  \"datasetId\": \"v2_Semi_Private\",\n  \"modelId\": \"anthropic-claude-fable-5-1-max\",\n  \"score\": 0.9,\n  \"costPerTask\": 4.492348833333334,\n  \"resultsUrl\": \"/results/anthropic-claude-fable-5-1\",\n  \"display\": true\n}",
           "confidence": "publisherReported",
           "costSource": "measured",
           "stale": false
@@ -2398,7 +2398,7 @@
           "sourceUrl": "https://arcprize.org/media/data/evaluations.json",
           "publishedAt": "2026-11-01",
           "retrievedAt": "2026-11-01",
-          "evidenceExcerpt": "\"modelId\": \"openai-gpt-6-astra-low\",   \"score\": 0.9825,   \"costPerTask\": 0.18578744999999997",
+          "evidenceExcerpt": "{\n  \"datasetId\": \"v2_Semi_Private\",\n  \"modelId\": \"openai-gpt-6-astra-low\",\n  \"score\": 0.8541666666666666,\n  \"costPerTask\": 0.4162418333333334,\n  \"resultsUrl\": \"/results/openai-gpt-6-astra\",\n  \"display\": true\n}",
           "confidence": "publisherReported",
           "costSource": "measured",
           "stale": false
@@ -2408,7 +2408,7 @@
           "sourceUrl": "https://arcprize.org/media/data/evaluations.json",
           "publishedAt": "2026-11-01",
           "retrievedAt": "2026-11-01",
-          "evidenceExcerpt": "\"modelId\": \"openai-gpt-6-astra-medium\",   \"score\": 0.9875,   \"costPerTask\": 0.1966966999999999",
+          "evidenceExcerpt": "{\n  \"datasetId\": \"v2_Semi_Private\",\n  \"modelId\": \"openai-gpt-6-astra-medium\",\n  \"score\": 0.9208333333333333,\n  \"costPerTask\": 0.4800926666666667,\n  \"resultsUrl\": \"/results/openai-gpt-6-astra\",\n  \"display\": true\n}",
           "confidence": "publisherReported",
           "costSource": "measured",
           "stale": false
@@ -2418,7 +2418,7 @@
           "sourceUrl": "https://arcprize.org/media/data/evaluations.json",
           "publishedAt": "2026-11-01",
           "retrievedAt": "2026-11-01",
-          "evidenceExcerpt": "\"modelId\": \"openai-gpt-6-astra-high\",   \"score\": 0.985,   \"costPerTask\": 0.23390332500000022",
+          "evidenceExcerpt": "{\n  \"datasetId\": \"v2_Semi_Private\",\n  \"modelId\": \"openai-gpt-6-astra-high\",\n  \"score\": 0.9208333333333333,\n  \"costPerTask\": 0.6680793333333332,\n  \"resultsUrl\": \"/results/openai-gpt-6-astra\",\n  \"display\": true\n}",
           "confidence": "publisherReported",
           "costSource": "measured",
           "stale": false
@@ -2428,7 +2428,7 @@
           "sourceUrl": "https://arcprize.org/media/data/evaluations.json",
           "publishedAt": "2026-11-01",
           "retrievedAt": "2026-11-01",
-          "evidenceExcerpt": "\"modelId\": \"openai-gpt-6-astra-xhigh\",   \"score\": 0.99,   \"costPerTask\": 0.27634357499999984",
+          "evidenceExcerpt": "{\n  \"datasetId\": \"v2_Semi_Private\",\n  \"modelId\": \"openai-gpt-6-astra-xhigh\",\n  \"score\": 0.9333333333333333,\n  \"costPerTask\": 0.8286855833333331,\n  \"resultsUrl\": \"/results/openai-gpt-6-astra\",\n  \"display\": true\n}",
           "confidence": "publisherReported",
           "costSource": "measured",
           "stale": false
@@ -2438,7 +2438,7 @@
           "sourceUrl": "https://arcprize.org/media/data/evaluations.json",
           "publishedAt": "2026-11-01",
           "retrievedAt": "2026-11-01",
-          "evidenceExcerpt": "\"modelId\": \"openai-gpt-6-astra-max\",   \"score\": 0.9775,   \"costPerTask\": 0.3296810250000001",
+          "evidenceExcerpt": "{\n  \"datasetId\": \"v2_Semi_Private\",\n  \"modelId\": \"openai-gpt-6-astra-max\",\n  \"score\": 0.95,\n  \"costPerTask\": 1.1194680833333335,\n  \"resultsUrl\": \"/results/openai-gpt-6-astra\",\n  \"display\": true\n}",
           "confidence": "publisherReported",
           "costSource": "measured",
           "stale": false
@@ -2448,7 +2448,7 @@
           "sourceUrl": "https://arcprize.org/media/data/evaluations.json",
           "publishedAt": "2026-11-01",
           "retrievedAt": "2026-11-01",
-          "evidenceExcerpt": "\"modelId\": \"openai-gpt-6-1-sol-low\",   \"score\": 0.96375,   \"costPerTask\": 0.038009140000000004",
+          "evidenceExcerpt": "{\n  \"datasetId\": \"v2_Semi_Private\",\n  \"modelId\": \"openai-gpt-6-1-sol-low\",\n  \"score\": 0.7666666666666667,\n  \"costPerTask\": 0.08553803333333333,\n  \"resultsUrl\": \"/results/openai-gpt-6-1-sol\",\n  \"display\": true\n}",
           "confidence": "publisherReported",
           "costSource": "measured",
           "stale": false
@@ -2458,7 +2458,7 @@
           "sourceUrl": "https://arcprize.org/media/data/evaluations.json",
           "publishedAt": "2026-11-01",
           "retrievedAt": "2026-11-01",
-          "evidenceExcerpt": "\"modelId\": \"openai-gpt-6-1-sol-medium\",   \"score\": 0.97875,   \"costPerTask\": 0.04068336499999999",
+          "evidenceExcerpt": "{\n  \"datasetId\": \"v2_Semi_Private\",\n  \"modelId\": \"openai-gpt-6-1-sol-medium\",\n  \"score\": 0.8666666666666667,\n  \"costPerTask\": 0.10037736666666668,\n  \"resultsUrl\": \"/results/openai-gpt-6-1-sol\",\n  \"display\": true\n}",
           "confidence": "publisherReported",
           "costSource": "measured",
           "stale": false
@@ -2468,7 +2468,7 @@
           "sourceUrl": "https://arcprize.org/media/data/evaluations.json",
           "publishedAt": "2026-11-01",
           "retrievedAt": "2026-11-01",
-          "evidenceExcerpt": "\"modelId\": \"openai-gpt-6-1-sol-high\",   \"score\": 0.9825,   \"costPerTask\": 0.04763463999999999",
+          "evidenceExcerpt": "{\n  \"datasetId\": \"v2_Semi_Private\",\n  \"modelId\": \"openai-gpt-6-1-sol-high\",\n  \"score\": 0.9166666666666666,\n  \"costPerTask\": 0.13468670000000002,\n  \"resultsUrl\": \"/results/openai-gpt-6-1-sol\",\n  \"display\": true\n}",
           "confidence": "publisherReported",
           "costSource": "measured",
           "stale": false
@@ -2478,7 +2478,7 @@
           "sourceUrl": "https://arcprize.org/media/data/evaluations.json",
           "publishedAt": "2026-11-01",
           "retrievedAt": "2026-11-01",
-          "evidenceExcerpt": "\"modelId\": \"openai-gpt-6-1-sol-xhigh\",   \"score\": 0.985,   \"costPerTask\": 0.057555115",
+          "evidenceExcerpt": "{\n  \"datasetId\": \"v2_Semi_Private\",\n  \"modelId\": \"openai-gpt-6-1-sol-xhigh\",\n  \"score\": 0.9166666666666666,\n  \"costPerTask\": 0.17808970000000007,\n  \"resultsUrl\": \"/results/openai-gpt-6-1-sol\",\n  \"display\": true\n}",
           "confidence": "publisherReported",
           "costSource": "measured",
           "stale": false
@@ -2488,7 +2488,7 @@
           "sourceUrl": "https://arcprize.org/media/data/evaluations.json",
           "publishedAt": "2026-11-01",
           "retrievedAt": "2026-11-01",
-          "evidenceExcerpt": "\"modelId\": \"openai-gpt-6-1-sol-max\",   \"score\": 0.985,   \"costPerTask\": 0.076886565",
+          "evidenceExcerpt": "{\n  \"datasetId\": \"v2_Semi_Private\",\n  \"modelId\": \"openai-gpt-6-1-sol-max\",\n  \"score\": 0.9416666666666667,\n  \"costPerTask\": 0.25374978333333337,\n  \"resultsUrl\": \"/results/openai-gpt-6-1-sol\",\n  \"display\": true\n}",
           "confidence": "publisherReported",
           "costSource": "measured",
           "stale": false
@@ -2498,7 +2498,7 @@
           "sourceUrl": "https://arcprize.org/media/data/evaluations.json",
           "publishedAt": "2026-11-01",
           "retrievedAt": "2026-11-01",
-          "evidenceExcerpt": "\"modelId\": \"openai-gpt-6-luna-low\",   \"score\": 0.465,   \"costPerTask\": 0.002682557",
+          "evidenceExcerpt": "{\n  \"datasetId\": \"v2_Semi_Private\",\n  \"modelId\": \"openai-gpt-6-luna-low\",\n  \"score\": 0.04583333333333333,\n  \"costPerTask\": 0.005273818333333334,\n  \"resultsUrl\": \"/results/openai-gpt-6-luna\",\n  \"display\": true\n}",
           "confidence": "publisherReported",
           "costSource": "measured",
           "stale": false
@@ -2508,7 +2508,7 @@
           "sourceUrl": "https://arcprize.org/media/data/evaluations.json",
           "publishedAt": "2026-11-01",
           "retrievedAt": "2026-11-01",
-          "evidenceExcerpt": "\"modelId\": \"openai-gpt-6-luna-medium\",   \"score\": 0.70125,   \"costPerTask\": 0.0050656270000000005",
+          "evidenceExcerpt": "{\n  \"datasetId\": \"v2_Semi_Private\",\n  \"modelId\": \"openai-gpt-6-luna-medium\",\n  \"score\": 0.18055555555555555,\n  \"costPerTask\": 0.012202668333333333,\n  \"resultsUrl\": \"/results/openai-gpt-6-luna\",\n  \"display\": true\n}",
           "confidence": "publisherReported",
           "costSource": "measured",
           "stale": false
@@ -2518,7 +2518,7 @@
           "sourceUrl": "https://arcprize.org/media/data/evaluations.json",
           "publishedAt": "2026-11-01",
           "retrievedAt": "2026-11-01",
-          "evidenceExcerpt": "\"modelId\": \"openai-gpt-6-luna-high\",   \"score\": 0.7975,   \"costPerTask\": 0.0076511982499999995",
+          "evidenceExcerpt": "{\n  \"datasetId\": \"v2_Semi_Private\",\n  \"modelId\": \"openai-gpt-6-luna-high\",\n  \"score\": 0.3138888888888889,\n  \"costPerTask\": 0.02336191,\n  \"resultsUrl\": \"/results/openai-gpt-6-luna\",\n  \"display\": true\n}",
           "confidence": "publisherReported",
           "costSource": "measured",
           "stale": false
@@ -2528,7 +2528,7 @@
           "sourceUrl": "https://arcprize.org/media/data/evaluations.json",
           "publishedAt": "2026-11-01",
           "retrievedAt": "2026-11-01",
-          "evidenceExcerpt": "\"modelId\": \"openai-gpt-6-luna-xhigh\",   \"score\": 0.8575,   \"costPerTask\": 0.00886935575",
+          "evidenceExcerpt": "{\n  \"datasetId\": \"v2_Semi_Private\",\n  \"modelId\": \"openai-gpt-6-luna-xhigh\",\n  \"score\": 0.41944444444444445,\n  \"costPerTask\": 0.032297893333333334,\n  \"resultsUrl\": \"/results/openai-gpt-6-luna\",\n  \"display\": true\n}",
           "confidence": "publisherReported",
           "costSource": "measured",
           "stale": false
@@ -2538,7 +2538,7 @@
           "sourceUrl": "https://arcprize.org/media/data/evaluations.json",
           "publishedAt": "2026-11-01",
           "retrievedAt": "2026-11-01",
-          "evidenceExcerpt": "\"modelId\": \"openai-gpt-6-luna-max\",   \"score\": 0.925,   \"costPerTask\": 0.01291232625",
+          "evidenceExcerpt": "{\n  \"datasetId\": \"v2_Semi_Private\",\n  \"modelId\": \"openai-gpt-6-luna-max\",\n  \"score\": 0.5930555555555556,\n  \"costPerTask\": 0.06181100083333334,\n  \"resultsUrl\": \"/results/openai-gpt-6-luna\",\n  \"display\": true\n}",
           "confidence": "publisherReported",
           "costSource": "measured",
           "stale": false
@@ -2548,7 +2548,7 @@
           "sourceUrl": "https://arcprize.org/media/data/evaluations.json",
           "publishedAt": "2026-11-01",
           "retrievedAt": "2026-11-01",
-          "evidenceExcerpt": "\"modelId\": \"google-gemini-4-argon-low\",   \"score\": 0.855,   \"costPerTask\": 0.035138555000000016",
+          "evidenceExcerpt": "{\n  \"datasetId\": \"v2_Semi_Private\",\n  \"modelId\": \"google-gemini-4-argon-low\",\n  \"score\": 0.42083333333333334,\n  \"costPerTask\": 0.07381080000000001,\n  \"resultsUrl\": \"/results/google-gemini-4-argon\",\n  \"display\": true\n}",
           "confidence": "publisherReported",
           "costSource": "measured",
           "stale": false
@@ -2558,7 +2558,7 @@
           "sourceUrl": "https://arcprize.org/media/data/evaluations.json",
           "publishedAt": "2026-11-01",
           "retrievedAt": "2026-11-01",
-          "evidenceExcerpt": "\"modelId\": \"google-gemini-4-argon-medium\",   \"score\": 0.98,   \"costPerTask\": 0.05389490500000003",
+          "evidenceExcerpt": "{\n  \"datasetId\": \"v2_Semi_Private\",\n  \"modelId\": \"google-gemini-4-argon-medium\",\n  \"score\": 0.8708333333333333,\n  \"costPerTask\": 0.13732313333333326,\n  \"resultsUrl\": \"/results/google-gemini-4-argon\",\n  \"display\": true\n}",
           "confidence": "publisherReported",
           "costSource": "measured",
           "stale": false
@@ -2568,7 +2568,7 @@
           "sourceUrl": "https://arcprize.org/media/data/evaluations.json",
           "publishedAt": "2026-11-01",
           "retrievedAt": "2026-11-01",
-          "evidenceExcerpt": "\"modelId\": \"google-gemini-4-argon-high\",   \"score\": 0.995,   \"costPerTask\": 0.12766658000000017",
+          "evidenceExcerpt": "{\n  \"datasetId\": \"v2_Semi_Private\",\n  \"modelId\": \"google-gemini-4-argon-high\",\n  \"score\": 0.9125,\n  \"costPerTask\": 0.3248761333333333,\n  \"resultsUrl\": \"/results/google-gemini-4-argon\",\n  \"display\": true\n}",
           "confidence": "publisherReported",
           "costSource": "measured",
           "stale": false
@@ -2578,7 +2578,7 @@
           "sourceUrl": "https://arcprize.org/media/data/evaluations.json",
           "publishedAt": "2026-11-01",
           "retrievedAt": "2026-11-01",
-          "evidenceExcerpt": "\"modelId\": \"google-gemini-3-8-flash-low\",   \"score\": 0.945,   \"costPerTask\": 0.04600169250000004",
+          "evidenceExcerpt": "{\n  \"datasetId\": \"v2_Semi_Private\",\n  \"modelId\": \"google-gemini-3-8-flash-low\",\n  \"score\": 0.775,\n  \"costPerTask\": 0.15445401874999998,\n  \"resultsUrl\": \"/results/google-gemini-3-8-flash\",\n  \"display\": true\n}",
           "confidence": "publisherReported",
           "costSource": "measured",
           "stale": false
@@ -2588,7 +2588,7 @@
           "sourceUrl": "https://arcprize.org/media/data/evaluations.json",
           "publishedAt": "2026-11-01",
           "retrievedAt": "2026-11-01",
-          "evidenceExcerpt": "\"modelId\": \"google-gemini-3-8-flash-medium\",   \"score\": 0.9775,   \"costPerTask\": 0.07097697374999998",
+          "evidenceExcerpt": "{\n  \"datasetId\": \"v2_Semi_Private\",\n  \"modelId\": \"google-gemini-3-8-flash-medium\",\n  \"score\": 0.8291666666666667,\n  \"costPerTask\": 0.2477876749999999,\n  \"resultsUrl\": \"/results/google-gemini-3-8-flash\",\n  \"display\": true\n}",
           "confidence": "publisherReported",
           "costSource": "measured",
           "stale": false
@@ -2598,7 +2598,7 @@
           "sourceUrl": "https://arcprize.org/media/data/evaluations.json",
           "publishedAt": "2026-11-01",
           "retrievedAt": "2026-11-01",
-          "evidenceExcerpt": "\"modelId\": \"google-gemini-3-8-flash-high\",   \"score\": 0.98,   \"costPerTask\": 0.12971782687499991",
+          "evidenceExcerpt": "{\n  \"datasetId\": \"v2_Semi_Private\",\n  \"modelId\": \"google-gemini-3-8-flash-high\",\n  \"score\": 0.8916666666666667,\n  \"costPerTask\": 0.39972941250000005,\n  \"resultsUrl\": \"/results/google-gemini-3-8-flash\",\n  \"display\": true\n}",
           "confidence": "publisherReported",
           "costSource": "measured",
           "stale": false
@@ -2608,7 +2608,7 @@
           "sourceUrl": "https://arcprize.org/media/data/evaluations.json",
           "publishedAt": "2026-11-01",
           "retrievedAt": "2026-11-01",
-          "evidenceExcerpt": "\"modelId\": \"deepseek-v4-1-flash-1017-low\",   \"score\": 0.9725,   \"costPerTask\": 0.03596005049999998",
+          "evidenceExcerpt": "{\n  \"datasetId\": \"v2_Semi_Private\",\n  \"modelId\": \"deepseek-v4-1-flash-1017-low\",\n  \"score\": 0.7361111111111112,\n  \"costPerTask\": 0.133540355,\n  \"resultsUrl\": \"/results/deepseek-v4-1-flash-1017\",\n  \"display\": true\n}",
           "confidence": "publisherReported",
           "costSource": "measured",
           "stale": false
@@ -2618,7 +2618,7 @@
           "sourceUrl": "https://arcprize.org/media/data/evaluations.json",
           "publishedAt": "2026-11-01",
           "retrievedAt": "2026-11-01",
-          "evidenceExcerpt": "\"modelId\": \"deepseek-v4-1-flash-1017-high\",   \"score\": 0.9775,   \"costPerTask\": 0.04029167550000003",
+          "evidenceExcerpt": "{\n  \"datasetId\": \"v2_Semi_Private\",\n  \"modelId\": \"deepseek-v4-1-flash-1017-high\",\n  \"score\": 0.6861111111111112,\n  \"costPerTask\": 0.14693756500000005,\n  \"resultsUrl\": \"/results/deepseek-v4-1-flash-1017\",\n  \"display\": true\n}",
           "confidence": "publisherReported",
           "costSource": "measured",
           "stale": false
@@ -2628,7 +2628,7 @@
           "sourceUrl": "https://arcprize.org/media/data/evaluations.json",
           "publishedAt": "2026-11-01",
           "retrievedAt": "2026-11-01",
-          "evidenceExcerpt": "\"modelId\": \"deepseek-v4-1-flash-1017-max\",   \"score\": 0.98375,   \"costPerTask\": 0.046065817499999995",
+          "evidenceExcerpt": "{\n  \"datasetId\": \"v2_Semi_Private\",\n  \"modelId\": \"deepseek-v4-1-flash-1017-max\",\n  \"score\": 0.7805555555555556,\n  \"costPerTask\": 0.163116895,\n  \"resultsUrl\": \"/results/deepseek-v4-1-flash-1017\",\n  \"display\": true\n}",
           "confidence": "publisherReported",
           "costSource": "measured",
           "stale": false
@@ -2638,7 +2638,7 @@
           "sourceUrl": "https://arcprize.org/media/data/evaluations.json",
           "publishedAt": "2026-11-01",
           "retrievedAt": "2026-11-01",
-          "evidenceExcerpt": "\"modelId\": \"xai-grok-4-7-low\",   \"score\": 0.8225,   \"costPerTask\": 0.10306723000000001",
+          "evidenceExcerpt": "{\n  \"datasetId\": \"v2_Semi_Private\",\n  \"modelId\": \"xai-grok-4-7-low\",\n  \"score\": 0.16666666666666666,\n  \"costPerTask\": 0.17369760000000004,\n  \"resultsUrl\": \"/results/xai-grok-4-7\",\n  \"display\": true\n}",
           "confidence": "publisherReported",
           "costSource": "measured",
           "stale": false
@@ -2648,7 +2648,7 @@
           "sourceUrl": "https://arcprize.org/media/data/evaluations.json",
           "publishedAt": "2026-11-01",
           "retrievedAt": "2026-11-01",
-          "evidenceExcerpt": "\"modelId\": \"xai-grok-4-7-medium\",   \"score\": 0.95,   \"costPerTask\": 0.3495386150000001",
+          "evidenceExcerpt": "{\n  \"datasetId\": \"v2_Semi_Private\",\n  \"modelId\": \"xai-grok-4-7-medium\",\n  \"score\": 0.5875,\n  \"costPerTask\": 1.4759098000000002,\n  \"resultsUrl\": \"/results/xai-grok-4-7\",\n  \"display\": true\n}",
           "confidence": "publisherReported",
           "costSource": "measured",
           "stale": false
@@ -2658,7 +2658,7 @@
           "sourceUrl": "https://arcprize.org/media/data/evaluations.json",
           "publishedAt": "2026-11-01",
           "retrievedAt": "2026-11-01",
-          "evidenceExcerpt": "\"modelId\": \"xai-grok-4-7-high\",   \"score\": 0.9575,   \"costPerTask\": 0.4159139900000002",
+          "evidenceExcerpt": "{\n  \"datasetId\": \"v2_Semi_Private\",\n  \"modelId\": \"xai-grok-4-7-high\",\n  \"score\": 0.5833333333333334,\n  \"costPerTask\": 1.549013099999999,\n  \"resultsUrl\": \"/results/xai-grok-4-7\",\n  \"display\": true\n}",
           "confidence": "publisherReported",
           "costSource": "measured",
           "stale": false
@@ -2668,7 +2668,7 @@
           "sourceUrl": "https://arcprize.org/media/data/evaluations.json",
           "publishedAt": "2026-11-01",
           "retrievedAt": "2026-11-01",
-          "evidenceExcerpt": "\"modelId\": \"xai-grok-4-7-xhigh\",   \"score\": 0.95125,   \"costPerTask\": 0.48661554499999965",
+          "evidenceExcerpt": "{\n  \"datasetId\": \"v2_Semi_Private\",\n  \"modelId\": \"xai-grok-4-7-xhigh\",\n  \"score\": 0.6138888888888888,\n  \"costPerTask\": 2.0149060666666663,\n  \"resultsUrl\": \"/results/xai-grok-4-7\",\n  \"display\": true\n}",
           "confidence": "publisherReported",
           "costSource": "measured",
           "stale": false
@@ -2678,7 +2678,7 @@
           "sourceUrl": "https://arcprize.org/media/data/evaluations.json",
           "publishedAt": "2026-11-01",
           "retrievedAt": "2026-11-01",
-          "evidenceExcerpt": "\"modelId\": \"zai-glm-5-3-flash-low\",   \"score\": 0.5775,   \"costPerTask\": 0.01564961274999999",
+          "evidenceExcerpt": "{\n  \"datasetId\": \"v2_Semi_Private\",\n  \"modelId\": \"zai-glm-5-3-flash-low\",\n  \"score\": 0.2791666666666667,\n  \"costPerTask\": 0.05822348833333333,\n  \"resultsUrl\": \"/results/zai-glm-5-3-flash\",\n  \"display\": true\n}",
           "confidence": "publisherReported",
           "costSource": "measured",
           "stale": false
@@ -2688,7 +2688,7 @@
           "sourceUrl": "https://arcprize.org/media/data/evaluations.json",
           "publishedAt": "2026-11-01",
           "retrievedAt": "2026-11-01",
-          "evidenceExcerpt": "\"modelId\": \"zai-glm-5-3-flash-high\",   \"score\": 0.78625,   \"costPerTask\": 0.020031694499999985",
+          "evidenceExcerpt": "{\n  \"datasetId\": \"v2_Semi_Private\",\n  \"modelId\": \"zai-glm-5-3-flash-high\",\n  \"score\": 0.5013888888888889,\n  \"costPerTask\": 0.07734862875,\n  \"resultsUrl\": \"/results/zai-glm-5-3-flash\",\n  \"display\": true\n}",
           "confidence": "publisherReported",
           "costSource": "measured",
           "stale": false
@@ -2698,7 +2698,7 @@
           "sourceUrl": "https://arcprize.org/media/data/evaluations.json",
           "publishedAt": "2026-11-01",
           "retrievedAt": "2026-11-01",
-          "evidenceExcerpt": "\"modelId\": \"zai-glm-5-3-flash-max\",   \"score\": 0.925,   \"costPerTask\": 0.033078684499999976",
+          "evidenceExcerpt": "{\n  \"datasetId\": \"v2_Semi_Private\",\n  \"modelId\": \"zai-glm-5-3-flash-max\",\n  \"score\": 0.6583333333333333,\n  \"costPerTask\": 0.09331568458333339,\n  \"resultsUrl\": \"/results/zai-glm-5-3-flash\",\n  \"display\": true\n}",
           "confidence": "publisherReported",
           "costSource": "measured",
           "stale": false
@@ -2936,7 +2936,7 @@
       "what": "Agents complete 66 command-line tasks in a sandbox, checked by test suites, over 330 trials. Each row runs in its vendor's native agent.",
       "notes": [
         "Cost per task is the published total run cost divided by the 330 trials.",
-        "Margins are about \u00b13 points, so GPT-6.1 Sol, GPT-6 Astra and Fable 5.1 near 58% are a tie.",
+        "Margins are about ±3 points, so GPT-6.1 Sol, GPT-6 Astra and Fable 5.1 near 58% are a tie.",
         "Vendor figures can differ from the board: Anthropic reports 70.6% for Sonnet 5.5 and 66.4% for Opus 5.5."
       ],
       "costMethod": "Derived from published total_cost_usd / n_trials; not a separately published per-task value.",
@@ -3295,7 +3295,7 @@
       "what": "Long-horizon software tasks written from scratch across 91 repositories, scored by hand-written verifiers. The same mini agent harness runs every model.",
       "notes": [
         "The board was last updated on 22 Sept. Claude 5.5, GPT-6.1 and Gemini 4 are not on it yet.",
-        "Margins are \u00b11 to \u00b16 points, so GPT-6 Astra and Gemini 3.8 Flash at 74% are a tie.",
+        "Margins are ±1 to ±6 points, so GPT-6 Astra and Gemini 3.8 Flash at 74% are a tie.",
         "Artificial Analysis replaced DeepSWE with FrontierCode in its Coding Agent Index v2.0."
       ],
       "rows": [
@@ -3342,7 +3342,7 @@
           "sourceUrl": "https://deepswe.datacurve.ai/",
           "publishedAt": "2026-09-22",
           "retrievedAt": "2026-11-01",
-          "evidenceExcerpt": "gpt-6-astra [ xhigh ] 74 % \u00b1 3 % Avg cost $4.43 Out tok 30k Steps 29",
+          "evidenceExcerpt": "gpt-6-astra [ xhigh ] 74 % ± 3 % Avg cost $4.43 Out tok 30k Steps 29",
           "confidence": "thirdParty",
           "costSource": "measured",
           "stale": false
@@ -3352,7 +3352,7 @@
           "sourceUrl": "https://deepswe.datacurve.ai/",
           "publishedAt": "2026-09-22",
           "retrievedAt": "2026-11-01",
-          "evidenceExcerpt": "gemini-3.8-flash [ high ] 74 % \u00b1 1 % Avg cost $2.36 Out tok 143k Steps 166",
+          "evidenceExcerpt": "gemini-3.8-flash [ high ] 74 % ± 1 % Avg cost $2.36 Out tok 143k Steps 166",
           "confidence": "thirdParty",
           "costSource": "measured",
           "stale": false
@@ -3362,7 +3362,7 @@
           "sourceUrl": "https://deepswe.datacurve.ai/",
           "publishedAt": "2026-09-22",
           "retrievedAt": "2026-11-01",
-          "evidenceExcerpt": "glm-5.3 [ max ] 69 % \u00b1 3 % Avg cost $3.99 Out tok 80k Steps 124",
+          "evidenceExcerpt": "glm-5.3 [ max ] 69 % ± 3 % Avg cost $3.99 Out tok 80k Steps 124",
           "confidence": "publisherReported",
           "costSource": "measured",
           "stale": false
@@ -3372,7 +3372,7 @@
           "sourceUrl": "https://deepswe.datacurve.ai/",
           "publishedAt": "2026-09-22",
           "retrievedAt": "2026-11-01",
-          "evidenceExcerpt": "glm-5.3-flash [ max ] 63 % \u00b1 4 % Avg cost $0.24 Out tok 73k Steps 123",
+          "evidenceExcerpt": "glm-5.3-flash [ max ] 63 % ± 4 % Avg cost $0.24 Out tok 73k Steps 123",
           "confidence": "publisherReported",
           "costSource": "measured",
           "stale": false
@@ -3382,7 +3382,7 @@
           "sourceUrl": "https://deepswe.datacurve.ai/",
           "publishedAt": "2026-09-22",
           "retrievedAt": "2026-11-01",
-          "evidenceExcerpt": "deepseek-v4-pro [ max ] 63 % \u00b1 6 % Avg cost $1.67 Out tok 106k Steps 155",
+          "evidenceExcerpt": "deepseek-v4-pro [ max ] 63 % ± 6 % Avg cost $1.67 Out tok 106k Steps 155",
           "confidence": "thirdParty",
           "costSource": "measured",
           "stale": false
@@ -3392,7 +3392,7 @@
           "sourceUrl": "https://deepswe.datacurve.ai/",
           "publishedAt": "2026-09-22",
           "retrievedAt": "2026-11-01",
-          "evidenceExcerpt": "qwen3.8-max [ xhigh ] 57 % \u00b1 3 % Avg cost $3.73 Out tok 95k Steps 111",
+          "evidenceExcerpt": "qwen3.8-max [ xhigh ] 57 % ± 3 % Avg cost $3.73 Out tok 95k Steps 111",
           "confidence": "thirdParty",
           "costSource": "measured",
           "stale": false
@@ -3423,7 +3423,7 @@
       "short": "OSWorld 2.0",
       "unit": "% partial score",
       "yLabel": "Partial score (%)",
-      "cost": "chartread",
+      "cost": "chartRead",
       "per": "task",
       "rep": "vendor",
       "date": "2026-09-22",
@@ -3443,7 +3443,7 @@
       ],
       "what": "108 long computer-use workflows across 31 websites and desktop apps, about 318 tool calls each. Credit is given per checkpoint.",
       "notes": [
-        "Costs are read off Figure 8.13.3.B of the Claude Opus 5.5 system card, accurate to about \u00b15%. Effort levels differ by model, so they are shown as rungs in cost order.",
+        "Costs are read off Figure 8.13.3.B of the Claude Opus 5.5 system card, accurate to about ±5%. Effort levels differ by model, so they are shown as rungs in cost order.",
         "Strict pass rate is far lower: 48.7% for Opus 5.5 at max.",
         "The official board, updated 15 Oct, has no row for the current models yet. Other vendors publish no cost, so their scores sit in the strip on the right.",
         "Haiku 5.5 reports 72.4% on an OSWorld 2.1 offline subset; that is a different benchmark version and is not plotted or compared here."
@@ -3628,7 +3628,7 @@
           "sourceUrl": "https://presenc.ai/research/osworld-computer-use-leaderboard-2026",
           "publishedAt": "2026-09-22",
           "retrievedAt": "2026-11-01",
-          "evidenceExcerpt": "Manual read of Figure 8.13.3.B: gpt-6-astra, unspecified; score 72.6%, per-task cost not shown.",
+          "evidenceExcerpt": "GPT-6 Astra | 72.6% | Offline subset, release not stated | OpenAI, per launch coverage, September 3, 2026",
           "confidence": "thirdParty",
           "costSource": "unavailable",
           "stale": false
@@ -3638,7 +3638,7 @@
           "sourceUrl": "https://openai.com/index/introducing-gpt-6-1-sol/",
           "publishedAt": "2026-09-29",
           "retrievedAt": "2026-11-01",
-          "evidenceExcerpt": "Manual read of Figure 8.13.3.B: gpt-6.1-sol, unspecified; score 71.4%, per-task cost not shown.",
+          "evidenceExcerpt": "Manual read of OpenAI computer-use chart: GPT-6.1 Sol 71.4% partial reward; per-task cost not shown.",
           "confidence": "publisherReported",
           "costSource": "unavailable",
           "stale": false
@@ -3651,7 +3651,7 @@
       "short": "ExploitBench",
       "unit": "% capability flags",
       "yLabel": "Capability flags (%)",
-      "cost": "modelled",
+      "cost": "estimated",
       "per": "task",
       "rep": "vendor",
       "date": "2026-09-22",
@@ -3705,7 +3705,7 @@
           "sourceUrl": "https://www-cdn.anthropic.com/fc1b44717c85dc068bc6ba5024219938094694bd/Claude%20Opus%205.5%20System%20Card.pdf",
           "publishedAt": "2026-09-22",
           "retrievedAt": "2026-11-01",
-          "evidenceExcerpt": "for a Cap% of 91% across ExploitBench\u2019s 41 V8 environments in the plain arm. In the AutoNudge arm, it averaged 14.15 fl ags, for a Cap% of 91%. Across the plain and auto-nudge runs, Claude Opus 5.5 achieved full arbitrary co",
+          "evidenceExcerpt": "for a Cap% of 91% across ExploitBench’s 41 V8 environments in the plain arm. In the AutoNudge arm, it averaged 14.15 fl ags, for a Cap% of 91%. Across the plain and auto-nudge runs, Claude Opus 5.5 achieved full arbitrary co",
           "confidence": "publisherReported",
           "costSource": "estimated",
           "stale": false
@@ -3720,7 +3720,7 @@
       "short": "CyberGym",
       "unit": "% reproduced",
       "yLabel": "Reproduced (%)",
-      "cost": "modelled",
+      "cost": "estimated",
       "per": "task",
       "rep": "third",
       "date": "2026-09-22",
@@ -3814,14 +3814,14 @@
       "unit": "rating",
       "elo": true,
       "yLabel": "Arena rating",
-      "cost": "modelled",
+      "cost": "estimated",
       "per": "task",
       "rep": "owner",
       "date": "2026-10-27",
       "url": "https://arena.ai/leaderboard/chat/text",
       "what": "Blind pairwise preference from 9 million human votes on open chat. It captures how a reply reads, not whether it is correct.",
       "notes": [
-        "Confidence intervals run \u00b14 to \u00b19, so neighbouring rows are ties. Carbon and Gemini 3.8 Flash are preliminary.",
+        "Confidence intervals run ±4 to ±9, so neighbouring rows are ties. Carbon and Gemini 3.8 Flash are preliminary.",
         "Arena has no public per-task cost, so cost is an estimate from list prices.",
         "Rating gaps do not divide: 1500 is not twice 750."
       ],
@@ -3898,7 +3898,7 @@
           "sourceUrl": "https://arena.ai/leaderboard/chat/text",
           "publishedAt": "2026-10-27",
           "retrievedAt": "2026-11-01",
-          "evidenceExcerpt": "Gemini 4 Carbon (High) Google \u00b7 Proprietary 1528\u00b19 Preliminary",
+          "evidenceExcerpt": "Gemini 4 Carbon (High) Google · Proprietary 1528±9 Preliminary",
           "confidence": "thirdParty",
           "costSource": "estimated",
           "stale": false
@@ -3908,7 +3908,7 @@
           "sourceUrl": "https://arena.ai/leaderboard/chat/text",
           "publishedAt": "2026-10-27",
           "retrievedAt": "2026-11-01",
-          "evidenceExcerpt": "Gemini 4 Argon (High) Google \u00b7 Proprietary 1520\u00b16",
+          "evidenceExcerpt": "Gemini 4 Argon (High) Google · Proprietary 1520±6",
           "confidence": "thirdParty",
           "costSource": "estimated",
           "stale": false
@@ -3918,7 +3918,7 @@
           "sourceUrl": "https://arena.ai/leaderboard/chat/text",
           "publishedAt": "2026-10-27",
           "retrievedAt": "2026-11-01",
-          "evidenceExcerpt": "Claude Opus 5.5 (High) Anthropic \u00b7 Proprietary 1509\u00b17",
+          "evidenceExcerpt": "Claude Opus 5.5 (High) Anthropic · Proprietary 1509±7",
           "confidence": "thirdParty",
           "costSource": "estimated",
           "stale": false
@@ -3928,7 +3928,7 @@
           "sourceUrl": "https://arena.ai/leaderboard/chat/text",
           "publishedAt": "2026-10-27",
           "retrievedAt": "2026-11-01",
-          "evidenceExcerpt": "Claude Fable 5.1 (Max) Anthropic \u00b7 Proprietary 1504\u00b16",
+          "evidenceExcerpt": "Claude Fable 5.1 (Max) Anthropic · Proprietary 1504±6",
           "confidence": "thirdParty",
           "costSource": "estimated",
           "stale": false
@@ -3938,7 +3938,7 @@
           "sourceUrl": "https://arena.ai/leaderboard/chat/text",
           "publishedAt": "2026-10-27",
           "retrievedAt": "2026-11-01",
-          "evidenceExcerpt": "Gemini 3.8 Flash (High) Google \u00b7 Proprietary 1496\u00b14 Preliminary",
+          "evidenceExcerpt": "Gemini 3.8 Flash (High) Google · Proprietary 1496±4 Preliminary",
           "confidence": "thirdParty",
           "costSource": "estimated",
           "stale": false
@@ -3948,7 +3948,7 @@
           "sourceUrl": "https://arena.ai/leaderboard/chat/text",
           "publishedAt": "2026-10-27",
           "retrievedAt": "2026-11-01",
-          "evidenceExcerpt": "Qwen3.8-Max Alibaba \u00b7 Proprietary 1482\u00b15",
+          "evidenceExcerpt": "Qwen3.8-Max Alibaba · Proprietary 1482±5",
           "confidence": "thirdParty",
           "costSource": "estimated",
           "stale": false
@@ -3958,7 +3958,7 @@
           "sourceUrl": "https://arena.ai/leaderboard/chat/text",
           "publishedAt": "2026-10-27",
           "retrievedAt": "2026-11-01",
-          "evidenceExcerpt": "GPT-6.1 Sol (Max) OpenAI \u00b7 Proprietary 1481\u00b17",
+          "evidenceExcerpt": "GPT-6.1 Sol (Max) OpenAI · Proprietary 1481±7",
           "confidence": "thirdParty",
           "costSource": "estimated",
           "stale": false
@@ -3968,7 +3968,7 @@
           "sourceUrl": "https://arena.ai/leaderboard/chat/text",
           "publishedAt": "2026-10-27",
           "retrievedAt": "2026-11-01",
-          "evidenceExcerpt": "Claude Sonnet 5.5 (xHigh) Anthropic \u00b7 Proprietary 1477\u00b17",
+          "evidenceExcerpt": "Claude Sonnet 5.5 (xHigh) Anthropic · Proprietary 1477±7",
           "confidence": "thirdParty",
           "costSource": "estimated",
           "stale": false
@@ -3978,7 +3978,7 @@
           "sourceUrl": "https://arena.ai/leaderboard/chat/text",
           "publishedAt": "2026-10-27",
           "retrievedAt": "2026-11-01",
-          "evidenceExcerpt": "GPT-6 Astra (Max) OpenAI \u00b7 Proprietary 1476\u00b16",
+          "evidenceExcerpt": "GPT-6 Astra (Max) OpenAI · Proprietary 1476±6",
           "confidence": "thirdParty",
           "costSource": "estimated",
           "stale": false
@@ -3988,7 +3988,7 @@
           "sourceUrl": "https://arena.ai/leaderboard/chat/text",
           "publishedAt": "2026-10-27",
           "retrievedAt": "2026-11-01",
-          "evidenceExcerpt": "DeepSeek-V4.1-Flash-20260910 (Max) DeepSeek \u00b7 MIT 1476\u00b16",
+          "evidenceExcerpt": "DeepSeek-V4.1-Flash-20260910 (Max) DeepSeek · MIT 1476±6",
           "confidence": "thirdParty",
           "costSource": "estimated",
           "stale": false
@@ -3998,7 +3998,7 @@
           "sourceUrl": "https://arena.ai/leaderboard/chat/text",
           "publishedAt": "2026-10-27",
           "retrievedAt": "2026-11-01",
-          "evidenceExcerpt": "GPT-6 Luna (Max) OpenAI \u00b7 Proprietary 1441\u00b14",
+          "evidenceExcerpt": "GPT-6 Luna (Max) OpenAI · Proprietary 1441±4",
           "confidence": "thirdParty",
           "costSource": "estimated",
           "stale": false
@@ -4008,7 +4008,7 @@
           "sourceUrl": "https://arena.ai/leaderboard/chat/text",
           "publishedAt": "2026-10-27",
           "retrievedAt": "2026-11-01",
-          "evidenceExcerpt": "Grok 4.7 (xHigh) SpaceXAI \u00b7 Proprietary 1441\u00b16",
+          "evidenceExcerpt": "Grok 4.7 (xHigh) SpaceXAI · Proprietary 1441±6",
           "confidence": "thirdParty",
           "costSource": "estimated",
           "stale": false
@@ -4018,7 +4018,7 @@
           "sourceUrl": "https://arena.ai/leaderboard/chat/text",
           "publishedAt": "2026-10-27",
           "retrievedAt": "2026-11-01",
-          "evidenceExcerpt": "Claude Haiku 5.5 (High) Anthropic \u00b7 Proprietary 1425\u00b17",
+          "evidenceExcerpt": "Claude Haiku 5.5 (High) Anthropic · Proprietary 1425±7",
           "confidence": "thirdParty",
           "costSource": "estimated",
           "stale": false
@@ -4343,7 +4343,7 @@
       "unit": "Elo",
       "elo": true,
       "yLabel": "Elo rating",
-      "cost": "modelled",
+      "cost": "estimated",
       "per": "task",
       "rep": "owner",
       "date": "2026-10-28",
@@ -4583,7 +4583,7 @@
       "short": "Chartography",
       "unit": "% accuracy",
       "yLabel": "Accuracy (%)",
-      "cost": "chartread",
+      "cost": "chartRead",
       "per": "task",
       "rep": "vendor",
       "date": "2026-09-22",
@@ -4603,7 +4603,7 @@
       ],
       "what": "Professional chart understanding from Surge AI. Without tools, the model has to read the image itself.",
       "notes": [
-        "Costs and scores are read off Figure 8.13.1.B of the Opus 5.5 system card, accurate to about \u00b15% on cost and \u00b11 on score.",
+        "Costs and scores are read off Figure 8.13.1.B of the Opus 5.5 system card, accurate to about ±5% on cost and ±1 on score.",
         "Anthropic ran its own grader, and only Claude rows have costs. Other current models have scores in the strip on the right, reported by their vendors.",
         "Rungs are effort levels in cost order."
       ],
@@ -4810,7 +4810,7 @@
       "short": "MMMU",
       "unit": "% correct",
       "yLabel": "Correct (%)",
-      "cost": "modelled",
+      "cost": "estimated",
       "per": "task",
       "rep": "owner",
       "date": "2026-09-01",

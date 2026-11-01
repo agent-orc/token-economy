@@ -1207,7 +1207,7 @@
       "short": "OSWorld 2.0",
       "unit": "% partial score",
       "yLabel": "Partial score (%)",
-      "cost": "chartread",
+      "cost": "chartRead",
       "per": "task",
       "rep": "vendor",
       "date": "2026-09-22",
@@ -1254,7 +1254,7 @@
       "short": "ExploitBench",
       "unit": "% capability flags",
       "yLabel": "Capability flags (%)",
-      "cost": "modelled",
+      "cost": "estimated",
       "per": "task",
       "rep": "vendor",
       "date": "2026-09-22",
@@ -1291,7 +1291,7 @@
       "short": "CyberGym",
       "unit": "% reproduced",
       "yLabel": "Reproduced (%)",
-      "cost": "modelled",
+      "cost": "estimated",
       "per": "task",
       "rep": "third",
       "date": "2026-09-22",
@@ -1328,7 +1328,7 @@
       "unit": "rating",
       "elo": true,
       "yLabel": "Arena rating",
-      "cost": "modelled",
+      "cost": "estimated",
       "per": "task",
       "rep": "owner",
       "date": "2026-10-27",
@@ -1423,7 +1423,7 @@
       "unit": "Elo",
       "elo": true,
       "yLabel": "Elo rating",
-      "cost": "modelled",
+      "cost": "estimated",
       "per": "task",
       "rep": "owner",
       "date": "2026-10-28",
@@ -1463,7 +1463,7 @@
       "short": "Chartography",
       "unit": "% accuracy",
       "yLabel": "Accuracy (%)",
-      "cost": "chartread",
+      "cost": "chartRead",
       "per": "task",
       "rep": "vendor",
       "date": "2026-09-22",
@@ -1509,7 +1509,7 @@
       "short": "MMMU",
       "unit": "% correct",
       "yLabel": "Correct (%)",
-      "cost": "modelled",
+      "cost": "estimated",
       "per": "task",
       "rep": "owner",
       "date": "2026-09-01",
@@ -1567,7 +1567,7 @@
   "externalModels": {
     "grok-4.7": {
       "displayName": "Grok 4.7",
-      "vendor": "other",
+      "vendor": "xai",
       "releasePost": {
         "title": "Introducing Grok 4.7",
         "url": "https://x.ai/news/grok-4-7",
@@ -1583,7 +1583,7 @@
     },
     "grok-4.6": {
       "displayName": "Grok 4.6",
-      "vendor": "other",
+      "vendor": "xai",
       "releasePost": {
         "title": "Introducing Grok 4.6",
         "url": "https://x.ai/news/grok-4-6",
@@ -1599,7 +1599,7 @@
     },
     "ds-4.1f": {
       "displayName": "DeepSeek V4.1 Flash",
-      "vendor": "other",
+      "vendor": "deepseek",
       "releasePost": {
         "title": "DeepSeek-V4.1-Flash: Smarter, Faster, More Efficient",
         "url": "https://api-docs.deepseek.com/news/news260910/",
@@ -1615,7 +1615,7 @@
     },
     "ds-4p": {
       "displayName": "DeepSeek V4 Pro",
-      "vendor": "other",
+      "vendor": "deepseek",
       "releasePost": {
         "title": "DeepSeek-V4-Pro GA Release",
         "url": "https://api-docs.deepseek.com/news/news260813/",
@@ -1631,14 +1631,14 @@
     },
     "ds-4f": {
       "displayName": "DeepSeek V4 Flash",
-      "vendor": "other",
+      "vendor": "deepseek",
       "releasePost": null,
       "availability": "general",
       "lifecycleStatus": "superseded"
     },
     "qwen-3.8": {
       "displayName": "Qwen3.8 Max",
-      "vendor": "other",
+      "vendor": "alibaba",
       "releasePost": {
         "title": "Qwen3.8-Max: A New Bar for Coding and Cowork",
         "url": "https://qwen.ai/blog?id=qwen3.8",
@@ -1652,7 +1652,7 @@
     },
     "kimi-3.1": {
       "displayName": "Kimi K3.1 Pro",
-      "vendor": "other",
+      "vendor": "moonshot",
       "releasePost": {
         "title": "Kimi K3.1 Pro Tech Blog: Advancing Open Intelligence",
         "url": "https://www.kimi.com/en/blog/kimi-k3-1-pro",
@@ -1666,7 +1666,7 @@
     },
     "glm-5.3": {
       "displayName": "GLM-5.3",
-      "vendor": "other",
+      "vendor": "zai",
       "releasePost": {
         "title": "GLM-5.3: Frontier Coding with Emergent Cyber Capabilities",
         "url": "https://z.ai/blog/glm-5.3",
@@ -1682,7 +1682,7 @@
     },
     "mimo-p": {
       "displayName": "MiMo-V2.6-Pro",
-      "vendor": "other",
+      "vendor": "xiaomi",
       "releasePost": {
         "title": "MiMo-V2.6",
         "url": "https://mimo.xiaomi.com/mimo-v2-6",
@@ -1696,7 +1696,7 @@
     },
     "mimo-f": {
       "displayName": "MiMo-V2.6-Flash",
-      "vendor": "other",
+      "vendor": "xiaomi",
       "releasePost": {
         "title": "MiMo-V2.6",
         "url": "https://mimo.xiaomi.com/mimo-v2-6",
@@ -1710,13 +1710,13 @@
     },
     "glm-5.3f": {
       "displayName": "GLM-5.3-Flash",
-      "vendor": "other",
+      "vendor": "zai",
       "lifecycleStatus": "current",
       "availability": "general"
     },
     "mistral-4": {
       "displayName": "Mistral Large 4",
-      "vendor": "other",
+      "vendor": "mistral",
       "lifecycleStatus": "current",
       "availability": "general"
     }
