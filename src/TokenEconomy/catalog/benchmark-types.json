@@ -540,7 +540,6 @@
       "allowedUnpricedModelIds": [
         "deepseek-v4.1-flash",
         "glm-5.3-flash",
-        "grok-4.6",
         "grok-4.7"
       ]
     },
@@ -560,11 +559,9 @@
       "capturedAt": "2026-09-22",
       "retrievedAt": "2026-11-01",
       "allowedUnpricedModelIds": [
-        "deepseek-v4-flash",
         "deepseek-v4-pro",
         "glm-5.3",
         "glm-5.3-flash",
-        "grok-4.6",
         "qwen3.8-max"
       ]
     },
@@ -608,25 +605,6 @@
       "retrievedAt": "2026-11-01"
     },
     {
-      "id": "cost-frontier-oswv",
-      "version": "OSWorld-Verified",
-      "name": "OSWorld-Verified",
-      "publisher": "Mixed reporters",
-      "capabilityClass": "computerUse",
-      "unit": "% tasks",
-      "minimumScore": 0,
-      "maximumScore": 100,
-      "direction": "higherIsBetter",
-      "methodologyUrl": "https://xlang.ai/blog/osworld-verified",
-      "citationNote": "369 desktop and web tasks in real apps, about 30 tool calls each, checked by the final application state.",
-      "validFrom": "2026-08-01",
-      "capturedAt": "2026-08-01",
-      "retrievedAt": "2026-11-01",
-      "allowedUnpricedModelIds": [
-        "qwen3.8-max"
-      ]
-    },
-    {
       "id": "cost-frontier-exploit",
       "version": "ExploitBench (V8)",
       "name": "ExploitBench (V8)",
@@ -640,29 +618,7 @@
       "citationNote": "Can an agent turn patched V8 bugs into stronger exploit capability, from reaching the code to full control, across 16 flags.",
       "validFrom": "2026-09-22",
       "capturedAt": "2026-09-22",
-      "retrievedAt": "2026-11-01",
-      "allowedUnpricedModelIds": [
-        "claude-mythos-5-1"
-      ]
-    },
-    {
-      "id": "cost-frontier-cyscen",
-      "version": "CyScenarioBench (Irregular)",
-      "name": "CyScenarioBench (Irregular)",
-      "publisher": "Vendor claim",
-      "capabilityClass": "security",
-      "unit": "% challenges",
-      "minimumScore": 0,
-      "maximumScore": 100,
-      "direction": "higherIsBetter",
-      "methodologyUrl": "https://www.irregular.com/research/cyscenariobench",
-      "citationNote": "Multi-stage cyber operations under realistic constraints. Measures sequencing of techniques, not isolated tricks. A 10-challenge subset, with cyber mitigations off.",
-      "validFrom": "2026-09-22",
-      "capturedAt": "2026-09-22",
-      "retrievedAt": "2026-11-01",
-      "allowedUnpricedModelIds": [
-        "claude-mythos-5-1"
-      ]
+      "retrievedAt": "2026-11-01"
     },
     {
       "id": "cost-frontier-cybergym",
@@ -680,7 +636,6 @@
       "capturedAt": "2026-09-22",
       "retrievedAt": "2026-11-01",
       "allowedUnpricedModelIds": [
-        "claude-mythos-5",
         "deepseek-v4-pro",
         "deepseek-v4.1-flash",
         "mimo-v2.6-flash",
@@ -791,54 +746,6 @@
       "citationNote": "Multiple-choice questions over images across many academic disciplines.",
       "validFrom": "2026-09-01",
       "capturedAt": "2026-09-01",
-      "retrievedAt": "2026-11-01"
-    },
-    {
-      "id": "cost-frontier-ownrev",
-      "version": "Token Economy pilot: code review",
-      "name": "Token Economy pilot: code review",
-      "publisher": "Own controlled run",
-      "capabilityClass": "codeReview",
-      "unit": "% precision",
-      "minimumScore": 0,
-      "maximumScore": 100,
-      "direction": "higherIsBetter",
-      "methodologyUrl": "https://github.com/agent-orc/token-economy/blob/main/benchmarks/task-class-studies/source-code-review-v1.json",
-      "citationNote": "Our own pilot. Two small C# files hold ten seeded contract defects. Terra medium and Sol xhigh both found 10 of 10, Sol medium found 9 of 10.",
-      "validFrom": "2026-08-12",
-      "capturedAt": "2026-08-12",
-      "retrievedAt": "2026-11-01"
-    },
-    {
-      "id": "cost-frontier-ownui",
-      "version": "Token Economy pilot: HTML UI",
-      "name": "Token Economy pilot: HTML UI",
-      "publisher": "Own controlled run",
-      "capabilityClass": "codeReview",
-      "unit": "quality × 100",
-      "minimumScore": 0,
-      "maximumScore": 100,
-      "direction": "higherIsBetter",
-      "methodologyUrl": "https://github.com/agent-orc/token-economy/blob/main/benchmarks/task-class-studies/html-ui-v1.json",
-      "citationNote": "Our own pilot. Two self-contained UI pages, graded 75% by a blinded screenshot jury and 25% by deterministic checks.",
-      "validFrom": "2026-08-12",
-      "capturedAt": "2026-08-12",
-      "retrievedAt": "2026-11-01"
-    },
-    {
-      "id": "cost-frontier-rabbit",
-      "version": "CodeRabbit known-bug coverage",
-      "name": "CodeRabbit known-bug coverage",
-      "publisher": "Third-party aggregator",
-      "capabilityClass": "codeReview",
-      "unit": "% coverage",
-      "minimumScore": 0,
-      "maximumScore": 100,
-      "direction": "higherIsBetter",
-      "methodologyUrl": "https://www.coderabbit.ai/blog/gpt-6-astra-code-review-evaluation",
-      "citationNote": "Share of labelled bugs caught with actionable comments in CodeRabbit's pipeline.",
-      "validFrom": "2026-09-04",
-      "capturedAt": "2026-09-04",
       "retrievedAt": "2026-11-01"
     },
     {

@@ -1143,7 +1143,12 @@ def create_cost_frontier_payload() -> dict:
     meta = load(FRONTIER_METADATA)
     prices = load_price_index()
     results = load(BENCHMARK_RESULTS)["records"]
-    as_of = parse_utc(meta["AS_OF"] + "T00:00:00Z")
+    as_of = parse_utc(meta["asOf"] + "T00:00:00Z")
+    selected_ids = [row_id for definition in meta["benchmarks"].values()
+                    for row_id in definition["displayRowIds"] + definition["displayScoreOnlyIds"]]
+    frontier_rows = [row for row in results if row["benchmarkTypeId"].startswith("cost-frontier-")]
+    if len(selected_ids) != len(set(selected_ids)) or set(selected_ids) != {row["id"] for row in frontier_rows}:
+        raise ValueError("Frontier catalog rows must each be selected exactly once")
     model_ids = meta["modelIds"]
     models = {}
     restricted = {}
@@ -1161,7 +1166,9 @@ def create_cost_frontier_payload() -> dict:
             continue
         current.add(short)
         price = resolve_price(prices, model_id, as_of)
-        vendor = {"anthropic": "a", "openai": "o", "google": "g"}.get(source.get("vendor"), "x")
+        vendor = source.get("vendor")
+        if vendor not in meta["vendors"]:
+            raise ValueError(f"Unknown frontier vendor: {vendor}")
         models[short] = [source["displayName"], vendor]
         if price["status"] == "Resolved":
             models[short].extend([price["inputPerMTok"], price["outputPerMTok"]])
@@ -1252,11 +1259,11 @@ def create_cost_frontier_payload() -> dict:
                          "approx": post["approximate"], "t": post["title"],
                          "u": post["url"], "c": post["claim"]})
     return {**{key: value for key, value in meta.items() if key not in
-               ("modelIds", "benchmarks", "releaseOrder")},
-            "M": models, "B": benches, "RESTRICTED": restricted,
-            "RELEASES": releases,
-            "CURRENT": sorted(current),
-            "asOf": meta["AS_OF"], "schemaVersion": 1}
+               ("modelIds", "benchmarks", "releaseOrder", "externalModels", "externalPriceClaims")},
+            "models": models, "benchmarks": benches, "restricted": restricted,
+            "releases": releases,
+            "current": sorted(current),
+            "schemaVersion": 1}
 
 
 def validate_site_navigation() -> None:

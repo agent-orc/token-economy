@@ -20,6 +20,8 @@ model is collapsed, independently of its release date.
 
 | Model | Initial publication | Evidence |
 | --- | --- | --- |
+| Gemini 4 Carbon | `2026-10-28` | [Google announcement](https://blog.google/innovation-and-ai/models-and-research/gemini-models/introducing-gemini-4-carbon/) |
+| GPT-6.1 Terra | `2026-10-26` | [OpenAI announcement](https://openai.com/index/introducing-gpt-6-1-terra/) |
 | Gemini 4 Argon | `2026-10-13` | [Google API release notes](https://ai.google.dev/gemini-api/docs/changelog) and [Antigravity announcement](https://www.antigravity.google/blog/gemini-4-argon-in-google-antigravity) |
 | Claude Haiku 5.5 | `2026-10-07` | [Anthropic release notes](https://platform.claude.com/docs/en/release-notes/overview#october-7-2026) |
 | GPT-6.1 Sol | `2026-09-29` | [OpenAI API changelog](https://developers.openai.com/api/docs/changelog) |
