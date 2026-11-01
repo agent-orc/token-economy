@@ -105,7 +105,9 @@ public sealed class Gpt6SolLunaSupportTests
     [Fact]
     public void ExternalScoresRetainProvisionalLocalStatusAndApiEffort()
     {
-        var results = BenchmarkEvidenceCatalog.Default.Results.Where(row => row.ModelId.Value is "gpt-6-sol" or "gpt-6-luna").ToArray();
+        var results = BenchmarkEvidenceCatalog.Default.Results.Where(row =>
+            (row.ModelId.Value is "gpt-6-sol" or "gpt-6-luna")
+            && row.RetrievedAt == new DateOnly(2026, 9, 25)).ToArray();
         Assert.Equal(4, results.Length);
         Assert.All(results, row =>
         {

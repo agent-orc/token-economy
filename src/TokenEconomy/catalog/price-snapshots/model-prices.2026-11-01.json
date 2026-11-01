@@ -34,7 +34,8 @@
       "claim": "A faster, cheaper step up from Sonnet 5. Reports 70.6% on Terminal-Bench 4.0.",
       "availability": "general"
     },
-    "availability": "general"
+    "availability": "general",
+    "lifecycleStatus": "current"
   },
   {
     "modelId": "claude-opus-5-5",
@@ -73,7 +74,8 @@
       "claim": "Anthropic positions it close to Fable 5.1 at a lower price. Reports 66.4% on Terminal-Bench 4.0.",
       "availability": "general"
     },
-    "availability": "general"
+    "availability": "general",
+    "lifecycleStatus": "current"
   },
   {
     "modelId": "claude-haiku-5-5",
@@ -119,7 +121,8 @@
       "claim": "Anthropic's lowest-cost and fastest small model so far. Reports 72.4% on the OSWorld 2.1 offline subset.",
       "availability": "general"
     },
-    "availability": "general"
+    "availability": "general",
+    "lifecycleStatus": "current"
   },
   {
     "modelId": "gemini-4-argon",
@@ -178,7 +181,8 @@
       "claim": "Google reports first place on the Vals Index and 87% on ERQA.",
       "availability": "general"
     },
-    "availability": "general"
+    "availability": "general",
+    "lifecycleStatus": "current"
   },
   {
     "modelId": "gemini-3.8-flash",
@@ -237,7 +241,8 @@
       "claim": "Google's strongest reasoning and coding model at 3.7 Flash speed and cost. Reports 54.9% on HLE-Verified.",
       "availability": "general"
     },
-    "availability": "general"
+    "availability": "general",
+    "lifecycleStatus": "current"
   },
   {
     "modelId": "claude-fable-5-1",
@@ -274,7 +279,8 @@
       "claim": "Anthropic's leading model for coding and knowledge work at release. Reports 55.8% on Terminal-Bench 4.0.",
       "availability": "general"
     },
-    "availability": "general"
+    "availability": "general",
+    "lifecycleStatus": "current"
   },
   {
     "modelId": "claude-fable-5",
@@ -310,7 +316,8 @@
       "claim": "Anthropic's most capable generally available model at release.",
       "availability": "general"
     },
-    "availability": "general"
+    "availability": "general",
+    "lifecycleStatus": "superseded"
   },
   {
     "modelId": "claude-opus-5",
@@ -346,7 +353,8 @@
       "claim": "Anthropic positions it close to Fable 5 at half the price.",
       "availability": "general"
     },
-    "availability": "general"
+    "availability": "general",
+    "lifecycleStatus": "superseded"
   },
   {
     "modelId": "claude-sonnet-5",
@@ -384,7 +392,8 @@
       "claim": "Performance close to Opus 4.8 at a lower price.",
       "availability": "general"
     },
-    "availability": "general"
+    "availability": "general",
+    "lifecycleStatus": "superseded"
   },
   {
     "modelId": "claude-opus-4-8",
@@ -420,7 +429,8 @@
       "claim": "Builds on Opus 4.7 with benchmark improvements.",
       "availability": "general"
     },
-    "availability": "general"
+    "availability": "general",
+    "lifecycleStatus": "superseded"
   },
   {
     "modelId": "claude-opus-4-7",
@@ -636,7 +646,8 @@
       }
     ],
     "note": "Active; Anthropic commits to retirement not sooner than 2026-10-15 and has announced no deprecation (retrieved 2026-09-29).",
-    "availability": "general"
+    "availability": "general",
+    "lifecycleStatus": "superseded"
   },
   {
     "modelId": "gpt-6-astra",
@@ -677,7 +688,8 @@
       "claim": "OpenAI calls it the most intelligent and aligned model and rates it Critical for cybersecurity. Reports 72.6% on OSWorld 2.0.",
       "availability": "general"
     },
-    "availability": "general"
+    "availability": "general",
+    "lifecycleStatus": "current"
   },
   {
     "modelId": "gpt-6.1-sol",
@@ -723,7 +735,8 @@
       "claim": "OpenAI positions it near Astra for coding and computer use at a fifth of the price.",
       "availability": "general"
     },
-    "availability": "general"
+    "availability": "general",
+    "lifecycleStatus": "current"
   },
   {
     "modelId": "gpt-6-sol",
@@ -759,7 +772,8 @@
       "claim": "Cheaper, faster tiers trained like Astra, with API prices 50% below GPT-5.6 promotional pricing.",
       "availability": "general"
     },
-    "availability": "general"
+    "availability": "general",
+    "lifecycleStatus": "superseded"
   },
   {
     "modelId": "gpt-6-luna",
@@ -795,7 +809,8 @@
       "claim": "Cheaper, faster tiers trained like Astra, with API prices 50% below GPT-5.6 promotional pricing.",
       "availability": "general"
     },
-    "availability": "general"
+    "availability": "general",
+    "lifecycleStatus": "current"
   },
   {
     "modelId": "gpt-5.6-luna",
@@ -855,7 +870,8 @@
       "claim": "Three tiers across ChatGPT, Codex and the API, after a limited preview on 26 June.",
       "availability": "general"
     },
-    "availability": "general"
+    "availability": "general",
+    "lifecycleStatus": "superseded"
   },
   {
     "modelId": "gpt-5.6-terra",
@@ -915,7 +931,8 @@
       "claim": "Three tiers across ChatGPT, Codex and the API, after a limited preview on 26 June.",
       "availability": "general"
     },
-    "availability": "general"
+    "availability": "general",
+    "lifecycleStatus": "superseded"
   },
   {
     "modelId": "gpt-5.6-sol",
@@ -978,7 +995,8 @@
       "claim": "Three tiers across ChatGPT, Codex and the API, after a limited preview on 26 June.",
       "availability": "general"
     },
-    "availability": "general"
+    "availability": "general",
+    "lifecycleStatus": "superseded"
   },
   {
     "modelId": "gpt-5.4-mini",
@@ -1052,7 +1070,8 @@
       "claim": "OpenAI's model for agentic coding and computer use at release. Reports 82.7% on Terminal-Bench 2.0.",
       "availability": "general"
     },
-    "availability": "general"
+    "availability": "general",
+    "lifecycleStatus": "superseded"
   },
   {
     "modelId": "gpt-5.5-pro",
@@ -1203,7 +1222,8 @@
     },
     "releaseDate": "2026-10-26",
     "releaseDateSource": "https://openai.com/index/introducing-gpt-6-1-terra/",
-    "availability": "general"
+    "availability": "general",
+    "lifecycleStatus": "current"
   },
   {
     "modelId": "gemini-4-carbon",
@@ -1257,6 +1277,7 @@
         "retrievedAt": "2026-11-01",
         "observation": "Gemini 4 Carbon was not listed on the Google API pricing page when checked."
       }
-    ]
+    ],
+    "lifecycleStatus": "current"
   }
 ]
