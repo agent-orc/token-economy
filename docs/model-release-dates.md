@@ -50,3 +50,22 @@ model is collapsed, independently of its release date.
 | GPT-5 Codex | `2025-09-15` | [Provider source](https://openai.com/index/introducing-upgrades-to-codex/) |
 | GPT-5 | `2025-08-07` | [Provider source](https://openai.com/index/introducing-gpt-5/) |
 | Claude Opus 4.1 | `2025-08-05` | [Provider source](https://platform.claude.com/docs/en/release-notes/overview#august-5-2025) |
+
+## Cost Frontier release posts, 2026-11-01
+
+The price catalog now stores a `releasePost` beside `releaseDate` and
+`releaseDateSource`: direct lab title, URL, date, approximate flag, lab claim,
+and availability. The explorer projects 25 announcements from those records.
+A claim in a lab announcement is labelled as a claim, not a Token Economy
+measurement. Carbon is restricted to selected cyber defenders and partners.
+GPT-6.1 Terra's [OpenAI post](https://openai.com/index/introducing-gpt-6-1-terra/)
+announces $1 input, $0.05 cache read and $5 output per million tokens.
+
+Date conflicts remain visible: Anthropic's Fable 5.1 release notes and system
+card support **1 September 2026**, while its newsroom page lists **15 September**.
+The [Kimi K3.1 Pro post](https://www.kimi.com/en/blog/kimi-k3-1-pro) and
+[MiMo-V2.6 page](https://mimo.xiaomi.com/mimo-v2-6) do not confirm a primary
+publication date; their timeline dates are approximate. The
+[Qwen3.8-Max page](https://qwen.ai/blog?id=qwen3.8) loaded only a generic Qwen
+page in our browser check, so its 3 August date is also approximate and not a
+confirmed `ReleaseDate`.

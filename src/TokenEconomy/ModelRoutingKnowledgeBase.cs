@@ -472,7 +472,8 @@ public sealed class ModelRoutingKnowledgeBase
         var byModel = report.ModelSummaries.ToDictionary(summary => summary.CanonicalModel, StringComparer.Ordinal);
         if (byModel.Count != report.ModelSummaries.Count
             || byModel.Keys.Except(Models.Select(model => model.CanonicalId), StringComparer.Ordinal).Any()
-            || Models.Any(model => !byModel.ContainsKey(model.CanonicalId)))
+            || Models.Any(model => !byModel.ContainsKey(model.CanonicalId)
+                && !(model.TestOnly && model.RoutingStatus is ModelRoutingStatus.Unsupported or ModelRoutingStatus.Restricted)))
             throw new InvalidOperationException("Review evidence must contain exactly one summary for every knowledge-base model.");
         if (report.ModelSummaries.Any(summary => summary.TaskClass != "review"
             || summary.EvidenceQuality == ReviewEvidenceQuality.InsufficientEvidence && summary.Suitability is not null
@@ -480,7 +481,23 @@ public sealed class ModelRoutingKnowledgeBase
             throw new InvalidOperationException("Review evidence contains a contradictory suitability or task-class claim.");
 
         ReviewEvidenceVersion = report.EvidenceVersion;
-        ReviewQuality = Models.Select(model => byModel[model.CanonicalId]).ToArray();
+        ReviewQuality = Models.Select(model => byModel.TryGetValue(model.CanonicalId, out var summary)
+            ? summary
+            : new ModelReviewQualitySummary
+            {
+                CanonicalModel = model.CanonicalId,
+                RunCount = 0,
+                FilesReviewed = 0,
+                FindingsReported = 0,
+                OutcomeAvailableRunCount = 0,
+                ConfirmedFindings = 0,
+                DismissedFindings = 0,
+                AssessedFindingCount = 0,
+                EvidenceStatus = PolicyEvidenceStatus.Unknown,
+                EvidenceQuality = ReviewEvidenceQuality.InsufficientEvidence,
+                GateFailures = ["No local review evidence for benchmark-only model"],
+                Provenance = [],
+            }).ToArray();
     }
 }
 

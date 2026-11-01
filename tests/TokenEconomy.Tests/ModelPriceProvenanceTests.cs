@@ -7,6 +7,31 @@ namespace TokenEconomy.Tests;
 public class ModelPriceProvenanceTests
 {
     [Fact]
+    public void FrontierOnlyPricesRetainConflictAndDoNotBecomeSelectable()
+    {
+        var catalog = ModelPriceCatalog.Default;
+        var terra = Assert.Single(catalog.Find("gpt-6.1-terra")!.History);
+        Assert.Equal(1m, terra.InputPerMTok);
+        Assert.Equal(.05m, terra.CacheReadPerMTok);
+        Assert.Equal(5m, terra.OutputPerMTok);
+        var carbonListing = catalog.Find("gemini-4-carbon")!;
+        var carbon = Assert.Single(carbonListing.History);
+        Assert.Equal(4m, carbon.InputPerMTok);
+        Assert.Equal(20m, carbon.OutputPerMTok);
+        Assert.True(carbon.Unconfirmed);
+        Assert.Contains("Arena $2/$10", carbon.Note);
+        Assert.Equal(3, carbonListing.PriceClaims.Count);
+        Assert.Equal(2m, carbonListing.PriceClaims[1].InputPerMTok);
+        Assert.Null(carbonListing.PriceClaims[2].InputPerMTok);
+        Assert.Equal("restricted", carbonListing.Availability);
+        var knowledge = ModelRoutingKnowledgeBase.Default;
+        Assert.Equal(ModelRouteResolutionStatus.UnsupportedModel,
+            knowledge.Resolve("gpt-6.1-terra", "low").Status);
+        Assert.Equal(ModelRouteResolutionStatus.RestrictedModel,
+            knowledge.Resolve("gemini-4-carbon", "low").Status);
+    }
+
+    [Fact]
     public void EveryDefaultModel_HasPositiveDatedPricesAndPrimarySources()
     {
         foreach (var listing in ModelPriceCatalog.Default.Listings)
@@ -17,10 +42,10 @@ public class ModelPriceProvenanceTests
                 Assert.True(price.ValidFrom > DateTime.UnixEpoch);
                 Assert.Equal(DateTimeKind.Utc, price.ValidFrom.Kind);
                 Assert.NotNull(price.VerifiedOn);
-                Assert.True(price.VerifiedOn.Value >= new DateOnly(2026, 9, 12));
+                Assert.InRange(price.VerifiedOn.Value, new DateOnly(2026, 9, 12), new DateOnly(2026, 11, 1));
                 Assert.NotEmpty(price.SourceUrls);
                 Assert.All(price.SourceUrls, source => Assert.True(Uri.TryCreate(source, UriKind.Absolute, out var uri) && uri.Scheme == "https"));
-                Assert.False(price.Unconfirmed);
+                Assert.Equal(listing.ModelId == "gemini-4-carbon", price.Unconfirmed);
                 Assert.NotNull(price.ValidFromBasis);
             }
 

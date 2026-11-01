@@ -3,20 +3,16 @@
 The static marketing + documentation site for **Token Economy**, served at
 <https://agent-orchestrator.dev/token-economy/>.
 
-- **Plain static HTML with a checked data step.** Content-specific CSS and
-  JavaScript remain inline, the favicon is a data URI, and every page loads the
-  local `navigation.css` and `navigation.js` assets. The homepage model table uses
-  `matrix.js` for compact status controls and expandable evidence. `scripts/generate-website-data.py` writes five
-  artifacts — `website/data/benchmarks.json` (published studies) and
-  `website/data/token-usage.json` (the checked worked example and retained
-  chart aggregates), plus
-  `website/data/model-efficiency-matrix.json` (the checked
-  `ModelEfficiencyMatrix.Describe` projection), plus
-  `website/data/task-class-recommendations.json` (the checked public projection
-  of the library's study-backed card-creation advice) — and CI rejects stale data.
-  The fifth artifact, `website/data/model-benchmark-matrix.json`, joins the
-  versioned external benchmark catalog to dated prices for the
-  `model-benchmarks/` page and its candidate recommendations.
+- **Plain static HTML with a checked data step.** The favicon is a data URI,
+  and every page loads the local `navigation.css` and `navigation.js` assets.
+  Individual pages may also use local CSS and JavaScript. The homepage model
+  table uses `matrix.js` for compact status controls and expandable evidence.
+  `scripts/generate-website-data.py` writes the checked JSON under
+  `website/data/`, including benchmark studies, token usage, model efficiency,
+  task-class recommendations, and the Cost Frontier. CI rejects stale data.
+  `website/data/model-benchmark-matrix.json` joins the versioned external
+  benchmark catalog to dated prices for the `model-benchmarks/` page and its
+  candidate recommendations.
 - **English**, light/dark theme-aware, responsive.
 - Content: library overview, installation and cost quickstart, a dedicated
   [`api/`](api/) guide with input/return contracts and complete C# examples,
@@ -185,3 +181,14 @@ node scripts/test-language-page.mjs /absolute/path/to/results
 
 The browser check needs Node 22+ and Chromium (`CHROME_PATH` may specify it).
 See the [intake guide](../docs/human-friendly-language.md) for the importer.
+
+## Cost Frontier explorer
+
+`cost-frontier/` is the interactive benchmark atlas. It fetches
+`data/cost-frontier.json` and makes no third-party requests. The generated file
+joins append-only benchmark evidence, dated list prices, release posts and the
+editorial/interaction catalog in `src/TokenEconomy/catalog/cost-frontier-metadata.json`.
+Run `python3 scripts/generate-website-data.py` after a catalog change and
+`python3 scripts/generate-website-data.py --check` before publishing. The
+canonical header is copied from `_includes/site-navigation.html` into every
+page; the generator checks that they match.

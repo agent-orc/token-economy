@@ -88,6 +88,7 @@ Supported reasoning is resolved per concrete model. A vocabulary entry does not 
 | `claude-sonnet-5-5` | — | `anthropic` / `claude-code` | `low`, `medium`, `high`, `xhigh`, `max` | `selectable` | `provisional` | insufficient evidence | `unknown` / `insufficientEvidence` | price `claude-sonnet-5-5`; media `*`; trust `claude-sonnet-5-5` |
 | `gemini-3.8-flash` | `gemini-3.8-flash-low`, `gemini-3.8-flash-medium`, `gemini-3.8-flash-high` | `google` / `antigravity` | `low`, `medium`, `high` | `selectable` (test-only pin) | `provisional` | insufficient evidence | `unknown` / `insufficientEvidence` | price `gemini-3.8-flash`; media `*`; trust `gemini-3.8-flash` |
 | `gemini-4-argon` | `gemini-4-argon-low`, `gemini-4-argon-medium`, `gemini-4-argon-high` | `google` / `antigravity` | `low`, `medium`, `high` | `selectable` (test-only pin) | `provisional` | insufficient evidence | `unknown` / `insufficientEvidence` | price `gemini-4-argon`; media `*`; trust `gemini-4-argon` |
+| `gemini-4-carbon` | — | `google` / `antigravity` | `low`, `medium`, `high` | `selectable` (test-only pin) | `unknown` | insufficient evidence | `unknown` / `insufficientEvidence` | price `gemini-4-carbon`; media `*`; trust `gemini-4-carbon` |
 | `gpt-5` | — | `openai` / `codex` | `minimal`, `low`, `medium`, `high`, `xhigh` | `unsupported` | `unknown` | insufficient evidence | `unknown` / `insufficientEvidence` | price `gpt-5`; media `*`; trust `gpt-5` |
 | `gpt-5-codex` | — | `openai` / `codex` | `low`, `medium`, `high` | `unsupported` | `unknown` | insufficient evidence | `unknown` / `insufficientEvidence` | price `gpt-5-codex`; media `*`; trust `gpt-5-codex` |
 | `gpt-5.4-mini` | `mini` | `openai` / `codex` | `low`, `medium`, `high` | `selectable` | `provisional` | insufficient evidence | `unknown` / `insufficientEvidence` | price `gpt-5.4-mini`; media `*`; trust `gpt-5.4-mini` |
@@ -101,6 +102,7 @@ Supported reasoning is resolved per concrete model. A vocabulary entry does not 
 | `gpt-6-luna` | — | `openai` / `codex` | `low`, `medium`, `high`, `xhigh`, `max` | `selectable` | `provisional` | insufficient evidence | `unknown` / `insufficientEvidence` | price `gpt-6-luna`; media `*`; trust `gpt-6-luna` |
 | `gpt-6-sol` | — | `openai` / `codex` | `low`, `medium`, `high`, `xhigh`, `max`, `ultra` | `selectable` | `provisional` | insufficient evidence | `unknown` / `insufficientEvidence` | price `gpt-6-sol`; media `*`; trust `gpt-6-sol` |
 | `gpt-6.1-sol` | — | `openai` / `codex` | `minimal`, `low`, `medium`, `high`, `xhigh` | `selectable` | `provisional` | insufficient evidence | `unknown` / `insufficientEvidence` | price `gpt-6.1-sol`; media `*`; trust `gpt-6.1-sol` |
+| `gpt-6.1-terra` | — | `openai` / `codex` | `low`, `medium`, `high` | `selectable` (test-only pin) | `unknown` | insufficient evidence | `unknown` / `insufficientEvidence` | price `gpt-6.1-terra`; media `*`; trust `gpt-6.1-terra` |
 
 ## Review quality (Quality Studio)
 
@@ -123,6 +125,7 @@ Supported reasoning is resolved per concrete model. A vocabulary entry does not 
 | `claude-sonnet-5-5` | insufficient evidence | 0 | 0 | 0 | — | — | — | `unknown` / `insufficientEvidence` |
 | `gemini-3.8-flash` | insufficient evidence | 0 | 0 | 0 | — | — | — | `unknown` / `insufficientEvidence` |
 | `gemini-4-argon` | insufficient evidence | 0 | 0 | 0 | — | — | — | `unknown` / `insufficientEvidence` |
+| `gemini-4-carbon` | insufficient evidence | 0 | 0 | 0 | — | — | — | `unknown` / `insufficientEvidence` |
 | `gpt-5` | insufficient evidence | 0 | 0 | 0 | — | — | — | `unknown` / `insufficientEvidence` |
 | `gpt-5-codex` | insufficient evidence | 0 | 0 | 0 | — | — | — | `unknown` / `insufficientEvidence` |
 | `gpt-5.4-mini` | insufficient evidence | 0 | 0 | 0 | — | — | — | `unknown` / `insufficientEvidence` |
@@ -136,6 +139,7 @@ Supported reasoning is resolved per concrete model. A vocabulary entry does not 
 | `gpt-6-luna` | insufficient evidence | 0 | 0 | 0 | — | — | — | `unknown` / `insufficientEvidence` |
 | `gpt-6-sol` | insufficient evidence | 0 | 0 | 0 | — | — | — | `unknown` / `insufficientEvidence` |
 | `gpt-6.1-sol` | insufficient evidence | 0 | 0 | 0 | — | — | — | `unknown` / `insufficientEvidence` |
+| `gpt-6.1-terra` | insufficient evidence | 0 | 0 | 0 | — | — | — | `unknown` / `insufficientEvidence` |
 
 Quality Studio history is observational operational evidence, not a controlled A/B comparison. A finding confirmation rate is a precision signal over sighted findings; it does not measure missed findings or recall. Fixture runs validate only the ingestion contract and never contribute to model metrics. Until the declared run, assessed-finding, and outcome-coverage gates pass, the matrix retains a null review suitability and `SuggestModel(review, ...)` returns no candidate rather than inventing a fit.
 

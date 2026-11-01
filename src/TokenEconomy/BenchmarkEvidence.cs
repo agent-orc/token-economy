@@ -16,6 +16,12 @@ public enum BenchmarkCapabilityClass
     LongContext,
     ControlledSetup,
     CodeReview,
+    ComputerUse,
+    Security,
+    Language,
+    Extraction,
+    KnowledgeWork,
+    Vision,
 }
 
 [JsonConverter(typeof(JsonStringEnumConverter<BenchmarkScoreDirection>))]
@@ -41,6 +47,15 @@ public enum BenchmarkConfidence
     OwnRun,
 }
 
+[JsonConverter(typeof(JsonStringEnumConverter<BenchmarkCostSource>))]
+public enum BenchmarkCostSource
+{
+    Measured,
+    ChartRead,
+    Estimated,
+    Unavailable,
+}
+
 /// <summary>A versioned definition of what one benchmark measures and how its score is interpreted.</summary>
 public sealed record BenchmarkType
 {
@@ -49,6 +64,7 @@ public sealed record BenchmarkType
     public required string Name { get; init; }
     public required string Publisher { get; init; }
     public required BenchmarkCapabilityClass CapabilityClass { get; init; }
+    public bool AllowUnpricedModels { get; init; }
     public required string Unit { get; init; }
     public required decimal MinimumScore { get; init; }
     public required decimal MaximumScore { get; init; }
@@ -104,6 +120,9 @@ public sealed record BenchmarkResult
     public required ModelId ModelId { get; init; }
     public required EffortLevel ReasoningEffort { get; init; }
     public required decimal Score { get; init; }
+    public BenchmarkCostSource? CostSource { get; init; }
+    public string? SettingLabel { get; init; }
+    public string? ScoreOnlyLabel { get; init; }
     public BenchmarkSecondaryMetrics? SecondaryMetrics { get; init; }
     public BenchmarkEvidenceContext? Context { get; init; }
     /// <summary>Publication date, or conservative availability date for an explicitly marked first-observed snapshot.</summary>
@@ -139,6 +158,9 @@ internal sealed record BenchmarkResultJson
     public required string ModelId { get; init; }
     public required EffortLevel ReasoningEffort { get; init; }
     public required decimal Score { get; init; }
+    public BenchmarkCostSource? CostSource { get; init; }
+    public string? SettingLabel { get; init; }
+    public string? ScoreOnlyLabel { get; init; }
     public BenchmarkSecondaryMetrics? SecondaryMetrics { get; init; }
     public BenchmarkEvidenceContext? Context { get; init; }
     public required DateOnly PublishedAt { get; init; }
@@ -190,7 +212,7 @@ public sealed class BenchmarkEvidenceCatalog
                 throw new ArgumentException($"Duplicate benchmark result id '{result.Id}'.", nameof(results));
             if (!_typesById.TryGetValue(result.BenchmarkTypeId, out var type))
                 throw new ArgumentException($"Unknown benchmark type '{result.BenchmarkTypeId}'.", nameof(results));
-            if (modelCatalog.Find(result.ModelId) is null)
+            if (modelCatalog.Find(result.ModelId) is null && !type.AllowUnpricedModels)
                 throw new ArgumentException($"Unknown benchmark model '{result.ModelId}'.", nameof(results));
             if (result.Score < type.MinimumScore || result.Score > type.MaximumScore)
                 throw new ArgumentException($"Result '{result.Id}' score is outside the benchmark range.", nameof(results));
@@ -231,6 +253,9 @@ public sealed class BenchmarkEvidenceCatalog
                 ModelId = ModelId.Of(result.ModelId),
                 ReasoningEffort = result.ReasoningEffort,
                 Score = result.Score,
+                CostSource = result.CostSource,
+                SettingLabel = result.SettingLabel,
+                ScoreOnlyLabel = result.ScoreOnlyLabel,
                 SecondaryMetrics = result.SecondaryMetrics,
                 Context = result.Context,
                 PublishedAt = result.PublishedAt,
@@ -280,6 +305,8 @@ public sealed class BenchmarkEvidenceCatalog
             throw new ArgumentException("A benchmark result cannot be retrieved before publication.", nameof(result));
         ValidateContext(result);
         var metrics = result.SecondaryMetrics;
+        if (result.CostSource == BenchmarkCostSource.Unavailable && metrics?.CostPerTaskUsd is not null)
+            throw new ArgumentException("A score-only result cannot publish a cost.", nameof(result));
         if (metrics?.InputTokensPerTask is < 0 || metrics?.OutputTokensPerTask is < 0
             || metrics?.CostPerTaskUsd is <= 0 || metrics?.LatencyMilliseconds is < 0)
             throw new ArgumentException("Benchmark secondary metrics must be non-negative and cost must be positive.", nameof(result));

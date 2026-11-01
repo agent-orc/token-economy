@@ -68,6 +68,9 @@
         "score": {
           "type": "number"
         },
+        "costSource": { "enum": ["measured", "chartRead", "estimated", "unavailable"] },
+        "settingLabel": { "type": "string", "minLength": 1 },
+        "scoreOnlyLabel": { "type": "string", "minLength": 1 },
         "secondaryMetrics": {
           "type": "object",
           "additionalProperties": false,
