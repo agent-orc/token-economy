@@ -8,6 +8,7 @@ namespace TokenEconomy.Tests;
 public class WebsiteCostFrontierDataTests
 {
     [Fact]
+    [Trait("Category", "Guard")]
     public void FrontierCatalogHasNoPlaceholderModelsOrDuplicateObservations()
     {
         using var document = JsonDocument.Parse(File.ReadAllBytes(Path.Combine(
@@ -208,6 +209,7 @@ public class WebsiteCostFrontierDataTests
     }
 
     [Fact]
+    [Trait("Category", "Guard")]
     public void SupersededModelsCannotReachAnyBenchmarkOrMission()
     {
         using var document = JsonDocument.Parse(File.ReadAllBytes(Path.Combine(

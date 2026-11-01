@@ -1148,11 +1148,15 @@ def create_cost_frontier_payload() -> dict:
     selected_ids = [row_id for definition in meta["benchmarks"].values()
                     for row_id in definition["displayRowIds"] + definition["displayScoreOnlyIds"]]
     frontier_rows = [row for row in results if row["benchmarkTypeId"].startswith("cost-frontier-")]
+    rows_by_id = {row["id"]: row for row in frontier_rows}
     if (len(selected_ids) != len(set(selected_ids))
-            or len(frontier_rows) != len({row["id"] for row in frontier_rows})
-            or set(selected_ids) != {row["id"] for row in frontier_rows}):
+            or len(frontier_rows) != len(rows_by_id)
+            or set(selected_ids) != rows_by_id.keys()):
         raise ValueError("Frontier catalog rows must each be selected exactly once")
     model_ids = meta["modelIds"]
+    short_by_model_id = {model_id: short for short, model_id in model_ids.items()}
+    if len(short_by_model_id) != len(model_ids):
+        raise ValueError("Frontier model ids must be unique")
     models = {}
     restricted = {}
     current = set()
@@ -1182,10 +1186,10 @@ def create_cost_frontier_payload() -> dict:
         if source.get("availability") == "restricted":
             restricted[short] = source.get("availabilityNote", "Not generally available")
     benches = {}
+    used_models = set()
     for short, definition in meta["benchmarks"].items():
         chosen = definition["displayRowIds"] + definition["displayScoreOnlyIds"]
-        rows_by_id = {row["id"]: row for row in results if row["benchmarkTypeId"] == "cost-frontier-" + short}
-        if len(chosen) != len(set(chosen)) or any(row_id not in rows_by_id for row_id in chosen):
+        if any(rows_by_id[row_id]["benchmarkTypeId"] != "cost-frontier-" + short for row_id in chosen):
             raise ValueError(f"Invalid frontier row selection: {short}")
         rows = [rows_by_id[row_id] for row_id in chosen]
         projected = {key: value for key, value in definition.items()
@@ -1195,25 +1199,20 @@ def create_cost_frontier_payload() -> dict:
         projected["noCost"] = []
         projected["scoreOnlyEvidence"] = []
         for row in rows:
+            model = short_by_model_id.get(row["modelId"])
+            if model not in current:
+                raise ValueError(f"Superseded or unknown frontier model: {row['id']}")
+            used_models.add(model)
+            fact = {key: row[key] for key in
+                    ("id", "sourceUrl", "publishedAt", "retrievedAt", "evidenceExcerpt", "confidence", "costSource")}
+            fact["stale"] = (as_of.date() - datetime.fromisoformat(row["publishedAt"][:10]).date()).days > 90
             if row.get("costSource") == "unavailable":
                 if row.get("secondaryMetrics", {}).get("costPerTaskUsd") is not None or not row.get("scoreOnlyLabel"):
                     raise ValueError(f"Invalid score-only frontier row: {row['id']}")
-                model = next((key for key, value in model_ids.items()
-                              if value == row["modelId"]), None)
-                if model not in current:
-                    raise ValueError(f"Superseded or unknown score-only frontier model: {row['id']}")
                 projected["noCost"].append([row["scoreOnlyLabel"], row["score"]])
-                fact = {key: row[key] for key in
-                    ("id", "sourceUrl", "publishedAt", "retrievedAt", "evidenceExcerpt", "confidence", "costSource")}
-                fact["stale"] = (as_of.date() - datetime.fromisoformat(row["publishedAt"][:10]).date()).days > 90
                 projected["scoreOnlyEvidence"].append(fact)
                 continue
-            model = next((key for key, value in model_ids.items() if value == row["modelId"]), None)
-            if model is None:
-                raise ValueError(f"Missing frontier model: {row['modelId']}")
-            if model not in current:
-                raise ValueError(f"Superseded frontier model: {row['id']}")
-            expected = {"measured": "measured", "chartRead": "chartRead", "estimated": "estimated"}[definition["cost"]]
+            expected = definition["cost"]
             if row.get("costSource") != expected:
                 raise ValueError(f"Frontier cost provenance mismatch: {row['id']}")
             cost = row.get("secondaryMetrics", {}).get("costPerTaskUsd")
@@ -1225,17 +1224,9 @@ def create_cost_frontier_payload() -> dict:
             if cost is not None:
                 entry.append(cost)
             projected["rows"].append(entry)
-            fact = {key: row[key] for key in
-                ("id", "sourceUrl", "publishedAt", "retrievedAt", "evidenceExcerpt", "confidence", "costSource")}
-            fact["stale"] = (as_of.date() - datetime.fromisoformat(row["publishedAt"][:10]).date()).days > 90
             projected["evidence"].append(fact)
         projected["stale"] = (as_of.date() - datetime.fromisoformat(definition["date"]).date()).days > 90
         benches[short] = projected
-    used_models = {row[0] for bench in benches.values() for row in bench["rows"]}
-    used_models.update(key for bench in meta["benchmarks"].values()
-                       for row_id in bench["displayScoreOnlyIds"]
-                       for key, model_id in model_ids.items()
-                       if next(row for row in results if row["id"] == row_id)["modelId"] == model_id)
     gaps = set(meta.get("currentModelGaps", []))
     if not gaps <= current or current - used_models - gaps:
         raise ValueError(f"Current frontier models lack chart or gap coverage: {sorted(current - used_models - gaps)}")
