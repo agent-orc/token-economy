@@ -1,0 +1,948 @@
+<title>Cost Frontier</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<style>
+/* Layout concept: a dark measuring console set into the calm Token Economy page, category cards above it, evidence beside it. */
+:root {
+  --bg: #fff; --bg-alt: #f5f7fb; --panel: #fff; --border: #dce3ee;
+  --text: #182033; --muted: #5b667a; --accent: #2f6df0; --accent-soft: #eaf1ff;
+  --ok: #147847; --ok-soft: #e7f6ee; --warn: #956400; --warn-soft: #fff6dc; --danger: #ac3442; --danger-soft: #fbeaec;
+  --hero: #2c50d0; --hero-ink: #fff; --hero-soft: #d8e1ff;
+  --stage: #101726; --stage-2: #18213a; --stage-line: #2a3650; --stage-ink: #e7ecf6; --stage-muted: #9aa7bf; --stage-hi: #ffffff;
+  --anthropic: #d95926; --openai: #199e70; --google: #3987e5; --other: #8e99ad;
+  --gold: #e8b83e;
+  --mono: ui-monospace, "SF Mono", "Cascadia Code", Menlo, Consolas, monospace;
+  --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --r-sm: .4rem; --r-md: .75rem; --pill: 999rem;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0b101b; --bg-alt: #131a29; --panel: #161d2c; --border: #29344d;
+    --text: #e7ecf6; --muted: #99a5bc; --accent: #78a6ff; --accent-soft: #172542;
+    --ok: #4ac388; --ok-soft: #173528; --warn: #e1b64d; --warn-soft: #342b17; --danger: #f07b87; --danger-soft: #3a1c22;
+    --hero: #2c50d0; --hero-ink: #fff; --hero-soft: #d8e1ff; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0b101b; --bg-alt: #131a29; --panel: #161d2c; --border: #29344d;
+  --text: #e7ecf6; --muted: #99a5bc; --accent: #78a6ff; --accent-soft: #172542;
+  --ok: #4ac388; --ok-soft: #173528; --warn: #e1b64d; --warn-soft: #342b17; --danger: #f07b87; --danger-soft: #3a1c22;
+  --hero: #2c50d0; --hero-ink: #fff; --hero-soft: #d8e1ff; color-scheme: dark;
+}
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+body { margin: 0; background: var(--bg); color: var(--text); font: 15px/1.5 var(--sans); }
+a { color: var(--accent); }
+button, input, select { font: inherit; color: inherit; }
+button { cursor: pointer; }
+:focus-visible { outline: .15rem solid var(--accent); outline-offset: .12rem; }
+.wrap { max-width: 88rem; margin-inline: auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+.num { font-family: var(--mono); font-variant-numeric: tabular-nums; }
+h1, h2, h3 { text-wrap: balance; margin: 0; line-height: 1.15; }
+p { margin: 0; }
+
+/* Hero */
+.hero { background: var(--hero); color: var(--hero-ink); }
+.hero .wrap { padding-block: 1rem 1.15rem; display: grid; gap: .4rem; }
+.brand { font: 700 .78rem/1 var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--hero-soft); }
+.hero h1 { font-size: clamp(1.7rem, 3.4vw, 2.5rem); letter-spacing: -.025em; font-weight: 750; }
+.hero p { max-width: 96ch; color: var(--hero-soft); }
+
+/* Tabs and HUD */
+.bar { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 20; background: var(--bg); border-bottom: 1px solid var(--border); }
+.bar .wrap { display: flex; flex-wrap: wrap; align-items: center; gap: .5rem 1rem; padding-block: .55rem; }
+.tabs { display: flex; flex-wrap: wrap; gap: .3rem; }
+.tab { border: 1px solid transparent; background: none; padding: .38rem .8rem; border-radius: var(--pill); font-weight: 650; color: var(--muted); }
+.tab[aria-selected="true"] { background: var(--text); color: var(--bg); }
+.tab:hover:not([aria-selected="true"]) { background: var(--bg-alt); color: var(--text); }
+.hud { margin-left: auto; display: flex; flex-wrap: wrap; gap: .4rem; font-size: .8rem; }
+.hud span { display: inline-flex; gap: .35rem; align-items: baseline; padding: .22rem .6rem; border: 1px solid var(--border); border-radius: var(--pill); color: var(--muted); }
+.hud b { color: var(--text); font-family: var(--mono); }
+body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 30; background: var(--bg); }
+
+main { padding-block: 1.1rem 3rem; display: grid; gap: 1.1rem; }
+.view { display: grid; gap: 1rem; min-width: 0; }
+
+/* Category cards */
+.cats { display: grid; grid-template-columns: repeat(9, minmax(0, 1fr)); gap: .5rem; }
+@media (max-width: 80rem) { .cats { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+@media (max-width: 40rem) { .cat small span:last-child { display: none; } .cat { padding: .45rem .5rem; } .cat b { font-size: .8rem; } }
+.cat { display: grid; gap: .3rem; text-align: left; padding: .55rem .65rem; background: var(--panel); border: 1px solid var(--border); border-radius: var(--r-md); min-width: 0; transition: border-color .15s, transform .15s; }
+.cat:hover { border-color: var(--accent); transform: translateY(-1px); }
+.cat[aria-pressed="true"] { background: var(--stage); border-color: var(--stage); color: var(--stage-ink); }
+.cat b { font-size: .88rem; line-height: 1.2; }
+.cat svg { width: 100%; height: 30px; display: block; }
+.cat small { font-size: .7rem; color: var(--muted); display: flex; justify-content: space-between; gap: .4rem; white-space: nowrap; }
+.cat[aria-pressed="true"] small { color: var(--stage-muted); }
+.spark { fill: none; stroke: var(--accent); stroke-width: 2; stroke-linejoin: round; stroke-linecap: round; }
+.cat[aria-pressed="true"] .spark { stroke: var(--stage-hi); }
+.spark.dashed { stroke-dasharray: 3 3; }
+.spark-dot { fill: var(--muted); opacity: .55; }
+.cat[aria-pressed="true"] .spark-dot { fill: var(--stage-muted); }
+
+/* Stage */
+.layout { display: grid; grid-template-columns: minmax(0, 1fr) 21rem; gap: 1rem; align-items: start; }
+@media (max-width: 62rem) { .layout { grid-template-columns: minmax(0, 1fr); } }
+.stage { background: var(--stage); color: var(--stage-ink); border-radius: var(--r-md); padding: .9rem; display: grid; gap: .7rem; min-width: 0; position: relative; }
+.stage-head { display: flex; flex-wrap: wrap; align-items: center; gap: .5rem .9rem; }
+.seg { display: flex; flex-wrap: wrap; gap: .25rem; }
+.seg button { background: var(--stage-2); border: 1px solid var(--stage-line); color: var(--stage-muted); padding: .28rem .65rem; border-radius: var(--pill); font-size: .8rem; }
+.seg button[aria-pressed="true"] { background: var(--stage-ink); color: var(--stage); border-color: var(--stage-ink); font-weight: 700; }
+.seg button:hover:not([aria-pressed="true"]) { color: var(--stage-ink); }
+.stage :focus-visible { outline-color: var(--stage-hi); }
+.legend { display: flex; flex-wrap: wrap; gap: .25rem .7rem; font-size: .76rem; color: var(--stage-muted); align-items: center; }
+.legend button { background: none; border: 0; padding: .1rem .2rem; display: inline-flex; gap: .3rem; align-items: center; color: var(--stage-ink); font-size: .76rem; }
+.legend button[aria-pressed="false"] { opacity: .4; text-decoration: line-through; }
+.legend svg { width: 14px; height: 14px; overflow: visible; }
+.plot { position: relative; min-width: 0; }
+.plot svg { display: block; width: 100%; overflow: visible; touch-action: pan-y; }
+.axis text { fill: var(--stage-muted); font: 11px var(--mono); }
+.axis-title { fill: var(--stage-muted); font: 11.5px var(--sans); }
+.grid line { stroke: var(--stage-line); stroke-width: 1; }
+.pt { transition: transform .55s cubic-bezier(.3,.8,.3,1), opacity .3s; cursor: pointer; }
+.pt.over { opacity: .42; }
+.pt.dim { opacity: .3; }
+.pt.hide { opacity: 0; pointer-events: none; }
+.pt .mark { stroke: var(--stage); stroke-width: 1.5; transition: transform .15s; }
+.pt.hollow .mark { fill: var(--stage) !important; stroke-width: 2.2; }
+.pt:hover .mark, .pt:focus-visible .mark, .pt.sel .mark { transform: scale(1.4); }
+.pt:focus { outline: none; }
+.pt:focus-visible .hit { stroke: var(--stage-hi); stroke-width: 1.5; }
+.hit { fill: transparent; }
+.ring { fill: none; stroke: var(--gold); stroke-width: 2; }
+.ladder { fill: none; stroke-width: 1.5; opacity: .55; animation: fade .5s .25s both; }
+.frontier { fill: none; stroke: var(--stage-hi); stroke-width: 2.2; stroke-linejoin: round; stroke-dasharray: 1; stroke-dashoffset: 1; animation: draw .8s .2s ease-out forwards; }
+.frontier-tail { fill: none; stroke: var(--stage-hi); stroke-width: 1; opacity: .25; }
+.pt-label { fill: var(--stage-ink); font: 11.5px var(--sans); paint-order: stroke; stroke: var(--stage); stroke-width: 3px; pointer-events: none; }
+.ref-line { stroke: var(--gold); stroke-width: 1.2; stroke-dasharray: 5 4; }
+.ref-label { fill: var(--gold); font: 11px var(--sans); paint-order: stroke; stroke: var(--stage); stroke-width: 3px; }
+.budget-shade { fill: var(--stage); opacity: .2; pointer-events: none; }
+.budget-line { stroke: var(--gold); stroke-width: 1.6; }
+.budget-tag { fill: var(--gold); font: 700 12px var(--mono); paint-order: stroke; stroke: var(--stage); stroke-width: 3px; }
+.rug-title { fill: var(--stage-muted); font: 10.5px var(--sans); }
+.rug { stroke: var(--stage-muted); stroke-width: 2; stroke-linecap: round; cursor: help; }
+@keyframes draw { to { stroke-dashoffset: 0; } }
+@keyframes fade { from { opacity: 0; } }
+@media (prefers-reduced-motion: reduce) { .pt, .pt .mark, .cat { transition: none; } .frontier, .ladder, .pop { animation: none; stroke-dashoffset: 0; } }
+.tip { position: absolute; z-index: 5; width: min(17rem, 80%); background: var(--stage-hi); color: #182033; border-radius: var(--r-sm); padding: .5rem .65rem; font-size: .8rem; pointer-events: none; box-shadow: 0 .4rem 1.4rem rgb(0 0 0 / .4); }
+.tip b { display: block; }
+.tip .num { font-size: .92rem; font-weight: 700; }
+.controls { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: .6rem 1rem; align-items: end; }
+@media (max-width: 40rem) { .controls { grid-template-columns: minmax(0, 1fr); } }
+.ctrl { display: grid; gap: .25rem; min-width: 0; font-size: .78rem; color: var(--stage-muted); }
+.ctrl-row { display: flex; align-items: center; gap: .5rem; flex-wrap: wrap; }
+.ctrl output { color: var(--gold); font: 700 .86rem var(--mono); }
+input[type=range] { width: 100%; accent-color: var(--gold); margin: 0; }
+.play { background: var(--stage-2); border: 1px solid var(--stage-line); color: var(--stage-ink); border-radius: var(--pill); padding: .28rem .7rem; font-size: .8rem; font-weight: 650; }
+.play:hover { border-color: var(--stage-muted); }
+
+/* Side panel */
+.side { display: grid; gap: .8rem; min-width: 0; }
+.card { background: var(--panel); border: 1px solid var(--border); border-radius: var(--r-md); padding: .85rem .9rem; display: grid; gap: .45rem; min-width: 0; }
+.card h3 { font-size: 1rem; }
+.lab { font: 700 .68rem/1.2 var(--mono); text-transform: uppercase; letter-spacing: .07em; color: var(--muted); }
+.chips { display: flex; flex-wrap: wrap; gap: .25rem; }
+.chip { font-size: .7rem; font-weight: 700; padding: .12rem .45rem; border-radius: var(--pill); background: var(--bg-alt); color: var(--muted); border: 1px solid var(--border); white-space: nowrap; }
+.chip.measured { background: var(--ok-soft); color: var(--ok); border-color: transparent; }
+.chip.chartread { background: var(--accent-soft); color: var(--accent); border-color: transparent; }
+.chip.modelled, .chip.stale { background: var(--warn-soft); color: var(--warn); border-color: transparent; }
+.picks { display: grid; gap: .45rem; }
+.pick { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 0 .6rem; align-items: baseline; }
+.pick small { grid-column: 1 / -1; color: var(--muted); font-size: .74rem; }
+.pick .lab { grid-column: 1 / -1; }
+.pick b { font-size: .93rem; min-width: 0; }
+.bars { display: grid; gap: .28rem; }
+.barrow { display: grid; grid-template-columns: minmax(0, 8.5rem) minmax(0, 1fr) auto; gap: .4rem; align-items: center; font-size: .75rem; }
+.barrow span:first-child { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.bartrack { height: 8px; }
+.barfill { height: 8px; border-radius: 0 4px 4px 0; min-width: 2px; transition: width .4s; }
+ul.notes { margin: 0; padding-left: 1.05rem; display: grid; gap: .28rem; font-size: .84rem; color: var(--muted); }
+.detail-quote { font-size: .8rem; color: var(--muted); }
+details > summary { cursor: pointer; font-weight: 650; font-size: .86rem; color: var(--accent); }
+.tbl-scroll { overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; font-size: .8rem; }
+th, td { text-align: left; padding: .3rem .5rem; border-bottom: 1px solid var(--border); vertical-align: top; }
+th { color: var(--muted); font-size: .68rem; text-transform: uppercase; letter-spacing: .05em; }
+td.r, th.r { text-align: right; }
+
+/* Insights */
+.section-head { display: flex; flex-wrap: wrap; gap: .3rem 1rem; align-items: baseline; justify-content: space-between; }
+.section-head h2 { font-size: 1.25rem; letter-spacing: -.01em; }
+.section-head p { color: var(--muted); font-size: .88rem; }
+.insights { display: grid; grid-template-columns: repeat(auto-fill, minmax(16rem, 1fr)); gap: .6rem; }
+.ins { border: 1px solid var(--border); border-radius: var(--r-md); padding: .7rem .8rem; display: grid; gap: .3rem; align-content: start; background: var(--panel); }
+.ins.locked { background: var(--bg-alt); border-style: dashed; }
+.ins b { font-size: .92rem; }
+.ins p { font-size: .83rem; color: var(--muted); }
+.ins button { justify-self: start; background: none; border: 0; padding: 0; color: var(--accent); font-size: .8rem; font-weight: 650; }
+.toast { position: fixed; right: max(16px, env(safe-area-inset-right, 0px)); bottom: calc(16px + env(safe-area-inset-bottom, 0px)); z-index: 40; width: min(24rem, calc(100vw - 32px)); background: var(--text); color: var(--bg); border-radius: var(--r-md); padding: .75rem .9rem; display: grid; gap: .2rem; box-shadow: 0 .6rem 2rem rgb(0 0 0 / .3); }
+.toast small { font: 700 .68rem var(--mono); letter-spacing: .07em; text-transform: uppercase; opacity: .75; }
+.toast p { font-size: .84rem; opacity: .92; }
+.toast a { color: inherit; text-decoration: underline; }
+.refs { display: grid; gap: .2rem; font-size: .82rem; }
+.refs span { color: var(--muted); }
+.rel-list { display: grid; gap: .5rem; }
+.rel { display: grid; grid-template-columns: 6.2rem minmax(0, 1fr); gap: .2rem .8rem; padding: .65rem .8rem; background: var(--panel); border: 1px solid var(--border); border-radius: var(--r-md); scroll-margin-top: 5rem; }
+.rel.sel { border-color: var(--accent); box-shadow: 0 0 0 1px var(--accent); }
+@media (max-width: 34rem) { .rel { grid-template-columns: minmax(0, 1fr); } }
+.rel time { font: 650 .78rem var(--mono); color: var(--muted); }
+.rel-body { display: grid; gap: .25rem; min-width: 0; }
+.rel-title { display: flex; flex-wrap: wrap; gap: .1rem .45rem; align-items: center; font-weight: 650; }
+.rel-title svg { width: 14px; height: 14px; overflow: visible; flex: none; }
+.rel-body p { font-size: .85rem; color: var(--muted); }
+.rel-jump { display: flex; flex-wrap: wrap; gap: .25rem; align-items: center; font-size: .74rem; color: var(--muted); }
+.rel-jump button { background: var(--accent-soft); color: var(--accent); border: 0; border-radius: var(--pill); padding: .12rem .5rem; font-size: .72rem; font-weight: 700; }
+.rel-dot { cursor: pointer; }
+.rel-dot:focus { outline: none; }
+.rel-dot:focus-visible .hit, .rel-dot.sel .hit { stroke: var(--stage-hi); stroke-width: 1.5; }
+.lane-label { fill: var(--stage-ink); font: 12px var(--sans); }
+.rel-today { stroke: var(--gold); stroke-width: 1.2; stroke-dasharray: 4 4; }
+.pt.restricted .mark { stroke-dasharray: 2.5 2; stroke-width: 2.2; }
+.pop { animation: pop .3s ease-out both; }
+@keyframes pop { from { transform: translateY(.6rem); opacity: 0; } }
+
+/* Missions */
+.mission-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.25fr); gap: 1rem; align-items: start; }
+@media (max-width: 58rem) { .mission-grid { grid-template-columns: minmax(0, 1fr); } }
+.progress { display: flex; gap: .25rem; }
+.progress i { flex: 1; height: 6px; border-radius: 3px; background: var(--border); }
+.progress i.done { background: var(--accent); }
+.progress i.now { background: var(--gold); }
+.mission-card { background: var(--panel); border: 1px solid var(--border); border-radius: var(--r-md); padding: 1rem; display: grid; gap: .7rem; min-width: 0; }
+.mission-card h2 { font-size: 1.35rem; letter-spacing: -.01em; }
+.budget-chip { justify-self: start; font: 700 .9rem var(--mono); background: var(--stage); color: var(--gold); padding: .25rem .7rem; border-radius: var(--pill); }
+.opts { display: grid; gap: .4rem; }
+.opt { text-align: left; display: grid; grid-template-columns: 1.1rem minmax(0, 1fr) auto; gap: .55rem; align-items: center; padding: .55rem .7rem; background: var(--bg-alt); border: 1px solid var(--border); border-radius: var(--r-sm); min-width: 0; }
+.opt:hover:not(:disabled) { border-color: var(--accent); background: var(--accent-soft); }
+.opt:disabled { cursor: default; }
+.opt svg { width: 16px; height: 16px; overflow: visible; }
+.opt small { color: var(--muted); font-size: .74rem; display: block; }
+.opt .val { font: 700 .8rem var(--mono); text-align: right; }
+.opt.picked { border-color: var(--text); border-width: 2px; }
+.opt.best { background: var(--ok-soft); }
+.opt.bust { background: var(--danger-soft); }
+.result { display: grid; gap: .5rem; }
+.result-head { display: flex; align-items: baseline; gap: .8rem; flex-wrap: wrap; }
+.result-pts { font: 800 2rem/1 var(--mono); }
+.stars { color: var(--gold); font-size: 1.15rem; letter-spacing: .08em; }
+.primary { justify-self: start; background: var(--accent); color: #fff; border: 0; padding: .5rem 1rem; border-radius: var(--pill); font-weight: 700; }
+:root[data-theme="dark"] .primary { color: #0b101b; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .primary { color: #0b101b; } }
+.secondary { justify-self: start; background: none; color: var(--accent); border: 1px solid var(--accent); padding: .45rem .9rem; border-radius: var(--pill); font-weight: 650; }
+.endstat { font: 800 clamp(2.4rem, 8vw, 4rem)/1 var(--mono); letter-spacing: -.03em; }
+
+/* Mix */
+.mix-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr); gap: 1rem; align-items: start; }
+@media (max-width: 58rem) { .mix-grid { grid-template-columns: minmax(0, 1fr); } }
+.load { display: grid; gap: .1rem; }
+.load label { display: flex; justify-content: space-between; gap: .6rem; font-size: .84rem; }
+.load output { font-family: var(--mono); color: var(--muted); }
+.load input { accent-color: var(--accent); }
+.bigstats { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: .6rem; }
+@media (max-width: 34rem) { .bigstats { grid-template-columns: minmax(0, 1fr); } }
+.bigstats div { display: grid; gap: .15rem; }
+.bigstats b { font: 750 1.55rem/1.1 var(--mono); color: var(--stage-hi); }
+.bigstats span { color: var(--stage-muted); font-size: .76rem; }
+.curve-line { fill: none; stroke: var(--stage-hi); stroke-width: 2; stroke-linejoin: round; }
+.curve-area { fill: var(--stage-hi); opacity: .08; }
+.prose { max-width: 70ch; display: grid; gap: .5rem; color: var(--muted); font-size: .92rem; }
+.prose strong { color: var(--text); }
+</style>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="brand">Token Economy</div>
+    <h1>What does one point of capability cost?</h1>
+    <p>Published benchmarks and real per-task bills, category by category. Move the budget line, play the effort ladder, find what the list price hides, then test yourself against the data. Every benchmark and lab announcement is linked.</p>
+  </div>
+</header>
+
+<div class="bar">
+  <div class="wrap">
+    <div class="tabs" role="tablist" aria-label="Views">
+      <button class="tab" role="tab" data-view="atlas" id="tab-atlas">Atlas</button>
+      <button class="tab" role="tab" data-view="missions" id="tab-missions">Missions</button>
+      <button class="tab" role="tab" data-view="mix" id="tab-mix">Quality dial</button>
+      <button class="tab" role="tab" data-view="releases" id="tab-releases">Releases</button>
+      <button class="tab" role="tab" data-view="sources" id="tab-sources">Sources</button>
+    </div>
+    <div class="hud" aria-live="polite">
+      <span>Insights <b id="hud-ins">0/0</b></span>
+      <span>Best run <b id="hud-best">none</b></span>
+    </div>
+  </div>
+</div>
+
+<main class="wrap">
+  <section class="view" id="view-atlas"></section>
+  <section class="view" id="view-missions" hidden></section>
+  <section class="view" id="view-mix" hidden></section>
+  <section class="view" id="view-releases" hidden></section>
+  <section class="view" id="view-sources" hidden></section>
+</main>
+<div id="toast-host" aria-live="polite"></div>
+
+<script>
+'use strict';
+/* ---------- Data. Snapshot read 2026-11-01. Prices are USD per million tokens. ---------- */
+const AS_OF = '2026-11-01';
+const M = {
+  'opus-5.5': ['Claude Opus 5.5','a',4,20], 'sonnet-5.5': ['Claude Sonnet 5.5','a',2,10], 'haiku-5.5': ['Claude Haiku 5.5','a',.1,.5],
+  'fable-5.1': ['Claude Fable 5.1','a',10,50], 'fable-5': ['Claude Fable 5','a',10,50], 'opus-5': ['Claude Opus 5','a',5,25],
+  'opus-4.8': ['Claude Opus 4.8','a',5,25], 'sonnet-5': ['Claude Sonnet 5','a',2,10], 'haiku-4.5': ['Claude Haiku 4.5','a',1,5],
+  'astra': ['GPT-6 Astra','o',10,50], 'sol-6.1': ['GPT-6.1 Sol','o',2,10], 'terra-6.1': ['GPT-6.1 Terra','o',1,5], 'sol-6': ['GPT-6 Sol','o',2,10],
+  'luna-6': ['GPT-6 Luna','o',.1,.5], 'sol-5.6': ['GPT-5.6 Sol','o',4,20], 'terra-5.6': ['GPT-5.6 Terra','o',2,12], 'luna-5.6': ['GPT-5.6 Luna','o',.2,1.2], 'gpt-5.5': ['GPT-5.5','o',5,30],
+  'carbon': ['Gemini 4 Carbon','g',4,20], 'argon': ['Gemini 4 Argon','g',2,10], 'flash-3.8': ['Gemini 3.8 Flash','g',.75,3.75],
+  'grok-4.7': ['Grok 4.7','x',2,6], 'grok-4.6': ['Grok 4.6','x'], 'ds-4.1f': ['DeepSeek V4.1 Flash','x',.3,1.2], 'ds-4p': ['DeepSeek V4 Pro','x'], 'ds-4f': ['DeepSeek V4 Flash','x'],
+  'qwen-3.8': ['Qwen3.8 Max','x',2,6], 'kimi-3.1': ['Kimi K3.1 Pro','x'], 'glm-5.3': ['GLM-5.3','x'], 'mimo-p': ['MiMo-V2.6-Pro','x'], 'mimo-f': ['MiMo-V2.6-Flash','x']
+};
+const V = { a:['Anthropic','var(--anthropic)'], o:['OpenAI','var(--openai)'], g:['Google','var(--google)'], x:['Other labs','var(--other)'] };
+const EFFORTS = ['low','medium','high','xhigh','max'];
+const RUNGS = ['rung 1','rung 2','rung 3','rung 4','rung 5'];
+const AA = 'https://artificialanalysis.ai/leaderboards/models';
+const CARD = 'https://www-cdn.anthropic.com/fc1b44717c85dc068bc6ba5024219938094694bd/Claude%20Opus%205.5%20System%20Card.pdf';
+const REP = { owner:'Benchmark owner', vendor:'Vendor reported', third:'Third-party aggregator', own:'Own controlled run', mixed:'Mixed reporters' };
+
+const B = {
+  aa5: { name:'AA Intelligence Index v5', short:'Intelligence Index v5', unit:'index points', yLabel:'Index score', cost:'measured', per:'task', rep:'owner', date:'2026-10-28', ladder:EFFORTS,
+    url:'https://artificialanalysis.ai/articles/artificial-analysis-intelligence-index-v5', urls:[[AA,'Leaderboard'],['https://artificialanalysis.ai/articles/gemini-4-carbon-new-number-1','Gemini 4 Carbon article']],
+    what:'A composite of nine evaluations: 25% knowledge work, 25% coding, 25% science, 25% general. 60% of the weight runs on private or held-out test sets.',
+    notes:['Cost per task is token spend at list prices, averaged across evaluations by weight.','A composite hides strengths. Check the category that matches your work.','Index versions are not comparable. A v4.3 score of 53 says nothing about a v5 score of 53.'],
+    rows:[['opus-5.5','low',35,.98],['opus-5.5','medium',48,2.45],['opus-5.5','high',52,3.46],['opus-5.5','xhigh',57,6.05],['opus-5.5','max',58,10.04],
+      ['sonnet-5.5','low',25,.51],['sonnet-5.5','medium',30,.78],['sonnet-5.5','high',41,1.64],['sonnet-5.5','xhigh',50,4.09],['sonnet-5.5','max',54,10.02],
+      ['haiku-5.5','low',19,.04],['haiku-5.5','medium',25,.09],['haiku-5.5','high',30,.16],['haiku-5.5','xhigh',34,.25],['haiku-5.5','max',36,.41],
+      ['fable-5.1','low',38,4.47],['fable-5.1','medium',43,5.56],['fable-5.1','high',47,7.54],['fable-5.1','xhigh',50,10.85],['fable-5.1','max',49,12.99],
+      ['astra','low',43,1.42],['astra','medium',51,2.73],['astra','high',55,3.24],['astra','xhigh',55,3.66],['astra','max',57,6.24],
+      ['sol-6.1','low',35,.16],['sol-6.1','medium',46,.36],['sol-6.1','high',50,.59],['sol-6.1','xhigh',52,.76],['sol-6.1','max',55,1.27],
+      ['terra-6.1','low',29,.07],['terra-6.1','medium',38,.17],['terra-6.1','high',42,.26],['terra-6.1','xhigh',45,.40],['terra-6.1','max',51,.96],
+      ['luna-6','low',10,.01],['luna-6','medium',18,.04],['luna-6','high',21,.07],['luna-6','xhigh',23,.10],['luna-6','max',28,.15],
+      ['carbon','high',59,7.76],['argon','high',50,7.68],['flash-3.8','medium',30,6.26],['flash-3.8','high',31,7.77],
+      ['grok-4.7','low',31,2.92],['grok-4.7','high',35,6.18],['grok-4.7','xhigh',34,7.51],
+      ['glm-5.3','low',23,1.57],['glm-5.3','max',32,5.01],['ds-4.1f','max',32,.60],['kimi-3.1','default',46,3.68],['mimo-p','default',30,.26],['qwen-3.8','default',34,10.02]] },
+  arc2: { name:'ARC-AGI-2 Semi-Private', short:'ARC-AGI-2', unit:'% solved', yLabel:'Solved (%)', cost:'measured', per:'task', rep:'mixed', date:'2026-10-17', url:'https://arcprize.org/results/anthropic-claude-opus-5-5', urls:[['https://arcprize.org/results/xai-grok-4-6','ARC Prize: Grok 4.6']],
+    what:'Abstract visual puzzles that resist memorisation. ARC Prize verifies scores on a hidden set and publishes cost per task.',
+    notes:['Scores for Opus 5.5 and Grok 4.6 come from ARC Prize. Astra, Argon and the Opus 5.5 costs come from an aggregator snapshot of 17 Oct and should be checked on the leaderboard.','This is one narrow skill, far from everyday engineering.'],
+    rows:[['opus-5.5','high',93.3,.41],['opus-5.5','xhigh',92.5,.67],['astra','max',95,1.12],['argon','medium',87.1,.137],['grok-4.6','xhigh',67.1,.76]],
+    noCost:[['Opus 5.5 max',91.7],['Opus 5.5 medium',87.5],['Opus 5.5 low',70.1],['Grok 4.6 high',65.1],['Grok 4.6 medium',61.3],['Grok 4.6 low',27.6]] },
+  deepswe: { name:'DeepSWE', short:'DeepSWE', unit:'% pass@1', yLabel:'Pass@1 (%)', cost:'measured', per:'task', rep:'owner', date:'2026-09-22', url:'https://deepswe.datacurve.ai/',
+    what:'Long-horizon software tasks written from scratch across 91 repositories, scored by hand-written verifiers. The same mini agent harness runs every model.',
+    notes:['Margins are ±1 to ±6 points, so Astra, Gemini 3.8 Flash and Opus 5 at 74% are a statistical tie.','Opus 5.5, Sonnet 5.5, GPT-6.1 Sol and Gemini 4 were not on this snapshot.','The token catalog holds $6.52 for Astra from 12 Sept. The live board now shows $4.43 at the same score.'],
+    rows:[['astra','xhigh',74,4.43],['flash-3.8','high',74,2.36],['opus-5','max',74,11.84],['sol-5.6','max',73,6.46],['fable-5','xhigh',70,13.41],['grok-4.6','medium',67,3.45],['luna-5.6','max',67,.61],['ds-4p','max',63,1.67],['opus-4.8','max',59,13.22],['qwen-3.8','xhigh',57,3.73],['sonnet-5','max',54,26.40],['ds-4f','max',53,.46]],
+    noCost:[['GPT-6 Sol max',68.8],['GPT-6 Luna max',66.6]] },
+  tb4: { name:'Terminal-Bench 4.0, native agents', short:'Terminal-Bench 4.0', unit:'% resolved', yLabel:'Resolved (%)', cost:'measured', per:'task', rep:'owner', date:'2026-09-12', ladder:EFFORTS, url:'https://www.tbench.ai/leaderboard',
+    what:'Agents complete command-line tasks in a sandbox, checked by test suites. Each row runs in its vendor\'s native agent.',
+    notes:['Row values come from the Token Economy catalog, captured 12 Sept. The live page no longer renders rows for automated reading.','Scores without a cost sit in the strip on the right. They are not placed on the cost axis.'],
+    rows:[['astra','low',50.61,4.72],['astra','medium',54.24,5.80],['astra','high',57.88,6.88],['astra','xhigh',57.88,7.12],['astra','max',58.18,9.90],
+      ['fable-5.1','max',57.88,18.92],['opus-5','max',51.82,18.09],['fable-5','max',44.55,22.02],['sol-5.6','max',37.27,7.70],['opus-4.8','max',23.64,19.64],['terra-5.6','max',21.52,5.25],['luna-5.6','max',17.27,1.05],['sonnet-5','max',12.42,29.10]],
+    noCost:[['Sonnet 5.5 (vendor)',70.6],['Kimi K3.1 Pro',67],['Opus 5.5 xhigh',66.4],['Gemini 4 Carbon',64]] },
+  osw2: { name:'OSWorld 2.0, partial credit', short:'OSWorld 2.0', unit:'% partial score', yLabel:'Partial score (%)', cost:'chartread', per:'task', rep:'vendor', date:'2026-09-22', ladder:RUNGS, url:CARD, urls:[['https://presenc.ai/research/osworld-computer-use-leaderboard-2026','Leaderboard overview']],
+    what:'108 long computer-use workflows across 31 websites and desktop apps, about 318 tool calls each. Credit is given per checkpoint.',
+    notes:['Costs are read off Figure 8.13.3.B of the Claude Opus 5.5 system card, accurate to about ±5%. Effort levels differ by model, so they are shown as rungs in cost order.','Strict pass rate is far lower: 48.7% for Opus 5.5 at max.','Other vendors publish no cost for this benchmark. Their scores sit in the strip on the right and use other harness versions.'],
+    rows:[['opus-5.5','rung 1',58.3,.91],['opus-5.5','rung 2',74,1.91],['opus-5.5','rung 3',77.8,2.47],['opus-5.5','rung 4',80.8,4.25],['opus-5.5','rung 5',81.8,8.48],
+      ['fable-5.1','rung 1',66.7,4.25],['fable-5.1','rung 2',74,5.52],['fable-5.1','rung 3',76.1,6.99],['fable-5.1','rung 4',78.6,9.1],['fable-5.1','rung 5',80.7,12.4],
+      ['opus-5','rung 1',65.6,5.0],['opus-5','rung 2',70,6.25],['opus-5','rung 3',74.2,8.5],['opus-5','rung 4',74.4,10.6],['opus-5','rung 5',74,11.6]],
+    noCost:[['GPT-6 Astra (offline subset)',72.6],['GPT-6.1 Sol (tracker)',70.5],['GPT-5.6 Sol max',62.72],['Opus 4.8 max',54.8]] },
+  oswv: { name:'OSWorld-Verified', short:'OSWorld-Verified', unit:'% tasks', yLabel:'Tasks solved (%)', cost:'modelled', per:'task', rep:'mixed', date:'2026-08-01', url:'http://osworld-v1.xlang.ai/', urls:[['https://presenc.ai/research/osworld-computer-use-leaderboard-2026','Leaderboard overview'],['https://benchlm.ai/blog/posts/osworld-verified-computer-use-benchmark','BenchLM explainer']],
+    what:'369 desktop and web tasks in real apps, about 30 tool calls each, checked by the final application state.',
+    notes:['Humans reach 72.36% here, so the line sits below the top models. Humans were not paid per token.','No cost is published, so cost is an estimate from list prices.','Sources differ by up to a point for the same row. Qwen3.8 Max is provider-reported.'],
+    ref:{y:72.36,label:'Human baseline 72.36%'},
+    rows:[['qwen-3.8','default',86.1],['fable-5','default',85.96],['opus-4.8','default',83.4],['opus-5','default',83.39]] },
+  exploit: { name:'ExploitBench (V8)', short:'ExploitBench', unit:'% capability flags', yLabel:'Capability flags (%)', cost:'modelled', per:'task', rep:'vendor', date:'2026-09-22', url:CARD, urls:[['https://www.csoonline.com/article/4218679/openai-launches-gpt-6-astra-its-first-model-to-cross-a-critical-cybersecurity-threshold.html','Astra coverage, CSO'],['https://arxiv.org/abs/2605.14153','ExploitBench paper'],['https://benchlm.ai/benchmarks/exploitbench','BenchLM rows']],
+    what:'Can an agent turn patched V8 bugs into stronger exploit capability, from reaching the code to full control, across 16 flags.',
+    notes:['All of these scores were taken with cyber safeguards off. With safeguards on, a deployed model can block or hand off the work: Opus 5.5 blocks vulnerability discovery in compiled binaries.','Anthropic and OpenAI ran their own setups. Anthropic states its numbers may not compare with public entries.','GPT-5.6 Sol also appears as 73.5% elsewhere. GPT-5.5 is an aggregator row.','No cost is published, so cost is an estimate from list prices.'],
+    rows:[['astra','default',100],['opus-5.5','default',91],['sol-5.6','default',78.5],['opus-5','default',75],['gpt-5.5','Codex',72],['sonnet-5','default',33]],
+    noCost:[['Claude Mythos 5.1',83]] },
+  cyscen: { name:'CyScenarioBench (Irregular)', short:'CyScenarioBench', unit:'% challenges', yLabel:'Challenges completed (%)', cost:'modelled', per:'task', rep:'vendor', date:'2026-09-22', url:CARD,
+    what:'Multi-stage cyber operations under realistic constraints. Measures sequencing of techniques, not isolated tricks. A 10-challenge subset, with cyber mitigations off.',
+    notes:['Single-vendor run. No competitor rows are public.','Sonnet 5 "finished less than 1%", shown here as 1.','No cost is published, so cost is an estimate from list prices.'],
+    rows:[['opus-5.5','default',67.6],['opus-5','default',53],['sonnet-5','default',1]], noCost:[['Claude Mythos 5.1',61.7]] },
+  cybergym: { name:'CyberGym', short:'CyberGym', unit:'% reproduced', yLabel:'Reproduced (%)', cost:'modelled', per:'task', rep:'third', date:'2026-09-22', url:'https://llmlearner.com/rankings/cybergym', urls:[['https://www.cybergym.io/','CyberGym'],['https://benchlm.ai/benchmarks/cybergym','BenchLM']],
+    what:'1,507 known vulnerabilities in 188 projects. The agent writes a proof-of-concept that reproduces each bug.',
+    notes:['Scores are submitter-reported and collected by aggregators.','Anthropic retired CyberGym from its system card "due to saturation", which is why no current Claude row appears.','No cost is published, so cost is an estimate from list prices.'],
+    rows:[['ds-4.1f','max',88.1],['sol-5.6','max',84.5],['gpt-5.5','default',81.8]],
+    noCost:[['MiMo-V2.6-Flash',95.1],['MiMo-V2.6-Pro',94],['Gemini 3.8 Flash Cyber',86.2],['Claude Mythos 5',83.8],['DeepSeek V4 Pro',83.3],['Claude Opus 4.7',73.1]] },
+  arena: { name:'Text Arena (arena.ai)', short:'Text Arena', unit:'rating', elo:true, yLabel:'Arena rating', cost:'modelled', per:'task', rep:'owner', date:'2026-10-27', url:'https://arena.ai/leaderboard/text',
+    what:'Blind pairwise preference from 9 million human votes on open chat. It captures how a reply reads, not whether it is correct.',
+    notes:['Confidence intervals run ±4 to ±9, so neighbouring rows are ties. Carbon and Gemini 3.8 Flash are preliminary.','Arena has no public per-task cost, so cost is an estimate from list prices.','Rating gaps do not divide: 1500 is not twice 750.'],
+    rows:[['carbon','high',1528],['argon','high',1520],['opus-5.5','high',1509],['fable-5.1','max',1504],['flash-3.8','high',1496],['opus-5','high',1492],['qwen-3.8','default',1482],['sol-6.1','max',1481],['sonnet-5.5','xhigh',1477],['astra','max',1476],['ds-4.1f','max',1476],['sol-6','max',1458],['luna-6','max',1441],['grok-4.7','xhigh',1441],['haiku-5.5','high',1425]] },
+  xpro: { name:'ExtractBench Pro, perfect documents', short:'Perfect documents', unit:'% perfect docs', yLabel:'Perfect documents (%)', cost:'measured', per:'page', rep:'third', date:'2026-10-28', url:'https://benchlm.ai/benchmarks/extractbench-pro', urls:[['https://www.llamaindex.ai/blog/llamaindex-and-kaggle-launch-a-document-extraction-leaderboard-for-ai-agents','ExtractBench launch post']],
+    what:'100 synthetic long-tail documents, 2,622 pages. A document only counts when every single value matches.',
+    notes:['Vendor-run: LlamaIndex sells a competing product. BenchLM mirrors the board and excludes it from its rankings.','Rows run inside coding-agent harnesses, so cost and behaviour reflect the harness too.','The mirror lists GPT-6.1 Terra twice without naming what differs.'],
+    rows:[['astra','Codex',58,.952],['opus-5.5','Claude Code',51,.412],['sonnet-5.5','Claude Code',32,.1998],['argon','default',30,.3616],['terra-6.1','Codex A',27,.0406],['sol-6.1','Codex',12,.1386],['terra-6.1','Codex B',11,.0262],['luna-6','Codex',0,.0114]] },
+  xf1: { name:'ExtractBench Pro, value F1', short:'Value F1', unit:'% F1', yLabel:'Value F1 (%)', cost:'measured', per:'page', rep:'third', date:'2026-10-28', url:'https://benchlm.ai/benchmarks/extractbench-pro',
+    what:'The same runs as the perfect-document board, but counting each extracted value on its own.',
+    notes:['Vendor-run, same caveats as the perfect-document board.','Compare with the perfect-document metric: the ranking changes considerably.'],
+    rows:[['astra','Codex',94.53,.952],['opus-5.5','Claude Code',74.87,.412],['sonnet-5.5','Claude Code',73.62,.1998],['argon','default',42.98,.3616],['terra-6.1','Codex A',74.19,.0406],['sol-6.1','Codex',74.06,.1386],['terra-6.1','Codex B',51.3,.0262],['luna-6','Codex',48.75,.0114]] },
+  gdpval: { name:'GDPval-AA v2.1', short:'GDPval-AA', unit:'Elo', elo:true, yLabel:'Elo rating', cost:'modelled', per:'task', rep:'owner', date:'2026-10-28', url:'https://artificialanalysis.ai/evaluations/gdpval-aa', urls:[[CARD,'Opus 5.5 system card']],
+    what:'220 real professional deliverables across 44 occupations, graded by blind pairwise comparison. Human expert work is pinned at 1000 Elo.',
+    notes:['Elo measures grader preference, not verified correctness.','Artificial Analysis shows cost only in a chart, so cost here is an estimate from list prices.','Opus 5.5 reads 1866 here and 1846 in its own system card. Elo values shift as new models enter.'],
+    rows:[['opus-5.5','max',1866],['sonnet-5.5','max',1838],['fable-5.1','max',1763],['ds-4.1f','max',1746],['carbon','high',1733],['opus-5','max',1730],['grok-4.7','xhigh',1718],['qwen-3.8','default',1674],['haiku-5.5','max',1631],['argon','high',1631],['sol-6.1','max',1609],['astra','max',1584],['flash-3.8','high',1445],['luna-6','max',1444]] },
+  chart: { name:'Chartography, no tools', short:'Chartography', unit:'% accuracy', yLabel:'Accuracy (%)', cost:'chartread', per:'task', rep:'vendor', date:'2026-09-22', ladder:RUNGS, url:CARD, urls:[['https://surgehq.ai/blog/chartography','Surge AI: Chartography']],
+    what:'Professional chart understanding from Surge AI. Without tools, the model has to read the image itself.',
+    notes:['Costs and scores are read off Figure 8.13.1.B of the Opus 5.5 system card, accurate to about ±5% on cost and ±1 on score.','Anthropic ran its own grader. Gemini 3.8 Flash and GPT-5.6 Sol have public scores without cost in the same figure.','Rungs are effort levels in cost order.'],
+    rows:[['opus-5.5','rung 1',57,.0212],['opus-5.5','rung 2',59,.0251],['opus-5.5','rung 3',59.3,.0315],['opus-5.5','rung 4',62.4,.082],['opus-5.5','rung 5',64.4,.493],
+      ['fable-5.1','rung 1',36.6,.0254],['fable-5.1','rung 2',42.2,.0497],['fable-5.1','rung 3',46,.083],['fable-5.1','rung 4',47,.384],['fable-5.1','rung 5',44.8,.867],
+      ['opus-5','rung 1',16.7,.0152],['opus-5','rung 2',22.6,.0387],['opus-5','rung 3',25.8,.0687],['opus-5','rung 4',26.6,.151],['opus-5','rung 5',29.8,.256],
+      ['sonnet-5','rung 1',7.2,.00384],['sonnet-5','rung 2',11.4,.00906],['sonnet-5','rung 3',14,.0216],['sonnet-5','rung 4',14.4,.039],['sonnet-5','rung 5',15.6,.347]],
+    noCost:[['Haiku 5.5 (vendor)',46.4],['GPT-6 Luna (vendor)',29.1]] },
+  mmmu: { name:'MMMU (Vals AI)', short:'MMMU', unit:'% correct', yLabel:'Correct (%)', cost:'modelled', per:'task', rep:'third', date:'2026-09-01', url:'https://www.benchlm.ai/benchmarks/valsMmmu', urls:[['https://llm-stats.com/benchmarks/mmmu-%28validation%29','LLM Stats: MMMU']],
+    what:'Multiple-choice questions over images across many academic disciplines.',
+    notes:['Read from an aggregator mirror of Vals AI. No current Opus 5.5, GPT-6 or Gemini 4 row was available.','The top rows sit inside one point, and the benchmark looks close to saturated.','No cost is published, so cost is an estimate from list prices.'],
+    rows:[['opus-5','default',89.88],['fable-5','default',89.31],['flash-3.8','high',89.08],['sol-5.6','default',88.84],['luna-5.6','max',85.03],['haiku-4.5','thinking',46.07]] },
+  ownrev: { name:'Token Economy pilot: code review', short:'Own: code review', unit:'% precision', yLabel:'Mean finding precision (%)', cost:'measured', per:'outcome', rep:'own', date:'2026-08-12', url:'https://github.com/agent-orc/token-economy/blob/main/docs/task-class-routing-studies.md', urls:[['https://github.com/agent-orc/token-economy/blob/main/benchmarks/task-class-studies/source-code-review-v1.json','Study protocol']],
+    what:'Our own pilot. Two small C# files hold ten seeded contract defects. Terra medium and Sol xhigh both found 10 of 10, Sol medium found 9 of 10.',
+    notes:['Two synthetic files, so this cannot establish repository-scale review ability.','Cost is the subject\'s list-price spend per passed outcome.'],
+    rows:[['terra-5.6','medium',81.25,.0304],['sol-5.6','xhigh',81.25,.1647],['sol-5.6','medium',67.78,.1849]] },
+  ownui: { name:'Token Economy pilot: HTML UI', short:'Own: HTML UI', unit:'quality × 100', yLabel:'Mean quality score', cost:'measured', per:'outcome', rep:'own', date:'2026-08-12', url:'https://github.com/agent-orc/token-economy/blob/main/docs/task-class-routing-studies.md', urls:[['https://github.com/agent-orc/token-economy/blob/main/benchmarks/task-class-studies/html-ui-v1.json','Study protocol']],
+    what:'Our own pilot. Two self-contained UI pages, graded 75% by a blinded screenshot jury and 25% by deterministic checks.',
+    notes:['Two pages and one jury model. This is no general statement about frontend quality.','Cost excludes the jury. Sol xhigh passed only one of two.'],
+    rows:[['sol-5.6','medium',91.75,.213],['terra-5.6','medium',86.13,.0865],['sol-5.6','xhigh',82,.5198]] },
+  rabbit: { name:'CodeRabbit known-bug coverage', short:'CodeRabbit', unit:'% coverage', yLabel:'Bugs caught (%)', cost:'modelled', per:'task', rep:'third', date:'2026-09-04', url:'https://www.coderabbit.ai/blog/gpt-6-astra-code-review-evaluation',
+    what:'Share of labelled bugs caught with actionable comments in CodeRabbit\'s pipeline.',
+    notes:['Pull-request count, effort, precision and judge are not disclosed. CodeRabbit sells a review product.','No cost is published, so cost is an estimate from list prices.'],
+    rows:[['astra','default',61.3],['sol-5.6','default',59],['opus-5','default',50.2]] }
+};
+const RESTRICTED = { carbon:'Not generally available: Google gives access to a subset of cyber defenders and, gradually, trusted partners.' };
+// The benchmark's own pages. b.url and b.urls name where the numbers on the chart were read.
+const REFS = {
+  aa5:[['Method','https://artificialanalysis.ai/methodology/intelligence-benchmarking']],
+  arc2:[['Benchmark','https://arcprize.org/arc-agi/2'],['Technical report','https://arcprize.org/blog/arc-agi-2-technical-report'],['Leaderboard','https://arcprize.org/leaderboard']],
+  deepswe:[['Benchmark','https://deepswe.datacurve.ai/'],['Method','https://deepswe.datacurve.ai/blog/deepswe'],['Code','https://github.com/datacurve-ai/deep-swe']],
+  tb4:[['Benchmark','https://www.tbench.ai/'],['Paper','https://openreview.net/forum?id=a7Qa4CcHak'],['Code','https://github.com/harbor-framework/terminal-bench-1']],
+  osw2:[['Benchmark','https://osworld-v2.xlang.ai/'],['Paper','https://arxiv.org/abs/2606.29537']],
+  oswv:[['Announcement','https://xlang.ai/blog/osworld-verified'],['Paper','https://arxiv.org/abs/2404.07972'],['Code','https://github.com/xlang-ai/OSWorld']],
+  exploit:[['Paper','https://arxiv.org/abs/2605.14153']],
+  cyscen:[['Benchmark','https://www.irregular.com/research/cyscenariobench']],
+  cybergym:[['Benchmark','https://www.cybergym.io/'],['Paper','https://arxiv.org/abs/2506.02548']],
+  arena:[['Leaderboard','https://arena.ai/leaderboard/text']],
+  xpro:[['Launch post','https://www.llamaindex.ai/blog/llamaindex-and-kaggle-launch-a-document-extraction-leaderboard-for-ai-agents'],['ExtractBench paper','https://arxiv.org/abs/2602.12247']],
+  xf1:[['Launch post','https://www.llamaindex.ai/blog/llamaindex-and-kaggle-launch-a-document-extraction-leaderboard-for-ai-agents'],['ExtractBench paper','https://arxiv.org/abs/2602.12247']],
+  gdpval:[['Evaluation','https://artificialanalysis.ai/evaluations/gdpval-aa'],['Method','https://artificialanalysis.ai/methodology/intelligence-benchmarking'],['Original GDPval','https://openai.com/index/gdpval/']],
+  chart:[['Benchmark','https://surgehq.ai/blog/chartography'],['Paper','https://arxiv.org/abs/2608.10677'],['Code','https://github.com/surge-ai/chartography']],
+  mmmu:[['Benchmark','https://mmmu-benchmark.github.io/'],['Paper','https://arxiv.org/abs/2311.16502'],['Vals AI','https://www.vals.ai/benchmarks/mmmu']],
+  ownrev:[['Study protocol','https://github.com/agent-orc/token-economy/blob/main/benchmarks/task-class-studies/source-code-review-v1.json']],
+  ownui:[['Study protocol','https://github.com/agent-orc/token-economy/blob/main/benchmarks/task-class-studies/html-ui-v1.json']],
+  rabbit:[['Evaluation post','https://www.coderabbit.ai/blog/gpt-6-astra-code-review-evaluation']]
+};
+const NAME_LINKS = [['Terminal-Bench','tb4'],['OSWorld-Verified','oswv'],['OSWorld 2.0','osw2'],['Intelligence Index','aa5'],['ARC-AGI-2','arc2'],['DeepSWE','deepswe'],['ExploitBench','exploit'],['CyScenarioBench','cyscen'],['CyberGym','cybergym'],['Text Arena','arena'],['ExtractBench','xpro'],['GDPval-AA','gdpval'],['Chartography','chart'],['MMMU','mmmu'],['CodeRabbit','rabbit']];
+const EXTRA_LINKS = { 'Terminal-Bench 2.0':'https://www.tbench.ai/', 'Terminal-Bench 4.0':REFS.tb4[0][1], 'Intelligence Index v5':REFS.aa5[0][1], 'ExploitGym':'https://rdi.berkeley.edu/blog/exploitgym/' };
+// Each lab's own post. A claim is the lab's statement, never a measurement of ours. approx: the post shows no date, so press dates are used.
+const RELEASES = [
+  { ms:['carbon'], l:'g', d:'2026-10-28', t:'Gemini 4 Carbon: our next frontier model', u:'https://blog.google/innovation-and-ai/models-and-research/gemini-models/introducing-gemini-4-carbon/', c:'Google starts with a subset of cyber defenders and phases in trusted partners. Developers and businesses get access later. Reports 88.2% on SEC-bench Pro.' },
+  { ms:['terra-6.1'], l:'o', d:'2026-10-26', t:'Introducing GPT-6.1 Terra', u:'https://openai.com/index/introducing-gpt-6-1-terra/', c:'API prices 50% below GPT-5.6 Terra and GPT-6.1 Sol. At medium effort, OpenAI reports 15 percentage points above GPT-5.6 Terra at about a third of the cost.' },
+  { ms:['kimi-3.1'], l:'x', d:'2026-10-23', approx:true, t:'Kimi K3.1 Pro Tech Blog: Advancing Open Intelligence', u:'https://www.kimi.com/en/blog/kimi-k3-1-pro', c:'Moonshot\'s open-weight release.' },
+  { ms:['argon'], l:'g', d:'2026-10-13', t:'Gemini 4 Argon: Built to solve your hardest problems', u:'https://blog.google/innovation-and-ai/models-and-research/gemini-models/introducing-gemini-4-argon/', c:'Google reports first place on the Vals Index and 87% on ERQA.' },
+  { ms:['haiku-5.5'], l:'a', d:'2026-10-07', t:'Introducing Claude Haiku 5.5', u:'https://www.anthropic.com/claude-haiku-5-5', c:'Anthropic\'s lowest-cost and fastest small model so far. Reports 72.4% on the OSWorld 2.1 offline subset.' },
+  { ms:['sol-6.1'], l:'o', d:'2026-09-29', t:'Introducing GPT-6.1 Sol', u:'https://openai.com/index/introducing-gpt-6-1-sol/', c:'OpenAI positions it near Astra for coding and computer use at a fifth of the price.' },
+  { ms:['sonnet-5.5'], l:'a', d:'2026-09-28', t:'Introducing Claude Sonnet 5.5', u:'https://www.anthropic.com/claude-sonnet-5-5', c:'A faster, cheaper step up from Sonnet 5. Reports 70.6% on Terminal-Bench 4.0.' },
+  { ms:['opus-5.5'], l:'a', d:'2026-09-22', t:'Introducing Claude Opus 5.5', u:'https://www.anthropic.com/claude-opus-5-5', c:'Anthropic positions it close to Fable 5.1 at a lower price. Reports 66.4% on Terminal-Bench 4.0.' },
+  { ms:['sol-6','luna-6'], l:'o', d:'2026-09-22', t:'Introducing GPT-6 Sol and Luna', u:'https://openai.com/index/introducing-gpt-6-sol-and-luna/', c:'Cheaper, faster tiers trained like Astra, with API prices 50% below GPT-5.6 promotional pricing.' },
+  { ms:['mimo-p','mimo-f'], l:'x', d:'2026-09-22', approx:true, t:'MiMo-V2.6', u:'https://mimo.xiaomi.com/mimo-v2-6', c:'Xiaomi\'s Pro and Flash models, released with open weights.' },
+  { ms:['grok-4.7'], l:'x', d:'2026-09-21', t:'Introducing Grok 4.7', u:'https://x.ai/news/grok-4-7', c:'' },
+  { ms:['ds-4.1f'], l:'x', d:'2026-09-10', t:'DeepSeek-V4.1-Flash: Smarter, Faster, More Efficient', u:'https://api-docs.deepseek.com/news/news260910/', c:'' },
+  { ms:['astra'], l:'o', d:'2026-09-03', t:'GPT-6 Astra: A new generation of intelligence', u:'https://openai.com/index/gpt-6-astra/', c:'OpenAI calls it the most intelligent and aligned model and rates it Critical for cybersecurity. Reports 72.6% on OSWorld 2.0.' },
+  { ms:['flash-3.8'], l:'g', d:'2026-09-02', t:'Introducing Gemini 3.8 Flash and 3.8 Flash Cyber', u:'https://blog.google/innovation-and-ai/models-and-research/gemini-models/3-8-flash-and-3-8-flash-cyber/', c:'Google\'s strongest reasoning and coding model at 3.7 Flash speed and cost. Reports 54.9% on HLE-Verified.' },
+  { ms:['fable-5.1'], l:'a', d:'2026-09-01', t:'Introducing Claude Fable 5.1 and Claude Mythos 5.1', u:'https://www.anthropic.com/claude-fable-and-mythos-5-1', c:'Anthropic\'s leading model for coding and knowledge work at release. Reports 55.8% on Terminal-Bench 4.0.' },
+  { ms:['glm-5.3'], l:'x', d:'2026-08-18', t:'GLM-5.3: Frontier Coding with Emergent Cyber Capabilities', u:'https://z.ai/blog/glm-5.3', c:'' },
+  { ms:['ds-4p'], l:'x', d:'2026-08-13', t:'DeepSeek-V4-Pro GA Release', u:'https://api-docs.deepseek.com/news/news260813/', c:'' },
+  { ms:['grok-4.6'], l:'x', d:'2026-08-12', t:'Introducing Grok 4.6', u:'https://x.ai/news/grok-4-6', c:'' },
+  { ms:['qwen-3.8'], l:'x', d:'2026-08-03', t:'Qwen3.8-Max: A New Bar for Coding and Cowork', u:'https://qwen.ai/blog?id=qwen3.8', c:'' },
+  { ms:['opus-5'], l:'a', d:'2026-07-24', t:'Introducing Claude Opus 5', u:'https://www.anthropic.com/news/claude-opus-5', c:'Anthropic positions it close to Fable 5 at half the price.' },
+  { ms:['sol-5.6','terra-5.6','luna-5.6'], l:'o', d:'2026-07-09', t:'GPT-5.6: Frontier intelligence that scales with your ambition', u:'https://openai.com/index/gpt-5-6/', c:'Three tiers across ChatGPT, Codex and the API, after a limited preview on 26 June.' },
+  { ms:['sonnet-5'], l:'a', d:'2026-06-30', t:'Introducing Claude Sonnet 5', u:'https://www.anthropic.com/news/claude-sonnet-5', c:'Performance close to Opus 4.8 at a lower price.' },
+  { ms:['fable-5'], l:'a', d:'2026-06-09', t:'Claude Fable 5 and Claude Mythos 5', u:'https://www.anthropic.com/news/claude-fable-5-mythos-5', c:'Anthropic\'s most capable generally available model at release.' },
+  { ms:['opus-4.8'], l:'a', d:'2026-05-28', t:'Introducing Claude Opus 4.8', u:'https://www.anthropic.com/news/claude-opus-4-8', c:'Builds on Opus 4.7 with benchmark improvements.' },
+  { ms:['gpt-5.5'], l:'o', d:'2026-04-23', t:'Introducing GPT-5.5', u:'https://openai.com/index/introducing-gpt-5-5/', c:'OpenAI\'s model for agentic coding and computer use at release. Reports 82.7% on Terminal-Bench 2.0.' }
+];
+const CATS = [
+  { id:'reasoning', name:'Reasoning', benches:['aa5','arc2'] },
+  { id:'code', name:'Code', benches:['deepswe','tb4'] },
+  { id:'computer', name:'Computer use', benches:['osw2','oswv'] },
+  { id:'security', name:'Security', benches:['exploit','cyscen','cybergym'] },
+  { id:'language', name:'Language', benches:['arena'], evidence:'language' },
+  { id:'classify', name:'Classification & extraction', benches:['xpro','xf1'], evidence:'classify' },
+  { id:'knowledge', name:'Knowledge work', benches:['gdpval'] },
+  { id:'vision', name:'Vision', benches:['chart','mmmu'] },
+  { id:'review', name:'Review & UI', benches:['ownrev','ownui','rabbit'] }
+];
+const EVIDENCE = {
+  language: { title:'Translation and German: what exists', body:`<p>The only recent translation test with a linguist in the loop is Alconost's, and it reports model families, not versions. It sells post-editing, and one linguist grades each sample.</p>
+    <div class="tbl-scroll"><table><thead><tr><th>Family</th><th class="r">Overall AQI</th><th class="r">en to de</th></tr></thead><tbody>
+    <tr><td>Gemini</td><td class="r num">77.7</td><td class="r num">77.0 (n=15)</td></tr><tr><td>Claude</td><td class="r num">75.6</td><td class="r num">78.2 (n=18)</td></tr><tr><td>GPT</td><td class="r num">73.1</td><td class="r">not shown</td></tr><tr><td>DeepL</td><td class="r num">70.8</td><td class="r">not shown</td></tr><tr><td>Grok</td><td class="r num">70.3</td><td class="r">not shown</td></tr></tbody></table></div>
+    <p>The source calls gaps under 2 points sample variance, so Claude and Gemini are level for German. The Token Economy language rubric has 22 seeded rows and no measurement yet. <a href="https://alconost.com/en/blog/best-llm-for-translation-2026" target="_blank" rel="noopener">Alconost, May 2026</a></p>` },
+  classify: { title:'Classification: no frontier benchmark found', body:`<p>We found no independent classification benchmark that covers the current models. Three small signals:</p>
+    <ul class="notes"><li><b>Invoice decisions (24 cases):</b> Haiku 5.5 and GPT-6 Luna both scored 24 of 24. The run cost $0.0095 and $0.0051, about $0.40 and $0.21 per 1,000. <a href="https://www.datacamp.com/blog/claude-haiku-5-5-vs-gpt-6-luna" target="_blank" rel="noopener">DataCamp</a></li>
+    <li><b>Feedback labelling (12,000 records, older models):</b> Sonnet 4.6 had the top F1 at 0.829 for $78.69. Grok-4-fast cost $4.79. Sonnet's composite was only 3.7% higher. Read from a search summary, because the <a href="https://bigideasdb.com/llm-benchmark-pain-point-extraction" target="_blank" rel="noopener">study page</a> refused our fetch.</li>
+    <li><b>Reading:</b> label a few hundred of your own items and test the cheapest models first. Small models often reach the ceiling on clear rules.</li></ul>` }
+};
+const INSIGHTS = [
+  { id:'unbuyable', t:'The leader you cannot buy', hint:'In Reasoning, click the highest dot on the chart.', cat:'reasoning', b:'aa5', on:{b:'aa5',m:'carbon'}, x:'Gemini 4 Carbon tops Intelligence Index v5 at 59, and Google so far offers it only to a subset of cyber defenders and trusted partners. Claude Opus 5.5 at 58 is the best row you can actually buy.' },
+  { id:'sticker', t:'The list-price trap', hint:'In Reasoning, look at a model with very cheap tokens and a surprisingly high bill.', cat:'reasoning', b:'aa5', on:{b:'aa5',m:'flash-3.8',e:'high'}, x:'Gemini 3.8 Flash has list prices of $0.75 / $3.75 and costs $7.77 per Index task for 31 points. GPT-6.1 Sol charges $2 / $10 and costs $1.27 for 55 points. Token volume decides the bill.' },
+  { id:'same-price', t:'Same price, different bill', hint:'In Reasoning, compare the two small models at max effort.', cat:'reasoning', b:'aa5', on:{b:'aa5',m:'haiku-5.5',e:'max'}, x:'Haiku 5.5 and GPT-6 Luna both list at $0.10 / $0.50. At max effort, Haiku costs $0.41 for 36 points and Luna $0.15 for 28. Equal list prices do not mean equal costs.' },
+  { id:'more-effort', t:'More effort, worse score', hint:'In Reasoning, follow the top rung of a premium model.', cat:'reasoning', b:'aa5', on:{b:'aa5',m:'fable-5.1',e:'max'}, x:'Fable 5.1 drops from 50 at xhigh ($10.85) to 49 at max ($12.99). ARC-AGI-2 shows the same for Opus 5.5: 93.3% at high, 91.7% at max. The top rung is not always the top score.' },
+  { id:'same-score', t:'Same score, six times the bill', hint:'In Reasoning, find a 35-point row and look for its twin.', cat:'reasoning', b:'aa5', on:{b:'aa5',m:'opus-5.5',e:'low'}, x:'Opus 5.5 at low and GPT-6.1 Sol at low both score 35. Opus costs $0.98 and Sol $0.16. Low effort spends a premium model\'s strengths on work that does not need them.' },
+  { id:'half-price', t:'Half the list price, same bill', hint:'In Reasoning, check Sonnet 5.5 at its top rung.', cat:'reasoning', b:'aa5', on:{b:'aa5',m:'sonnet-5.5',e:'max'}, x:'Sonnet 5.5 lists at half of Opus 5.5. At max effort, it costs $10.02 per task against $10.04, and scores 54 against 58. At xhigh, Sonnet is back to $4.09 for 50.' },
+  { id:'appetite', t:'Token appetite', hint:'In Code, find the most expensive dot on DeepSWE.', cat:'code', b:'deepswe', on:{b:'deepswe',m:'sonnet-5'}, x:'Sonnet 5 at max burned 214k output tokens per DeepSWE task: $26.40 for 54%. GPT-5.6 Luna solved 67% for $0.61. That is 43 times the money for a lower score.' },
+  { id:'saturated', t:'A benchmark can run out', hint:'In Security, open CyberGym.', cat:'security', b:'cybergym', on:{b:'cybergym'}, x:'Low-cost models top CyberGym at 88 to 95%, and Anthropic retired it from its system card "due to saturation". When everyone is near the ceiling, a benchmark stops separating models.' },
+  { id:'safeguards', t:'Safeguards off', hint:'In Security, read the ExploitBench notes.', cat:'security', b:'exploit', on:{b:'exploit'}, x:'Cyber scores are usually taken with production safeguards off. What you buy may refuse or hand off the same work. Opus 5.5 blocks vulnerability discovery in compiled binaries, for example.' },
+  { id:'human', t:'Above the human line', hint:'In Computer use, open OSWorld-Verified.', cat:'computer', b:'oswv', on:{b:'oswv'}, x:'Humans reach 72.36% on OSWorld-Verified, and top models exceed 85%. On the longer OSWorld 2.0 tasks, even Opus 5.5 passes only 48.7% under strict scoring. The metric sets the story.' },
+  { id:'metric', t:'The metric picks the winner', hint:'In Classification & extraction, compare GPT-6.1 Sol on perfect documents.', cat:'classify', b:'xpro', on:{b:'xpro',m:'sol-6.1'}, x:'GPT-6.1 Sol has 74% value F1 and only 12% perfect documents. One Terra run has the same F1 and 27%. If a single wrong value ruins the document, F1 flatters.' },
+  { id:'ceiling', t:'Easy tasks reach the ceiling', hint:'In Classification & extraction, open the classification evidence below the chart.', cat:'classify', b:'xpro', on:{evidence:'classify'}, x:'Haiku 5.5 and GPT-6 Luna both got 24 of 24 invoice decisions right, for fractions of a cent. Past the ceiling, extra money buys nothing. The sample is small, so test on your own data.' },
+  { id:'flat', t:'The flat end of the curve', hint:'In Vision, follow Opus 5.5 to its top rung on Chartography.', cat:'vision', b:'chart', on:{b:'chart',m:'opus-5.5',e:'rung 5'}, x:'On Chartography, Opus 5.5 goes from about $0.025 for 59% to about $0.49 for 64%. That is twenty times the cost for five points. Fable 5.1 even falls at its top rung.' },
+  { id:'own', t:'Same recall, 5.4 times the cost', hint:'In Review & UI, check Sol xhigh in our code-review pilot.', cat:'review', b:'ownrev', on:{b:'ownrev',m:'sol-5.6',e:'xhigh'}, x:'In our own pilot, Terra medium and Sol xhigh both found all ten seeded defects, at $0.03 and $0.16 per outcome. Two small files, so a hint rather than a law.' }
+];
+const MISSIONS = [
+  { t:'The support assistant', bench:'aa5', budget:2, brief:'Thousands of mixed questions a day. Finance allows $2 per Index-style task. Pick the strongest option that stays inside it.', opts:[['opus-5.5','low'],['opus-5.5','medium'],['sol-6.1','max'],['haiku-5.5','max'],['flash-3.8','high']],
+    lesson:'GPT-6.1 Sol at max beats Opus 5.5 at medium for half the money, and the cheap-looking Gemini 3.8 Flash costs more than either. Compare per-task costs. List prices tell you little.' },
+  { t:'The hard bug queue', bench:'deepswe', budget:3, brief:'Long repository tasks with verifier-checked results. $3 per attempt.', opts:[['astra','xhigh'],['flash-3.8','high'],['luna-5.6','max'],['ds-4p','max'],['sonnet-5','max']],
+    lesson:'Gemini 3.8 Flash ties the leaders at 74% for $2.36. A model that is poor value on the composite index can be the best value for code. Value depends on the category.' },
+  { t:'The bulk classifier', bench:'aa5', budget:.05, brief:'High volume and simple work. You have 5 cents per task on the same index. How far can you stretch it?', opts:[['haiku-5.5','low'],['luna-6','medium'],['luna-6','low'],['terra-6.1','low'],['sol-6.1','low']],
+    lesson:'Haiku 5.5 low and Luna medium land almost level at 4 cents. Terra low has more points but breaks the budget at 7 cents. At this end, the effort setting moves the bill as much as the model does.' },
+  { t:'Check the evidence: security', check:true, bench:'exploit', brief:'One vendor reports 100% on ExploitBench for GPT-6 Astra. Another reports 91% for Claude Opus 5.5. What can you conclude?', choices:[
+      ['Astra is 9 points stronger at exploitation.',false],['Neither score tells you what the API will do: both were taken with safeguards off, by each vendor on its own setup.',true],['Opus 5.5 is safer, because its score is lower.',false],['Both models would refuse this work in production, so the scores mean nothing.',false]],
+    lesson:'Each vendor ran its own setup, and Anthropic states that its figures may not compare with public entries. A deployed model may also block the task, so test your own security workload with safeguards on.' },
+  { t:'The desktop agent', bench:'osw2', budget:5, brief:'Long workflows across real apps. Each run may cost up to $5. Effort levels are shown as rungs: rung 1 is the cheapest.', opts:[['opus-5.5','rung 3'],['opus-5.5','rung 4'],['opus-5.5','rung 5'],['fable-5.1','rung 1'],['opus-5','rung 1']],
+    lesson:'Opus 5.5 at rung 4 reaches 80.8% for about $4.25. The top rung adds a single point for twice the money, and the older premium models are worse at this budget.' },
+  { t:'The invoice pipeline', bench:'xpro', budget:.25, brief:'Every wrong value means manual rework, so only perfect documents count. You can spend 25 cents per page.', opts:[['astra','Codex'],['opus-5.5','Claude Code'],['sonnet-5.5','Claude Code'],['terra-6.1','Codex A'],['sol-6.1','Codex']],
+    lesson:'Sonnet 5.5 is the best perfect-document rate under the budget. Note that Terra costs five times less for only 5 points fewer, so raising the budget is not always the answer.' },
+  { t:'The chart reader', bench:'chart', budget:.1, brief:'Reading charts from reports, without tools. 10 cents per task.', opts:[['opus-5.5','rung 4'],['opus-5.5','rung 1'],['fable-5.1','rung 3'],['opus-5','rung 3'],['sonnet-5','rung 4']],
+    lesson:'Opus 5.5 at rung 4 fits the budget and leads by 16 points. A newer generation can dominate a whole older family at the same price.' },
+  { t:'Check the evidence: language', check:true, bench:'arena', brief:'Gemini 4 Carbon leads the Text Arena at 1528. What does this rating measure?', choices:[
+      ['Translation accuracy across languages.',false],['Factual correctness of answers.',false],['Which reply people prefer in blind pairwise votes on open chat.',true],['Cost-adjusted writing quality.',false]],
+    lesson:'Preference is real signal for tone and readability, but it does not check facts. Carbon\'s row is also marked preliminary. For translation you need a language-pair test with human review.' },
+  { t:'The terminal agent', bench:'tb4', budget:8, brief:'Command-line tasks checked by test suites. Each task may cost $8 in its native agent.', opts:[['astra','low'],['astra','high'],['sol-5.6','max'],['luna-5.6','max'],['opus-5','max']],
+    lesson:'Astra at high gets 57.88% for $6.88, and raising it to max adds 0.3 points for $3 more. Several older models at max cost more and score less than Astra at low.' },
+  { t:'The review bot', bench:'ownrev', budget:.2, brief:'Seeded-defect review from our own pilot. 20 cents per outcome. Find the option with the best precision and the smallest bill.', opts:[['terra-5.6','medium'],['sol-5.6','xhigh'],['sol-5.6','medium']],
+    lesson:'Terra medium equals Sol xhigh on recall and precision at about a fifth of the cost. Equal scores should always go to the cheaper option. Two small files only, so test on your own code.' }
+];
+const LOADS = [
+  { b:'aa5', label:'General assistant tasks', v:20000 },
+  { b:'deepswe', label:'Coding tasks', v:1500 },
+  { b:'osw2', label:'Computer-use runs', v:300 },
+  { b:'xpro', label:'Document pages', v:40000 },
+  { b:'chart', label:'Charts to read', v:10000 }
+];
+
+/* ---------- Helpers ---------- */
+const $ = (s, r=document) => r.querySelector(s);
+const esc = v => String(v ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[c]);
+const money = v => v == null ? 'n/a' : v >= 100 ? '$' + Math.round(v).toLocaleString('en-US') : v >= 1 ? '$' + v.toFixed(2) : v >= .1 ? '$' + v.toFixed(2) : v >= .01 ? '$' + v.toFixed(3) : '$' + v.toFixed(4);
+const bigMoney = v => v >= 1000 ? '$' + Math.round(v).toLocaleString('en-US') : v >= 10 ? '$' + v.toFixed(0) : '$' + v.toFixed(2);
+const eff = e => e === 'xhigh' ? 'xHigh' : e;
+const ANCHOR = (u, t) => `<a href="${esc(u)}" target="_blank" rel="noopener">${esc(t)}</a>`;
+const benchHome = id => REFS[id][0][1];
+const LINK_MAP = Object.assign(Object.fromEntries(NAME_LINKS.map(([n, id]) => [n, benchHome(id)])), EXTRA_LINKS);
+const LINK_RE = new RegExp('\\b(' + Object.keys(LINK_MAP).sort((a, b) => b.length - a.length).map(n => n.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')).join('|') + ')\\b', 'g');
+const linked = t => esc(t).replace(LINK_RE, m => ANCHOR(LINK_MAP[m], m));
+const benchLink = id => ANCHOR(benchHome(id), B[id].short);
+const fmtDate = d => new Date(d + 'T00:00:00Z').toLocaleDateString('en-GB', { day:'numeric', month:'short', year:'numeric', timeZone:'UTC' });
+const releaseOf = m => RELEASES.find(r => r.ms.includes(m));
+const store = { get(k, d) { try { const v = localStorage.getItem('cf-' + k); return v == null ? d : JSON.parse(v); } catch { return d; } }, set(k, v) { try { localStorage.setItem('cf-' + k, JSON.stringify(v)); } catch {} } };
+function shape(v, r=6.5) {
+  if (v === 'a') return `M${-r},0a${r},${r} 0 1,0 ${2*r},0a${r},${r} 0 1,0 ${-2*r},0Z`;
+  if (v === 'o') { const s=r*.9; return `M${-s},${-s}H${s}V${s}H${-s}Z`; }
+  if (v === 'g') { const s=r*1.28; return `M0,${-s}L${s},0L0,${s}L${-s},0Z`; }
+  const s=r*1.2; return `M0,${-s}L${s},${s*.75}L${-s},${s*.75}Z`;
+}
+const glyph = (v, hollow) => `<svg viewBox="-9 -9 18 18" aria-hidden="true"><path d="${shape(v)}" fill="${hollow?'none':V[v][1]}" stroke="${V[v][1]}" stroke-width="${hollow?2:0}"/></svg>`;
+
+const PROFILES = [ { id:'short', label:'Short call', i:2000, o:200 }, { id:'std', label:'Standard', i:100000, o:10000 }, { id:'agent', label:'Long agent run', i:2000000, o:60000 } ];
+const S = { view:'atlas', cat:'reasoning', bench:'aa5', effort:'all', budgetT:null, off:new Set(), profile:'std', sel:null, ins:new Set(store.get('ins', [])), best:store.get('best', null), playing:null };
+
+function points(bid, profileId=S.profile) {
+  const b = B[bid], p = PROFILES.find(x => x.id === profileId);
+  return b.rows.map(r => {
+    const m = M[r[0]]; let cost = r[3];
+    if (b.cost === 'modelled') cost = m[2] == null ? null : (m[2]*p.i + m[3]*p.o) / 1e6;
+    return { key:r[0]+'|'+r[1], model:r[0], name:m[0], v:m[1], effort:r[1], score:r[2], cost, modelled:b.cost==='modelled', bench:bid, restricted:!!RESTRICTED[r[0]] };
+  }).filter(x => x.cost != null);
+}
+function unplaced(bid) {
+  const b = B[bid], extra = b.cost === 'modelled' ? b.rows.filter(r => M[r[0]][2] == null).map(r => [M[r[0]][0], r[2]]) : [];
+  return (b.noCost || []).concat(extra);
+}
+function frontier(pts) {
+  const sorted = pts.filter(p => !p.restricted).sort((a,b) => a.cost - b.cost || b.score - a.score), out = [];
+  let best = -Infinity;
+  for (const p of sorted) if (p.score > best) { out.push(p); best = p.score; }
+  return out;
+}
+function premium(bid) {
+  const pts = points(bid).filter(p => !p.restricted); if (pts.length < 2) return null;
+  const top = Math.max(...pts.map(p => p.score));
+  const best = pts.filter(p => p.score === top).sort((a,b) => a.cost-b.cost)[0];
+  const floor = B[bid].elo ? top-100 : top*.9;
+  const cheap = pts.filter(p => p.score >= floor).sort((a,b) => a.cost-b.cost)[0];
+  return { ratio:best.cost/cheap.cost, best, cheap };
+}
+function niceTicks(lo, hi, n=5) {
+  const raw=(hi-lo)/n, mag=10**Math.floor(Math.log10(raw)), step=[1,2,5,10].map(s=>s*mag).find(s=>s>=raw);
+  const out=[]; for(let v=Math.ceil(lo/step)*step; v<=hi+1e-9; v+=step) out.push(+v.toFixed(6)); return out;
+}
+function logTicks(lo, hi, wide) {
+  const out=[]; for(let e=Math.floor(Math.log10(lo)); e<=Math.ceil(Math.log10(hi)); e++) for(const m of (wide?[1,2,5]:[1])) { const v=m*10**e; if(v>=lo*.999&&v<=hi*1.001) out.push(v); }
+  if (out.length<3) for(let e=Math.floor(Math.log10(lo)); e<=Math.ceil(Math.log10(hi)); e++) for(const m of [1,2,3,5,7]) { const v=m*10**e; if(v>=lo*.999&&v<=hi*1.001&&!out.includes(v)) out.push(v); }
+  return out.sort((a,b)=>a-b);
+}
+const tickMoney = v => v>=1 ? '$'+(+v.toFixed(2)) : v>=.01 ? (+(v*100).toFixed(1))+'¢' : (+(v*100).toFixed(2))+'¢';
+
+/* ---------- The chart. Dots keep their DOM node across renders so they fly between positions. ---------- */
+function drawChart(host, pts, o={}) {
+  const W = Math.max(280, host.clientWidth || 700), narrow = W < 560;
+  const H = o.height || (narrow ? 360 : 470);
+  const rugW = o.rug && o.rug.length ? (narrow ? 26 : 150) : 0;
+  const m = { l:narrow?38:48, r:12+rugW, t:16, b:44 };
+  const all = o.domain || pts;
+  const costs = all.map(p=>p.cost), scores = all.map(p=>p.score).concat(o.ref?[o.ref.y]:[]).concat((o.rug||[]).map(r=>r[1]));
+  let xLo=Math.min(...costs)/1.5, xHi=Math.max(...costs)*1.5;
+  if (xHi/xLo<4) { const g=Math.sqrt(xHi*xLo); xLo=g/2.2; xHi=g*2.2; }
+  const sLo=Math.min(...scores), sHi=Math.max(...scores), pad=Math.max((sHi-sLo)*.1, o.elo?20:2);
+  const yLo=Math.max(0, sLo-pad), yHi=o.elo?sHi+pad:(sHi+pad>100?Math.max(100,sHi)+1:sHi+pad);
+  const x=v=>m.l+(Math.log10(v)-Math.log10(xLo))/(Math.log10(xHi)-Math.log10(xLo))*(W-m.l-m.r);
+  const y=v=>H-m.b-(v-yLo)/(yHi-yLo)*(H-m.t-m.b);
+  let svg=host.querySelector('svg.main');
+  if(!svg){ svg=document.createElementNS('http://www.w3.org/2000/svg','svg'); svg.setAttribute('class','main'); host.appendChild(svg);
+    svg.innerHTML='<g class="axis-layer"></g><g class="lines-layer"></g><g class="pts-layer"></g><g class="top-layer"></g>'; svg._nodes=new Map(); }
+  svg.setAttribute('viewBox',`0 0 ${W} ${H}`); svg.setAttribute('height',H);
+  svg.setAttribute('role','img'); svg.setAttribute('aria-label',o.aria||'Cost against benchmark score');
+  const axis=svg.querySelector('.axis-layer'), lines=svg.querySelector('.lines-layer'), layer=svg.querySelector('.pts-layer'), top=svg.querySelector('.top-layer');
+  const xt=logTicks(xLo,xHi,!narrow||xHi/xLo<100), yt=niceTicks(yLo,yHi,narrow?4:6);
+  axis.innerHTML=`<g class="grid">${yt.map(v=>`<line x1="${m.l}" x2="${W-m.r}" y1="${y(v)}" y2="${y(v)}"/>`).join('')}</g>
+    <g class="axis">${yt.map(v=>`<text x="${m.l-7}" y="${y(v)+4}" text-anchor="end">${+v.toFixed(2)}</text>`).join('')}
+    ${xt.map(v=>`<text x="${x(v)}" y="${H-m.b+17}" text-anchor="middle">${tickMoney(v)}</text>`).join('')}</g>
+    <text class="axis-title" x="${m.l}" y="${H-7}">${esc(o.xLabel||'Cost per task')}, log scale</text>
+    <text class="axis-title" x="${m.l}" y="11">${esc(o.yLabel||'Score')}</text>`;
+
+  // Lines: effort ladders, then the frontier.
+  const visible=pts.filter(p=>!(o.off&&o.off.has(p.v)));
+  const showLadders=o.ladder&&o.effort==='all';
+  const ladderSvg=showLadders?[...new Set(visible.map(p=>p.model))].map(id=>{
+    const r=visible.filter(p=>p.model===id).sort((a,b)=>a.cost-b.cost); if(r.length<2) return '';
+    return `<path class="ladder" stroke="${V[r[0].v][1]}" d="M${r.map(p=>x(p.cost).toFixed(1)+','+y(p.score).toFixed(1)).join('L')}"/>`; }).join(''):'';
+  const fr=frontier(visible), frKeys=new Set(fr.map(p=>p.key));
+  const frD=fr.length>1?`M${fr.map(p=>x(p.cost).toFixed(1)+','+y(p.score).toFixed(1)).join('L')}`:'';
+  const frSig=(o.sig||'')+frD;
+  if(lines.dataset.sig!==frSig){ lines.dataset.sig=frSig;
+    lines.innerHTML=ladderSvg+(frD?`<path class="frontier" pathLength="1" d="${frD}"/>`:''); }
+
+  // Dots with node reuse.
+  const nodes=svg._nodes, used=new Set(); const next=new Map();
+  for(const p of pts){
+    let n=nodes.get(p.key);
+    if(!n||used.has(n)) n=[...nodes.entries()].find(([k,v])=>k.split('|')[0]===p.model&&!used.has(v)&&!pts.some(q=>q.key===k))?.[1];
+    let fresh=false;
+    if(!n){ n=document.createElementNS('http://www.w3.org/2000/svg','g'); n.innerHTML='<circle class="hit" r="14"/><path class="mark"/>'; layer.appendChild(n); fresh=true; n.style.transform=`translate(${x(p.cost)}px,${H-m.b}px)`; n.style.opacity='0'; n.setAttribute('tabindex',o.interactive?'0':'-1');
+      if(o.onHover){ n.addEventListener('pointerenter',e=>o.onHover(n._p,n,e)); n.addEventListener('pointerleave',()=>o.onHover(null)); n.addEventListener('focus',e=>o.onHover(n._p,n,e)); n.addEventListener('blur',()=>o.onHover(null)); }
+      if(o.onPick){ n.addEventListener('click',()=>o.onPick(n._p)); n.addEventListener('keydown',e=>{ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); o.onPick(n._p); } }); } }
+    used.add(n); n._p=p; next.set(p.key,n);
+    n.querySelector('.mark').setAttribute('d',shape(p.v, narrow?5.8:6.5)); n.querySelector('.mark').setAttribute('fill',V[p.v][1]); n.querySelector('.mark').style.stroke=p.restricted?'var(--gold)':p.modelled?V[p.v][1]:'';
+    const overB=o.budget!=null&&p.cost>o.budget, offV=o.off&&o.off.has(p.v);
+    let cls='pt'+(p.modelled?' hollow':'')+(p.restricted?' restricted':'')+(overB?' over':'')+(o.sel===p.key?' sel':'');
+    if(o.effort&&o.effort!=='all'&&p.effort!==o.effort&&p.effort!=='default') cls+=' hide';
+    if(offV) cls+=' hide';
+    n.setAttribute('class',cls);
+    n.setAttribute('aria-label',`${p.name} ${eff(p.effort)}: ${p.score} at ${money(p.cost)}${p.restricted?', not generally available':''}`);
+    n.style.transform=`translate(${x(p.cost).toFixed(1)}px,${y(p.score).toFixed(1)}px)`;
+    if(fresh){ requestAnimationFrame(()=>{ n.style.opacity=''; }); }
+  }
+  for(const [k,n] of nodes) if(![...next.values()].includes(n)){ n.remove(); }
+  svg._nodes=next;
+
+  // Top layer: reference, budget, rug, ring, labels.
+  let t='';
+  if(o.ref) t+=`<line class="ref-line" x1="${m.l}" x2="${W-m.r}" y1="${y(o.ref.y)}" y2="${y(o.ref.y)}"/><text class="ref-label" x="${W-m.r-4}" y="${y(o.ref.y)+15}" text-anchor="end">${esc(o.ref.label)}</text>`;
+  if(o.budget!=null){ const bx=Math.min(x(o.budget),W-m.r); t=`<rect class="budget-shade" x="${bx}" y="${m.t}" width="${Math.max(0,W-m.r-bx)}" height="${H-m.t-m.b}"/><line class="budget-line" x1="${bx}" x2="${bx}" y1="${m.t}" y2="${H-m.b}"/><text class="budget-tag" x="${bx<W*.75?bx+6:bx-6}" y="${m.t+13}" text-anchor="${bx<W*.75?'start':'end'}">${money(o.budget)}</text>`+t; }
+  if(rugW){ const rx=W-rugW+4;
+    t+=`<text class="rug-title" x="${rx}" y="11">${narrow?'':'Score only, no cost'}</text>`;
+    const placed=[]; [...o.rug].sort((a,b)=>b[1]-a[1]).forEach(r=>{ const ry=y(r[1]); let ly=ry+4; while(placed.some(v=>Math.abs(v-ly)<13)) ly+=13; placed.push(ly);
+      t+=`<line class="rug" x1="${rx}" x2="${rx+10}" y1="${ry}" y2="${ry}"><title>${esc(r[0])}: ${r[1]}</title></line>`; if(!narrow) t+=`<text class="axis-title" style="font-size:10.5px" x="${rx+15}" y="${ly}">${esc(r[0].length>21?r[0].slice(0,20)+'…':r[0])} ${r[1]}</text>`; }); }
+  if(o.ring) t+=`<circle class="ring" cx="${x(o.ring.cost)}" cy="${y(o.ring.score)}" r="12"/>`;
+  if(o.ring2) t+=`<circle class="ring" style="stroke:var(--stage-hi)" cx="${x(o.ring2.cost)}" cy="${y(o.ring2.score)}" r="12"/>`;
+  // Greedy labels: selected first, then frontier, then explicit extras.
+  const placedBoxes=[]; const candidates=[];
+  const seen=new Set(); const push=p=>{ if(p&&!seen.has(p.key)&&!(o.off&&o.off.has(p.v))&&!(o.effort&&o.effort!=='all'&&p.effort!==o.effort&&p.effort!=='default')){ seen.add(p.key); candidates.push(p); } };
+  (o.labelFirst||[]).forEach(push); [...fr].reverse().forEach(push); if(o.labelAll) pts.forEach(push);
+  const maxLabels=narrow?6:11;
+  candidates.slice(0,maxLabels).forEach(p=>{
+    const showEffort=p.effort!=='default'&&(o.effort==='all'||!o.effort);
+    const txt=shortName(p.name)+(p.restricted?' (restricted)':showEffort?' '+eff(p.effort):''); const tw=txt.length*5.9+4, px=x(p.cost), py=y(p.score);
+    const tries=[[10,16,'start',px+10,py+4],[11,4,'start',px+11,py-9],[-11,4,'end',px-11-tw,py-9],[0,-12,'middle',px-tw/2,py-24],[0,20,'middle',px-tw/2,py+8]];
+    for(const [dx,dy,anc,bx,by] of tries){ const box=[bx,by,bx+tw,by+14];
+      if(box[0]<m.l||box[2]>W-m.r||box[1]<m.t-2||box[3]>H-m.b) continue;
+      if(placedBoxes.some(b=>box[0]<b[2]&&box[2]>b[0]&&box[1]<b[3]&&box[3]>b[1])) continue;
+      placedBoxes.push(box); t+=`<text class="pt-label" x="${px+dx}" y="${py+dy}" text-anchor="${anc}">${esc(txt)}</text>`; break; }
+  });
+  top.innerHTML=t;
+  svg._scale={x,y,xLo,xHi,m,W,H};
+  return svg._scale;
+}
+const shortName=n=>n.replace('Claude ','').replace('Gemini ','Gem ').replace('DeepSeek ','DS ');
+
+/* ---------- Atlas ---------- */
+function benchXLabel(b) { return (b.cost==='modelled'?'Estimated cost per ':b.cost==='chartread'?'Cost per ':'Cost per ')+b.per; }
+const costChip={ measured:['measured','Cost measured'], chartread:['chartread','Cost read from chart'], modelled:['modelled','Cost estimated from list price'] };
+function sparkFor(bid) {
+  const pts=points(bid); const fr=frontier(pts); if(fr.length<1) return '';
+  const lo=Math.log10(Math.min(...pts.map(p=>p.cost))), hi=Math.log10(Math.max(...pts.map(p=>p.cost))), sLo=Math.min(...pts.map(p=>p.score)), sHi=Math.max(...pts.map(p=>p.score));
+  const px=c=>4+(hi===lo?.5:(Math.log10(c)-lo)/(hi-lo))*132, py=s=>26-(sHi===sLo?.5:(s-sLo)/(sHi-sLo))*22;
+  const d='M'+fr.map(p=>px(p.cost).toFixed(1)+','+py(p.score).toFixed(1)).join('L');
+  const dots=pts.map(p=>`<circle class="spark-dot" r="1.4" cx="${px(p.cost).toFixed(1)}" cy="${py(p.score).toFixed(1)}"/>`).join('');
+  return `<svg viewBox="0 0 140 30" aria-hidden="true">${dots}${fr.length>1?`<path class="spark${B[bid].cost==='modelled'?' dashed':''}" d="${d}"/>`:''}</svg>`;
+}
+function renderAtlasShell() {
+  $('#view-atlas').innerHTML=`
+    <div class="cats" id="cats" role="group" aria-label="Categories"></div>
+    <div class="layout">
+      <div class="stage" id="stage">
+        <div class="stage-head">
+          <div class="seg" id="bench-seg" role="group" aria-label="Benchmark"></div>
+          <div class="legend" id="legend"></div>
+        </div>
+        <div class="plot" id="plot"><div class="tip" id="tip" hidden></div></div>
+        <div class="controls" id="controls"></div>
+      </div>
+      <aside class="side" id="side"></aside>
+    </div>
+    <div id="below" style="display:grid;gap:1rem"></div>
+    <section style="display:grid;gap:.6rem">
+      <div class="section-head"><h2>Insights</h2><p id="ins-count"></p></div>
+      <div class="insights" id="insights"></div>
+    </section>`;
+}
+function renderCats() {
+  $('#cats').innerHTML=CATS.map(c=>{ const bid=c.benches[0], pr=premium(bid), b=B[bid];
+    const tag=b.cost==='modelled'?'estimated':b.cost==='chartread'?'chart-read':'measured';
+    return `<button class="cat" data-cat="${c.id}" aria-pressed="${S.cat===c.id}"><b>${esc(c.name)}</b>${sparkFor(bid)}<small><span>${!pr?'few rows':pr.ratio<1.05?'No premium':'Last 10%: ×'+(pr.ratio>=10?pr.ratio.toFixed(0):pr.ratio.toFixed(1))}</span><span>${tag}</span></small></button>`; }).join('');
+  $('#cats').querySelectorAll('.cat').forEach(el=>el.onclick=()=>{ stopPlay(); S.cat=el.dataset.cat; S.bench=CATS.find(c=>c.id===S.cat).benches[0]; resetBench(); renderAtlas(); });
+}
+function resetBench(){ S.effort='all'; S.budgetT=null; S.sel=null; }
+function bounds(pts){ const c=pts.map(p=>p.cost); return [Math.min(...c)*.8, Math.max(...c)*1.2]; }
+function budgetValue(pts){ const [lo,hi]=bounds(pts); if(S.budgetT==null) return 10**(Math.log10(lo)+.8*(Math.log10(hi)-Math.log10(lo))); return 10**(Math.log10(lo)+S.budgetT*(Math.log10(hi)-Math.log10(lo))); }
+function currentPts() { return points(S.bench).filter(p=>!S.off.has(p.v)&&(S.effort==='all'||p.effort===S.effort||p.effort==='default')); }
+function bestUnder(pts,budget){ const ok=pts.filter(p=>p.cost<=budget&&!p.restricted); if(!ok.length) return null; const top=Math.max(...ok.map(p=>p.score)); return ok.filter(p=>p.score===top).sort((a,b)=>a.cost-b.cost)[0]; }
+
+function renderChart() {
+  const b=B[S.bench], all=points(S.bench), pts=currentPts(), budget=budgetValue(all), under=bestUnder(pts,budget);
+  const drawn=S.effort==='all'?all:all.filter(p=>p.effort===S.effort||p.effort==='default');
+  const sel=S.sel&&all.find(p=>p.key===S.sel);
+  const scale=drawChart($('#plot'),drawn,{ domain:all, interactive:true, budget, off:S.off, effort:S.effort, ladder:!!b.ladder, sel:S.sel, ring:under, ref:b.ref, rug:unplaced(S.bench), elo:b.elo, yLabel:b.yLabel, xLabel:benchXLabel(b), sig:S.bench+S.effort+S.profile,
+    labelFirst:[sel,under,...all.filter(p=>p.restricted)].filter(Boolean), aria:`${b.name}: cost against score`, labelAll:all.length<=8,
+    onHover:showTip, onPick:p=>{ S.sel=p.key; checkInsights({b:S.bench,m:p.model,e:p.effort}); renderChart(); renderSide(); } });
+  return {pts,budget,under,scale};
+}
+function showTip(p,node) {
+  const tip=$('#tip'); if(!p){ tip.hidden=true; return; }
+  const b=B[p.bench], ratio=b.elo?'':`<div>${money(p.cost/Math.max(p.score,.01))} per point</div>`;
+  tip.innerHTML=`<b>${esc(p.name)}${p.effort!=='default'?' · '+esc(eff(p.effort)):''}</b><div class="num">${p.score} ${esc(b.unit)}</div><div class="num">${money(p.cost)} per ${esc(b.per)}${p.modelled?' (estimate)':b.cost==='chartread'?' (read from chart)':''}</div>${ratio}${p.restricted?'<div>Not generally available</div>':''}`;
+  tip.hidden=false;
+  const r=$('#plot').getBoundingClientRect(), n=node.querySelector('.mark').getBoundingClientRect();
+  const tw=tip.offsetWidth, th=tip.offsetHeight; let left=n.left-r.left+16, top=n.top-r.top-th-6;
+  if(left+tw>r.width) left=n.left-r.left-tw-10; if(left<0) left=4; if(top<0) top=n.bottom-r.top+8;
+  tip.style.left=left+'px'; tip.style.top=top+'px';
+}
+function renderControls() {
+  const b=B[S.bench], all=points(S.bench), [lo,hi]=bounds(all), budget=budgetValue(all);
+  const t=(Math.log10(budget)-Math.log10(lo))/(Math.log10(hi)-Math.log10(lo));
+  let html=`<div class="ctrl"><label for="budget">Budget per ${esc(b.per)}: <output id="budget-out">${money(budget)}</output></label><input id="budget" type="range" min="0" max="1000" value="${Math.round(t*1000)}"></div>`;
+  if(b.ladder) html+=`<div class="ctrl"><span>${b.ladder===RUNGS?'Effort rung (levels differ by model)':'Effort level'}</span><div class="ctrl-row"><div class="seg" id="effort-seg" role="group" aria-label="Effort">${['all',...b.ladder].map(e=>`<button data-e="${e}" aria-pressed="${S.effort===e}">${e==='all'?'All':esc(eff(e)).replace('rung ','R')}</button>`).join('')}</div><button class="play" id="play">${S.playing?'Stop':'Play ladder'}</button></div></div>`;
+  else if(b.cost==='modelled') html+=`<div class="ctrl"><span>Estimate assumes this token volume per task</span><div class="seg" id="profile-seg" role="group" aria-label="Token profile">${PROFILES.map(p=>`<button data-p="${p.id}" aria-pressed="${S.profile===p.id}">${p.label}: ${p.i>=1e6?p.i/1e6+'M':p.i/1000+'k'} in, ${p.o/1000}k out</button>`).join('')}</div></div>`;
+  $('#controls').innerHTML=html;
+  $('#budget').oninput=e=>{ stopPlay(); S.budgetT=e.target.value/1000; const v=budgetValue(all); $('#budget-out').textContent=money(v); renderChart(); renderPicks(); };
+  $('#effort-seg')?.querySelectorAll('button').forEach(el=>el.onclick=()=>{ stopPlay(); S.effort=el.dataset.e; syncEffort(); });
+  if($('#play')) $('#play').onclick=()=>togglePlay();
+  $('#profile-seg')?.querySelectorAll('button').forEach(el=>el.onclick=()=>{ S.profile=el.dataset.p; S.budgetT=null; renderAtlas(); });
+}
+function syncEffort(){ $('#effort-seg')?.querySelectorAll('button').forEach(el=>el.setAttribute('aria-pressed',S.effort===el.dataset.e)); renderChart(); renderPicks(); }
+function togglePlay(){ if(S.playing){ stopPlay(); return; }
+  const lad=B[S.bench].ladder; let i=-1; const step=()=>{ i=(i+1)%lad.length; S.effort=lad[i]; syncEffort(); };
+  step(); S.playing=setInterval(step,1300); $('#play').textContent='Stop'; }
+function stopPlay(){ if(S.playing){ clearInterval(S.playing); S.playing=null; if($('#play')) $('#play').textContent='Play ladder'; } }
+function renderLegend(){ const used=[...new Set(points(S.bench).map(p=>p.v))]; const b=B[S.bench];
+  $('#legend').innerHTML=used.map(v=>`<button data-v="${v}" aria-pressed="${!S.off.has(v)}" title="Show or hide ${V[v][0]}">${glyph(v,b.cost==='modelled')}${V[v][0]}</button>`).join('')+`<span>${b.cost==='modelled'?'Hollow: cost is an estimate':b.cost==='chartread'?'Filled: cost read from chart':'Filled: cost measured'}</span><span>White line: frontier</span>${points(S.bench).some(p=>p.restricted)?'<span>Gold dashes: not generally available</span>':''}`;
+  $('#legend').querySelectorAll('button').forEach(el=>el.onclick=()=>{ const v=el.dataset.v; S.off.has(v)?S.off.delete(v):S.off.add(v); S.budgetT=null; renderLegend(); renderChart(); renderPicks(); renderControls(); }); }
+function renderPicks(){ const host=$('#picks'); if(!host) return; const b=B[S.bench], pts=currentPts(), budget=budgetValue(points(S.bench)), under=bestUnder(pts,budget), fr=frontier(pts);
+  if(!pts.length){ host.innerHTML='<p class="detail-quote">No rows match this filter.</p>'; return; }
+  const buy=pts.filter(p=>!p.restricted); if(!buy.length){ host.innerHTML='<p class="detail-quote">No generally available rows match this filter.</p>'; return; }
+  const top=[...buy].sort((a,c)=>c.score-a.score||a.cost-c.cost)[0], floor=b.elo?top.score-100:top.score*.9, cheap=buy.filter(p=>p.score>=floor).sort((a,c)=>a.cost-c.cost)[0], locked=pts.filter(p=>p.restricted);
+  const row=(lab,p,sub)=>p?`<div class="pick"><span class="lab">${lab}</span><b>${esc(shortName(p.name))}${p.effort!=='default'?' '+esc(eff(p.effort)):''}</b><span class="num">${p.score} · ${money(p.cost)}</span>${sub?`<small>${sub}</small>`:''}</div>`:`<div class="pick"><span class="lab">${lab}</span><small>Nothing fits this budget.</small></div>`;
+  host.innerHTML=row('Best under your budget',under)+row('Highest score you can buy',top)+row(b.elo?'Cheapest within 100 Elo of the top':'Cheapest within 10% of the top',cheap,cheap&&top.cost>cheap.cost?`The top score costs ×${(top.cost/cheap.cost).toFixed(1)} as much.`:'')+(locked.length?`<p class="detail-quote">Excluded here: ${locked.map(p=>esc(p.name)+' ('+p.score+')').join(', ')}. ${esc(RESTRICTED[locked[0].model])}</p>`:'');
+  const bars=$('#bars'); if(bars){ if(b.elo){ bars.innerHTML='<p class="detail-quote">Ratings do not divide into a meaningful cost per point. Use the chart.</p>'; return; }
+    const list=pts.filter(p=>p.score>0).map(p=>({p,v:p.cost/p.score})).sort((a,c)=>a.v-c.v), keep=frontier(pts).map(p=>p.key), show=list.filter(x=>keep.includes(x.p.key)).slice(0,10), mx=Math.max(...show.map(x=>x.v));
+    bars.innerHTML=show.map(x=>`<div class="barrow"><span title="${esc(x.p.name)} ${esc(x.p.effort)}">${esc(shortName(x.p.name))}${x.p.effort!=='default'?' '+esc(eff(x.p.effort)):''}</span><div class="bartrack"><div class="barfill" style="width:${Math.max(1.5,x.v/mx*100)}%;background:${V[x.p.v][1]}"></div></div><span class="num">${money(x.v)}</span></div>`).join(''); }
+}
+function ageDays(d){ return Math.round((new Date(AS_OF)-new Date(d))/864e5); }
+function renderSide() {
+  const b=B[S.bench], c=costChip[b.cost], sel=S.sel&&points(S.bench).find(p=>p.key===S.sel);
+  $('#side').innerHTML=`
+    ${sel?`<div class="card"><span class="lab">Selected</span><h3>${esc(sel.name)}${sel.effort!=='default'?' · '+esc(eff(sel.effort)):''}</h3><div class="num">${sel.score} ${esc(b.unit)} · ${money(sel.cost)} per ${esc(b.per)}</div><p class="detail-quote">List price ${M[sel.model][2]!=null?`$${M[sel.model][2]} in / $${M[sel.model][3]} out per million tokens`:'not in our price set'}.${sel.restricted?' '+esc(RESTRICTED[sel.model]):frontier(points(S.bench)).some(p=>p.key===sel.key)?' On the frontier: no row is both cheaper and better.':dominator(sel)}</p>${releaseOf(sel.model)?`<p style="font-size:.82rem"><span class="lab">Release</span><br>${fmtDate(releaseOf(sel.model).d)}: ${ANCHOR(releaseOf(sel.model).u,releaseOf(sel.model).t)}</p>`:''}</div>`:''}
+    <div class="card"><span class="lab">Your options</span><div class="picks" id="picks"></div></div>
+    <div class="card"><span class="lab">Cost per point, frontier rows</span><div class="bars" id="bars"></div></div>
+    <div class="card"><h3>${esc(b.name)}</h3>
+      <div class="chips"><span class="chip ${c[0]}">${c[1]}</span><span class="chip">${REP[b.rep]}</span><span class="chip">${esc(b.date)}</span>${ageDays(b.date)>90?'<span class="chip stale">Older than 90 days</span>':''}</div>
+      <p style="font-size:.88rem">${linked(b.what)}</p>
+      <ul class="notes">${b.notes.map(n=>`<li>${linked(n)}</li>`).join('')}</ul>
+      <div class="refs"><span class="lab">The benchmark</span><div>${REFS[S.bench].map(r=>ANCHOR(r[1],r[0])).join(' · ')}</div><span class="lab" style="margin-top:.3rem">Numbers read from</span><div>${[[b.url,b.rep==='own'?'Study results':'Results'],...(b.urls||[])].map(u=>ANCHOR(u[0],u[1])).join(' · ')}</div></div>
+      ${newerThan(S.bench)}
+    </div>`;
+  renderPicks();
+}
+function newerThan(id){ const b=B[id], onChart=new Set(b.rows.map(r=>r[0])), later=RELEASES.filter(r=>r.d>b.date&&!r.ms.some(m=>onChart.has(m)));
+  if(!later.length) return '';
+  return `<p class="detail-quote"><b>Released after this snapshot, not on this chart:</b> ${later.slice(0,6).map(r=>ANCHOR(r.u,M[r.ms[0]][0])).join(', ')}${later.length>6?` and ${later.length-6} more`:''}.</p>`; }
+function dominator(sel){ const d=points(S.bench).filter(p=>p.cost<=sel.cost&&p.score>=sel.score&&p.key!==sel.key).sort((a,c)=>a.cost-c.cost)[0]; return d?` Beaten by ${esc(shortName(d.name))}${d.effort!=='default'?' '+esc(eff(d.effort)):''}: ${d.score} at ${money(d.cost)}.`:''; }
+function renderBelow(){ const c=CATS.find(x=>x.id===S.cat), b=B[S.bench], rows=points(S.bench).sort((a,z)=>z.score-a.score||a.cost-z.cost);
+  const ev=c.evidence?EVIDENCE[c.evidence]:null;
+  $('#below').innerHTML=(ev?`<details class="card" id="evidence-box"><summary>${esc(ev.title)}</summary><div style="display:grid;gap:.5rem;font-size:.88rem;margin-top:.5rem">${ev.body}</div></details>`:'')+
+   `<details class="card"><summary>Data table for ${esc(b.short)}</summary><div class="tbl-scroll" style="margin-top:.5rem"><table><thead><tr><th>Model</th><th>Setting</th><th class="r">Score</th><th class="r">Cost per ${esc(b.per)}</th></tr></thead><tbody>${rows.map(p=>`<tr><td>${esc(p.name)}</td><td>${esc(eff(p.effort))}</td><td class="r num">${p.score}</td><td class="r num">${money(p.cost)}</td></tr>`).join('')}${unplaced(S.bench).map(r=>`<tr><td>${esc(r[0])}</td><td></td><td class="r num">${r[1]}</td><td class="r">no cost</td></tr>`).join('')}</tbody></table></div></details>`;
+  const box=$('#evidence-box'); if(box) box.addEventListener('toggle',()=>{ if(box.open) checkInsights({evidence:c.evidence}); });
+}
+function renderAtlas() {
+  renderCats();
+  const c=CATS.find(x=>x.id===S.cat);
+  $('#bench-seg').innerHTML=c.benches.map(id=>`<button data-b="${id}" aria-pressed="${S.bench===id}">${esc(B[id].short)}</button>`).join('');
+  $('#bench-seg').querySelectorAll('button').forEach(el=>el.onclick=()=>{ stopPlay(); S.bench=el.dataset.b; resetBench(); renderAtlas(); });
+  renderLegend(); renderChart(); renderControls(); renderSide(); renderBelow(); renderInsights();
+  checkInsights({b:S.bench});
+}
+function checkInsights(ev){
+  for(const i of INSIGHTS){ if(S.ins.has(i.id)) continue; const o=i.on;
+    if(ev.evidence){ if(o.evidence===ev.evidence) unlock(i); continue; }
+    if(o.evidence) continue;
+    if(o.b!==ev.b) continue;
+    if(o.m&&o.m!==ev.m) continue;
+    if(o.e&&o.e!==ev.e) continue;
+    if(!ev.m&&o.m) continue;
+    unlock(i); }
+}
+function unlock(i){ S.ins.add(i.id); store.set('ins',[...S.ins]); updateHud(); renderInsights();
+  const host=$('#toast-host'); host.innerHTML=`<div class="toast pop"><small>Insight ${S.ins.size} of ${INSIGHTS.length}</small><b>${esc(i.t)}</b><p>${linked(i.x)}</p></div>`;
+  clearTimeout(unlock._t); unlock._t=setTimeout(()=>{ host.innerHTML=''; },6500); }
+function renderInsights(){ const host=$('#insights'); if(!host) return;
+  $('#ins-count').textContent=`${S.ins.size} of ${INSIGHTS.length} found. Click dots and open benchmarks to discover the rest.`;
+  host.innerHTML=INSIGHTS.map(i=>S.ins.has(i.id)?`<div class="ins"><b>${esc(i.t)}</b><p>${linked(i.x)}</p></div>`:`<div class="ins locked"><span class="lab">Locked</span><p>${esc(i.hint)}</p><button data-go="${i.id}">Go to this chart</button></div>`).join('');
+  host.querySelectorAll('[data-go]').forEach(el=>el.onclick=()=>{ const i=INSIGHTS.find(x=>x.id===el.dataset.go); stopPlay(); S.cat=i.cat; S.bench=i.b; resetBench(); renderAtlas(); $('#cats').scrollIntoView({behavior:'smooth',block:'start'}); }); }
+function updateHud(){ $('#hud-ins').textContent=`${S.ins.size}/${INSIGHTS.length}`; $('#hud-best').textContent=S.best==null?'none':S.best+'/1000'; }
+
+/* ---------- Missions ---------- */
+const G={ i:0, total:0, log:[], picked:null };
+function rowOf(bid,m,e){ return points(bid).find(p=>p.model===m&&p.effort===e); }
+function scoreMission(ms,p){ const opts=ms.opts.map(o=>rowOf(ms.bench,o[0],o[1])); const ok=opts.filter(o=>o.cost<=ms.budget);
+  if(p.cost>ms.budget) return {pts:0,stars:0,over:true,opts,best:bestUnder(ok,ms.budget)};
+  const top=Math.max(...ok.map(o=>o.score)), lo=Math.min(...opts.map(o=>o.score)), best=bestUnder(ok,ms.budget);
+  let pts=top===lo?100:Math.round(100*(p.score-lo)/(top-lo));
+  if(p.score===top&&p.key!==best.key) pts=80; pts=Math.max(pts,p.score===lo?10:pts);
+  return {pts,stars:pts>=100?3:pts>=60?2:pts>=25?1:0,over:false,opts,best}; }
+function renderMissions(){ const v=$('#view-missions');
+  if(G.i>=MISSIONS.length) return renderEnd(v);
+  const ms=MISSIONS[G.i], b=B[ms.bench];
+  const prog=MISSIONS.map((_,k)=>`<i class="${k<G.i?'done':k===G.i?'now':''}"></i>`).join('');
+  v.innerHTML=`<div class="progress" aria-label="Mission ${G.i+1} of ${MISSIONS.length}">${prog}</div>
+    <div class="mission-grid"><div class="mission-card" id="mission-left">
+      <span class="lab">Mission ${G.i+1} of ${MISSIONS.length} · ${G.total} points · ${benchLink(ms.bench)}</span>
+      <h2>${esc(ms.t)}</h2><p>${linked(ms.brief)}</p>
+      ${ms.check?'<span class="chip" style="justify-self:start">Evidence check</span>':`<span class="budget-chip">Budget ${money(ms.budget)} per ${esc(b.per)}</span>`}
+      <div class="opts" id="opts"></div><div class="result" id="result"></div></div>
+      <div class="stage" id="mission-stage"><div class="plot" id="mplot" style="min-height:22rem;display:grid;place-items:center"><p style="color:var(--stage-muted);text-align:center;max-width:30ch" id="mhold">${ms.check?'The chart appears after your answer.':'Scores and real costs stay hidden until you commit. List prices are all you get, as on a vendor page.'}</p></div></div></div>`;
+  const host=$('#opts');
+  if(ms.check){ host.innerHTML=ms.choices.map((c,k)=>`<button class="opt" data-k="${k}" style="grid-template-columns:minmax(0,1fr)"><span>${esc(c[0])}</span></button>`).join('');
+    host.querySelectorAll('.opt').forEach(el=>el.onclick=()=>answerCheck(ms,+el.dataset.k)); return; }
+  host.innerHTML=ms.opts.map((o,k)=>{ const m=M[o[0]]; return `<button class="opt" data-k="${k}">${glyph(m[1])}<span><b>${esc(m[0])}</b>${o[1]!=='default'?' · '+esc(eff(o[1])):''}<small>${m[2]!=null?`List $${m[2]} / $${m[3]} per million`:'List price not in our set'}</small></span><span class="val"></span></button>`; }).join('');
+  host.querySelectorAll('.opt').forEach(el=>el.onclick=()=>answer(ms,+el.dataset.k));
+}
+function revealChart(ms,o={}){ $('#mplot').removeAttribute('style'); $('#mplot').innerHTML=''; const b=B[ms.bench], all=points(ms.bench);
+  drawChart($('#mplot'),all,{ budget:ms.budget, ladder:!!b.ladder, effort:'all', elo:b.elo, yLabel:b.yLabel, xLabel:benchXLabel(b), ring:o.ring, ring2:o.ring2, labelFirst:o.labels||[], ref:b.ref, height:400, sig:'m'+G.i, aria:b.name }); }
+function answer(ms,k){ const o=ms.opts[k], p=rowOf(ms.bench,o[0],o[1]), r=scoreMission(ms,p), b=B[ms.bench]; G.total+=r.pts; G.log.push(r.pts);
+  $('#opts').querySelectorAll('.opt').forEach((el,i)=>{ el.disabled=true; const q=r.opts[i]; el.querySelector('.val').innerHTML=`${q.score}<br>${money(q.cost)}`;
+    if(i===k) el.classList.add('picked'); if(q.cost>ms.budget) el.classList.add('bust'); if(r.best&&q.key===r.best.key) el.classList.add('best'); });
+  $('#result').innerHTML=`<div class="result-head pop"><span class="result-pts">+${r.pts}</span><span class="stars" aria-label="${r.stars} of 3 stars">${'★'.repeat(r.stars)}${'☆'.repeat(3-r.stars)}</span><b>${r.over?'Over budget':r.pts>=100?'Best available pick':r.pts>=60?'Close to the best':'Better options existed'}</b></div><p style="font-size:.92rem">${linked(ms.lesson)}</p><p class="detail-quote">Measured on ${benchLink(ms.bench)} (${esc(REP[b.rep].toLowerCase())}, ${esc(b.date)}, ${ANCHOR(b.url,'results')}). Green marks the best in-budget option, red marks options over budget.</p><button class="primary" id="next">${G.i+1<MISSIONS.length?'Next mission':'See results'}</button>`;
+  revealChart(ms,{ring:r.best,ring2:r.best&&p.key===r.best.key?null:p,labels:[p,r.best].filter(Boolean)});
+  $('#next').onclick=()=>{ G.i++; renderMissions(); window.scrollTo({top:$('.bar').offsetTop,behavior:'smooth'}); }; $('#next').focus({preventScroll:true}); }
+function answerCheck(ms,k){ const b=B[ms.bench], ok=ms.choices[k][1], pts=ok?100:0; G.total+=pts; G.log.push(pts);
+  $('#opts').querySelectorAll('.opt').forEach((el,i)=>{ el.disabled=true; if(i===k) el.classList.add('picked'); el.classList.add(ms.choices[i][1]?'best':'x'); });
+  $('#result').innerHTML=`<div class="result-head pop"><span class="result-pts">+${pts}</span><span class="stars" aria-label="${ok?3:0} of 3 stars">${ok?'★★★':'☆☆☆'}</span><b>${ok?'Correct':'Not supported by the evidence'}</b></div><p style="font-size:.92rem">${linked(ms.lesson)}</p><p class="detail-quote">About ${benchLink(ms.bench)}: ${ANCHOR(b.url,'results')}.</p><button class="primary" id="next">${G.i+1<MISSIONS.length?'Next mission':'See results'}</button>`;
+  const all=points(ms.bench); $('#mplot').removeAttribute('style'); $('#mplot').innerHTML=''; drawChart($('#mplot'),all,{ elo:b.elo, yLabel:b.yLabel, xLabel:benchXLabel(b), height:400, sig:'m'+G.i, labelAll:true, rug:unplaced(ms.bench), aria:b.name });
+  $('#next').onclick=()=>{ G.i++; renderMissions(); window.scrollTo({top:$('.bar').offsetTop,behavior:'smooth'}); }; $('#next').focus({preventScroll:true}); }
+function rankOf(t){ return t>=900?'Cost auditor':t>=720?'Frontier reader':t>=480?'Budget keeper':'List-price reader'; }
+function renderEnd(v){ if(S.best==null||G.total>S.best){ S.best=G.total; store.set('best',G.total); updateHud(); }
+  const blurb={ 'Cost auditor':'You checked what the numbers measure and picked by per-task cost.', 'Frontier reader':'You read the cost curves well. Your remaining losses are in effort settings or evidence checks.', 'Budget keeper':'You stayed mostly on budget. The Atlas shows which models you could have paid less for.', 'List-price reader':'List prices misled you often, as they do most buyers. Try the Atlas, then run again.' };
+  const r=rankOf(G.total);
+  v.innerHTML=`<div class="mission-card"><span class="lab">Run complete</span><div class="endstat">${G.total}<span style="font-size:.4em;color:var(--muted)"> / 1000</span></div><h2>${r}</h2><p>${blurb[r]}</p>
+    <div class="tbl-scroll"><table><thead><tr><th>Mission</th><th>Benchmark</th><th class="r">Points</th></tr></thead><tbody>${MISSIONS.map((ms,k)=>`<tr><td>${esc(ms.t)}</td><td>${benchLink(ms.bench)}</td><td class="r num">${G.log[k]}</td></tr>`).join('')}</tbody></table></div>
+    <div class="ctrl-row"><button class="primary" id="again">Play again</button><button class="secondary" id="to-atlas">Open the Atlas</button></div></div>`;
+  $('#again').onclick=()=>{ G.i=0; G.total=0; G.log=[]; renderMissions(); };
+  $('#to-atlas').onclick=()=>setView('atlas');
+}
+
+/* ---------- Quality dial ---------- */
+const MX={ target:90, loads:LOADS.map(l=>l.v) };
+function mixFor(target){ return LOADS.map((l,i)=>{ const pts=points(l.b).filter(p=>!p.restricted), top=Math.max(...pts.map(p=>p.score)), need=top*target/100, pick=pts.filter(p=>p.score>=need).sort((a,c)=>a.cost-c.cost)[0]; return {l,pick,top,tasks:MX.loads[i],bill:pick.cost*MX.loads[i]}; }); }
+const sum=a=>a.reduce((x,y)=>x+y,0);
+function renderMix(){ const v=$('#view-mix');
+  if(!$('#mix-root',v)){ v.innerHTML=`<div class="section-head" id="mix-root"><h2>How much does the last bit of quality cost?</h2><p>Set your monthly workload and choose how close to the top score each task must be.</p></div>
+    <div class="mix-grid"><div class="card"><span class="lab">Monthly workload</span><div style="display:grid;gap:.7rem" id="loads">${LOADS.map((l,i)=>`<div class="load"><label for="load-${i}">${esc(l.label)}<output id="loadout-${i}"></output></label><input id="load-${i}" data-i="${i}" type="range" min="0" max="100" value="${loadToSlider(l.v)}"></div>`).join('')}</div></div>
+    <div class="stage"><div class="ctrl"><label for="target">Quality target: at least <output id="target-out"></output> of the best score in each benchmark</label><input id="target" type="range" min="60" max="100" step="1" value="${MX.target}"></div><div class="bigstats" id="stats"></div><div class="plot" id="curve"></div></div></div>
+    <div class="card"><span class="lab">Cheapest model that meets the target</span><div class="tbl-scroll"><table id="mix-table"></table></div>
+    <p class="detail-quote">A pick is the cheapest published row that reaches the target on that benchmark. "Percent of best" compares within one benchmark and does not mean the same thing across benchmarks. Computer-use and chart costs are read from a vendor chart, and only Claude models have costs there. Models that are not generally available are left out. These picks are a starting point for your own test. They do not replace one.</p></div>`;
+    $('#target').oninput=e=>{ MX.target=+e.target.value; updateMix(); };
+    v.querySelectorAll('#loads input').forEach(el=>el.oninput=e=>{ MX.loads[+e.target.dataset.i]=sliderToLoad(+e.target.value); updateMix(); }); }
+  updateMix(); }
+const loadToSlider=v=>v<=0?0:Math.round(Math.log10(v)/5*100); const sliderToLoad=s=>{ if(s===0) return 0; const v=10**(s/100*5), m=10**Math.max(0,Math.floor(Math.log10(v))-1); return Math.round(v/m)*m; };
+function updateMix(){ const rows=mixFor(MX.target), bill=sum(rows.map(r=>r.bill)), topBill=sum(mixFor(100).map(r=>r.bill)), saved=topBill>0?1-bill/topBill:0;
+  $('#target-out').textContent=MX.target+'%';
+  LOADS.forEach((l,i)=>{ $('#loadout-'+i).textContent=MX.loads[i].toLocaleString('en-US'); });
+  $('#stats').innerHTML=`<div><b>${bigMoney(bill)}</b><span>Monthly bill at ${MX.target}%</span></div><div><b>${bigMoney(topBill)}</b><span>Monthly bill for the top score everywhere</span></div><div><b>${Math.round(saved*100)}%</b><span>Saved by accepting ${100-MX.target}% below the top score</span></div>`;
+  $('#mix-table').innerHTML=`<thead><tr><th>Workload</th><th>Benchmark</th><th>Model</th><th class="r">Score</th><th class="r">% of best</th><th class="r">Unit cost</th><th class="r">Per month</th></tr></thead><tbody>${rows.map(r=>`<tr><td>${esc(r.l.label)}</td><td>${benchLink(r.l.b)}</td><td>${esc(r.pick.name)}${r.pick.effort!=='default'?' · '+esc(eff(r.pick.effort)):''}</td><td class="r num">${r.pick.score}</td><td class="r num">${Math.round(r.pick.score/r.top*100)}%</td><td class="r num">${money(r.pick.cost)}</td><td class="r num">${bigMoney(r.bill)}</td></tr>`).join('')}</tbody>`;
+  drawCurve(); }
+function drawCurve(){ const host=$('#curve'), W=Math.max(280,host.clientWidth||600), H=210, m={l:58,r:14,t:12,b:32};
+  const data=[]; for(let t=60;t<=100;t++) data.push([t,sum(mixFor(t).map(r=>r.bill))]);
+  const mx=Math.max(...data.map(d=>d[1]),1), x=t=>m.l+(t-60)/40*(W-m.l-m.r), y=v=>H-m.b-v/mx*(H-m.t-m.b), yt=niceTicks(0,mx,4);
+  // The bill jumps when a cheaper row stops qualifying, so the curve is drawn as steps.
+  let d=`M${x(60)},${y(data[0][1])}`; data.forEach((p,i)=>{ if(i){ d+=`H${x(p[0])}V${y(p[1])}`; } });
+  const cur=data.find(p=>p[0]===MX.target);
+  host.innerHTML=`<svg viewBox="0 0 ${W} ${H}" height="${H}" role="img" aria-label="Monthly bill against quality target"><g class="grid">${yt.map(v=>`<line x1="${m.l}" x2="${W-m.r}" y1="${y(v)}" y2="${y(v)}"/>`).join('')}</g><g class="axis">${yt.map(v=>`<text x="${m.l-7}" y="${y(v)+4}" text-anchor="end">${bigMoney(v)}</text>`).join('')}${[60,70,80,90,100].map(t=>`<text x="${x(t)}" y="${H-m.b+16}" text-anchor="middle">${t}%</text>`).join('')}</g><path class="curve-area" d="${d}V${y(0)}H${x(60)}Z"/><path class="curve-line" d="${d}"/><line class="budget-line" x1="${x(cur[0])}" x2="${x(cur[0])}" y1="${m.t}" y2="${H-m.b}"/><circle cx="${x(cur[0])}" cy="${y(cur[1])}" r="6" fill="var(--gold)" stroke="var(--stage)" stroke-width="2"/></svg>`; }
+
+/* ---------- Releases ---------- */
+const RL={ lab:'all', sel:null };
+function jumpTo(id,m){ S.cat=CATS.find(c=>c.benches.includes(id)).id; S.bench=id; resetBench(); const r=points(id).filter(p=>p.model===m).sort((a,c)=>c.score-a.score)[0]; S.sel=r?r.key:null; setView('atlas'); if(r) checkInsights({b:id,m:r.model,e:r.effort}); $('#cats').scrollIntoView({behavior:'smooth',block:'start'}); }
+function renderReleases(){ const v=$('#view-releases');
+  if(!$('#rel-list',v)){ v.innerHTML=`<div class="section-head"><h2>What the labs announced</h2><p>Every entry links to the lab's own post. Figures in the text are the lab's claims, not measurements of ours.</p></div>
+    <div class="stage"><div class="seg" id="rel-seg" role="group" aria-label="Lab">${[['all','All labs'],...Object.entries(V).map(([k,x])=>[k,x[0]])].map(([k,n])=>`<button data-l="${k}" aria-pressed="${RL.lab===k}">${n}</button>`).join('')}</div><div class="plot" id="rel-tl"></div></div>
+    <div class="rel-list" id="rel-list"></div>`;
+    v.querySelectorAll('#rel-seg button').forEach(el=>el.onclick=()=>{ RL.lab=el.dataset.l; RL.sel=null; v.querySelectorAll('#rel-seg button').forEach(x=>x.setAttribute('aria-pressed',x===el)); drawTimeline(); drawReleaseList(); }); }
+  drawTimeline(); drawReleaseList(); }
+function drawTimeline(){ const host=$('#rel-tl'), W=Math.max(280,host.clientWidth||800), narrow=W<560, lanes=Object.keys(V).filter(k=>RL.lab==='all'||RL.lab===k), laneH=narrow?54:64, m={l:narrow?8:88,r:14,t:narrow?20:14,b:28}, H=m.t+m.b+laneH*lanes.length;
+  const lo=+new Date('2026-04-15'), hi=+new Date('2026-11-08'), x=d=>m.l+(+new Date(d)-lo)/(hi-lo)*(W-m.l-m.r), months=['2026-05-01','2026-06-01','2026-07-01','2026-08-01','2026-09-01','2026-10-01','2026-11-01'];
+  let t=`<g class="grid">${months.map(d=>`<line x1="${x(d)}" x2="${x(d)}" y1="${m.t}" y2="${H-m.b}"/>`).join('')}</g><g class="axis">${months.map(d=>`<text x="${x(d)}" y="${H-m.b+17}" text-anchor="middle">${new Date(d).toLocaleDateString('en-GB',{month:'short',timeZone:'UTC'})}</text>`).join('')}</g><line class="rel-today" x1="${x(AS_OF)}" x2="${x(AS_OF)}" y1="${m.t}" y2="${H-m.b}"/>`;
+  lanes.forEach((k,li)=>{ const cy=m.t+laneH*li+laneH/2, rows=RELEASES.map((r,i)=>({r,i})).filter(o=>o.r.l===k).sort((a,c)=>a.r.d<c.r.d?-1:1);
+    t+=`<text class="lane-label" x="${narrow?m.l:m.l-12}" y="${narrow?cy-laneH/2+13:cy+4}" text-anchor="${narrow?'start':'end'}">${V[k][0]}</text>`;
+    let last=-99,flip=1; rows.forEach(o=>{ const px=x(o.r.d); let off=0; if(px-last<15){ off=11*flip; flip=-flip; } else flip=1; last=px; const py=cy+off+(narrow?6:0);
+      t+=`<g class="rel-dot${RL.sel===o.i?' sel':''}" data-i="${o.i}" tabindex="0" role="button" aria-label="${esc(o.r.t)}, ${fmtDate(o.r.d)}" transform="translate(${px.toFixed(1)},${py})"><title>${esc(o.r.t)} (${fmtDate(o.r.d)})</title><circle class="hit" r="11"/><path d="${shape(k,narrow?5:6)}" fill="${V[k][1]}" stroke="var(--stage)" stroke-width="1.5"/></g>`; });
+    const latest=rows[rows.length-1]; if(latest&&!narrow){ const lx=x(latest.r.d); t+=`<text class="pt-label" x="${lx-10}" y="${cy-13}" text-anchor="end">${esc(M[latest.r.ms[0]][0])}</text>`; } });
+  host.innerHTML=`<svg viewBox="0 0 ${W} ${H}" height="${H}" role="group" aria-label="Release timeline by lab">${t}</svg>`;
+  host.querySelectorAll('.rel-dot').forEach(el=>{ const go=()=>{ RL.sel=+el.dataset.i; drawTimeline(); drawReleaseList(); document.getElementById('rel-'+RL.sel)?.scrollIntoView({behavior:'smooth',block:'nearest'}); }; el.addEventListener('click',go); el.addEventListener('keydown',e=>{ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); go(); } }); }); }
+function drawReleaseList(){ const host=$('#rel-list'), rows=RELEASES.map((r,i)=>({r,i})).filter(o=>RL.lab==='all'||o.r.l===RL.lab);
+  host.innerHTML=rows.map(({r,i})=>{ const bench=Object.keys(B).filter(id=>B[id].rows.some(x=>r.ms.includes(x[0]))), prices=r.ms.slice(0,1).map(m=>M[m]).filter(m=>m[2]!=null).map(m=>`$${m[2]} / $${m[3]} per million tokens`);
+    return `<article class="rel${RL.sel===i?' sel':''}" id="rel-${i}"><time datetime="${r.d}">${r.approx?'about ':''}${fmtDate(r.d)}</time><div class="rel-body"><div class="rel-title">${glyph(r.l)}${ANCHOR(r.u,r.t)}</div>${r.c?`<p>${linked(r.c)}</p>`:''}<div class="rel-jump">${prices.length?`<span>${prices[0]}</span>`:''}${bench.length?bench.map(id=>`<button data-b="${id}" data-m="${r.ms.find(m=>B[id].rows.some(x=>x[0]===m))}">${esc(B[id].short)}</button>`).join(''):'<span>Not on a chart yet</span>'}</div></div></article>`; }).join('');
+  host.querySelectorAll('.rel-jump button').forEach(el=>el.onclick=()=>jumpTo(el.dataset.b,el.dataset.m)); }
+
+/* ---------- Sources ---------- */
+function renderSources(){ const rows=CATS.flatMap(c=>c.benches.map(id=>({c,id,b:B[id]})));
+  $('#view-sources').innerHTML=`<div class="section-head"><h2>Where the numbers come from</h2><p>Read on ${AS_OF}. Live boards change, so every row keeps its date.</p></div>
+  <div class="card"><div class="tbl-scroll"><table><thead><tr><th>Category</th><th>Benchmark</th><th>References</th><th>Reported by</th><th>Cost</th><th>Date</th><th class="r">Rows</th></tr></thead><tbody>${rows.map(r=>`<tr><td>${esc(r.c.name)}</td><td>${ANCHOR(benchHome(r.id),r.b.name)}</td><td>${REFS[r.id].slice(1).map(x=>ANCHOR(x[1],x[0])).concat(ANCHOR(r.b.url,'Results')).join(' · ')}</td><td>${REP[r.b.rep]}</td><td><span class="chip ${r.b.cost}">${costChip[r.b.cost][1]}</span></td><td class="num">${r.b.date}</td><td class="r num">${r.b.rows.length+(r.b.noCost||[]).length}</td></tr>`).join('')}</tbody></table></div></div>
+  <div class="layout" style="grid-template-columns:repeat(auto-fit,minmax(min(22rem,100%),1fr))">
+    <div class="card"><h3>Three kinds of cost</h3><ul class="notes"><li><b>Cost measured:</b> the benchmark owner or study publishes the spend per task, page or outcome.</li><li><b>Cost read from chart:</b> a vendor plots the spend without printing values. We read it off the figure, accurate to about ±5%.</li><li><b>Cost estimated from list price:</b> nobody publishes spend, so we apply each model's list price to one token volume. The default is 100k input and 10k output, as on the Token Economy benchmark page. It ignores how many tokens each model really uses, and measured rows show that gap can reach seven times. Those dots are hollow.</li></ul></div>
+    <div class="card"><h3>How to read a score</h3><ul class="notes"><li>A frontier row has no other row that is both cheaper and at least as good. It is the shortlist, not a verdict.</li><li>Scores compare only within one benchmark version. "Last 10%" on a category card is the one figure meant to compare across categories: the cost of the top score divided by the cheapest row within 10% of it.</li><li>External benchmarks suggest candidates for your own test. The correctness floors in Token Economy's model recommendation are separate and stay in force.</li><li>Rows older than 90 days at the read date are flagged.</li></ul></div>
+    <div class="card"><h3>Known conflicts and gaps</h3><ul class="notes"><li><b>Gemini 4 Carbon price:</b> Artificial Analysis states $4 / $20. Arena shows $2 / $10, and Google's pricing page did not list Carbon when read. We use $4 / $20.</li><li><b>Dated price changes:</b> Gemini 4 Argon moves from $2 / $10 to $4 / $20 on 1 Dec 2026, and Gemini 3.8 Flash from $0.75 / $3.75 to $1.50 / $7.50 on 1 Jan 2027. We show today's prices.</li><li><b>Gemini 4 Carbon access:</b> Google limits it to a subset of cyber defenders and trusted partners, so it stays out of every pick. <a href="https://blog.google/innovation-and-ai/models-and-research/gemini-models/introducing-gemini-4-carbon/" target="_blank" rel="noopener">Google, 28 Oct</a></li><li><b>Release dates:</b> Kimi K3.1 Pro and MiMo-V2.6 posts show no date, so we use press dates. Anthropic's newsroom lists Fable 5.1 on 15 Sept, while its release notes and system card say 1 Sept. The Qwen post did not load in our browser check, so its title and date come from search results.</li><li><b>HLE-Diamond lead:</b> the v5 article names Opus 5.5, while the later Carbon article names Carbon.</li><li><b>Prices outside the catalog:</b> GPT-6.1 Terra, Gemini 4 Carbon, Grok 4.7, Qwen3.8 Max and DeepSeek V4.1 Flash are not in Token Economy's price catalog yet. Their prices come from provider pages or boards.</li><li><b>Missing rows:</b> no current Claude 5.5, GPT-6.1 or Gemini 4 rows on DeepSWE. No per-task cost for security, language or knowledge work. No independent classification benchmark, and no version-level German translation test.</li><li><b>Lab claims:</b> figures on the Releases tab are the labs' own. Each lab picks its benchmarks and setups, so read them as claims until an independent row exists.</li><li><b>Secondary sources:</b> the ARC-AGI-2 costs for Astra, Argon and Opus 5.5, the Astra ExploitBench score, and the feedback-labelling study come from secondary reports.</li></ul></div>
+  </div>`; }
+
+/* ---------- Boot ---------- */
+function setView(vw){ stopPlay(); S.view=vw; document.querySelectorAll('.tab').forEach(t=>t.setAttribute('aria-selected',t.dataset.view===vw));
+  document.querySelectorAll('.view').forEach(s=>s.hidden=s.id!=='view-'+vw);
+  if(vw==='atlas') renderAtlas(); if(vw==='missions') renderMissions(); if(vw==='mix') renderMix(); if(vw==='releases') renderReleases(); if(vw==='sources') renderSources();
+  try{ if(location.hash.slice(1)!==vw) history.replaceState(null,'','#'+vw); }catch{} }
+document.querySelectorAll('.tab').forEach(t=>t.onclick=()=>setView(t.dataset.view));
+renderAtlasShell(); updateHud();
+let resizeT; window.addEventListener('resize',()=>{ clearTimeout(resizeT); resizeT=setTimeout(()=>{ if(S.view==='atlas') renderChart(); if(S.view==='mix') drawCurve(); if(S.view==='releases') drawTimeline(); },150); });
+window.addEventListener('hashchange',()=>{ const h=location.hash.slice(1); if(['atlas','missions','mix','releases','sources'].includes(h)&&h!==S.view) setView(h); });
+const startHash=location.hash.slice(1);
+setView(['atlas','missions','mix','releases','sources'].includes(startHash)?startHash:'atlas');
+</script>
