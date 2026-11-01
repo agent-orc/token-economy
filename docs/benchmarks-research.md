@@ -160,7 +160,9 @@ append-only. The selected row IDs in `cost-frontier-metadata.json` pin the
 published snapshot without deleting historical evidence. The page keeps eight
 categories. OSWorld-Verified and CyScenarioBench no longer have enough current
 model rows for a chart; CodeRabbit and our code-review and HTML UI pilots also
-drop out. The pilots still run on GPT-5.6.
+drop out. The pilots still run on GPT-5.6. CyberGym is the prototype's one
+single-priced-model chart; its explicit `minimumPricedModels: 1` selection is
+paired with score-only context. Other charts require two priced current models.
 
 Refresh the boards monthly and within seven days of a relevant model or board
 release. Reopen every selected row source before assigning an excerpt; preserve
@@ -186,6 +188,11 @@ a changed score or cost as a new result ID. The concrete reading methods are:
   Fable 5.1/medium derives to $8.58 ($2,832.90 / 330). The approved
   prototype rounded it to $8.59; that duplicate transcription was removed
   before publication because it refers to the same run and source date.
+  The board does not expose the prototype's Kimi K3.1 Pro 67 or Carbon 64
+  score-only claims. Moonshot's own K3.1 Pro post reports 65.7, while Google's
+  Carbon benchmark graphic reports 65.2 for the AA harness. These vendor
+  claims remain in the score-only strip with their own posts and are not
+  presented as board measurements.
 - **Artificial Analysis Intelligence Index v5:** read the rendered model rows
   at `https://artificialanalysis.ai/leaderboards/models`. Its article explains
   the version but does not list every effort rung. Capture each model, effort,
@@ -209,6 +216,14 @@ a changed score or cost as a new result ID. The concrete reading methods are:
   `https://arena.ai/leaderboard/chat/text` has a dated ranking in the rendered
   search snapshot, but direct Chromium and plain HTTP access returned a
   Cloudflare block page in this environment.
+  The DeepSWE board has no GPT-6 Luna row, so its 66.6% score-only entry is
+  sourced to OpenAI's September 22 release post. GPT-6.1 Sol's OSWorld 2.0
+  offline score-only claim is 71.4 in OpenAI's release chart, rather than the
+  prototype's 70.5 tracker value. CyberGym's rendered model list includes
+  MiMo-V2.6-Flash, MiMo-V2.6-Pro and DeepSeek V4 Pro; its unsupported Gemini
+  3.8 Flash Cyber strip entry was removed. A duplicate GPT-6 Astra OSWorld
+  score-only row that cited the Opus system card was removed; the independent
+  tracker entry remains.
 
 The approved prototype placed Haiku 5.5's 72.4% vendor claim in the OSWorld
 2.0 score-only strip. [Anthropic's Haiku 5.5 post](https://www.anthropic.com/claude-haiku-5-5)

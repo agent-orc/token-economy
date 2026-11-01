@@ -1147,7 +1147,6 @@ def create_cost_frontier_payload() -> dict:
     model_ids = meta["modelIds"]
     models = {}
     restricted = {}
-    price_claims = {}
     current = set()
     for short, model_id in model_ids.items():
         listing = prices.get(normalize_model_key(model_id))
@@ -1171,8 +1170,6 @@ def create_cost_frontier_payload() -> dict:
             models[short].extend([claim["inputPerMTok"], claim["outputPerMTok"]])
         if source.get("availability") == "restricted":
             restricted[short] = source.get("availabilityNote", "Not generally available")
-        if source.get("priceClaims"):
-            price_claims[short] = source["priceClaims"]
     benches = {}
     for short, definition in meta["benchmarks"].items():
         chosen = definition["displayRowIds"] + definition["displayScoreOnlyIds"]
@@ -1181,7 +1178,7 @@ def create_cost_frontier_payload() -> dict:
             raise ValueError(f"Invalid frontier row selection: {short}")
         rows = [rows_by_id[row_id] for row_id in chosen]
         projected = {key: value for key, value in definition.items()
-                     if key not in ("displayRowIds", "displayScoreOnlyIds")}
+                     if key not in ("displayRowIds", "displayScoreOnlyIds", "minimumPricedModels")}
         projected["rows"] = []
         projected["evidence"] = []
         projected["noCost"] = []
@@ -1191,7 +1188,7 @@ def create_cost_frontier_payload() -> dict:
                 if row.get("secondaryMetrics", {}).get("costPerTaskUsd") is not None or not row.get("scoreOnlyLabel"):
                     raise ValueError(f"Invalid score-only frontier row: {row['id']}")
                 model = next((key for key, value in model_ids.items()
-                              if value == row.get("scoreOnlyModelId")), None)
+                              if value == row["modelId"]), None)
                 if model not in current:
                     raise ValueError(f"Superseded or unknown score-only frontier model: {row['id']}")
                 projected["noCost"].append([row["scoreOnlyLabel"], row["score"]])
@@ -1227,15 +1224,17 @@ def create_cost_frontier_payload() -> dict:
     used_models.update(key for bench in meta["benchmarks"].values()
                        for row_id in bench["displayScoreOnlyIds"]
                        for key, model_id in model_ids.items()
-                       if next(row for row in results if row["id"] == row_id).get("scoreOnlyModelId") == model_id)
+                       if next(row for row in results if row["id"] == row_id)["modelId"] == model_id)
     gaps = set(meta.get("currentModelGaps", []))
     if not gaps <= current or current - used_models - gaps:
         raise ValueError(f"Current frontier models lack chart or gap coverage: {sorted(current - used_models - gaps)}")
-    for bench in benches.values():
+    for short, bench in benches.items():
         priced = {row[0] for row in bench["rows"]}
-        score_only = {row[0] for row in bench["noCost"]}
-        if len(priced | score_only) < 2:
-            raise ValueError(f"Frontier benchmark has fewer than two current rows: {bench['short']}")
+        minimum = meta["benchmarks"][short].get("minimumPricedModels", 2)
+        if minimum not in (1, 2) or len(priced) < minimum:
+            raise ValueError(f"Frontier benchmark has fewer than {minimum} priced current models: {bench['short']}")
+        if minimum == 1 and not bench["noCost"]:
+            raise ValueError(f"Single-priced-model chart needs score-only context: {bench['short']}")
     releases = []
     def release_post(short: str) -> dict | None:
         listing = prices.get(normalize_model_key(model_ids[short]))
@@ -1255,8 +1254,8 @@ def create_cost_frontier_payload() -> dict:
     return {**{key: value for key, value in meta.items() if key not in
                ("modelIds", "benchmarks", "releaseOrder")},
             "M": models, "B": benches, "RESTRICTED": restricted,
-            "PRICE_CLAIMS": price_claims, "RELEASES": releases,
-            "CURRENT": sorted(current), "MAJOR": [m for m in meta["MAJOR"] if m in current],
+            "RELEASES": releases,
+            "CURRENT": sorted(current),
             "asOf": meta["AS_OF"], "schemaVersion": 1}
 
 
