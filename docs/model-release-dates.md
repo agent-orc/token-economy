@@ -55,7 +55,8 @@ model is collapsed, independently of its release date.
 
 The price catalog now stores a `releasePost` beside `releaseDate` and
 `releaseDateSource`: direct lab title, URL, date, approximate flag, lab claim,
-and availability. The explorer projects 25 announcements from those records.
+and availability. The explorer projects 18 announcements for current models
+from those records; superseded posts remain in the append-only catalog.
 A claim in a lab announcement is labelled as a claim, not a Token Economy
 measurement. Carbon is restricted to selected cyber defenders and partners.
 GPT-6.1 Terra's [OpenAI post](https://openai.com/index/introducing-gpt-6-1-terra/)

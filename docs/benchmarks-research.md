@@ -139,7 +139,7 @@ input and 10k output tokens. Rating boards such as Arena and GDPval-AA have no
 cost per point. Benchmarks are compared only within a version.
 
 The additional register is in `src/TokenEconomy/catalog/cost-frontier-metadata.json`:
-benchmark owner links, number sources, category copy, 14 insights, 10 missions,
+benchmark owner links, number sources, category copy, 16 insights, 10 missions,
 and five Quality dial workloads. The result and type catalogs contain the score
 rows; `model-prices.json` contains release posts, availability, and dated prices.
 All category sources should be checked monthly, and within a week after a new
@@ -148,6 +148,65 @@ that supplies the numbers. Check release posts at each model announcement.
 The browser check log is delivered with TE-72; a 200 response with no readable
 body is a retrieval gap, not a verified numeric row. Arena blocks browser
 access with Cloudflare. OpenAI announcements returned 403 in this environment.
+
+### Current-model refresh and live reading method (2026-11-01)
+
+The Cost Frontier projects only models whose catalog `lifecycleStatus` is
+`current`. Each current model must appear in a displayed chart or score-only
+strip, or in an explicit gap list; `--check` rejects an omitted current model,
+any selected superseded row, and generated-data drift. Old result records remain
+append-only. The selected row IDs in `cost-frontier-metadata.json` pin the
+published snapshot without deleting historical evidence. The page keeps eight
+categories. OSWorld-Verified and CyScenarioBench no longer have enough current
+model rows for a chart; CodeRabbit and our code-review and HTML UI pilots also
+drop out. The pilots still run on GPT-5.6.
+
+Refresh the boards monthly and within seven days of a relevant model or board
+release. Reopen every selected row source before assigning an excerpt; preserve
+a changed score or cost as a new result ID. The concrete reading methods are:
+
+- **ARC-AGI-2:** fetch `https://arcprize.org/media/data/evaluations.json`
+  and `https://arcprize.org/media/data/models.json`. Join `modelId` to `id`,
+  retain `datasetId == v2_Semi_Private`, and read `score` (a fraction) and
+  `costPerTask`. Effort labels are in model display names. The human panel is
+  100% at $17 per task and is a reference line, not a model pick. Match model
+  IDs exactly: the endpoint holds both the 2026-09-10 DeepSeek V4.1 Flash
+  release (60.6% low, 67.5% high, 72.9% max) and a newer 2026-10-17
+  `deepseek-v4-1-flash-1017-*` revision (73.6%, 68.6%, 78.1%). The page
+  selects the newer revision used by the approved prototype. The older
+  evaluation remains in the source feed and is not silently merged with it.
+- **Terminal-Bench 4.0:** plain HTTP returns an empty visible table. The page
+  embeds leaderboard JSON containing `metadata.model_display`,
+  `metadata.reasoning_effort`, `metrics.accuracy`, `metrics.n_trials`, and
+  `metrics.total_cost_usd`. Divide total cost by trial count for cost per task
+  and label that value as derived. Do not treat the rounded display cost as a
+  published per-task field. The 2026-11-01 spot checks are GPT-6.1 Sol/max
+  58.18% and $634.24 / 330 = $1.92, Opus 5.5/max 64.85% and $14.30.
+  Fable 5.1/medium derives to $8.58 ($2,832.90 / 330); the approved
+  prototype rounded it to $8.59, and both values stay in the catalog.
+- **Artificial Analysis Coding Agent Index v2.0:** open
+  `https://artificialanalysis.ai/agents/coding-agents` in a browser. The server
+  payload and rendered chart carry index reward and mean `costUsd` per task;
+  the visible text explains the three components and three attempts per task.
+  Opus 5.5/max reads 62 and $11.42. Some score-only entries have no published
+  cost and stay in the strip.
+- **DeepSWE, Arena, GDPval-AA, and Vals AI MMMU:** read the rendered page or
+  embedded browser data, not a plain HTTP text table. DeepSWE currently has no
+  Claude 5.5, GPT-6.1, or Gemini 4 row; Gemini 3.8 Flash/high is 74% / $2.36.
+  Arena is a rating board, so no cost per point is shown. GDPval-AA exposes
+  stacked cost parts without totals, so knowledge-work spend remains a list-price
+  estimate. The MMMU chart uses the Vals AI board directly. Record blocked or
+  partial reads as gaps rather than copying an old result forward.
+
+The approved prototype placed Haiku 5.5's 72.4% vendor claim in the OSWorld
+2.0 score-only strip. [Anthropic's Haiku 5.5 post](https://www.anthropic.com/claude-haiku-5-5)
+labels that result **OSWorld 2.1, offline subset**. The 2.0 page omits it so
+scores from different benchmark versions cannot appear side by side.
+
+Google's 2026-11-01 [Gemini model list](https://ai.google.dev/gemini-api/docs/models)
+lists Gemini 4 Argon and Gemini 3.8 Flash, with no Gemini 4 Flash. Carbon's
+limited access is recorded in the price catalog and excludes it from picks and
+the Quality dial. Lab release statements are labelled claims, not our runs.
 
 Carbon's $4/$20 Artificial Analysis claim conflicts with Arena's $2/$10;
 Google's pricing page had no Carbon listing at the snapshot. The catalog uses

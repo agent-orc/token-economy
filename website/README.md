@@ -188,6 +188,12 @@ See the [intake guide](../docs/human-friendly-language.md) for the importer.
 `data/cost-frontier.json` and makes no third-party requests. The generated file
 joins append-only benchmark evidence, dated list prices, release posts and the
 editorial/interaction catalog in `src/TokenEconomy/catalog/cost-frontier-metadata.json`.
+The catalog's `lifecycleStatus` selects current models before generation. The
+generator checks selected evidence row IDs, rejects superseded rows, and
+requires each current model on a chart or in a documented gap list. Eight
+categories, 16 insights, ten missions, the Quality dial, and current release
+posts are included. Refresh live boards monthly and after model or board
+releases using the source-specific methods in `docs/benchmarks-research.md`.
 Run `python3 scripts/generate-website-data.py` after a catalog change and
 `python3 scripts/generate-website-data.py --check` before publishing. The
 canonical header is copied from `_includes/site-navigation.html` into every

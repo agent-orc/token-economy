@@ -8,7 +8,7 @@
     "upstreamRepository": "agent-orc/agent-studio",
     "upstreamPath": "docs/system/domains/model-routing-policy.md",
     "contentSha256": "241781f1c62ee971643036a1287067d9d11e541787430debf03ff3cd5b3d1363",
-    "synchronization": "Token Economy 2026-10-21 revision adds selectable Sonnet 5.5 and documented CLI version gates for Sonnet 5.5 and Haiku 5.5. Defaults, score bands, correctness floors, priors and fallbacks remain unchanged. The policy text also documents the Antigravity provider and test-only Gemini pins. TE-62 and TE-63 catalogue changes are included. No upstream update is claimed. TE-72 adds catalog-only GPT-6.1 Terra (unsupported) and Gemini 4 Carbon (restricted); neither is selectable or used for a route, fallback, tier, or correctness floor."
+    "synchronization": "Token Economy 2026-10-21 revision adds selectable Sonnet 5.5 and documented CLI version gates for Sonnet 5.5 and Haiku 5.5. Defaults, score bands, correctness floors, priors and fallbacks remain unchanged. The policy text also documents the Antigravity provider and test-only Gemini pins. TE-62 and TE-63 catalogue changes are included. No upstream update is claimed. TE-72 adds catalog-only GPT-6.1 Terra (unsupported) and Gemini 4 Carbon (restricted); neither is selectable or used for a route, fallback, tier, or correctness floor. TE-72 follow-up adds catalog lifecycle labels for the Cost Frontier display; this does not alter policy selectability, tiers, or floors."
   },
   "providers": [
     {

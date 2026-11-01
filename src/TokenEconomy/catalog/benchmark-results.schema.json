@@ -71,6 +71,8 @@
         "costSource": { "enum": ["measured", "chartRead", "estimated", "unavailable"] },
         "settingLabel": { "type": "string", "minLength": 1 },
         "scoreOnlyLabel": { "type": "string", "minLength": 1 },
+        "scoreOnlyModelId": { "type": "string", "minLength": 1 },
+        "costDerivation": { "type": "string", "minLength": 1 },
         "secondaryMetrics": {
           "type": "object",
           "additionalProperties": false,
@@ -109,7 +111,9 @@
           "enum": [
             "manual",
             "script",
-            "api"
+            "api",
+            "browserRendered",
+            "publishedData"
           ]
         },
         "evidenceExcerpt": {

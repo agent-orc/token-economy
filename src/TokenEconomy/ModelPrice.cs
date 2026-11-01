@@ -141,6 +141,9 @@ public sealed record ModelListing
     /// <summary>Public access status at the catalog snapshot.</summary>
     public string? Availability { get; init; }
 
+    /// <summary>Whether this tier is the lab's current model or has been superseded, for evidence displays.</summary>
+    public string? LifecycleStatus { get; init; }
+
     /// <summary>Why access is limited, when availability is restricted.</summary>
     public string? AvailabilityNote { get; init; }
 

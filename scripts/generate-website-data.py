@@ -1147,13 +1147,20 @@ def create_cost_frontier_payload() -> dict:
     models = {}
     restricted = {}
     price_claims = {}
+    current = set()
     for short, model_id in model_ids.items():
         listing = prices.get(normalize_model_key(model_id))
         external = meta.get("externalModels", {}).get(short)
         if listing is None and external is None:
             raise ValueError(f"Missing frontier model: {model_id}")
-        price = resolve_price(prices, model_id, as_of)
         source = listing or external
+        lifecycle = source.get("lifecycleStatus")
+        if lifecycle not in ("current", "superseded"):
+            raise ValueError(f"Missing frontier lifecycle status: {model_id}")
+        if lifecycle != "current":
+            continue
+        current.add(short)
+        price = resolve_price(prices, model_id, as_of)
         vendor = {"anthropic": "a", "openai": "o", "google": "g"}.get(source.get("vendor"), "x")
         models[short] = [source["displayName"], vendor]
         if price["status"] == "Resolved":
@@ -1167,9 +1174,13 @@ def create_cost_frontier_payload() -> dict:
             price_claims[short] = source["priceClaims"]
     benches = {}
     for short, definition in meta["benchmarks"].items():
-        rows = [row for row in results if row["benchmarkTypeId"] == "cost-frontier-" + short]
-        rows.sort(key=lambda row: row["id"])
-        projected = dict(definition)
+        chosen = definition["displayRowIds"] + definition["displayScoreOnlyIds"]
+        rows_by_id = {row["id"]: row for row in results if row["benchmarkTypeId"] == "cost-frontier-" + short}
+        if len(chosen) != len(set(chosen)) or any(row_id not in rows_by_id for row_id in chosen):
+            raise ValueError(f"Invalid frontier row selection: {short}")
+        rows = [rows_by_id[row_id] for row_id in chosen]
+        projected = {key: value for key, value in definition.items()
+                     if key not in ("displayRowIds", "displayScoreOnlyIds")}
         projected["rows"] = []
         projected["evidence"] = []
         projected["noCost"] = []
@@ -1178,6 +1189,10 @@ def create_cost_frontier_payload() -> dict:
             if row.get("costSource") == "unavailable":
                 if row.get("secondaryMetrics", {}).get("costPerTaskUsd") is not None or not row.get("scoreOnlyLabel"):
                     raise ValueError(f"Invalid score-only frontier row: {row['id']}")
+                model = next((key for key, value in model_ids.items()
+                              if value == row.get("scoreOnlyModelId")), None)
+                if model not in current:
+                    raise ValueError(f"Superseded or unknown score-only frontier model: {row['id']}")
                 projected["noCost"].append([row["scoreOnlyLabel"], row["score"]])
                 fact = {key: row[key] for key in
                     ("id", "sourceUrl", "publishedAt", "retrievedAt", "evidenceExcerpt", "confidence", "costSource")}
@@ -1187,6 +1202,8 @@ def create_cost_frontier_payload() -> dict:
             model = next((key for key, value in model_ids.items() if value == row["modelId"]), None)
             if model is None:
                 raise ValueError(f"Missing frontier model: {row['modelId']}")
+            if model not in current:
+                raise ValueError(f"Superseded frontier model: {row['id']}")
             expected = {"measured": "measured", "chartread": "chartRead", "modelled": "estimated"}[definition["cost"]]
             if row.get("costSource") != expected:
                 raise ValueError(f"Frontier cost provenance mismatch: {row['id']}")
@@ -1205,16 +1222,29 @@ def create_cost_frontier_payload() -> dict:
             projected["evidence"].append(fact)
         projected["stale"] = (as_of.date() - datetime.fromisoformat(definition["date"]).date()).days > 90
         benches[short] = projected
+    used_models = {row[0] for bench in benches.values() for row in bench["rows"]}
+    used_models.update(key for bench in meta["benchmarks"].values()
+                       for row_id in bench["displayScoreOnlyIds"]
+                       for key, model_id in model_ids.items()
+                       if next(row for row in results if row["id"] == row_id).get("scoreOnlyModelId") == model_id)
+    gaps = set(meta.get("currentModelGaps", []))
+    if not gaps <= current or current - used_models - gaps:
+        raise ValueError(f"Current frontier models lack chart or gap coverage: {sorted(current - used_models - gaps)}")
+    for bench in benches.values():
+        if len({row[0] for row in bench["rows"]}) < 2 and bench["short"] != "CyberGym":
+            raise ValueError(f"Frontier benchmark has fewer than two current rows: {bench['short']}")
     releases = []
     def release_post(short: str) -> dict | None:
         listing = prices.get(normalize_model_key(model_ids[short]))
         return (listing or meta.get("externalModels", {}).get(short) or {}).get("releasePost")
 
     for short in meta["releaseOrder"]:
+        if short not in current:
+            raise ValueError(f"Superseded frontier release: {short}")
         post = release_post(short)
         if post is None:
             raise ValueError(f"Missing frontier release post: {short}")
-        same_post = [key for key, mid in model_ids.items()
+        same_post = [key for key in model_ids if key in current
                      if (release_post(key) or {}).get("url") == post["url"]]
         releases.append({"ms": same_post, "l": models[short][1], "d": post["date"],
                          "approx": post["approximate"], "t": post["title"],
@@ -1223,6 +1253,7 @@ def create_cost_frontier_payload() -> dict:
                ("modelIds", "benchmarks", "releaseOrder")},
             "M": models, "B": benches, "RESTRICTED": restricted,
             "PRICE_CLAIMS": price_claims, "RELEASES": releases,
+            "CURRENT": sorted(current), "MAJOR": [m for m in meta["MAJOR"] if m in current],
             "asOf": meta["AS_OF"], "schemaVersion": 1}
 
 
