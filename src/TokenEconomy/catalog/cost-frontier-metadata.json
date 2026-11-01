@@ -18,13 +18,6 @@
       "var(--other)"
     ]
   },
-  "EFFORTS": [
-    "low",
-    "medium",
-    "high",
-    "xhigh",
-    "max"
-  ],
   "RUNGS": [
     "rung 1",
     "rung 2",
@@ -32,17 +25,12 @@
     "rung 4",
     "rung 5"
   ],
-  "AA": "https://artificialanalysis.ai/leaderboards/models",
-  "CARD": "https://www-cdn.anthropic.com/fc1b44717c85dc068bc6ba5024219938094694bd/Claude%20Opus%205.5%20System%20Card.pdf",
   "REP": {
     "owner": "Benchmark owner",
     "vendor": "Vendor claim",
     "third": "Third-party aggregator",
     "own": "Own controlled run",
     "mixed": "Mixed reporters"
-  },
-  "RESTRICTED": {
-    "carbon": "Not generally available: Google gives access to a subset of cyber defenders and, gradually, trusted partners."
   },
   "REFS": {
     "aacode": [
@@ -1330,9 +1318,9 @@
       "displayScoreOnlyIds": [
         "cf-scoreonly-cybergym-001",
         "cf-scoreonly-cybergym-002",
-        "cf-scoreonly-cybergym-003",
         "cf-scoreonly-cybergym-005"
-      ]
+      ],
+      "minimumPricedModels": 1
     },
     "arena": {
       "name": "Text Arena (arena.ai)",
@@ -1732,25 +1720,5 @@
       "lifecycleStatus": "current",
       "availability": "general"
     }
-  },
-  "MAJOR": [
-    "opus-5.5",
-    "sonnet-5.5",
-    "haiku-5.5",
-    "fable-5.1",
-    "astra",
-    "sol-6.1",
-    "terra-6.1",
-    "luna-6",
-    "carbon",
-    "argon",
-    "flash-3.8"
-  ],
-  "droppedBenchmarks": [
-    "oswv",
-    "cyscen",
-    "rabbit",
-    "ownrev",
-    "ownui"
-  ]
+  }
 }

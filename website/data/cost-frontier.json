@@ -18,13 +18,6 @@
       "var(--other)"
     ]
   },
-  "EFFORTS": [
-    "low",
-    "medium",
-    "high",
-    "xhigh",
-    "max"
-  ],
   "RUNGS": [
     "rung 1",
     "rung 2",
@@ -32,17 +25,12 @@
     "rung 4",
     "rung 5"
   ],
-  "AA": "https://artificialanalysis.ai/leaderboards/models",
-  "CARD": "https://www-cdn.anthropic.com/fc1b44717c85dc068bc6ba5024219938094694bd/Claude%20Opus%205.5%20System%20Card.pdf",
   "REP": {
     "owner": "Benchmark owner",
     "vendor": "Vendor claim",
     "third": "Third-party aggregator",
     "own": "Own controlled run",
     "mixed": "Mixed reporters"
-  },
-  "RESTRICTED": {
-    "carbon": "Not generally available: Google gives access to a subset of cyber defenders and, gradually, trusted partners."
   },
   "REFS": {
     "aacode": [
@@ -1072,26 +1060,6 @@
       "availability": "general"
     }
   },
-  "MAJOR": [
-    "opus-5.5",
-    "sonnet-5.5",
-    "haiku-5.5",
-    "fable-5.1",
-    "astra",
-    "sol-6.1",
-    "terra-6.1",
-    "luna-6",
-    "carbon",
-    "argon",
-    "flash-3.8"
-  ],
-  "droppedBenchmarks": [
-    "oswv",
-    "cyscen",
-    "rabbit",
-    "ownrev",
-    "ownui"
-  ],
   "M": {
     "opus-5.5": [
       "Claude Opus 5.5",
@@ -3456,32 +3424,32 @@
       ],
       "noCost": [
         [
-          "Kimi K3.1 Pro",
-          67
+          "Kimi K3.1 Pro (vendor)",
+          65.7
         ],
         [
-          "Gemini 4 Carbon",
-          64
+          "Gemini 4 Carbon (vendor)",
+          65.2
         ]
       ],
       "scoreOnlyEvidence": [
         {
           "id": "cf-scoreonly-tb4-002",
-          "sourceUrl": "https://www.tbench.ai/leaderboard",
-          "publishedAt": "2026-09-12",
+          "sourceUrl": "https://www.kimi.com/en/blog/kimi-k3-1-pro",
+          "publishedAt": "2026-10-23",
           "retrievedAt": "2026-11-01",
-          "evidenceExcerpt": "TERMINAL-BENCH RUN BENCHMARKS BLOG COMMUNITY CONTRIBUTORS TERMINAL-BENCH 9 8 7 6 5 4 3 2 1 0 . 9 8 7 6 5 4 3 2 1 0 A benchmark to measure and evolve with the frontier of agent work Run the b",
-          "confidence": "thirdParty",
+          "evidenceExcerpt": "On Terminal-Bench 4.0, which evaluates coding agents on realistic, resource-constrained terminal tasks using strict task-specific tests, K3.1 Pro scores 65.7%",
+          "confidence": "publisherReported",
           "costSource": "unavailable",
           "stale": false
         },
         {
           "id": "cf-scoreonly-tb4-004",
-          "sourceUrl": "https://www.tbench.ai/leaderboard",
-          "publishedAt": "2026-09-12",
+          "sourceUrl": "https://blog.google/innovation-and-ai/models-and-research/gemini-models/introducing-gemini-4-carbon/",
+          "publishedAt": "2026-10-28",
           "retrievedAt": "2026-11-01",
-          "evidenceExcerpt": "TERMINAL-BENCH RUN BENCHMARKS BLOG COMMUNITY CONTRIBUTORS TERMINAL-BENCH 9 8 7 6 5 4 3 2 1 0 . 9 8 7 6 5 4 3 2 1 0 A benchmark to measure and evolve with the frontier of agent work Run the b",
-          "confidence": "thirdParty",
+          "evidenceExcerpt": "Terminal-Bench 4.0 (AA) 65.2% 57.1% 59.1% 59.6% 52.0%",
+          "confidence": "publisherReported",
           "costSource": "unavailable",
           "stale": false
         }
@@ -3613,11 +3581,11 @@
       "scoreOnlyEvidence": [
         {
           "id": "cf-scoreonly-deepswe-002",
-          "sourceUrl": "https://deepswe.datacurve.ai/",
+          "sourceUrl": "https://openai.com/index/introducing-gpt-6-sol-and-luna/",
           "publishedAt": "2026-09-22",
           "retrievedAt": "2026-11-01",
-          "evidenceExcerpt": "DeepSWE Blog Run Data GitHub Toggle theme DeepSWE tasks 113 repos 91 languages 5 models 28 Measuring frontier coding agents on original, long-horizon engineering tasks Read the blog Run Deep",
-          "confidence": "thirdParty",
+          "evidenceExcerpt": "GPT-6 Luna at max effort scores 66.6%, comparable to Claude Opus 5 and Fable 5 at medium effort.",
+          "confidence": "publisherReported",
           "costSource": "unavailable",
           "stale": false
         }
@@ -3824,8 +3792,8 @@
           72.6
         ],
         [
-          "GPT-6.1 Sol (tracker)",
-          70.5
+          "GPT-6.1 Sol (vendor)",
+          71.4
         ]
       ],
       "scoreOnlyEvidence": [
@@ -3841,10 +3809,10 @@
         },
         {
           "id": "cf-scoreonly-osw2-002",
-          "sourceUrl": "https://www-cdn.anthropic.com/fc1b44717c85dc068bc6ba5024219938094694bd/Claude%20Opus%205.5%20System%20Card.pdf",
-          "publishedAt": "2026-09-22",
+          "sourceUrl": "https://openai.com/index/introducing-gpt-6-1-sol/",
+          "publishedAt": "2026-09-29",
           "retrievedAt": "2026-11-01",
-          "evidenceExcerpt": "[Figure 8.13.3.B] OSWorld 2.0 price versus performance for Claude Opus 5.5, Claude Opus 5, and Claude Fable 5.1.",
+          "evidenceExcerpt": "It comes within 2.1 percentage points of Astra\u2019s score at maximum reasoning effort at roughly one-seventh the cost per task.",
           "confidence": "publisherReported",
           "costSource": "unavailable",
           "stale": false
@@ -3976,10 +3944,6 @@
           94
         ],
         [
-          "Gemini 3.8 Flash Cyber",
-          86.2
-        ],
-        [
           "DeepSeek V4 Pro",
           83.3
         ]
@@ -4001,16 +3965,6 @@
           "publishedAt": "2026-09-22",
           "retrievedAt": "2026-11-01",
           "evidenceExcerpt": "MiMo-V2.6-Pro 94.0 DeepSeek-V4.1-Flash 88.1 Step 5 Preview 84.7 GLM-5.3 84.5 GPT-5.6 Sol 84.5 DeepSeek V4 Pro 0813 83.3 MiniMax M3.1 Flash 82.2 Kimi K3 80.0 Hy4 Preview 78.4 All 14 ranked mo",
-          "confidence": "thirdParty",
-          "costSource": "unavailable",
-          "stale": false
-        },
-        {
-          "id": "cf-scoreonly-cybergym-003",
-          "sourceUrl": "https://llmlearner.com/rankings/cybergym",
-          "publishedAt": "2026-09-22",
-          "retrievedAt": "2026-11-01",
-          "evidenceExcerpt": "LLMLearner Compare Rankings Model Leaderboard Benchmark Explorer Models All Models Providers Rumor Watch Model Graveyard Pricing API Cost Calculator API Price Rankings Best LLMs All Best LLM",
           "confidence": "thirdParty",
           "costSource": "unavailable",
           "stale": false
@@ -5080,28 +5034,8 @@
       "stale": false
     }
   },
-  "PRICE_CLAIMS": {
-    "carbon": [
-      {
-        "sourceUrl": "https://artificialanalysis.ai/articles/gemini-4-carbon-new-number-1",
-        "retrievedAt": "2026-11-01",
-        "inputPerMTok": 4,
-        "outputPerMTok": 20,
-        "observation": "At the same $4/$20 standard pricing, its Cost per Task is in line with Gemini 4 Argon ($7.68)"
-      },
-      {
-        "sourceUrl": "https://arena.ai/leaderboard/text",
-        "retrievedAt": "2026-11-01",
-        "inputPerMTok": 2,
-        "outputPerMTok": 10,
-        "observation": "Arena lists $2 / $10; browser access was blocked by Cloudflare on 2026-11-01."
-      },
-      {
-        "sourceUrl": "https://ai.google.dev/gemini-api/docs/pricing",
-        "retrievedAt": "2026-11-01",
-        "observation": "Gemini 4 Carbon was not listed on the Google API pricing page when checked."
-      }
-    ]
+  "RESTRICTED": {
+    "carbon": "Not generally available: Google gives access to a subset of cyber defenders and, gradually, trusted partners."
   },
   "RELEASES": [
     {

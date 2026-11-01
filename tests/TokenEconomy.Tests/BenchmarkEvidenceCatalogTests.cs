@@ -25,12 +25,12 @@ public class BenchmarkEvidenceCatalogTests
     }
 
     [Fact]
-    public void ScoreOnlyIdentityAndCostDerivationSurviveCatalogLoading()
+    public void ScoreOnlyModelAndCostDerivationSurviveCatalogLoading()
     {
         var catalog = BenchmarkEvidenceCatalog.Default;
         var scoreOnly = Assert.Single(catalog.Results, result => result.Id == "cf-aacode-gap-001");
-        Assert.Equal(scoreOnly.ModelId, scoreOnly.ScoreOnlyModelId);
         Assert.Equal("claude-fable-5-1", scoreOnly.ModelId.Value);
+        Assert.Equal("Claude Fable 5.1", scoreOnly.ScoreOnlyLabel);
 
         var derived = Assert.Single(catalog.Results, result => result.Id == "cf-tb4-001");
         Assert.Contains("total_cost_usd / n_trials", derived.CostDerivation);
@@ -75,9 +75,25 @@ public class BenchmarkEvidenceCatalogTests
         Assert.Throws<ArgumentException>(() => new BenchmarkEvidenceCatalog(
             [type with { AllowedUnpricedModelIds = ["model-b"] }],
             [Result("unused-exception", "quality", "model-a", EffortLevel.Low, 50m)], prices));
+    }
+
+    [Fact]
+    public void CostFrontierRejectsContradictoryCostAndScoreOnlyFields()
+    {
+        var prices = Prices(("model-a", 1m));
+        var type = Type("cost-frontier-fixture");
+        var row = Result("fixture", type.Id, "model-a", EffortLevel.Low, 50m)
+            with { SettingLabel = "low" };
         Assert.Throws<ArgumentException>(() => new BenchmarkEvidenceCatalog(
-            [type], [Result("bad-identity", "quality", "model-a", EffortLevel.Low, 50m) with
-            { ScoreOnlyModelId = ModelId.Of("model-b") }], prices));
+            [type], [row with { CostSource = BenchmarkCostSource.Unavailable }], prices));
+        Assert.Throws<ArgumentException>(() => new BenchmarkEvidenceCatalog(
+            [type], [row with { CostSource = BenchmarkCostSource.Measured }], prices));
+        Assert.Throws<ArgumentException>(() => new BenchmarkEvidenceCatalog(
+            [type], [row with { CostSource = BenchmarkCostSource.Estimated,
+                SecondaryMetrics = new() { CostPerTaskUsd = 1m } }], prices));
+        Assert.Throws<ArgumentException>(() => new BenchmarkEvidenceCatalog(
+            [type], [row with { CostSource = BenchmarkCostSource.Unavailable,
+                ScoreOnlyLabel = "Model A", SecondaryMetrics = new() { CostPerTaskUsd = 1m } }], prices));
     }
 
     internal static BenchmarkType Type(string id, BenchmarkScoreDirection direction = BenchmarkScoreDirection.HigherIsBetter) => new()

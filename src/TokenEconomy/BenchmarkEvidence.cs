@@ -126,7 +126,6 @@ public sealed record BenchmarkResult
     public BenchmarkCostSource? CostSource { get; init; }
     public string? SettingLabel { get; init; }
     public string? ScoreOnlyLabel { get; init; }
-    public ModelId? ScoreOnlyModelId { get; init; }
     public string? CostDerivation { get; init; }
     public BenchmarkSecondaryMetrics? SecondaryMetrics { get; init; }
     public BenchmarkEvidenceContext? Context { get; init; }
@@ -166,7 +165,6 @@ internal sealed record BenchmarkResultJson
     public BenchmarkCostSource? CostSource { get; init; }
     public string? SettingLabel { get; init; }
     public string? ScoreOnlyLabel { get; init; }
-    public string? ScoreOnlyModelId { get; init; }
     public string? CostDerivation { get; init; }
     public BenchmarkSecondaryMetrics? SecondaryMetrics { get; init; }
     public BenchmarkEvidenceContext? Context { get; init; }
@@ -276,7 +274,6 @@ public sealed class BenchmarkEvidenceCatalog
                 CostSource = result.CostSource,
                 SettingLabel = result.SettingLabel,
                 ScoreOnlyLabel = result.ScoreOnlyLabel,
-                ScoreOnlyModelId = result.ScoreOnlyModelId is null ? null : ModelId.Of(result.ScoreOnlyModelId),
                 CostDerivation = result.CostDerivation,
                 SecondaryMetrics = result.SecondaryMetrics,
                 Context = result.Context,
@@ -328,12 +325,23 @@ public sealed class BenchmarkEvidenceCatalog
             throw new ArgumentException("Benchmark results require an absolute HTTP(S) source URL.", nameof(result));
         if (result.RetrievedAt < result.PublishedAt)
             throw new ArgumentException("A benchmark result cannot be retrieved before publication.", nameof(result));
-        if (result.ScoreOnlyModelId is { } scoreOnlyModelId && scoreOnlyModelId != result.ModelId)
-            throw new ArgumentException("A score-only model id must match the result model id.", nameof(result));
         if (result.CostDerivation is not null && string.IsNullOrWhiteSpace(result.CostDerivation))
             throw new ArgumentException("Cost derivation cannot be blank.", nameof(result));
         ValidateContext(result);
         var metrics = result.SecondaryMetrics;
+        if (result.BenchmarkTypeId.StartsWith("cost-frontier-", StringComparison.Ordinal))
+        {
+            if (result.CostSource is null || string.IsNullOrWhiteSpace(result.SettingLabel))
+                throw new ArgumentException("Cost Frontier results require cost source and setting label.", nameof(result));
+            if (result.CostSource == BenchmarkCostSource.Unavailable)
+            {
+                if (string.IsNullOrWhiteSpace(result.ScoreOnlyLabel) || metrics?.CostPerTaskUsd is not null)
+                    throw new ArgumentException("Score-only results require a label and no cost.", nameof(result));
+            }
+            else if (result.ScoreOnlyLabel is not null
+                || (result.CostSource == BenchmarkCostSource.Estimated) != (metrics?.CostPerTaskUsd is null))
+                throw new ArgumentException("Cost Frontier cost fields disagree with their source kind.", nameof(result));
+        }
         if (result.CostSource == BenchmarkCostSource.Unavailable && metrics?.CostPerTaskUsd is not null)
             throw new ArgumentException("A score-only result cannot publish a cost.", nameof(result));
         if (metrics?.InputTokensPerTask is < 0 || metrics?.OutputTokensPerTask is < 0

@@ -31,6 +31,13 @@ public class WebsiteCostFrontierDataTests
         Assert.Equal(rows.Length, sourcedRuns.Distinct(StringComparer.Ordinal).Count());
         Assert.DoesNotContain(rows, row => row.GetProperty("evidenceExcerpt").GetString()!.Contains("Sorry, you have been blocked", StringComparison.Ordinal));
         Assert.DoesNotContain(rows, row => row.GetProperty("evidenceExcerpt").GetString()!.Contains("VIEW BRAND KIT", StringComparison.Ordinal));
+        Assert.DoesNotContain(rows, row => row.GetProperty("evidenceExcerpt").GetString()!.Contains("TERMINAL-BENCH RUN BENCHMARKS BLOG", StringComparison.Ordinal));
+        Assert.All(rows.Where(row => row.GetProperty("costSource").GetString() == "unavailable"), row =>
+        {
+            Assert.True(row.TryGetProperty("settingLabel", out _));
+            Assert.True(row.TryGetProperty("scoreOnlyLabel", out _));
+            Assert.False(row.TryGetProperty("scoreOnlyModelId", out _));
+        });
     }
 
     [Fact]
@@ -82,7 +89,7 @@ public class WebsiteCostFrontierDataTests
         Assert.Equal(2, root.GetProperty("MISSIONS").EnumerateArray()
             .Count(item => item.TryGetProperty("check", out var check) && check.GetBoolean()));
         Assert.Equal(18, root.GetProperty("RELEASES").GetArrayLength());
-        Assert.Equal(16, root.GetProperty("B").EnumerateObject()
+        Assert.Equal(15, root.GetProperty("B").EnumerateObject()
             .Sum(item => item.Value.GetProperty("noCost").GetArrayLength()));
         Assert.True(root.GetProperty("RESTRICTED").TryGetProperty("carbon", out _));
 
@@ -171,7 +178,7 @@ public class WebsiteCostFrontierDataTests
             foreach (var rowId in benchmark.Value.GetProperty("displayScoreOnlyIds").EnumerateArray())
             {
                 var catalogRow = catalogRows[rowId.GetString()!];
-                Assert.Contains(catalogRow.GetProperty("scoreOnlyModelId").GetString()!, canonicalCurrent);
+                Assert.Contains(catalogRow.GetProperty("modelId").GetString()!, canonicalCurrent);
             }
         }
         foreach (var mission in root.GetProperty("MISSIONS").EnumerateArray())

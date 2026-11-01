@@ -3,7 +3,7 @@
   try {
     const response = await fetch('/token-economy/data/cost-frontier.json');
     if (!response.ok) throw new Error(`HTTP ${response.status}`);
-    const {AS_OF, M, V, EFFORTS, RUNGS, AA, CARD, REP, B, RESTRICTED, REFS, NAME_LINKS, EXTRA_LINKS, RELEASES, CATS, EVIDENCE, INSIGHTS, MISSIONS, LOADS, CURRENT: currentIds, MAJOR, PRICE_CLAIMS} = await response.json();
+    const {AS_OF, M, V, RUNGS, REP, B, RESTRICTED, REFS, NAME_LINKS, EXTRA_LINKS, RELEASES, CATS, EVIDENCE, INSIGHTS, MISSIONS, LOADS, CURRENT: currentIds} = await response.json();
     const CURRENT = new Set(currentIds);
 const $ = (s, r=document) => r.querySelector(s);
 const esc = v => String(v ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[c]);
