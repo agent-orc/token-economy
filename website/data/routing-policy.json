@@ -8,7 +8,7 @@
     "upstreamRepository": "agent-orc/agent-studio",
     "upstreamPath": "docs/system/domains/model-routing-policy.md",
     "contentSha256": "241781f1c62ee971643036a1287067d9d11e541787430debf03ff3cd5b3d1363",
-    "synchronization": "Token Economy 2026-10-21 revision adds selectable Sonnet 5.5 and documented CLI version gates for Sonnet 5.5 and Haiku 5.5. Defaults, score bands, correctness floors, priors and fallbacks remain unchanged. The policy text also documents the Antigravity provider and test-only Gemini pins. TE-62 and TE-63 catalogue changes are included. No upstream update is claimed."
+    "synchronization": "Token Economy 2026-10-21 revision adds selectable Sonnet 5.5 and documented CLI version gates for Sonnet 5.5 and Haiku 5.5. Defaults, score bands, correctness floors, priors and fallbacks remain unchanged. The policy text also documents the Antigravity provider and test-only Gemini pins. TE-62 and TE-63 catalogue changes are included. No upstream update is claimed. TE-72 adds catalog-only GPT-6.1 Terra (unsupported) and Gemini 4 Carbon (restricted); neither is selectable or used for a route, fallback, tier, or correctness floor."
   },
   "providers": [
     {
@@ -788,6 +788,48 @@
       "capabilityTier": "frontier",
       "workflowRoles": [],
       "note": "Known to the CLI/price catalog but not a route in policy version 2026-07-24."
+    },
+    {
+      "canonicalId": "gpt-6.1-terra",
+      "aliases": [],
+      "providerId": "openai",
+      "cliId": "codex",
+      "priceCatalogId": "gpt-6.1-terra",
+      "mediaCatalogModelId": "*",
+      "trustModelId": "gpt-6.1-terra",
+      "supportedThinkingLevels": [
+        "low",
+        "medium",
+        "high"
+      ],
+      "routingStatus": "unsupported",
+      "evidenceStatus": "unknown",
+      "provisional": false,
+      "capabilityTier": "frontier",
+      "workflowRoles": [],
+      "note": "Catalog coverage only; no policy selection.",
+      "testOnly": true
+    },
+    {
+      "canonicalId": "gemini-4-carbon",
+      "aliases": [],
+      "providerId": "google",
+      "cliId": "antigravity",
+      "priceCatalogId": "gemini-4-carbon",
+      "mediaCatalogModelId": "*",
+      "trustModelId": "gemini-4-carbon",
+      "supportedThinkingLevels": [
+        "low",
+        "medium",
+        "high"
+      ],
+      "routingStatus": "restricted",
+      "evidenceStatus": "unknown",
+      "provisional": false,
+      "capabilityTier": "frontier",
+      "workflowRoles": [],
+      "note": "Not generally available: Google gives access to a subset of cyber defenders and, gradually, trusted partners.",
+      "testOnly": true
     }
   ],
   "routes": [

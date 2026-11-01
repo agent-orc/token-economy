@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "generatedAtUtc": "2026-10-20T22:10:54.311289+00:00",
-  "asOfUtc": "2026-10-16T00:00:00Z",
+  "generatedAtUtc": "2026-11-01T18:55:23.093295+00:00",
+  "asOfUtc": "2026-11-01T00:00:00Z",
   "source": "ModelEfficiencyMatrix.Default.Describe(asOfUtc)",
   "priceCatalogPath": "src/TokenEconomy/catalog/model-prices.json",
   "routingPolicyPath": "src/TokenEconomy/catalog/model-routing-policy.json",
@@ -5530,6 +5530,132 @@
       "evidenceStatus": "unknown",
       "provisional": false,
       "testOnly": false
+    },
+    {
+      "displayName": "GPT-6.1 Terra",
+      "releaseDate": "2026-10-26",
+      "releaseDateSource": "https://openai.com/index/introducing-gpt-6-1-terra/",
+      "policy": {
+        "version": "2026-10-21",
+        "evidenceAsOfDate": "2026-10-21",
+        "reason": "Catalog coverage only; no policy selection.",
+        "workflowRoles": [],
+        "routes": [],
+        "fallbacks": []
+      },
+      "evidence": {
+        "external": [],
+        "taskStudies": [],
+        "assessment": null,
+        "taskStudiesAsOfDate": "2026-09-25"
+      },
+      "modelId": "gpt-6.1-terra",
+      "vendor": "openai",
+      "cli": "codex",
+      "tier": "frontier",
+      "costClass": "economy",
+      "price": {
+        "status": "resolved",
+        "currency": "USD",
+        "inputPerMTok": 1,
+        "outputPerMTok": 5,
+        "cachedInputPerMTok": 0.05,
+        "cachedInputUsesInputFallback": false,
+        "validFromUtc": "2026-10-26T00:00:00Z",
+        "promptSizeTiers": [],
+        "unconfirmed": false
+      },
+      "effortLevels": [
+        "low",
+        "medium",
+        "high"
+      ],
+      "suitability": {
+        "heavyDesign": "ideal",
+        "planning": "ideal",
+        "decisionMaking": "ideal",
+        "feature": "capable",
+        "mechanicalChore": "overkill",
+        "docEdit": "overkill",
+        "research": "capable",
+        "review": null,
+        "htmlUiImplementation": "ideal",
+        "sourceCodeReview": "overkill",
+        "securityAssessment": "ideal",
+        "redundancyDetection": "ideal",
+        "graphicalQualityJudgment": null,
+        "consistencyChecking": null
+      },
+      "restricted": false,
+      "deprecated": false,
+      "costUnconfirmed": false,
+      "selectionStatus": "unsupported",
+      "evidenceStatus": "unknown",
+      "provisional": false,
+      "testOnly": true
+    },
+    {
+      "displayName": "Gemini 4 Carbon",
+      "releaseDate": "2026-10-28",
+      "releaseDateSource": "https://blog.google/innovation-and-ai/models-and-research/gemini-models/introducing-gemini-4-carbon/",
+      "policy": {
+        "version": "2026-10-21",
+        "evidenceAsOfDate": "2026-10-21",
+        "reason": "Not generally available: Google gives access to a subset of cyber defenders and, gradually, trusted partners.",
+        "workflowRoles": [],
+        "routes": [],
+        "fallbacks": []
+      },
+      "evidence": {
+        "external": [],
+        "taskStudies": [],
+        "assessment": null,
+        "taskStudiesAsOfDate": "2026-09-25"
+      },
+      "modelId": "gemini-4-carbon",
+      "vendor": "google",
+      "cli": "antigravity",
+      "tier": "frontier",
+      "costClass": "premium",
+      "price": {
+        "status": "resolved",
+        "currency": "USD",
+        "inputPerMTok": 4,
+        "outputPerMTok": 20,
+        "cachedInputPerMTok": 4,
+        "cachedInputUsesInputFallback": true,
+        "validFromUtc": "2026-10-28T00:00:00Z",
+        "promptSizeTiers": [],
+        "unconfirmed": true
+      },
+      "effortLevels": [
+        "low",
+        "medium",
+        "high"
+      ],
+      "suitability": {
+        "heavyDesign": "ideal",
+        "planning": "ideal",
+        "decisionMaking": "ideal",
+        "feature": "capable",
+        "mechanicalChore": "overkill",
+        "docEdit": "overkill",
+        "research": "capable",
+        "review": null,
+        "htmlUiImplementation": "ideal",
+        "sourceCodeReview": "overkill",
+        "securityAssessment": "ideal",
+        "redundancyDetection": "ideal",
+        "graphicalQualityJudgment": null,
+        "consistencyChecking": null
+      },
+      "restricted": true,
+      "deprecated": false,
+      "costUnconfirmed": true,
+      "selectionStatus": "restricted",
+      "evidenceStatus": "unknown",
+      "provisional": false,
+      "testOnly": true
     }
   ]
 }

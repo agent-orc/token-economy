@@ -96,4 +96,10 @@ public static class KnownModels
     /// <summary>The canonical <c>gpt-5-codex</c> model id.</summary>
     public static readonly ModelId Gpt5Codex = ModelId.Of("gpt-5-codex");
 
+    /// <summary>The canonical <c>gpt-6.1-terra</c> model id.</summary>
+    public static readonly ModelId Gpt61Terra = ModelId.Of("gpt-6.1-terra");
+
+    /// <summary>The canonical <c>gemini-4-carbon</c> model id.</summary>
+    public static readonly ModelId Gemini4Carbon = ModelId.Of("gemini-4-carbon");
+
 }

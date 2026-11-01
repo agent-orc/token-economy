@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cost Frontier — Token Economy</title>
+<meta name="description" content="Explore benchmark scores, task costs, effort ladders, quality budgets and release evidence by capability.">
+<link rel="canonical" href="https://agent-orchestrator.dev/token-economy/cost-frontier/">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%232f6df0'/%3E%3Ctext x='32' y='44' text-anchor='middle' font-size='42' fill='white'%3E%C2%A2%3C/text%3E%3C/svg%3E">
+<link rel="stylesheet" href="/token-economy/navigation.css">
+<link rel="stylesheet" href="/token-economy/family-navigation.css?v=3">
+<link rel="stylesheet" href="/token-economy/cost-frontier/frontier.css">
+<script src="/token-economy/navigation.js" defer></script>
+</head>
+<body>
+<!-- site-navigation:start -->
+<a class="site-skip-link" href="#main-content">Skip to content</a>
+<header class="site-header" data-site-navigation>
+  <div class="site-header-main">
+    <a class="site-brand" href="/token-economy/" aria-label="Token Economy home"><span class="site-brand-mark" aria-hidden="true">¢</span><span>Token Economy</span></a>
+    <button class="site-menu-button" type="button" aria-label="Menu" aria-expanded="false" aria-controls="site-navigation-groups"><span>Menu</span><span class="site-menu-icon" aria-hidden="true"></span></button>
+    <nav class="site-primary-nav" aria-label="Primary navigation">
+      <div class="site-nav-groups" id="site-navigation-groups">
+        <a class="site-nav-direct" href="/token-economy/api/">API</a>
+        <div class="site-nav-group">
+          <button class="site-nav-heading" type="button" aria-expanded="false" aria-controls="site-nav-library">Guides</button>
+          <ul class="site-nav-menu" id="site-nav-library">
+            <li><a href="/token-economy/#why">Overview</a></li>
+            <li><a href="/token-economy/#suggest">Model compatibility</a></li>
+            <li><a href="/token-economy/#install">Install</a></li>
+            <li><a href="/token-economy/api/#costs">Calculate run costs</a></li>
+            <li><a href="/token-economy/api/#routing">Recommend a model</a></li>
+            <li><a href="/token-economy/#model-recommendation">Task complexity</a></li>
+          </ul>
+        </div>
+        <div class="site-nav-group">
+          <button class="site-nav-heading" type="button" aria-expanded="false" aria-controls="site-nav-evidence">Research</button>
+          <ul class="site-nav-menu" id="site-nav-evidence">
+            <li><a href="/token-economy/context-cost/">Context cost explorer</a></li>
+            <li><a href="/token-economy/price-history/">Prices &amp; history</a></li>
+            <li><a href="/token-economy/task-class-routing/">Task studies</a></li>
+            <li><a href="/token-economy/code-review/">Code review</a></li>
+            <li><a href="/token-economy/model-benchmarks/">Price × quality</a></li>
+            <li><a href="/token-economy/cost-frontier/">Cost frontier</a></li>
+            <li><a href="/token-economy/#benchmarks">Benchmarks</a></li>
+            <li><a href="/token-economy/evidence/agent-studio-usage/">Usage evidence</a></li>
+            <li><a href="/token-economy/cap-forecast/">Cap forecast</a></li>
+            <li><a href="/token-economy/provider-quota-dashboard/">Quota snapshot</a></li>
+          </ul>
+        </div>
+        <div class="site-nav-group">
+          <button class="site-nav-heading" type="button" aria-expanded="false" aria-controls="site-nav-project">Project</button>
+          <ul class="site-nav-menu" id="site-nav-project">
+            <li><a href="/token-economy/#family">Related projects</a></li>
+            <li><a href="https://github.com/agent-orc/token-economy">GitHub <span aria-hidden="true">↗</span></a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+    <div class="site-utilities" role="group" aria-label="Project and ecosystem links">
+      <a class="site-github-link" href="https://github.com/agent-orc/token-economy" aria-label="Token Economy on GitHub" title="Token Economy on GitHub">
+        <svg class="site-utility-icon" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82A7.65 7.65 0 0 1 8 3.87c.68 0 1.36.09 2 .26 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8Z"/></svg>
+        <span class="site-github-label">GitHub</span>
+      </a>
+      <a class="ao-family-link" data-family-link="3" href="https://agent-orchestrator.dev/" aria-label="Up to Agent Orchestrator (agent-orc)" title="Up to Agent Orchestrator">
+        <svg class="ao-family-up" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m3 8 5-5 5 5M8 3v11"/></svg>
+        <span class="ao-family-name">agent-orc</span>
+      </a>
+    </div>
+  </div>
+</header>
+<!-- site-navigation:end -->
+
+
+<section class="hero">
+  <div class="wrap">
+    <div class="brand">Token Economy</div>
+    <h1>What does one point of capability cost?</h1>
+    <p>Published benchmarks and real per-task bills, category by category. Move the budget line, play the effort ladder, find what the list price hides, then test yourself against the data. Every benchmark and lab announcement is linked.</p>
+  </div>
+</section>
+
+<div class="bar">
+  <div class="wrap">
+    <div class="tabs" role="tablist" aria-label="Views">
+      <button class="tab" role="tab" data-view="atlas" id="tab-atlas">Atlas</button>
+      <button class="tab" role="tab" data-view="missions" id="tab-missions">Missions</button>
+      <button class="tab" role="tab" data-view="mix" id="tab-mix">Quality dial</button>
+      <button class="tab" role="tab" data-view="releases" id="tab-releases">Releases</button>
+      <button class="tab" role="tab" data-view="sources" id="tab-sources">Sources</button>
+    </div>
+    <div class="hud" aria-live="polite">
+      <span>Insights <b id="hud-ins">0/0</b></span>
+      <span>Best run <b id="hud-best">none</b></span>
+    </div>
+  </div>
+</div>
+
+<main class="wrap" id="main-content" tabindex="-1">
+  <section class="view" id="view-atlas"></section>
+  <section class="view" id="view-missions" hidden></section>
+  <section class="view" id="view-mix" hidden></section>
+  <section class="view" id="view-releases" hidden></section>
+  <section class="view" id="view-sources" hidden></section>
+</main>
+<div id="toast-host" aria-live="polite"></div>
+
+
+<script src="/token-economy/cost-frontier/frontier.js" defer></script>
+</body>
+</html>

@@ -135,6 +135,18 @@ public sealed record ModelListing
     /// <summary>Primary source supporting <see cref="ReleaseDate"/>, or null when unknown.</summary>
     public string? ReleaseDateSource { get; init; }
 
+    /// <summary>Lab announcement and its provenance, separate from the price effective date.</summary>
+    public ModelReleasePost? ReleasePost { get; init; }
+
+    /// <summary>Public access status at the catalog snapshot.</summary>
+    public string? Availability { get; init; }
+
+    /// <summary>Why access is limited, when availability is restricted.</summary>
+    public string? AvailabilityNote { get; init; }
+
+    /// <summary>Competing or absent public price claims kept beside the selected tariff.</summary>
+    public IReadOnlyList<ModelPriceClaim> PriceClaims { get; init; } = [];
+
     /// <summary>Alternate ids that resolve to this listing (dated snapshots, spelling variants, …). Matched case- and dot/dash-insensitively.</summary>
     public IReadOnlyList<string> Aliases { get; init; } = [];
 
@@ -146,6 +158,38 @@ public sealed record ModelListing
 
     /// <summary>Optional note explaining the listing — e.g. that pricing is not yet published, or that a tier is deprecated.</summary>
     public string? Note { get; init; }
+}
+
+/// <summary>A lab's dated release post and its claim.</summary>
+public sealed record ModelReleasePost
+{
+    /// <summary>Post title.</summary>
+    public required string Title { get; init; }
+    /// <summary>Direct lab post URL.</summary>
+    public required string Url { get; init; }
+    /// <summary>Publication date or approximate observed date.</summary>
+    public required DateOnly Date { get; init; }
+    /// <summary>Whether the date is approximate.</summary>
+    public bool Approximate { get; init; }
+    /// <summary>Lab claim, never an independent measurement.</summary>
+    public string? Claim { get; init; }
+    /// <summary>General or restricted availability at publication.</summary>
+    public required string Availability { get; init; }
+}
+
+/// <summary>One dated observation about a public price, including a missing listing.</summary>
+public sealed record ModelPriceClaim
+{
+    /// <summary>Direct source for the observation.</summary>
+    public required string SourceUrl { get; init; }
+    /// <summary>Date the source was checked.</summary>
+    public required DateOnly RetrievedAt { get; init; }
+    /// <summary>Input price per million tokens, when listed.</summary>
+    public decimal? InputPerMTok { get; init; }
+    /// <summary>Output price per million tokens, when listed.</summary>
+    public decimal? OutputPerMTok { get; init; }
+    /// <summary>Short source observation or access limit.</summary>
+    public required string Observation { get; init; }
 }
 
 /// <summary>

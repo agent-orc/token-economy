@@ -1,15 +1,15 @@
 {
   "schemaVersion": 1,
-  "generatedAtUtc": "2026-10-20T22:10:58.016191+00:00",
-  "asOfUtc": "2026-10-16T00:00:00Z",
+  "generatedAtUtc": "2026-11-01T18:55:23.201546+00:00",
+  "asOfUtc": "2026-11-01T00:00:00Z",
   "currency": "USD",
   "unit": "per-million-tokens",
   "source": "src/TokenEconomy/catalog/model-prices.json",
   "scope": "Direct-provider standard text-token rates, including catalogued prompt-size tiers; Anthropic 5-minute cache writes. Other service tiers require explicit custom rates.",
   "coverage": {
-    "catalogModels": 30,
-    "pricedModels": 30,
-    "pricePeriods": 35
+    "catalogModels": 32,
+    "pricedModels": 32,
+    "pricePeriods": 37
   },
   "models": [
     {
@@ -1066,6 +1066,61 @@
           "validFromBasis": "provider-announced-date",
           "note": "Historical API tariff; API launch September 23 followed ChatGPT-sign-in release September 15. Provider says API price equals GPT-5. API shut down July 23, 2026; open price period must not imply present availability. Dates are normalized to midnight UTC from provider calendar-day announcements; exact intraday billing cutover was not published. API became available on 2025-09-23 after Codex subscription access on 2025-09-15; direct API retired on 2026-07-23. Historical price resolution does not imply present availability.",
           "unconfirmed": false
+        }
+      ]
+    },
+    {
+      "modelId": "gpt-6.1-terra",
+      "displayName": "GPT-6.1 Terra",
+      "vendor": "openai",
+      "releaseDate": "2026-10-26",
+      "releaseDateSource": "https://openai.com/index/introducing-gpt-6-1-terra/",
+      "note": null,
+      "selectionStatus": "unsupported",
+      "testOnly": true,
+      "deprecated": false,
+      "history": [
+        {
+          "validFrom": "2026-10-26T00:00:00Z",
+          "inputPerMTok": 1,
+          "outputPerMTok": 5,
+          "cacheReadPerMTok": 0.05,
+          "currency": "USD",
+          "source": "Cost Frontier source check, 2026-11-01. https://openai.com/index/introducing-gpt-6-1-terra/",
+          "sourceUrls": [
+            "https://openai.com/index/introducing-gpt-6-1-terra/"
+          ],
+          "verifiedOn": "2026-11-01",
+          "validFromBasis": "provider-announced-date",
+          "unconfirmed": false,
+          "note": "Benchmark exploration price; check source before billing."
+        }
+      ]
+    },
+    {
+      "modelId": "gemini-4-carbon",
+      "displayName": "Gemini 4 Carbon",
+      "vendor": "google",
+      "releaseDate": "2026-10-28",
+      "releaseDateSource": "https://blog.google/innovation-and-ai/models-and-research/gemini-models/introducing-gemini-4-carbon/",
+      "note": null,
+      "selectionStatus": "restricted",
+      "testOnly": true,
+      "deprecated": false,
+      "history": [
+        {
+          "validFrom": "2026-10-28T00:00:00Z",
+          "inputPerMTok": 4,
+          "outputPerMTok": 20,
+          "currency": "USD",
+          "source": "Cost Frontier source check, 2026-11-01. https://artificialanalysis.ai/articles/gemini-4-carbon-new-number-1",
+          "sourceUrls": [
+            "https://artificialanalysis.ai/articles/gemini-4-carbon-new-number-1"
+          ],
+          "verifiedOn": "2026-11-01",
+          "validFromBasis": "provider-announced-date",
+          "unconfirmed": true,
+          "note": "Carbon conflict: Artificial Analysis $4/$20; Arena $2/$10; Google pricing did not list Carbon."
         }
       ]
     }

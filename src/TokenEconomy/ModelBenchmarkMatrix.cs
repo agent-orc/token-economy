@@ -37,6 +37,7 @@ public sealed record BenchmarkTokenPrices
 public enum BenchmarkCostBasis
 {
     PublishedPerTask,
+    ChartRead,
     DeclaredTokenAssumption,
     Unavailable,
 }
@@ -51,6 +52,7 @@ public sealed record ModelBenchmarkCell
     public long? PublishedInputTokensPerTask { get; init; }
     public long? PublishedOutputTokensPerTask { get; init; }
     public decimal? PublishedCostPerTaskUsd { get; init; }
+    public decimal? ChartReadCostPerTaskUsd { get; init; }
     public decimal? CostPerTaskUsd { get; init; }
     public required BenchmarkCostBasis CostBasis { get; init; }
     public decimal? BlendedPricePerMillionTokensUsd { get; init; }
@@ -150,17 +152,23 @@ public sealed class ModelBenchmarkMatrix
                 : weights.Sum(weight => Normalize(chosen[weight.BenchmarkTypeId].Score, typeById[weight.BenchmarkTypeId]) * weight.Weight)
                     / weights.Sum(weight => weight.Weight);
             var single = weights.Length == 1 ? chosen[weights[0].BenchmarkTypeId] : null;
-            var publishedCosts = chosen.Values.Select(result => result.SecondaryMetrics?.CostPerTaskUsd).ToArray();
-            decimal? publishedCost = single?.SecondaryMetrics?.CostPerTaskUsd;
-            if (weights.Length > 1 && publishedCosts.All(cost => cost is not null))
+            var publishedCosts = chosen.Values.Select(result => result.CostSource == BenchmarkCostSource.ChartRead
+                ? null : result.SecondaryMetrics?.CostPerTaskUsd).ToArray();
+            decimal? chartReadCost = single?.CostSource == BenchmarkCostSource.ChartRead
+                ? single.SecondaryMetrics?.CostPerTaskUsd : null;
+            decimal? publishedCost = single?.CostSource == BenchmarkCostSource.ChartRead
+                ? null : single?.SecondaryMetrics?.CostPerTaskUsd;
+            if (weights.Length > 1 && publishedCosts.All(value => value is not null))
                 publishedCost = weights.Sum(weight => chosen[weight.BenchmarkTypeId].SecondaryMetrics!.CostPerTaskUsd!.Value * weight.Weight)
                     / weights.Sum(weight => weight.Weight);
 
             var price = _prices.ResolvePrice(group.Key.ModelId, asOfUtc);
             var assumed = _prices.ComputeCost(group.Key.ModelId, tokenAssumption.ToUsage(), asOfUtc);
-            var cost = publishedCost ?? assumed.Total;
-            var costBasis = publishedCost is not null
-                ? BenchmarkCostBasis.PublishedPerTask
+            var scoreOnly = single?.CostSource == BenchmarkCostSource.Unavailable;
+            var cost = scoreOnly ? null : chartReadCost ?? publishedCost ?? assumed.Total;
+            var costBasis = scoreOnly ? BenchmarkCostBasis.Unavailable : chartReadCost is not null
+                ? BenchmarkCostBasis.ChartRead
+                : publishedCost is not null ? BenchmarkCostBasis.PublishedPerTask
                 : assumed.Total is not null ? BenchmarkCostBasis.DeclaredTokenAssumption : BenchmarkCostBasis.Unavailable;
             var ages = chosen.Values.Select(result => Math.Max(0, DateOnly.FromDateTime(asOfUtc).DayNumber - result.PublishedAt.DayNumber)).ToArray();
             cells.Add(new ModelBenchmarkCell
@@ -173,6 +181,7 @@ public sealed class ModelBenchmarkMatrix
                 PublishedInputTokensPerTask = single?.SecondaryMetrics?.InputTokensPerTask,
                 PublishedOutputTokensPerTask = single?.SecondaryMetrics?.OutputTokensPerTask,
                 PublishedCostPerTaskUsd = publishedCost,
+                ChartReadCostPerTaskUsd = chartReadCost,
                 CostPerTaskUsd = cost,
                 CostBasis = costBasis,
                 BlendedPricePerMillionTokensUsd = assumed.Total is null
