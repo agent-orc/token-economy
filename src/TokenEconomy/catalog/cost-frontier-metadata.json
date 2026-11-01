@@ -1,38 +1,38 @@
 {
-  "AS_OF": "2026-11-01",
-  "V": {
-    "a": [
+  "asOf": "2026-11-01",
+  "vendors": {
+    "anthropic": [
       "Anthropic",
       "var(--anthropic)"
     ],
-    "o": [
+    "openai": [
       "OpenAI",
       "var(--openai)"
     ],
-    "g": [
+    "google": [
       "Google",
       "var(--google)"
     ],
-    "x": [
+    "other": [
       "Other labs",
       "var(--other)"
     ]
   },
-  "RUNGS": [
+  "rungs": [
     "rung 1",
     "rung 2",
     "rung 3",
     "rung 4",
     "rung 5"
   ],
-  "REP": {
+  "reporters": {
     "owner": "Benchmark owner",
     "vendor": "Vendor claim",
     "third": "Third-party aggregator",
     "own": "Own controlled run",
     "mixed": "Mixed reporters"
   },
-  "REFS": {
+  "references": {
     "aacode": [
       [
         "Benchmark",
@@ -228,7 +228,7 @@
       ]
     ]
   },
-  "NAME_LINKS": [
+  "nameLinks": [
     [
       "Coding Agent Index",
       "aacode"
@@ -294,7 +294,7 @@
       "rabbit"
     ]
   ],
-  "EXTRA_LINKS": {
+  "extraLinks": {
     "Terminal-Bench 2.0": "https://www.tbench.ai/",
     "Terminal-Bench 4.0": "https://www.tbench.ai/",
     "Intelligence Index v5": "https://artificialanalysis.ai/methodology/intelligence-benchmarking",
@@ -304,7 +304,7 @@
     "SWE-Atlas-QnA-AA": "https://huggingface.co/datasets/ArtificialAnalysis/SWE-Atlas-QnA-AA",
     "SWE-Atlas-QnA": "https://labs.scale.com/leaderboard/sweatlas-qna"
   },
-  "CATS": [
+  "categories": [
     {
       "id": "reasoning",
       "name": "Reasoning",
@@ -370,7 +370,7 @@
       ]
     }
   ],
-  "EVIDENCE": {
+  "evidence": {
     "language": {
       "title": "Translation and German: what exists",
       "body": "<p>The only recent translation test with a linguist in the loop is Alconost's, and it reports model families, not versions. It sells post-editing, and one linguist grades each sample.</p>\n    <div class=\"tbl-scroll\"><table><thead><tr><th>Family</th><th class=\"r\">Overall AQI</th><th class=\"r\">en to de</th></tr></thead><tbody>\n    <tr><td>Gemini</td><td class=\"r num\">77.7</td><td class=\"r num\">77.0 (n=15)</td></tr><tr><td>Claude</td><td class=\"r num\">75.6</td><td class=\"r num\">78.2 (n=18)</td></tr><tr><td>GPT</td><td class=\"r num\">73.1</td><td class=\"r\">not shown</td></tr><tr><td>DeepL</td><td class=\"r num\">70.8</td><td class=\"r\">not shown</td></tr><tr><td>Grok</td><td class=\"r num\">70.3</td><td class=\"r\">not shown</td></tr></tbody></table></div>\n    <p>The source calls gaps under 2 points sample variance, so Claude and Gemini are level for German. The Token Economy language rubric has 22 seeded rows and no measurement yet. <a href=\"https://alconost.com/en/blog/best-llm-for-translation-2026\" target=\"_blank\" rel=\"noopener\">Alconost, May 2026</a></p>"
@@ -380,7 +380,7 @@
       "body": "<p>We found no independent classification benchmark that covers the current models. Three small signals:</p>\n    <ul class=\"notes\"><li><b>Invoice decisions (24 cases):</b> Haiku 5.5 and GPT-6 Luna both scored 24 of 24. The run cost $0.0095 and $0.0051, about $0.40 and $0.21 per 1,000. <a href=\"https://www.datacamp.com/blog/claude-haiku-5-5-vs-gpt-6-luna\" target=\"_blank\" rel=\"noopener\">DataCamp</a></li>\n    <li><b>Feedback labelling (12,000 records, older models):</b> Sonnet 4.6 had the top F1 at 0.829 for $78.69. Grok-4-fast cost $4.79. Sonnet's composite was only 3.7% higher. Read from a search summary, because the <a href=\"https://bigideasdb.com/llm-benchmark-pain-point-extraction\" target=\"_blank\" rel=\"noopener\">study page</a> refused our fetch.</li>\n    <li><b>Reading:</b> label a few hundred of your own items and test the cheapest models first. Small models often reach the ceiling on clear rules.</li></ul>"
     }
   },
-  "INSIGHTS": [
+  "insights": [
     {
       "id": "unbuyable",
       "t": "The leader you cannot buy",
@@ -575,7 +575,7 @@
       "x": "On Chartography, Opus 5.5 goes from about $0.025 for 59% to about $0.49 for 64%. That is twenty times the cost for five points. Fable 5.1 even falls at its top rung."
     }
   ],
-  "MISSIONS": [
+  "missions": [
     {
       "t": "The support assistant",
       "bench": "aa5",
@@ -859,7 +859,7 @@
       "lesson": "GPT-6.1 Sol at max solves 94.2% for 25 cents. Opus 5.5 at medium costs more and solves 87.5%. Its best setting is high, at 41 cents and 93.3%, and raising effort to max lowers the score."
     }
   ],
-  "LOADS": [
+  "loads": [
     {
       "b": "aa5",
       "label": "General assistant tasks",
@@ -1567,7 +1567,7 @@
   "externalModels": {
     "grok-4.7": {
       "displayName": "Grok 4.7",
-      "vendor": "x",
+      "vendor": "other",
       "releasePost": {
         "title": "Introducing Grok 4.7",
         "url": "https://x.ai/news/grok-4-7",
@@ -1583,7 +1583,7 @@
     },
     "grok-4.6": {
       "displayName": "Grok 4.6",
-      "vendor": "x",
+      "vendor": "other",
       "releasePost": {
         "title": "Introducing Grok 4.6",
         "url": "https://x.ai/news/grok-4-6",
@@ -1599,7 +1599,7 @@
     },
     "ds-4.1f": {
       "displayName": "DeepSeek V4.1 Flash",
-      "vendor": "x",
+      "vendor": "other",
       "releasePost": {
         "title": "DeepSeek-V4.1-Flash: Smarter, Faster, More Efficient",
         "url": "https://api-docs.deepseek.com/news/news260910/",
@@ -1615,7 +1615,7 @@
     },
     "ds-4p": {
       "displayName": "DeepSeek V4 Pro",
-      "vendor": "x",
+      "vendor": "other",
       "releasePost": {
         "title": "DeepSeek-V4-Pro GA Release",
         "url": "https://api-docs.deepseek.com/news/news260813/",
@@ -1631,14 +1631,14 @@
     },
     "ds-4f": {
       "displayName": "DeepSeek V4 Flash",
-      "vendor": "x",
+      "vendor": "other",
       "releasePost": null,
       "availability": "general",
       "lifecycleStatus": "superseded"
     },
     "qwen-3.8": {
       "displayName": "Qwen3.8 Max",
-      "vendor": "x",
+      "vendor": "other",
       "releasePost": {
         "title": "Qwen3.8-Max: A New Bar for Coding and Cowork",
         "url": "https://qwen.ai/blog?id=qwen3.8",
@@ -1652,7 +1652,7 @@
     },
     "kimi-3.1": {
       "displayName": "Kimi K3.1 Pro",
-      "vendor": "x",
+      "vendor": "other",
       "releasePost": {
         "title": "Kimi K3.1 Pro Tech Blog: Advancing Open Intelligence",
         "url": "https://www.kimi.com/en/blog/kimi-k3-1-pro",
@@ -1666,7 +1666,7 @@
     },
     "glm-5.3": {
       "displayName": "GLM-5.3",
-      "vendor": "x",
+      "vendor": "other",
       "releasePost": {
         "title": "GLM-5.3: Frontier Coding with Emergent Cyber Capabilities",
         "url": "https://z.ai/blog/glm-5.3",
@@ -1682,7 +1682,7 @@
     },
     "mimo-p": {
       "displayName": "MiMo-V2.6-Pro",
-      "vendor": "x",
+      "vendor": "other",
       "releasePost": {
         "title": "MiMo-V2.6",
         "url": "https://mimo.xiaomi.com/mimo-v2-6",
@@ -1696,7 +1696,7 @@
     },
     "mimo-f": {
       "displayName": "MiMo-V2.6-Flash",
-      "vendor": "x",
+      "vendor": "other",
       "releasePost": {
         "title": "MiMo-V2.6",
         "url": "https://mimo.xiaomi.com/mimo-v2-6",

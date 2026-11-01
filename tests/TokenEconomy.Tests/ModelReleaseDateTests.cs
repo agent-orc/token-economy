@@ -11,13 +11,10 @@ public sealed class ModelReleaseDateTests
     {
         foreach (var listing in ModelPriceCatalog.Default.Listings)
         {
-            if (listing.ReleaseDate is null)
-            {
-                Assert.Null(listing.ReleaseDateSource);
-                continue;
-            }
+            Assert.NotNull(listing.ReleaseDate);
             Assert.True(Uri.TryCreate(listing.ReleaseDateSource, UriKind.Absolute, out var source));
             Assert.Equal("https", source!.Scheme);
+            Assert.Contains(source.Host, new[] { "platform.claude.com", "openai.com", "developers.openai.com", "ai.google.dev", "www.antigravity.google", "blog.google" });
             using var json = JsonDocument.Parse(JsonSerializer.Serialize(listing, new JsonSerializerOptions(JsonSerializerDefaults.Web)));
             Assert.Equal(listing.ReleaseDate.Value.ToString("yyyy-MM-dd"), json.RootElement.GetProperty("releaseDate").GetString());
             Assert.Equal(listing.ReleaseDateSource, json.RootElement.GetProperty("releaseDateSource").GetString());
@@ -36,14 +33,18 @@ public sealed class ModelReleaseDateTests
         Assert.Equal(new DateOnly(2026, 10, 13), catalog.Find("gemini-4-argon-high")!.ReleaseDate);
         Assert.Equal(new DateOnly(2026, 10, 13), catalog.Find(KnownModels.Gemini4Argon)!.ReleaseDate);
         Assert.Equal(new DateOnly(2026, 10, 7), catalog.Find(KnownModels.ClaudeHaiku55)!.ReleaseDate);
-        var newest = catalog.Listings.OrderByDescending(listing => listing.ReleaseDate).ToArray();
+        var newest = catalog.Listings.OrderByDescending(listing => listing.ReleaseDate)
+            .ThenBy(listing => listing.ModelId, StringComparer.Ordinal).ToArray();
         Assert.Equal(
             [KnownModels.Gemini4Carbon.Value, KnownModels.Gpt61Terra.Value, KnownModels.Gemini4Argon.Value,
-                KnownModels.ClaudeHaiku55.Value, KnownModels.Gpt61Sol.Value],
-            newest.Take(5).Select(listing => listing.ModelId));
-        Assert.True(Array.FindIndex(newest, listing => listing.ModelId == KnownModels.Gpt6Astra.Value)
-            < Array.FindIndex(newest, listing => listing.ModelId == KnownModels.ClaudeFable51.Value));
-        Assert.Equal(KnownModels.ClaudeOpus41.Value, newest.Last(listing => listing.ReleaseDate is not null).ModelId);
+                KnownModels.ClaudeHaiku55.Value, KnownModels.Gpt61Sol.Value,
+                KnownModels.ClaudeSonnet55.Value, KnownModels.ClaudeOpus55.Value,
+                KnownModels.Gpt6Luna.Value, KnownModels.Gpt6Sol.Value,
+                KnownModels.Gpt6Astra.Value],
+            newest.Take(10).Select(listing => listing.ModelId));
+        Assert.Equal([KnownModels.ClaudeFable51.Value, KnownModels.Gemini38Flash.Value],
+            newest.Skip(10).Take(2).Select(listing => listing.ModelId));
+        Assert.Equal(KnownModels.ClaudeOpus41.Value, newest[^1].ModelId);
     }
 
     [Fact]

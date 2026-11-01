@@ -186,10 +186,10 @@ See the [intake guide](../docs/human-friendly-language.md) for the importer.
 
 `cost-frontier/` is the interactive benchmark atlas. It fetches
 `data/cost-frontier.json` and makes no third-party requests. The generated file
-joins append-only benchmark evidence, dated list prices, release posts and the
+joins curated Cost Frontier evidence, dated list prices, release posts and the
 editorial/interaction catalog in `src/TokenEconomy/catalog/cost-frontier-metadata.json`.
 The catalog's `lifecycleStatus` selects current models before generation. The
-generator checks selected evidence row IDs, rejects superseded rows, and
+generator checks that every Cost Frontier row is selected once, rejects superseded rows, and
 requires each current model on a chart or in a documented gap list. Eight
 categories, 16 insights, ten missions, the Quality dial, and current release
 posts are included. Refresh live boards monthly and after model or board

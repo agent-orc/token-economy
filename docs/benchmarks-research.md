@@ -130,7 +130,7 @@ not measured benchmark usage.
 
 ## Cost Frontier snapshot (2026-11-01)
 
-The [Cost Frontier](/token-economy/cost-frontier/) uses append-only rows with
+The [Cost Frontier](/token-economy/cost-frontier/) uses curated evidence rows with
 `costSource` set to `measured`, `chartRead`, or `estimated`. `chartRead` is reserved
 for figures 8.13.1.B and 8.13.3.B in the [Claude Opus 5.5 system card](https://www-cdn.anthropic.com/fc1b44717c85dc068bc6ba5024219938094694bd/Claude%20Opus%205.5%20System%20Card.pdf),
 with about ±5% cost reading uncertainty. Estimated rows carry no measured cost;
@@ -154,10 +154,11 @@ leaderboard rows. OpenAI announcements returned 403 to plain HTTP clients.
 
 The Cost Frontier projects only models whose catalog `lifecycleStatus` is
 `current`. Each current model must appear in a displayed chart or score-only
-strip, or in an explicit gap list; `--check` rejects an omitted current model,
-any selected superseded row, and generated-data drift. Old result records remain
-append-only. The selected row IDs in `cost-frontier-metadata.json` pin the
-published snapshot without deleting historical evidence. The page keeps eight
+strip, or in an explicit gap list; generation rejects an omitted current model,
+any selected superseded row, and orphaned Cost Frontier rows. TE-73 removed 73
+unselected rows, including duplicate or boilerplate observations, and five
+empty benchmark definitions. The selected row IDs in
+`cost-frontier-metadata.json` pin every remaining Cost Frontier result. The page keeps eight
 categories. OSWorld-Verified and CyScenarioBench no longer have enough current
 model rows for a chart; CodeRabbit and our code-review and HTML UI pilots also
 drop out. The pilots still run on GPT-5.6. CyberGym is the prototype's one
