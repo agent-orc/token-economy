@@ -66,7 +66,8 @@ public sealed record BenchmarkType
     public required string Name { get; init; }
     public required string Publisher { get; init; }
     public required BenchmarkCapabilityClass CapabilityClass { get; init; }
-    public bool AllowUnpricedModels { get; init; }
+    /// <summary>Explicit benchmark-only model identifiers absent from the price catalog.</summary>
+    public IReadOnlyList<string> AllowedUnpricedModelIds { get; init; } = [];
     public required string Unit { get; init; }
     public required decimal MinimumScore { get; init; }
     public required decimal MaximumScore { get; init; }
@@ -165,6 +166,8 @@ internal sealed record BenchmarkResultJson
     public BenchmarkCostSource? CostSource { get; init; }
     public string? SettingLabel { get; init; }
     public string? ScoreOnlyLabel { get; init; }
+    public string? ScoreOnlyModelId { get; init; }
+    public string? CostDerivation { get; init; }
     public BenchmarkSecondaryMetrics? SecondaryMetrics { get; init; }
     public BenchmarkEvidenceContext? Context { get; init; }
     public required DateOnly PublishedAt { get; init; }
@@ -216,7 +219,8 @@ public sealed class BenchmarkEvidenceCatalog
                 throw new ArgumentException($"Duplicate benchmark result id '{result.Id}'.", nameof(results));
             if (!_typesById.TryGetValue(result.BenchmarkTypeId, out var type))
                 throw new ArgumentException($"Unknown benchmark type '{result.BenchmarkTypeId}'.", nameof(results));
-            if (modelCatalog.Find(result.ModelId) is null && !type.AllowUnpricedModels)
+            if (modelCatalog.Find(result.ModelId) is null
+                && !type.AllowedUnpricedModelIds.Contains(result.ModelId.Value, StringComparer.Ordinal))
                 throw new ArgumentException($"Unknown benchmark model '{result.ModelId}'.", nameof(results));
             if (result.Score < type.MinimumScore || result.Score > type.MaximumScore)
                 throw new ArgumentException($"Result '{result.Id}' score is outside the benchmark range.", nameof(results));
@@ -260,6 +264,8 @@ public sealed class BenchmarkEvidenceCatalog
                 CostSource = result.CostSource,
                 SettingLabel = result.SettingLabel,
                 ScoreOnlyLabel = result.ScoreOnlyLabel,
+                ScoreOnlyModelId = result.ScoreOnlyModelId is null ? null : ModelId.Of(result.ScoreOnlyModelId),
+                CostDerivation = result.CostDerivation,
                 SecondaryMetrics = result.SecondaryMetrics,
                 Context = result.Context,
                 PublishedAt = result.PublishedAt,
@@ -286,6 +292,9 @@ public sealed class BenchmarkEvidenceCatalog
         Require(type.Publisher, nameof(type.Publisher));
         Require(type.Unit, nameof(type.Unit));
         Require(type.CitationNote, nameof(type.CitationNote));
+        if (type.AllowedUnpricedModelIds.Any(string.IsNullOrWhiteSpace)
+            || type.AllowedUnpricedModelIds.Distinct(StringComparer.Ordinal).Count() != type.AllowedUnpricedModelIds.Count)
+            throw new ArgumentException("Allowed unpriced model ids must be distinct and non-empty.", nameof(type));
         if (type.MaximumScore <= type.MinimumScore)
             throw new ArgumentException("A benchmark score range must be increasing.", nameof(type));
         if (!AbsoluteHttpUri(type.MethodologyUrl))
@@ -307,6 +316,10 @@ public sealed class BenchmarkEvidenceCatalog
             throw new ArgumentException("Benchmark results require an absolute HTTP(S) source URL.", nameof(result));
         if (result.RetrievedAt < result.PublishedAt)
             throw new ArgumentException("A benchmark result cannot be retrieved before publication.", nameof(result));
+        if (result.ScoreOnlyModelId is { } scoreOnlyModelId && scoreOnlyModelId != result.ModelId)
+            throw new ArgumentException("A score-only model id must match the result model id.", nameof(result));
+        if (result.CostDerivation is not null && string.IsNullOrWhiteSpace(result.CostDerivation))
+            throw new ArgumentException("Cost derivation cannot be blank.", nameof(result));
         ValidateContext(result);
         var metrics = result.SecondaryMetrics;
         if (result.CostSource == BenchmarkCostSource.Unavailable && metrics?.CostPerTaskUsd is not null)

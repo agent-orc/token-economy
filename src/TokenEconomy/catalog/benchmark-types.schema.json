@@ -29,7 +29,11 @@
         "name": { "type": "string", "minLength": 1 },
         "publisher": { "type": "string", "minLength": 1 },
         "capabilityClass": { "enum": ["codingAgent", "reasoning", "instructionFollowing", "longContext", "controlledSetup", "codeReview", "computerUse", "security", "language", "extraction", "knowledgeWork", "vision"] },
-        "allowUnpricedModels": { "type": "boolean" },
+        "allowedUnpricedModelIds": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": { "type": "string", "minLength": 1 }
+        },
         "unit": { "type": "string", "minLength": 1 },
         "minimumScore": { "type": "number" },
         "maximumScore": { "type": "number" },

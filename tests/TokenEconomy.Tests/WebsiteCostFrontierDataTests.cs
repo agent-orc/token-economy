@@ -8,6 +8,25 @@ namespace TokenEconomy.Tests;
 public class WebsiteCostFrontierDataTests
 {
     [Fact]
+    public void FrontierCatalogHasNoPlaceholderModelsOrDuplicateObservations()
+    {
+        using var document = JsonDocument.Parse(File.ReadAllBytes(Path.Combine(
+            RepositoryRoot(), "src", "TokenEconomy", "catalog", "benchmark-results.json")));
+        var rows = document.RootElement.GetProperty("records").EnumerateArray()
+            .Where(row => row.GetProperty("benchmarkTypeId").GetString()!.StartsWith("cost-frontier-", StringComparison.Ordinal))
+            .ToArray();
+        Assert.DoesNotContain(rows, row => row.GetProperty("modelId").GetString() == "unpriced-score-only");
+        var observations = rows.Select(row => string.Join('|',
+            row.GetProperty("benchmarkTypeId").GetString(), row.GetProperty("modelId").GetString(),
+            row.GetProperty("reasoningEffort").GetString(), row.GetProperty("score").GetRawText(),
+            row.TryGetProperty("settingLabel", out var setting) ? setting.GetString() : null,
+            row.TryGetProperty("costSource", out var source) ? source.GetString() : null,
+            row.GetProperty("sourceUrl").GetString(),
+            row.TryGetProperty("secondaryMetrics", out var metrics) ? metrics.GetRawText() : null));
+        Assert.Equal(rows.Length, observations.Distinct(StringComparer.Ordinal).Count());
+    }
+
+    [Fact]
     public void ChartReadCostsNeverAppearAsPublishedMeasurements()
     {
         var matrix = ModelBenchmarkMatrix.Default.Build("cost-frontier-osw2",

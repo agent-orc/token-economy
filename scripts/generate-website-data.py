@@ -1231,7 +1231,9 @@ def create_cost_frontier_payload() -> dict:
     if not gaps <= current or current - used_models - gaps:
         raise ValueError(f"Current frontier models lack chart or gap coverage: {sorted(current - used_models - gaps)}")
     for bench in benches.values():
-        if len({row[0] for row in bench["rows"]}) < 2 and bench["short"] != "CyberGym":
+        priced = {row[0] for row in bench["rows"]}
+        score_only = {row[0] for row in bench["noCost"]}
+        if len(priced | score_only) < 2:
             raise ValueError(f"Frontier benchmark has fewer than two current rows: {bench['short']}")
     releases = []
     def release_post(short: str) -> dict | None:
