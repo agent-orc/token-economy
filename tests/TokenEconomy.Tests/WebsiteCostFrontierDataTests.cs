@@ -24,6 +24,13 @@ public class WebsiteCostFrontierDataTests
             row.GetProperty("sourceUrl").GetString(),
             row.TryGetProperty("secondaryMetrics", out var metrics) ? metrics.GetRawText() : null));
         Assert.Equal(rows.Length, observations.Distinct(StringComparer.Ordinal).Count());
+        var sourcedRuns = rows.Select(row => string.Join('|',
+            row.GetProperty("benchmarkTypeId").GetString(), row.GetProperty("modelId").GetString(),
+            row.TryGetProperty("settingLabel", out var setting) ? setting.GetString() : row.GetProperty("reasoningEffort").GetString(),
+            row.GetProperty("sourceUrl").GetString(), row.GetProperty("publishedAt").GetString()));
+        Assert.Equal(rows.Length, sourcedRuns.Distinct(StringComparer.Ordinal).Count());
+        Assert.DoesNotContain(rows, row => row.GetProperty("evidenceExcerpt").GetString()!.Contains("Sorry, you have been blocked", StringComparison.Ordinal));
+        Assert.DoesNotContain(rows, row => row.GetProperty("evidenceExcerpt").GetString()!.Contains("VIEW BRAND KIT", StringComparison.Ordinal));
     }
 
     [Fact]

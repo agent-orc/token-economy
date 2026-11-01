@@ -212,6 +212,18 @@ public sealed class BenchmarkEvidenceCatalog
                 throw new ArgumentException($"Duplicate benchmark type id '{type.Id}'.", nameof(types));
         }
 
+        foreach (var type in _types.Where(type => type.AllowedUnpricedModelIds.Count > 0))
+        {
+            if (!type.Id.StartsWith("cost-frontier-", StringComparison.Ordinal))
+                throw new ArgumentException("Unpriced model exceptions are limited to Cost Frontier evidence.", nameof(types));
+            var unpricedIds = _results.Where(result => result.BenchmarkTypeId == type.Id
+                    && modelCatalog.Find(result.ModelId) is null)
+                .Select(result => result.ModelId.Value).Distinct(StringComparer.Ordinal)
+                .Order(StringComparer.Ordinal);
+            if (!unpricedIds.SequenceEqual(type.AllowedUnpricedModelIds.Order(StringComparer.Ordinal), StringComparer.Ordinal))
+                throw new ArgumentException($"Unpriced model exceptions must match evidence for '{type.Id}'.", nameof(types));
+        }
+
         foreach (var result in _results)
         {
             Validate(result);

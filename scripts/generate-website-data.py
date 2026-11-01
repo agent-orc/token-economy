@@ -1042,7 +1042,8 @@ def create_price_history_payload() -> dict:
     models = []
     for listing in listings:
         history = sorted(listing.get("history", []), key=lambda price: price["validFrom"])
-        # A benchmark-only model may have no confirmed list price yet.
+        if not history:
+            raise ValueError(f"Price history missing for {listing['modelId']}")
         for price in history:
             if not price.get("sourceUrls") or not price.get("verifiedOn") or not price.get("validFromBasis"):
                 raise ValueError(f"Price provenance missing for {listing['modelId']}")
