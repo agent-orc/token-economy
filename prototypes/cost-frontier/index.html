@@ -63,8 +63,9 @@ main { padding-block: 1.1rem 3rem; display: grid; gap: 1.1rem; }
 .view { display: grid; gap: 1rem; min-width: 0; }
 
 /* Category cards */
-.cats { display: grid; grid-template-columns: repeat(9, minmax(0, 1fr)); gap: .5rem; }
-@media (max-width: 80rem) { .cats { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+.cats { display: grid; grid-template-columns: repeat(8, minmax(0, 1fr)); gap: .5rem; }
+@media (max-width: 80rem) { .cats { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+@media (max-width: 40rem) { .cats { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 @media (max-width: 40rem) { .cat small span:last-child { display: none; } .cat { padding: .45rem .5rem; } .cat b { font-size: .8rem; } }
 .cat { display: grid; gap: .3rem; text-align: left; padding: .55rem .65rem; background: var(--panel); border: 1px solid var(--border); border-radius: var(--r-md); min-width: 0; transition: border-color .15s, transform .15s; }
 .cat:hover { border-color: var(--accent); transform: translateY(-1px); }
@@ -252,7 +253,7 @@ td.r, th.r { text-align: right; }
   <div class="wrap">
     <div class="brand">Token Economy</div>
     <h1>What does one point of capability cost?</h1>
-    <p>Published benchmarks and real per-task bills, category by category. Move the budget line, play the effort ladder, find what the list price hides, then test yourself against the data. Every benchmark and lab announcement is linked.</p>
+    <p>Current models only, data read on 1 Nov 2026. Published benchmarks and real per-task bills, category by category. Move the budget line, play the effort ladder, find what the list price hides, then test yourself against the data. Every benchmark and lab announcement is linked.</p>
   </div>
 </header>
 
@@ -293,8 +294,11 @@ const M = {
   'luna-6': ['GPT-6 Luna','o',.1,.5], 'sol-5.6': ['GPT-5.6 Sol','o',4,20], 'terra-5.6': ['GPT-5.6 Terra','o',2,12], 'luna-5.6': ['GPT-5.6 Luna','o',.2,1.2], 'gpt-5.5': ['GPT-5.5','o',5,30],
   'carbon': ['Gemini 4 Carbon','g',4,20], 'argon': ['Gemini 4 Argon','g',2,10], 'flash-3.8': ['Gemini 3.8 Flash','g',.75,3.75],
   'grok-4.7': ['Grok 4.7','x',2,6], 'grok-4.6': ['Grok 4.6','x'], 'ds-4.1f': ['DeepSeek V4.1 Flash','x',.3,1.2], 'ds-4p': ['DeepSeek V4 Pro','x'], 'ds-4f': ['DeepSeek V4 Flash','x'],
-  'qwen-3.8': ['Qwen3.8 Max','x',2,6], 'kimi-3.1': ['Kimi K3.1 Pro','x'], 'glm-5.3': ['GLM-5.3','x'], 'mimo-p': ['MiMo-V2.6-Pro','x'], 'mimo-f': ['MiMo-V2.6-Flash','x']
+  'qwen-3.8': ['Qwen3.8 Max','x',2,6], 'glm-5.3f': ['GLM-5.3-Flash','x'], 'mistral-4': ['Mistral Large 4','x'], 'kimi-3.1': ['Kimi K3.1 Pro','x'], 'glm-5.3': ['GLM-5.3','x'], 'mimo-p': ['MiMo-V2.6-Pro','x'], 'mimo-f': ['MiMo-V2.6-Flash','x']
 };
+// Only these models render. Each lab's newest model per tier, read from its own model list on 2026-11-01.
+const CURRENT = new Set(['opus-5.5','sonnet-5.5','haiku-5.5','fable-5.1','astra','sol-6.1','terra-6.1','luna-6','carbon','argon','flash-3.8','grok-4.7','ds-4.1f','ds-4p','kimi-3.1','glm-5.3','glm-5.3f','qwen-3.8','mimo-p','mimo-f','mistral-4']);
+const MAJOR = ['opus-5.5','sonnet-5.5','haiku-5.5','fable-5.1','astra','sol-6.1','terra-6.1','luna-6','carbon','argon','flash-3.8'];
 const V = { a:['Anthropic','var(--anthropic)'], o:['OpenAI','var(--openai)'], g:['Google','var(--google)'], x:['Other labs','var(--other)'] };
 const EFFORTS = ['low','medium','high','xhigh','max'];
 const RUNGS = ['rung 1','rung 2','rung 3','rung 4','rung 5'];
@@ -318,52 +322,60 @@ const B = {
       ['carbon','high',59,7.76],['argon','high',50,7.68],['flash-3.8','medium',30,6.26],['flash-3.8','high',31,7.77],
       ['grok-4.7','low',31,2.92],['grok-4.7','high',35,6.18],['grok-4.7','xhigh',34,7.51],
       ['glm-5.3','low',23,1.57],['glm-5.3','max',32,5.01],['ds-4.1f','max',32,.60],['kimi-3.1','default',46,3.68],['mimo-p','default',30,.26],['qwen-3.8','default',34,10.02]] },
-  arc2: { name:'ARC-AGI-2 Semi-Private', short:'ARC-AGI-2', unit:'% solved', yLabel:'Solved (%)', cost:'measured', per:'task', rep:'mixed', date:'2026-10-17', url:'https://arcprize.org/results/anthropic-claude-opus-5-5', urls:[['https://arcprize.org/results/xai-grok-4-6','ARC Prize: Grok 4.6']],
+  arc2: { name:'ARC-AGI-2 Semi-Private', short:'ARC-AGI-2', unit:'% solved', yLabel:'Solved (%)', cost:'measured', per:'task', rep:'owner', date:'2026-11-01', ladder:EFFORTS, url:'https://arcprize.org/leaderboard', ref:{y:100,label:'Human panel: 100% at about $17 per task'},
     what:'Abstract visual puzzles that resist memorisation. ARC Prize verifies scores on a hidden set and publishes cost per task.',
-    notes:['Scores for Opus 5.5 and Grok 4.6 come from ARC Prize. Astra, Argon and the Opus 5.5 costs come from an aggregator snapshot of 17 Oct and should be checked on the leaderboard.','This is one narrow skill, far from everyday engineering.'],
-    rows:[['opus-5.5','high',93.3,.41],['opus-5.5','xhigh',92.5,.67],['astra','max',95,1.12],['argon','medium',87.1,.137],['grok-4.6','xhigh',67.1,.76]],
-    noCost:[['Opus 5.5 max',91.7],['Opus 5.5 medium',87.5],['Opus 5.5 low',70.1],['Grok 4.6 high',65.1],['Grok 4.6 medium',61.3],['Grok 4.6 low',27.6]] },
+    notes:['Scores and costs come from the ARC Prize leaderboard data, including rows up to October 2026.','This is one narrow skill, far from everyday engineering.'],
+    rows:[['opus-5.5','low',70.1,.2413],['opus-5.5','medium',87.5,.3369],['opus-5.5','high',93.3,.4079],['opus-5.5','xhigh',92.5,.6709],['opus-5.5','max',91.7,1.8517],
+      ['sonnet-5.5','low',24,.1092],['sonnet-5.5','medium',32.8,.1554],['sonnet-5.5','high',67.4,.2768],['sonnet-5.5','xhigh',83.9,.5462],
+      ['haiku-5.5','low',2.8,.008],['haiku-5.5','medium',9.4,.015],['haiku-5.5','high',30.7,.0467],['haiku-5.5','xhigh',61.3,.085],
+      ['fable-5.1','low',78.3,.9523],['fable-5.1','medium',86.2,1.2239],['fable-5.1','high',88.8,1.6673],['fable-5.1','xhigh',90,3.1202],['fable-5.1','max',90,4.4923],
+      ['astra','low',85.4,.4162],['astra','medium',92.1,.4801],['astra','high',92.1,.6681],['astra','xhigh',93.3,.8287],['astra','max',95,1.1195],
+      ['sol-6.1','low',76.7,.0855],['sol-6.1','medium',86.7,.1004],['sol-6.1','high',91.7,.1347],['sol-6.1','xhigh',91.7,.1781],['sol-6.1','max',94.2,.2537],
+      ['luna-6','low',4.6,.0053],['luna-6','medium',18.1,.0122],['luna-6','high',31.4,.0234],['luna-6','xhigh',41.9,.0323],['luna-6','max',59.3,.0618],
+      ['argon','low',42.1,.0738],['argon','medium',87.1,.1373],['argon','high',91.2,.3249],
+      ['flash-3.8','low',77.5,.1545],['flash-3.8','medium',82.9,.2478],['flash-3.8','high',89.2,.3997],
+      ['ds-4.1f','low',73.6,.1335],['ds-4.1f','high',68.6,.1469],['ds-4.1f','max',78.1,.1631],
+      ['grok-4.7','low',16.7,.1737],['grok-4.7','medium',58.8,1.4759],['grok-4.7','high',58.3,1.549],['grok-4.7','xhigh',61.4,2.0149],
+      ['glm-5.3f','low',27.9,.0582],['glm-5.3f','high',50.1,.0773],['glm-5.3f','max',65.8,.0933]] },
+  aacode: { name:'AA Coding Agent Index v2.0', short:'Coding Agent Index', unit:'index points', yLabel:'Index score', cost:'measured', per:'task', rep:'owner', date:'2026-11-01', url:'https://artificialanalysis.ai/agents/coding-agents',
+    what:'A composite of FrontierCode v1.1, Terminal-Bench 4.0 and SWE-Atlas-QnA, three attempts per task. Each row is an agent with a model, because the harness affects the result.',
+    notes:['Cost is the average pay-per-token API cost per task. Subscriptions change what you actually pay.','Scores without a published cost sit in the strip on the right.','Gemini 4 Carbon runs in the Antigravity CLI and is not generally available.'],
+    rows:[['opus-5.5','max',62,11.42],['carbon','high',59,7.74],['sonnet-5.5','max',59,13.30],['astra','max',55,7.04],['sol-6.1','max',54,1.50],['mistral-4','high',48,1.26],['grok-4.7','xhigh',47,9.48]],
+    noCost:[['Claude Fable 5.1',58],['Gemini 4 Argon',53],['GLM-5.3',49],['GPT-6.1 Terra',48],['DeepSeek V4.1 Flash',46]] },
+  tb4: { name:'Terminal-Bench 4.0, native agents', short:'Terminal-Bench 4.0', unit:'% resolved', yLabel:'Resolved (%)', cost:'measured', per:'task', rep:'owner', date:'2026-11-01', ladder:EFFORTS, url:'https://www.tbench.ai/',
+    what:'Agents complete 66 command-line tasks in a sandbox, checked by test suites, over 330 trials. Each row runs in its vendor\'s native agent.',
+    notes:['Cost per task is the published total run cost divided by the 330 trials.','Margins are about ±3 points, so GPT-6.1 Sol, GPT-6 Astra and Fable 5.1 near 58% are a tie.','Vendor figures can differ from the board: Anthropic reports 70.6% for Sonnet 5.5 and 66.4% for Opus 5.5.'],
+    rows:[['opus-5.5','max',64.85,14.30],['sonnet-5.5','max',61.82,22.22],
+      ['astra','low',50.61,4.72],['astra','medium',54.24,5.80],['astra','high',57.88,6.88],['astra','xhigh',57.88,7.12],['astra','max',58.18,9.90],
+      ['sol-6.1','max',58.18,1.92],
+      ['fable-5.1','low',43.33,7.15],['fable-5.1','medium',53.94,8.59],['fable-5.1','high',54.55,12.08],['fable-5.1','xhigh',57.88,14.76],['fable-5.1','max',57.88,18.92],
+      ['glm-5.3','max',41.82,8.27],['grok-4.7','xhigh',37.58,11.16],['glm-5.3f','default',35.76,.36],['qwen-3.8','max',26.97,14.05],['flash-3.8','high',19.09,5.54],['luna-6','max',16.36,.22]],
+    noCost:[['Kimi K3.1 Pro',67],['Gemini 4 Carbon',64]] },
   deepswe: { name:'DeepSWE', short:'DeepSWE', unit:'% pass@1', yLabel:'Pass@1 (%)', cost:'measured', per:'task', rep:'owner', date:'2026-09-22', url:'https://deepswe.datacurve.ai/',
     what:'Long-horizon software tasks written from scratch across 91 repositories, scored by hand-written verifiers. The same mini agent harness runs every model.',
-    notes:['Margins are ±1 to ±6 points, so Astra, Gemini 3.8 Flash and Opus 5 at 74% are a statistical tie.','Opus 5.5, Sonnet 5.5, GPT-6.1 Sol and Gemini 4 were not on this snapshot.','The token catalog holds $6.52 for Astra from 12 Sept. The live board now shows $4.43 at the same score.'],
-    rows:[['astra','xhigh',74,4.43],['flash-3.8','high',74,2.36],['opus-5','max',74,11.84],['sol-5.6','max',73,6.46],['fable-5','xhigh',70,13.41],['grok-4.6','medium',67,3.45],['luna-5.6','max',67,.61],['ds-4p','max',63,1.67],['opus-4.8','max',59,13.22],['qwen-3.8','xhigh',57,3.73],['sonnet-5','max',54,26.40],['ds-4f','max',53,.46]],
-    noCost:[['GPT-6 Sol max',68.8],['GPT-6 Luna max',66.6]] },
-  tb4: { name:'Terminal-Bench 4.0, native agents', short:'Terminal-Bench 4.0', unit:'% resolved', yLabel:'Resolved (%)', cost:'measured', per:'task', rep:'owner', date:'2026-09-12', ladder:EFFORTS, url:'https://www.tbench.ai/leaderboard',
-    what:'Agents complete command-line tasks in a sandbox, checked by test suites. Each row runs in its vendor\'s native agent.',
-    notes:['Row values come from the Token Economy catalog, captured 12 Sept. The live page no longer renders rows for automated reading.','Scores without a cost sit in the strip on the right. They are not placed on the cost axis.'],
-    rows:[['astra','low',50.61,4.72],['astra','medium',54.24,5.80],['astra','high',57.88,6.88],['astra','xhigh',57.88,7.12],['astra','max',58.18,9.90],
-      ['fable-5.1','max',57.88,18.92],['opus-5','max',51.82,18.09],['fable-5','max',44.55,22.02],['sol-5.6','max',37.27,7.70],['opus-4.8','max',23.64,19.64],['terra-5.6','max',21.52,5.25],['luna-5.6','max',17.27,1.05],['sonnet-5','max',12.42,29.10]],
-    noCost:[['Sonnet 5.5 (vendor)',70.6],['Kimi K3.1 Pro',67],['Opus 5.5 xhigh',66.4],['Gemini 4 Carbon',64]] },
+    notes:['The board was last updated on 22 Sept. Claude 5.5, GPT-6.1 and Gemini 4 are not on it yet.','Margins are ±1 to ±6 points, so GPT-6 Astra and Gemini 3.8 Flash at 74% are a tie.','Artificial Analysis replaced DeepSWE with FrontierCode in its Coding Agent Index v2.0.'],
+    rows:[['astra','xhigh',74,4.43],['flash-3.8','high',74,2.36],['glm-5.3','max',69,3.99],['glm-5.3f','max',63,.24],['ds-4p','max',63,1.67],['qwen-3.8','xhigh',57,3.73]],
+    noCost:[['GPT-6 Luna max',66.6]] },
   osw2: { name:'OSWorld 2.0, partial credit', short:'OSWorld 2.0', unit:'% partial score', yLabel:'Partial score (%)', cost:'chartread', per:'task', rep:'vendor', date:'2026-09-22', ladder:RUNGS, url:CARD, urls:[['https://presenc.ai/research/osworld-computer-use-leaderboard-2026','Leaderboard overview']],
     what:'108 long computer-use workflows across 31 websites and desktop apps, about 318 tool calls each. Credit is given per checkpoint.',
-    notes:['Costs are read off Figure 8.13.3.B of the Claude Opus 5.5 system card, accurate to about ±5%. Effort levels differ by model, so they are shown as rungs in cost order.','Strict pass rate is far lower: 48.7% for Opus 5.5 at max.','Other vendors publish no cost for this benchmark. Their scores sit in the strip on the right and use other harness versions.'],
+    notes:['Costs are read off Figure 8.13.3.B of the Claude Opus 5.5 system card, accurate to about ±5%. Effort levels differ by model, so they are shown as rungs in cost order.','Strict pass rate is far lower: 48.7% for Opus 5.5 at max.','The official board, updated 15 Oct, has no row for the current models yet. Other vendors publish no cost, so their scores sit in the strip on the right.'],
     rows:[['opus-5.5','rung 1',58.3,.91],['opus-5.5','rung 2',74,1.91],['opus-5.5','rung 3',77.8,2.47],['opus-5.5','rung 4',80.8,4.25],['opus-5.5','rung 5',81.8,8.48],
-      ['fable-5.1','rung 1',66.7,4.25],['fable-5.1','rung 2',74,5.52],['fable-5.1','rung 3',76.1,6.99],['fable-5.1','rung 4',78.6,9.1],['fable-5.1','rung 5',80.7,12.4],
-      ['opus-5','rung 1',65.6,5.0],['opus-5','rung 2',70,6.25],['opus-5','rung 3',74.2,8.5],['opus-5','rung 4',74.4,10.6],['opus-5','rung 5',74,11.6]],
-    noCost:[['GPT-6 Astra (offline subset)',72.6],['GPT-6.1 Sol (tracker)',70.5],['GPT-5.6 Sol max',62.72],['Opus 4.8 max',54.8]] },
-  oswv: { name:'OSWorld-Verified', short:'OSWorld-Verified', unit:'% tasks', yLabel:'Tasks solved (%)', cost:'modelled', per:'task', rep:'mixed', date:'2026-08-01', url:'http://osworld-v1.xlang.ai/', urls:[['https://presenc.ai/research/osworld-computer-use-leaderboard-2026','Leaderboard overview'],['https://benchlm.ai/blog/posts/osworld-verified-computer-use-benchmark','BenchLM explainer']],
-    what:'369 desktop and web tasks in real apps, about 30 tool calls each, checked by the final application state.',
-    notes:['Humans reach 72.36% here, so the line sits below the top models. Humans were not paid per token.','No cost is published, so cost is an estimate from list prices.','Sources differ by up to a point for the same row. Qwen3.8 Max is provider-reported.'],
-    ref:{y:72.36,label:'Human baseline 72.36%'},
-    rows:[['qwen-3.8','default',86.1],['fable-5','default',85.96],['opus-4.8','default',83.4],['opus-5','default',83.39]] },
+      ['fable-5.1','rung 1',66.7,4.25],['fable-5.1','rung 2',74,5.52],['fable-5.1','rung 3',76.1,6.99],['fable-5.1','rung 4',78.6,9.1],['fable-5.1','rung 5',80.7,12.4]],
+    noCost:[['GPT-6 Astra (vendor, subset)',72.6],['Haiku 5.5 (vendor, subset)',72.4],['GPT-6.1 Sol (tracker)',70.5]] },
   exploit: { name:'ExploitBench (V8)', short:'ExploitBench', unit:'% capability flags', yLabel:'Capability flags (%)', cost:'modelled', per:'task', rep:'vendor', date:'2026-09-22', url:CARD, urls:[['https://www.csoonline.com/article/4218679/openai-launches-gpt-6-astra-its-first-model-to-cross-a-critical-cybersecurity-threshold.html','Astra coverage, CSO'],['https://arxiv.org/abs/2605.14153','ExploitBench paper'],['https://benchlm.ai/benchmarks/exploitbench','BenchLM rows']],
     what:'Can an agent turn patched V8 bugs into stronger exploit capability, from reaching the code to full control, across 16 flags.',
-    notes:['All of these scores were taken with cyber safeguards off. With safeguards on, a deployed model can block or hand off the work: Opus 5.5 blocks vulnerability discovery in compiled binaries.','Anthropic and OpenAI ran their own setups. Anthropic states its numbers may not compare with public entries.','GPT-5.6 Sol also appears as 73.5% elsewhere. GPT-5.5 is an aggregator row.','No cost is published, so cost is an estimate from list prices.'],
-    rows:[['astra','default',100],['opus-5.5','default',91],['sol-5.6','default',78.5],['opus-5','default',75],['gpt-5.5','Codex',72],['sonnet-5','default',33]],
+    notes:['Both scores were taken with cyber safeguards off. With safeguards on, a deployed model can block or hand off the work: Opus 5.5 blocks vulnerability discovery in compiled binaries.','Anthropic and OpenAI ran their own setups. Anthropic states its numbers may not compare with public entries.','On CyScenarioBench, Anthropic reports 67.6% for Opus 5.5 and 61.7% for Mythos 5.1. No other current model has a public row.','No cost is published, so cost is an estimate from list prices.'],
+    rows:[['astra','default',100],['opus-5.5','default',91]],
     noCost:[['Claude Mythos 5.1',83]] },
-  cyscen: { name:'CyScenarioBench (Irregular)', short:'CyScenarioBench', unit:'% challenges', yLabel:'Challenges completed (%)', cost:'modelled', per:'task', rep:'vendor', date:'2026-09-22', url:CARD,
-    what:'Multi-stage cyber operations under realistic constraints. Measures sequencing of techniques, not isolated tricks. A 10-challenge subset, with cyber mitigations off.',
-    notes:['Single-vendor run. No competitor rows are public.','Sonnet 5 "finished less than 1%", shown here as 1.','No cost is published, so cost is an estimate from list prices.'],
-    rows:[['opus-5.5','default',67.6],['opus-5','default',53],['sonnet-5','default',1]], noCost:[['Claude Mythos 5.1',61.7]] },
   cybergym: { name:'CyberGym', short:'CyberGym', unit:'% reproduced', yLabel:'Reproduced (%)', cost:'modelled', per:'task', rep:'third', date:'2026-09-22', url:'https://llmlearner.com/rankings/cybergym', urls:[['https://www.cybergym.io/','CyberGym'],['https://benchlm.ai/benchmarks/cybergym','BenchLM']],
     what:'1,507 known vulnerabilities in 188 projects. The agent writes a proof-of-concept that reproduces each bug.',
     notes:['Scores are submitter-reported and collected by aggregators.','Anthropic retired CyberGym from its system card "due to saturation", which is why no current Claude row appears.','No cost is published, so cost is an estimate from list prices.'],
-    rows:[['ds-4.1f','max',88.1],['sol-5.6','max',84.5],['gpt-5.5','default',81.8]],
-    noCost:[['MiMo-V2.6-Flash',95.1],['MiMo-V2.6-Pro',94],['Gemini 3.8 Flash Cyber',86.2],['Claude Mythos 5',83.8],['DeepSeek V4 Pro',83.3],['Claude Opus 4.7',73.1]] },
+    rows:[['ds-4.1f','max',88.1]],
+    noCost:[['MiMo-V2.6-Flash',95.1],['MiMo-V2.6-Pro',94],['Gemini 3.8 Flash Cyber',86.2],['DeepSeek V4 Pro',83.3]] },
   arena: { name:'Text Arena (arena.ai)', short:'Text Arena', unit:'rating', elo:true, yLabel:'Arena rating', cost:'modelled', per:'task', rep:'owner', date:'2026-10-27', url:'https://arena.ai/leaderboard/text',
     what:'Blind pairwise preference from 9 million human votes on open chat. It captures how a reply reads, not whether it is correct.',
     notes:['Confidence intervals run ±4 to ±9, so neighbouring rows are ties. Carbon and Gemini 3.8 Flash are preliminary.','Arena has no public per-task cost, so cost is an estimate from list prices.','Rating gaps do not divide: 1500 is not twice 750.'],
-    rows:[['carbon','high',1528],['argon','high',1520],['opus-5.5','high',1509],['fable-5.1','max',1504],['flash-3.8','high',1496],['opus-5','high',1492],['qwen-3.8','default',1482],['sol-6.1','max',1481],['sonnet-5.5','xhigh',1477],['astra','max',1476],['ds-4.1f','max',1476],['sol-6','max',1458],['luna-6','max',1441],['grok-4.7','xhigh',1441],['haiku-5.5','high',1425]] },
+    rows:[['carbon','high',1528],['argon','high',1520],['opus-5.5','high',1509],['fable-5.1','max',1504],['flash-3.8','high',1496],['qwen-3.8','default',1482],['sol-6.1','max',1481],['sonnet-5.5','xhigh',1477],['astra','max',1476],['ds-4.1f','max',1476],['luna-6','max',1441],['grok-4.7','xhigh',1441],['haiku-5.5','high',1425]] },
   xpro: { name:'ExtractBench Pro, perfect documents', short:'Perfect documents', unit:'% perfect docs', yLabel:'Perfect documents (%)', cost:'measured', per:'page', rep:'third', date:'2026-10-28', url:'https://benchlm.ai/benchmarks/extractbench-pro', urls:[['https://www.llamaindex.ai/blog/llamaindex-and-kaggle-launch-a-document-extraction-leaderboard-for-ai-agents','ExtractBench launch post']],
     what:'100 synthetic long-tail documents, 2,622 pages. A document only counts when every single value matches.',
     notes:['Vendor-run: LlamaIndex sells a competing product. BenchLM mirrors the board and excludes it from its rankings.','Rows run inside coding-agent harnesses, so cost and behaviour reflect the harness too.','The mirror lists GPT-6.1 Terra twice without naming what differs.'],
@@ -375,35 +387,22 @@ const B = {
   gdpval: { name:'GDPval-AA v2.1', short:'GDPval-AA', unit:'Elo', elo:true, yLabel:'Elo rating', cost:'modelled', per:'task', rep:'owner', date:'2026-10-28', url:'https://artificialanalysis.ai/evaluations/gdpval-aa', urls:[[CARD,'Opus 5.5 system card']],
     what:'220 real professional deliverables across 44 occupations, graded by blind pairwise comparison. Human expert work is pinned at 1000 Elo.',
     notes:['Elo measures grader preference, not verified correctness.','Artificial Analysis shows cost only in a chart, so cost here is an estimate from list prices.','Opus 5.5 reads 1866 here and 1846 in its own system card. Elo values shift as new models enter.'],
-    rows:[['opus-5.5','max',1866],['sonnet-5.5','max',1838],['fable-5.1','max',1763],['ds-4.1f','max',1746],['carbon','high',1733],['opus-5','max',1730],['grok-4.7','xhigh',1718],['qwen-3.8','default',1674],['haiku-5.5','max',1631],['argon','high',1631],['sol-6.1','max',1609],['astra','max',1584],['flash-3.8','high',1445],['luna-6','max',1444]] },
+    rows:[['opus-5.5','max',1866],['sonnet-5.5','max',1838],['fable-5.1','max',1763],['ds-4.1f','max',1746],['carbon','high',1733],['grok-4.7','xhigh',1718],['qwen-3.8','default',1674],['haiku-5.5','max',1631],['argon','high',1631],['sol-6.1','max',1609],['astra','max',1584],['terra-6.1','max',1476],['flash-3.8','high',1445],['luna-6','max',1444]] },
   chart: { name:'Chartography, no tools', short:'Chartography', unit:'% accuracy', yLabel:'Accuracy (%)', cost:'chartread', per:'task', rep:'vendor', date:'2026-09-22', ladder:RUNGS, url:CARD, urls:[['https://surgehq.ai/blog/chartography','Surge AI: Chartography']],
     what:'Professional chart understanding from Surge AI. Without tools, the model has to read the image itself.',
-    notes:['Costs and scores are read off Figure 8.13.1.B of the Opus 5.5 system card, accurate to about ±5% on cost and ±1 on score.','Anthropic ran its own grader. Gemini 3.8 Flash and GPT-5.6 Sol have public scores without cost in the same figure.','Rungs are effort levels in cost order.'],
+    notes:['Costs and scores are read off Figure 8.13.1.B of the Opus 5.5 system card, accurate to about ±5% on cost and ±1 on score.','Anthropic ran its own grader, and only Claude rows have costs. Other current models have scores in the strip on the right, reported by their vendors.','Rungs are effort levels in cost order.'],
     rows:[['opus-5.5','rung 1',57,.0212],['opus-5.5','rung 2',59,.0251],['opus-5.5','rung 3',59.3,.0315],['opus-5.5','rung 4',62.4,.082],['opus-5.5','rung 5',64.4,.493],
-      ['fable-5.1','rung 1',36.6,.0254],['fable-5.1','rung 2',42.2,.0497],['fable-5.1','rung 3',46,.083],['fable-5.1','rung 4',47,.384],['fable-5.1','rung 5',44.8,.867],
-      ['opus-5','rung 1',16.7,.0152],['opus-5','rung 2',22.6,.0387],['opus-5','rung 3',25.8,.0687],['opus-5','rung 4',26.6,.151],['opus-5','rung 5',29.8,.256],
-      ['sonnet-5','rung 1',7.2,.00384],['sonnet-5','rung 2',11.4,.00906],['sonnet-5','rung 3',14,.0216],['sonnet-5','rung 4',14.4,.039],['sonnet-5','rung 5',15.6,.347]],
+      ['fable-5.1','rung 1',36.6,.0254],['fable-5.1','rung 2',42.2,.0497],['fable-5.1','rung 3',46,.083],['fable-5.1','rung 4',47,.384],['fable-5.1','rung 5',44.8,.867]],
     noCost:[['Haiku 5.5 (vendor)',46.4],['GPT-6 Luna (vendor)',29.1]] },
-  mmmu: { name:'MMMU (Vals AI)', short:'MMMU', unit:'% correct', yLabel:'Correct (%)', cost:'modelled', per:'task', rep:'third', date:'2026-09-01', url:'https://www.benchlm.ai/benchmarks/valsMmmu', urls:[['https://llm-stats.com/benchmarks/mmmu-%28validation%29','LLM Stats: MMMU']],
+  mmmu: { name:'MMMU (Vals AI)', short:'MMMU', unit:'% correct', yLabel:'Correct (%)', cost:'modelled', per:'task', rep:'owner', date:'2026-09-01', url:'https://www.vals.ai/benchmarks/mmmu',
     what:'Multiple-choice questions over images across many academic disciplines.',
-    notes:['Read from an aggregator mirror of Vals AI. No current Opus 5.5, GPT-6 or Gemini 4 row was available.','The top rows sit inside one point, and the benchmark looks close to saturated.','No cost is published, so cost is an estimate from list prices.'],
-    rows:[['opus-5','default',89.88],['fable-5','default',89.31],['flash-3.8','high',89.08],['sol-5.6','default',88.84],['luna-5.6','max',85.03],['haiku-4.5','thinking',46.07]] },
-  ownrev: { name:'Token Economy pilot: code review', short:'Own: code review', unit:'% precision', yLabel:'Mean finding precision (%)', cost:'measured', per:'outcome', rep:'own', date:'2026-08-12', url:'https://github.com/agent-orc/token-economy/blob/main/docs/task-class-routing-studies.md', urls:[['https://github.com/agent-orc/token-economy/blob/main/benchmarks/task-class-studies/source-code-review-v1.json','Study protocol']],
-    what:'Our own pilot. Two small C# files hold ten seeded contract defects. Terra medium and Sol xhigh both found 10 of 10, Sol medium found 9 of 10.',
-    notes:['Two synthetic files, so this cannot establish repository-scale review ability.','Cost is the subject\'s list-price spend per passed outcome.'],
-    rows:[['terra-5.6','medium',81.25,.0304],['sol-5.6','xhigh',81.25,.1647],['sol-5.6','medium',67.78,.1849]] },
-  ownui: { name:'Token Economy pilot: HTML UI', short:'Own: HTML UI', unit:'quality × 100', yLabel:'Mean quality score', cost:'measured', per:'outcome', rep:'own', date:'2026-08-12', url:'https://github.com/agent-orc/token-economy/blob/main/docs/task-class-routing-studies.md', urls:[['https://github.com/agent-orc/token-economy/blob/main/benchmarks/task-class-studies/html-ui-v1.json','Study protocol']],
-    what:'Our own pilot. Two self-contained UI pages, graded 75% by a blinded screenshot jury and 25% by deterministic checks.',
-    notes:['Two pages and one jury model. This is no general statement about frontend quality.','Cost excludes the jury. Sol xhigh passed only one of two.'],
-    rows:[['sol-5.6','medium',91.75,.213],['terra-5.6','medium',86.13,.0865],['sol-5.6','xhigh',82,.5198]] },
-  rabbit: { name:'CodeRabbit known-bug coverage', short:'CodeRabbit', unit:'% coverage', yLabel:'Bugs caught (%)', cost:'modelled', per:'task', rep:'third', date:'2026-09-04', url:'https://www.coderabbit.ai/blog/gpt-6-astra-code-review-evaluation',
-    what:'Share of labelled bugs caught with actionable comments in CodeRabbit\'s pipeline.',
-    notes:['Pull-request count, effort, precision and judge are not disclosed. CodeRabbit sells a review product.','No cost is published, so cost is an estimate from list prices.'],
-    rows:[['astra','default',61.3],['sol-5.6','default',59],['opus-5','default',50.2]] }
+    notes:['Vals AI last updated this board on 1 Sept. Only two current models are on it.','The top rows sit inside about one point, and the benchmark looks close to saturated.','Vals publishes tokens per question but not cost per task, so cost is an estimate from list prices.'],
+    rows:[['fable-5.1','default',90.64],['flash-3.8','high',89.08]] }
 };
 const RESTRICTED = { carbon:'Not generally available: Google gives access to a subset of cyber defenders and, gradually, trusted partners.' };
 // The benchmark's own pages. b.url and b.urls name where the numbers on the chart were read.
 const REFS = {
+  aacode:[['Method','https://artificialanalysis.ai/methodology/coding-agents-benchmarking/']],
   aa5:[['Method','https://artificialanalysis.ai/methodology/intelligence-benchmarking']],
   arc2:[['Benchmark','https://arcprize.org/arc-agi/2'],['Technical report','https://arcprize.org/blog/arc-agi-2-technical-report'],['Leaderboard','https://arcprize.org/leaderboard']],
   deepswe:[['Benchmark','https://deepswe.datacurve.ai/'],['Method','https://deepswe.datacurve.ai/blog/deepswe'],['Code','https://github.com/datacurve-ai/deep-swe']],
@@ -423,10 +422,10 @@ const REFS = {
   ownui:[['Study protocol','https://github.com/agent-orc/token-economy/blob/main/benchmarks/task-class-studies/html-ui-v1.json']],
   rabbit:[['Evaluation post','https://www.coderabbit.ai/blog/gpt-6-astra-code-review-evaluation']]
 };
-const NAME_LINKS = [['Terminal-Bench','tb4'],['OSWorld-Verified','oswv'],['OSWorld 2.0','osw2'],['Intelligence Index','aa5'],['ARC-AGI-2','arc2'],['DeepSWE','deepswe'],['ExploitBench','exploit'],['CyScenarioBench','cyscen'],['CyberGym','cybergym'],['Text Arena','arena'],['ExtractBench','xpro'],['GDPval-AA','gdpval'],['Chartography','chart'],['MMMU','mmmu'],['CodeRabbit','rabbit']];
+const NAME_LINKS = [['Coding Agent Index','aacode'],['Terminal-Bench','tb4'],['OSWorld-Verified','oswv'],['OSWorld 2.0','osw2'],['Intelligence Index','aa5'],['ARC-AGI-2','arc2'],['DeepSWE','deepswe'],['ExploitBench','exploit'],['CyScenarioBench','cyscen'],['CyberGym','cybergym'],['Text Arena','arena'],['ExtractBench','xpro'],['GDPval-AA','gdpval'],['Chartography','chart'],['MMMU','mmmu'],['CodeRabbit','rabbit']];
 const EXTRA_LINKS = { 'Terminal-Bench 2.0':'https://www.tbench.ai/', 'Terminal-Bench 4.0':REFS.tb4[0][1], 'Intelligence Index v5':REFS.aa5[0][1], 'ExploitGym':'https://rdi.berkeley.edu/blog/exploitgym/' };
 // Each lab's own post. A claim is the lab's statement, never a measurement of ours. approx: the post shows no date, so press dates are used.
-const RELEASES = [
+const RELEASES = ([
   { ms:['carbon'], l:'g', d:'2026-10-28', t:'Gemini 4 Carbon: our next frontier model', u:'https://blog.google/innovation-and-ai/models-and-research/gemini-models/introducing-gemini-4-carbon/', c:'Google starts with a subset of cyber defenders and phases in trusted partners. Developers and businesses get access later. Reports 88.2% on SEC-bench Pro.' },
   { ms:['terra-6.1'], l:'o', d:'2026-10-26', t:'Introducing GPT-6.1 Terra', u:'https://openai.com/index/introducing-gpt-6-1-terra/', c:'API prices 50% below GPT-5.6 Terra and GPT-6.1 Sol. At medium effort, OpenAI reports 15 percentage points above GPT-5.6 Terra at about a third of the cost.' },
   { ms:['kimi-3.1'], l:'x', d:'2026-10-23', approx:true, t:'Kimi K3.1 Pro Tech Blog: Advancing Open Intelligence', u:'https://www.kimi.com/en/blog/kimi-k3-1-pro', c:'Moonshot\'s open-weight release.' },
@@ -452,18 +451,18 @@ const RELEASES = [
   { ms:['fable-5'], l:'a', d:'2026-06-09', t:'Claude Fable 5 and Claude Mythos 5', u:'https://www.anthropic.com/news/claude-fable-5-mythos-5', c:'Anthropic\'s most capable generally available model at release.' },
   { ms:['opus-4.8'], l:'a', d:'2026-05-28', t:'Introducing Claude Opus 4.8', u:'https://www.anthropic.com/news/claude-opus-4-8', c:'Builds on Opus 4.7 with benchmark improvements.' },
   { ms:['gpt-5.5'], l:'o', d:'2026-04-23', t:'Introducing GPT-5.5', u:'https://openai.com/index/introducing-gpt-5-5/', c:'OpenAI\'s model for agentic coding and computer use at release. Reports 82.7% on Terminal-Bench 2.0.' }
-];
+]).filter(r => r.ms.some(m => CURRENT.has(m)));
 const CATS = [
   { id:'reasoning', name:'Reasoning', benches:['aa5','arc2'] },
-  { id:'code', name:'Code', benches:['deepswe','tb4'] },
-  { id:'computer', name:'Computer use', benches:['osw2','oswv'] },
-  { id:'security', name:'Security', benches:['exploit','cyscen','cybergym'] },
+  { id:'code', name:'Code', benches:['aacode','tb4','deepswe'] },
+  { id:'computer', name:'Computer use', benches:['osw2'] },
+  { id:'security', name:'Security', benches:['exploit','cybergym'] },
   { id:'language', name:'Language', benches:['arena'], evidence:'language' },
   { id:'classify', name:'Classification & extraction', benches:['xpro','xf1'], evidence:'classify' },
   { id:'knowledge', name:'Knowledge work', benches:['gdpval'] },
-  { id:'vision', name:'Vision', benches:['chart','mmmu'] },
-  { id:'review', name:'Review & UI', benches:['ownrev','ownui','rabbit'] }
+  { id:'vision', name:'Vision', benches:['chart','mmmu'] }
 ];
+for (const b of Object.values(B)) b.rows = b.rows.filter(r => CURRENT.has(r[0]));
 const EVIDENCE = {
   language: { title:'Translation and German: what exists', body:`<p>The only recent translation test with a linguist in the loop is Alconost's, and it reports model families, not versions. It sells post-editing, and one linguist grades each sample.</p>
     <div class="tbl-scroll"><table><thead><tr><th>Family</th><th class="r">Overall AQI</th><th class="r">en to de</th></tr></thead><tbody>
@@ -478,45 +477,47 @@ const INSIGHTS = [
   { id:'unbuyable', t:'The leader you cannot buy', hint:'In Reasoning, click the highest dot on the chart.', cat:'reasoning', b:'aa5', on:{b:'aa5',m:'carbon'}, x:'Gemini 4 Carbon tops Intelligence Index v5 at 59, and Google so far offers it only to a subset of cyber defenders and trusted partners. Claude Opus 5.5 at 58 is the best row you can actually buy.' },
   { id:'sticker', t:'The list-price trap', hint:'In Reasoning, look at a model with very cheap tokens and a surprisingly high bill.', cat:'reasoning', b:'aa5', on:{b:'aa5',m:'flash-3.8',e:'high'}, x:'Gemini 3.8 Flash has list prices of $0.75 / $3.75 and costs $7.77 per Index task for 31 points. GPT-6.1 Sol charges $2 / $10 and costs $1.27 for 55 points. Token volume decides the bill.' },
   { id:'same-price', t:'Same price, different bill', hint:'In Reasoning, compare the two small models at max effort.', cat:'reasoning', b:'aa5', on:{b:'aa5',m:'haiku-5.5',e:'max'}, x:'Haiku 5.5 and GPT-6 Luna both list at $0.10 / $0.50. At max effort, Haiku costs $0.41 for 36 points and Luna $0.15 for 28. Equal list prices do not mean equal costs.' },
-  { id:'more-effort', t:'More effort, worse score', hint:'In Reasoning, follow the top rung of a premium model.', cat:'reasoning', b:'aa5', on:{b:'aa5',m:'fable-5.1',e:'max'}, x:'Fable 5.1 drops from 50 at xhigh ($10.85) to 49 at max ($12.99). ARC-AGI-2 shows the same for Opus 5.5: 93.3% at high, 91.7% at max. The top rung is not always the top score.' },
+  { id:'more-effort', t:'More effort, worse score', hint:'In Reasoning, follow the top rung of a premium model.', cat:'reasoning', b:'aa5', on:{b:'aa5',m:'fable-5.1',e:'max'}, x:'Fable 5.1 drops from 50 at xhigh ($10.85) to 49 at max ($12.99). ARC-AGI-2 shows the same for Opus 5.5: 93.3% at high for 41 cents, 91.7% at max for $1.85. The top rung is not always the top score.' },
   { id:'same-score', t:'Same score, six times the bill', hint:'In Reasoning, find a 35-point row and look for its twin.', cat:'reasoning', b:'aa5', on:{b:'aa5',m:'opus-5.5',e:'low'}, x:'Opus 5.5 at low and GPT-6.1 Sol at low both score 35. Opus costs $0.98 and Sol $0.16. Low effort spends a premium model\'s strengths on work that does not need them.' },
   { id:'half-price', t:'Half the list price, same bill', hint:'In Reasoning, check Sonnet 5.5 at its top rung.', cat:'reasoning', b:'aa5', on:{b:'aa5',m:'sonnet-5.5',e:'max'}, x:'Sonnet 5.5 lists at half of Opus 5.5. At max effort, it costs $10.02 per task against $10.04, and scores 54 against 58. At xhigh, Sonnet is back to $4.09 for 50.' },
-  { id:'appetite', t:'Token appetite', hint:'In Code, find the most expensive dot on DeepSWE.', cat:'code', b:'deepswe', on:{b:'deepswe',m:'sonnet-5'}, x:'Sonnet 5 at max burned 214k output tokens per DeepSWE task: $26.40 for 54%. GPT-5.6 Luna solved 67% for $0.61. That is 43 times the money for a lower score.' },
+  { id:'appetite', t:'Token appetite', hint:'In Code, on Terminal-Bench 4.0, click the dot that costs the most at the top.', cat:'code', b:'tb4', on:{b:'tb4',m:'sonnet-5.5'}, x:'Sonnet 5.5 at max uses about 565k output tokens per Terminal-Bench 4.0 task: $22.22 for 61.8%. GPT-6.1 Sol uses 95k: $1.92 for 58.2%. Both list at $2 / $10, so the difference is token volume alone.' },
+  { id:'twin', t:'The same score at a fifth of the price', hint:'In Code, on Terminal-Bench 4.0, look for two rows at exactly the same score.', cat:'code', b:'tb4', on:{b:'tb4',m:'sol-6.1'}, x:'GPT-6.1 Sol and GPT-6 Astra both resolve 58.18% on Terminal-Bench 4.0 at max effort. Astra costs $9.90 per task and Sol $1.92.' },
+  { id:'vendor-gap', t:'Launch figure, board figure', hint:'In Code, on Terminal-Bench 4.0, click the top row and read the notes.', cat:'code', b:'tb4', on:{b:'tb4',m:'opus-5.5'}, x:'Anthropic reports 70.6% for Sonnet 5.5 in its launch post, and the public Terminal-Bench 4.0 board shows 61.8%. Opus 5.5 reads 66.4% against 64.85%. Setups differ, so prefer the board for comparisons.' },
   { id:'saturated', t:'A benchmark can run out', hint:'In Security, open CyberGym.', cat:'security', b:'cybergym', on:{b:'cybergym'}, x:'Low-cost models top CyberGym at 88 to 95%, and Anthropic retired it from its system card "due to saturation". When everyone is near the ceiling, a benchmark stops separating models.' },
   { id:'safeguards', t:'Safeguards off', hint:'In Security, read the ExploitBench notes.', cat:'security', b:'exploit', on:{b:'exploit'}, x:'Cyber scores are usually taken with production safeguards off. What you buy may refuse or hand off the same work. Opus 5.5 blocks vulnerability discovery in compiled binaries, for example.' },
-  { id:'human', t:'Above the human line', hint:'In Computer use, open OSWorld-Verified.', cat:'computer', b:'oswv', on:{b:'oswv'}, x:'Humans reach 72.36% on OSWorld-Verified, and top models exceed 85%. On the longer OSWorld 2.0 tasks, even Opus 5.5 passes only 48.7% under strict scoring. The metric sets the story.' },
+  { id:'human', t:'People still win, at a price', hint:'In Reasoning, open ARC-AGI-2.', cat:'reasoning', b:'arc2', on:{b:'arc2'}, x:'A human panel solves all of ARC-AGI-2 at about $17 per task. GPT-6.1 Sol at max reaches 94.2% for 25 cents. The gap to 100% is small on the score axis and large on the cost axis.' },
+  { id:'partial', t:'Partial credit flatters', hint:'In Computer use, open OSWorld 2.0 and read the notes.', cat:'computer', b:'osw2', on:{b:'osw2'}, x:'Opus 5.5 scores 81.8% on OSWorld 2.0 with partial credit, and 48.7% when every checkpoint of a task must pass. For an agent that must finish the job, the strict number is the one to plan with.' },
   { id:'metric', t:'The metric picks the winner', hint:'In Classification & extraction, compare GPT-6.1 Sol on perfect documents.', cat:'classify', b:'xpro', on:{b:'xpro',m:'sol-6.1'}, x:'GPT-6.1 Sol has 74% value F1 and only 12% perfect documents. One Terra run has the same F1 and 27%. If a single wrong value ruins the document, F1 flatters.' },
   { id:'ceiling', t:'Easy tasks reach the ceiling', hint:'In Classification & extraction, open the classification evidence below the chart.', cat:'classify', b:'xpro', on:{evidence:'classify'}, x:'Haiku 5.5 and GPT-6 Luna both got 24 of 24 invoice decisions right, for fractions of a cent. Past the ceiling, extra money buys nothing. The sample is small, so test on your own data.' },
   { id:'flat', t:'The flat end of the curve', hint:'In Vision, follow Opus 5.5 to its top rung on Chartography.', cat:'vision', b:'chart', on:{b:'chart',m:'opus-5.5',e:'rung 5'}, x:'On Chartography, Opus 5.5 goes from about $0.025 for 59% to about $0.49 for 64%. That is twenty times the cost for five points. Fable 5.1 even falls at its top rung.' },
-  { id:'own', t:'Same recall, 5.4 times the cost', hint:'In Review & UI, check Sol xhigh in our code-review pilot.', cat:'review', b:'ownrev', on:{b:'ownrev',m:'sol-5.6',e:'xhigh'}, x:'In our own pilot, Terra medium and Sol xhigh both found all ten seeded defects, at $0.03 and $0.16 per outcome. Two small files, so a hint rather than a law.' }
 ];
 const MISSIONS = [
   { t:'The support assistant', bench:'aa5', budget:2, brief:'Thousands of mixed questions a day. Finance allows $2 per Index-style task. Pick the strongest option that stays inside it.', opts:[['opus-5.5','low'],['opus-5.5','medium'],['sol-6.1','max'],['haiku-5.5','max'],['flash-3.8','high']],
     lesson:'GPT-6.1 Sol at max beats Opus 5.5 at medium for half the money, and the cheap-looking Gemini 3.8 Flash costs more than either. Compare per-task costs. List prices tell you little.' },
-  { t:'The hard bug queue', bench:'deepswe', budget:3, brief:'Long repository tasks with verifier-checked results. $3 per attempt.', opts:[['astra','xhigh'],['flash-3.8','high'],['luna-5.6','max'],['ds-4p','max'],['sonnet-5','max']],
-    lesson:'Gemini 3.8 Flash ties the leaders at 74% for $2.36. A model that is poor value on the composite index can be the best value for code. Value depends on the category.' },
+  { t:'The hard bug queue', bench:'deepswe', budget:3, brief:'Long repository tasks with verifier-checked results. $3 per attempt.', opts:[['astra','xhigh'],['flash-3.8','high'],['glm-5.3f','max'],['ds-4p','max'],['glm-5.3','max']],
+    lesson:'Gemini 3.8 Flash ties GPT-6 Astra at 74% on DeepSWE for $2.36, yet it resolves only 19% on Terminal-Bench 4.0 for $5.54. One benchmark does not settle a model\'s value, even within coding.' },
   { t:'The bulk classifier', bench:'aa5', budget:.05, brief:'High volume and simple work. You have 5 cents per task on the same index. How far can you stretch it?', opts:[['haiku-5.5','low'],['luna-6','medium'],['luna-6','low'],['terra-6.1','low'],['sol-6.1','low']],
     lesson:'Haiku 5.5 low and Luna medium land almost level at 4 cents. Terra low has more points but breaks the budget at 7 cents. At this end, the effort setting moves the bill as much as the model does.' },
   { t:'Check the evidence: security', check:true, bench:'exploit', brief:'One vendor reports 100% on ExploitBench for GPT-6 Astra. Another reports 91% for Claude Opus 5.5. What can you conclude?', choices:[
       ['Astra is 9 points stronger at exploitation.',false],['Neither score tells you what the API will do: both were taken with safeguards off, by each vendor on its own setup.',true],['Opus 5.5 is safer, because its score is lower.',false],['Both models would refuse this work in production, so the scores mean nothing.',false]],
     lesson:'Each vendor ran its own setup, and Anthropic states that its figures may not compare with public entries. A deployed model may also block the task, so test your own security workload with safeguards on.' },
-  { t:'The desktop agent', bench:'osw2', budget:5, brief:'Long workflows across real apps. Each run may cost up to $5. Effort levels are shown as rungs: rung 1 is the cheapest.', opts:[['opus-5.5','rung 3'],['opus-5.5','rung 4'],['opus-5.5','rung 5'],['fable-5.1','rung 1'],['opus-5','rung 1']],
-    lesson:'Opus 5.5 at rung 4 reaches 80.8% for about $4.25. The top rung adds a single point for twice the money, and the older premium models are worse at this budget.' },
+  { t:'The desktop agent', bench:'osw2', budget:5, brief:'Long workflows across real apps. Each run may cost up to $5. Effort levels are shown as rungs: rung 1 is the cheapest.', opts:[['opus-5.5','rung 3'],['opus-5.5','rung 4'],['opus-5.5','rung 5'],['fable-5.1','rung 1'],['fable-5.1','rung 2']],
+    lesson:'Opus 5.5 at rung 4 reaches 80.8% for about $4.25. The top rung adds a single point for twice the money, and Fable 5.1 cannot compete at this budget even though it lists at more than twice the price.' },
   { t:'The invoice pipeline', bench:'xpro', budget:.25, brief:'Every wrong value means manual rework, so only perfect documents count. You can spend 25 cents per page.', opts:[['astra','Codex'],['opus-5.5','Claude Code'],['sonnet-5.5','Claude Code'],['terra-6.1','Codex A'],['sol-6.1','Codex']],
     lesson:'Sonnet 5.5 is the best perfect-document rate under the budget. Note that Terra costs five times less for only 5 points fewer, so raising the budget is not always the answer.' },
-  { t:'The chart reader', bench:'chart', budget:.1, brief:'Reading charts from reports, without tools. 10 cents per task.', opts:[['opus-5.5','rung 4'],['opus-5.5','rung 1'],['fable-5.1','rung 3'],['opus-5','rung 3'],['sonnet-5','rung 4']],
-    lesson:'Opus 5.5 at rung 4 fits the budget and leads by 16 points. A newer generation can dominate a whole older family at the same price.' },
+  { t:'The chart reader', bench:'chart', budget:.1, brief:'Reading charts from reports, without tools. 10 cents per task.', opts:[['opus-5.5','rung 4'],['opus-5.5','rung 1'],['fable-5.1','rung 3'],['fable-5.1','rung 2'],['fable-5.1','rung 1']],
+    lesson:'Opus 5.5 at rung 4 fits the budget and leads by 16 points. Its cheapest rung, at 2 cents, already beats every Fable 5.1 setting. Check the low rungs before paying for more effort.' },
   { t:'Check the evidence: language', check:true, bench:'arena', brief:'Gemini 4 Carbon leads the Text Arena at 1528. What does this rating measure?', choices:[
       ['Translation accuracy across languages.',false],['Factual correctness of answers.',false],['Which reply people prefer in blind pairwise votes on open chat.',true],['Cost-adjusted writing quality.',false]],
-    lesson:'Preference is real signal for tone and readability, but it does not check facts. Carbon\'s row is also marked preliminary. For translation you need a language-pair test with human review.' },
-  { t:'The terminal agent', bench:'tb4', budget:8, brief:'Command-line tasks checked by test suites. Each task may cost $8 in its native agent.', opts:[['astra','low'],['astra','high'],['sol-5.6','max'],['luna-5.6','max'],['opus-5','max']],
-    lesson:'Astra at high gets 57.88% for $6.88, and raising it to max adds 0.3 points for $3 more. Several older models at max cost more and score less than Astra at low.' },
-  { t:'The review bot', bench:'ownrev', budget:.2, brief:'Seeded-defect review from our own pilot. 20 cents per outcome. Find the option with the best precision and the smallest bill.', opts:[['terra-5.6','medium'],['sol-5.6','xhigh'],['sol-5.6','medium']],
-    lesson:'Terra medium equals Sol xhigh on recall and precision at about a fifth of the cost. Equal scores should always go to the cheaper option. Two small files only, so test on your own code.' }
+    lesson:'Preference is real signal for tone and readability, but it does not check facts. Carbon\'s row is also marked preliminary, and most buyers cannot get the model yet. For translation you need a language-pair test with human review.' },
+  { t:'The terminal agent', bench:'tb4', budget:8, brief:'Command-line tasks checked by test suites. Each task may cost $8 in its native agent.', opts:[['opus-5.5','max'],['astra','high'],['astra','low'],['sol-6.1','max'],['flash-3.8','high']],
+    lesson:'GPT-6.1 Sol reaches 58.18% for $1.92, as much as GPT-6 Astra at max for $9.90. Opus 5.5 leads overall at 64.85%, for $14.30 per task. Whether those 6.7 points are worth seven times the cost depends on the job.' },
+  { t:'The puzzle solver', bench:'arc2', budget:.3, brief:'Hard abstract reasoning. 30 cents per task.', opts:[['sol-6.1','max'],['opus-5.5','medium'],['argon','medium'],['haiku-5.5','xhigh'],['luna-6','max']],
+    lesson:'GPT-6.1 Sol at max solves 94.2% for 25 cents. Opus 5.5 at medium costs more and solves 87.5%. Its best setting is high, at 41 cents and 93.3%, and raising effort to max lowers the score.' }
 ];
 const LOADS = [
   { b:'aa5', label:'General assistant tasks', v:20000 },
-  { b:'deepswe', label:'Coding tasks', v:1500 },
+  { b:'aacode', label:'Coding tasks', v:1500 },
   { b:'osw2', label:'Computer-use runs', v:300 },
   { b:'xpro', label:'Document pages', v:40000 },
   { b:'chart', label:'Charts to read', v:10000 }
@@ -785,9 +786,9 @@ function renderSide() {
     </div>`;
   renderPicks();
 }
-function newerThan(id){ const b=B[id], onChart=new Set(b.rows.map(r=>r[0])), later=RELEASES.filter(r=>r.d>b.date&&!r.ms.some(m=>onChart.has(m)));
-  if(!later.length) return '';
-  return `<p class="detail-quote"><b>Released after this snapshot, not on this chart:</b> ${later.slice(0,6).map(r=>ANCHOR(r.u,M[r.ms[0]][0])).join(', ')}${later.length>6?` and ${later.length-6} more`:''}.</p>`; }
+function newerThan(id){ const b=B[id], on=new Set(b.rows.map(r=>r[0])), labels=(b.noCost||[]).map(r=>r[0]);
+  const missing=MAJOR.filter(m=>!on.has(m)&&!labels.some(l=>l.includes(M[m][0].replace('Claude ','')))).map(m=>{ const r=releaseOf(m); return r?ANCHOR(r.u,M[m][0]):esc(M[m][0]); });
+  return missing.length?`<p class="detail-quote"><b>Current models not on this benchmark yet:</b> ${missing.join(', ')}.</p>`:''; }
 function dominator(sel){ const d=points(S.bench).filter(p=>p.cost<=sel.cost&&p.score>=sel.score&&p.key!==sel.key).sort((a,c)=>a.cost-c.cost)[0]; return d?` Beaten by ${esc(shortName(d.name))}${d.effort!=='default'?' '+esc(eff(d.effort)):''}: ${d.score} at ${money(d.cost)}.`:''; }
 function renderBelow(){ const c=CATS.find(x=>x.id===S.cat), b=B[S.bench], rows=points(S.bench).sort((a,z)=>z.score-a.score||a.cost-z.cost);
   const ev=c.evidence?EVIDENCE[c.evidence]:null;
@@ -910,7 +911,7 @@ function renderReleases(){ const v=$('#view-releases');
     v.querySelectorAll('#rel-seg button').forEach(el=>el.onclick=()=>{ RL.lab=el.dataset.l; RL.sel=null; v.querySelectorAll('#rel-seg button').forEach(x=>x.setAttribute('aria-pressed',x===el)); drawTimeline(); drawReleaseList(); }); }
   drawTimeline(); drawReleaseList(); }
 function drawTimeline(){ const host=$('#rel-tl'), W=Math.max(280,host.clientWidth||800), narrow=W<560, lanes=Object.keys(V).filter(k=>RL.lab==='all'||RL.lab===k), laneH=narrow?54:64, m={l:narrow?8:88,r:14,t:narrow?20:14,b:28}, H=m.t+m.b+laneH*lanes.length;
-  const lo=+new Date('2026-04-15'), hi=+new Date('2026-11-08'), x=d=>m.l+(+new Date(d)-lo)/(hi-lo)*(W-m.l-m.r), months=['2026-05-01','2026-06-01','2026-07-01','2026-08-01','2026-09-01','2026-10-01','2026-11-01'];
+  const lo=+new Date('2026-07-20'), hi=+new Date('2026-11-08'), x=d=>m.l+(+new Date(d)-lo)/(hi-lo)*(W-m.l-m.r), months=['2026-08-01','2026-09-01','2026-10-01','2026-11-01'];
   let t=`<g class="grid">${months.map(d=>`<line x1="${x(d)}" x2="${x(d)}" y1="${m.t}" y2="${H-m.b}"/>`).join('')}</g><g class="axis">${months.map(d=>`<text x="${x(d)}" y="${H-m.b+17}" text-anchor="middle">${new Date(d).toLocaleDateString('en-GB',{month:'short',timeZone:'UTC'})}</text>`).join('')}</g><line class="rel-today" x1="${x(AS_OF)}" x2="${x(AS_OF)}" y1="${m.t}" y2="${H-m.b}"/>`;
   lanes.forEach((k,li)=>{ const cy=m.t+laneH*li+laneH/2, rows=RELEASES.map((r,i)=>({r,i})).filter(o=>o.r.l===k).sort((a,c)=>a.r.d<c.r.d?-1:1);
     t+=`<text class="lane-label" x="${narrow?m.l:m.l-12}" y="${narrow?cy-laneH/2+13:cy+4}" text-anchor="${narrow?'start':'end'}">${V[k][0]}</text>`;
@@ -929,9 +930,10 @@ function renderSources(){ const rows=CATS.flatMap(c=>c.benches.map(id=>({c,id,b:
   $('#view-sources').innerHTML=`<div class="section-head"><h2>Where the numbers come from</h2><p>Read on ${AS_OF}. Live boards change, so every row keeps its date.</p></div>
   <div class="card"><div class="tbl-scroll"><table><thead><tr><th>Category</th><th>Benchmark</th><th>References</th><th>Reported by</th><th>Cost</th><th>Date</th><th class="r">Rows</th></tr></thead><tbody>${rows.map(r=>`<tr><td>${esc(r.c.name)}</td><td>${ANCHOR(benchHome(r.id),r.b.name)}</td><td>${REFS[r.id].slice(1).map(x=>ANCHOR(x[1],x[0])).concat(ANCHOR(r.b.url,'Results')).join(' · ')}</td><td>${REP[r.b.rep]}</td><td><span class="chip ${r.b.cost}">${costChip[r.b.cost][1]}</span></td><td class="num">${r.b.date}</td><td class="r num">${r.b.rows.length+(r.b.noCost||[]).length}</td></tr>`).join('')}</tbody></table></div></div>
   <div class="layout" style="grid-template-columns:repeat(auto-fit,minmax(min(22rem,100%),1fr))">
+    <div class="card"><h3>Only current models</h3><ul class="notes"><li>A model appears only if it is its lab's newest in that tier, checked against each lab's own model list on the read date: Claude Fable 5.1, Opus 5.5, Sonnet 5.5 and Haiku 5.5; GPT-6 Astra, GPT-6.1 Sol, GPT-6.1 Terra and GPT-6 Luna; Gemini 4 Carbon, 4 Argon and 3.8 Flash; and the newest from other labs.</li><li>Google lists no Gemini 4 Flash, so 3.8 Flash is its current Flash model.</li><li><b>Benchmarks left out, because too few current models have rows:</b> ${ANCHOR(benchHome('oswv'),'OSWorld-Verified')}, ${ANCHOR(benchHome('cyscen'),'CyScenarioBench')}, ${ANCHOR(benchHome('rabbit'),'CodeRabbit')}, and our own ${ANCHOR(benchHome('ownrev'),'code-review')} and ${ANCHOR(benchHome('ownui'),'HTML UI')} pilots, which still run on GPT-5.6.</li></ul></div>
     <div class="card"><h3>Three kinds of cost</h3><ul class="notes"><li><b>Cost measured:</b> the benchmark owner or study publishes the spend per task, page or outcome.</li><li><b>Cost read from chart:</b> a vendor plots the spend without printing values. We read it off the figure, accurate to about ±5%.</li><li><b>Cost estimated from list price:</b> nobody publishes spend, so we apply each model's list price to one token volume. The default is 100k input and 10k output, as on the Token Economy benchmark page. It ignores how many tokens each model really uses, and measured rows show that gap can reach seven times. Those dots are hollow.</li></ul></div>
     <div class="card"><h3>How to read a score</h3><ul class="notes"><li>A frontier row has no other row that is both cheaper and at least as good. It is the shortlist, not a verdict.</li><li>Scores compare only within one benchmark version. "Last 10%" on a category card is the one figure meant to compare across categories: the cost of the top score divided by the cheapest row within 10% of it.</li><li>External benchmarks suggest candidates for your own test. The correctness floors in Token Economy's model recommendation are separate and stay in force.</li><li>Rows older than 90 days at the read date are flagged.</li></ul></div>
-    <div class="card"><h3>Known conflicts and gaps</h3><ul class="notes"><li><b>Gemini 4 Carbon price:</b> Artificial Analysis states $4 / $20. Arena shows $2 / $10, and Google's pricing page did not list Carbon when read. We use $4 / $20.</li><li><b>Dated price changes:</b> Gemini 4 Argon moves from $2 / $10 to $4 / $20 on 1 Dec 2026, and Gemini 3.8 Flash from $0.75 / $3.75 to $1.50 / $7.50 on 1 Jan 2027. We show today's prices.</li><li><b>Gemini 4 Carbon access:</b> Google limits it to a subset of cyber defenders and trusted partners, so it stays out of every pick. <a href="https://blog.google/innovation-and-ai/models-and-research/gemini-models/introducing-gemini-4-carbon/" target="_blank" rel="noopener">Google, 28 Oct</a></li><li><b>Release dates:</b> Kimi K3.1 Pro and MiMo-V2.6 posts show no date, so we use press dates. Anthropic's newsroom lists Fable 5.1 on 15 Sept, while its release notes and system card say 1 Sept. The Qwen post did not load in our browser check, so its title and date come from search results.</li><li><b>HLE-Diamond lead:</b> the v5 article names Opus 5.5, while the later Carbon article names Carbon.</li><li><b>Prices outside the catalog:</b> GPT-6.1 Terra, Gemini 4 Carbon, Grok 4.7, Qwen3.8 Max and DeepSeek V4.1 Flash are not in Token Economy's price catalog yet. Their prices come from provider pages or boards.</li><li><b>Missing rows:</b> no current Claude 5.5, GPT-6.1 or Gemini 4 rows on DeepSWE. No per-task cost for security, language or knowledge work. No independent classification benchmark, and no version-level German translation test.</li><li><b>Lab claims:</b> figures on the Releases tab are the labs' own. Each lab picks its benchmarks and setups, so read them as claims until an independent row exists.</li><li><b>Secondary sources:</b> the ARC-AGI-2 costs for Astra, Argon and Opus 5.5, the Astra ExploitBench score, and the feedback-labelling study come from secondary reports.</li></ul></div>
+    <div class="card"><h3>Known conflicts and gaps</h3><ul class="notes"><li><b>Gemini 4 Carbon price:</b> Artificial Analysis states $4 / $20. Arena shows $2 / $10, and Google's pricing page did not list Carbon when read. We use $4 / $20.</li><li><b>Dated price changes:</b> Gemini 4 Argon moves from $2 / $10 to $4 / $20 on 1 Dec 2026, and Gemini 3.8 Flash from $0.75 / $3.75 to $1.50 / $7.50 on 1 Jan 2027. We show today's prices.</li><li><b>Gemini 4 Carbon access:</b> Google limits it to a subset of cyber defenders and trusted partners, so it stays out of every pick. <a href="https://blog.google/innovation-and-ai/models-and-research/gemini-models/introducing-gemini-4-carbon/" target="_blank" rel="noopener">Google, 28 Oct</a></li><li><b>Release dates:</b> Kimi K3.1 Pro and MiMo-V2.6 posts show no date, so we use press dates. Anthropic's newsroom lists Fable 5.1 on 15 Sept, while its release notes and system card say 1 Sept. The Qwen post did not load in our browser check, so its title and date come from search results.</li><li><b>HLE-Diamond lead:</b> the v5 article names Opus 5.5, while the later Carbon article names Carbon.</li><li><b>Prices outside the catalog:</b> GPT-6.1 Terra, Gemini 4 Carbon, Grok 4.7, Qwen3.8 Max and DeepSeek V4.1 Flash are not in Token Economy's price catalog yet. Their prices come from provider pages or boards.</li><li><b>Missing rows:</b> no Claude 5.5, GPT-6.1 or Gemini 4 rows on DeepSWE. The official OSWorld 2.0 board has no current model yet. No per-task cost for security or language. Artificial Analysis charts GDPval cost as stacked parts without totals, so knowledge work stays an estimate. No independent classification benchmark, and no version-level German translation test.</li><li><b>Lab claims:</b> figures on the Releases tab are the labs' own. Each lab picks its benchmarks and setups, so read them as claims until an independent row exists.</li><li><b>Secondary sources:</b> the Astra ExploitBench score and the feedback-labelling study come from secondary reports.</li></ul></div>
   </div>`; }
 
 /* ---------- Boot ---------- */
