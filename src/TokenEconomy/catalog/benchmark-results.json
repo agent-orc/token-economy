@@ -4662,7 +4662,7 @@
       "retrievedAt": "2026-11-01",
       "sourceUrl": "https://openai.com/index/introducing-gpt-6-1-sol/",
       "retrievalMethod": "browserRendered",
-      "evidenceExcerpt": "Manual read of Figure 8.13.3.B: gpt-6.1-sol, unspecified; score 71.4%, per-task cost not shown.",
+      "evidenceExcerpt": "Manual read of OpenAI computer-use chart: GPT-6.1 Sol 71.4% partial reward; per-task cost not shown.",
       "confidence": "publisherReported",
       "settingLabel": "unspecified"
     },
@@ -4758,7 +4758,7 @@
       "retrievedAt": "2026-11-01",
       "sourceUrl": "https://arcprize.org/media/data/evaluations.json",
       "retrievalMethod": "publishedData",
-      "evidenceExcerpt": "\"modelId\": \"anthropic-claude-opus-5-5-low\",   \"score\": 0.9225,   \"costPerTask\": 0.09473719000000001",
+      "evidenceExcerpt": "{\n  \"datasetId\": \"v2_Semi_Private\",\n  \"modelId\": \"anthropic-claude-opus-5-5-low\",\n  \"score\": 0.701388888888889,\n  \"costPerTask\": 0.24127179999999998,\n  \"resultsUrl\": \"/results/anthropic-claude-opus-5-5\",\n  \"display\": true\n}",
       "confidence": "publisherReported",
       "secondaryMetrics": {
         "costPerTaskUsd": 0.2413
@@ -4776,7 +4776,7 @@
       "retrievedAt": "2026-11-01",
       "sourceUrl": "https://arcprize.org/media/data/evaluations.json",
       "retrievalMethod": "publishedData",
-      "evidenceExcerpt": "\"modelId\": \"anthropic-claude-opus-5-5-medium\",   \"score\": 0.9825,   \"costPerTask\": 0.11824849",
+      "evidenceExcerpt": "{\n  \"datasetId\": \"v2_Semi_Private\",\n  \"modelId\": \"anthropic-claude-opus-5-5-medium\",\n  \"score\": 0.875,\n  \"costPerTask\": 0.3369188,\n  \"resultsUrl\": \"/results/anthropic-claude-opus-5-5\",\n  \"display\": true\n}",
       "confidence": "publisherReported",
       "secondaryMetrics": {
         "costPerTaskUsd": 0.3369
@@ -4794,7 +4794,7 @@
       "retrievedAt": "2026-11-01",
       "sourceUrl": "https://arcprize.org/media/data/evaluations.json",
       "retrievalMethod": "publishedData",
-      "evidenceExcerpt": "\"modelId\": \"anthropic-claude-opus-5-5-high\",   \"score\": 0.9825,   \"costPerTask\": 0.12628094",
+      "evidenceExcerpt": "{\n  \"datasetId\": \"v2_Semi_Private\",\n  \"modelId\": \"anthropic-claude-opus-5-5-high\",\n  \"score\": 0.9333333333333333,\n  \"costPerTask\": 0.4078964666666666,\n  \"resultsUrl\": \"/results/anthropic-claude-opus-5-5\",\n  \"display\": true\n}",
       "confidence": "publisherReported",
       "secondaryMetrics": {
         "costPerTaskUsd": 0.4079
@@ -4812,7 +4812,7 @@
       "retrievedAt": "2026-11-01",
       "sourceUrl": "https://arcprize.org/media/data/evaluations.json",
       "retrievalMethod": "publishedData",
-      "evidenceExcerpt": "\"modelId\": \"anthropic-claude-opus-5-5-xhigh\",   \"score\": 0.98625,   \"costPerTask\": 0.16022644",
+      "evidenceExcerpt": "{\n  \"datasetId\": \"v2_Semi_Private\",\n  \"modelId\": \"anthropic-claude-opus-5-5-xhigh\",\n  \"score\": 0.925,\n  \"costPerTask\": 0.6709066333333333,\n  \"resultsUrl\": \"/results/anthropic-claude-opus-5-5\",\n  \"display\": true\n}",
       "confidence": "publisherReported",
       "secondaryMetrics": {
         "costPerTaskUsd": 0.6709
@@ -4830,7 +4830,7 @@
       "retrievedAt": "2026-11-01",
       "sourceUrl": "https://arcprize.org/media/data/evaluations.json",
       "retrievalMethod": "publishedData",
-      "evidenceExcerpt": "\"modelId\": \"anthropic-claude-opus-5-5-max\",   \"score\": 0.9825,   \"costPerTask\": 0.38976489000000003",
+      "evidenceExcerpt": "{\n  \"datasetId\": \"v2_Semi_Private\",\n  \"modelId\": \"anthropic-claude-opus-5-5-max\",\n  \"score\": 0.9166666666666666,\n  \"costPerTask\": 1.8517409666666667,\n  \"resultsUrl\": \"/results/anthropic-claude-opus-5-5\",\n  \"display\": true\n}",
       "confidence": "publisherReported",
       "secondaryMetrics": {
         "costPerTaskUsd": 1.8517
@@ -4848,7 +4848,7 @@
       "retrievedAt": "2026-11-01",
       "sourceUrl": "https://arcprize.org/media/data/evaluations.json",
       "retrievalMethod": "publishedData",
-      "evidenceExcerpt": "\"modelId\": \"anthropic-claude-sonnet-5-5-low\",   \"score\": 0.7475,   \"costPerTask\": 0.05149072000000002",
+      "evidenceExcerpt": "{\n  \"datasetId\": \"v2_Semi_Private\",\n  \"modelId\": \"anthropic-claude-sonnet-5-5-low\",\n  \"score\": 0.24027777777777776,\n  \"costPerTask\": 0.10923548333333331,\n  \"resultsUrl\": \"/results/anthropic-claude-sonnet-5-5\",\n  \"display\": true\n}",
       "confidence": "publisherReported",
       "secondaryMetrics": {
         "costPerTaskUsd": 0.1092
@@ -4866,7 +4866,7 @@
       "retrievedAt": "2026-11-01",
       "sourceUrl": "https://arcprize.org/media/data/evaluations.json",
       "retrievalMethod": "publishedData",
-      "evidenceExcerpt": "\"modelId\": \"anthropic-claude-sonnet-5-5-medium\",   \"score\": 0.81375,   \"costPerTask\": 0.05598867000000004",
+      "evidenceExcerpt": "{\n  \"datasetId\": \"v2_Semi_Private\",\n  \"modelId\": \"anthropic-claude-sonnet-5-5-medium\",\n  \"score\": 0.3277777777777777,\n  \"costPerTask\": 0.15537473333333335,\n  \"resultsUrl\": \"/results/anthropic-claude-sonnet-5-5\",\n  \"display\": true\n}",
       "confidence": "publisherReported",
       "secondaryMetrics": {
         "costPerTaskUsd": 0.1554
@@ -4884,7 +4884,7 @@
       "retrievedAt": "2026-11-01",
       "sourceUrl": "https://arcprize.org/media/data/evaluations.json",
       "retrievalMethod": "publishedData",
-      "evidenceExcerpt": "\"modelId\": \"anthropic-claude-sonnet-5-5-high\",   \"score\": 0.92375,   \"costPerTask\": 0.07114364500000002",
+      "evidenceExcerpt": "{\n  \"datasetId\": \"v2_Semi_Private\",\n  \"modelId\": \"anthropic-claude-sonnet-5-5-high\",\n  \"score\": 0.6736111111111112,\n  \"costPerTask\": 0.2767547333333332,\n  \"resultsUrl\": \"/results/anthropic-claude-sonnet-5-5\",\n  \"display\": true\n}",
       "confidence": "publisherReported",
       "secondaryMetrics": {
         "costPerTaskUsd": 0.2768
@@ -4902,7 +4902,7 @@
       "retrievedAt": "2026-11-01",
       "sourceUrl": "https://arcprize.org/media/data/evaluations.json",
       "retrievalMethod": "publishedData",
-      "evidenceExcerpt": "\"modelId\": \"anthropic-claude-sonnet-5-5-xhigh\",   \"score\": 0.95875,   \"costPerTask\": 0.09937019500000012",
+      "evidenceExcerpt": "{\n  \"datasetId\": \"v2_Semi_Private\",\n  \"modelId\": \"anthropic-claude-sonnet-5-5-xhigh\",\n  \"score\": 0.8388888888888889,\n  \"costPerTask\": 0.5461994833333332,\n  \"resultsUrl\": \"/results/anthropic-claude-sonnet-5-5\",\n  \"display\": true\n}",
       "confidence": "publisherReported",
       "secondaryMetrics": {
         "costPerTaskUsd": 0.5462
@@ -4920,7 +4920,7 @@
       "retrievedAt": "2026-11-01",
       "sourceUrl": "https://arcprize.org/media/data/evaluations.json",
       "retrievalMethod": "publishedData",
-      "evidenceExcerpt": "\"modelId\": \"anthropic-claude-haiku-5-5-low\",   \"score\": 0.57875,   \"costPerTask\": 0.0052227260000000005",
+      "evidenceExcerpt": "{\n  \"datasetId\": \"v2_Semi_Private\",\n  \"modelId\": \"anthropic-claude-haiku-5-5-low\",\n  \"score\": 0.027777777777777776,\n  \"costPerTask\": 0.007986432500000003,\n  \"resultsUrl\": \"/results/anthropic-claude-haiku-5-5\",\n  \"display\": true\n}",
       "confidence": "publisherReported",
       "secondaryMetrics": {
         "costPerTaskUsd": 0.008
@@ -4938,7 +4938,7 @@
       "retrievedAt": "2026-11-01",
       "sourceUrl": "https://arcprize.org/media/data/evaluations.json",
       "retrievalMethod": "publishedData",
-      "evidenceExcerpt": "\"modelId\": \"anthropic-claude-haiku-5-5-medium\",   \"score\": 0.74,   \"costPerTask\": 0.0077006972500000045",
+      "evidenceExcerpt": "{\n  \"datasetId\": \"v2_Semi_Private\",\n  \"modelId\": \"anthropic-claude-haiku-5-5-medium\",\n  \"score\": 0.09444444444444443,\n  \"costPerTask\": 0.014974957499999999,\n  \"resultsUrl\": \"/results/anthropic-claude-haiku-5-5\",\n  \"display\": true\n}",
       "confidence": "publisherReported",
       "secondaryMetrics": {
         "costPerTaskUsd": 0.015
@@ -4956,7 +4956,7 @@
       "retrievedAt": "2026-11-01",
       "sourceUrl": "https://arcprize.org/media/data/evaluations.json",
       "retrievalMethod": "publishedData",
-      "evidenceExcerpt": "\"modelId\": \"anthropic-claude-haiku-5-5-high\",   \"score\": 0.86875,   \"costPerTask\": 0.013303028500000003",
+      "evidenceExcerpt": "{\n  \"datasetId\": \"v2_Semi_Private\",\n  \"modelId\": \"anthropic-claude-haiku-5-5-high\",\n  \"score\": 0.3069444444444444,\n  \"costPerTask\": 0.046677990833333315,\n  \"resultsUrl\": \"/results/anthropic-claude-haiku-5-5\",\n  \"display\": true\n}",
       "confidence": "publisherReported",
       "secondaryMetrics": {
         "costPerTaskUsd": 0.0467
@@ -4974,7 +4974,7 @@
       "retrievedAt": "2026-11-01",
       "sourceUrl": "https://arcprize.org/media/data/evaluations.json",
       "retrievalMethod": "publishedData",
-      "evidenceExcerpt": "\"modelId\": \"anthropic-claude-haiku-5-5-xhigh\",   \"score\": 0.88875,   \"costPerTask\": 0.020487420250000003",
+      "evidenceExcerpt": "{\n  \"datasetId\": \"v2_Semi_Private\",\n  \"modelId\": \"anthropic-claude-haiku-5-5-xhigh\",\n  \"score\": 0.6125,\n  \"costPerTask\": 0.08498917333333329,\n  \"resultsUrl\": \"/results/anthropic-claude-haiku-5-5\",\n  \"display\": true\n}",
       "confidence": "publisherReported",
       "secondaryMetrics": {
         "costPerTaskUsd": 0.085
@@ -4992,7 +4992,7 @@
       "retrievedAt": "2026-11-01",
       "sourceUrl": "https://arcprize.org/media/data/evaluations.json",
       "retrievalMethod": "publishedData",
-      "evidenceExcerpt": "\"modelId\": \"anthropic-claude-fable-5-1-low\",   \"score\": 0.955,   \"costPerTask\": 0.28662135",
+      "evidenceExcerpt": "{\n  \"datasetId\": \"v2_Semi_Private\",\n  \"modelId\": \"anthropic-claude-fable-5-1-low\",\n  \"score\": 0.7833333333333333,\n  \"costPerTask\": 0.9523265833333336,\n  \"resultsUrl\": \"/results/anthropic-claude-fable-5-1\",\n  \"display\": true\n}",
       "confidence": "publisherReported",
       "secondaryMetrics": {
         "costPerTaskUsd": 0.9523
@@ -5010,7 +5010,7 @@
       "retrievedAt": "2026-11-01",
       "sourceUrl": "https://arcprize.org/media/data/evaluations.json",
       "retrievalMethod": "publishedData",
-      "evidenceExcerpt": "\"modelId\": \"anthropic-claude-fable-5-1-medium\",   \"score\": 0.96625,   \"costPerTask\": 0.3191132249999999",
+      "evidenceExcerpt": "{\n  \"datasetId\": \"v2_Semi_Private\",\n  \"modelId\": \"anthropic-claude-fable-5-1-medium\",\n  \"score\": 0.8625,\n  \"costPerTask\": 1.2239411666666673,\n  \"resultsUrl\": \"/results/anthropic-claude-fable-5-1\",\n  \"display\": true\n}",
       "confidence": "publisherReported",
       "secondaryMetrics": {
         "costPerTaskUsd": 1.2239
@@ -5028,7 +5028,7 @@
       "retrievedAt": "2026-11-01",
       "sourceUrl": "https://arcprize.org/media/data/evaluations.json",
       "retrievalMethod": "publishedData",
-      "evidenceExcerpt": "\"modelId\": \"anthropic-claude-fable-5-1-high\",   \"score\": 0.97625,   \"costPerTask\": 0.3808375999999998",
+      "evidenceExcerpt": "{\n  \"datasetId\": \"v2_Semi_Private\",\n  \"modelId\": \"anthropic-claude-fable-5-1-high\",\n  \"score\": 0.8875,\n  \"costPerTask\": 1.6673061666666666,\n  \"resultsUrl\": \"/results/anthropic-claude-fable-5-1\",\n  \"display\": true\n}",
       "confidence": "publisherReported",
       "secondaryMetrics": {
         "costPerTaskUsd": 1.6673
@@ -5046,7 +5046,7 @@
       "retrievedAt": "2026-11-01",
       "sourceUrl": "https://arcprize.org/media/data/evaluations.json",
       "retrievalMethod": "publishedData",
-      "evidenceExcerpt": "\"modelId\": \"anthropic-claude-fable-5-1-xhigh\",   \"score\": 0.9875,   \"costPerTask\": 0.6313754750000006",
+      "evidenceExcerpt": "{\n  \"datasetId\": \"v2_Semi_Private\",\n  \"modelId\": \"anthropic-claude-fable-5-1-xhigh\",\n  \"score\": 0.9,\n  \"costPerTask\": 3.120216916666669,\n  \"resultsUrl\": \"/results/anthropic-claude-fable-5-1\",\n  \"display\": true\n}",
       "confidence": "publisherReported",
       "secondaryMetrics": {
         "costPerTaskUsd": 3.1202
@@ -5064,7 +5064,7 @@
       "retrievedAt": "2026-11-01",
       "sourceUrl": "https://arcprize.org/media/data/evaluations.json",
       "retrievalMethod": "publishedData",
-      "evidenceExcerpt": "\"modelId\": \"anthropic-claude-fable-5-1-max\",   \"score\": 0.99,   \"costPerTask\": 0.892544475000001",
+      "evidenceExcerpt": "{\n  \"datasetId\": \"v2_Semi_Private\",\n  \"modelId\": \"anthropic-claude-fable-5-1-max\",\n  \"score\": 0.9,\n  \"costPerTask\": 4.492348833333334,\n  \"resultsUrl\": \"/results/anthropic-claude-fable-5-1\",\n  \"display\": true\n}",
       "confidence": "publisherReported",
       "secondaryMetrics": {
         "costPerTaskUsd": 4.4923
@@ -5082,7 +5082,7 @@
       "retrievedAt": "2026-11-01",
       "sourceUrl": "https://arcprize.org/media/data/evaluations.json",
       "retrievalMethod": "publishedData",
-      "evidenceExcerpt": "\"modelId\": \"openai-gpt-6-astra-low\",   \"score\": 0.9825,   \"costPerTask\": 0.18578744999999997",
+      "evidenceExcerpt": "{\n  \"datasetId\": \"v2_Semi_Private\",\n  \"modelId\": \"openai-gpt-6-astra-low\",\n  \"score\": 0.8541666666666666,\n  \"costPerTask\": 0.4162418333333334,\n  \"resultsUrl\": \"/results/openai-gpt-6-astra\",\n  \"display\": true\n}",
       "confidence": "publisherReported",
       "secondaryMetrics": {
         "costPerTaskUsd": 0.4162
@@ -5100,7 +5100,7 @@
       "retrievedAt": "2026-11-01",
       "sourceUrl": "https://arcprize.org/media/data/evaluations.json",
       "retrievalMethod": "publishedData",
-      "evidenceExcerpt": "\"modelId\": \"openai-gpt-6-astra-medium\",   \"score\": 0.9875,   \"costPerTask\": 0.1966966999999999",
+      "evidenceExcerpt": "{\n  \"datasetId\": \"v2_Semi_Private\",\n  \"modelId\": \"openai-gpt-6-astra-medium\",\n  \"score\": 0.9208333333333333,\n  \"costPerTask\": 0.4800926666666667,\n  \"resultsUrl\": \"/results/openai-gpt-6-astra\",\n  \"display\": true\n}",
       "confidence": "publisherReported",
       "secondaryMetrics": {
         "costPerTaskUsd": 0.4801
@@ -5118,7 +5118,7 @@
       "retrievedAt": "2026-11-01",
       "sourceUrl": "https://arcprize.org/media/data/evaluations.json",
       "retrievalMethod": "publishedData",
-      "evidenceExcerpt": "\"modelId\": \"openai-gpt-6-astra-high\",   \"score\": 0.985,   \"costPerTask\": 0.23390332500000022",
+      "evidenceExcerpt": "{\n  \"datasetId\": \"v2_Semi_Private\",\n  \"modelId\": \"openai-gpt-6-astra-high\",\n  \"score\": 0.9208333333333333,\n  \"costPerTask\": 0.6680793333333332,\n  \"resultsUrl\": \"/results/openai-gpt-6-astra\",\n  \"display\": true\n}",
       "confidence": "publisherReported",
       "secondaryMetrics": {
         "costPerTaskUsd": 0.6681
@@ -5136,7 +5136,7 @@
       "retrievedAt": "2026-11-01",
       "sourceUrl": "https://arcprize.org/media/data/evaluations.json",
       "retrievalMethod": "publishedData",
-      "evidenceExcerpt": "\"modelId\": \"openai-gpt-6-astra-xhigh\",   \"score\": 0.99,   \"costPerTask\": 0.27634357499999984",
+      "evidenceExcerpt": "{\n  \"datasetId\": \"v2_Semi_Private\",\n  \"modelId\": \"openai-gpt-6-astra-xhigh\",\n  \"score\": 0.9333333333333333,\n  \"costPerTask\": 0.8286855833333331,\n  \"resultsUrl\": \"/results/openai-gpt-6-astra\",\n  \"display\": true\n}",
       "confidence": "publisherReported",
       "secondaryMetrics": {
         "costPerTaskUsd": 0.8287
@@ -5154,7 +5154,7 @@
       "retrievedAt": "2026-11-01",
       "sourceUrl": "https://arcprize.org/media/data/evaluations.json",
       "retrievalMethod": "publishedData",
-      "evidenceExcerpt": "\"modelId\": \"openai-gpt-6-astra-max\",   \"score\": 0.9775,   \"costPerTask\": 0.3296810250000001",
+      "evidenceExcerpt": "{\n  \"datasetId\": \"v2_Semi_Private\",\n  \"modelId\": \"openai-gpt-6-astra-max\",\n  \"score\": 0.95,\n  \"costPerTask\": 1.1194680833333335,\n  \"resultsUrl\": \"/results/openai-gpt-6-astra\",\n  \"display\": true\n}",
       "confidence": "publisherReported",
       "secondaryMetrics": {
         "costPerTaskUsd": 1.1195
@@ -5172,7 +5172,7 @@
       "retrievedAt": "2026-11-01",
       "sourceUrl": "https://arcprize.org/media/data/evaluations.json",
       "retrievalMethod": "publishedData",
-      "evidenceExcerpt": "\"modelId\": \"openai-gpt-6-1-sol-low\",   \"score\": 0.96375,   \"costPerTask\": 0.038009140000000004",
+      "evidenceExcerpt": "{\n  \"datasetId\": \"v2_Semi_Private\",\n  \"modelId\": \"openai-gpt-6-1-sol-low\",\n  \"score\": 0.7666666666666667,\n  \"costPerTask\": 0.08553803333333333,\n  \"resultsUrl\": \"/results/openai-gpt-6-1-sol\",\n  \"display\": true\n}",
       "confidence": "publisherReported",
       "secondaryMetrics": {
         "costPerTaskUsd": 0.0855
@@ -5190,7 +5190,7 @@
       "retrievedAt": "2026-11-01",
       "sourceUrl": "https://arcprize.org/media/data/evaluations.json",
       "retrievalMethod": "publishedData",
-      "evidenceExcerpt": "\"modelId\": \"openai-gpt-6-1-sol-medium\",   \"score\": 0.97875,   \"costPerTask\": 0.04068336499999999",
+      "evidenceExcerpt": "{\n  \"datasetId\": \"v2_Semi_Private\",\n  \"modelId\": \"openai-gpt-6-1-sol-medium\",\n  \"score\": 0.8666666666666667,\n  \"costPerTask\": 0.10037736666666668,\n  \"resultsUrl\": \"/results/openai-gpt-6-1-sol\",\n  \"display\": true\n}",
       "confidence": "publisherReported",
       "secondaryMetrics": {
         "costPerTaskUsd": 0.1004
@@ -5208,7 +5208,7 @@
       "retrievedAt": "2026-11-01",
       "sourceUrl": "https://arcprize.org/media/data/evaluations.json",
       "retrievalMethod": "publishedData",
-      "evidenceExcerpt": "\"modelId\": \"openai-gpt-6-1-sol-high\",   \"score\": 0.9825,   \"costPerTask\": 0.04763463999999999",
+      "evidenceExcerpt": "{\n  \"datasetId\": \"v2_Semi_Private\",\n  \"modelId\": \"openai-gpt-6-1-sol-high\",\n  \"score\": 0.9166666666666666,\n  \"costPerTask\": 0.13468670000000002,\n  \"resultsUrl\": \"/results/openai-gpt-6-1-sol\",\n  \"display\": true\n}",
       "confidence": "publisherReported",
       "secondaryMetrics": {
         "costPerTaskUsd": 0.1347
@@ -5226,7 +5226,7 @@
       "retrievedAt": "2026-11-01",
       "sourceUrl": "https://arcprize.org/media/data/evaluations.json",
       "retrievalMethod": "publishedData",
-      "evidenceExcerpt": "\"modelId\": \"openai-gpt-6-1-sol-xhigh\",   \"score\": 0.985,   \"costPerTask\": 0.057555115",
+      "evidenceExcerpt": "{\n  \"datasetId\": \"v2_Semi_Private\",\n  \"modelId\": \"openai-gpt-6-1-sol-xhigh\",\n  \"score\": 0.9166666666666666,\n  \"costPerTask\": 0.17808970000000007,\n  \"resultsUrl\": \"/results/openai-gpt-6-1-sol\",\n  \"display\": true\n}",
       "confidence": "publisherReported",
       "secondaryMetrics": {
         "costPerTaskUsd": 0.1781
@@ -5244,7 +5244,7 @@
       "retrievedAt": "2026-11-01",
       "sourceUrl": "https://arcprize.org/media/data/evaluations.json",
       "retrievalMethod": "publishedData",
-      "evidenceExcerpt": "\"modelId\": \"openai-gpt-6-1-sol-max\",   \"score\": 0.985,   \"costPerTask\": 0.076886565",
+      "evidenceExcerpt": "{\n  \"datasetId\": \"v2_Semi_Private\",\n  \"modelId\": \"openai-gpt-6-1-sol-max\",\n  \"score\": 0.9416666666666667,\n  \"costPerTask\": 0.25374978333333337,\n  \"resultsUrl\": \"/results/openai-gpt-6-1-sol\",\n  \"display\": true\n}",
       "confidence": "publisherReported",
       "secondaryMetrics": {
         "costPerTaskUsd": 0.2537
@@ -5262,7 +5262,7 @@
       "retrievedAt": "2026-11-01",
       "sourceUrl": "https://arcprize.org/media/data/evaluations.json",
       "retrievalMethod": "publishedData",
-      "evidenceExcerpt": "\"modelId\": \"openai-gpt-6-luna-low\",   \"score\": 0.465,   \"costPerTask\": 0.002682557",
+      "evidenceExcerpt": "{\n  \"datasetId\": \"v2_Semi_Private\",\n  \"modelId\": \"openai-gpt-6-luna-low\",\n  \"score\": 0.04583333333333333,\n  \"costPerTask\": 0.005273818333333334,\n  \"resultsUrl\": \"/results/openai-gpt-6-luna\",\n  \"display\": true\n}",
       "confidence": "publisherReported",
       "secondaryMetrics": {
         "costPerTaskUsd": 0.0053
@@ -5280,7 +5280,7 @@
       "retrievedAt": "2026-11-01",
       "sourceUrl": "https://arcprize.org/media/data/evaluations.json",
       "retrievalMethod": "publishedData",
-      "evidenceExcerpt": "\"modelId\": \"openai-gpt-6-luna-medium\",   \"score\": 0.70125,   \"costPerTask\": 0.0050656270000000005",
+      "evidenceExcerpt": "{\n  \"datasetId\": \"v2_Semi_Private\",\n  \"modelId\": \"openai-gpt-6-luna-medium\",\n  \"score\": 0.18055555555555555,\n  \"costPerTask\": 0.012202668333333333,\n  \"resultsUrl\": \"/results/openai-gpt-6-luna\",\n  \"display\": true\n}",
       "confidence": "publisherReported",
       "secondaryMetrics": {
         "costPerTaskUsd": 0.0122
@@ -5298,7 +5298,7 @@
       "retrievedAt": "2026-11-01",
       "sourceUrl": "https://arcprize.org/media/data/evaluations.json",
       "retrievalMethod": "publishedData",
-      "evidenceExcerpt": "\"modelId\": \"openai-gpt-6-luna-high\",   \"score\": 0.7975,   \"costPerTask\": 0.0076511982499999995",
+      "evidenceExcerpt": "{\n  \"datasetId\": \"v2_Semi_Private\",\n  \"modelId\": \"openai-gpt-6-luna-high\",\n  \"score\": 0.3138888888888889,\n  \"costPerTask\": 0.02336191,\n  \"resultsUrl\": \"/results/openai-gpt-6-luna\",\n  \"display\": true\n}",
       "confidence": "publisherReported",
       "secondaryMetrics": {
         "costPerTaskUsd": 0.0234
@@ -5316,7 +5316,7 @@
       "retrievedAt": "2026-11-01",
       "sourceUrl": "https://arcprize.org/media/data/evaluations.json",
       "retrievalMethod": "publishedData",
-      "evidenceExcerpt": "\"modelId\": \"openai-gpt-6-luna-xhigh\",   \"score\": 0.8575,   \"costPerTask\": 0.00886935575",
+      "evidenceExcerpt": "{\n  \"datasetId\": \"v2_Semi_Private\",\n  \"modelId\": \"openai-gpt-6-luna-xhigh\",\n  \"score\": 0.41944444444444445,\n  \"costPerTask\": 0.032297893333333334,\n  \"resultsUrl\": \"/results/openai-gpt-6-luna\",\n  \"display\": true\n}",
       "confidence": "publisherReported",
       "secondaryMetrics": {
         "costPerTaskUsd": 0.0323
@@ -5334,7 +5334,7 @@
       "retrievedAt": "2026-11-01",
       "sourceUrl": "https://arcprize.org/media/data/evaluations.json",
       "retrievalMethod": "publishedData",
-      "evidenceExcerpt": "\"modelId\": \"openai-gpt-6-luna-max\",   \"score\": 0.925,   \"costPerTask\": 0.01291232625",
+      "evidenceExcerpt": "{\n  \"datasetId\": \"v2_Semi_Private\",\n  \"modelId\": \"openai-gpt-6-luna-max\",\n  \"score\": 0.5930555555555556,\n  \"costPerTask\": 0.06181100083333334,\n  \"resultsUrl\": \"/results/openai-gpt-6-luna\",\n  \"display\": true\n}",
       "confidence": "publisherReported",
       "secondaryMetrics": {
         "costPerTaskUsd": 0.0618
@@ -5352,7 +5352,7 @@
       "retrievedAt": "2026-11-01",
       "sourceUrl": "https://arcprize.org/media/data/evaluations.json",
       "retrievalMethod": "publishedData",
-      "evidenceExcerpt": "\"modelId\": \"google-gemini-4-argon-low\",   \"score\": 0.855,   \"costPerTask\": 0.035138555000000016",
+      "evidenceExcerpt": "{\n  \"datasetId\": \"v2_Semi_Private\",\n  \"modelId\": \"google-gemini-4-argon-low\",\n  \"score\": 0.42083333333333334,\n  \"costPerTask\": 0.07381080000000001,\n  \"resultsUrl\": \"/results/google-gemini-4-argon\",\n  \"display\": true\n}",
       "confidence": "publisherReported",
       "secondaryMetrics": {
         "costPerTaskUsd": 0.0738
@@ -5370,7 +5370,7 @@
       "retrievedAt": "2026-11-01",
       "sourceUrl": "https://arcprize.org/media/data/evaluations.json",
       "retrievalMethod": "publishedData",
-      "evidenceExcerpt": "\"modelId\": \"google-gemini-4-argon-medium\",   \"score\": 0.98,   \"costPerTask\": 0.05389490500000003",
+      "evidenceExcerpt": "{\n  \"datasetId\": \"v2_Semi_Private\",\n  \"modelId\": \"google-gemini-4-argon-medium\",\n  \"score\": 0.8708333333333333,\n  \"costPerTask\": 0.13732313333333326,\n  \"resultsUrl\": \"/results/google-gemini-4-argon\",\n  \"display\": true\n}",
       "confidence": "publisherReported",
       "secondaryMetrics": {
         "costPerTaskUsd": 0.1373
@@ -5388,7 +5388,7 @@
       "retrievedAt": "2026-11-01",
       "sourceUrl": "https://arcprize.org/media/data/evaluations.json",
       "retrievalMethod": "publishedData",
-      "evidenceExcerpt": "\"modelId\": \"google-gemini-4-argon-high\",   \"score\": 0.995,   \"costPerTask\": 0.12766658000000017",
+      "evidenceExcerpt": "{\n  \"datasetId\": \"v2_Semi_Private\",\n  \"modelId\": \"google-gemini-4-argon-high\",\n  \"score\": 0.9125,\n  \"costPerTask\": 0.3248761333333333,\n  \"resultsUrl\": \"/results/google-gemini-4-argon\",\n  \"display\": true\n}",
       "confidence": "publisherReported",
       "secondaryMetrics": {
         "costPerTaskUsd": 0.3249
@@ -5406,7 +5406,7 @@
       "retrievedAt": "2026-11-01",
       "sourceUrl": "https://arcprize.org/media/data/evaluations.json",
       "retrievalMethod": "publishedData",
-      "evidenceExcerpt": "\"modelId\": \"google-gemini-3-8-flash-low\",   \"score\": 0.945,   \"costPerTask\": 0.04600169250000004",
+      "evidenceExcerpt": "{\n  \"datasetId\": \"v2_Semi_Private\",\n  \"modelId\": \"google-gemini-3-8-flash-low\",\n  \"score\": 0.775,\n  \"costPerTask\": 0.15445401874999998,\n  \"resultsUrl\": \"/results/google-gemini-3-8-flash\",\n  \"display\": true\n}",
       "confidence": "publisherReported",
       "secondaryMetrics": {
         "costPerTaskUsd": 0.1545
@@ -5424,7 +5424,7 @@
       "retrievedAt": "2026-11-01",
       "sourceUrl": "https://arcprize.org/media/data/evaluations.json",
       "retrievalMethod": "publishedData",
-      "evidenceExcerpt": "\"modelId\": \"google-gemini-3-8-flash-medium\",   \"score\": 0.9775,   \"costPerTask\": 0.07097697374999998",
+      "evidenceExcerpt": "{\n  \"datasetId\": \"v2_Semi_Private\",\n  \"modelId\": \"google-gemini-3-8-flash-medium\",\n  \"score\": 0.8291666666666667,\n  \"costPerTask\": 0.2477876749999999,\n  \"resultsUrl\": \"/results/google-gemini-3-8-flash\",\n  \"display\": true\n}",
       "confidence": "publisherReported",
       "secondaryMetrics": {
         "costPerTaskUsd": 0.2478
@@ -5442,7 +5442,7 @@
       "retrievedAt": "2026-11-01",
       "sourceUrl": "https://arcprize.org/media/data/evaluations.json",
       "retrievalMethod": "publishedData",
-      "evidenceExcerpt": "\"modelId\": \"google-gemini-3-8-flash-high\",   \"score\": 0.98,   \"costPerTask\": 0.12971782687499991",
+      "evidenceExcerpt": "{\n  \"datasetId\": \"v2_Semi_Private\",\n  \"modelId\": \"google-gemini-3-8-flash-high\",\n  \"score\": 0.8916666666666667,\n  \"costPerTask\": 0.39972941250000005,\n  \"resultsUrl\": \"/results/google-gemini-3-8-flash\",\n  \"display\": true\n}",
       "confidence": "publisherReported",
       "secondaryMetrics": {
         "costPerTaskUsd": 0.3997
@@ -5460,7 +5460,7 @@
       "retrievedAt": "2026-11-01",
       "sourceUrl": "https://arcprize.org/media/data/evaluations.json",
       "retrievalMethod": "publishedData",
-      "evidenceExcerpt": "\"modelId\": \"deepseek-v4-1-flash-1017-low\",   \"score\": 0.9725,   \"costPerTask\": 0.03596005049999998",
+      "evidenceExcerpt": "{\n  \"datasetId\": \"v2_Semi_Private\",\n  \"modelId\": \"deepseek-v4-1-flash-1017-low\",\n  \"score\": 0.7361111111111112,\n  \"costPerTask\": 0.133540355,\n  \"resultsUrl\": \"/results/deepseek-v4-1-flash-1017\",\n  \"display\": true\n}",
       "confidence": "publisherReported",
       "secondaryMetrics": {
         "costPerTaskUsd": 0.1335
@@ -5478,7 +5478,7 @@
       "retrievedAt": "2026-11-01",
       "sourceUrl": "https://arcprize.org/media/data/evaluations.json",
       "retrievalMethod": "publishedData",
-      "evidenceExcerpt": "\"modelId\": \"deepseek-v4-1-flash-1017-high\",   \"score\": 0.9775,   \"costPerTask\": 0.04029167550000003",
+      "evidenceExcerpt": "{\n  \"datasetId\": \"v2_Semi_Private\",\n  \"modelId\": \"deepseek-v4-1-flash-1017-high\",\n  \"score\": 0.6861111111111112,\n  \"costPerTask\": 0.14693756500000005,\n  \"resultsUrl\": \"/results/deepseek-v4-1-flash-1017\",\n  \"display\": true\n}",
       "confidence": "publisherReported",
       "secondaryMetrics": {
         "costPerTaskUsd": 0.1469
@@ -5496,7 +5496,7 @@
       "retrievedAt": "2026-11-01",
       "sourceUrl": "https://arcprize.org/media/data/evaluations.json",
       "retrievalMethod": "publishedData",
-      "evidenceExcerpt": "\"modelId\": \"deepseek-v4-1-flash-1017-max\",   \"score\": 0.98375,   \"costPerTask\": 0.046065817499999995",
+      "evidenceExcerpt": "{\n  \"datasetId\": \"v2_Semi_Private\",\n  \"modelId\": \"deepseek-v4-1-flash-1017-max\",\n  \"score\": 0.7805555555555556,\n  \"costPerTask\": 0.163116895,\n  \"resultsUrl\": \"/results/deepseek-v4-1-flash-1017\",\n  \"display\": true\n}",
       "confidence": "publisherReported",
       "secondaryMetrics": {
         "costPerTaskUsd": 0.1631
@@ -5514,7 +5514,7 @@
       "retrievedAt": "2026-11-01",
       "sourceUrl": "https://arcprize.org/media/data/evaluations.json",
       "retrievalMethod": "publishedData",
-      "evidenceExcerpt": "\"modelId\": \"xai-grok-4-7-low\",   \"score\": 0.8225,   \"costPerTask\": 0.10306723000000001",
+      "evidenceExcerpt": "{\n  \"datasetId\": \"v2_Semi_Private\",\n  \"modelId\": \"xai-grok-4-7-low\",\n  \"score\": 0.16666666666666666,\n  \"costPerTask\": 0.17369760000000004,\n  \"resultsUrl\": \"/results/xai-grok-4-7\",\n  \"display\": true\n}",
       "confidence": "publisherReported",
       "secondaryMetrics": {
         "costPerTaskUsd": 0.1737
@@ -5532,7 +5532,7 @@
       "retrievedAt": "2026-11-01",
       "sourceUrl": "https://arcprize.org/media/data/evaluations.json",
       "retrievalMethod": "publishedData",
-      "evidenceExcerpt": "\"modelId\": \"xai-grok-4-7-medium\",   \"score\": 0.95,   \"costPerTask\": 0.3495386150000001",
+      "evidenceExcerpt": "{\n  \"datasetId\": \"v2_Semi_Private\",\n  \"modelId\": \"xai-grok-4-7-medium\",\n  \"score\": 0.5875,\n  \"costPerTask\": 1.4759098000000002,\n  \"resultsUrl\": \"/results/xai-grok-4-7\",\n  \"display\": true\n}",
       "confidence": "publisherReported",
       "secondaryMetrics": {
         "costPerTaskUsd": 1.4759
@@ -5550,7 +5550,7 @@
       "retrievedAt": "2026-11-01",
       "sourceUrl": "https://arcprize.org/media/data/evaluations.json",
       "retrievalMethod": "publishedData",
-      "evidenceExcerpt": "\"modelId\": \"xai-grok-4-7-high\",   \"score\": 0.9575,   \"costPerTask\": 0.4159139900000002",
+      "evidenceExcerpt": "{\n  \"datasetId\": \"v2_Semi_Private\",\n  \"modelId\": \"xai-grok-4-7-high\",\n  \"score\": 0.5833333333333334,\n  \"costPerTask\": 1.549013099999999,\n  \"resultsUrl\": \"/results/xai-grok-4-7\",\n  \"display\": true\n}",
       "confidence": "publisherReported",
       "secondaryMetrics": {
         "costPerTaskUsd": 1.549
@@ -5568,7 +5568,7 @@
       "retrievedAt": "2026-11-01",
       "sourceUrl": "https://arcprize.org/media/data/evaluations.json",
       "retrievalMethod": "publishedData",
-      "evidenceExcerpt": "\"modelId\": \"xai-grok-4-7-xhigh\",   \"score\": 0.95125,   \"costPerTask\": 0.48661554499999965",
+      "evidenceExcerpt": "{\n  \"datasetId\": \"v2_Semi_Private\",\n  \"modelId\": \"xai-grok-4-7-xhigh\",\n  \"score\": 0.6138888888888888,\n  \"costPerTask\": 2.0149060666666663,\n  \"resultsUrl\": \"/results/xai-grok-4-7\",\n  \"display\": true\n}",
       "confidence": "publisherReported",
       "secondaryMetrics": {
         "costPerTaskUsd": 2.0149
@@ -5586,7 +5586,7 @@
       "retrievedAt": "2026-11-01",
       "sourceUrl": "https://arcprize.org/media/data/evaluations.json",
       "retrievalMethod": "publishedData",
-      "evidenceExcerpt": "\"modelId\": \"zai-glm-5-3-flash-low\",   \"score\": 0.5775,   \"costPerTask\": 0.01564961274999999",
+      "evidenceExcerpt": "{\n  \"datasetId\": \"v2_Semi_Private\",\n  \"modelId\": \"zai-glm-5-3-flash-low\",\n  \"score\": 0.2791666666666667,\n  \"costPerTask\": 0.05822348833333333,\n  \"resultsUrl\": \"/results/zai-glm-5-3-flash\",\n  \"display\": true\n}",
       "confidence": "publisherReported",
       "secondaryMetrics": {
         "costPerTaskUsd": 0.0582
@@ -5604,7 +5604,7 @@
       "retrievedAt": "2026-11-01",
       "sourceUrl": "https://arcprize.org/media/data/evaluations.json",
       "retrievalMethod": "publishedData",
-      "evidenceExcerpt": "\"modelId\": \"zai-glm-5-3-flash-high\",   \"score\": 0.78625,   \"costPerTask\": 0.020031694499999985",
+      "evidenceExcerpt": "{\n  \"datasetId\": \"v2_Semi_Private\",\n  \"modelId\": \"zai-glm-5-3-flash-high\",\n  \"score\": 0.5013888888888889,\n  \"costPerTask\": 0.07734862875,\n  \"resultsUrl\": \"/results/zai-glm-5-3-flash\",\n  \"display\": true\n}",
       "confidence": "publisherReported",
       "secondaryMetrics": {
         "costPerTaskUsd": 0.0773
@@ -5622,7 +5622,7 @@
       "retrievedAt": "2026-11-01",
       "sourceUrl": "https://arcprize.org/media/data/evaluations.json",
       "retrievalMethod": "publishedData",
-      "evidenceExcerpt": "\"modelId\": \"zai-glm-5-3-flash-max\",   \"score\": 0.925,   \"costPerTask\": 0.033078684499999976",
+      "evidenceExcerpt": "{\n  \"datasetId\": \"v2_Semi_Private\",\n  \"modelId\": \"zai-glm-5-3-flash-max\",\n  \"score\": 0.6583333333333333,\n  \"costPerTask\": 0.09331568458333339,\n  \"resultsUrl\": \"/results/zai-glm-5-3-flash\",\n  \"display\": true\n}",
       "confidence": "publisherReported",
       "secondaryMetrics": {
         "costPerTaskUsd": 0.0933
@@ -6111,7 +6111,7 @@
       "retrievedAt": "2026-11-01",
       "sourceUrl": "https://presenc.ai/research/osworld-computer-use-leaderboard-2026",
       "retrievalMethod": "browserRendered",
-      "evidenceExcerpt": "Manual read of Figure 8.13.3.B: gpt-6-astra, unspecified; score 72.6%, per-task cost not shown.",
+      "evidenceExcerpt": "GPT-6 Astra | 72.6% | Offline subset, release not stated | OpenAI, per launch coverage, September 3, 2026",
       "confidence": "thirdParty"
     },
     {
