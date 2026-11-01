@@ -70,7 +70,11 @@ public sealed class Gpt61SolSupportTests
     public void UnpublishedBenchmarkDateDoesNotCreateAResult()
     {
         Assert.DoesNotContain(BenchmarkEvidenceCatalog.Default.Results,
-            result => result.ModelId == KnownModels.Gpt61Sol);
+            result => result.ModelId == KnownModels.Gpt61Sol
+                && result.RetrievedAt <= new DateOnly(2026, 10, 4));
+        Assert.Contains(BenchmarkEvidenceCatalog.Default.Results,
+            result => result.ModelId == KnownModels.Gpt61Sol
+                && result.RetrievedAt > new DateOnly(2026, 10, 4));
     }
 
     [Fact]
