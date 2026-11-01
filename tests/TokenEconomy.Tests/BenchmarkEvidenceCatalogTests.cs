@@ -73,6 +73,9 @@ public class BenchmarkEvidenceCatalogTests
             [type with { AllowedUnpricedModelIds = ["model-b"] }],
             [Result("bad-model", "quality", "model-c", EffortLevel.Low, 50m)], prices));
         Assert.Throws<ArgumentException>(() => new BenchmarkEvidenceCatalog(
+            [type with { AllowedUnpricedModelIds = ["model-b"] }],
+            [Result("unused-exception", "quality", "model-a", EffortLevel.Low, 50m)], prices));
+        Assert.Throws<ArgumentException>(() => new BenchmarkEvidenceCatalog(
             [type], [Result("bad-identity", "quality", "model-a", EffortLevel.Low, 50m) with
             { ScoreOnlyModelId = ModelId.Of("model-b") }], prices));
     }

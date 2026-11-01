@@ -146,8 +146,9 @@ All category sources should be checked monthly, and within a week after a new
 leaderboard or model release. Reopen both the benchmark's own page and the page
 that supplies the numbers. Check release posts at each model announcement.
 The browser check log is delivered with TE-72; a 200 response with no readable
-body is a retrieval gap, not a verified numeric row. Arena blocks browser
-access with Cloudflare. OpenAI announcements returned 403 in this environment.
+body is a retrieval gap, not a verified numeric row. Arena returned a Cloudflare
+403 in this Chromium run; a rendered search snapshot exposed its dated text
+leaderboard rows. OpenAI announcements returned 403 to plain HTTP clients.
 
 ### Current-model refresh and live reading method (2026-11-01)
 
@@ -182,21 +183,32 @@ a changed score or cost as a new result ID. The concrete reading methods are:
   and label that value as derived. Do not treat the rounded display cost as a
   published per-task field. The 2026-11-01 spot checks are GPT-6.1 Sol/max
   58.18% and $634.24 / 330 = $1.92, Opus 5.5/max 64.85% and $14.30.
-  Fable 5.1/medium derives to $8.58 ($2,832.90 / 330); the approved
-  prototype rounded it to $8.59, and both values stay in the catalog.
+  Fable 5.1/medium derives to $8.58 ($2,832.90 / 330). The approved
+  prototype rounded it to $8.59; that duplicate transcription was removed
+  before publication because it refers to the same run and source date.
+- **Artificial Analysis Intelligence Index v5:** read the rendered model rows
+  at `https://artificialanalysis.ai/leaderboards/models`. Its article explains
+  the version but does not list every effort rung. Capture each model, effort,
+  score, and cost from the same leaderboard row; link that row's source rather
+  than recycling the article introduction as evidence.
 - **Artificial Analysis Coding Agent Index v2.0:** open
   `https://artificialanalysis.ai/agents/coding-agents` in a browser. The server
   payload and rendered chart carry index reward and mean `costUsd` per task;
   the visible text explains the three components and three attempts per task.
   Opus 5.5/max reads 62 and $11.42. Some score-only entries have no published
-  cost and stay in the strip.
+  cost and stay in the strip. The embedded payload exposes `indexScore` for
+  those entries; retain that numeric field as the excerpt when the visible
+  chart has no text row.
 - **DeepSWE, Arena, GDPval-AA, and Vals AI MMMU:** read the rendered page or
   embedded browser data, not a plain HTTP text table. DeepSWE currently has no
   Claude 5.5, GPT-6.1, or Gemini 4 row; Gemini 3.8 Flash/high is 74% / $2.36.
   Arena is a rating board, so no cost per point is shown. GDPval-AA exposes
   stacked cost parts without totals, so knowledge-work spend remains a list-price
   estimate. The MMMU chart uses the Vals AI board directly. Record blocked or
-  partial reads as gaps rather than copying an old result forward.
+  partial reads as gaps rather than copying an old result forward. Arena's
+  `https://arena.ai/leaderboard/chat/text` has a dated ranking in the rendered
+  search snapshot, but direct Chromium and plain HTTP access returned a
+  Cloudflare block page in this environment.
 
 The approved prototype placed Haiku 5.5's 72.4% vendor claim in the OSWorld
 2.0 score-only strip. [Anthropic's Haiku 5.5 post](https://www.anthropic.com/claude-haiku-5-5)

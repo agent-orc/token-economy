@@ -156,7 +156,7 @@
     "arena": [
       [
         "Leaderboard",
-        "https://arena.ai/leaderboard/text"
+        "https://arena.ai/leaderboard/chat/text"
       ]
     ],
     "xpro": [
@@ -1344,7 +1344,7 @@
       "per": "task",
       "rep": "owner",
       "date": "2026-10-27",
-      "url": "https://arena.ai/leaderboard/text",
+      "url": "https://arena.ai/leaderboard/chat/text",
       "what": "Blind pairwise preference from 9 million human votes on open chat. It captures how a reply reads, not whether it is correct.",
       "notes": [
         "Confidence intervals run ±4 to ±9, so neighbouring rows are ties. Carbon and Gemini 3.8 Flash are preliminary.",
