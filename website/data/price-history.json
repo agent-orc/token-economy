@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAtUtc": "2026-11-01T19:29:15.710803+00:00",
+  "generatedAtUtc": "2026-11-02T05:24:50.241706+00:00",
   "asOfUtc": "2026-11-01T00:00:00Z",
   "currency": "USD",
   "unit": "per-million-tokens",
@@ -99,7 +99,7 @@
           ],
           "verifiedOn": "2026-10-27",
           "validFromBasis": "provider-announced-date",
-          "note": "Standard global Claude API rates. Prompt size includes fresh input and cache reads/writes; above 100K the higher tariff applies to every token of the request. Cache-write rates use 5-minute retention; 1-hour writes are $0.20/$1 per MTok. Batch input/output are 50% of standard. The October 27 verification confirms the tariff and does not change its October 7 start.",
+          "note": "Standard global Claude API rates. Prompt size includes fresh input and cache reads/writes; above 100K the higher tariff applies to every token of the request. Cache-write rates use 5-minute retention; 1-hour writes are $0.20/$1 per MTok. Batch input/output are 50% of standard.",
           "unconfirmed": false,
           "cacheWritePerMTok": 0.125,
           "promptSizeTiers": [
@@ -139,7 +139,7 @@
           ],
           "verifiedOn": "2026-10-27",
           "validFromBasis": "provider-announced-date",
-          "note": "Standard paid Gemini API text rate; implicit cache reads only, explicit cache writes unsupported. Introductory tariff through November 30, 2026. API rates are not Antigravity subscription charges. The October 27 verification does not change the tariff start.",
+          "note": "Standard paid Gemini API text rate; implicit cache reads only, explicit cache writes unsupported. Introductory tariff through November 30, 2026. API rates are not Antigravity subscription charges.",
           "unconfirmed": false,
           "validTo": "2026-11-30T23:59:59.9999999Z"
         },
@@ -157,7 +157,7 @@
           ],
           "verifiedOn": "2026-10-27",
           "validFromBasis": "provider-announced-date",
-          "note": "Announced future standard paid Gemini API text rate; implicit cache reads only, explicit cache writes unsupported. API rates are not Antigravity subscription charges. The October 27 verification does not change the announced December 1 start.",
+          "note": "Announced future standard paid Gemini API text rate; implicit cache reads only, explicit cache writes unsupported. API rates are not Antigravity subscription charges.",
           "unconfirmed": false
         }
       ]
@@ -187,7 +187,7 @@
           ],
           "verifiedOn": "2026-10-27",
           "validFromBasis": "provider-announced-date",
-          "note": "Standard paid Gemini API text rate. Explicit caching storage adds $0.50 per million tokens per hour; this time-based charge is outside ComputeCost. API rates are not Antigravity subscription charges. The October 27 verification does not change the tariff start.",
+          "note": "Standard paid Gemini API text rate. Explicit caching storage adds $0.50 per million tokens per hour; this time-based charge is outside ComputeCost. API rates are not Antigravity subscription charges.",
           "unconfirmed": false,
           "validTo": "2026-12-31T23:59:59.9999999Z"
         },
@@ -205,7 +205,7 @@
           ],
           "verifiedOn": "2026-10-27",
           "validFromBasis": "provider-announced-date",
-          "note": "Announced future standard paid Gemini API text rate. Explicit caching storage adds $1.00 per million tokens per hour; this time-based charge is outside ComputeCost. API rates are not Antigravity subscription charges. The October 27 verification does not change the announced January 1 start.",
+          "note": "Announced future standard paid Gemini API text rate. Explicit caching storage adds $1.00 per million tokens per hour; this time-based charge is outside ComputeCost. API rates are not Antigravity subscription charges.",
           "unconfirmed": false
         }
       ]
