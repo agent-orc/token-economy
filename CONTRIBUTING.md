@@ -36,7 +36,8 @@ rather than silently drifting from the library.
 repository's stack, pinned tool versions, and prepare/build/test/lint commands
 for Agent Studio coding runs and its build-test gate.
 [`.agent-studio/prepare`](.agent-studio/prepare) is the POSIX preparation
-script (`dotnet restore`); [`.agent-studio/prepare.ps1`](.agent-studio/prepare.ps1)
+script (`dotnet restore`, and on Linux the Python packages of the website
+checks into `.agent-studio/.python`); [`.agent-studio/prepare.ps1`](.agent-studio/prepare.ps1)
 is the Windows entry point that runs it under Git Bash. Run the same commands
 locally with:
 
@@ -44,8 +45,14 @@ locally with:
 .agent-studio/prepare
 dotnet build --no-restore -c Release
 dotnet test --no-build -c Release
+node scripts/check-website.mjs
 dotnet format style --verify-no-changes --severity error
 ```
+
+`scripts/check-website.mjs` runs the website steps of `ci.yml` and
+`deploy-website.yml` (language-evidence tests, `generate-website-data.py
+--check`, link check, and both headless-browser checks). Keep its command list
+in step with those workflow steps.
 
 ## Conventions
 

@@ -8,6 +8,8 @@ commands:
     - dotnet build --no-restore -c Release
   test:
     - dotnet test --no-build -c Release
+    # Website data, link and browser checks of ci.yml and deploy-website.yml.
+    - node scripts/check-website.mjs
   lint:
     - dotnet format style --verify-no-changes --severity error
 testSuites:
@@ -15,6 +17,10 @@ testSuites:
     category: routine
     expectedDurationSeconds: 15
     command: dotnet test --no-build -c Release
+  - id: website-checks
+    category: routine
+    expectedDurationSeconds: 60
+    command: node scripts/check-website.mjs
 cachePaths: []
 capabilities: [child-process]
 environment:
