@@ -1141,20 +1141,40 @@ def project_language_payload(document: dict, recommendations: dict) -> dict:
     }
 
 
+def select_frontier_rows(meta: dict, results: list[dict]) -> dict:
+    """Check the metadata-to-evidence join once, then return every selected row."""
+    frontier_rows = [row for row in results if row["benchmarkTypeId"].startswith("cost-frontier-")]
+    rows_by_id = {row["id"]: row for row in frontier_rows}
+    selected_ids = []
+    selection = {}
+    for short, definition in meta["benchmarks"].items():
+        priced_ids = definition["displayRowIds"]
+        score_only_ids = definition["displayScoreOnlyIds"]
+        selected_ids.extend(priced_ids + score_only_ids)
+        if any(row_id not in rows_by_id or rows_by_id[row_id]["benchmarkTypeId"] != "cost-frontier-" + short
+               for row_id in priced_ids + score_only_ids):
+            raise ValueError(f"Invalid frontier row selection: {short}")
+        priced = [rows_by_id[row_id] for row_id in priced_ids]
+        score_only = [rows_by_id[row_id] for row_id in score_only_ids]
+        cost_sources = {row["costSource"] for row in priced}
+        if (len(cost_sources) != 1 or "unavailable" in cost_sources
+                or any(row["costSource"] != "unavailable" for row in score_only)):
+            raise ValueError(f"Frontier cost selection disagrees with evidence: {short}")
+        selection[short] = (priced, score_only, cost_sources.pop())
+    if (len(frontier_rows) != len(rows_by_id)
+            or len(selected_ids) != len(set(selected_ids))
+            or set(selected_ids) != rows_by_id.keys()):
+        raise ValueError("Frontier catalog rows must each be selected exactly once")
+    return selection
+
+
 def create_cost_frontier_payload() -> dict:
     """Project the interactive explorer from dated catalog prices and evidence."""
     meta = load(FRONTIER_METADATA)
     prices = load_price_index()
     results = load(BENCHMARK_RESULTS)["records"]
     as_of = parse_utc(meta["asOf"] + "T00:00:00Z")
-    selected_ids = [row_id for definition in meta["benchmarks"].values()
-                    for row_id in definition["displayRowIds"] + definition["displayScoreOnlyIds"]]
-    frontier_rows = [row for row in results if row["benchmarkTypeId"].startswith("cost-frontier-")]
-    rows_by_id = {row["id"]: row for row in frontier_rows}
-    if (len(selected_ids) != len(set(selected_ids))
-            or len(frontier_rows) != len(rows_by_id)
-            or set(selected_ids) != rows_by_id.keys()):
-        raise ValueError("Frontier catalog rows must each be selected exactly once")
+    selection = select_frontier_rows(meta, results)
     model_ids = meta["modelIds"]
     short_by_model = {model_id: short for short, model_id in model_ids.items()}
     if len(short_by_model) != len(model_ids):
@@ -1190,21 +1210,15 @@ def create_cost_frontier_payload() -> dict:
     benches = {}
     used_models = set()
     for short, definition in meta["benchmarks"].items():
-        chosen = definition["displayRowIds"] + definition["displayScoreOnlyIds"]
-        if any(rows_by_id[row_id]["benchmarkTypeId"] != "cost-frontier-" + short for row_id in chosen):
-            raise ValueError(f"Invalid frontier row selection: {short}")
-        rows = [rows_by_id[row_id] for row_id in chosen]
+        priced_rows, score_only_rows, cost_source = selection[short]
         projected = {key: value for key, value in definition.items()
                      if key not in ("displayRowIds", "displayScoreOnlyIds", "minimumPricedModels")}
         projected["rows"] = []
         projected["evidence"] = []
         projected["noCost"] = []
         projected["scoreOnlyEvidence"] = []
-        cost_sources = {rows_by_id[row_id]["costSource"] for row_id in definition["displayRowIds"]}
-        if len(cost_sources) != 1 or "unavailable" in cost_sources:
-            raise ValueError(f"Frontier chart needs one priced cost source: {short}")
-        projected["cost"] = cost_sources.pop()
-        for row in rows:
+        projected["cost"] = cost_source
+        for row in priced_rows + score_only_rows:
             model = short_by_model.get(row["modelId"])
             if model not in current:
                 raise ValueError(f"Superseded or unknown frontier model: {row['id']}")
