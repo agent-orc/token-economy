@@ -83,7 +83,9 @@ public static class ModelRoutingKnowledgeRenderer
             var review = knowledge.ReviewQualityFor(model.CanonicalId);
             var reviewQuality = review?.Suitability is { } suitability ? $"`{Camel(suitability)}`" : "insufficient evidence";
             var reviewEvidence = review is null ? "`unknown` / `insufficientEvidence`" : $"`{Camel(review.EvidenceStatus)}` / `{Camel(review.EvidenceQuality)}`";
-            var status = model.TestOnly ? "`selectable` (test-only pin)" : $"`{Camel(model.RoutingStatus)}`";
+            var status = model.RoutingStatus == ModelRoutingStatus.Selectable && model.TestOnly
+                ? "`selectable` (test-only pin)"
+                : $"`{Camel(model.RoutingStatus)}`";
             output.AppendLine($"| `{model.CanonicalId}` | {aliases} | `{model.ProviderId}` / `{model.CliId}` | {levels} | {status} | `{Camel(model.EvidenceStatus)}` | {reviewQuality} | {reviewEvidence} | price `{model.PriceCatalogId}`; media `{model.MediaCatalogModelId}`; trust `{model.TrustModelId}` |");
         }
 
