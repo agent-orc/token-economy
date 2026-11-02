@@ -37,7 +37,8 @@ repository's stack, pinned tool versions, and prepare/build/test/lint commands
 for Agent Studio coding runs and its build-test gate.
 [`.agent-studio/prepare`](.agent-studio/prepare) is the POSIX preparation
 script (`dotnet restore`, and on Linux the Python packages of the website
-checks into `.agent-studio/.python`); [`.agent-studio/prepare.ps1`](.agent-studio/prepare.ps1)
+checks into `.agent-studio/.python` and Playwright's Chromium into
+`.agent-studio/.playwright`); [`.agent-studio/prepare.ps1`](.agent-studio/prepare.ps1)
 is the Windows entry point that runs it under Git Bash. Run the same commands
 locally with:
 
