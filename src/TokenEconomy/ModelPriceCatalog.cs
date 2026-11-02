@@ -112,7 +112,16 @@ public sealed class ModelPriceCatalog
         var output = CostOf(usage.Output, tier?.OutputPerMTok ?? price.OutputPerMTok);
         // A missing cache rate falls back to the input rate so cache tokens are still priced, not dropped.
         var cacheRead = CostOf(usage.CacheRead, tier?.CacheReadPerMTok ?? price.CacheReadPerMTok ?? inputRate);
-        var cacheWrite = CostOf(usage.CacheWrite, tier?.CacheWritePerMTok ?? price.CacheWritePerMTok ?? inputRate);
+        var cacheWriteRate = usage.CacheWriteRetention switch
+        {
+            CacheWriteRetention.Default => tier?.CacheWritePerMTok ?? price.CacheWritePerMTok ?? inputRate,
+            CacheWriteRetention.OneHour => price.CacheWriteOneHourPerMTok * (tier is null ? 1 : tier.InputPerMTok / price.InputPerMTok),
+            CacheWriteRetention.TwelveHours => price.CacheWriteTwelveHourPerMTok * (tier is null ? 1 : tier.InputPerMTok / price.InputPerMTok),
+            _ => null,
+        };
+        if (usage.CacheWrite > 0 && (price.CacheWriteSupported == false || cacheWriteRate is null))
+            return new CostBreakdown { Status = PriceStatus.UnsupportedCacheRetention, ModelId = resolution.ModelId, Price = price, Total = null };
+        var cacheWrite = CostOf(usage.CacheWrite, cacheWriteRate ?? inputRate);
 
         return new CostBreakdown
         {

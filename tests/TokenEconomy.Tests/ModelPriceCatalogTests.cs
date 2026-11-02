@@ -274,8 +274,8 @@ public class ModelPriceCatalogTests
         Assert.Equal((4m, 20m, 0.4m, 5m),
             (after.InputPerMTok, after.OutputPerMTok, after.CacheReadPerMTok, after.CacheWritePerMTok));
         Assert.Equal(changedAt.AddTicks(-1), before.ValidTo);
-        Assert.Null(after.ValidTo);
-        Assert.Equal(2, catalog.PriceDevelopment(KnownModels.Gpt56Sol).Count);
+        Assert.Equal(new DateTime(2026, 10, 20, 0, 0, 0, DateTimeKind.Utc).AddTicks(-1), after.ValidTo);
+        Assert.Equal(3, catalog.PriceDevelopment(KnownModels.Gpt56Sol).Count);
     }
 
     [Fact]

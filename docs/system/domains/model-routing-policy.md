@@ -1,6 +1,6 @@
 # Model Routing Policy
 
-Version: 2026-10-21
+Version: 2026-11-01
 
 Status: GPT-6 operator baseline, effective 2026-09-25; local completion evidence remains provisional
 
@@ -35,8 +35,8 @@ as of 2026-09-25. They describe equal token volumes, not measured cost per card.
 | `sol-medium`, 51–69 | gpt-5.6-sol / medium | gpt-6-sol / medium | 4 / 0.40 / 20 | 2 / 0.20 / 10 | −50% / −50% / −50% |
 | `sol-xhigh`, 70–100 | gpt-5.6-sol / xhigh | gpt-6-sol / xhigh | 4 / 0.40 / 20 | 2 / 0.20 / 10 | −50% / −50% / −50% |
 
-**Retain Terra for this revision.** There is no GPT-6 Terra. Its June 26 price
-remains dated in the catalogue. It is no longer a cheaper alternative to Sol:
+**Retain GPT-5.6 Terra as the score-band route for this revision.** GPT-6.1 Terra is available for explicit provisional pins, at $1/$0.05/$5 per million input/cache-read/output tokens. The older model’s June 26 price
+remains dated in the catalogue. At its historical June tariff it is no longer a cheaper alternative to GPT-6 Sol:
 input/cache rates match and $12 output is 20% above Sol's $10. At a reference
 10,000 uncached input plus 1,000 output tokens, Luna changes $0.0032 → $0.0015
 (−53.125%), Terra stays $0.032, and either Sol tier changes $0.060 → $0.030
@@ -111,7 +111,8 @@ changing any route, score band, floor or fallback:
 
 ### Additional supported models
 
-- `gpt-6.1-sol`: `minimal`, `low`, `medium`, `high`, `xhigh`; selectable, provisional, frontier, core task only. The production Agent Studio backend model discovery on 2026-10-04 advertises these Codex levels with default `xhigh`. No level was executable on this host: codex-cli 0.155.0 returned HTTP 400, model not supported with this ChatGPT account. The [OpenAI API model page](https://developers.openai.com/api/docs/models/gpt-6.1-sol) says API `minimal` is unsupported, so CLI `minimal` support remains unconfirmed. Explicit evaluation and operator pins may select the model where available. It has no default route, task-class prior or provider fallback; language and media performance are unmeasured.
+- `gpt-6.1-sol`: `low`, `medium`, `high`, `xhigh`, `max`; selectable and provisional for explicit pins. The [OpenAI model page](https://developers.openai.com/api/docs/models/gpt-6.1-sol) lists those API levels. The operator ran it on Codex 0.166.0 with ChatGPT Pro on 2026-11-01; 0.155.0 refused it. The resolver uses 0.166.0 as a conservative proven-working floor. Earlier discovery listed `minimal` without a successful execution; it is not accepted as a CLI level. No default route, prior or fallback is added.
+- `gpt-6.1-terra`: `low`, `medium`, `high`, `xhigh`, `max` for provisional explicit Codex pins; the [API model page](https://developers.openai.com/api/docs/models/gpt-6.1-terra) also lists `none`, but that is not a confirmed CLI effort. The same operator probe ran Terra on 0.166.0 and saw 0.155.0 refuse it. Its Standard API tariff is half of GPT-5.6 Terra and GPT-6.1 Sol, but vendor quality claims do not establish a coding tier. Keep the 21–50 route on GPT-5.6 Terra until paired medium-effort repository coding and review cases verify returned model ids, correctness, retry/reissue counts, tokens, and cost/latency. A separate matched medium/xhigh cohort is needed before GPT-6 Sol → GPT-6.1 Sol becomes automatic.
 
 API and Codex ladders are different evidence scopes. The
 [Sol model page](https://developers.openai.com/api/docs/models/gpt-6-sol) and
@@ -415,3 +416,5 @@ remove it only with an explicit score-band and reissue-rule revision. Qualify
 Astra separately after access reliability is established and its fivefold Sol
 price earns a measured benefit. Revisit Opus 5.5 equivalence using identical
 cases and current CLI identity checks before promoting its migration.
+
+Restricted GPT-6 Rosalind, GPT-5.6 Cyber, Rosalind Research/Discovery and Claude Mythos 5/5.1 are priced for approved API access but have `restricted` routing status and no recommendation paths. Gemini 4 Carbon remains an announcement-only reference with no public Gemini API id or tariff.

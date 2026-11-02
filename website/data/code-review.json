@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAtUtc": "2026-11-01T19:29:15.713198+00:00",
+  "generatedAtUtc": "2026-11-02T03:16:19.330712+00:00",
   "asOfUtc": "2026-10-04T00:00:00Z",
   "source": {
     "benchmarkTypes": "src/TokenEconomy/catalog/benchmark-types.json",
@@ -1067,6 +1067,30 @@
     {
       "modelId": "gemini-4-carbon",
       "displayName": "Gemini 4 Carbon"
+    },
+    {
+      "modelId": "gpt-6-rosalind",
+      "displayName": "GPT-6 Rosalind"
+    },
+    {
+      "modelId": "gpt-5.6-cyber",
+      "displayName": "GPT-5.6 Cyber"
+    },
+    {
+      "modelId": "gpt-rosalind-research",
+      "displayName": "GPT-Rosalind Research"
+    },
+    {
+      "modelId": "gpt-rosalind-discovery",
+      "displayName": "GPT-Rosalind Discovery"
+    },
+    {
+      "modelId": "claude-mythos-5-1",
+      "displayName": "Claude Mythos 5.1"
+    },
+    {
+      "modelId": "claude-mythos-5",
+      "displayName": "Claude Mythos 5"
     }
   ],
   "operational": {
@@ -1843,6 +1867,32 @@
       },
       {
         "canonicalModel": "gpt-6.1-sol",
+        "taskClass": "review",
+        "runCount": 0,
+        "filesReviewed": 0,
+        "findingsReported": 0,
+        "outcomeAvailableRunCount": 0,
+        "confirmedFindings": 0,
+        "dismissedFindings": 0,
+        "assessedFindingCount": 0,
+        "findingOutcomeCoverage": null,
+        "findingConfirmationRate": null,
+        "thinkingLevels": [],
+        "reviewAspects": [],
+        "observedThrough": null,
+        "evidenceStatus": "unknown",
+        "evidenceQuality": "insufficientEvidence",
+        "suitability": null,
+        "gateFailures": [
+          "run count 0 is below 20",
+          "assessed finding count 0 is below 20",
+          "finding outcome coverage is unavailable or below the declared gate",
+          "finding confirmation rate is unavailable"
+        ],
+        "provenance": []
+      },
+      {
+        "canonicalModel": "gpt-6.1-terra",
         "taskClass": "review",
         "runCount": 0,
         "filesReviewed": 0,

@@ -3736,13 +3736,14 @@
       "reasoningEffort": "high",
       "settingLabel": "high",
       "score": 1528,
-      "costSource": "estimated",
+      "costSource": "unavailable",
       "publishedAt": "2026-10-27",
       "retrievedAt": "2026-11-01",
       "sourceUrl": "https://arena.ai/leaderboard/chat/text",
       "retrievalMethod": "browserRendered",
-      "evidenceExcerpt": "Gemini 4 Carbon (High) Google · Proprietary 1528±9 Preliminary",
-      "confidence": "thirdParty"
+      "evidenceExcerpt": "Gemini 4 Carbon (High) Google · Proprietary 1528±9 Preliminary Google has not published a Gemini API tariff or public model id; no list-price cost is estimated.",
+      "confidence": "thirdParty",
+      "scoreOnlyLabel": "Gemini 4 Carbon (High; no Google API tariff)"
     },
     {
       "id": "cf-arena-002",
@@ -4279,13 +4280,14 @@
       "reasoningEffort": "high",
       "settingLabel": "high",
       "score": 1733,
-      "costSource": "estimated",
+      "costSource": "unavailable",
       "publishedAt": "2026-10-28",
       "retrievedAt": "2026-11-01",
       "sourceUrl": "https://artificialanalysis.ai/evaluations/gdpval-aa",
       "retrievalMethod": "browserRendered",
-      "evidenceExcerpt": "11 Google Gemini 4 Carbon (High) 1733 -24 / +24 Oct 2026",
-      "confidence": "thirdParty"
+      "evidenceExcerpt": "11 Google Gemini 4 Carbon (High) 1733 -24 / +24 Oct 2026 Google has not published a Gemini API tariff or public model id; no list-price cost is estimated.",
+      "confidence": "thirdParty",
+      "scoreOnlyLabel": "Gemini 4 Carbon (High; no Google API tariff)"
     },
     {
       "id": "cf-gdpval-007",

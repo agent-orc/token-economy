@@ -18,12 +18,13 @@ public class ModelEfficiencySeedTests
     }
 
     [Fact]
-    public void EveryProfile_ResolvesInTheCatalogAndHasEffortLevels()
+    public void EveryProfile_ResolvesInTheCatalogAndRoutableModelsHaveEffortLevels()
     {
         foreach (var profile in Matrix.Profiles)
         {
             Assert.NotNull(ModelPriceCatalog.Default.Find(profile.ModelId));
-            Assert.NotEmpty(profile.EffortLevels);
+            if (!profile.Restricted)
+                Assert.NotEmpty(profile.EffortLevels);
         }
     }
 

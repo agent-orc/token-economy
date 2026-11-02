@@ -20,6 +20,9 @@ public enum PriceStatus
 
     /// <summary>A prompt-size tariff applies, but the request's prompt length was not supplied.</summary>
     AmbiguousPromptSize,
+
+    /// <summary>The selected cache-write retention has no published tariff for this model.</summary>
+    UnsupportedCacheRetention,
 }
 
 /// <summary>

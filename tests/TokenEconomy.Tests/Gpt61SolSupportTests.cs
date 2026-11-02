@@ -25,11 +25,11 @@ public sealed class Gpt61SolSupportTests
     }
 
     [Theory]
-    [InlineData(EffortLevel.Minimal, "minimal")]
     [InlineData(EffortLevel.Low, "low")]
     [InlineData(EffortLevel.Medium, "medium")]
     [InlineData(EffortLevel.High, "high")]
     [InlineData(EffortLevel.XHigh, "xhigh")]
+    [InlineData(EffortLevel.Max, "max")]
     public void ExplicitPinAndTypedEvaluationUseTheDiscoveredLadder(EffortLevel effort, string level)
     {
         var suggestion = ModelEfficiencyMatrix.Default.EvaluateModel(
@@ -47,7 +47,7 @@ public sealed class Gpt61SolSupportTests
     }
 
     [Theory]
-    [InlineData("max")]
+    [InlineData("minimal")]
     [InlineData("ultra")]
     public void SourceOnlyLevelsAreRejected(string level)
         => Assert.Equal(ModelRouteResolutionStatus.UnsupportedThinkingLevel,
@@ -91,8 +91,8 @@ public sealed class Gpt61SolSupportTests
         Assert.False(migration.GetProperty("ladderCompatible").GetBoolean());
         Assert.False(migration.GetProperty("safeAuto").GetBoolean());
         Assert.Equal("none", migration.GetProperty("evidence").GetProperty("kind").GetString());
-        Assert.Contains("max and ultra", migration.GetProperty("note").GetString());
-        Assert.Contains("xhigh", migration.GetProperty("note").GetString());
+        Assert.Contains("max/ultra", migration.GetProperty("note").GetString());
+        Assert.Contains("identical-case", migration.GetProperty("note").GetString());
     }
 
     private static string RepositoryRoot()

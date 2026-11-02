@@ -8,11 +8,15 @@ public class ModelPriceSeedTests
     private static readonly ModelPriceCatalog Catalog = ModelPriceCatalog.Default;
     private static readonly DateOnly CurrentRateVerification = new(2026, 9, 29);
 
-    /// <summary>Current rates were re-verified on 2026-09-29 (TE-59); superseded periods keep their 2026-09-12 review.</summary>
+    /// <summary>Retain the two original audit dates and the October 20 cache-write addition.</summary>
     private static DateOnly ExpectedVerification(string model, ModelPrice price)
-        => price.ValidFrom == Catalog.PriceDevelopment(model).Max(entry => entry.ValidFrom)
-            ? CurrentRateVerification
-            : new DateOnly(2026, 9, 12);
+    {
+        var cacheLaunch = new DateTime(2026, 10, 20, 0, 0, 0, DateTimeKind.Utc);
+        if (price.ValidFrom == cacheLaunch) return new DateOnly(2026, 11, 2);
+        return price.ValidFrom == Catalog.PriceDevelopment(model)
+            .Where(entry => entry.ValidFrom < cacheLaunch).Max(entry => entry.ValidFrom)
+            ? CurrentRateVerification : new DateOnly(2026, 9, 12);
+    }
 
     [Fact]
     public void DefaultCatalog_BuildsWithoutDuplicateKeys()
@@ -24,7 +28,11 @@ public class ModelPriceSeedTests
         foreach (var listing in Catalog.Listings)
         {
             Assert.False(string.IsNullOrWhiteSpace(listing.ModelId));
-            Assert.NotEmpty(listing.History);
+            if (listing.History.Count == 0)
+            {
+                Assert.Equal("restricted", listing.Availability);
+                Assert.NotNull(listing.ReleasePost);
+            }
             foreach (var price in listing.History)
             {
                 // A seeded price never accidentally reads as $0 for input or output.
@@ -143,7 +151,7 @@ public class ModelPriceSeedTests
             (sol!.InputPerMTok, sol.OutputPerMTok, sol.CacheReadPerMTok, sol.CacheWritePerMTok));
         Assert.Equal(CurrentRateVerification, astra.VerifiedOn);
         Assert.Equal(ExpectedVerification(KnownModels.Gpt56Sol.Value, sol), sol.VerifiedOn);
-        Assert.Equal(2, Catalog.PriceDevelopment(KnownModels.Gpt56Sol).Count);
+        Assert.Equal(3, Catalog.PriceDevelopment(KnownModels.Gpt56Sol).Count);
     }
 
     [Theory]
@@ -204,18 +212,21 @@ public class ModelPriceSeedTests
             [
                 new DateTime(2026, 6, 26, 0, 0, 0, DateTimeKind.Utc),
                 new DateTime(2026, 8, 21, 0, 0, 0, DateTimeKind.Utc),
+                new DateTime(2026, 10, 20, 0, 0, 0, DateTimeKind.Utc),
             ],
             Catalog.PriceDevelopment("gpt-5.6-sol").Select(price => price.ValidFrom));
         Assert.Equal(
             [
                 new DateTime(2026, 6, 26, 0, 0, 0, DateTimeKind.Utc),
                 new DateTime(2026, 7, 30, 0, 0, 0, DateTimeKind.Utc),
+                new DateTime(2026, 10, 20, 0, 0, 0, DateTimeKind.Utc),
             ],
             Catalog.PriceDevelopment("gpt-5.6-terra").Select(price => price.ValidFrom));
         Assert.Equal(
             [
                 new DateTime(2026, 6, 26, 0, 0, 0, DateTimeKind.Utc),
                 new DateTime(2026, 7, 30, 0, 0, 0, DateTimeKind.Utc),
+                new DateTime(2026, 10, 20, 0, 0, 0, DateTimeKind.Utc),
             ],
             Catalog.PriceDevelopment("gpt-5.6-luna").Select(price => price.ValidFrom));
         Assert.Equal(

@@ -102,4 +102,22 @@ public static class KnownModels
     /// <summary>The canonical <c>gemini-4-carbon</c> model id.</summary>
     public static readonly ModelId Gemini4Carbon = ModelId.Of("gemini-4-carbon");
 
+    /// <summary>The canonical <c>gpt-6-rosalind</c> model id.</summary>
+    public static readonly ModelId Gpt6Rosalind = ModelId.Of("gpt-6-rosalind");
+
+    /// <summary>The canonical <c>gpt-5.6-cyber</c> model id.</summary>
+    public static readonly ModelId Gpt56Cyber = ModelId.Of("gpt-5.6-cyber");
+
+    /// <summary>The canonical <c>gpt-rosalind-research</c> model id.</summary>
+    public static readonly ModelId GptRosalindResearch = ModelId.Of("gpt-rosalind-research");
+
+    /// <summary>The canonical <c>gpt-rosalind-discovery</c> model id.</summary>
+    public static readonly ModelId GptRosalindDiscovery = ModelId.Of("gpt-rosalind-discovery");
+
+    /// <summary>The canonical <c>claude-mythos-5-1</c> model id.</summary>
+    public static readonly ModelId ClaudeMythos51 = ModelId.Of("claude-mythos-5-1");
+
+    /// <summary>The canonical <c>claude-mythos-5</c> model id.</summary>
+    public static readonly ModelId ClaudeMythos5 = ModelId.Of("claude-mythos-5");
+
 }

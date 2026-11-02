@@ -463,11 +463,11 @@
     <a href="#catalog">Compare prices</a><a href="#changes">What changed</a><a href="#history">Model histories</a><a href="#subscriptions">Subscriptions</a><a href="#method">Method &amp; API</a><a href="#sources">Sources</a>
   </nav>
   <section class="pricing-section" id="catalog">
-    <h2>Every catalog model, priced</h2>
+    <h2>Catalog prices and access</h2>
     <p>USD per million tokens, direct-provider standard tier. Anthropic cache writes use the 5-minute rate; OpenAI writes use the model’s applicable write rate. Model rows follow release date, newest first; archived models have their own collapsed table.</p>
     <form class="price-controls" id="price-controls">
-      <label>Price date (UTC)<input id="price-date" type="date" min="2025-08-05" max="2026-09-29" value="2026-09-29" required></label>
-      <label>Provider<select id="price-provider"><option value="">All providers</option><option value="openai">OpenAI</option><option value="anthropic">Anthropic</option></select></label>
+      <label>Price date (UTC)<input id="price-date" type="date" min="2025-08-05" max="2026-11-02" value="2026-11-02" required></label>
+      <label>Provider<select id="price-provider"><option value="">All providers</option><option value="openai">OpenAI</option><option value="anthropic">Anthropic</option><option value="google">Google</option></select></label>
       <label>Find a model<input type="search" id="price-search" placeholder="Name or model ID"></label>
       <label>Index reference<select id="price-reference"></select></label>
     </form>
@@ -480,6 +480,9 @@
   <section class="pricing-section" id="changes">
     <h2>The changes that matter</h2>
     <ol class="pricing-events">
+      <li><time>2026-11-02</time> <strong>Sonnet 5.5 cache reads corrected to $0.10/MTok from launch.</strong> This fixes a catalogue transcription; earlier read-time estimates change. <a href="https://platform.claude.com/docs/en/models/sonnet-5-5/overview">Anthropic model page</a></li>
+      <li><time>2026-10-26</time> <strong>GPT-6.1 Terra launches at $1 / $5.</strong> Thirty-minute cache writes cost $1.25 and twelve-hour writes $2.50 per MTok. <a href="https://developers.openai.com/api/docs/models/gpt-6.1-terra">OpenAI model page</a></li>
+      <li><time>2026-10-20</time> <strong>OpenAI adds twelve-hour cache writes at 2.5× input.</strong> The default thirty-minute write remains 1.25×. <a href="https://developers.openai.com/api/docs/changelog">OpenAI changelog</a></li>
       <li><time>2026-09-03</time> <strong>Astra launches at $10 input / $50 output.</strong> A new model price, alongside the earlier GPT-5.6 family. <a href="https://openai.com/index/gpt-6-astra/">OpenAI announcement</a></li>
       <li><time>2026-09-01</time> <strong>Fable 5.1: $10 / $50, with $0.25 cache reads.</strong> Cache reads cost less than Fable 5’s $1 rate. <a href="https://platform.claude.com/docs/en/about-claude/pricing">Anthropic rate card</a></li>
       <li><time>2026-08-21</time> <strong>Sol drops from $5 / $30 to $4 / $20.</strong> This promotion runs at least through 21 November. No automatic price reversion is recorded. <a href="https://developers.openai.com/api/docs/changelog#august-2026">Dated change notice</a></li>

@@ -150,6 +150,8 @@ body is a retrieval gap, not a verified numeric row. Arena returned a Cloudflare
 403 in this Chromium run; a rendered search snapshot exposed its dated text
 leaderboard rows. OpenAI announcements returned 403 to plain HTTP clients.
 
+TE-74 rechecked the price sources on 2026-11-02. GPT-6.1 Terra is current with an official OpenAI tariff. Google has no public Gemini API id or tariff for announced, restricted Carbon; its two previously estimated Arena and GDPval-AA rows are now score-only. Existing measured per-task costs remain attributed to their benchmark publishers. No new identical-case local coding score was inferred.
+
 ### Current-model refresh and live reading method (2026-11-01)
 
 The Cost Frontier projects only models whose catalog `lifecycleStatus` is

@@ -1,6 +1,6 @@
 {
   "schemaVersion": 3,
-  "generatedAtUtc": "2026-11-01T19:29:15.409272+00:00",
+  "generatedAtUtc": "2026-11-02T03:16:18.622566+00:00",
   "studies": [
     {
       "setupId": "html-ui-billing-onboarding",
@@ -3400,6 +3400,62 @@
           "infrastructureFailures": 0,
           "canonicalModel": "claude-haiku-4-5",
           "routingStatus": "selectable",
+          "lifecycleStatus": null,
+          "lifecycleNote": null
+        },
+        {
+          "model": "claude-mythos-5",
+          "documentType": "Pdf",
+          "level": "NotAttempted",
+          "casesAttempted": 0,
+          "casesPassed": 0,
+          "successRate": null,
+          "evidenceReference": "benchmarks/results/document-to-text/curated-hard-cases-v1/20260725T120544879Z.json",
+          "infrastructureFailures": 1,
+          "canonicalModel": "claude-mythos-5",
+          "routingStatus": "restricted",
+          "lifecycleStatus": null,
+          "lifecycleNote": null
+        },
+        {
+          "model": "claude-mythos-5",
+          "documentType": "Word",
+          "level": "NotAttempted",
+          "casesAttempted": 0,
+          "casesPassed": 0,
+          "successRate": null,
+          "evidenceReference": "benchmarks/results/document-to-text/curated-hard-cases-v1/20260725T120544879Z.json",
+          "infrastructureFailures": 1,
+          "canonicalModel": "claude-mythos-5",
+          "routingStatus": "restricted",
+          "lifecycleStatus": null,
+          "lifecycleNote": null
+        },
+        {
+          "model": "claude-mythos-5",
+          "documentType": "Spreadsheet",
+          "level": "NotAttempted",
+          "casesAttempted": 0,
+          "casesPassed": 0,
+          "successRate": null,
+          "evidenceReference": "benchmarks/results/document-to-text/curated-hard-cases-v1/20260725T120544879Z.json",
+          "infrastructureFailures": 1,
+          "canonicalModel": "claude-mythos-5",
+          "routingStatus": "restricted",
+          "lifecycleStatus": null,
+          "lifecycleNote": null
+        },
+        {
+          "model": "claude-mythos-5",
+          "documentType": "Presentation",
+          "level": "NotAttempted",
+          "casesAttempted": 0,
+          "casesPassed": 0,
+          "successRate": null,
+          "evidenceReference": "benchmarks/results/document-to-text/curated-hard-cases-v1/20260725T120544879Z.json",
+          "infrastructureFailures": 1,
+          "canonicalModel": "claude-mythos-5",
+          "routingStatus": "restricted",
           "lifecycleStatus": null,
           "lifecycleNote": null
         },

@@ -1834,7 +1834,7 @@
       "textKind": "copy",
       "taskClass": "docEdit",
       "language": "de",
-      "asOfDate": "2026-09-25",
+      "asOfDate": "2026-11-01",
       "requirement": {
         "language": "de",
         "minimumOverall": 0.75,
@@ -1853,7 +1853,7 @@
       "textKind": "copy",
       "taskClass": "docEdit",
       "language": "en",
-      "asOfDate": "2026-09-25",
+      "asOfDate": "2026-11-01",
       "requirement": {
         "language": "en",
         "minimumOverall": 0.75,
@@ -1872,7 +1872,7 @@
       "textKind": "documentation",
       "taskClass": "docEdit",
       "language": "de",
-      "asOfDate": "2026-09-25",
+      "asOfDate": "2026-11-01",
       "requirement": {
         "language": "de",
         "minimumOverall": 0.75,
@@ -1891,7 +1891,7 @@
       "textKind": "documentation",
       "taskClass": "docEdit",
       "language": "en",
-      "asOfDate": "2026-09-25",
+      "asOfDate": "2026-11-01",
       "requirement": {
         "language": "en",
         "minimumOverall": 0.75,
@@ -1910,7 +1910,7 @@
       "textKind": "operatorMessages",
       "taskClass": "docEdit",
       "language": "de",
-      "asOfDate": "2026-09-25",
+      "asOfDate": "2026-11-01",
       "requirement": {
         "language": "de",
         "minimumOverall": 0.75,
@@ -1929,7 +1929,7 @@
       "textKind": "operatorMessages",
       "taskClass": "docEdit",
       "language": "en",
-      "asOfDate": "2026-09-25",
+      "asOfDate": "2026-11-01",
       "requirement": {
         "language": "en",
         "minimumOverall": 0.75,
@@ -1948,7 +1948,7 @@
       "textKind": "replies",
       "taskClass": "docEdit",
       "language": "de",
-      "asOfDate": "2026-09-25",
+      "asOfDate": "2026-11-01",
       "requirement": {
         "language": "de",
         "minimumOverall": 0.75,
@@ -1967,7 +1967,7 @@
       "textKind": "replies",
       "taskClass": "docEdit",
       "language": "en",
-      "asOfDate": "2026-09-25",
+      "asOfDate": "2026-11-01",
       "requirement": {
         "language": "en",
         "minimumOverall": 0.75,
@@ -1983,6 +1983,6 @@
       "note": "No retained measured row meets the requirement yet. Import Voice Lint evidence; an empty set means wait, not an invented cheapest model."
     }
   ],
-  "generatedAtUtc": "2026-11-01T19:29:15.583020+00:00",
+  "generatedAtUtc": "2026-11-02T03:16:18.989608+00:00",
   "source": "src/TokenEconomy/catalog/task-class-recommendations.json"
 }

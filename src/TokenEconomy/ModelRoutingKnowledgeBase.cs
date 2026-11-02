@@ -382,14 +382,14 @@ public sealed class ModelRoutingKnowledgeBase
                 throw new InvalidOperationException($"Model '{model.CanonicalId}' has an unknown provider/CLI pair.");
             AddUnique(_modelsByKey, model.CanonicalId, model, "model key");
             foreach (var alias in model.Aliases) AddUnique(_modelsByKey, alias, model, "model key");
-            if (model.SupportedThinkingLevels.Count == 0)
+            if (model.SupportedThinkingLevels.Count == 0 && model.RoutingStatus != ModelRoutingStatus.Restricted)
                 throw new InvalidOperationException($"Model '{model.CanonicalId}' has no thinking levels.");
             foreach (var level in model.SupportedThinkingLevels)
                 if (!_thinkingById.ContainsKey(Normalize(level)))
                     throw new InvalidOperationException($"Model '{model.CanonicalId}' references unknown thinking level '{level}'.");
             if (model.Provisional && model.EvidenceStatus != PolicyEvidenceStatus.Provisional)
                 throw new InvalidOperationException($"Model '{model.CanonicalId}' is provisional without provisional evidence status.");
-            if (model.MinimumCliVersion is { } minimum && (!Version.TryParse(minimum, out var parsed) || parsed.Major < 1))
+            if (model.MinimumCliVersion is { } minimum && (!Version.TryParse(minimum, out var parsed) || parsed.Major == 0 && parsed.Minor == 0))
                 throw new InvalidOperationException($"Model '{model.CanonicalId}' has an invalid minimum CLI version '{minimum}'.");
         }
 

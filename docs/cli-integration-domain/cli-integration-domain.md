@@ -137,3 +137,7 @@ Each recommendation is the working decision for promoted implementation cards un
 ## Implementation cards
 
 The [workbench manifest](workbench.json) contains implementation-ready `promptMarkdown` for four workflow-sized cards: (1) CLI domain/catalog, (2) source register/CI, (3) price and benchmark migration, and (4) pages and verification probes. The final card must resolve the Google `/usage` and timeout conflicts with version-pinned evidence and should capture any visible product surface it presents using the then-available deterministic presentation capture workflow. This Dossier does not modify library code, catalogs, website code, tests, or build files.
+
+### November 2026 integration note
+
+[Google Gemini API release notes](https://ai.google.dev/gemini-api/docs/changelog) announce the `gemini-api` CLI beta on 2026-10-27 as a stateless API-key client for agents, scripts and CI. It is a separate integration path from consumer Antigravity (`agy`); no quota or access equivalence is inferred. The 2026-11-01 Codex Pro operator probe establishes a working 0.166.0 floor for GPT-6.1 Sol and Terra, while 0.155.0 refused both; the exact earliest Sol binary remains unproven.

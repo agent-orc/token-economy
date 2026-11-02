@@ -42,7 +42,7 @@ public sealed class ModelEfficiencyMatrix
             var profile = _profiles[i];
             if (string.IsNullOrWhiteSpace(profile.ModelId))
                 throw new ArgumentException("A ModelEfficiencyProfile must have a non-empty ModelId.", nameof(profiles));
-            if (profile.EffortLevels.Count == 0)
+            if (profile.EffortLevels.Count == 0 && !profile.Restricted)
                 throw new ArgumentException($"Model '{profile.ModelId}' must support at least one effort level.", nameof(profiles));
 
             var listing = catalog.Find(profile.ModelId)

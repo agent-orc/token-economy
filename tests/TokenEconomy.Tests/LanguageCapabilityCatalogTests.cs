@@ -13,8 +13,8 @@ public sealed class LanguageCapabilityCatalogTests
     {
         var catalog = LanguageCapabilityCatalog.Default;
         Assert.Equal(1, catalog.SchemaVersion);
-        Assert.Equal(new DateOnly(2026, 9, 25), catalog.AsOfDate);
-        Assert.Equal(22, catalog.Records.Count);
+        Assert.Equal(new DateOnly(2026, 11, 1), catalog.AsOfDate);
+        Assert.Equal(26, catalog.Records.Count);
         Assert.Equal(5, catalog.Studies.Count);
         Assert.All(catalog.Records.GroupBy(r => r.ModelId), group =>
             Assert.Equal(new[] { "de", "en" }, group.Select(r => r.Language).Order()));

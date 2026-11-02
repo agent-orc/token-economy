@@ -7,7 +7,7 @@ namespace TokenEconomy.Tests;
 public class ModelPriceProvenanceTests
 {
     [Fact]
-    public void FrontierOnlyPricesRetainConflictAndDoNotBecomeSelectable()
+    public void TerraHasOfficialPriceAndCarbonRemainsUnpricedAndRestricted()
     {
         var catalog = ModelPriceCatalog.Default;
         var terra = Assert.Single(catalog.Find("gpt-6.1-terra")!.History);
@@ -15,18 +15,12 @@ public class ModelPriceProvenanceTests
         Assert.Equal(.05m, terra.CacheReadPerMTok);
         Assert.Equal(5m, terra.OutputPerMTok);
         var carbonListing = catalog.Find("gemini-4-carbon")!;
-        var carbon = Assert.Single(carbonListing.History);
-        Assert.Equal(4m, carbon.InputPerMTok);
-        Assert.Equal(20m, carbon.OutputPerMTok);
-        Assert.True(carbon.Unconfirmed);
-        Assert.Contains("Arena $2/$10", carbon.Note);
-        Assert.Equal(3, carbonListing.PriceClaims.Count);
-        Assert.Equal(2m, carbonListing.PriceClaims[1].InputPerMTok);
-        Assert.Null(carbonListing.PriceClaims[2].InputPerMTok);
+        Assert.Empty(carbonListing.History);
+        Assert.Empty(carbonListing.PriceClaims);
+        Assert.Contains("public API tariff", carbonListing.Note!, StringComparison.OrdinalIgnoreCase);
         Assert.Equal("restricted", carbonListing.Availability);
         var knowledge = ModelRoutingKnowledgeBase.Default;
-        Assert.Equal(ModelRouteResolutionStatus.UnsupportedModel,
-            knowledge.Resolve("gpt-6.1-terra", "low").Status);
+        Assert.True(knowledge.Resolve("gpt-6.1-terra", "low").IsResolved);
         Assert.Equal(ModelRouteResolutionStatus.RestrictedModel,
             knowledge.Resolve("gemini-4-carbon", "low").Status);
     }
@@ -36,16 +30,21 @@ public class ModelPriceProvenanceTests
     {
         foreach (var listing in ModelPriceCatalog.Default.Listings)
         {
-            Assert.NotEmpty(listing.History);
+            if (listing.History.Count == 0)
+            {
+                Assert.Equal("restricted", listing.Availability);
+                Assert.NotNull(listing.ReleasePost);
+                continue;
+            }
             foreach (var price in listing.History)
             {
                 Assert.True(price.ValidFrom > DateTime.UnixEpoch);
                 Assert.Equal(DateTimeKind.Utc, price.ValidFrom.Kind);
                 Assert.NotNull(price.VerifiedOn);
-                Assert.InRange(price.VerifiedOn.Value, new DateOnly(2026, 9, 12), new DateOnly(2026, 11, 1));
+                Assert.InRange(price.VerifiedOn.Value, new DateOnly(2026, 9, 12), new DateOnly(2026, 11, 2));
                 Assert.NotEmpty(price.SourceUrls);
                 Assert.All(price.SourceUrls, source => Assert.True(Uri.TryCreate(source, UriKind.Absolute, out var uri) && uri.Scheme == "https"));
-                Assert.Equal(listing.ModelId == "gemini-4-carbon", price.Unconfirmed);
+                Assert.False(price.Unconfirmed);
                 Assert.NotNull(price.ValidFromBasis);
             }
 
@@ -64,7 +63,7 @@ public class ModelPriceProvenanceTests
     public void September22Models_HavePrimarySourcesReverifiedOnSeptember29(string model)
     {
         var listing = ModelPriceCatalog.Default.Find(model)!;
-        var price = Assert.Single(listing.History);
+        var price = listing.History[0];
 
         Assert.Equal(new DateOnly(2026, 9, 22), listing.ReleaseDate);
         Assert.Equal(new DateOnly(2026, 9, 29), price.VerifiedOn);
