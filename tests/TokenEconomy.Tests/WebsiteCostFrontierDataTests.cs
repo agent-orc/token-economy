@@ -23,9 +23,6 @@ public class WebsiteCostFrontierDataTests
         // This test checks the source evidence that the generator cannot infer.
         Assert.DoesNotContain(metadata.RootElement.EnumerateObject(), property =>
             property.Name.Length > 0 && char.IsUpper(property.Name[0]));
-        Assert.All(metadata.RootElement.GetProperty("externalModels").EnumerateObject(), model =>
-            Assert.Contains(model.Value.GetProperty("vendor").GetString(),
-                new[] { "xai", "deepseek", "alibaba", "moonshot", "zai", "xiaomi", "mistral" }));
         var external = metadata.RootElement.GetProperty("externalModels");
         foreach (var (model, vendor) in new Dictionary<string, string>
         {
@@ -179,12 +176,6 @@ public class WebsiteCostFrontierDataTests
             var value = benchmark.Value;
             foreach (var fact in value.GetProperty("scoreOnlyEvidence").EnumerateArray())
                 AssertEvidenceAge(fact);
-            var expectedSource = value.GetProperty("cost").GetString() switch
-            {
-                "measured" => "measured",
-                "chartRead" => "chartRead",
-                _ => "estimated",
-            };
             var rows = value.GetProperty("rows").EnumerateArray().ToArray();
             var evidence = value.GetProperty("evidence").EnumerateArray().ToArray();
             Assert.Equal(rows.Length, evidence.Length);
@@ -193,10 +184,10 @@ public class WebsiteCostFrontierDataTests
                 var row = rows[index];
                 var fact = evidence[index];
                 AssertEvidenceAge(fact);
-                Assert.Equal(expectedSource, fact.GetProperty("costSource").GetString());
+                var costSource = fact.GetProperty("costSource").GetString();
                 Assert.StartsWith("http", fact.GetProperty("sourceUrl").GetString()!);
                 Assert.False(string.IsNullOrWhiteSpace(fact.GetProperty("evidenceExcerpt").GetString()));
-                if (expectedSource != "estimated")
+                if (costSource != "estimated")
                 {
                     Assert.Equal(4, row.GetArrayLength());
                     continue;

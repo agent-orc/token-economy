@@ -5,8 +5,13 @@ namespace TokenEconomy.Tests;
 
 public class ModelEfficiencySeedTests
 {
-    private static readonly DateTime Now = new(2026, 11, 1, 0, 0, 0, DateTimeKind.Utc);
     private static readonly ModelEfficiencyMatrix Matrix = ModelEfficiencyMatrix.Default;
+
+    private static CostClass LatestCostClass(string model)
+    {
+        var latestPriceStart = ModelPriceCatalog.Default.PriceDevelopment(model).Max(price => price.ValidFrom);
+        return Matrix.CostClassOf(model, latestPriceStart);
+    }
 
     [Fact]
     public void EveryCatalogModel_HasExactlyOneProfile()
@@ -33,9 +38,7 @@ public class ModelEfficiencySeedTests
     {
         foreach (var profile in Matrix.Profiles)
         {
-            var listing = ModelPriceCatalog.Default.Find(profile.ModelId)!;
-            var latestPriceStart = listing.History.Max(price => price.ValidFrom);
-            Assert.NotEqual(CostClass.Unknown, Matrix.CostClassOf(profile.ModelId, latestPriceStart));
+            Assert.NotEqual(CostClass.Unknown, LatestCostClass(profile.ModelId));
         }
     }
 
@@ -45,7 +48,7 @@ public class ModelEfficiencySeedTests
         foreach (var id in new[] { "claude-opus-5", "claude-opus-4-8", "claude-opus-4-7", "claude-opus-4-6", "claude-opus-4-5" })
         {
             Assert.Equal(CapabilityTier.Frontier, Matrix.Find(id)!.Tier);
-            Assert.Equal(CostClass.Premium, Matrix.CostClassOf(id, Now));
+            Assert.Equal(CostClass.Premium, LatestCostClass(id));
         }
     }
 
@@ -56,7 +59,7 @@ public class ModelEfficiencySeedTests
         Assert.NotNull(opus5);
         Assert.Equal(CapabilityTier.Frontier, opus5!.Tier);
         Assert.Equal(Cli.Claude, Matrix.CliOf("claude-opus-5"));
-        Assert.Equal(CostClass.Premium, Matrix.CostClassOf("claude-opus-5", Now));
+        Assert.Equal(CostClass.Premium, LatestCostClass("claude-opus-5"));
         Assert.False(opus5.Restricted);
         Assert.False(opus5.Deprecated);
         // Same reasoning-effort ladder as the Opus generation it supersedes — nothing bespoke.
@@ -70,13 +73,13 @@ public class ModelEfficiencySeedTests
         Assert.Equal(CapabilityTier.Frontier, sonnet5.Tier);
         Assert.Equal(ModelRoutingStatus.FallbackOnly, sonnet5.RoutingStatus);
         Assert.Equal(PolicyEvidenceStatus.Provisional, sonnet5.EvidenceStatus);
-        Assert.Equal(CostClass.Standard, Matrix.CostClassOf("claude-sonnet-5", Now));
+        Assert.Equal(CostClass.Standard, LatestCostClass("claude-sonnet-5"));
 
         foreach (var id in new[] { "claude-sonnet-4-6", "claude-sonnet-4-5" })
         {
             Assert.Equal(CapabilityTier.Balanced, Matrix.Find(id)!.Tier);
             Assert.Equal(ModelRoutingStatus.Unsupported, Matrix.Find(id)!.RoutingStatus);
-            Assert.Equal(CostClass.Standard, Matrix.CostClassOf(id, Now));
+            Assert.Equal(CostClass.Standard, LatestCostClass(id));
         }
     }
 
@@ -98,7 +101,7 @@ public class ModelEfficiencySeedTests
     {
         var haiku = Matrix.Find("claude-haiku-4-5")!;
         Assert.Equal(CapabilityTier.Light, haiku.Tier);
-        Assert.Equal(CostClass.Economy, Matrix.CostClassOf("claude-haiku-4-5", Now));
+        Assert.Equal(CostClass.Economy, LatestCostClass("claude-haiku-4-5"));
         Assert.DoesNotContain(EffortLevel.High, haiku.EffortLevels);
     }
 
@@ -113,7 +116,7 @@ public class ModelEfficiencySeedTests
     public void PricedGptFamily_RunsOnCodex_WithCatalogDerivedCost(string id, CostClass expected)
     {
         Assert.Equal(Cli.Codex, Matrix.CliOf(id));
-        Assert.Equal(expected, Matrix.CostClassOf(id, Now));
+        Assert.Equal(expected, LatestCostClass(id));
     }
 
     [Fact]
@@ -122,7 +125,7 @@ public class ModelEfficiencySeedTests
         foreach (var id in new[] { "gpt-5", "gpt-5-codex" })
         {
             Assert.Equal(Cli.Codex, Matrix.CliOf(id));
-            Assert.Equal(CostClass.Economy, Matrix.CostClassOf(id, Now));
+            Assert.Equal(CostClass.Economy, LatestCostClass(id));
         }
     }
 
