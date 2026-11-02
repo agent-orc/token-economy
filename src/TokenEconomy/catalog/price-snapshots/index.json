@@ -82,7 +82,7 @@
       "retrievedOn": "2026-11-02",
       "firstShippedIn": "unreleased",
       "path": "model-prices.2026-11-02.json",
-      "sha256": "f2bdc41120f589ef3b4e945627274b893181b244dda7e56bb3165215974ff3ee",
+      "sha256": "aff0f1181a7845879b1f67ea1f9ca28ef1ed366ccced9abddf0ac6f90d05cba5",
       "listings": 38,
       "summary": "TE-74 verified provider refresh: correct Sonnet 5.5 cache reads, price 6.1 Terra and restricted specialized models, add alternate cache writes, remove unverified Carbon tariff.",
       "sources": [
