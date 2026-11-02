@@ -38,6 +38,8 @@ public class ModelEfficiencySeedTests
     {
         foreach (var profile in Matrix.Profiles)
         {
+            if (!ModelPriceCatalog.Default.PriceDevelopment(profile.ModelId).Any())
+                continue; // Restricted announcement-only models have no published price.
             Assert.NotEqual(CostClass.Unknown, LatestCostClass(profile.ModelId));
         }
     }
