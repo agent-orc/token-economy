@@ -5,7 +5,7 @@ namespace TokenEconomy.Tests;
 
 public class ModelEfficiencySeedTests
 {
-    private static readonly DateTime Now = new(2026, 8, 9, 0, 0, 0, DateTimeKind.Utc);
+    private static readonly DateTime Now = new(2026, 11, 1, 0, 0, 0, DateTimeKind.Utc);
     private static readonly ModelEfficiencyMatrix Matrix = ModelEfficiencyMatrix.Default;
 
     [Fact]
@@ -24,6 +24,17 @@ public class ModelEfficiencySeedTests
         {
             Assert.NotNull(ModelPriceCatalog.Default.Find(profile.ModelId));
             Assert.NotEmpty(profile.EffortLevels);
+        }
+    }
+
+    [Fact]
+    public void EveryProfile_HasCatalogDerivedCostAtItsLatestPrice()
+    {
+        foreach (var profile in Matrix.Profiles)
+        {
+            var listing = ModelPriceCatalog.Default.Find(profile.ModelId)!;
+            var latestPriceStart = listing.History.Max(price => price.ValidFrom);
+            Assert.NotEqual(CostClass.Unknown, Matrix.CostClassOf(profile.ModelId, latestPriceStart));
         }
     }
 
