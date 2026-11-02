@@ -1210,6 +1210,8 @@ def create_cost_frontier_payload() -> dict:
                 projected["noCost"].append([row["scoreOnlyLabel"], row["score"]])
                 projected["scoreOnlyEvidence"].append(fact)
                 continue
+            # The catalog validator owns each row's cost-field rules. This is
+            # the separate cross-file check against the explorer's metadata.
             if row["costSource"] != definition["cost"]:
                 raise ValueError(f"Frontier cost provenance mismatch: {row['id']}")
             cost = row.get("secondaryMetrics", {}).get("costPerTaskUsd")
