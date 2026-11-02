@@ -105,16 +105,23 @@ public sealed class Gpt6SolLunaSupportTests
     [Fact]
     public void ExternalScoresRetainProvisionalLocalStatusAndApiEffort()
     {
-        var results = BenchmarkEvidenceCatalog.Default.Results.Where(row =>
-            (row.ModelId.Value is "gpt-6-sol" or "gpt-6-luna")
-            && row.RetrievedAt == new DateOnly(2026, 9, 25)).ToArray();
-        Assert.Equal(4, results.Length);
+        string[] expectedIds =
+        [
+            "openai-deepswe-v1.1-gpt-6-sol-max-2026-09-22",
+            "openai-deepswe-v1.1-gpt-6-luna-max-2026-09-22",
+            "aa-ii-v4.3.2-gpt-6-sol-max-2026-09-25",
+            "aa-ii-v4.3.2-gpt-6-luna-max-2026-09-25",
+        ];
+        var results = BenchmarkEvidenceCatalog.Default.Results
+            .Where(row => expectedIds.Contains(row.Id, StringComparer.Ordinal)).ToArray();
+        Assert.Equal(expectedIds.Order(), results.Select(row => row.Id).Order());
         Assert.All(results, row =>
         {
             Assert.Equal(PolicyEvidenceStatus.Provisional, row.EvidenceStatus);
             Assert.Equal(EffortLevel.Max, row.ReasoningEffort);
             Assert.Equal(new DateOnly(2026, 9, 25), row.RetrievedAt);
             Assert.NotNull(row.Context);
+            Assert.Contains(row.ModelId.Value, new[] { KnownModels.Gpt6Sol.Value, KnownModels.Gpt6Luna.Value });
         });
     }
 }

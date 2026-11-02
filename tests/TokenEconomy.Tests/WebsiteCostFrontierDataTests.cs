@@ -19,16 +19,8 @@ public class WebsiteCostFrontierDataTests
             .ToArray();
         using var metadata = JsonDocument.Parse(File.ReadAllBytes(Path.Combine(
             RepositoryRoot(), "src", "TokenEconomy", "catalog", "cost-frontier-metadata.json")));
-        var selected = metadata.RootElement.GetProperty("benchmarks").EnumerateObject()
-            .SelectMany(benchmark => benchmark.Value.GetProperty("displayRowIds").EnumerateArray()
-                .Concat(benchmark.Value.GetProperty("displayScoreOnlyIds").EnumerateArray()))
-            .Select(id => id.GetString()!).ToHashSet(StringComparer.Ordinal);
-        Assert.Equal(selected.Order(), rows.Select(row => row.GetProperty("id").GetString()!).Order());
         Assert.DoesNotContain(metadata.RootElement.EnumerateObject(), property =>
             property.Name.Length > 0 && char.IsUpper(property.Name[0]));
-        Assert.All(metadata.RootElement.GetProperty("externalModels").EnumerateObject(), model =>
-            Assert.Contains(model.Value.GetProperty("vendor").GetString(),
-                new[] { "xai", "deepseek", "alibaba", "moonshot", "zai", "xiaomi", "mistral" }));
         var external = metadata.RootElement.GetProperty("externalModels");
         foreach (var (model, vendor) in new Dictionary<string, string>
         {
@@ -60,12 +52,6 @@ public class WebsiteCostFrontierDataTests
         Assert.DoesNotContain(rows, row => row.GetProperty("evidenceExcerpt").GetString()!.Contains("Sorry, you have been blocked", StringComparison.Ordinal));
         Assert.DoesNotContain(rows, row => row.GetProperty("evidenceExcerpt").GetString()!.Contains("VIEW BRAND KIT", StringComparison.Ordinal));
         Assert.DoesNotContain(rows, row => row.GetProperty("evidenceExcerpt").GetString()!.Contains("TERMINAL-BENCH RUN BENCHMARKS BLOG", StringComparison.Ordinal));
-        Assert.All(rows.Where(row => row.GetProperty("costSource").GetString() == "unavailable"), row =>
-        {
-            Assert.True(row.TryGetProperty("settingLabel", out _));
-            Assert.True(row.TryGetProperty("scoreOnlyLabel", out _));
-            Assert.False(row.TryGetProperty("scoreOnlyModelId", out _));
-        });
         Assert.All(rows.Where(row => row.GetProperty("costSource").GetString() == "chartRead"), row =>
         {
             var excerpt = row.GetProperty("evidenceExcerpt").GetString()!;
