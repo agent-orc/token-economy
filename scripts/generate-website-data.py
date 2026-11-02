@@ -1198,6 +1198,10 @@ def create_cost_frontier_payload() -> dict:
         projected["evidence"] = []
         projected["noCost"] = []
         projected["scoreOnlyEvidence"] = []
+        cost_sources = {rows_by_id[row_id]["costSource"] for row_id in definition["displayRowIds"]}
+        if len(cost_sources) != 1 or "unavailable" in cost_sources:
+            raise ValueError(f"Frontier chart needs one priced cost source: {short}")
+        projected["cost"] = cost_sources.pop()
         for row in rows:
             model = short_by_model.get(row["modelId"])
             if model not in current:
@@ -1210,10 +1214,6 @@ def create_cost_frontier_payload() -> dict:
                 projected["noCost"].append([row["scoreOnlyLabel"], row["score"]])
                 projected["scoreOnlyEvidence"].append(fact)
                 continue
-            # The catalog validator owns each row's cost-field rules. This is
-            # the separate cross-file check against the explorer's metadata.
-            if row["costSource"] != definition["cost"]:
-                raise ValueError(f"Frontier cost provenance mismatch: {row['id']}")
             cost = row.get("secondaryMetrics", {}).get("costPerTaskUsd")
             entry = [model, row["settingLabel"], row["score"]]
             if cost is not None:
