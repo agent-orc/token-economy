@@ -43,6 +43,8 @@ public class WebsiteCostFrontierDataTests
         // The generator checks the metadata selection. These assertions check source evidence.
         Assert.DoesNotContain(metadata.RootElement.EnumerateObject(), property =>
             property.Name.Length > 0 && char.IsUpper(property.Name[0]));
+        Assert.All(rows, row => Assert.Contains(row.GetProperty("costSource").GetString(),
+            new[] { "measured", "chartRead", "estimated", "unavailable" }));
         var external = metadata.RootElement.GetProperty("externalModels");
         foreach (var (model, vendor) in new Dictionary<string, string>
         {
@@ -71,6 +73,12 @@ public class WebsiteCostFrontierDataTests
         Assert.DoesNotContain(rows, row => row.GetProperty("evidenceExcerpt").GetString()!.Contains("Sorry, you have been blocked", StringComparison.Ordinal));
         Assert.DoesNotContain(rows, row => row.GetProperty("evidenceExcerpt").GetString()!.Contains("VIEW BRAND KIT", StringComparison.Ordinal));
         Assert.DoesNotContain(rows, row => row.GetProperty("evidenceExcerpt").GetString()!.Contains("TERMINAL-BENCH RUN BENCHMARKS BLOG", StringComparison.Ordinal));
+        Assert.All(rows.Where(row => row.GetProperty("costSource").GetString() == "unavailable"), row =>
+        {
+            Assert.True(row.TryGetProperty("settingLabel", out _));
+            Assert.True(row.TryGetProperty("scoreOnlyLabel", out _));
+            Assert.False(row.TryGetProperty("scoreOnlyModelId", out _));
+        });
         Assert.All(rows.Where(row => row.GetProperty("costSource").GetString() == "chartRead"), row =>
         {
             var excerpt = row.GetProperty("evidenceExcerpt").GetString()!;
