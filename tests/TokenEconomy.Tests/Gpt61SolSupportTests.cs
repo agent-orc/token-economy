@@ -67,14 +67,16 @@ public sealed class Gpt61SolSupportTests
     }
 
     [Fact]
-    public void UnpublishedBenchmarkDateDoesNotCreateAResult()
+    public void EarlyScoreOnlyClaimDoesNotCreateAPricedBenchmarkResult()
     {
-        Assert.DoesNotContain(BenchmarkEvidenceCatalog.Default.Results,
-            result => result.ModelId == KnownModels.Gpt61Sol
-                && result.RetrievedAt <= new DateOnly(2026, 10, 4));
-        Assert.Contains(BenchmarkEvidenceCatalog.Default.Results,
-            result => result.ModelId == KnownModels.Gpt61Sol
-                && result.RetrievedAt > new DateOnly(2026, 10, 4));
+        var results = BenchmarkEvidenceCatalog.Default.Results
+            .Where(result => result.ModelId == KnownModels.Gpt61Sol).ToArray();
+        var early = Assert.Single(results, result => result.PublishedAt <= new DateOnly(2026, 10, 4));
+        Assert.Equal("cf-scoreonly-osw2-002", early.Id);
+        Assert.Equal(BenchmarkCostSource.Unavailable, early.CostSource);
+        Assert.Null(early.SecondaryMetrics?.CostPerTaskUsd);
+        Assert.Contains(results, result => result.PublishedAt > new DateOnly(2026, 10, 4)
+            && result.CostSource != BenchmarkCostSource.Unavailable);
     }
 
     [Fact]
