@@ -329,21 +329,21 @@ public sealed class BenchmarkEvidenceCatalog
             throw new ArgumentException("Cost derivation cannot be blank.", nameof(result));
         ValidateContext(result);
         var metrics = result.SecondaryMetrics;
+        if (result.CostSource == BenchmarkCostSource.Unavailable && metrics?.CostPerTaskUsd is not null)
+            throw new ArgumentException("A score-only result cannot publish a cost.", nameof(result));
         if (result.BenchmarkTypeId.StartsWith("cost-frontier-", StringComparison.Ordinal))
         {
             if (result.CostSource is null || string.IsNullOrWhiteSpace(result.SettingLabel))
                 throw new ArgumentException("Cost Frontier results require cost source and setting label.", nameof(result));
             if (result.CostSource == BenchmarkCostSource.Unavailable)
             {
-                if (string.IsNullOrWhiteSpace(result.ScoreOnlyLabel) || metrics?.CostPerTaskUsd is not null)
-                    throw new ArgumentException("Score-only results require a label and no cost.", nameof(result));
+                if (string.IsNullOrWhiteSpace(result.ScoreOnlyLabel))
+                    throw new ArgumentException("Score-only results require a label.", nameof(result));
             }
             else if (result.ScoreOnlyLabel is not null
                 || (result.CostSource == BenchmarkCostSource.Estimated) != (metrics?.CostPerTaskUsd is null))
                 throw new ArgumentException("Cost Frontier cost fields disagree with their source kind.", nameof(result));
         }
-        else if (result.CostSource == BenchmarkCostSource.Unavailable && metrics?.CostPerTaskUsd is not null)
-            throw new ArgumentException("A score-only result cannot publish a cost.", nameof(result));
         if (metrics?.InputTokensPerTask is < 0 || metrics?.OutputTokensPerTask is < 0
             || metrics?.CostPerTaskUsd is <= 0 || metrics?.LatencyMilliseconds is < 0)
             throw new ArgumentException("Benchmark secondary metrics must be non-negative and cost must be positive.", nameof(result));
