@@ -44,6 +44,9 @@ public class WebsiteCostFrontierDataTests
         Assert.DoesNotContain(metadata.RootElement.EnumerateObject(), property =>
             property.Name.Length > 0 && char.IsUpper(property.Name[0]));
         var external = metadata.RootElement.GetProperty("externalModels");
+        Assert.All(external.EnumerateObject(), model =>
+            Assert.Contains(model.Value.GetProperty("vendor").GetString(),
+                new[] { "xai", "deepseek", "alibaba", "moonshot", "zai", "xiaomi", "mistral" }));
         foreach (var (model, vendor) in new Dictionary<string, string>
         {
             ["grok-4.7"] = "xai", ["ds-4.1f"] = "deepseek", ["qwen-3.8"] = "alibaba",
@@ -205,6 +208,7 @@ public class WebsiteCostFrontierDataTests
                 var fact = evidence[index];
                 AssertEvidenceAge(fact);
                 var costSource = fact.GetProperty("costSource").GetString();
+                Assert.Equal(value.GetProperty("cost").GetString(), costSource);
                 Assert.StartsWith("http", fact.GetProperty("sourceUrl").GetString()!);
                 Assert.False(string.IsNullOrWhiteSpace(fact.GetProperty("evidenceExcerpt").GetString()));
                 if (costSource != "estimated")
