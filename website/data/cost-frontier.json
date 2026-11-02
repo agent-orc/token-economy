@@ -1004,7 +1004,6 @@
       "short": "Intelligence Index v5",
       "unit": "index points",
       "yLabel": "Index score",
-      "cost": "measured",
       "per": "task",
       "rep": "owner",
       "date": "2026-10-28",
@@ -1886,6 +1885,7 @@
       ],
       "noCost": [],
       "scoreOnlyEvidence": [],
+      "cost": "measured",
       "stale": false
     },
     "arc2": {
@@ -1893,7 +1893,6 @@
       "short": "ARC-AGI-2",
       "unit": "% solved",
       "yLabel": "Solved (%)",
-      "cost": "measured",
       "per": "task",
       "rep": "owner",
       "date": "2026-11-01",
@@ -2704,6 +2703,7 @@
       ],
       "noCost": [],
       "scoreOnlyEvidence": [],
+      "cost": "measured",
       "stale": false
     },
     "aacode": {
@@ -2711,7 +2711,6 @@
       "short": "Coding Agent Index",
       "unit": "index points",
       "yLabel": "Index score",
-      "cost": "measured",
       "per": "task",
       "rep": "owner",
       "date": "2026-11-01",
@@ -2912,6 +2911,7 @@
           "stale": false
         }
       ],
+      "cost": "measured",
       "stale": false
     },
     "tb4": {
@@ -2919,7 +2919,6 @@
       "short": "Terminal-Bench 4.0",
       "unit": "% resolved",
       "yLabel": "Resolved (%)",
-      "cost": "measured",
       "per": "task",
       "rep": "owner",
       "date": "2026-11-01",
@@ -3278,6 +3277,7 @@
           "stale": false
         }
       ],
+      "cost": "measured",
       "stale": false
     },
     "deepswe": {
@@ -3285,7 +3285,6 @@
       "short": "DeepSWE",
       "unit": "% pass@1",
       "yLabel": "Pass@1 (%)",
-      "cost": "measured",
       "per": "task",
       "rep": "owner",
       "date": "2026-09-22",
@@ -3414,6 +3413,7 @@
           "stale": false
         }
       ],
+      "cost": "measured",
       "stale": false
     },
     "osw2": {
@@ -3421,7 +3421,6 @@
       "short": "OSWorld 2.0",
       "unit": "% partial score",
       "yLabel": "Partial score (%)",
-      "cost": "chartRead",
       "per": "task",
       "rep": "vendor",
       "date": "2026-09-22",
@@ -3642,6 +3641,7 @@
           "stale": false
         }
       ],
+      "cost": "chartRead",
       "stale": false
     },
     "exploit": {
@@ -3649,7 +3649,6 @@
       "short": "ExploitBench",
       "unit": "% capability flags",
       "yLabel": "Capability flags (%)",
-      "cost": "estimated",
       "per": "task",
       "rep": "vendor",
       "date": "2026-09-22",
@@ -3711,6 +3710,7 @@
       ],
       "noCost": [],
       "scoreOnlyEvidence": [],
+      "cost": "estimated",
       "stale": false
     },
     "cybergym": {
@@ -3718,7 +3718,6 @@
       "short": "CyberGym",
       "unit": "% reproduced",
       "yLabel": "Reproduced (%)",
-      "cost": "estimated",
       "per": "task",
       "rep": "third",
       "date": "2026-09-22",
@@ -3804,6 +3803,7 @@
           "stale": false
         }
       ],
+      "cost": "estimated",
       "stale": false
     },
     "arena": {
@@ -3812,7 +3812,6 @@
       "unit": "rating",
       "elo": true,
       "yLabel": "Arena rating",
-      "cost": "estimated",
       "per": "task",
       "rep": "owner",
       "date": "2026-10-27",
@@ -4025,6 +4024,7 @@
           "stale": false
         }
       ],
+      "cost": "estimated",
       "stale": false
     },
     "xpro": {
@@ -4032,7 +4032,6 @@
       "short": "Perfect documents",
       "unit": "% perfect docs",
       "yLabel": "Perfect documents (%)",
-      "cost": "measured",
       "per": "page",
       "rep": "owner",
       "date": "2026-10-28",
@@ -4183,6 +4182,7 @@
       ],
       "noCost": [],
       "scoreOnlyEvidence": [],
+      "cost": "measured",
       "stale": false
     },
     "xf1": {
@@ -4190,7 +4190,6 @@
       "short": "Value F1",
       "unit": "% F1",
       "yLabel": "Value F1 (%)",
-      "cost": "measured",
       "per": "page",
       "rep": "owner",
       "date": "2026-10-28",
@@ -4334,6 +4333,7 @@
       ],
       "noCost": [],
       "scoreOnlyEvidence": [],
+      "cost": "measured",
       "stale": false
     },
     "gdpval": {
@@ -4342,7 +4342,6 @@
       "unit": "Elo",
       "elo": true,
       "yLabel": "Elo rating",
-      "cost": "estimated",
       "per": "task",
       "rep": "owner",
       "date": "2026-10-28",
@@ -4576,6 +4575,7 @@
           "stale": false
         }
       ],
+      "cost": "estimated",
       "stale": false
     },
     "chart": {
@@ -4583,7 +4583,6 @@
       "short": "Chartography",
       "unit": "% accuracy",
       "yLabel": "Accuracy (%)",
-      "cost": "chartRead",
       "per": "task",
       "rep": "vendor",
       "date": "2026-09-22",
@@ -4803,6 +4802,7 @@
           "stale": false
         }
       ],
+      "cost": "chartRead",
       "stale": false
     },
     "mmmu": {
@@ -4810,7 +4810,6 @@
       "short": "MMMU",
       "unit": "% correct",
       "yLabel": "Correct (%)",
-      "cost": "estimated",
       "per": "task",
       "rep": "owner",
       "date": "2026-09-01",
@@ -4857,6 +4856,7 @@
       ],
       "noCost": [],
       "scoreOnlyEvidence": [],
+      "cost": "estimated",
       "stale": false
     }
   },
