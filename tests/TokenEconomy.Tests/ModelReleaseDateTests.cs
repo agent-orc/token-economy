@@ -11,11 +11,7 @@ public sealed class ModelReleaseDateTests
     {
         foreach (var listing in ModelPriceCatalog.Default.Listings)
         {
-            if (listing.ReleaseDate is null)
-            {
-                Assert.Null(listing.ReleaseDateSource);
-                continue;
-            }
+            Assert.NotNull(listing.ReleaseDate);
             Assert.True(Uri.TryCreate(listing.ReleaseDateSource, UriKind.Absolute, out var source));
             Assert.Equal("https", source!.Scheme);
             Assert.Contains(source.Host, new[] { "platform.claude.com", "openai.com", "developers.openai.com", "ai.google.dev", "www.antigravity.google", "blog.google" });
@@ -48,9 +44,7 @@ public sealed class ModelReleaseDateTests
             newest.Take(10).Select(listing => listing.ModelId));
         Assert.Equal([KnownModels.ClaudeFable51.Value, KnownModels.Gemini38Flash.Value],
             newest.Skip(10).Take(2).Select(listing => listing.ModelId));
-        Assert.True(Array.FindIndex(newest, listing => listing.ModelId == KnownModels.Gpt6Astra.Value)
-            < Array.FindIndex(newest, listing => listing.ModelId == KnownModels.ClaudeFable51.Value));
-        Assert.Equal(KnownModels.ClaudeOpus41.Value, newest.Last(listing => listing.ReleaseDate is not null).ModelId);
+        Assert.Equal(KnownModels.ClaudeOpus41.Value, newest[^1].ModelId);
     }
 
     [Fact]

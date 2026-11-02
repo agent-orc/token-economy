@@ -24,8 +24,7 @@ public class ModelPriceSeedTests
         foreach (var listing in Catalog.Listings)
         {
             Assert.False(string.IsNullOrWhiteSpace(listing.ModelId));
-            if (listing.History.Count == 0)
-                Assert.Contains("No confirmed list price", listing.Note);
+            Assert.NotEmpty(listing.History);
             foreach (var price in listing.History)
             {
                 // A seeded price never accidentally reads as $0 for input or output.
