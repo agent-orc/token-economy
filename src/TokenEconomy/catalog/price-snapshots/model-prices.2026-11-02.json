@@ -787,7 +787,7 @@
         "cacheWriteTwelveHourPerMTok": 5.0
       }
     ],
-    "note": "Codex CLI 0.155.0 probe on 2026-10-04 returned HTTP 400: model not supported with this ChatGPT account; CLI execution availability remains unconfirmed.",
+    "note": "Codex CLI 0.155.0 on a ChatGPT account returned HTTP 400 on 2026-10-04. An operator ChatGPT Pro probe ran this model on 0.166.0 on 2026-11-01. The conservative proven-working CLI floor is 0.166.0; the earliest supported release is not established.",
     "releasePost": {
       "title": "Introducing GPT-6.1 Sol",
       "url": "https://openai.com/index/introducing-gpt-6-1-sol/",
