@@ -126,7 +126,7 @@ public sealed class DocumentTextBenchmarkTests
     }
 
     [Fact]
-    public void Default_target_list_contains_new_catalog_models_and_excludes_restricted_mythos()
+    public void Default_target_list_contains_new_catalog_models_and_marks_mythos_restricted()
     {
         var models = ModelPriceCatalog.Default.Listings.Select(item => item.ModelId).ToArray();
 
@@ -134,7 +134,10 @@ public sealed class DocumentTextBenchmarkTests
         Assert.Contains("gpt-5.6-luna", models);
         Assert.Contains("gpt-5.6-terra", models);
         Assert.Contains("gpt-5.4-mini", models);
-        Assert.DoesNotContain("claude-mythos-5", models);
+        Assert.Contains("claude-mythos-5-1", models);
+        Assert.Contains("claude-mythos-5", models);
+        Assert.Equal("restricted", ModelPriceCatalog.Default.Find("claude-mythos-5-1")!.Availability);
+        Assert.Equal("restricted", ModelPriceCatalog.Default.Find("claude-mythos-5")!.Availability);
     }
 
     [Fact]
