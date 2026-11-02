@@ -10,6 +10,27 @@ public class WebsiteCostFrontierDataTests
 {
     [Fact]
     [Trait("Category", "Guard")]
+    public void PriceHistoryCopiesCatalogPeriodsAndProvenance()
+    {
+        using var catalog = JsonDocument.Parse(File.ReadAllBytes(Path.Combine(
+            RepositoryRoot(), "src", "TokenEconomy", "catalog", "model-prices.json")));
+        using var website = JsonDocument.Parse(File.ReadAllBytes(Path.Combine(
+            RepositoryRoot(), "website", "data", "price-history.json")));
+        var source = catalog.RootElement.EnumerateArray().ToDictionary(
+            model => model.GetProperty("modelId").GetString()!);
+        var projected = website.RootElement.GetProperty("models").EnumerateArray().ToArray();
+        Assert.Equal(source.Count, projected.Length);
+        foreach (var model in projected)
+        {
+            var id = model.GetProperty("modelId").GetString()!;
+            Assert.True(source.TryGetValue(id, out var listing), $"Unexpected price-history model: {id}");
+            Assert.True(JsonElement.DeepEquals(listing.GetProperty("history"), model.GetProperty("history")),
+                $"Price periods or provenance drifted for {id}");
+        }
+    }
+
+    [Fact]
+    [Trait("Category", "Guard")]
     public void FrontierCatalogHasNoPlaceholderModelsOrDuplicateObservations()
     {
         using var document = JsonDocument.Parse(File.ReadAllBytes(Path.Combine(
