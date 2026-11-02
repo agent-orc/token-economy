@@ -1,3 +1,4 @@
+using System.Globalization;
 using System.Text.Json;
 using System.Text.RegularExpressions;
 using TokenEconomy;
@@ -8,6 +9,7 @@ namespace TokenEconomy.Tests;
 public class WebsiteCostFrontierDataTests
 {
     [Fact]
+    [Trait("Category", "Guard")]
     public void FrontierCatalogHasNoPlaceholderModelsOrDuplicateObservations()
     {
         using var document = JsonDocument.Parse(File.ReadAllBytes(Path.Combine(
@@ -52,8 +54,9 @@ public class WebsiteCostFrontierDataTests
             row.TryGetProperty("settingLabel", out var setting) ? setting.GetString() : row.GetProperty("reasoningEffort").GetString(),
             row.GetProperty("sourceUrl").GetString(), row.GetProperty("publishedAt").GetString()));
         Assert.Equal(rows.Length, sourcedRuns.Distinct(StringComparer.Ordinal).Count());
-        Assert.Equal(rows.Length, rows.Select(row => row.GetProperty("evidenceExcerpt").GetString())
-            .Distinct(StringComparer.Ordinal).Count());
+        Assert.Equal(rows.Length, rows.Select(row => (
+            row.GetProperty("benchmarkTypeId").GetString(), row.GetProperty("evidenceExcerpt").GetString()))
+            .Distinct().Count());
         Assert.DoesNotContain(rows, row => row.GetProperty("evidenceExcerpt").GetString()!.Contains("Sorry, you have been blocked", StringComparison.Ordinal));
         Assert.DoesNotContain(rows, row => row.GetProperty("evidenceExcerpt").GetString()!.Contains("VIEW BRAND KIT", StringComparison.Ordinal));
         Assert.DoesNotContain(rows, row => row.GetProperty("evidenceExcerpt").GetString()!.Contains("TERMINAL-BENCH RUN BENCHMARKS BLOG", StringComparison.Ordinal));
@@ -87,6 +90,31 @@ public class WebsiteCostFrontierDataTests
             Assert.Contains(row.GetProperty("modelId").GetString()!.Replace('.', '-'),
                 excerpt.GetProperty("modelId").GetString()!, StringComparison.Ordinal);
         });
+        var extractRows = rows.Where(row => row.GetProperty("benchmarkTypeId").GetString()
+            is "cost-frontier-xpro" or "cost-frontier-xf1").ToArray();
+        Assert.Equal(16, extractRows.Length);
+        Assert.All(extractRows, row =>
+        {
+            Assert.Contains("/ExtractBench/blob/21535d9efe80b95fc5d5fbf8edfca7e4a40d39d9/leaderboard-pro.csv",
+                row.GetProperty("sourceUrl").GetString());
+            Assert.Equal("publishedData", row.GetProperty("retrievalMethod").GetString());
+            var source = row.GetProperty("evidenceExcerpt").GetString()!.Split(',');
+            Assert.Equal("all", source[2]);
+            Assert.Equal(row.GetProperty("score").GetDecimal(),
+                decimal.Parse(source[row.GetProperty("benchmarkTypeId").GetString() == "cost-frontier-xpro" ? 5 : 6],
+                    CultureInfo.InvariantCulture));
+            Assert.Equal(row.GetProperty("secondaryMetrics").GetProperty("costPerTaskUsd").GetDecimal(),
+                decimal.Round(decimal.Parse(source[9], CultureInfo.InvariantCulture), 4));
+        });
+        foreach (var metric in new[] { "xpro", "xf1" })
+        {
+            var terra = extractRows.Where(row => row.GetProperty("benchmarkTypeId").GetString() == "cost-frontier-" + metric
+                && row.GetProperty("modelId").GetString() == "gpt-6.1-terra").ToArray();
+            Assert.Equal(["Codex low", "Codex medium"],
+                terra.Select(row => row.GetProperty("settingLabel").GetString()).Order(StringComparer.Ordinal));
+            Assert.All(terra, row => Assert.Contains(row.GetProperty("reasoningEffort").GetString()!,
+                row.GetProperty("evidenceExcerpt").GetString()!, StringComparison.OrdinalIgnoreCase));
+        }
         var presenc = Assert.Single(rows, row => row.GetProperty("id").GetString() == "cf-osw2-gap-001");
         Assert.Contains("GPT-6 Astra | 72.6%", presenc.GetProperty("evidenceExcerpt").GetString());
         var sol = Assert.Single(rows, row => row.GetProperty("id").GetString() == "cf-scoreonly-osw2-002");

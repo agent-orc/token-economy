@@ -342,7 +342,7 @@ public sealed class BenchmarkEvidenceCatalog
                 || (result.CostSource == BenchmarkCostSource.Estimated) != (metrics?.CostPerTaskUsd is null))
                 throw new ArgumentException("Cost Frontier cost fields disagree with their source kind.", nameof(result));
         }
-        if (result.CostSource == BenchmarkCostSource.Unavailable && metrics?.CostPerTaskUsd is not null)
+        else if (result.CostSource == BenchmarkCostSource.Unavailable && metrics?.CostPerTaskUsd is not null)
             throw new ArgumentException("A score-only result cannot publish a cost.", nameof(result));
         if (metrics?.InputTokensPerTask is < 0 || metrics?.OutputTokensPerTask is < 0
             || metrics?.CostPerTaskUsd is <= 0 || metrics?.LatencyMilliseconds is < 0)

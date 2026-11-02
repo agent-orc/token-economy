@@ -3934,10 +3934,10 @@
       "costSource": "measured",
       "publishedAt": "2026-10-28",
       "retrievedAt": "2026-11-01",
-      "sourceUrl": "https://benchlm.ai/benchmarks/extractbench-pro",
-      "retrievalMethod": "manual",
-      "evidenceExcerpt": "Transcribed from the ExtractBench Pro source table: gpt-6-astra, perfect documents 58%, cost $0.952 per page.",
-      "confidence": "thirdParty",
+      "sourceUrl": "https://github.com/run-llama/ExtractBench/blob/21535d9efe80b95fc5d5fbf8edfca7e4a40d39d9/leaderboard-pro.csv",
+      "retrievalMethod": "publishedData",
+      "evidenceExcerpt": "Codex GPT-6 Astra,Coding Agents,all,100,81,58.00,94.53,70.97,79.10,0.952000,58.00,95.53,72.19,80.34",
+      "confidence": "publisherReported",
       "secondaryMetrics": {
         "costPerTaskUsd": 0.952
       }
@@ -3952,10 +3952,10 @@
       "costSource": "measured",
       "publishedAt": "2026-10-28",
       "retrievedAt": "2026-11-01",
-      "sourceUrl": "https://benchlm.ai/benchmarks/extractbench-pro",
-      "retrievalMethod": "manual",
-      "evidenceExcerpt": "Transcribed from the ExtractBench Pro source table: claude-opus-5-5, perfect documents 51%, cost $0.412 per page.",
-      "confidence": "thirdParty",
+      "sourceUrl": "https://github.com/run-llama/ExtractBench/blob/21535d9efe80b95fc5d5fbf8edfca7e4a40d39d9/leaderboard-pro.csv",
+      "retrievalMethod": "publishedData",
+      "evidenceExcerpt": "Claude Code Opus 5.5,Coding Agents,all,100,81,51.00,74.87,45.29,56.85,0.412000,60.00,91.49,59.62,72.79",
+      "confidence": "publisherReported",
       "secondaryMetrics": {
         "costPerTaskUsd": 0.412
       }
@@ -3970,10 +3970,10 @@
       "costSource": "measured",
       "publishedAt": "2026-10-28",
       "retrievedAt": "2026-11-01",
-      "sourceUrl": "https://benchlm.ai/benchmarks/extractbench-pro",
-      "retrievalMethod": "manual",
-      "evidenceExcerpt": "Transcribed from the ExtractBench Pro source table: claude-sonnet-5-5, perfect documents 32%, cost $0.1998 per page.",
-      "confidence": "thirdParty",
+      "sourceUrl": "https://github.com/run-llama/ExtractBench/blob/21535d9efe80b95fc5d5fbf8edfca7e4a40d39d9/leaderboard-pro.csv",
+      "retrievalMethod": "publishedData",
+      "evidenceExcerpt": "Claude Code Sonnet 5.5,Coding Agents,all,100,81,32.00,73.62,40.47,53.00,0.199800,33.00,84.69,46.11,64.07",
+      "confidence": "publisherReported",
       "secondaryMetrics": {
         "costPerTaskUsd": 0.1998
       }
@@ -3982,16 +3982,16 @@
       "id": "cf-xpro-004",
       "benchmarkTypeId": "cost-frontier-xpro",
       "modelId": "gemini-4-argon",
-      "reasoningEffort": "unspecified",
-      "settingLabel": "default",
+      "reasoningEffort": "medium",
+      "settingLabel": "Gemini CLI medium",
       "score": 30,
       "costSource": "measured",
       "publishedAt": "2026-10-28",
       "retrievedAt": "2026-11-01",
-      "sourceUrl": "https://benchlm.ai/benchmarks/extractbench-pro",
-      "retrievalMethod": "manual",
-      "evidenceExcerpt": "Transcribed from the ExtractBench Pro source table: gemini-4-argon, perfect documents 30%, cost $0.3616 per page.",
-      "confidence": "thirdParty",
+      "sourceUrl": "https://github.com/run-llama/ExtractBench/blob/21535d9efe80b95fc5d5fbf8edfca7e4a40d39d9/leaderboard-pro.csv",
+      "retrievalMethod": "publishedData",
+      "evidenceExcerpt": "Gemini CLI (Gemini 4 Argon Medium),Coding Agents,all,100,81,30.00,42.98,33.90,35.81,0.361595,46.00,67.08,51.54,55.42",
+      "confidence": "publisherReported",
       "secondaryMetrics": {
         "costPerTaskUsd": 0.3616
       }
@@ -4000,16 +4000,16 @@
       "id": "cf-xpro-005",
       "benchmarkTypeId": "cost-frontier-xpro",
       "modelId": "gpt-6.1-terra",
-      "reasoningEffort": "unspecified",
-      "settingLabel": "Codex A",
+      "reasoningEffort": "medium",
+      "settingLabel": "Codex medium",
       "score": 27,
       "costSource": "measured",
       "publishedAt": "2026-10-28",
       "retrievedAt": "2026-11-01",
-      "sourceUrl": "https://benchlm.ai/benchmarks/extractbench-pro",
-      "retrievalMethod": "manual",
-      "evidenceExcerpt": "Transcribed from the ExtractBench Pro source table: gpt-6.1-terra, perfect documents 27%, cost $0.0406 per page.",
-      "confidence": "thirdParty",
+      "sourceUrl": "https://github.com/run-llama/ExtractBench/blob/21535d9efe80b95fc5d5fbf8edfca7e4a40d39d9/leaderboard-pro.csv",
+      "retrievalMethod": "publishedData",
+      "evidenceExcerpt": "Codex GPT-6.1 Terra Medium,Coding Agents,all,100,81,27.00,74.19,60.16,64.80,0.040600,27.00,74.19,60.16,64.80",
+      "confidence": "publisherReported",
       "secondaryMetrics": {
         "costPerTaskUsd": 0.0406
       }
@@ -4024,10 +4024,10 @@
       "costSource": "measured",
       "publishedAt": "2026-10-28",
       "retrievedAt": "2026-11-01",
-      "sourceUrl": "https://benchlm.ai/benchmarks/extractbench-pro",
-      "retrievalMethod": "manual",
-      "evidenceExcerpt": "Transcribed from the ExtractBench Pro source table: gpt-6.1-sol, perfect documents 12%, cost $0.1386 per page.",
-      "confidence": "thirdParty",
+      "sourceUrl": "https://github.com/run-llama/ExtractBench/blob/21535d9efe80b95fc5d5fbf8edfca7e4a40d39d9/leaderboard-pro.csv",
+      "retrievalMethod": "publishedData",
+      "evidenceExcerpt": "Codex GPT-6.1 Sol,Coding Agents,all,100,81,12.00,74.06,63.96,72.26,0.138600,12.00,75.06,65.05,73.49",
+      "confidence": "publisherReported",
       "secondaryMetrics": {
         "costPerTaskUsd": 0.1386
       }
@@ -4036,16 +4036,16 @@
       "id": "cf-xpro-007",
       "benchmarkTypeId": "cost-frontier-xpro",
       "modelId": "gpt-6.1-terra",
-      "reasoningEffort": "unspecified",
-      "settingLabel": "Codex B",
+      "reasoningEffort": "low",
+      "settingLabel": "Codex low",
       "score": 11,
       "costSource": "measured",
       "publishedAt": "2026-10-28",
       "retrievedAt": "2026-11-01",
-      "sourceUrl": "https://benchlm.ai/benchmarks/extractbench-pro",
-      "retrievalMethod": "manual",
-      "evidenceExcerpt": "Transcribed from the ExtractBench Pro source table: gpt-6.1-terra, perfect documents 11%, cost $0.0262 per page.",
-      "confidence": "thirdParty",
+      "sourceUrl": "https://github.com/run-llama/ExtractBench/blob/21535d9efe80b95fc5d5fbf8edfca7e4a40d39d9/leaderboard-pro.csv",
+      "retrievalMethod": "publishedData",
+      "evidenceExcerpt": "Codex GPT-6.1 Terra Low,Coding Agents,all,100,81,11.00,51.30,52.72,56.53,0.026200,11.00,51.30,52.72,56.53",
+      "confidence": "publisherReported",
       "secondaryMetrics": {
         "costPerTaskUsd": 0.0262
       }
@@ -4060,10 +4060,10 @@
       "costSource": "measured",
       "publishedAt": "2026-10-28",
       "retrievedAt": "2026-11-01",
-      "sourceUrl": "https://benchlm.ai/benchmarks/extractbench-pro",
-      "retrievalMethod": "manual",
-      "evidenceExcerpt": "Transcribed from the ExtractBench Pro source table: gpt-6-luna, perfect documents 0%, cost $0.0114 per page.",
-      "confidence": "thirdParty",
+      "sourceUrl": "https://github.com/run-llama/ExtractBench/blob/21535d9efe80b95fc5d5fbf8edfca7e4a40d39d9/leaderboard-pro.csv",
+      "retrievalMethod": "publishedData",
+      "evidenceExcerpt": "Codex GPT-6 Luna,Coding Agents,all,100,81,0.00,48.75,44.27,60.78,0.011400,0.00,53.06,47.59,65.23",
+      "confidence": "publisherReported",
       "secondaryMetrics": {
         "costPerTaskUsd": 0.0114
       }
@@ -4078,10 +4078,10 @@
       "costSource": "measured",
       "publishedAt": "2026-10-28",
       "retrievedAt": "2026-11-01",
-      "sourceUrl": "https://benchlm.ai/benchmarks/extractbench-pro",
-      "retrievalMethod": "manual",
-      "evidenceExcerpt": "Transcribed from the ExtractBench Pro source table: gpt-6-astra, value F1 94.53%, cost $0.952 per page.",
-      "confidence": "thirdParty",
+      "sourceUrl": "https://github.com/run-llama/ExtractBench/blob/21535d9efe80b95fc5d5fbf8edfca7e4a40d39d9/leaderboard-pro.csv",
+      "retrievalMethod": "publishedData",
+      "evidenceExcerpt": "Codex GPT-6 Astra,Coding Agents,all,100,81,58.00,94.53,70.97,79.10,0.952000,58.00,95.53,72.19,80.34",
+      "confidence": "publisherReported",
       "secondaryMetrics": {
         "costPerTaskUsd": 0.952
       }
@@ -4096,10 +4096,10 @@
       "costSource": "measured",
       "publishedAt": "2026-10-28",
       "retrievedAt": "2026-11-01",
-      "sourceUrl": "https://benchlm.ai/benchmarks/extractbench-pro",
-      "retrievalMethod": "manual",
-      "evidenceExcerpt": "Transcribed from the ExtractBench Pro source table: claude-opus-5-5, value F1 74.87%, cost $0.412 per page.",
-      "confidence": "thirdParty",
+      "sourceUrl": "https://github.com/run-llama/ExtractBench/blob/21535d9efe80b95fc5d5fbf8edfca7e4a40d39d9/leaderboard-pro.csv",
+      "retrievalMethod": "publishedData",
+      "evidenceExcerpt": "Claude Code Opus 5.5,Coding Agents,all,100,81,51.00,74.87,45.29,56.85,0.412000,60.00,91.49,59.62,72.79",
+      "confidence": "publisherReported",
       "secondaryMetrics": {
         "costPerTaskUsd": 0.412
       }
@@ -4114,10 +4114,10 @@
       "costSource": "measured",
       "publishedAt": "2026-10-28",
       "retrievedAt": "2026-11-01",
-      "sourceUrl": "https://benchlm.ai/benchmarks/extractbench-pro",
-      "retrievalMethod": "manual",
-      "evidenceExcerpt": "Transcribed from the ExtractBench Pro source table: claude-sonnet-5-5, value F1 73.62%, cost $0.1998 per page.",
-      "confidence": "thirdParty",
+      "sourceUrl": "https://github.com/run-llama/ExtractBench/blob/21535d9efe80b95fc5d5fbf8edfca7e4a40d39d9/leaderboard-pro.csv",
+      "retrievalMethod": "publishedData",
+      "evidenceExcerpt": "Claude Code Sonnet 5.5,Coding Agents,all,100,81,32.00,73.62,40.47,53.00,0.199800,33.00,84.69,46.11,64.07",
+      "confidence": "publisherReported",
       "secondaryMetrics": {
         "costPerTaskUsd": 0.1998
       }
@@ -4126,16 +4126,16 @@
       "id": "cf-xf1-004",
       "benchmarkTypeId": "cost-frontier-xf1",
       "modelId": "gemini-4-argon",
-      "reasoningEffort": "unspecified",
-      "settingLabel": "default",
+      "reasoningEffort": "medium",
+      "settingLabel": "Gemini CLI medium",
       "score": 42.98,
       "costSource": "measured",
       "publishedAt": "2026-10-28",
       "retrievedAt": "2026-11-01",
-      "sourceUrl": "https://benchlm.ai/benchmarks/extractbench-pro",
-      "retrievalMethod": "manual",
-      "evidenceExcerpt": "Transcribed from the ExtractBench Pro source table: gemini-4-argon, value F1 42.98%, cost $0.3616 per page.",
-      "confidence": "thirdParty",
+      "sourceUrl": "https://github.com/run-llama/ExtractBench/blob/21535d9efe80b95fc5d5fbf8edfca7e4a40d39d9/leaderboard-pro.csv",
+      "retrievalMethod": "publishedData",
+      "evidenceExcerpt": "Gemini CLI (Gemini 4 Argon Medium),Coding Agents,all,100,81,30.00,42.98,33.90,35.81,0.361595,46.00,67.08,51.54,55.42",
+      "confidence": "publisherReported",
       "secondaryMetrics": {
         "costPerTaskUsd": 0.3616
       }
@@ -4144,16 +4144,16 @@
       "id": "cf-xf1-005",
       "benchmarkTypeId": "cost-frontier-xf1",
       "modelId": "gpt-6.1-terra",
-      "reasoningEffort": "unspecified",
-      "settingLabel": "Codex A",
+      "reasoningEffort": "medium",
+      "settingLabel": "Codex medium",
       "score": 74.19,
       "costSource": "measured",
       "publishedAt": "2026-10-28",
       "retrievedAt": "2026-11-01",
-      "sourceUrl": "https://benchlm.ai/benchmarks/extractbench-pro",
-      "retrievalMethod": "manual",
-      "evidenceExcerpt": "Transcribed from the ExtractBench Pro source table: gpt-6.1-terra, value F1 74.19%, cost $0.0406 per page.",
-      "confidence": "thirdParty",
+      "sourceUrl": "https://github.com/run-llama/ExtractBench/blob/21535d9efe80b95fc5d5fbf8edfca7e4a40d39d9/leaderboard-pro.csv",
+      "retrievalMethod": "publishedData",
+      "evidenceExcerpt": "Codex GPT-6.1 Terra Medium,Coding Agents,all,100,81,27.00,74.19,60.16,64.80,0.040600,27.00,74.19,60.16,64.80",
+      "confidence": "publisherReported",
       "secondaryMetrics": {
         "costPerTaskUsd": 0.0406
       }
@@ -4168,10 +4168,10 @@
       "costSource": "measured",
       "publishedAt": "2026-10-28",
       "retrievedAt": "2026-11-01",
-      "sourceUrl": "https://benchlm.ai/benchmarks/extractbench-pro",
-      "retrievalMethod": "manual",
-      "evidenceExcerpt": "Transcribed from the ExtractBench Pro source table: gpt-6.1-sol, value F1 74.06%, cost $0.1386 per page.",
-      "confidence": "thirdParty",
+      "sourceUrl": "https://github.com/run-llama/ExtractBench/blob/21535d9efe80b95fc5d5fbf8edfca7e4a40d39d9/leaderboard-pro.csv",
+      "retrievalMethod": "publishedData",
+      "evidenceExcerpt": "Codex GPT-6.1 Sol,Coding Agents,all,100,81,12.00,74.06,63.96,72.26,0.138600,12.00,75.06,65.05,73.49",
+      "confidence": "publisherReported",
       "secondaryMetrics": {
         "costPerTaskUsd": 0.1386
       }
@@ -4180,16 +4180,16 @@
       "id": "cf-xf1-007",
       "benchmarkTypeId": "cost-frontier-xf1",
       "modelId": "gpt-6.1-terra",
-      "reasoningEffort": "unspecified",
-      "settingLabel": "Codex B",
+      "reasoningEffort": "low",
+      "settingLabel": "Codex low",
       "score": 51.3,
       "costSource": "measured",
       "publishedAt": "2026-10-28",
       "retrievedAt": "2026-11-01",
-      "sourceUrl": "https://benchlm.ai/benchmarks/extractbench-pro",
-      "retrievalMethod": "manual",
-      "evidenceExcerpt": "Transcribed from the ExtractBench Pro source table: gpt-6.1-terra, value F1 51.3%, cost $0.0262 per page.",
-      "confidence": "thirdParty",
+      "sourceUrl": "https://github.com/run-llama/ExtractBench/blob/21535d9efe80b95fc5d5fbf8edfca7e4a40d39d9/leaderboard-pro.csv",
+      "retrievalMethod": "publishedData",
+      "evidenceExcerpt": "Codex GPT-6.1 Terra Low,Coding Agents,all,100,81,11.00,51.30,52.72,56.53,0.026200,11.00,51.30,52.72,56.53",
+      "confidence": "publisherReported",
       "secondaryMetrics": {
         "costPerTaskUsd": 0.0262
       }
@@ -4204,10 +4204,10 @@
       "costSource": "measured",
       "publishedAt": "2026-10-28",
       "retrievedAt": "2026-11-01",
-      "sourceUrl": "https://benchlm.ai/benchmarks/extractbench-pro",
-      "retrievalMethod": "manual",
-      "evidenceExcerpt": "Transcribed from the ExtractBench Pro source table: gpt-6-luna, value F1 48.75%, cost $0.0114 per page.",
-      "confidence": "thirdParty",
+      "sourceUrl": "https://github.com/run-llama/ExtractBench/blob/21535d9efe80b95fc5d5fbf8edfca7e4a40d39d9/leaderboard-pro.csv",
+      "retrievalMethod": "publishedData",
+      "evidenceExcerpt": "Codex GPT-6 Luna,Coding Agents,all,100,81,0.00,48.75,44.27,60.78,0.011400,0.00,53.06,47.59,65.23",
+      "confidence": "publisherReported",
       "secondaryMetrics": {
         "costPerTaskUsd": 0.0114
       }

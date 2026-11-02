@@ -149,22 +149,22 @@
     ],
     "xpro": [
       [
-        "Launch post",
-        "https://www.llamaindex.ai/blog/llamaindex-and-kaggle-launch-a-document-extraction-leaderboard-for-ai-agents"
+        "Benchmark and method",
+        "https://www.llamaindex.ai/blog/introducing-extractbench-pro"
       ],
       [
-        "ExtractBench paper",
-        "https://arxiv.org/abs/2602.12247"
+        "Publisher leaderboard CSV",
+        "https://github.com/run-llama/ExtractBench/blob/21535d9efe80b95fc5d5fbf8edfca7e4a40d39d9/leaderboard-pro.csv"
       ]
     ],
     "xf1": [
       [
-        "Launch post",
-        "https://www.llamaindex.ai/blog/llamaindex-and-kaggle-launch-a-document-extraction-leaderboard-for-ai-agents"
+        "Benchmark and method",
+        "https://www.llamaindex.ai/blog/introducing-extractbench-pro"
       ],
       [
-        "ExtractBench paper",
-        "https://arxiv.org/abs/2602.12247"
+        "Publisher leaderboard CSV",
+        "https://github.com/run-llama/ExtractBench/blob/21535d9efe80b95fc5d5fbf8edfca7e4a40d39d9/leaderboard-pro.csv"
       ]
     ],
     "gdpval": [
@@ -548,7 +548,7 @@
         "b": "xpro",
         "m": "sol-6.1"
       },
-      "x": "GPT-6.1 Sol has 74% value F1 and only 12% perfect documents. One Terra run has the same F1 and 27%. If a single wrong value ruins the document, F1 flatters."
+      "x": "GPT-6.1 Sol has 74% value F1 and only 12% perfect documents. Terra medium has nearly the same F1 and 27%. If a single wrong value ruins the document, F1 flatters."
     },
     {
       "id": "ceiling",
@@ -737,7 +737,7 @@
         ],
         [
           "terra-6.1",
-          "Codex A"
+          "Codex medium"
         ],
         [
           "sol-6.1",
@@ -1363,20 +1363,20 @@
       "yLabel": "Perfect documents (%)",
       "cost": "measured",
       "per": "page",
-      "rep": "third",
+      "rep": "owner",
       "date": "2026-10-28",
       "url": "https://benchlm.ai/benchmarks/extractbench-pro",
       "urls": [
         [
-          "https://www.llamaindex.ai/blog/llamaindex-and-kaggle-launch-a-document-extraction-leaderboard-for-ai-agents",
-          "ExtractBench launch post"
+          "https://www.llamaindex.ai/blog/introducing-extractbench-pro",
+          "ExtractBench Pro launch post"
         ]
       ],
       "what": "100 synthetic long-tail documents, 2,622 pages. A document only counts when every single value matches.",
       "notes": [
         "Vendor-run: LlamaIndex sells a competing product. BenchLM mirrors the board and excludes it from its rankings.",
         "Rows run inside coding-agent harnesses, so cost and behaviour reflect the harness too.",
-        "The mirror lists GPT-6.1 Terra twice without naming what differs."
+        "The source CSV distinguishes GPT-6.1 Terra Medium and Low; both configurations are displayed with their published labels."
       ],
       "displayRowIds": [
         "cf-xpro-001",
@@ -1397,13 +1397,13 @@
       "yLabel": "Value F1 (%)",
       "cost": "measured",
       "per": "page",
-      "rep": "third",
+      "rep": "owner",
       "date": "2026-10-28",
       "url": "https://benchlm.ai/benchmarks/extractbench-pro",
       "what": "The same runs as the perfect-document board, but counting each extracted value on its own.",
       "notes": [
         "Vendor-run, same caveats as the perfect-document board.",
-        "Compare with the perfect-document metric: the ranking changes considerably."
+        "The source CSV distinguishes GPT-6.1 Terra Medium and Low; both configurations share the runs used by the perfect-document chart."
       ],
       "displayRowIds": [
         "cf-xf1-001",
