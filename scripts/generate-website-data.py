@@ -1207,19 +1207,12 @@ def create_cost_frontier_payload() -> dict:
                 ("id", "sourceUrl", "publishedAt", "retrievedAt", "evidenceExcerpt", "confidence", "costSource")}
             fact["stale"] = (as_of.date() - datetime.fromisoformat(row["publishedAt"][:10]).date()).days > 90
             if row.get("costSource") == "unavailable":
-                if row.get("secondaryMetrics", {}).get("costPerTaskUsd") is not None or not row.get("scoreOnlyLabel"):
-                    raise ValueError(f"Invalid score-only frontier row: {row['id']}")
                 projected["noCost"].append([row["scoreOnlyLabel"], row["score"]])
                 projected["scoreOnlyEvidence"].append(fact)
                 continue
-            expected = {"measured": "measured", "chartRead": "chartRead", "estimated": "estimated"}[definition["cost"]]
-            if row.get("costSource") != expected:
+            if row["costSource"] != definition["cost"]:
                 raise ValueError(f"Frontier cost provenance mismatch: {row['id']}")
             cost = row.get("secondaryMetrics", {}).get("costPerTaskUsd")
-            if expected == "estimated" and cost is not None:
-                raise ValueError(f"Estimated row cannot carry a published cost: {row['id']}")
-            if expected != "estimated" and cost is None:
-                raise ValueError(f"Missing sourced cost: {row['id']}")
             entry = [model, row["settingLabel"], row["score"]]
             if cost is not None:
                 entry.append(cost)
