@@ -17,11 +17,11 @@ public sealed class Sonnet55SupportTests
 
         Assert.Equal("Claude Sonnet 5.5", listing.DisplayName);
         Assert.Equal(new DateOnly(2026, 9, 28), listing.ReleaseDate);
-        Assert.Equal((2m, 10m, .2m, 2.5m),
+        Assert.Equal((2m, 10m, .1m, 2.5m),
             (price.InputPerMTok, price.OutputPerMTok, price.CacheReadPerMTok, price.CacheWritePerMTok));
-        Assert.Equal((sonnet5.InputPerMTok, sonnet5.OutputPerMTok, sonnet5.CacheReadPerMTok, sonnet5.CacheWritePerMTok),
-            (price.InputPerMTok, price.OutputPerMTok, price.CacheReadPerMTok, price.CacheWritePerMTok));
-        Assert.Equal(new DateOnly(2026, 9, 29), price.VerifiedOn);
+        Assert.Equal(sonnet5.CacheReadPerMTok / 2, price.CacheReadPerMTok);
+        Assert.Equal(4m, price.CacheWriteOneHourPerMTok);
+        Assert.Equal(new DateOnly(2026, 11, 2), price.VerifiedOn);
         Assert.Equal("provider-announced-date", price.ValidFromBasis);
         Assert.False(price.Unconfirmed);
         Assert.Equal(PriceStatus.NoPriceForDate,

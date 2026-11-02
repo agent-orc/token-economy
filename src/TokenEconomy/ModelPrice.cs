@@ -39,6 +39,15 @@ public sealed record ModelPrice
     /// </summary>
     public decimal? CacheWritePerMTok { get; init; }
 
+    /// <summary>False when the provider explicitly does not offer cache writes for this model; null leaves legacy input-rate fallback behavior.</summary>
+    public bool? CacheWriteSupported { get; init; }
+
+    /// <summary>Optional one-hour cache-write tariff; the default write tariff remains provider-specific.</summary>
+    public decimal? CacheWriteOneHourPerMTok { get; init; }
+
+    /// <summary>Optional twelve-hour cache-write tariff, currently published by OpenAI.</summary>
+    public decimal? CacheWriteTwelveHourPerMTok { get; init; }
+
     /// <summary>Whole-request tariffs selected by prompt length. The base rates apply below the first threshold.</summary>
     public IReadOnlyList<PromptSizePriceTier> PromptSizeTiers { get; init; } = [];
 
@@ -204,4 +213,16 @@ public sealed record ModelPriceClaim
 /// <param name="CacheRead">Cache-read (cache-hit) input tokens.</param>
 /// <param name="CacheWrite">Cache-write (cache-creation) input tokens.</param>
 /// <param name="PromptTokens">Length of one request's full prompt, including cached tokens. Required for prompt-size tariffs; aggregate usage alone cannot establish a tier.</param>
-public readonly record struct TokenUsage(long Input, long Output, long CacheRead = 0, long CacheWrite = 0, long? PromptTokens = null);
+/// <param name="CacheWriteRetention">Requested cache retention; default selects the base tariff.</param>
+public readonly record struct TokenUsage(long Input, long Output, long CacheRead = 0, long CacheWrite = 0, long? PromptTokens = null, CacheWriteRetention CacheWriteRetention = CacheWriteRetention.Default);
+
+/// <summary>Requested retention for cache-creation tokens. Default uses the catalog's base write tariff.</summary>
+public enum CacheWriteRetention
+{
+    /// <summary>Provider default, currently five minutes on Anthropic and thirty minutes on OpenAI.</summary>
+    Default,
+    /// <summary>One hour.</summary>
+    OneHour,
+    /// <summary>Twelve hours.</summary>
+    TwelveHours,
+}

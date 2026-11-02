@@ -1340,7 +1340,6 @@
         "Rating gaps do not divide: 1500 is not twice 750."
       ],
       "displayRowIds": [
-        "cf-arena-001",
         "cf-arena-002",
         "cf-arena-003",
         "cf-arena-004",
@@ -1354,7 +1353,9 @@
         "cf-arena-014",
         "cf-arena-015"
       ],
-      "displayScoreOnlyIds": []
+      "displayScoreOnlyIds": [
+        "cf-arena-001"
+      ]
     },
     "xpro": {
       "name": "ExtractBench Pro, perfect documents",
@@ -1445,7 +1446,6 @@
         "cf-gdpval-002",
         "cf-gdpval-003",
         "cf-gdpval-004",
-        "cf-gdpval-005",
         "cf-gdpval-007",
         "cf-gdpval-008",
         "cf-gdpval-009",
@@ -1456,7 +1456,9 @@
         "cf-gdpval-013",
         "cf-gdpval-014"
       ],
-      "displayScoreOnlyIds": []
+      "displayScoreOnlyIds": [
+        "cf-gdpval-005"
+      ]
     },
     "chart": {
       "name": "Chartography, no tools",

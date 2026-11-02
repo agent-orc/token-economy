@@ -20,6 +20,7 @@ model is collapsed, independently of its release date.
 
 | Model | Initial publication | Evidence |
 | --- | --- | --- |
+| GPT-6 Rosalind | `2026-10-30` | [OpenAI API changelog](https://developers.openai.com/api/docs/changelog) |
 | Gemini 4 Carbon | `2026-10-28` | [Google announcement](https://blog.google/innovation-and-ai/models-and-research/gemini-models/introducing-gemini-4-carbon/) |
 | GPT-6.1 Terra | `2026-10-26` | [OpenAI announcement](https://openai.com/index/introducing-gpt-6-1-terra/) |
 | Gemini 4 Argon | `2026-10-13` | [Google API release notes](https://ai.google.dev/gemini-api/docs/changelog) and [Antigravity announcement](https://www.antigravity.google/blog/gemini-4-argon-in-google-antigravity) |
@@ -31,18 +32,22 @@ model is collapsed, independently of its release date.
 | GPT-6 Sol | `2026-09-22` | [Provider source](https://developers.openai.com/api/docs/changelog) |
 | GPT-6 Astra | `2026-09-03` | [Provider source](https://openai.com/index/safety-overview-gpt-6-astra/) |
 | Claude Fable 5.1 | `2026-09-01` | [Provider source](https://platform.claude.com/docs/en/models/fable-5-1/overview) |
+| Claude Mythos 5.1 | `2026-09-01` | [Anthropic model overview](https://platform.claude.com/docs/en/models/mythos-5-1/overview); restricted |
 | Gemini 3.8 Flash | `2026-09-01` | [Antigravity announcement](https://www.antigravity.google/blog/gemini-3-8-flash-in-google-antigravity); API GA followed September 2 |
+| GPT-5.6 Cyber | `2026-08-10` | [OpenAI Daybreak announcement](https://openai.com/index/expanding-daybreak-as-the-cyber-defense-window-narrows/); restricted |
 | Claude Opus 5 | `2026-07-24` | [Provider source](https://platform.claude.com/docs/en/models/opus-5/overview) |
 | Claude Sonnet 5 | `2026-06-30` | [Provider source](https://platform.claude.com/docs/en/models/sonnet-5/overview) |
-| GPT-5.6 Terra | `2026-06-26` | [Provider source](https://openai.com/index/previewing-gpt-5-6-sol/) |
-| GPT-5.6 Sol | `2026-06-26` | [Provider source](https://openai.com/index/previewing-gpt-5-6-sol/) |
 | GPT-5.6 Luna | `2026-06-26` | [Provider source](https://openai.com/index/previewing-gpt-5-6-sol/) |
+| GPT-5.6 Sol | `2026-06-26` | [Provider source](https://openai.com/index/previewing-gpt-5-6-sol/) |
+| GPT-5.6 Terra | `2026-06-26` | [Provider source](https://openai.com/index/previewing-gpt-5-6-sol/) |
 | Claude Fable 5 | `2026-06-09` | [Provider source](https://platform.claude.com/docs/en/models/fable-5/overview) |
+| Claude Mythos 5 | `2026-06-09` | [Anthropic model overview](https://platform.claude.com/docs/en/models/mythos-5/overview); restricted |
 | Claude Opus 4.8 | `2026-05-28` | [Provider source](https://platform.claude.com/docs/en/release-notes/overview#may-28-2026) |
 | GPT-5.5 Cyber (Preview) | `2026-05-07` | [Provider source](https://openai.com/index/gpt-5-5-with-trusted-access-for-cyber/) |
-| GPT-5.5 Pro | `2026-04-23` | [Provider source](https://openai.com/index/introducing-gpt-5-5/) |
 | GPT-5.5 | `2026-04-23` | [Provider source](https://openai.com/index/introducing-gpt-5-5/) |
+| GPT-5.5 Pro | `2026-04-23` | [Provider source](https://openai.com/index/introducing-gpt-5-5/) |
 | Claude Opus 4.7 | `2026-04-16` | [Provider source](https://platform.claude.com/docs/en/release-notes/overview#april-16-2026) |
+| GPT-Rosalind Research / Discovery family | `2026-04-16` | [OpenAI family announcement](https://openai.com/index/introducing-gpt-rosalind/); tier identifiers and October 5 tariff are later |
 | GPT-5.4 Mini | `2026-03-17` | [Provider source](https://openai.com/index/introducing-gpt-5-4-mini-and-nano/) |
 | Claude Sonnet 4.6 | `2026-02-17` | [Provider source](https://platform.claude.com/docs/en/models/sonnet-4-6/overview) |
 | Claude Opus 4.6 | `2026-02-05` | [Provider source](https://platform.claude.com/docs/en/models/opus-4-6/overview) |

@@ -1,8 +1,8 @@
 {
   "$schema": "model-migrations.v1.schema.json",
   "schemaVersion": 1,
-  "catalogVersion": "2026-10-16",
-  "evidenceAsOfDate": "2026-10-16",
+  "catalogVersion": "2026-11-01",
+  "evidenceAsOfDate": "2026-11-01",
   "defaultStrategy": "latestInFamily",
   "authority": {
     "rules": "docs/model-migrations.md",
@@ -17,141 +17,129 @@
   "migrations": [
     {
       "from": "claude-opus-4-8",
-      "to": "claude-opus-5",
+      "to": "claude-opus-5-5",
       "family": "claude-opus",
       "vendor": "anthropic",
       "generationOrder": {
         "from": 408,
-        "to": 500
+        "to": 505
       },
       "costClassFrom": "premium",
       "costClassTo": "premium",
       "ladderCompatible": true,
-      "contextChange": "increase",
+      "contextChange": "unknown",
       "evidence": {
-        "kind": "controlledBenchmark",
-        "reference": "benchmarks/results/document-to-text/curated-hard-cases-v1/20260809T092430765Z.json",
-        "conclusion": "noRegression",
-        "summary": "Opus 5 and Opus 4.8 each passed all four identical document-to-text cases."
+        "kind": "none",
+        "reason": "The earlier identical-case benchmark compared this source with Opus 5, not current Opus 5.5; no direct no-regression cohort transfers."
       },
-      "safeAuto": true,
+      "safeAuto": false,
       "since": "2026-09-06",
-      "note": "Latest Opus-family successor with a compatible thinking ladder and a larger 1M context window. The consumer must still resolve a dated target price and current availability before launch."
+      "note": "Proposal only. Opus 5.5 is the current Opus-line target. Verify API/CLI access, thinking compatibility and identical-case outcomes before changing a pin."
     },
     {
       "from": "claude-opus-4-7",
-      "to": "claude-opus-5",
+      "to": "claude-opus-5-5",
       "family": "claude-opus",
       "vendor": "anthropic",
       "generationOrder": {
         "from": 407,
-        "to": 500
+        "to": 505
       },
       "costClassFrom": "premium",
       "costClassTo": "premium",
       "ladderCompatible": true,
-      "contextChange": "increase",
+      "contextChange": "unknown",
       "evidence": {
-        "kind": "controlledBenchmark",
-        "reference": "benchmarks/results/document-to-text/curated-hard-cases-v1/20260809T092430765Z.json",
-        "conclusion": "noRegression",
-        "summary": "Opus 5 and Opus 4.7 each passed all four identical document-to-text cases."
+        "kind": "none",
+        "reason": "The earlier identical-case benchmark compared this source with Opus 5, not current Opus 5.5; no direct no-regression cohort transfers."
       },
-      "safeAuto": true,
+      "safeAuto": false,
       "since": "2026-09-06",
-      "note": "Latest Opus-family successor with a compatible thinking ladder and a larger 1M context window. The consumer must still resolve a dated target price and current availability before launch."
+      "note": "Proposal only. Opus 5.5 is the current Opus-line target. Verify API/CLI access, thinking compatibility and identical-case outcomes before changing a pin."
     },
     {
       "from": "claude-opus-4-6",
-      "to": "claude-opus-5",
+      "to": "claude-opus-5-5",
       "family": "claude-opus",
       "vendor": "anthropic",
       "generationOrder": {
         "from": 406,
-        "to": 500
+        "to": 505
       },
       "costClassFrom": "premium",
       "costClassTo": "premium",
       "ladderCompatible": true,
-      "contextChange": "increase",
+      "contextChange": "unknown",
       "evidence": {
-        "kind": "controlledBenchmark",
-        "reference": "benchmarks/results/document-to-text/curated-hard-cases-v1/20260809T092430765Z.json",
-        "conclusion": "noRegression",
-        "summary": "Opus 5 and Opus 4.6 each passed all four identical document-to-text cases."
+        "kind": "none",
+        "reason": "The earlier identical-case benchmark compared this source with Opus 5, not current Opus 5.5; no direct no-regression cohort transfers."
       },
-      "safeAuto": true,
+      "safeAuto": false,
       "since": "2026-09-06",
-      "note": "Latest Opus-family successor with a compatible thinking ladder and a larger 1M context window. The consumer must still resolve a dated target price and current availability before launch."
+      "note": "Proposal only. Opus 5.5 is the current Opus-line target. Verify API/CLI access, thinking compatibility and identical-case outcomes before changing a pin."
     },
     {
       "from": "claude-opus-4-5",
-      "to": "claude-opus-5",
+      "to": "claude-opus-5-5",
       "family": "claude-opus",
       "vendor": "anthropic",
       "generationOrder": {
         "from": 405,
-        "to": 500
+        "to": 505
       },
       "costClassFrom": "premium",
       "costClassTo": "premium",
       "ladderCompatible": true,
-      "contextChange": "increase",
+      "contextChange": "unknown",
       "evidence": {
-        "kind": "controlledBenchmark",
-        "reference": "benchmarks/results/document-to-text/curated-hard-cases-v1/20260809T092430765Z.json",
-        "conclusion": "noRegression",
-        "summary": "Opus 5 and Opus 4.5 each passed all four identical document-to-text cases."
+        "kind": "none",
+        "reason": "The earlier identical-case benchmark compared this source with Opus 5, not current Opus 5.5; no direct no-regression cohort transfers."
       },
-      "safeAuto": true,
+      "safeAuto": false,
       "since": "2026-09-06",
-      "note": "Latest Opus-family successor with a compatible thinking ladder and a larger 1M context window. The consumer must still resolve a dated target price and current availability before launch."
+      "note": "Proposal only. Opus 5.5 is the current Opus-line target. Verify API/CLI access, thinking compatibility and identical-case outcomes before changing a pin."
     },
     {
       "from": "claude-sonnet-4-6",
-      "to": "claude-sonnet-5",
+      "to": "claude-sonnet-5-5",
       "family": "claude-sonnet",
       "vendor": "anthropic",
       "generationOrder": {
         "from": 406,
-        "to": 500
+        "to": 505
       },
       "costClassFrom": "standard",
       "costClassTo": "standard",
       "ladderCompatible": true,
       "contextChange": "unknown",
       "evidence": {
-        "kind": "controlledBenchmark",
-        "reference": "benchmarks/results/document-to-text/curated-hard-cases-v1/20260809T092430765Z.json",
-        "conclusion": "noRegression",
-        "summary": "Sonnet 5 and Sonnet 4.6 produced the same three passes and one capability miss on four identical document-to-text cases."
+        "kind": "none",
+        "reason": "The earlier identical-case benchmark compared Sonnet 4.6 with Sonnet 5, not current Sonnet 5.5."
       },
-      "safeAuto": true,
+      "safeAuto": false,
       "since": "2026-09-06",
-      "note": "Latest Sonnet-family successor with a superset-compatible thinking ladder. The consumer must still resolve a dated target price and current availability before launch."
+      "note": "Proposal only. Sonnet 5.5 is the current Sonnet-line target; run paired cases and check access before a pin change."
     },
     {
       "from": "claude-sonnet-4-5",
-      "to": "claude-sonnet-5",
+      "to": "claude-sonnet-5-5",
       "family": "claude-sonnet",
       "vendor": "anthropic",
       "generationOrder": {
         "from": 405,
-        "to": 500
+        "to": 505
       },
       "costClassFrom": "standard",
       "costClassTo": "standard",
       "ladderCompatible": true,
       "contextChange": "unknown",
       "evidence": {
-        "kind": "controlledBenchmark",
-        "reference": "benchmarks/results/document-to-text/curated-hard-cases-v1/20260809T092430765Z.json",
-        "conclusion": "noRegression",
-        "summary": "Sonnet 5 and Sonnet 4.5 produced the same three passes and one capability miss on four identical document-to-text cases."
+        "kind": "none",
+        "reason": "Anthropic names Sonnet 5.5 as the retirement successor. Existing four-case Sonnet 5 comparison cannot transfer to Sonnet 5.5."
       },
-      "safeAuto": true,
+      "safeAuto": false,
       "since": "2026-09-06",
-      "note": "Latest Sonnet-family successor with a superset-compatible thinking ladder. The consumer must still resolve a dated target price and current availability before launch."
+      "note": "Proposal only. Sonnet 4.5 snapshot retires 2026-11-30; Anthropic recommends Sonnet 5.5. Re-run identical cases and verify CLI/account access before changing pins."
     },
     {
       "from": "claude-haiku-4-5",
@@ -294,7 +282,7 @@
       },
       "safeAuto": false,
       "since": "2026-10-04",
-      "note": "Proposal only. Standard short-context input and output remain $2/$10 per MTok; cached input halves from $0.20 to $0.10. GPT-6 Sol max and ultra pins have no target rung; explicitly downgrade those pins to xhigh only after operator review. Codex CLI 0.155.0 on this ChatGPT account rejected the target (HTTP 400); runtime availability must be checked."
+      "note": "Proposal only. GPT-6 Sol remains available but left the flagship list. GPT-6.1 Sol is runnable on Codex 0.166.0 with a Pro account; 0.155.0 rejects it. Preserve source max/ultra pins until target levels and identical-case outcomes are verified. No automatic migration."
     },
     {
       "from": "gpt-5.6-luna",

@@ -13,7 +13,7 @@ public sealed class SubscriptionCatalogueTests
     public void Catalogue_covers_required_providers_plans_and_cli_quota_shapes()
     {
         var catalogue = SubscriptionCatalogue.Default;
-        Assert.Equal(new DateOnly(2026, 10, 20), catalogue.AsOfDate);
+        Assert.Equal(new DateOnly(2026, 11, 2), catalogue.AsOfDate);
         Assert.Equal(new[] { "anthropic", "github", "google", "openai" },
             catalogue.Plans.Select(p => p.Provider).Distinct().Order());
         foreach (var id in new[] { "anthropic-pro", "anthropic-max-5x", "anthropic-max-20x",
@@ -53,7 +53,7 @@ public sealed class SubscriptionCatalogueTests
             Assert.Equal(JsonValueKind.False, schema.RootElement.GetProperty("additionalProperties").ValueKind);
         }
         Assert.DoesNotContain(SubscriptionCatalogue.Default.Observations, o => string.IsNullOrWhiteSpace(o.Method));
-        Assert.DoesNotContain(SubscriptionCatalogue.Default.Sources, s => s.RetrievedOn > new DateOnly(2026, 10, 20));
+        Assert.DoesNotContain(SubscriptionCatalogue.Default.Sources, s => s.RetrievedOn > new DateOnly(2026, 11, 2));
         Assert.Contains(SubscriptionCatalogue.Default.Sources, s => s.Id == "openai-plan-models" && s.RetrievedOn == new DateOnly(2026, 10, 20));
     }
 

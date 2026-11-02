@@ -926,6 +926,26 @@
       "supersedes": [],
       "supersededBy": [],
       "conflictsWith": []
+    },
+    {
+      "id": "openai-chatgpt-api-credits-20261028",
+      "url": "https://developers.openai.com/api/docs/guides/chatgpt-api-credits",
+      "title": "API credits for ChatGPT subscribers",
+      "publisher": "OpenAI",
+      "publicationDate": "2026-10-28",
+      "retrievedOn": "2026-11-02",
+      "evidenceClass": "primary vendor documentation",
+      "confidence": "high",
+      "verbatimExcerpt": "Eligible ChatGPT Pro and Business subscriptions can claim free API credits as part of their subscription benefits.",
+      "snapshot": {
+        "kind": "sha256",
+        "value": "632fb5ac8aff7dc01a45e7810b061ed4d13b96cc2c598a14a2917fc658aa7321",
+        "scope": "full-page",
+        "capturedOn": "2026-11-02"
+      },
+      "supersedes": [],
+      "supersededBy": [],
+      "conflictsWith": []
     }
   ]
 }

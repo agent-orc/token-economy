@@ -1198,7 +1198,7 @@
       "textKind": "copy",
       "taskClass": "docEdit",
       "language": "de",
-      "asOfDate": "2026-09-25",
+      "asOfDate": "2026-11-01",
       "requirement": {
         "language": "de",
         "minimumOverall": 0.75,
@@ -1217,7 +1217,7 @@
       "textKind": "copy",
       "taskClass": "docEdit",
       "language": "en",
-      "asOfDate": "2026-09-25",
+      "asOfDate": "2026-11-01",
       "requirement": {
         "language": "en",
         "minimumOverall": 0.75,
@@ -1236,7 +1236,7 @@
       "textKind": "documentation",
       "taskClass": "docEdit",
       "language": "de",
-      "asOfDate": "2026-09-25",
+      "asOfDate": "2026-11-01",
       "requirement": {
         "language": "de",
         "minimumOverall": 0.75,
@@ -1255,7 +1255,7 @@
       "textKind": "documentation",
       "taskClass": "docEdit",
       "language": "en",
-      "asOfDate": "2026-09-25",
+      "asOfDate": "2026-11-01",
       "requirement": {
         "language": "en",
         "minimumOverall": 0.75,
@@ -1274,7 +1274,7 @@
       "textKind": "operatorMessages",
       "taskClass": "docEdit",
       "language": "de",
-      "asOfDate": "2026-09-25",
+      "asOfDate": "2026-11-01",
       "requirement": {
         "language": "de",
         "minimumOverall": 0.75,
@@ -1293,7 +1293,7 @@
       "textKind": "operatorMessages",
       "taskClass": "docEdit",
       "language": "en",
-      "asOfDate": "2026-09-25",
+      "asOfDate": "2026-11-01",
       "requirement": {
         "language": "en",
         "minimumOverall": 0.75,
@@ -1312,7 +1312,7 @@
       "textKind": "replies",
       "taskClass": "docEdit",
       "language": "de",
-      "asOfDate": "2026-09-25",
+      "asOfDate": "2026-11-01",
       "requirement": {
         "language": "de",
         "minimumOverall": 0.75,
@@ -1331,7 +1331,7 @@
       "textKind": "replies",
       "taskClass": "docEdit",
       "language": "en",
-      "asOfDate": "2026-09-25",
+      "asOfDate": "2026-11-01",
       "requirement": {
         "language": "en",
         "minimumOverall": 0.75,

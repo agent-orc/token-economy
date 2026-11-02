@@ -1,6 +1,6 @@
 # Model migration catalog
 
-Version: 2026-10-04
+Version: 2026-11-01
 
 The versioned machine source is
 [`src/TokenEconomy/catalog/model-migrations.v1.json`](../src/TokenEconomy/catalog/model-migrations.v1.json),
@@ -50,7 +50,9 @@ comparable evidence, carries an open regression, or crosses into a new model
 generation without qualification. A same-model entry such as Haiku 4.5 or
 GPT-5.4 Mini is a retention rule, not a migration, and is also false.
 
-GPT-6 Sol → GPT-6.1 Sol is a proposal only (`safeAuto: false`, `evidence.kind: none`). Standard short-context input/output rates stay $2/$10 per MTok and cached input falls from $0.20 to $0.10. The source allows `max` and `ultra`, while the target discovery tops out at `xhigh`; those source pins need an explicit `xhigh` downgrade and operator review. No identical-case repository benchmark qualifies the target, and codex-cli 0.155.0 on the executing ChatGPT account returned HTTP 400 for the model on 2026-10-04. The catalogue does not silently migrate any pin.
+GPT-6 Sol → GPT-6.1 Sol remains proposal-only (`safeAuto: false`, `evidence.kind: none`). The target now runs on Codex 0.166.0 with a ChatGPT Pro account and supports low through max; source `ultra` still has no target rung. No identical-case repository benchmark qualifies an automatic switch. GPT-6 Sol remains available but is off the current flagship list.
+
+Claude 4.x proposals now point to the current Opus 5.5, Sonnet 5.5 and Haiku 5.5 lineup. Earlier four-case no-regression comparisons against Opus 5 or Sonnet 5 do not transfer to the 5.5 targets, so all these rules are proposal-only until the current targets have direct paired evidence. Anthropic explicitly names Sonnet 5.5 as the Sonnet 4.5 snapshot replacement for its 2026-11-30 retirement.
 
 GPT-5.6 Sol to GPT-6 Astra is intentionally proposal-only: it crosses a major
 generation, changes the ladder, and has no comparable repository no-regression

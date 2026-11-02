@@ -1043,7 +1043,7 @@ def create_price_history_payload() -> dict:
     models = []
     for listing in listings:
         history = sorted(listing.get("history", []), key=lambda price: price["validFrom"])
-        if not history:
+        if not history and not (listing.get("availability") == "restricted" and listing.get("releasePost")):
             raise ValueError(f"Price history missing for {listing['modelId']}")
         for price in history:
             if not price.get("sourceUrls") or not price.get("verifiedOn") or not price.get("validFromBasis"):
@@ -1059,9 +1059,9 @@ def create_price_history_payload() -> dict:
         })
     return {
         "schemaVersion": 1, "generatedAtUtc": datetime.now(timezone.utc).isoformat(),
-        "asOfUtc": MATRIX_AS_OF_UTC, "currency": "USD", "unit": "per-million-tokens",
+        "asOfUtc": "2026-11-02T00:00:00Z", "currency": "USD", "unit": "per-million-tokens",
         "source": PRICE_CATALOG.relative_to(ROOT).as_posix(),
-        "scope": "Direct-provider standard text-token rates, including catalogued prompt-size tiers; Anthropic 5-minute cache writes. Other service tiers require explicit custom rates.",
+        "scope": "Direct-provider standard text-token rates, including catalogued prompt-size tiers and provider-default cache writes. Alternate cache retention is separately priced; restricted announcement-only models may be unpriced.",
         "coverage": {"catalogModels": len(models), "pricedModels": sum(bool(m["history"]) for m in models),
                      "pricePeriods": sum(len(m["history"]) for m in models)},
         "models": models,

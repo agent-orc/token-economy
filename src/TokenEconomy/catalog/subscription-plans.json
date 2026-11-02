@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "asOfDate": "2026-10-20",
+  "asOfDate": "2026-11-02",
   "plans": [
     {
       "id": "anthropic-pro",
@@ -480,6 +480,7 @@
         "modelIds": [
           "gpt-6-luna",
           "gpt-6-sol",
+          "gpt-6.1-terra",
           "gpt-6.1-sol",
           "gpt-6-astra",
           "gpt-5.6-sol",
@@ -498,14 +499,15 @@
       ],
       "sourceIds": [
         "openai-plan-pricing",
-        "openai-plan-models"
+        "openai-plan-models",
+        "openai-chatgpt-api-credits-20261028"
       ],
       "termsSourceIds": [
         "openai-codex-ci-eligibility",
         "openai-codex-exec",
         "openai-codex-auth"
       ],
-      "notes": "Listed models are candidates; rollout, client version, seat type and workspace policy can restrict access.",
+      "notes": "Listed models are candidates; rollout, client version, seat type and workspace policy can restrict access. Eligible subscriptions can claim separately metered API credits through a linked API organization, up to $500/month; they do not raise Codex quotas.",
       "headlessUse": {
         "status": "documented",
         "note": "The named CLI documents non-interactive use; authentication conditions still apply."
@@ -529,6 +531,7 @@
         "modelIds": [
           "gpt-6-luna",
           "gpt-6-sol",
+          "gpt-6.1-terra",
           "gpt-6.1-sol",
           "gpt-6-astra",
           "gpt-5.6-sol",
@@ -554,14 +557,15 @@
       ],
       "sourceIds": [
         "openai-plan-pricing",
-        "openai-plan-models"
+        "openai-plan-models",
+        "openai-chatgpt-api-credits-20261028"
       ],
       "termsSourceIds": [
         "openai-codex-ci-eligibility",
         "openai-codex-exec",
         "openai-codex-auth"
       ],
-      "notes": "Listed models are candidates; rollout, client version, seat type and workspace policy can restrict access.",
+      "notes": "Listed models are candidates; rollout, client version, seat type and workspace policy can restrict access. Eligible subscriptions can claim separately metered API credits through a linked API organization, up to $500/month; they do not raise Codex quotas.",
       "headlessUse": {
         "status": "documented",
         "note": "The named CLI documents non-interactive use; authentication conditions still apply."

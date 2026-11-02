@@ -179,9 +179,11 @@ public class WebsiteCostFrontierDataTests
         Assert.Equal(2, root.GetProperty("missions").EnumerateArray()
             .Count(item => item.TryGetProperty("check", out var check) && check.GetBoolean()));
         Assert.Equal(18, root.GetProperty("releases").GetArrayLength());
-        Assert.Equal(15, root.GetProperty("benchmarks").EnumerateObject()
+        Assert.Equal(17, root.GetProperty("benchmarks").EnumerateObject()
             .Sum(item => item.Value.GetProperty("noCost").GetArrayLength()));
         Assert.True(root.GetProperty("restricted").TryGetProperty("carbon", out _));
+        Assert.Contains(root.GetProperty("benchmarks").GetProperty("arena").GetProperty("noCost").EnumerateArray(),
+            row => row[0].GetString()!.Contains("no Google API tariff", StringComparison.Ordinal));
 
         var estimatedWithCatalogPrice = 0;
         foreach (var benchmark in root.GetProperty("benchmarks").EnumerateObject())

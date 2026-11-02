@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "description": "Immutable, dated copies of the price catalog. The newest entry is byte-identical to ../model-prices.json, which the library embeds; older entries are never edited. firstShippedIn is recorded after a snapshot ships in a release.",
-  "current": "2026-11-01",
+  "current": "2026-11-02",
   "snapshots": [
     {
       "id": "2026-09-24",
@@ -71,10 +71,22 @@
       "path": "model-prices.2026-11-01.json",
       "sha256": "f89acb3d69aa9eef1d8fbec2c1700ebcd04924f271bc7e1bbeca4781da095dc3",
       "listings": 32,
-      "summary": "Adds GPT-6.1 Terra and restricted Gemini 4 Carbon; Carbon $4/$20 conflicts with Arena $2/$10 and is unconfirmed. Release posts are retained separately from price effective dates.",
+      "summary": "TE-72/73 Cost Frontier candidate snapshot, superseded before release. Contains an unconfirmed Carbon price claim.",
       "sources": [
         "docs/benchmarks-research.md",
         "docs/model-release-dates.md"
+      ]
+    },
+    {
+      "id": "2026-11-02",
+      "retrievedOn": "2026-11-02",
+      "firstShippedIn": "unreleased",
+      "path": "model-prices.2026-11-02.json",
+      "sha256": "433b9f1d722114723c278d4f6cb17895f5a9de1521b1f153547f8b24ec436b25",
+      "listings": 38,
+      "summary": "TE-74 verified provider refresh: correct Sonnet 5.5 cache reads, price 6.1 Terra and restricted specialized models, add alternate cache writes, remove unverified Carbon tariff.",
+      "sources": [
+        "docs/model-catalogue-refresh-2026-11-01.md"
       ]
     }
   ]

@@ -937,9 +937,7 @@
     ],
     "carbon": [
       "Gemini 4 Carbon",
-      "google",
-      4,
-      20
+      "google"
     ],
     "argon": [
       "Gemini 4 Argon",
@@ -2936,7 +2934,7 @@
       "what": "Agents complete 66 command-line tasks in a sandbox, checked by test suites, over 330 trials. Each row runs in its vendor's native agent.",
       "notes": [
         "Cost per task is the published total run cost divided by the 330 trials.",
-        "Margins are about ±3 points, so GPT-6.1 Sol, GPT-6 Astra and Fable 5.1 near 58% are a tie.",
+        "Margins are about \u00b13 points, so GPT-6.1 Sol, GPT-6 Astra and Fable 5.1 near 58% are a tie.",
         "Vendor figures can differ from the board: Anthropic reports 70.6% for Sonnet 5.5 and 66.4% for Opus 5.5."
       ],
       "costMethod": "Derived from published total_cost_usd / n_trials; not a separately published per-task value.",
@@ -3295,7 +3293,7 @@
       "what": "Long-horizon software tasks written from scratch across 91 repositories, scored by hand-written verifiers. The same mini agent harness runs every model.",
       "notes": [
         "The board was last updated on 22 Sept. Claude 5.5, GPT-6.1 and Gemini 4 are not on it yet.",
-        "Margins are ±1 to ±6 points, so GPT-6 Astra and Gemini 3.8 Flash at 74% are a tie.",
+        "Margins are \u00b11 to \u00b16 points, so GPT-6 Astra and Gemini 3.8 Flash at 74% are a tie.",
         "Artificial Analysis replaced DeepSWE with FrontierCode in its Coding Agent Index v2.0."
       ],
       "rows": [
@@ -3342,7 +3340,7 @@
           "sourceUrl": "https://deepswe.datacurve.ai/",
           "publishedAt": "2026-09-22",
           "retrievedAt": "2026-11-01",
-          "evidenceExcerpt": "gpt-6-astra [ xhigh ] 74 % ± 3 % Avg cost $4.43 Out tok 30k Steps 29",
+          "evidenceExcerpt": "gpt-6-astra [ xhigh ] 74 % \u00b1 3 % Avg cost $4.43 Out tok 30k Steps 29",
           "confidence": "thirdParty",
           "costSource": "measured",
           "stale": false
@@ -3352,7 +3350,7 @@
           "sourceUrl": "https://deepswe.datacurve.ai/",
           "publishedAt": "2026-09-22",
           "retrievedAt": "2026-11-01",
-          "evidenceExcerpt": "gemini-3.8-flash [ high ] 74 % ± 1 % Avg cost $2.36 Out tok 143k Steps 166",
+          "evidenceExcerpt": "gemini-3.8-flash [ high ] 74 % \u00b1 1 % Avg cost $2.36 Out tok 143k Steps 166",
           "confidence": "thirdParty",
           "costSource": "measured",
           "stale": false
@@ -3362,7 +3360,7 @@
           "sourceUrl": "https://deepswe.datacurve.ai/",
           "publishedAt": "2026-09-22",
           "retrievedAt": "2026-11-01",
-          "evidenceExcerpt": "glm-5.3 [ max ] 69 % ± 3 % Avg cost $3.99 Out tok 80k Steps 124",
+          "evidenceExcerpt": "glm-5.3 [ max ] 69 % \u00b1 3 % Avg cost $3.99 Out tok 80k Steps 124",
           "confidence": "publisherReported",
           "costSource": "measured",
           "stale": false
@@ -3372,7 +3370,7 @@
           "sourceUrl": "https://deepswe.datacurve.ai/",
           "publishedAt": "2026-09-22",
           "retrievedAt": "2026-11-01",
-          "evidenceExcerpt": "glm-5.3-flash [ max ] 63 % ± 4 % Avg cost $0.24 Out tok 73k Steps 123",
+          "evidenceExcerpt": "glm-5.3-flash [ max ] 63 % \u00b1 4 % Avg cost $0.24 Out tok 73k Steps 123",
           "confidence": "publisherReported",
           "costSource": "measured",
           "stale": false
@@ -3382,7 +3380,7 @@
           "sourceUrl": "https://deepswe.datacurve.ai/",
           "publishedAt": "2026-09-22",
           "retrievedAt": "2026-11-01",
-          "evidenceExcerpt": "deepseek-v4-pro [ max ] 63 % ± 6 % Avg cost $1.67 Out tok 106k Steps 155",
+          "evidenceExcerpt": "deepseek-v4-pro [ max ] 63 % \u00b1 6 % Avg cost $1.67 Out tok 106k Steps 155",
           "confidence": "thirdParty",
           "costSource": "measured",
           "stale": false
@@ -3392,7 +3390,7 @@
           "sourceUrl": "https://deepswe.datacurve.ai/",
           "publishedAt": "2026-09-22",
           "retrievedAt": "2026-11-01",
-          "evidenceExcerpt": "qwen3.8-max [ xhigh ] 57 % ± 3 % Avg cost $3.73 Out tok 95k Steps 111",
+          "evidenceExcerpt": "qwen3.8-max [ xhigh ] 57 % \u00b1 3 % Avg cost $3.73 Out tok 95k Steps 111",
           "confidence": "thirdParty",
           "costSource": "measured",
           "stale": false
@@ -3443,7 +3441,7 @@
       ],
       "what": "108 long computer-use workflows across 31 websites and desktop apps, about 318 tool calls each. Credit is given per checkpoint.",
       "notes": [
-        "Costs are read off Figure 8.13.3.B of the Claude Opus 5.5 system card, accurate to about ±5%. Effort levels differ by model, so they are shown as rungs in cost order.",
+        "Costs are read off Figure 8.13.3.B of the Claude Opus 5.5 system card, accurate to about \u00b15%. Effort levels differ by model, so they are shown as rungs in cost order.",
         "Strict pass rate is far lower: 48.7% for Opus 5.5 at max.",
         "The official board, updated 15 Oct, has no row for the current models yet. Other vendors publish no cost, so their scores sit in the strip on the right.",
         "Haiku 5.5 reports 72.4% on an OSWorld 2.1 offline subset; that is a different benchmark version and is not plotted or compared here."
@@ -3705,7 +3703,7 @@
           "sourceUrl": "https://www-cdn.anthropic.com/fc1b44717c85dc068bc6ba5024219938094694bd/Claude%20Opus%205.5%20System%20Card.pdf",
           "publishedAt": "2026-09-22",
           "retrievedAt": "2026-11-01",
-          "evidenceExcerpt": "for a Cap% of 91% across ExploitBench’s 41 V8 environments in the plain arm. In the AutoNudge arm, it averaged 14.15 fl ags, for a Cap% of 91%. Across the plain and auto-nudge runs, Claude Opus 5.5 achieved full arbitrary co",
+          "evidenceExcerpt": "for a Cap% of 91% across ExploitBench\u2019s 41 V8 environments in the plain arm. In the AutoNudge arm, it averaged 14.15 fl ags, for a Cap% of 91%. Across the plain and auto-nudge runs, Claude Opus 5.5 achieved full arbitrary co",
           "confidence": "publisherReported",
           "costSource": "estimated",
           "stale": false
@@ -3821,16 +3819,11 @@
       "url": "https://arena.ai/leaderboard/chat/text",
       "what": "Blind pairwise preference from 9 million human votes on open chat. It captures how a reply reads, not whether it is correct.",
       "notes": [
-        "Confidence intervals run ±4 to ±9, so neighbouring rows are ties. Carbon and Gemini 3.8 Flash are preliminary.",
+        "Confidence intervals run \u00b14 to \u00b19, so neighbouring rows are ties. Carbon and Gemini 3.8 Flash are preliminary.",
         "Arena has no public per-task cost, so cost is an estimate from list prices.",
         "Rating gaps do not divide: 1500 is not twice 750."
       ],
       "rows": [
-        [
-          "carbon",
-          "high",
-          1528
-        ],
         [
           "argon",
           "high",
@@ -3894,21 +3887,11 @@
       ],
       "evidence": [
         {
-          "id": "cf-arena-001",
-          "sourceUrl": "https://arena.ai/leaderboard/chat/text",
-          "publishedAt": "2026-10-27",
-          "retrievedAt": "2026-11-01",
-          "evidenceExcerpt": "Gemini 4 Carbon (High) Google · Proprietary 1528±9 Preliminary",
-          "confidence": "thirdParty",
-          "costSource": "estimated",
-          "stale": false
-        },
-        {
           "id": "cf-arena-002",
           "sourceUrl": "https://arena.ai/leaderboard/chat/text",
           "publishedAt": "2026-10-27",
           "retrievedAt": "2026-11-01",
-          "evidenceExcerpt": "Gemini 4 Argon (High) Google · Proprietary 1520±6",
+          "evidenceExcerpt": "Gemini 4 Argon (High) Google \u00b7 Proprietary 1520\u00b16",
           "confidence": "thirdParty",
           "costSource": "estimated",
           "stale": false
@@ -3918,7 +3901,7 @@
           "sourceUrl": "https://arena.ai/leaderboard/chat/text",
           "publishedAt": "2026-10-27",
           "retrievedAt": "2026-11-01",
-          "evidenceExcerpt": "Claude Opus 5.5 (High) Anthropic · Proprietary 1509±7",
+          "evidenceExcerpt": "Claude Opus 5.5 (High) Anthropic \u00b7 Proprietary 1509\u00b17",
           "confidence": "thirdParty",
           "costSource": "estimated",
           "stale": false
@@ -3928,7 +3911,7 @@
           "sourceUrl": "https://arena.ai/leaderboard/chat/text",
           "publishedAt": "2026-10-27",
           "retrievedAt": "2026-11-01",
-          "evidenceExcerpt": "Claude Fable 5.1 (Max) Anthropic · Proprietary 1504±6",
+          "evidenceExcerpt": "Claude Fable 5.1 (Max) Anthropic \u00b7 Proprietary 1504\u00b16",
           "confidence": "thirdParty",
           "costSource": "estimated",
           "stale": false
@@ -3938,7 +3921,7 @@
           "sourceUrl": "https://arena.ai/leaderboard/chat/text",
           "publishedAt": "2026-10-27",
           "retrievedAt": "2026-11-01",
-          "evidenceExcerpt": "Gemini 3.8 Flash (High) Google · Proprietary 1496±4 Preliminary",
+          "evidenceExcerpt": "Gemini 3.8 Flash (High) Google \u00b7 Proprietary 1496\u00b14 Preliminary",
           "confidence": "thirdParty",
           "costSource": "estimated",
           "stale": false
@@ -3948,7 +3931,7 @@
           "sourceUrl": "https://arena.ai/leaderboard/chat/text",
           "publishedAt": "2026-10-27",
           "retrievedAt": "2026-11-01",
-          "evidenceExcerpt": "Qwen3.8-Max Alibaba · Proprietary 1482±5",
+          "evidenceExcerpt": "Qwen3.8-Max Alibaba \u00b7 Proprietary 1482\u00b15",
           "confidence": "thirdParty",
           "costSource": "estimated",
           "stale": false
@@ -3958,7 +3941,7 @@
           "sourceUrl": "https://arena.ai/leaderboard/chat/text",
           "publishedAt": "2026-10-27",
           "retrievedAt": "2026-11-01",
-          "evidenceExcerpt": "GPT-6.1 Sol (Max) OpenAI · Proprietary 1481±7",
+          "evidenceExcerpt": "GPT-6.1 Sol (Max) OpenAI \u00b7 Proprietary 1481\u00b17",
           "confidence": "thirdParty",
           "costSource": "estimated",
           "stale": false
@@ -3968,7 +3951,7 @@
           "sourceUrl": "https://arena.ai/leaderboard/chat/text",
           "publishedAt": "2026-10-27",
           "retrievedAt": "2026-11-01",
-          "evidenceExcerpt": "Claude Sonnet 5.5 (xHigh) Anthropic · Proprietary 1477±7",
+          "evidenceExcerpt": "Claude Sonnet 5.5 (xHigh) Anthropic \u00b7 Proprietary 1477\u00b17",
           "confidence": "thirdParty",
           "costSource": "estimated",
           "stale": false
@@ -3978,7 +3961,7 @@
           "sourceUrl": "https://arena.ai/leaderboard/chat/text",
           "publishedAt": "2026-10-27",
           "retrievedAt": "2026-11-01",
-          "evidenceExcerpt": "GPT-6 Astra (Max) OpenAI · Proprietary 1476±6",
+          "evidenceExcerpt": "GPT-6 Astra (Max) OpenAI \u00b7 Proprietary 1476\u00b16",
           "confidence": "thirdParty",
           "costSource": "estimated",
           "stale": false
@@ -3988,7 +3971,7 @@
           "sourceUrl": "https://arena.ai/leaderboard/chat/text",
           "publishedAt": "2026-10-27",
           "retrievedAt": "2026-11-01",
-          "evidenceExcerpt": "DeepSeek-V4.1-Flash-20260910 (Max) DeepSeek · MIT 1476±6",
+          "evidenceExcerpt": "DeepSeek-V4.1-Flash-20260910 (Max) DeepSeek \u00b7 MIT 1476\u00b16",
           "confidence": "thirdParty",
           "costSource": "estimated",
           "stale": false
@@ -3998,7 +3981,7 @@
           "sourceUrl": "https://arena.ai/leaderboard/chat/text",
           "publishedAt": "2026-10-27",
           "retrievedAt": "2026-11-01",
-          "evidenceExcerpt": "GPT-6 Luna (Max) OpenAI · Proprietary 1441±4",
+          "evidenceExcerpt": "GPT-6 Luna (Max) OpenAI \u00b7 Proprietary 1441\u00b14",
           "confidence": "thirdParty",
           "costSource": "estimated",
           "stale": false
@@ -4008,7 +3991,7 @@
           "sourceUrl": "https://arena.ai/leaderboard/chat/text",
           "publishedAt": "2026-10-27",
           "retrievedAt": "2026-11-01",
-          "evidenceExcerpt": "Grok 4.7 (xHigh) SpaceXAI · Proprietary 1441±6",
+          "evidenceExcerpt": "Grok 4.7 (xHigh) SpaceXAI \u00b7 Proprietary 1441\u00b16",
           "confidence": "thirdParty",
           "costSource": "estimated",
           "stale": false
@@ -4018,14 +4001,30 @@
           "sourceUrl": "https://arena.ai/leaderboard/chat/text",
           "publishedAt": "2026-10-27",
           "retrievedAt": "2026-11-01",
-          "evidenceExcerpt": "Claude Haiku 5.5 (High) Anthropic · Proprietary 1425±7",
+          "evidenceExcerpt": "Claude Haiku 5.5 (High) Anthropic \u00b7 Proprietary 1425\u00b17",
           "confidence": "thirdParty",
           "costSource": "estimated",
           "stale": false
         }
       ],
-      "noCost": [],
-      "scoreOnlyEvidence": [],
+      "noCost": [
+        [
+          "Gemini 4 Carbon (High; no Google API tariff)",
+          1528
+        ]
+      ],
+      "scoreOnlyEvidence": [
+        {
+          "id": "cf-arena-001",
+          "sourceUrl": "https://arena.ai/leaderboard/chat/text",
+          "publishedAt": "2026-10-27",
+          "retrievedAt": "2026-11-01",
+          "evidenceExcerpt": "Gemini 4 Carbon (High) Google \u00b7 Proprietary 1528\u00b19 Preliminary Google has not published a Gemini API tariff or public model id; no list-price cost is estimated.",
+          "confidence": "thirdParty",
+          "costSource": "unavailable",
+          "stale": false
+        }
+      ],
       "stale": false
     },
     "xpro": {
@@ -4382,11 +4381,6 @@
           1746
         ],
         [
-          "carbon",
-          "high",
-          1733
-        ],
-        [
           "grok-4.7",
           "xhigh",
           1718
@@ -4469,16 +4463,6 @@
           "publishedAt": "2026-10-28",
           "retrievedAt": "2026-11-01",
           "evidenceExcerpt": "8 DeepSeek DeepSeek V4.1 Flash 1017 (Max) 1746 -21 / +21 Oct 2026",
-          "confidence": "thirdParty",
-          "costSource": "estimated",
-          "stale": false
-        },
-        {
-          "id": "cf-gdpval-005",
-          "sourceUrl": "https://artificialanalysis.ai/evaluations/gdpval-aa",
-          "publishedAt": "2026-10-28",
-          "retrievedAt": "2026-11-01",
-          "evidenceExcerpt": "11 Google Gemini 4 Carbon (High) 1733 -24 / +24 Oct 2026",
           "confidence": "thirdParty",
           "costSource": "estimated",
           "stale": false
@@ -4574,8 +4558,24 @@
           "stale": false
         }
       ],
-      "noCost": [],
-      "scoreOnlyEvidence": [],
+      "noCost": [
+        [
+          "Gemini 4 Carbon (High; no Google API tariff)",
+          1733
+        ]
+      ],
+      "scoreOnlyEvidence": [
+        {
+          "id": "cf-gdpval-005",
+          "sourceUrl": "https://artificialanalysis.ai/evaluations/gdpval-aa",
+          "publishedAt": "2026-10-28",
+          "retrievedAt": "2026-11-01",
+          "evidenceExcerpt": "11 Google Gemini 4 Carbon (High) 1733 -24 / +24 Oct 2026 Google has not published a Gemini API tariff or public model id; no list-price cost is estimated.",
+          "confidence": "thirdParty",
+          "costSource": "unavailable",
+          "stale": false
+        }
+      ],
       "stale": false
     },
     "chart": {
@@ -4603,7 +4603,7 @@
       ],
       "what": "Professional chart understanding from Surge AI. Without tools, the model has to read the image itself.",
       "notes": [
-        "Costs and scores are read off Figure 8.13.1.B of the Opus 5.5 system card, accurate to about ±5% on cost and ±1 on score.",
+        "Costs and scores are read off Figure 8.13.1.B of the Opus 5.5 system card, accurate to about \u00b15% on cost and \u00b11 on score.",
         "Anthropic ran its own grader, and only Claude rows have costs. Other current models have scores in the strip on the right, reported by their vendors.",
         "Rungs are effort levels in cost order."
       ],
@@ -4861,7 +4861,7 @@
     }
   },
   "restricted": {
-    "carbon": "Not generally available: Google gives access to a subset of cyber defenders and, gradually, trusted partners."
+    "carbon": "Restricted announcement; no public Gemini API model ID or tariff."
   },
   "releases": [
     {

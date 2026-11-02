@@ -36,14 +36,16 @@ public sealed class ModelReleaseDateTests
         var newest = catalog.Listings.OrderByDescending(listing => listing.ReleaseDate)
             .ThenBy(listing => listing.ModelId, StringComparer.Ordinal).ToArray();
         Assert.Equal(
-            [KnownModels.Gemini4Carbon.Value, KnownModels.Gpt61Terra.Value, KnownModels.Gemini4Argon.Value,
+            [KnownModels.Gpt6Rosalind.Value, KnownModels.Gemini4Carbon.Value,
+                KnownModels.Gpt61Terra.Value, KnownModels.Gemini4Argon.Value,
                 KnownModels.ClaudeHaiku55.Value, KnownModels.Gpt61Sol.Value,
                 KnownModels.ClaudeSonnet55.Value, KnownModels.ClaudeOpus55.Value,
                 KnownModels.Gpt6Luna.Value, KnownModels.Gpt6Sol.Value,
                 KnownModels.Gpt6Astra.Value],
-            newest.Take(10).Select(listing => listing.ModelId));
-        Assert.Equal([KnownModels.ClaudeFable51.Value, KnownModels.Gemini38Flash.Value],
-            newest.Skip(10).Take(2).Select(listing => listing.ModelId));
+            newest.Take(11).Select(listing => listing.ModelId));
+        Assert.Equal([KnownModels.ClaudeFable51.Value, KnownModels.ClaudeMythos51.Value,
+                KnownModels.Gemini38Flash.Value],
+            newest.Skip(11).Take(3).Select(listing => listing.ModelId));
         Assert.Equal(KnownModels.ClaudeOpus41.Value, newest[^1].ModelId);
     }
 

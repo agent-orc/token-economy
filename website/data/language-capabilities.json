@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "asOfDate": "2026-09-25",
+  "asOfDate": "2026-11-01",
   "dimensions": [
     "readability",
     "warmth",
@@ -1073,6 +1073,198 @@
           "note": "Keep a factual-restraint floor alongside warmth; these fine-tuned models are not the catalogue models."
         }
       ]
+    },
+    {
+      "id": "seed-gpt-6.1-sol-de",
+      "modelId": "gpt-6.1-sol",
+      "cliId": "codex",
+      "language": "de",
+      "thinkingLevel": "unspecified",
+      "status": "provisional",
+      "scores": {
+        "readability": null,
+        "warmth": null,
+        "directness": null,
+        "absenceOfAiIsms": null,
+        "toneAdherence": null,
+        "factualRestraint": null
+      },
+      "overall": null,
+      "costPerSampleUsd": null,
+      "notes": "No identical-prompt voice or translation observations for this model and language. Provisional source-informed rubric only; no scores or recommendation threshold transfer.",
+      "evidence": [
+        {
+          "kind": "study",
+          "reference": "https://aclanthology.org/2024.emnlp-main.519/",
+          "observedAtUtc": "2026-09-25T00:00:00Z",
+          "note": "Use multiple dimensions and human spot checks; not a score for any seeded model."
+        },
+        {
+          "kind": "study",
+          "reference": "https://aclanthology.org/2024.tacl-1.24/",
+          "observedAtUtc": "2026-09-25T00:00:00Z",
+          "note": "Assess readability and factual restraint separately; no exact-model transfer."
+        },
+        {
+          "kind": "study",
+          "reference": "https://arxiv.org/abs/2404.04475",
+          "observedAtUtc": "2026-09-25T00:00:00Z",
+          "note": "Balance lengths and randomize blinded comparisons; preference scores are not our six-dimension rubric."
+        },
+        {
+          "kind": "study",
+          "reference": "https://www.nature.com/articles/s41586-026-10410-0",
+          "observedAtUtc": "2026-09-25T00:00:00Z",
+          "note": "Keep a factual-restraint floor alongside warmth; these fine-tuned models are not the catalogue models."
+        },
+        {
+          "kind": "study",
+          "reference": "https://aclanthology.org/2024.ltedi-1.9/",
+          "observedAtUtc": "2026-09-25T00:00:00Z",
+          "note": "Evaluate German separately across text genres; plain friendly language is not an Easy German certification."
+        }
+      ]
+    },
+    {
+      "id": "seed-gpt-6.1-sol-en",
+      "modelId": "gpt-6.1-sol",
+      "cliId": "codex",
+      "language": "en",
+      "thinkingLevel": "unspecified",
+      "status": "provisional",
+      "scores": {
+        "readability": null,
+        "warmth": null,
+        "directness": null,
+        "absenceOfAiIsms": null,
+        "toneAdherence": null,
+        "factualRestraint": null
+      },
+      "overall": null,
+      "costPerSampleUsd": null,
+      "notes": "No identical-prompt voice or translation observations for this model and language. Provisional source-informed rubric only; no scores or recommendation threshold transfer.",
+      "evidence": [
+        {
+          "kind": "study",
+          "reference": "https://aclanthology.org/2024.emnlp-main.519/",
+          "observedAtUtc": "2026-09-25T00:00:00Z",
+          "note": "Use multiple dimensions and human spot checks; not a score for any seeded model."
+        },
+        {
+          "kind": "study",
+          "reference": "https://aclanthology.org/2024.tacl-1.24/",
+          "observedAtUtc": "2026-09-25T00:00:00Z",
+          "note": "Assess readability and factual restraint separately; no exact-model transfer."
+        },
+        {
+          "kind": "study",
+          "reference": "https://arxiv.org/abs/2404.04475",
+          "observedAtUtc": "2026-09-25T00:00:00Z",
+          "note": "Balance lengths and randomize blinded comparisons; preference scores are not our six-dimension rubric."
+        },
+        {
+          "kind": "study",
+          "reference": "https://www.nature.com/articles/s41586-026-10410-0",
+          "observedAtUtc": "2026-09-25T00:00:00Z",
+          "note": "Keep a factual-restraint floor alongside warmth; these fine-tuned models are not the catalogue models."
+        }
+      ]
+    },
+    {
+      "id": "seed-gpt-6.1-terra-de",
+      "modelId": "gpt-6.1-terra",
+      "cliId": "codex",
+      "language": "de",
+      "thinkingLevel": "unspecified",
+      "status": "provisional",
+      "scores": {
+        "readability": null,
+        "warmth": null,
+        "directness": null,
+        "absenceOfAiIsms": null,
+        "toneAdherence": null,
+        "factualRestraint": null
+      },
+      "overall": null,
+      "costPerSampleUsd": null,
+      "notes": "No identical-prompt voice or translation observations for this model and language. Provisional source-informed rubric only; no scores or recommendation threshold transfer.",
+      "evidence": [
+        {
+          "kind": "study",
+          "reference": "https://aclanthology.org/2024.emnlp-main.519/",
+          "observedAtUtc": "2026-09-25T00:00:00Z",
+          "note": "Use multiple dimensions and human spot checks; not a score for any seeded model."
+        },
+        {
+          "kind": "study",
+          "reference": "https://aclanthology.org/2024.tacl-1.24/",
+          "observedAtUtc": "2026-09-25T00:00:00Z",
+          "note": "Assess readability and factual restraint separately; no exact-model transfer."
+        },
+        {
+          "kind": "study",
+          "reference": "https://arxiv.org/abs/2404.04475",
+          "observedAtUtc": "2026-09-25T00:00:00Z",
+          "note": "Balance lengths and randomize blinded comparisons; preference scores are not our six-dimension rubric."
+        },
+        {
+          "kind": "study",
+          "reference": "https://www.nature.com/articles/s41586-026-10410-0",
+          "observedAtUtc": "2026-09-25T00:00:00Z",
+          "note": "Keep a factual-restraint floor alongside warmth; these fine-tuned models are not the catalogue models."
+        },
+        {
+          "kind": "study",
+          "reference": "https://aclanthology.org/2024.ltedi-1.9/",
+          "observedAtUtc": "2026-09-25T00:00:00Z",
+          "note": "Evaluate German separately across text genres; plain friendly language is not an Easy German certification."
+        }
+      ]
+    },
+    {
+      "id": "seed-gpt-6.1-terra-en",
+      "modelId": "gpt-6.1-terra",
+      "cliId": "codex",
+      "language": "en",
+      "thinkingLevel": "unspecified",
+      "status": "provisional",
+      "scores": {
+        "readability": null,
+        "warmth": null,
+        "directness": null,
+        "absenceOfAiIsms": null,
+        "toneAdherence": null,
+        "factualRestraint": null
+      },
+      "overall": null,
+      "costPerSampleUsd": null,
+      "notes": "No identical-prompt voice or translation observations for this model and language. Provisional source-informed rubric only; no scores or recommendation threshold transfer.",
+      "evidence": [
+        {
+          "kind": "study",
+          "reference": "https://aclanthology.org/2024.emnlp-main.519/",
+          "observedAtUtc": "2026-09-25T00:00:00Z",
+          "note": "Use multiple dimensions and human spot checks; not a score for any seeded model."
+        },
+        {
+          "kind": "study",
+          "reference": "https://aclanthology.org/2024.tacl-1.24/",
+          "observedAtUtc": "2026-09-25T00:00:00Z",
+          "note": "Assess readability and factual restraint separately; no exact-model transfer."
+        },
+        {
+          "kind": "study",
+          "reference": "https://arxiv.org/abs/2404.04475",
+          "observedAtUtc": "2026-09-25T00:00:00Z",
+          "note": "Balance lengths and randomize blinded comparisons; preference scores are not our six-dimension rubric."
+        },
+        {
+          "kind": "study",
+          "reference": "https://www.nature.com/articles/s41586-026-10410-0",
+          "observedAtUtc": "2026-09-25T00:00:00Z",
+          "note": "Keep a factual-restraint floor alongside warmth; these fine-tuned models are not the catalogue models."
+        }
+      ]
     }
   ],
   "studies": [
@@ -1160,14 +1352,18 @@
     "seed-gpt-6-luna-de",
     "seed-gpt-6-luna-en",
     "seed-gpt-6-sol-de",
-    "seed-gpt-6-sol-en"
+    "seed-gpt-6-sol-en",
+    "seed-gpt-6.1-sol-de",
+    "seed-gpt-6.1-sol-en",
+    "seed-gpt-6.1-terra-de",
+    "seed-gpt-6.1-terra-en"
   ],
   "languagePriors": [
     {
       "textKind": "copy",
       "taskClass": "docEdit",
       "language": "de",
-      "asOfDate": "2026-09-25",
+      "asOfDate": "2026-11-01",
       "requirement": {
         "language": "de",
         "minimumOverall": 0.75,
@@ -1186,7 +1382,7 @@
       "textKind": "copy",
       "taskClass": "docEdit",
       "language": "en",
-      "asOfDate": "2026-09-25",
+      "asOfDate": "2026-11-01",
       "requirement": {
         "language": "en",
         "minimumOverall": 0.75,
@@ -1205,7 +1401,7 @@
       "textKind": "documentation",
       "taskClass": "docEdit",
       "language": "de",
-      "asOfDate": "2026-09-25",
+      "asOfDate": "2026-11-01",
       "requirement": {
         "language": "de",
         "minimumOverall": 0.75,
@@ -1224,7 +1420,7 @@
       "textKind": "documentation",
       "taskClass": "docEdit",
       "language": "en",
-      "asOfDate": "2026-09-25",
+      "asOfDate": "2026-11-01",
       "requirement": {
         "language": "en",
         "minimumOverall": 0.75,
@@ -1243,7 +1439,7 @@
       "textKind": "operatorMessages",
       "taskClass": "docEdit",
       "language": "de",
-      "asOfDate": "2026-09-25",
+      "asOfDate": "2026-11-01",
       "requirement": {
         "language": "de",
         "minimumOverall": 0.75,
@@ -1262,7 +1458,7 @@
       "textKind": "operatorMessages",
       "taskClass": "docEdit",
       "language": "en",
-      "asOfDate": "2026-09-25",
+      "asOfDate": "2026-11-01",
       "requirement": {
         "language": "en",
         "minimumOverall": 0.75,
@@ -1281,7 +1477,7 @@
       "textKind": "replies",
       "taskClass": "docEdit",
       "language": "de",
-      "asOfDate": "2026-09-25",
+      "asOfDate": "2026-11-01",
       "requirement": {
         "language": "de",
         "minimumOverall": 0.75,
@@ -1300,7 +1496,7 @@
       "textKind": "replies",
       "taskClass": "docEdit",
       "language": "en",
-      "asOfDate": "2026-09-25",
+      "asOfDate": "2026-11-01",
       "requirement": {
         "language": "en",
         "minimumOverall": 0.75,
@@ -1530,6 +1726,46 @@
     {
       "recordId": "seed-gpt-6-sol-en",
       "modelId": "gpt-6-sol",
+      "language": "en",
+      "thinkingLevel": "unspecified",
+      "status": "provisional",
+      "overall": null,
+      "costPerSampleUsd": null,
+      "costPerQualityPointUsd": null
+    },
+    {
+      "recordId": "seed-gpt-6.1-sol-de",
+      "modelId": "gpt-6.1-sol",
+      "language": "de",
+      "thinkingLevel": "unspecified",
+      "status": "provisional",
+      "overall": null,
+      "costPerSampleUsd": null,
+      "costPerQualityPointUsd": null
+    },
+    {
+      "recordId": "seed-gpt-6.1-sol-en",
+      "modelId": "gpt-6.1-sol",
+      "language": "en",
+      "thinkingLevel": "unspecified",
+      "status": "provisional",
+      "overall": null,
+      "costPerSampleUsd": null,
+      "costPerQualityPointUsd": null
+    },
+    {
+      "recordId": "seed-gpt-6.1-terra-de",
+      "modelId": "gpt-6.1-terra",
+      "language": "de",
+      "thinkingLevel": "unspecified",
+      "status": "provisional",
+      "overall": null,
+      "costPerSampleUsd": null,
+      "costPerQualityPointUsd": null
+    },
+    {
+      "recordId": "seed-gpt-6.1-terra-en",
+      "modelId": "gpt-6.1-terra",
       "language": "en",
       "thinkingLevel": "unspecified",
       "status": "provisional",
