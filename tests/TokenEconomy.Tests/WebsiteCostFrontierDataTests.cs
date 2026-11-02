@@ -157,6 +157,11 @@ public class WebsiteCostFrontierDataTests
         var ids = JsonDocument.Parse(File.ReadAllBytes(Path.Combine(
             RepositoryRoot(), "src", "TokenEconomy", "catalog", "cost-frontier-metadata.json")))
             .RootElement.GetProperty("modelIds").Clone();
+        using var results = JsonDocument.Parse(File.ReadAllBytes(Path.Combine(
+            RepositoryRoot(), "src", "TokenEconomy", "catalog", "benchmark-results.json")));
+        var costSourceById = results.RootElement.GetProperty("records").EnumerateArray()
+            .Where(row => row.GetProperty("benchmarkTypeId").GetString()!.StartsWith("cost-frontier-", StringComparison.Ordinal))
+            .ToDictionary(row => row.GetProperty("id").GetString()!, row => row.GetProperty("costSource").GetString());
         var asOf = new DateTime(2026, 11, 1, 0, 0, 0, DateTimeKind.Utc);
         Assert.Equal(8, root.GetProperty("categories").GetArrayLength());
         Assert.Equal(16, root.GetProperty("insights").GetArrayLength());
@@ -174,6 +179,9 @@ public class WebsiteCostFrontierDataTests
         foreach (var benchmark in root.GetProperty("benchmarks").EnumerateObject())
         {
             var value = benchmark.Value;
+            Assert.Equal(Assert.Single(value.GetProperty("evidence").EnumerateArray()
+                .Select(fact => costSourceById[fact.GetProperty("id").GetString()!])
+                .Distinct()), value.GetProperty("cost").GetString());
             foreach (var fact in value.GetProperty("scoreOnlyEvidence").EnumerateArray())
                 AssertEvidenceAge(fact);
             var rows = value.GetProperty("rows").EnumerateArray().ToArray();
