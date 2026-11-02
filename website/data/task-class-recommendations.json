@@ -1983,6 +1983,6 @@
       "note": "No retained measured row meets the requirement yet. Import Voice Lint evidence; an empty set means wait, not an invented cheapest model."
     }
   ],
-  "generatedAtUtc": "2026-11-02T03:16:18.989608+00:00",
+  "generatedAtUtc": "2026-11-02T05:53:55.904313+00:00",
   "source": "src/TokenEconomy/catalog/task-class-recommendations.json"
 }

@@ -11,8 +11,8 @@
 // the page URL, the last console messages and the tail of Chrome's stderr.
 import { spawn } from 'node:child_process';
 import { mkdtemp, readFile, rm } from 'node:fs/promises';
-import { existsSync } from 'node:fs';
-import { join } from 'node:path';
+import { existsSync, readdirSync } from 'node:fs';
+import { join, resolve } from 'node:path';
 import { tmpdir } from 'node:os';
 
 const START_ATTEMPTS = 3;
@@ -24,8 +24,18 @@ const STDERR_TAIL = 4_000;
 
 const delay = ms => new Promise(r => setTimeout(r, ms));
 
+// .agent-studio/prepare installs Playwright's Chromium headless shell here, so a
+// clean checkout without CHROME_PATH (the Agent Studio gate) brings its browser.
+function repositoryBrowsers() {
+  const root = resolve(import.meta.dirname, '..', '.agent-studio', '.playwright', 'browsers');
+  if (!existsSync(root)) return [];
+  return readdirSync(root).filter(name => name.startsWith('chromium_headless_shell-')).sort().reverse()
+    .flatMap(name => readdirSync(join(root, name)).filter(dir => dir.startsWith('chrome-headless-shell-'))
+      .map(dir => join(root, name, dir, 'chrome-headless-shell')));
+}
+
 export function findBrowser() {
-  const path = process.env.CHROME_PATH || ['/usr/bin/chromium', '/usr/bin/google-chrome',
+  const path = process.env.CHROME_PATH || [...repositoryBrowsers(), '/usr/bin/chromium', '/usr/bin/google-chrome',
     ...['1243', '1217'].map(v => `/home/agent/.cache/ms-playwright/chromium_headless_shell-${v}/chrome-headless-shell-linux64/chrome-headless-shell`)].find(existsSync);
   if (!path) throw new Error('Set CHROME_PATH to Chromium.');
   return path;

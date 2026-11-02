@@ -2,3 +2,24 @@
 set -eu
 
 dotnet restore
+
+# The website checks (scripts/check-website.mjs) run on Linux only, as in ci.yml.
+# Their Python packages go into a repository-local directory, because the
+# system interpreter may be externally managed (PEP 668).
+if [ "$(uname -s)" = Linux ]; then
+  python3 -m pip install --quiet --disable-pip-version-check --upgrade \
+    --target .agent-studio/.python -r scripts/requirements-language.txt
+
+  # The headless-browser checks need Chromium. Without CHROME_PATH,
+  # scripts/headless-browser.mjs takes the headless shell installed here by a
+  # pinned Playwright release.
+  playwright_version=1.64.1
+  if [ ! -d ".agent-studio/.playwright/python/playwright-$playwright_version.dist-info" ]; then
+    rm -rf .agent-studio/.playwright/python
+    python3 -m pip install --quiet --disable-pip-version-check \
+      --target .agent-studio/.playwright/python "playwright==$playwright_version"
+  fi
+  PYTHONPATH=.agent-studio/.playwright/python \
+    PLAYWRIGHT_BROWSERS_PATH=.agent-studio/.playwright/browsers \
+    python3 -m playwright install --only-shell chromium
+fi
