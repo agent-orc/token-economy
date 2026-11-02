@@ -2,3 +2,11 @@
 set -eu
 
 dotnet restore
+
+# The website checks (scripts/check-website.mjs) run on Linux only, as in ci.yml.
+# Their Python packages go into a repository-local directory, because the
+# system interpreter may be externally managed (PEP 668).
+if [ "$(uname -s)" = Linux ]; then
+  python3 -m pip install --quiet --disable-pip-version-check --upgrade \
+    --target .agent-studio/.python -r scripts/requirements-language.txt
+fi

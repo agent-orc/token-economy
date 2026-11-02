@@ -97,3 +97,6 @@ results/*
 !results/routing-evidence/**
 !benchmarks/results/
 !benchmarks/results/**
+
+# Python packages for the website checks, installed by .agent-studio/prepare
+.agent-studio/.python/
