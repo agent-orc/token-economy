@@ -1038,6 +1038,8 @@ def create_recommendation_payload() -> dict:
 def create_price_history_payload() -> dict:
     """Project every price period without inventing dates or dropping provenance."""
     listings = load(PRICE_CATALOG)
+    verified_dates = [price["verifiedOn"] for listing in listings
+                      for price in listing.get("history", []) if price.get("verifiedOn")]
     policy = load(ROUTING_POLICY)
     profiles = {profile["canonicalId"]: profile for profile in policy["models"]}
     models = []
@@ -1059,7 +1061,7 @@ def create_price_history_payload() -> dict:
         })
     return {
         "schemaVersion": 1, "generatedAtUtc": datetime.now(timezone.utc).isoformat(),
-        "asOfUtc": "2026-11-02T00:00:00Z", "currency": "USD", "unit": "per-million-tokens",
+        "asOfUtc": f"{max(verified_dates)}T00:00:00Z", "currency": "USD", "unit": "per-million-tokens",
         "source": PRICE_CATALOG.relative_to(ROOT).as_posix(),
         "scope": "Direct-provider standard text-token rates, including catalogued prompt-size tiers and provider-default cache writes. Alternate cache retention is separately priced; restricted announcement-only models may be unpriced.",
         "coverage": {"catalogModels": len(models), "pricedModels": sum(bool(m["history"]) for m in models),

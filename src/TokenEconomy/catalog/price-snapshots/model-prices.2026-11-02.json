@@ -1463,7 +1463,6 @@
         "sourceUrls": [
           "https://developers.openai.com/api/docs/pricing",
           "https://developers.openai.com/api/docs/models/gpt-5.6-cyber",
-          "https://openai.com/index/expanding-daybreak-as-the-cyber-defense-window-narrows/",
           "https://openai.com/index/expanding-daybreak-as-the-cyber-defense-window-narrows/"
         ],
         "verifiedOn": "2026-11-02",
@@ -1493,7 +1492,6 @@
           "https://developers.openai.com/api/docs/pricing",
           "https://developers.openai.com/api/docs/models/gpt-5.6-cyber",
           "https://openai.com/index/expanding-daybreak-as-the-cyber-defense-window-narrows/",
-          "https://openai.com/index/expanding-daybreak-as-the-cyber-defense-window-narrows/",
           "https://developers.openai.com/api/docs/changelog"
         ],
         "verifiedOn": "2026-11-02",
@@ -1514,9 +1512,9 @@
       }
     ],
     "availability": "restricted",
-    "availabilityNote": "Daybreak approval and provisioning required; start date is first documented 2026-09-01 price observation, not a release-date claim.",
+    "availabilityNote": "Daybreak approval and provisioning required; the August 10 price-history start is inferred from the release announcement, not a separately published tariff start date.",
     "lifecycleStatus": "current",
-    "note": "Daybreak approval and provisioning required; start date is first documented 2026-09-01 price observation, not a release-date claim.",
+    "note": "Daybreak approval and provisioning required; the August 10 price-history start is inferred from the release announcement, not a separately published tariff start date.",
     "releaseDate": "2026-08-10",
     "releaseDateSource": "https://openai.com/index/expanding-daybreak-as-the-cyber-defense-window-narrows/"
   },

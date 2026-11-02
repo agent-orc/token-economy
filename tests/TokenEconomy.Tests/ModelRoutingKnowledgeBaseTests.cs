@@ -62,6 +62,8 @@ public class ModelRoutingKnowledgeBaseTests
         Assert.Equal(first, second);
         Assert.Equal(expected, first);
         Assert.Contains($"Evidence as of: `{Knowledge.EvidenceAsOfDate:yyyy-MM-dd}`", first);
+        Assert.Contains("| `gpt-5.6-cyber` | — | `openai` / `codex` |  | `restricted` |", first);
+        Assert.DoesNotContain("| `gpt-5.6-cyber` | — | `openai` / `codex` |  | `selectable`", first);
     }
 
     [Fact]

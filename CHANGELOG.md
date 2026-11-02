@@ -8,6 +8,7 @@ SemVer; pre-1.0 the public API may still shift).
 ### Added
 
 - Prepared 0.3.9: verified GPT-6.1 Terra, restricted GPT-6 Rosalind, GPT-5.6 Cyber, Rosalind Research/Discovery, and Claude Mythos 5/5.1; restricted listings cannot enter recommendations. Added separate one-hour and twelve-hour cache-write tariffs with explicit retention selection.
+- Added `ModelPrice.CacheWriteOneHourPerMTok`, `ModelPrice.CacheWriteTwelveHourPerMTok`, `ModelPrice.CacheWriteSupported`, and `TokenUsage.CacheWriteRetention`. An unavailable requested retention returns `PriceStatus.UnsupportedCacheRetention` with no total.
 
 ### Corrected
 
@@ -16,6 +17,7 @@ SemVer; pre-1.0 the public API may still shift).
 ### Changed
 
 - Added October 20 OpenAI twelve-hour cache writes (2.5x input), Terra short/long context rates, and separately documented Fast/Ultrafast and regional uplift. Marked GPT-6 Sol as available but off the flagship list; 6.1 Sol and Terra are selectable provisional pins with a conservative Codex 0.166.0 floor. Sonnet 4.5 migration now proposes Sonnet 5.5 and is not automatic. Recorded the October 28 eligible Pro/Business API credit benefit separately from Codex quotas.
+- Removed `minimal` from GPT-6.1 Sol's supported Codex effort ladder; the provider lists `low` through `max`, and no successful CLI `minimal` execution is documented.
 
 - Rechecked the Haiku 5.5, Gemini 4 Argon, and Gemini 3.8 Flash tariffs, cache rates, release dates, and routing limits against primary vendor documentation on 2026-10-27; refreshed current price provenance and the generated website price history (TE-62 review delivery).
 
