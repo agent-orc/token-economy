@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "generatedAtUtc": "2026-11-02T05:53:55.893501+00:00",
-  "asOfUtc": "2026-11-01T00:00:00Z",
+  "generatedAtUtc": "2026-11-17T21:32:13.595275+00:00",
+  "asOfUtc": "2026-11-17T00:00:00Z",
   "source": "ModelEfficiencyMatrix.Default.Describe(asOfUtc)",
   "priceCatalogPath": "src/TokenEconomy/catalog/model-prices.json",
   "routingPolicyPath": "src/TokenEconomy/catalog/model-routing-policy.json",
@@ -11,8 +11,8 @@
       "releaseDate": "2026-10-07",
       "releaseDateSource": "https://platform.claude.com/docs/en/release-notes/overview#october-7-2026",
       "policy": {
-        "version": "2026-11-01",
-        "evidenceAsOfDate": "2026-11-01",
+        "version": "2026-11-17",
+        "evidenceAsOfDate": "2026-11-17",
         "reason": "Claude Code documents low/medium/high/xhigh/max with default medium and minimum v2.1.293: https://code.claude.com/docs/en/model-config (retrieved 2026-10-21). Operator reports Claude Code 2.1.305 installed on TUFI2, agent-runner-01 and KORI review containers, with the KORI Dockerfile pinned; agent-runner-01 runner-credential claude -p --model claude-haiku-5-5 answered on 2026-10-20. Earlier v2.1.301 modelUsage confirmed the canonical model; v2.1.281 fell back to Haiku 4.5. Explicit bounded classification, auto-tagging and fixture pin only; Sonnet low remains the coding economy floor. No default route, fallback or automatic migration.",
         "workflowRoles": [
           "boundedPipelineDecision"
@@ -21,7 +21,150 @@
         "fallbacks": []
       },
       "evidence": {
-        "external": [],
+        "external": [
+          {
+            "id": "te82-tb41-claude-haiku-5-5-max",
+            "benchmarkId": "terminal-bench-v4.1-official-native-agents",
+            "name": "Terminal-Bench 4.1 / official native-agent leaderboard",
+            "version": "4.1",
+            "unit": "% resolved",
+            "maximumScore": 100,
+            "effort": "max",
+            "score": 40,
+            "publishedAt": "2026-11-17",
+            "sourceUrl": "https://www.tbench.ai/leaderboard",
+            "confidence": "publisherReported",
+            "evidenceStatus": "unknown",
+            "sampleContext": null,
+            "secondaryMetrics": {
+              "costPerTaskUsd": 2.886272727
+            },
+            "context": {
+              "sourceKind": "officialLeaderboard",
+              "sourcePublisher": "Terminal-Bench",
+              "dateBasis": "firstObservedPublicSnapshot",
+              "observedAt": "2026-11-17",
+              "sourceCreatedAt": "2026-11-13T01:23:45.107919+00:00",
+              "sourceUpdatedAt": "2026-11-13T01:23:45.107919+00:00",
+              "harness": "Claude Code",
+              "trialCount": 330,
+              "confidenceIntervalHalfWidth": 3.61,
+              "confidenceIntervalLevel": 0.95,
+              "totalCostUsd": 952.47,
+              "costBasis": "Published run total, not token-price recomputation.",
+              "sampleNotes": "Run execution date not published. metadata.date=2026-10-07 is model release date. Total output tokens=127539294."
+            },
+            "evidenceExcerpt": "[M] {\"id\":\"968da0aa-608d-4cc2-87f3-d33607641b27\",\"leaderboard_id\":\"947c0b13-1d0f-43e0-bd7b-7e5d8c16187a\",\"rank\":29,\"metadata\":{\"date\":\"2026-10-07\",\"agent_org\":{\"url\":\"https://www.anthropic.com\",\"label\":\"Anthropic\"},\"model_org\":{\"url\":\"https://www.anthropic.com\",\"label\":\"Anthropic\"},\"display_date\":\"Oct 7, 2026\",\"agent_display\":{\"url\":\"https://claude.com/product/claude-code\",\"label\":\"Claude Code\"},\"model_display\":{\"url\":\"https://www.anthropic.com/claude-haiku-5-5\",\"label\":\"Haiku 5.5\"},\"reasoning_effort\":\"max\"},\"metrics\":{\"accuracy\":40,\"n_trials\":330,\"pass_at_2\":0.5121,\"pass_at_3\":0.5636,\"pass_at_4\":0.5909,\"pass_at_5\":0.6061,\"successes\":132,\"display_cost\":\"$$952.47\",\"total_tokens\":12076550775,\"output_tokens\":127539294,\"total_cost_usd\":952.47,\"display_accuracy\":\"**40.0%** \\u00b1 3.6%\",\"cached_input_tokens\":11727685473,\"display_total_tokens\":\"12.1B\",\"uncached_input_tokens\":11949011481,\"avg_trial_duration_sec\":140.5,\"display_total_cost_usd\":\"$$952.47\",\"accuracy_ci95_half_width\":3.61},\"status\":\"display\",\"created_at\":\"2026-11-13T01:23:45.107919+00:00\",\"updated_at\":\"2026-11-13T01:23:45.107919+00:00\",\"n_trials\":330}"
+          },
+          {
+            "id": "te82-arc2-claude-haiku-5-5-xhigh",
+            "benchmarkId": "arc-agi-2-v2-semi-private-2026-11-17",
+            "name": "ARC-AGI-2 Semi-Private",
+            "version": "v2_Semi_Private / 2026-11-17 snapshot",
+            "unit": "% solved",
+            "maximumScore": 100,
+            "effort": "xHigh",
+            "score": 61.25000000000001,
+            "publishedAt": "2026-11-17",
+            "sourceUrl": "https://arcprize.org/media/data/evaluations.json",
+            "confidence": "publisherReported",
+            "evidenceStatus": "unknown",
+            "sampleContext": null,
+            "secondaryMetrics": {
+              "costPerTaskUsd": 0.08498917333333329
+            },
+            "context": {
+              "sourceKind": "benchmarkOwner",
+              "sourcePublisher": "ARC Prize",
+              "dateBasis": "firstObservedPublicSnapshot",
+              "observedAt": "2026-11-17",
+              "harness": "ARC Prize v2_Semi_Private",
+              "sampleNotes": "Reasoning effort-ladder shape only. Execution/publication date unknown in raw evaluations.json. Carbon result page dated 2026-11-10 separately; not a raw row date."
+            },
+            "evidenceExcerpt": "[M] {\"datasetId\":\"v2_Semi_Private\",\"modelId\":\"anthropic-claude-haiku-5-5-xhigh\",\"score\":0.6125,\"costPerTask\":0.08498917333333329,\"resultsUrl\":\"/results/anthropic-claude-haiku-5-5\",\"display\":true}"
+          },
+          {
+            "id": "te82-arc2-claude-haiku-5-5-medium",
+            "benchmarkId": "arc-agi-2-v2-semi-private-2026-11-17",
+            "name": "ARC-AGI-2 Semi-Private",
+            "version": "v2_Semi_Private / 2026-11-17 snapshot",
+            "unit": "% solved",
+            "maximumScore": 100,
+            "effort": "medium",
+            "score": 9.444444444444443,
+            "publishedAt": "2026-11-17",
+            "sourceUrl": "https://arcprize.org/media/data/evaluations.json",
+            "confidence": "publisherReported",
+            "evidenceStatus": "unknown",
+            "sampleContext": null,
+            "secondaryMetrics": {
+              "costPerTaskUsd": 0.014974957499999999
+            },
+            "context": {
+              "sourceKind": "benchmarkOwner",
+              "sourcePublisher": "ARC Prize",
+              "dateBasis": "firstObservedPublicSnapshot",
+              "observedAt": "2026-11-17",
+              "harness": "ARC Prize v2_Semi_Private",
+              "sampleNotes": "Reasoning effort-ladder shape only. Execution/publication date unknown in raw evaluations.json. Carbon result page dated 2026-11-10 separately; not a raw row date."
+            },
+            "evidenceExcerpt": "[M] {\"datasetId\":\"v2_Semi_Private\",\"modelId\":\"anthropic-claude-haiku-5-5-medium\",\"score\":0.09444444444444443,\"costPerTask\":0.014974957499999999,\"resultsUrl\":\"/results/anthropic-claude-haiku-5-5\",\"display\":true}"
+          },
+          {
+            "id": "te82-arc2-claude-haiku-5-5-low",
+            "benchmarkId": "arc-agi-2-v2-semi-private-2026-11-17",
+            "name": "ARC-AGI-2 Semi-Private",
+            "version": "v2_Semi_Private / 2026-11-17 snapshot",
+            "unit": "% solved",
+            "maximumScore": 100,
+            "effort": "low",
+            "score": 2.7777777777777777,
+            "publishedAt": "2026-11-17",
+            "sourceUrl": "https://arcprize.org/media/data/evaluations.json",
+            "confidence": "publisherReported",
+            "evidenceStatus": "unknown",
+            "sampleContext": null,
+            "secondaryMetrics": {
+              "costPerTaskUsd": 0.007986432500000003
+            },
+            "context": {
+              "sourceKind": "benchmarkOwner",
+              "sourcePublisher": "ARC Prize",
+              "dateBasis": "firstObservedPublicSnapshot",
+              "observedAt": "2026-11-17",
+              "harness": "ARC Prize v2_Semi_Private",
+              "sampleNotes": "Reasoning effort-ladder shape only. Execution/publication date unknown in raw evaluations.json. Carbon result page dated 2026-11-10 separately; not a raw row date."
+            },
+            "evidenceExcerpt": "[M] {\"datasetId\":\"v2_Semi_Private\",\"modelId\":\"anthropic-claude-haiku-5-5-low\",\"score\":0.027777777777777776,\"costPerTask\":0.007986432500000003,\"resultsUrl\":\"/results/anthropic-claude-haiku-5-5\",\"display\":true}"
+          },
+          {
+            "id": "te82-arc2-claude-haiku-5-5-high",
+            "benchmarkId": "arc-agi-2-v2-semi-private-2026-11-17",
+            "name": "ARC-AGI-2 Semi-Private",
+            "version": "v2_Semi_Private / 2026-11-17 snapshot",
+            "unit": "% solved",
+            "maximumScore": 100,
+            "effort": "high",
+            "score": 30.69444444444444,
+            "publishedAt": "2026-11-17",
+            "sourceUrl": "https://arcprize.org/media/data/evaluations.json",
+            "confidence": "publisherReported",
+            "evidenceStatus": "unknown",
+            "sampleContext": null,
+            "secondaryMetrics": {
+              "costPerTaskUsd": 0.046677990833333315
+            },
+            "context": {
+              "sourceKind": "benchmarkOwner",
+              "sourcePublisher": "ARC Prize",
+              "dateBasis": "firstObservedPublicSnapshot",
+              "observedAt": "2026-11-17",
+              "harness": "ARC Prize v2_Semi_Private",
+              "sampleNotes": "Reasoning effort-ladder shape only. Execution/publication date unknown in raw evaluations.json. Carbon result page dated 2026-11-10 separately; not a raw row date."
+            },
+            "evidenceExcerpt": "[M] {\"datasetId\":\"v2_Semi_Private\",\"modelId\":\"anthropic-claude-haiku-5-5-high\",\"score\":0.3069444444444444,\"costPerTask\":0.046677990833333315,\"resultsUrl\":\"/results/anthropic-claude-haiku-5-5\",\"display\":true}"
+          }
+        ],
         "taskStudies": [],
         "assessment": null,
         "taskStudiesAsOfDate": "2026-09-25"
@@ -86,8 +229,8 @@
       "releaseDate": "2026-10-13",
       "releaseDateSource": "https://ai.google.dev/gemini-api/docs/changelog",
       "policy": {
-        "version": "2026-11-01",
-        "evidenceAsOfDate": "2026-11-01",
+        "version": "2026-11-17",
+        "evidenceAsOfDate": "2026-11-17",
         "reason": "Test-only: explicit operator pin only; no default tier, automatic migration, or fallback. agy 1.4.0 models output on 2026-10-16 listed low/medium/high suffixed ids; agy also accepts --effort low|medium|high|xhigh|max, but the model docs confirm only low/medium/high for this model. Access path for orchestrated runs is unresolved. Vendor FAQ: direct agy -p scripting/CI is intended; wrapping agy in third-party coding agents is not supported under consumer plans; API-key path is documented separately: https://www.antigravity.google/docs/faq/. API prices do not establish CLI subscription costs.",
         "workflowRoles": [
           "coreTask"
@@ -151,8 +294,8 @@
       "releaseDate": "2026-09-01",
       "releaseDateSource": "https://www.antigravity.google/blog/gemini-3-8-flash-in-google-antigravity",
       "policy": {
-        "version": "2026-11-01",
-        "evidenceAsOfDate": "2026-11-01",
+        "version": "2026-11-17",
+        "evidenceAsOfDate": "2026-11-17",
         "reason": "Test-only: explicit operator pin only; no default tier, automatic migration, or fallback. agy 1.4.0 models output on 2026-10-16 listed low/medium/high suffixed ids; agy also accepts --effort low|medium|high|xhigh|max, but the model docs confirm only low/medium/high for this model. Access path for orchestrated runs is unresolved. Vendor FAQ: direct agy -p scripting/CI is intended; wrapping agy in third-party coding agents is not supported under consumer plans; API-key path is documented separately: https://www.antigravity.google/docs/faq/. API prices do not establish CLI subscription costs.",
         "workflowRoles": [
           "coreTask"
@@ -216,8 +359,8 @@
       "releaseDate": "2026-06-26",
       "releaseDateSource": "https://openai.com/index/previewing-gpt-5-6-sol/",
       "policy": {
-        "version": "2026-11-01",
-        "evidenceAsOfDate": "2026-11-01",
+        "version": "2026-11-17",
+        "evidenceAsOfDate": "2026-11-17",
         "reason": "No Luna cohort existed in the 2026-07-23 benchmark; this is an unvalidated cost-saving hypothesis. Ladder refreshed 2026-09-29 (TE-59) from the Codex CLI model catalogue served to codex-cli 0.155.0 on 2026-09-29 (and bundled in rust-v0.157.0 through rust-v0.159.0): max added; minimal and ultra removed because the CLI does not advertise them for this model (a CLI that accepts an ultra flag without advertising it is not treated as support).",
         "workflowRoles": [
           "coreTask"
@@ -420,8 +563,8 @@
       "releaseDate": "2026-06-26",
       "releaseDateSource": "https://openai.com/index/previewing-gpt-5-6-sol/",
       "policy": {
-        "version": "2026-11-01",
-        "evidenceAsOfDate": "2026-11-01",
+        "version": "2026-11-17",
+        "evidenceAsOfDate": "2026-11-17",
         "reason": "Eight historical Terra/medium records had no known grades and no trustworthy terminal cohort. Ladder refreshed 2026-09-29 (TE-59) from the Codex CLI model catalogue served to codex-cli 0.155.0 on 2026-09-29 (and bundled in rust-v0.157.0 through rust-v0.159.0): max added and minimal removed.",
         "workflowRoles": [
           "coreTask"
@@ -706,8 +849,8 @@
       "releaseDate": "2026-06-26",
       "releaseDateSource": "https://openai.com/index/previewing-gpt-5-6-sol/",
       "policy": {
-        "version": "2026-11-01",
-        "evidenceAsOfDate": "2026-11-01",
+        "version": "2026-11-17",
+        "evidenceAsOfDate": "2026-11-17",
         "reason": "Sol/medium has the strongest favorable historical signal; Sol/xhigh remains a correctness floor, not a blanket default. Ladder refreshed 2026-09-29 (TE-59) from the Codex CLI model catalogue served to codex-cli 0.155.0 on 2026-09-29 (and bundled in rust-v0.157.0 through rust-v0.159.0): max added; minimal removed after the API rejected it in a runner probe.",
         "workflowRoles": [
           "coreTask",
@@ -1323,8 +1466,8 @@
       "releaseDate": "2026-09-03",
       "releaseDateSource": "https://openai.com/index/safety-overview-gpt-6-astra/",
       "policy": {
-        "version": "2026-11-01",
-        "evidenceAsOfDate": "2026-11-01",
+        "version": "2026-11-17",
+        "evidenceAsOfDate": "2026-11-17",
         "reason": "Selectable for explicit evaluation and operator pins, provisional. Operator observed two access_programs.cyber HTTP 400s in about eight runs on 2026-09-18. No comparable local completion cohort; not a default tier or equivalent provider fallback.",
         "workflowRoles": [
           "coreTask"
@@ -1334,6 +1477,40 @@
       },
       "evidence": {
         "external": [
+          {
+            "id": "te82-tb41-gpt-6-astra-max",
+            "benchmarkId": "terminal-bench-v4.1-official-native-agents",
+            "name": "Terminal-Bench 4.1 / official native-agent leaderboard",
+            "version": "4.1",
+            "unit": "% resolved",
+            "maximumScore": 100,
+            "effort": "max",
+            "score": 60.3,
+            "publishedAt": "2026-11-17",
+            "sourceUrl": "https://www.tbench.ai/leaderboard",
+            "confidence": "publisherReported",
+            "evidenceStatus": "unknown",
+            "sampleContext": null,
+            "secondaryMetrics": {
+              "costPerTaskUsd": 9.900545455
+            },
+            "context": {
+              "sourceKind": "officialLeaderboard",
+              "sourcePublisher": "Terminal-Bench",
+              "dateBasis": "firstObservedPublicSnapshot",
+              "observedAt": "2026-11-17",
+              "sourceCreatedAt": "2026-11-03T17:38:16.27766+00:00",
+              "sourceUpdatedAt": "2026-11-09T08:05:11.264381+00:00",
+              "harness": "Codex",
+              "trialCount": 330,
+              "confidenceIntervalHalfWidth": 2.82,
+              "confidenceIntervalLevel": 0.95,
+              "totalCostUsd": 3267.18,
+              "costBasis": "Published run total, not token-price recomputation.",
+              "sampleNotes": "Run execution date not published. metadata.date=2026-09-03 is model release date. Total output tokens=23988992."
+            },
+            "evidenceExcerpt": "[M] {\"id\":\"ccf54544-f2e7-4959-bea6-b006044bb06c\",\"leaderboard_id\":\"947c0b13-1d0f-43e0-bd7b-7e5d8c16187a\",\"rank\":7,\"metadata\":{\"date\":\"2026-09-03\",\"agent_org\":{\"url\":\"https://openai.com\",\"label\":\"OpenAI\"},\"model_org\":{\"url\":\"https://openai.com\",\"label\":\"OpenAI\"},\"display_date\":\"Sep 3, 2026\",\"agent_display\":{\"url\":\"https://openai.com/codex/\",\"label\":\"Codex\"},\"model_display\":{\"url\":\"https://developers.openai.com/api/docs/models/gpt-6-astra\",\"label\":\"GPT-6 Astra\"},\"reasoning_effort\":\"max\"},\"metrics\":{\"accuracy\":60.3,\"n_trials\":330,\"pass_at_2\":0.6712,\"pass_at_3\":0.7,\"pass_at_4\":0.7152,\"pass_at_5\":0.7273,\"successes\":199,\"display_cost\":\"$$3.3k\",\"total_tokens\":1529778322,\"output_tokens\":23988992,\"total_cost_usd\":3267.18,\"display_accuracy\":\"**60.3%** \\u00b1 2.8%\",\"cached_input_tokens\":1443351702,\"display_total_tokens\":\"1.5B\",\"uncached_input_tokens\":1505789330,\"avg_trial_duration_sec\":2796.3,\"display_total_cost_usd\":\"$$3,267.18\",\"accuracy_ci95_half_width\":2.82},\"status\":\"display\",\"created_at\":\"2026-11-03T17:38:16.27766+00:00\",\"updated_at\":\"2026-11-09T08:05:11.264381+00:00\",\"n_trials\":330}"
+          },
           {
             "id": "tb40-official-gpt-6-astra-xhigh-2026-09-12",
             "benchmarkId": "terminal-bench-v4.0-official-native-agents",
@@ -2229,8 +2406,8 @@
       "releaseDate": "2026-09-22",
       "releaseDateSource": "https://developers.openai.com/api/docs/changelog",
       "policy": {
-        "version": "2026-11-01",
-        "evidenceAsOfDate": "2026-11-01",
+        "version": "2026-11-17",
+        "evidenceAsOfDate": "2026-11-17",
         "reason": "Ladder refreshed 2026-09-29 (TE-59): the Codex CLI model catalogue served to codex-cli 0.155.0 on 2026-09-29 (and bundled in rust-v0.157.0 through rust-v0.159.0) lists low/medium/high/xhigh/max/ultra with default medium; runner probes on 2026-09-29 completed at max and ultra, and the API rejects minimal for this generation. This supersedes the 2026-09-25 minimal-through-xhigh observation. Sol runs on the workstation and agent-runner-01 since September 24; policy explicitly selects medium or xhigh. Default core route by operator decision backed by dated prices and vendor claims; local completion and review cohorts remain unqualified. Level availability is not quality evidence: max and ultra have no local cohort.",
         "workflowRoles": [
           "coreTask"
@@ -2253,6 +2430,175 @@
       },
       "evidence": {
         "external": [
+          {
+            "id": "te82-tb41-gpt-6-sol-max",
+            "benchmarkId": "terminal-bench-v4.1-official-native-agents",
+            "name": "Terminal-Bench 4.1 / official native-agent leaderboard",
+            "version": "4.1",
+            "unit": "% resolved",
+            "maximumScore": 100,
+            "effort": "max",
+            "score": 50.3,
+            "publishedAt": "2026-11-17",
+            "sourceUrl": "https://www.tbench.ai/leaderboard",
+            "confidence": "publisherReported",
+            "evidenceStatus": "unknown",
+            "sampleContext": null,
+            "secondaryMetrics": {
+              "costPerTaskUsd": 4.397939394
+            },
+            "context": {
+              "sourceKind": "officialLeaderboard",
+              "sourcePublisher": "Terminal-Bench",
+              "dateBasis": "firstObservedPublicSnapshot",
+              "observedAt": "2026-11-17",
+              "sourceCreatedAt": "2026-11-03T17:38:16.27766+00:00",
+              "sourceUpdatedAt": "2026-11-09T08:03:30.577065+00:00",
+              "harness": "Codex",
+              "trialCount": 330,
+              "confidenceIntervalHalfWidth": 3.23,
+              "confidenceIntervalLevel": 0.95,
+              "totalCostUsd": 1451.32,
+              "costBasis": "Published run total, not token-price recomputation.",
+              "sampleNotes": "Run execution date not published. metadata.date=2026-09-22 is model release date. Total output tokens=30571836."
+            },
+            "evidenceExcerpt": "[M] {\"id\":\"700e8017-1e3d-48f4-8af8-882c007a3a16\",\"leaderboard_id\":\"947c0b13-1d0f-43e0-bd7b-7e5d8c16187a\",\"rank\":22,\"metadata\":{\"date\":\"2026-09-22\",\"agent_org\":{\"url\":\"https://openai.com\",\"label\":\"OpenAI\"},\"model_org\":{\"url\":\"https://openai.com\",\"label\":\"OpenAI\"},\"display_date\":\"Sep 22, 2026\",\"agent_display\":{\"url\":\"https://openai.com/codex/\",\"label\":\"Codex\"},\"model_display\":{\"url\":\"https://developers.openai.com/api/docs/models/gpt-6-sol\",\"label\":\"GPT-6 Sol\"},\"reasoning_effort\":\"max\"},\"metrics\":{\"accuracy\":50.3,\"n_trials\":330,\"pass_at_2\":0.5924,\"pass_at_3\":0.6318,\"pass_at_4\":0.6515,\"pass_at_5\":0.6667,\"successes\":166,\"display_cost\":\"$$1.5k\",\"total_tokens\":4977940044,\"output_tokens\":30571836,\"total_cost_usd\":1451.32,\"display_accuracy\":\"**50.3%** \\u00b1 3.2%\",\"cached_input_tokens\":4879399009,\"display_total_tokens\":\"5.0B\",\"uncached_input_tokens\":4947368208,\"avg_trial_duration_sec\":2662.2,\"display_total_cost_usd\":\"$$1,451.32\",\"accuracy_ci95_half_width\":3.23},\"status\":\"display\",\"created_at\":\"2026-11-03T17:38:16.27766+00:00\",\"updated_at\":\"2026-11-09T08:03:30.577065+00:00\",\"n_trials\":330}"
+          },
+          {
+            "id": "te82-arc2-gpt-6-sol-xhigh",
+            "benchmarkId": "arc-agi-2-v2-semi-private-2026-11-17",
+            "name": "ARC-AGI-2 Semi-Private",
+            "version": "v2_Semi_Private / 2026-11-17 snapshot",
+            "unit": "% solved",
+            "maximumScore": 100,
+            "effort": "xHigh",
+            "score": 78.05555555555556,
+            "publishedAt": "2026-11-17",
+            "sourceUrl": "https://arcprize.org/media/data/evaluations.json",
+            "confidence": "publisherReported",
+            "evidenceStatus": "unknown",
+            "sampleContext": null,
+            "secondaryMetrics": {
+              "costPerTaskUsd": 0.27722933333333344
+            },
+            "context": {
+              "sourceKind": "benchmarkOwner",
+              "sourcePublisher": "ARC Prize",
+              "dateBasis": "firstObservedPublicSnapshot",
+              "observedAt": "2026-11-17",
+              "harness": "ARC Prize v2_Semi_Private",
+              "sampleNotes": "Reasoning effort-ladder shape only. Execution/publication date unknown in raw evaluations.json. Carbon result page dated 2026-11-10 separately; not a raw row date."
+            },
+            "evidenceExcerpt": "[M] {\"datasetId\":\"v2_Semi_Private\",\"modelId\":\"openai-gpt-6-sol-xhigh\",\"score\":0.7805555555555556,\"costPerTask\":0.27722933333333344,\"resultsUrl\":\"/results/openai-gpt-6-sol\",\"display\":true}"
+          },
+          {
+            "id": "te82-arc2-gpt-6-sol-medium",
+            "benchmarkId": "arc-agi-2-v2-semi-private-2026-11-17",
+            "name": "ARC-AGI-2 Semi-Private",
+            "version": "v2_Semi_Private / 2026-11-17 snapshot",
+            "unit": "% solved",
+            "maximumScore": 100,
+            "effort": "medium",
+            "score": 57.777777777777786,
+            "publishedAt": "2026-11-17",
+            "sourceUrl": "https://arcprize.org/media/data/evaluations.json",
+            "confidence": "publisherReported",
+            "evidenceStatus": "unknown",
+            "sampleContext": null,
+            "secondaryMetrics": {
+              "costPerTaskUsd": 0.14762708333333335
+            },
+            "context": {
+              "sourceKind": "benchmarkOwner",
+              "sourcePublisher": "ARC Prize",
+              "dateBasis": "firstObservedPublicSnapshot",
+              "observedAt": "2026-11-17",
+              "harness": "ARC Prize v2_Semi_Private",
+              "sampleNotes": "Reasoning effort-ladder shape only. Execution/publication date unknown in raw evaluations.json. Carbon result page dated 2026-11-10 separately; not a raw row date."
+            },
+            "evidenceExcerpt": "[M] {\"datasetId\":\"v2_Semi_Private\",\"modelId\":\"openai-gpt-6-sol-medium\",\"score\":0.5777777777777778,\"costPerTask\":0.14762708333333335,\"resultsUrl\":\"/results/openai-gpt-6-sol\",\"display\":true}"
+          },
+          {
+            "id": "te82-arc2-gpt-6-sol-max",
+            "benchmarkId": "arc-agi-2-v2-semi-private-2026-11-17",
+            "name": "ARC-AGI-2 Semi-Private",
+            "version": "v2_Semi_Private / 2026-11-17 snapshot",
+            "unit": "% solved",
+            "maximumScore": 100,
+            "effort": "max",
+            "score": 89.58333333333334,
+            "publishedAt": "2026-11-17",
+            "sourceUrl": "https://arcprize.org/media/data/evaluations.json",
+            "confidence": "publisherReported",
+            "evidenceStatus": "unknown",
+            "sampleContext": null,
+            "secondaryMetrics": {
+              "costPerTaskUsd": 0.43889828333333336
+            },
+            "context": {
+              "sourceKind": "benchmarkOwner",
+              "sourcePublisher": "ARC Prize",
+              "dateBasis": "firstObservedPublicSnapshot",
+              "observedAt": "2026-11-17",
+              "harness": "ARC Prize v2_Semi_Private",
+              "sampleNotes": "Reasoning effort-ladder shape only. Execution/publication date unknown in raw evaluations.json. Carbon result page dated 2026-11-10 separately; not a raw row date."
+            },
+            "evidenceExcerpt": "[M] {\"datasetId\":\"v2_Semi_Private\",\"modelId\":\"openai-gpt-6-sol-max\",\"score\":0.8958333333333334,\"costPerTask\":0.43889828333333336,\"resultsUrl\":\"/results/openai-gpt-6-sol\",\"display\":true}"
+          },
+          {
+            "id": "te82-arc2-gpt-6-sol-low",
+            "benchmarkId": "arc-agi-2-v2-semi-private-2026-11-17",
+            "name": "ARC-AGI-2 Semi-Private",
+            "version": "v2_Semi_Private / 2026-11-17 snapshot",
+            "unit": "% solved",
+            "maximumScore": 100,
+            "effort": "low",
+            "score": 31.52777777777777,
+            "publishedAt": "2026-11-17",
+            "sourceUrl": "https://arcprize.org/media/data/evaluations.json",
+            "confidence": "publisherReported",
+            "evidenceStatus": "unknown",
+            "sampleContext": null,
+            "secondaryMetrics": {
+              "costPerTaskUsd": 0.1008582166666667
+            },
+            "context": {
+              "sourceKind": "benchmarkOwner",
+              "sourcePublisher": "ARC Prize",
+              "dateBasis": "firstObservedPublicSnapshot",
+              "observedAt": "2026-11-17",
+              "harness": "ARC Prize v2_Semi_Private",
+              "sampleNotes": "Reasoning effort-ladder shape only. Execution/publication date unknown in raw evaluations.json. Carbon result page dated 2026-11-10 separately; not a raw row date."
+            },
+            "evidenceExcerpt": "[M] {\"datasetId\":\"v2_Semi_Private\",\"modelId\":\"openai-gpt-6-sol-low\",\"score\":0.3152777777777777,\"costPerTask\":0.1008582166666667,\"resultsUrl\":\"/results/openai-gpt-6-sol\",\"display\":true}"
+          },
+          {
+            "id": "te82-arc2-gpt-6-sol-high",
+            "benchmarkId": "arc-agi-2-v2-semi-private-2026-11-17",
+            "name": "ARC-AGI-2 Semi-Private",
+            "version": "v2_Semi_Private / 2026-11-17 snapshot",
+            "unit": "% solved",
+            "maximumScore": 100,
+            "effort": "high",
+            "score": 68.88888888888887,
+            "publishedAt": "2026-11-17",
+            "sourceUrl": "https://arcprize.org/media/data/evaluations.json",
+            "confidence": "publisherReported",
+            "evidenceStatus": "unknown",
+            "sampleContext": null,
+            "secondaryMetrics": {
+              "costPerTaskUsd": 0.20273668333333333
+            },
+            "context": {
+              "sourceKind": "benchmarkOwner",
+              "sourcePublisher": "ARC Prize",
+              "dateBasis": "firstObservedPublicSnapshot",
+              "observedAt": "2026-11-17",
+              "harness": "ARC Prize v2_Semi_Private",
+              "sampleNotes": "Reasoning effort-ladder shape only. Execution/publication date unknown in raw evaluations.json. Carbon result page dated 2026-11-10 separately; not a raw row date."
+            },
+            "evidenceExcerpt": "[M] {\"datasetId\":\"v2_Semi_Private\",\"modelId\":\"openai-gpt-6-sol-high\",\"score\":0.6888888888888888,\"costPerTask\":0.20273668333333333,\"resultsUrl\":\"/results/openai-gpt-6-sol\",\"display\":true}"
+          },
           {
             "id": "aa-ii-v4.3.2-gpt-6-sol-max-2026-09-25",
             "benchmarkId": "artificial-analysis-intelligence-index-v4.3.2",
@@ -2530,8 +2876,8 @@
       "releaseDate": "2026-09-29",
       "releaseDateSource": "https://developers.openai.com/api/docs/changelog",
       "policy": {
-        "version": "2026-11-01",
-        "evidenceAsOfDate": "2026-11-01",
+        "version": "2026-11-17",
+        "evidenceAsOfDate": "2026-11-17",
         "reason": "Selectable provisional explicit pin. OpenAI API model page lists low/medium/high/xhigh/max. Operator 2026-11-01 Codex 0.166.0 Pro probe executed; 0.155.0 refused. The 0.166.0 gate is a proven working floor, not the earliest possible release. No default tier or fallback; coding quality remains unmeasured.",
         "workflowRoles": [
           "coreTask"
@@ -2540,7 +2886,177 @@
         "fallbacks": []
       },
       "evidence": {
-        "external": [],
+        "external": [
+          {
+            "id": "te82-tb41-gpt-6.1-sol-max",
+            "benchmarkId": "terminal-bench-v4.1-official-native-agents",
+            "name": "Terminal-Bench 4.1 / official native-agent leaderboard",
+            "version": "4.1",
+            "unit": "% resolved",
+            "maximumScore": 100,
+            "effort": "max",
+            "score": 60.91,
+            "publishedAt": "2026-11-17",
+            "sourceUrl": "https://www.tbench.ai/leaderboard",
+            "confidence": "publisherReported",
+            "evidenceStatus": "unknown",
+            "sampleContext": null,
+            "secondaryMetrics": {
+              "costPerTaskUsd": 1.921939394
+            },
+            "context": {
+              "sourceKind": "officialLeaderboard",
+              "sourcePublisher": "Terminal-Bench",
+              "dateBasis": "firstObservedPublicSnapshot",
+              "observedAt": "2026-11-17",
+              "sourceCreatedAt": "2026-11-03T17:38:16.27766+00:00",
+              "sourceUpdatedAt": "2026-11-09T08:04:58.126207+00:00",
+              "harness": "Codex",
+              "trialCount": 330,
+              "confidenceIntervalHalfWidth": 2.97,
+              "confidenceIntervalLevel": 0.95,
+              "totalCostUsd": 634.24,
+              "costBasis": "Published run total, not token-price recomputation.",
+              "sampleNotes": "Run execution date not published. metadata.date=2026-09-29 is model release date. Total output tokens=31314516."
+            },
+            "evidenceExcerpt": "[M] {\"id\":\"bc484c38-72d1-4b66-b85f-f7353d0d374c\",\"leaderboard_id\":\"947c0b13-1d0f-43e0-bd7b-7e5d8c16187a\",\"rank\":6,\"metadata\":{\"date\":\"2026-09-29\",\"agent_org\":{\"url\":\"https://openai.com\",\"label\":\"OpenAI\"},\"model_org\":{\"url\":\"https://openai.com\",\"label\":\"OpenAI\"},\"display_date\":\"Sep 29, 2026\",\"agent_display\":{\"url\":\"https://openai.com/codex/\",\"label\":\"Codex\"},\"model_display\":{\"url\":\"https://developers.openai.com/api/docs/models/gpt-6.1-sol\",\"label\":\"GPT-6.1 Sol\"},\"reasoning_effort\":\"max\"},\"metrics\":{\"accuracy\":60.91,\"n_trials\":330,\"pass_at_2\":0.6848,\"pass_at_3\":0.7136,\"pass_at_4\":0.7303,\"pass_at_5\":0.7424,\"successes\":201,\"display_cost\":\"$$634.24\",\"total_tokens\":1459936514,\"output_tokens\":31314516,\"total_cost_usd\":634.24,\"display_accuracy\":\"**60.9%** \\u00b1 3.0%\",\"cached_input_tokens\":1354187811,\"display_total_tokens\":\"1.5B\",\"uncached_input_tokens\":1428621998,\"avg_trial_duration_sec\":3176.7,\"display_total_cost_usd\":\"$$634.24\",\"accuracy_ci95_half_width\":2.97},\"status\":\"display\",\"created_at\":\"2026-11-03T17:38:16.27766+00:00\",\"updated_at\":\"2026-11-09T08:04:58.126207+00:00\",\"n_trials\":330}"
+          },
+          {
+            "id": "te82-arc2-gpt-6.1-sol-xhigh",
+            "benchmarkId": "arc-agi-2-v2-semi-private-2026-11-17",
+            "name": "ARC-AGI-2 Semi-Private",
+            "version": "v2_Semi_Private / 2026-11-17 snapshot",
+            "unit": "% solved",
+            "maximumScore": 100,
+            "effort": "xHigh",
+            "score": 91.66666666666666,
+            "publishedAt": "2026-11-17",
+            "sourceUrl": "https://arcprize.org/media/data/evaluations.json",
+            "confidence": "publisherReported",
+            "evidenceStatus": "unknown",
+            "sampleContext": null,
+            "secondaryMetrics": {
+              "costPerTaskUsd": 0.17808970000000007
+            },
+            "context": {
+              "sourceKind": "benchmarkOwner",
+              "sourcePublisher": "ARC Prize",
+              "dateBasis": "firstObservedPublicSnapshot",
+              "observedAt": "2026-11-17",
+              "harness": "ARC Prize v2_Semi_Private",
+              "sampleNotes": "Reasoning effort-ladder shape only. Execution/publication date unknown in raw evaluations.json. Carbon result page dated 2026-11-10 separately; not a raw row date."
+            },
+            "evidenceExcerpt": "[M] {\"datasetId\":\"v2_Semi_Private\",\"modelId\":\"openai-gpt-6-1-sol-xhigh\",\"score\":0.9166666666666666,\"costPerTask\":0.17808970000000007,\"resultsUrl\":\"/results/openai-gpt-6-1-sol\",\"display\":true}"
+          },
+          {
+            "id": "te82-arc2-gpt-6.1-sol-medium",
+            "benchmarkId": "arc-agi-2-v2-semi-private-2026-11-17",
+            "name": "ARC-AGI-2 Semi-Private",
+            "version": "v2_Semi_Private / 2026-11-17 snapshot",
+            "unit": "% solved",
+            "maximumScore": 100,
+            "effort": "medium",
+            "score": 86.66666666666667,
+            "publishedAt": "2026-11-17",
+            "sourceUrl": "https://arcprize.org/media/data/evaluations.json",
+            "confidence": "publisherReported",
+            "evidenceStatus": "unknown",
+            "sampleContext": null,
+            "secondaryMetrics": {
+              "costPerTaskUsd": 0.10037736666666668
+            },
+            "context": {
+              "sourceKind": "benchmarkOwner",
+              "sourcePublisher": "ARC Prize",
+              "dateBasis": "firstObservedPublicSnapshot",
+              "observedAt": "2026-11-17",
+              "harness": "ARC Prize v2_Semi_Private",
+              "sampleNotes": "Reasoning effort-ladder shape only. Execution/publication date unknown in raw evaluations.json. Carbon result page dated 2026-11-10 separately; not a raw row date."
+            },
+            "evidenceExcerpt": "[M] {\"datasetId\":\"v2_Semi_Private\",\"modelId\":\"openai-gpt-6-1-sol-medium\",\"score\":0.8666666666666667,\"costPerTask\":0.10037736666666668,\"resultsUrl\":\"/results/openai-gpt-6-1-sol\",\"display\":true}"
+          },
+          {
+            "id": "te82-arc2-gpt-6.1-sol-max",
+            "benchmarkId": "arc-agi-2-v2-semi-private-2026-11-17",
+            "name": "ARC-AGI-2 Semi-Private",
+            "version": "v2_Semi_Private / 2026-11-17 snapshot",
+            "unit": "% solved",
+            "maximumScore": 100,
+            "effort": "max",
+            "score": 94.16666666666667,
+            "publishedAt": "2026-11-17",
+            "sourceUrl": "https://arcprize.org/media/data/evaluations.json",
+            "confidence": "publisherReported",
+            "evidenceStatus": "unknown",
+            "sampleContext": null,
+            "secondaryMetrics": {
+              "costPerTaskUsd": 0.25374978333333337
+            },
+            "context": {
+              "sourceKind": "benchmarkOwner",
+              "sourcePublisher": "ARC Prize",
+              "dateBasis": "firstObservedPublicSnapshot",
+              "observedAt": "2026-11-17",
+              "harness": "ARC Prize v2_Semi_Private",
+              "sampleNotes": "Reasoning effort-ladder shape only. Execution/publication date unknown in raw evaluations.json. Carbon result page dated 2026-11-10 separately; not a raw row date."
+            },
+            "evidenceExcerpt": "[M] {\"datasetId\":\"v2_Semi_Private\",\"modelId\":\"openai-gpt-6-1-sol-max\",\"score\":0.9416666666666667,\"costPerTask\":0.25374978333333337,\"resultsUrl\":\"/results/openai-gpt-6-1-sol\",\"display\":true}"
+          },
+          {
+            "id": "te82-arc2-gpt-6.1-sol-low",
+            "benchmarkId": "arc-agi-2-v2-semi-private-2026-11-17",
+            "name": "ARC-AGI-2 Semi-Private",
+            "version": "v2_Semi_Private / 2026-11-17 snapshot",
+            "unit": "% solved",
+            "maximumScore": 100,
+            "effort": "low",
+            "score": 76.66666666666667,
+            "publishedAt": "2026-11-17",
+            "sourceUrl": "https://arcprize.org/media/data/evaluations.json",
+            "confidence": "publisherReported",
+            "evidenceStatus": "unknown",
+            "sampleContext": null,
+            "secondaryMetrics": {
+              "costPerTaskUsd": 0.08553803333333333
+            },
+            "context": {
+              "sourceKind": "benchmarkOwner",
+              "sourcePublisher": "ARC Prize",
+              "dateBasis": "firstObservedPublicSnapshot",
+              "observedAt": "2026-11-17",
+              "harness": "ARC Prize v2_Semi_Private",
+              "sampleNotes": "Reasoning effort-ladder shape only. Execution/publication date unknown in raw evaluations.json. Carbon result page dated 2026-11-10 separately; not a raw row date."
+            },
+            "evidenceExcerpt": "[M] {\"datasetId\":\"v2_Semi_Private\",\"modelId\":\"openai-gpt-6-1-sol-low\",\"score\":0.7666666666666667,\"costPerTask\":0.08553803333333333,\"resultsUrl\":\"/results/openai-gpt-6-1-sol\",\"display\":true}"
+          },
+          {
+            "id": "te82-arc2-gpt-6.1-sol-high",
+            "benchmarkId": "arc-agi-2-v2-semi-private-2026-11-17",
+            "name": "ARC-AGI-2 Semi-Private",
+            "version": "v2_Semi_Private / 2026-11-17 snapshot",
+            "unit": "% solved",
+            "maximumScore": 100,
+            "effort": "high",
+            "score": 91.66666666666666,
+            "publishedAt": "2026-11-17",
+            "sourceUrl": "https://arcprize.org/media/data/evaluations.json",
+            "confidence": "publisherReported",
+            "evidenceStatus": "unknown",
+            "sampleContext": null,
+            "secondaryMetrics": {
+              "costPerTaskUsd": 0.13468670000000002
+            },
+            "context": {
+              "sourceKind": "benchmarkOwner",
+              "sourcePublisher": "ARC Prize",
+              "dateBasis": "firstObservedPublicSnapshot",
+              "observedAt": "2026-11-17",
+              "harness": "ARC Prize v2_Semi_Private",
+              "sampleNotes": "Reasoning effort-ladder shape only. Execution/publication date unknown in raw evaluations.json. Carbon result page dated 2026-11-10 separately; not a raw row date."
+            },
+            "evidenceExcerpt": "[M] {\"datasetId\":\"v2_Semi_Private\",\"modelId\":\"openai-gpt-6-1-sol-high\",\"score\":0.9166666666666666,\"costPerTask\":0.13468670000000002,\"resultsUrl\":\"/results/openai-gpt-6-1-sol\",\"display\":true}"
+          }
+        ],
         "taskStudies": [],
         "assessment": null,
         "taskStudiesAsOfDate": "2026-09-25"
@@ -2605,8 +3121,8 @@
       "releaseDate": "2026-09-22",
       "releaseDateSource": "https://developers.openai.com/api/docs/changelog",
       "policy": {
-        "version": "2026-11-01",
-        "evidenceAsOfDate": "2026-11-01",
+        "version": "2026-11-17",
+        "evidenceAsOfDate": "2026-11-17",
         "reason": "Ladder refreshed 2026-09-29 (TE-59): the Codex CLI model catalogue served to codex-cli 0.155.0 on 2026-09-29 (and bundled in rust-v0.157.0 through rust-v0.159.0) lists low/medium/high/xhigh/max with default medium, and OpenAI states Luna supports efforts up to max but not ultra; a runner probe on 2026-09-29 completed at max and the API rejected minimal. Luna execution succeeded on agent-runner-01 on September 25. Default core route by operator decision backed by dated prices and vendor claims; local completion and review cohorts remain unqualified. Level availability is not quality evidence.",
         "workflowRoles": [
           "coreTask"
@@ -2623,6 +3139,175 @@
       },
       "evidence": {
         "external": [
+          {
+            "id": "te82-tb41-gpt-6-luna-max",
+            "benchmarkId": "terminal-bench-v4.1-official-native-agents",
+            "name": "Terminal-Bench 4.1 / official native-agent leaderboard",
+            "version": "4.1",
+            "unit": "% resolved",
+            "maximumScore": 100,
+            "effort": "max",
+            "score": 15.15,
+            "publishedAt": "2026-11-17",
+            "sourceUrl": "https://www.tbench.ai/leaderboard",
+            "confidence": "publisherReported",
+            "evidenceStatus": "unknown",
+            "sampleContext": null,
+            "secondaryMetrics": {
+              "costPerTaskUsd": 0.218606061
+            },
+            "context": {
+              "sourceKind": "officialLeaderboard",
+              "sourcePublisher": "Terminal-Bench",
+              "dateBasis": "firstObservedPublicSnapshot",
+              "observedAt": "2026-11-17",
+              "sourceCreatedAt": "2026-11-03T17:38:16.27766+00:00",
+              "sourceUpdatedAt": "2026-11-11T02:51:25.977111+00:00",
+              "harness": "Codex",
+              "trialCount": 330,
+              "confidenceIntervalHalfWidth": 2.66,
+              "confidenceIntervalLevel": 0.95,
+              "totalCostUsd": 72.14,
+              "costBasis": "Published run total, not token-price recomputation.",
+              "sampleNotes": "Run execution date not published. metadata.date=2026-09-22 is model release date. Total output tokens=45490894."
+            },
+            "evidenceExcerpt": "[M] {\"id\":\"d717d657-6675-44a3-bda8-13e0bae434d2\",\"leaderboard_id\":\"947c0b13-1d0f-43e0-bd7b-7e5d8c16187a\",\"rank\":50,\"metadata\":{\"date\":\"2026-09-22\",\"agent_org\":{\"url\":\"https://openai.com\",\"label\":\"OpenAI\"},\"model_org\":{\"url\":\"https://openai.com\",\"label\":\"OpenAI\"},\"display_date\":\"Sep 22, 2026\",\"agent_display\":{\"url\":\"https://openai.com/codex/\",\"label\":\"Codex\"},\"model_display\":{\"url\":\"https://developers.openai.com/api/docs/models/gpt-6-luna\",\"label\":\"GPT-6 Luna\"},\"reasoning_effort\":\"max\"},\"metrics\":{\"accuracy\":15.15,\"n_trials\":330,\"pass_at_2\":0.2121,\"pass_at_3\":0.247,\"pass_at_4\":0.2697,\"pass_at_5\":0.2879,\"successes\":50,\"display_cost\":\"$$72.14\",\"total_tokens\":3909124893,\"output_tokens\":45490894,\"total_cost_usd\":72.14,\"display_accuracy\":\"**15.2%** \\u00b1 2.7%\",\"cached_input_tokens\":3778954219,\"display_total_tokens\":\"3.9B\",\"uncached_input_tokens\":3863633999,\"avg_trial_duration_sec\":2284.1,\"display_total_cost_usd\":\"$$72.14\",\"accuracy_ci95_half_width\":2.66},\"status\":\"display\",\"created_at\":\"2026-11-03T17:38:16.27766+00:00\",\"updated_at\":\"2026-11-11T02:51:25.977111+00:00\",\"n_trials\":330}"
+          },
+          {
+            "id": "te82-arc2-gpt-6-luna-xhigh",
+            "benchmarkId": "arc-agi-2-v2-semi-private-2026-11-17",
+            "name": "ARC-AGI-2 Semi-Private",
+            "version": "v2_Semi_Private / 2026-11-17 snapshot",
+            "unit": "% solved",
+            "maximumScore": 100,
+            "effort": "xHigh",
+            "score": 41.94444444444444,
+            "publishedAt": "2026-11-17",
+            "sourceUrl": "https://arcprize.org/media/data/evaluations.json",
+            "confidence": "publisherReported",
+            "evidenceStatus": "unknown",
+            "sampleContext": null,
+            "secondaryMetrics": {
+              "costPerTaskUsd": 0.032297893333333334
+            },
+            "context": {
+              "sourceKind": "benchmarkOwner",
+              "sourcePublisher": "ARC Prize",
+              "dateBasis": "firstObservedPublicSnapshot",
+              "observedAt": "2026-11-17",
+              "harness": "ARC Prize v2_Semi_Private",
+              "sampleNotes": "Reasoning effort-ladder shape only. Execution/publication date unknown in raw evaluations.json. Carbon result page dated 2026-11-10 separately; not a raw row date."
+            },
+            "evidenceExcerpt": "[M] {\"datasetId\":\"v2_Semi_Private\",\"modelId\":\"openai-gpt-6-luna-xhigh\",\"score\":0.41944444444444445,\"costPerTask\":0.032297893333333334,\"resultsUrl\":\"/results/openai-gpt-6-luna\",\"display\":true}"
+          },
+          {
+            "id": "te82-arc2-gpt-6-luna-medium",
+            "benchmarkId": "arc-agi-2-v2-semi-private-2026-11-17",
+            "name": "ARC-AGI-2 Semi-Private",
+            "version": "v2_Semi_Private / 2026-11-17 snapshot",
+            "unit": "% solved",
+            "maximumScore": 100,
+            "effort": "medium",
+            "score": 18.055555555555554,
+            "publishedAt": "2026-11-17",
+            "sourceUrl": "https://arcprize.org/media/data/evaluations.json",
+            "confidence": "publisherReported",
+            "evidenceStatus": "unknown",
+            "sampleContext": null,
+            "secondaryMetrics": {
+              "costPerTaskUsd": 0.012202668333333333
+            },
+            "context": {
+              "sourceKind": "benchmarkOwner",
+              "sourcePublisher": "ARC Prize",
+              "dateBasis": "firstObservedPublicSnapshot",
+              "observedAt": "2026-11-17",
+              "harness": "ARC Prize v2_Semi_Private",
+              "sampleNotes": "Reasoning effort-ladder shape only. Execution/publication date unknown in raw evaluations.json. Carbon result page dated 2026-11-10 separately; not a raw row date."
+            },
+            "evidenceExcerpt": "[M] {\"datasetId\":\"v2_Semi_Private\",\"modelId\":\"openai-gpt-6-luna-medium\",\"score\":0.18055555555555555,\"costPerTask\":0.012202668333333333,\"resultsUrl\":\"/results/openai-gpt-6-luna\",\"display\":true}"
+          },
+          {
+            "id": "te82-arc2-gpt-6-luna-max",
+            "benchmarkId": "arc-agi-2-v2-semi-private-2026-11-17",
+            "name": "ARC-AGI-2 Semi-Private",
+            "version": "v2_Semi_Private / 2026-11-17 snapshot",
+            "unit": "% solved",
+            "maximumScore": 100,
+            "effort": "max",
+            "score": 59.30555555555556,
+            "publishedAt": "2026-11-17",
+            "sourceUrl": "https://arcprize.org/media/data/evaluations.json",
+            "confidence": "publisherReported",
+            "evidenceStatus": "unknown",
+            "sampleContext": null,
+            "secondaryMetrics": {
+              "costPerTaskUsd": 0.06181100083333334
+            },
+            "context": {
+              "sourceKind": "benchmarkOwner",
+              "sourcePublisher": "ARC Prize",
+              "dateBasis": "firstObservedPublicSnapshot",
+              "observedAt": "2026-11-17",
+              "harness": "ARC Prize v2_Semi_Private",
+              "sampleNotes": "Reasoning effort-ladder shape only. Execution/publication date unknown in raw evaluations.json. Carbon result page dated 2026-11-10 separately; not a raw row date."
+            },
+            "evidenceExcerpt": "[M] {\"datasetId\":\"v2_Semi_Private\",\"modelId\":\"openai-gpt-6-luna-max\",\"score\":0.5930555555555556,\"costPerTask\":0.06181100083333334,\"resultsUrl\":\"/results/openai-gpt-6-luna\",\"display\":true}"
+          },
+          {
+            "id": "te82-arc2-gpt-6-luna-low",
+            "benchmarkId": "arc-agi-2-v2-semi-private-2026-11-17",
+            "name": "ARC-AGI-2 Semi-Private",
+            "version": "v2_Semi_Private / 2026-11-17 snapshot",
+            "unit": "% solved",
+            "maximumScore": 100,
+            "effort": "low",
+            "score": 4.583333333333333,
+            "publishedAt": "2026-11-17",
+            "sourceUrl": "https://arcprize.org/media/data/evaluations.json",
+            "confidence": "publisherReported",
+            "evidenceStatus": "unknown",
+            "sampleContext": null,
+            "secondaryMetrics": {
+              "costPerTaskUsd": 0.005273818333333334
+            },
+            "context": {
+              "sourceKind": "benchmarkOwner",
+              "sourcePublisher": "ARC Prize",
+              "dateBasis": "firstObservedPublicSnapshot",
+              "observedAt": "2026-11-17",
+              "harness": "ARC Prize v2_Semi_Private",
+              "sampleNotes": "Reasoning effort-ladder shape only. Execution/publication date unknown in raw evaluations.json. Carbon result page dated 2026-11-10 separately; not a raw row date."
+            },
+            "evidenceExcerpt": "[M] {\"datasetId\":\"v2_Semi_Private\",\"modelId\":\"openai-gpt-6-luna-low\",\"score\":0.04583333333333333,\"costPerTask\":0.005273818333333334,\"resultsUrl\":\"/results/openai-gpt-6-luna\",\"display\":true}"
+          },
+          {
+            "id": "te82-arc2-gpt-6-luna-high",
+            "benchmarkId": "arc-agi-2-v2-semi-private-2026-11-17",
+            "name": "ARC-AGI-2 Semi-Private",
+            "version": "v2_Semi_Private / 2026-11-17 snapshot",
+            "unit": "% solved",
+            "maximumScore": 100,
+            "effort": "high",
+            "score": 31.38888888888889,
+            "publishedAt": "2026-11-17",
+            "sourceUrl": "https://arcprize.org/media/data/evaluations.json",
+            "confidence": "publisherReported",
+            "evidenceStatus": "unknown",
+            "sampleContext": null,
+            "secondaryMetrics": {
+              "costPerTaskUsd": 0.02336191
+            },
+            "context": {
+              "sourceKind": "benchmarkOwner",
+              "sourcePublisher": "ARC Prize",
+              "dateBasis": "firstObservedPublicSnapshot",
+              "observedAt": "2026-11-17",
+              "harness": "ARC Prize v2_Semi_Private",
+              "sampleNotes": "Reasoning effort-ladder shape only. Execution/publication date unknown in raw evaluations.json. Carbon result page dated 2026-11-10 separately; not a raw row date."
+            },
+            "evidenceExcerpt": "[M] {\"datasetId\":\"v2_Semi_Private\",\"modelId\":\"openai-gpt-6-luna-high\",\"score\":0.3138888888888889,\"costPerTask\":0.02336191,\"resultsUrl\":\"/results/openai-gpt-6-luna\",\"display\":true}"
+          },
           {
             "id": "aa-ii-v4.3.2-gpt-6-luna-max-2026-09-25",
             "benchmarkId": "artificial-analysis-intelligence-index-v4.3.2",
@@ -2771,8 +3456,8 @@
       "releaseDate": "2026-09-01",
       "releaseDateSource": "https://platform.claude.com/docs/en/models/fable-5-1/overview",
       "policy": {
-        "version": "2026-11-01",
-        "evidenceAsOfDate": "2026-11-01",
+        "version": "2026-11-17",
+        "evidenceAsOfDate": "2026-11-17",
         "reason": "Provider-supported model and five-level effort ladder: https://platform.claude.com/docs/en/models/fable-5-1/overview and https://platform.claude.com/docs/en/build-with-claude/effort (retrieved 2026-09-12). Selectable for explicit evaluation, compatibility comparison, and operator-pinned core tasks. Local completion and review fit remain unvalidated; support does not add a default tier or declare provider-fallback equivalence.",
         "workflowRoles": [
           "coreTask"
@@ -3224,8 +3909,8 @@
       "releaseDate": "2026-09-22",
       "releaseDateSource": "https://platform.claude.com/docs/en/models/opus-5-5/overview",
       "policy": {
-        "version": "2026-11-01",
-        "evidenceAsOfDate": "2026-11-01",
+        "version": "2026-11-17",
+        "evidenceAsOfDate": "2026-11-17",
         "reason": "Anthropic documents low/medium/high/xhigh/max with provider default medium for Claude Opus 5.5. Claude Code 2.1.281 execution reported the canonical model in modelUsage; 2.1.270 silently fell back after an unrecognized-model warning, so 2.1.281 is the minimum observed CLI version. Selectable for explicit evaluation, compatibility comparison, and operator-pinned core tasks; no comparable local completion or review cohort is available. This support adds no default tier, fallback equivalence, or automatic migration.",
         "workflowRoles": [
           "coreTask"
@@ -3234,7 +3919,177 @@
         "fallbacks": []
       },
       "evidence": {
-        "external": [],
+        "external": [
+          {
+            "id": "te82-tb41-claude-opus-5-5-max",
+            "benchmarkId": "terminal-bench-v4.1-official-native-agents",
+            "name": "Terminal-Bench 4.1 / official native-agent leaderboard",
+            "version": "4.1",
+            "unit": "% resolved",
+            "maximumScore": 100,
+            "effort": "max",
+            "score": 65.76,
+            "publishedAt": "2026-11-17",
+            "sourceUrl": "https://www.tbench.ai/leaderboard",
+            "confidence": "publisherReported",
+            "evidenceStatus": "unknown",
+            "sampleContext": null,
+            "secondaryMetrics": {
+              "costPerTaskUsd": 14.298939394
+            },
+            "context": {
+              "sourceKind": "officialLeaderboard",
+              "sourcePublisher": "Terminal-Bench",
+              "dateBasis": "firstObservedPublicSnapshot",
+              "observedAt": "2026-11-17",
+              "sourceCreatedAt": "2026-11-03T17:38:16.27766+00:00",
+              "sourceUpdatedAt": "2026-11-09T08:01:23.6311+00:00",
+              "harness": "Claude Code",
+              "trialCount": 330,
+              "confidenceIntervalHalfWidth": 3.11,
+              "confidenceIntervalLevel": 0.95,
+              "totalCostUsd": 4718.65,
+              "costBasis": "Published run total, not token-price recomputation.",
+              "sampleNotes": "Run execution date not published. metadata.date=2026-09-22 is model release date. Total output tokens=88814607."
+            },
+            "evidenceExcerpt": "[M] {\"id\":\"24f711aa-b0cc-4f09-8627-b5f70a27b73b\",\"leaderboard_id\":\"947c0b13-1d0f-43e0-bd7b-7e5d8c16187a\",\"rank\":2,\"metadata\":{\"date\":\"2026-09-22\",\"agent_org\":{\"url\":\"https://www.anthropic.com\",\"label\":\"Anthropic\"},\"model_org\":{\"url\":\"https://www.anthropic.com\",\"label\":\"Anthropic\"},\"display_date\":\"Sep 22, 2026\",\"agent_display\":{\"url\":\"https://claude.com/product/claude-code\",\"label\":\"Claude Code\"},\"model_display\":{\"url\":\"https://www.anthropic.com/claude-opus-5-5\",\"label\":\"Opus 5.5\"},\"reasoning_effort\":\"max\"},\"metrics\":{\"accuracy\":65.76,\"n_trials\":330,\"pass_at_2\":0.7409,\"pass_at_3\":0.7758,\"pass_at_4\":0.7909,\"pass_at_5\":0.803,\"successes\":217,\"display_cost\":\"$$4.7k\",\"total_tokens\":8034082467,\"output_tokens\":88814607,\"total_cost_usd\":4718.65,\"display_accuracy\":\"**65.8%** \\u00b1 3.1%\",\"cached_input_tokens\":7699681320,\"display_total_tokens\":\"8.0B\",\"uncached_input_tokens\":7945267860,\"avg_trial_duration_sec\":4790.4,\"display_total_cost_usd\":\"$$4,718.65\",\"accuracy_ci95_half_width\":3.11},\"status\":\"display\",\"created_at\":\"2026-11-03T17:38:16.27766+00:00\",\"updated_at\":\"2026-11-09T08:01:23.6311+00:00\",\"n_trials\":330}"
+          },
+          {
+            "id": "te82-arc2-claude-opus-5-5-xhigh",
+            "benchmarkId": "arc-agi-2-v2-semi-private-2026-11-17",
+            "name": "ARC-AGI-2 Semi-Private",
+            "version": "v2_Semi_Private / 2026-11-17 snapshot",
+            "unit": "% solved",
+            "maximumScore": 100,
+            "effort": "xHigh",
+            "score": 92.5,
+            "publishedAt": "2026-11-17",
+            "sourceUrl": "https://arcprize.org/media/data/evaluations.json",
+            "confidence": "publisherReported",
+            "evidenceStatus": "unknown",
+            "sampleContext": null,
+            "secondaryMetrics": {
+              "costPerTaskUsd": 0.6709066333333333
+            },
+            "context": {
+              "sourceKind": "benchmarkOwner",
+              "sourcePublisher": "ARC Prize",
+              "dateBasis": "firstObservedPublicSnapshot",
+              "observedAt": "2026-11-17",
+              "harness": "ARC Prize v2_Semi_Private",
+              "sampleNotes": "Reasoning effort-ladder shape only. Execution/publication date unknown in raw evaluations.json. Carbon result page dated 2026-11-10 separately; not a raw row date."
+            },
+            "evidenceExcerpt": "[M] {\"datasetId\":\"v2_Semi_Private\",\"modelId\":\"anthropic-claude-opus-5-5-xhigh\",\"score\":0.925,\"costPerTask\":0.6709066333333333,\"resultsUrl\":\"/results/anthropic-claude-opus-5-5\",\"display\":true}"
+          },
+          {
+            "id": "te82-arc2-claude-opus-5-5-medium",
+            "benchmarkId": "arc-agi-2-v2-semi-private-2026-11-17",
+            "name": "ARC-AGI-2 Semi-Private",
+            "version": "v2_Semi_Private / 2026-11-17 snapshot",
+            "unit": "% solved",
+            "maximumScore": 100,
+            "effort": "medium",
+            "score": 87.5,
+            "publishedAt": "2026-11-17",
+            "sourceUrl": "https://arcprize.org/media/data/evaluations.json",
+            "confidence": "publisherReported",
+            "evidenceStatus": "unknown",
+            "sampleContext": null,
+            "secondaryMetrics": {
+              "costPerTaskUsd": 0.3369188
+            },
+            "context": {
+              "sourceKind": "benchmarkOwner",
+              "sourcePublisher": "ARC Prize",
+              "dateBasis": "firstObservedPublicSnapshot",
+              "observedAt": "2026-11-17",
+              "harness": "ARC Prize v2_Semi_Private",
+              "sampleNotes": "Reasoning effort-ladder shape only. Execution/publication date unknown in raw evaluations.json. Carbon result page dated 2026-11-10 separately; not a raw row date."
+            },
+            "evidenceExcerpt": "[M] {\"datasetId\":\"v2_Semi_Private\",\"modelId\":\"anthropic-claude-opus-5-5-medium\",\"score\":0.875,\"costPerTask\":0.3369188,\"resultsUrl\":\"/results/anthropic-claude-opus-5-5\",\"display\":true}"
+          },
+          {
+            "id": "te82-arc2-claude-opus-5-5-max",
+            "benchmarkId": "arc-agi-2-v2-semi-private-2026-11-17",
+            "name": "ARC-AGI-2 Semi-Private",
+            "version": "v2_Semi_Private / 2026-11-17 snapshot",
+            "unit": "% solved",
+            "maximumScore": 100,
+            "effort": "max",
+            "score": 91.66666666666666,
+            "publishedAt": "2026-11-17",
+            "sourceUrl": "https://arcprize.org/media/data/evaluations.json",
+            "confidence": "publisherReported",
+            "evidenceStatus": "unknown",
+            "sampleContext": null,
+            "secondaryMetrics": {
+              "costPerTaskUsd": 1.8517409666666667
+            },
+            "context": {
+              "sourceKind": "benchmarkOwner",
+              "sourcePublisher": "ARC Prize",
+              "dateBasis": "firstObservedPublicSnapshot",
+              "observedAt": "2026-11-17",
+              "harness": "ARC Prize v2_Semi_Private",
+              "sampleNotes": "Reasoning effort-ladder shape only. Execution/publication date unknown in raw evaluations.json. Carbon result page dated 2026-11-10 separately; not a raw row date."
+            },
+            "evidenceExcerpt": "[M] {\"datasetId\":\"v2_Semi_Private\",\"modelId\":\"anthropic-claude-opus-5-5-max\",\"score\":0.9166666666666666,\"costPerTask\":1.8517409666666667,\"resultsUrl\":\"/results/anthropic-claude-opus-5-5\",\"display\":true}"
+          },
+          {
+            "id": "te82-arc2-claude-opus-5-5-low",
+            "benchmarkId": "arc-agi-2-v2-semi-private-2026-11-17",
+            "name": "ARC-AGI-2 Semi-Private",
+            "version": "v2_Semi_Private / 2026-11-17 snapshot",
+            "unit": "% solved",
+            "maximumScore": 100,
+            "effort": "low",
+            "score": 70.1388888888889,
+            "publishedAt": "2026-11-17",
+            "sourceUrl": "https://arcprize.org/media/data/evaluations.json",
+            "confidence": "publisherReported",
+            "evidenceStatus": "unknown",
+            "sampleContext": null,
+            "secondaryMetrics": {
+              "costPerTaskUsd": 0.24127179999999998
+            },
+            "context": {
+              "sourceKind": "benchmarkOwner",
+              "sourcePublisher": "ARC Prize",
+              "dateBasis": "firstObservedPublicSnapshot",
+              "observedAt": "2026-11-17",
+              "harness": "ARC Prize v2_Semi_Private",
+              "sampleNotes": "Reasoning effort-ladder shape only. Execution/publication date unknown in raw evaluations.json. Carbon result page dated 2026-11-10 separately; not a raw row date."
+            },
+            "evidenceExcerpt": "[M] {\"datasetId\":\"v2_Semi_Private\",\"modelId\":\"anthropic-claude-opus-5-5-low\",\"score\":0.701388888888889,\"costPerTask\":0.24127179999999998,\"resultsUrl\":\"/results/anthropic-claude-opus-5-5\",\"display\":true}"
+          },
+          {
+            "id": "te82-arc2-claude-opus-5-5-high",
+            "benchmarkId": "arc-agi-2-v2-semi-private-2026-11-17",
+            "name": "ARC-AGI-2 Semi-Private",
+            "version": "v2_Semi_Private / 2026-11-17 snapshot",
+            "unit": "% solved",
+            "maximumScore": 100,
+            "effort": "high",
+            "score": 93.33333333333333,
+            "publishedAt": "2026-11-17",
+            "sourceUrl": "https://arcprize.org/media/data/evaluations.json",
+            "confidence": "publisherReported",
+            "evidenceStatus": "unknown",
+            "sampleContext": null,
+            "secondaryMetrics": {
+              "costPerTaskUsd": 0.4078964666666666
+            },
+            "context": {
+              "sourceKind": "benchmarkOwner",
+              "sourcePublisher": "ARC Prize",
+              "dateBasis": "firstObservedPublicSnapshot",
+              "observedAt": "2026-11-17",
+              "harness": "ARC Prize v2_Semi_Private",
+              "sampleNotes": "Reasoning effort-ladder shape only. Execution/publication date unknown in raw evaluations.json. Carbon result page dated 2026-11-10 separately; not a raw row date."
+            },
+            "evidenceExcerpt": "[M] {\"datasetId\":\"v2_Semi_Private\",\"modelId\":\"anthropic-claude-opus-5-5-high\",\"score\":0.9333333333333333,\"costPerTask\":0.4078964666666666,\"resultsUrl\":\"/results/anthropic-claude-opus-5-5\",\"display\":true}"
+          }
+        ],
         "taskStudies": [],
         "assessment": null,
         "taskStudiesAsOfDate": "2026-09-25"
@@ -3291,8 +4146,8 @@
       "releaseDate": "2026-03-17",
       "releaseDateSource": "https://openai.com/index/introducing-gpt-5-4-mini-and-nano/",
       "policy": {
-        "version": "2026-11-01",
-        "evidenceAsOfDate": "2026-11-01",
+        "version": "2026-11-17",
+        "evidenceAsOfDate": "2026-11-17",
         "reason": "Role exception for bounded decisions over compact structured evidence; not a core-task route. Availability warning (TE-59, 2026-09-29): OpenAI retired gpt-5.4-mini from Codex with ChatGPT sign-in on 2026-08-31, and a runner probe with codex-cli 0.155.0 on a ChatGPT account returned HTTP 400. The route still resolves for API-key Codex; replacing it (OpenAI names gpt-6-luna) is an open policy decision.",
         "workflowRoles": [
           "boundedPipelineDecision"
@@ -3428,8 +4283,8 @@
       "releaseDate": "2026-09-28",
       "releaseDateSource": "https://platform.claude.com/docs/en/models/sonnet-5-5/overview",
       "policy": {
-        "version": "2026-11-01",
-        "evidenceAsOfDate": "2026-11-01",
+        "version": "2026-11-17",
+        "evidenceAsOfDate": "2026-11-17",
         "reason": "Claude Code documents low/medium/high/xhigh/max with default medium: https://code.claude.com/docs/en/model-config (retrieved 2026-10-21). Minimum Claude Code 2.1.284; 2.1.281 returned unrecognized_model on 2026-09-29. Operator reports Claude Code 2.1.305 installed on TUFI2, agent-runner-01 and KORI review containers, with the KORI Dockerfile pinned; agent-runner-01 runner-credential claude -p --model claude-sonnet-5-5 answered on 2026-10-20. Selectable for explicit evaluation and operator-pinned core tasks only; no correctness-floor equivalence, default route, provider fallback or automatic migration.",
         "workflowRoles": [
           "coreTask"
@@ -3438,7 +4293,150 @@
         "fallbacks": []
       },
       "evidence": {
-        "external": [],
+        "external": [
+          {
+            "id": "te82-tb41-claude-sonnet-5-5-max",
+            "benchmarkId": "terminal-bench-v4.1-official-native-agents",
+            "name": "Terminal-Bench 4.1 / official native-agent leaderboard",
+            "version": "4.1",
+            "unit": "% resolved",
+            "maximumScore": 100,
+            "effort": "max",
+            "score": 63.94,
+            "publishedAt": "2026-11-17",
+            "sourceUrl": "https://www.tbench.ai/leaderboard",
+            "confidence": "publisherReported",
+            "evidenceStatus": "unknown",
+            "sampleContext": null,
+            "secondaryMetrics": {
+              "costPerTaskUsd": 22.223151515
+            },
+            "context": {
+              "sourceKind": "officialLeaderboard",
+              "sourcePublisher": "Terminal-Bench",
+              "dateBasis": "firstObservedPublicSnapshot",
+              "observedAt": "2026-11-17",
+              "sourceCreatedAt": "2026-11-03T17:38:16.27766+00:00",
+              "sourceUpdatedAt": "2026-11-09T08:05:17.513503+00:00",
+              "harness": "Claude Code",
+              "trialCount": 330,
+              "confidenceIntervalHalfWidth": 3,
+              "confidenceIntervalLevel": 0.95,
+              "totalCostUsd": 7333.64,
+              "costBasis": "Published run total, not token-price recomputation.",
+              "sampleNotes": "Run execution date not published. metadata.date=2026-09-28 is model release date. Total output tokens=186577885."
+            },
+            "evidenceExcerpt": "[M] {\"id\":\"cf669033-4634-484b-ba50-b6b09963231e\",\"leaderboard_id\":\"947c0b13-1d0f-43e0-bd7b-7e5d8c16187a\",\"rank\":5,\"metadata\":{\"date\":\"2026-09-28\",\"agent_org\":{\"url\":\"https://www.anthropic.com\",\"label\":\"Anthropic\"},\"model_org\":{\"url\":\"https://www.anthropic.com\",\"label\":\"Anthropic\"},\"display_date\":\"Sep 28, 2026\",\"agent_display\":{\"url\":\"https://claude.com/product/claude-code\",\"label\":\"Claude Code\"},\"model_display\":{\"url\":\"https://www.anthropic.com/claude-sonnet-5-5\",\"label\":\"Sonnet 5.5\"},\"reasoning_effort\":\"max\"},\"metrics\":{\"accuracy\":63.94,\"n_trials\":330,\"pass_at_2\":0.7167,\"pass_at_3\":0.7621,\"pass_at_4\":0.7879,\"pass_at_5\":0.803,\"successes\":211,\"display_cost\":\"$$7.3k\",\"total_tokens\":19413047384,\"output_tokens\":186577885,\"total_cost_usd\":7333.64,\"display_accuracy\":\"**63.9%** \\u00b1 3.0%\",\"cached_input_tokens\":18580542667,\"display_total_tokens\":\"19.4B\",\"uncached_input_tokens\":19226469499,\"avg_trial_duration_sec\":7431.6,\"display_total_cost_usd\":\"$$7,333.64\",\"accuracy_ci95_half_width\":3},\"status\":\"display\",\"created_at\":\"2026-11-03T17:38:16.27766+00:00\",\"updated_at\":\"2026-11-09T08:05:17.513503+00:00\",\"n_trials\":330}"
+          },
+          {
+            "id": "te82-arc2-claude-sonnet-5-5-xhigh",
+            "benchmarkId": "arc-agi-2-v2-semi-private-2026-11-17",
+            "name": "ARC-AGI-2 Semi-Private",
+            "version": "v2_Semi_Private / 2026-11-17 snapshot",
+            "unit": "% solved",
+            "maximumScore": 100,
+            "effort": "xHigh",
+            "score": 83.88888888888889,
+            "publishedAt": "2026-11-17",
+            "sourceUrl": "https://arcprize.org/media/data/evaluations.json",
+            "confidence": "publisherReported",
+            "evidenceStatus": "unknown",
+            "sampleContext": null,
+            "secondaryMetrics": {
+              "costPerTaskUsd": 0.5461994833333332
+            },
+            "context": {
+              "sourceKind": "benchmarkOwner",
+              "sourcePublisher": "ARC Prize",
+              "dateBasis": "firstObservedPublicSnapshot",
+              "observedAt": "2026-11-17",
+              "harness": "ARC Prize v2_Semi_Private",
+              "sampleNotes": "Reasoning effort-ladder shape only. Execution/publication date unknown in raw evaluations.json. Carbon result page dated 2026-11-10 separately; not a raw row date."
+            },
+            "evidenceExcerpt": "[M] {\"datasetId\":\"v2_Semi_Private\",\"modelId\":\"anthropic-claude-sonnet-5-5-xhigh\",\"score\":0.8388888888888889,\"costPerTask\":0.5461994833333332,\"resultsUrl\":\"/results/anthropic-claude-sonnet-5-5\",\"display\":true}"
+          },
+          {
+            "id": "te82-arc2-claude-sonnet-5-5-medium",
+            "benchmarkId": "arc-agi-2-v2-semi-private-2026-11-17",
+            "name": "ARC-AGI-2 Semi-Private",
+            "version": "v2_Semi_Private / 2026-11-17 snapshot",
+            "unit": "% solved",
+            "maximumScore": 100,
+            "effort": "medium",
+            "score": 32.77777777777777,
+            "publishedAt": "2026-11-17",
+            "sourceUrl": "https://arcprize.org/media/data/evaluations.json",
+            "confidence": "publisherReported",
+            "evidenceStatus": "unknown",
+            "sampleContext": null,
+            "secondaryMetrics": {
+              "costPerTaskUsd": 0.15537473333333335
+            },
+            "context": {
+              "sourceKind": "benchmarkOwner",
+              "sourcePublisher": "ARC Prize",
+              "dateBasis": "firstObservedPublicSnapshot",
+              "observedAt": "2026-11-17",
+              "harness": "ARC Prize v2_Semi_Private",
+              "sampleNotes": "Reasoning effort-ladder shape only. Execution/publication date unknown in raw evaluations.json. Carbon result page dated 2026-11-10 separately; not a raw row date."
+            },
+            "evidenceExcerpt": "[M] {\"datasetId\":\"v2_Semi_Private\",\"modelId\":\"anthropic-claude-sonnet-5-5-medium\",\"score\":0.3277777777777777,\"costPerTask\":0.15537473333333335,\"resultsUrl\":\"/results/anthropic-claude-sonnet-5-5\",\"display\":true}"
+          },
+          {
+            "id": "te82-arc2-claude-sonnet-5-5-low",
+            "benchmarkId": "arc-agi-2-v2-semi-private-2026-11-17",
+            "name": "ARC-AGI-2 Semi-Private",
+            "version": "v2_Semi_Private / 2026-11-17 snapshot",
+            "unit": "% solved",
+            "maximumScore": 100,
+            "effort": "low",
+            "score": 24.027777777777775,
+            "publishedAt": "2026-11-17",
+            "sourceUrl": "https://arcprize.org/media/data/evaluations.json",
+            "confidence": "publisherReported",
+            "evidenceStatus": "unknown",
+            "sampleContext": null,
+            "secondaryMetrics": {
+              "costPerTaskUsd": 0.10923548333333331
+            },
+            "context": {
+              "sourceKind": "benchmarkOwner",
+              "sourcePublisher": "ARC Prize",
+              "dateBasis": "firstObservedPublicSnapshot",
+              "observedAt": "2026-11-17",
+              "harness": "ARC Prize v2_Semi_Private",
+              "sampleNotes": "Reasoning effort-ladder shape only. Execution/publication date unknown in raw evaluations.json. Carbon result page dated 2026-11-10 separately; not a raw row date."
+            },
+            "evidenceExcerpt": "[M] {\"datasetId\":\"v2_Semi_Private\",\"modelId\":\"anthropic-claude-sonnet-5-5-low\",\"score\":0.24027777777777776,\"costPerTask\":0.10923548333333331,\"resultsUrl\":\"/results/anthropic-claude-sonnet-5-5\",\"display\":true}"
+          },
+          {
+            "id": "te82-arc2-claude-sonnet-5-5-high",
+            "benchmarkId": "arc-agi-2-v2-semi-private-2026-11-17",
+            "name": "ARC-AGI-2 Semi-Private",
+            "version": "v2_Semi_Private / 2026-11-17 snapshot",
+            "unit": "% solved",
+            "maximumScore": 100,
+            "effort": "high",
+            "score": 67.36111111111111,
+            "publishedAt": "2026-11-17",
+            "sourceUrl": "https://arcprize.org/media/data/evaluations.json",
+            "confidence": "publisherReported",
+            "evidenceStatus": "unknown",
+            "sampleContext": null,
+            "secondaryMetrics": {
+              "costPerTaskUsd": 0.2767547333333332
+            },
+            "context": {
+              "sourceKind": "benchmarkOwner",
+              "sourcePublisher": "ARC Prize",
+              "dateBasis": "firstObservedPublicSnapshot",
+              "observedAt": "2026-11-17",
+              "harness": "ARC Prize v2_Semi_Private",
+              "sampleNotes": "Reasoning effort-ladder shape only. Execution/publication date unknown in raw evaluations.json. Carbon result page dated 2026-11-10 separately; not a raw row date."
+            },
+            "evidenceExcerpt": "[M] {\"datasetId\":\"v2_Semi_Private\",\"modelId\":\"anthropic-claude-sonnet-5-5-high\",\"score\":0.6736111111111112,\"costPerTask\":0.2767547333333332,\"resultsUrl\":\"/results/anthropic-claude-sonnet-5-5\",\"display\":true}"
+          }
+        ],
         "taskStudies": [],
         "assessment": null,
         "taskStudiesAsOfDate": "2026-09-25"
@@ -3495,8 +4493,8 @@
       "releaseDate": "2026-06-30",
       "releaseDateSource": "https://platform.claude.com/docs/en/models/sonnet-5/overview",
       "policy": {
-        "version": "2026-11-01",
-        "evidenceAsOfDate": "2026-11-01",
+        "version": "2026-11-17",
+        "evidenceAsOfDate": "2026-11-17",
         "reason": "Small favorable Claude Sonnet 5/high feature cohort; use only as an equivalent-capability provider fallback. Legacy since Claude Sonnet 5.5 (2026-09-28); the policy pins the full id, so Claude Code's sonnet alias moving to Sonnet 5.5 in v2.1.284 does not change this fallback.",
         "workflowRoles": [
           "coreTask"
@@ -3779,8 +4777,8 @@
       "releaseDate": "2025-08-05",
       "releaseDateSource": "https://platform.claude.com/docs/en/release-notes/overview#august-5-2025",
       "policy": {
-        "version": "2026-11-01",
-        "evidenceAsOfDate": "2026-11-01",
+        "version": "2026-11-17",
+        "evidenceAsOfDate": "2026-11-17",
         "reason": "Retires 2026-08-05.",
         "workflowRoles": [],
         "routes": [],
@@ -3843,8 +4841,8 @@
       "releaseDate": "2026-06-09",
       "releaseDateSource": "https://platform.claude.com/docs/en/models/fable-5/overview",
       "policy": {
-        "version": "2026-11-01",
-        "evidenceAsOfDate": "2026-11-01",
+        "version": "2026-11-17",
+        "evidenceAsOfDate": "2026-11-17",
         "reason": "Known to the price catalog but not qualified by the authoritative routing policy.",
         "workflowRoles": [],
         "routes": [],
@@ -3986,8 +4984,8 @@
       "releaseDate": "2026-07-24",
       "releaseDateSource": "https://platform.claude.com/docs/en/models/opus-5/overview",
       "policy": {
-        "version": "2026-11-01",
-        "evidenceAsOfDate": "2026-11-01",
+        "version": "2026-11-17",
+        "evidenceAsOfDate": "2026-11-17",
         "reason": "Retained Anthropic vendor override for explicit operator pins, subject to task correctness floors. No automatic equivalence to Sol/xhigh is established. Claude Code lists low/medium/high/xhigh/max for Opus 5 (xhigh added 2026-09-29, TE-59).",
         "workflowRoles": [
           "coreTask"
@@ -4687,8 +5685,8 @@
       "releaseDate": "2026-05-28",
       "releaseDateSource": "https://platform.claude.com/docs/en/release-notes/overview#may-28-2026",
       "policy": {
-        "version": "2026-11-01",
-        "evidenceAsOfDate": "2026-11-01",
+        "version": "2026-11-17",
+        "evidenceAsOfDate": "2026-11-17",
         "reason": "Known to the price catalog but not qualified by the authoritative routing policy. Claude Code lists low/medium/high/xhigh/max (xhigh added 2026-09-29, TE-59).",
         "workflowRoles": [],
         "routes": [],
@@ -4830,8 +5828,8 @@
       "releaseDate": "2026-04-16",
       "releaseDateSource": "https://platform.claude.com/docs/en/release-notes/overview#april-16-2026",
       "policy": {
-        "version": "2026-11-01",
-        "evidenceAsOfDate": "2026-11-01",
+        "version": "2026-11-17",
+        "evidenceAsOfDate": "2026-11-17",
         "reason": "Known to the price catalog but not qualified by the authoritative routing policy. Claude Code lists low/medium/high/xhigh/max with default xhigh (xhigh added 2026-09-29, TE-59).",
         "workflowRoles": [],
         "routes": [],
@@ -4895,8 +5893,8 @@
       "releaseDate": "2026-02-05",
       "releaseDateSource": "https://platform.claude.com/docs/en/models/opus-4-6/overview",
       "policy": {
-        "version": "2026-11-01",
-        "evidenceAsOfDate": "2026-11-01",
+        "version": "2026-11-17",
+        "evidenceAsOfDate": "2026-11-17",
         "reason": "Known to the price catalog but not qualified by the authoritative routing policy.",
         "workflowRoles": [],
         "routes": [],
@@ -4959,8 +5957,8 @@
       "releaseDate": "2025-11-24",
       "releaseDateSource": "https://platform.claude.com/docs/en/models/opus-4-5/overview",
       "policy": {
-        "version": "2026-11-01",
-        "evidenceAsOfDate": "2026-11-01",
+        "version": "2026-11-17",
+        "evidenceAsOfDate": "2026-11-17",
         "reason": "Known to the price catalog but not qualified by the authoritative routing policy.",
         "workflowRoles": [],
         "routes": [],
@@ -5023,8 +6021,8 @@
       "releaseDate": "2026-02-17",
       "releaseDateSource": "https://platform.claude.com/docs/en/models/sonnet-4-6/overview",
       "policy": {
-        "version": "2026-11-01",
-        "evidenceAsOfDate": "2026-11-01",
+        "version": "2026-11-17",
+        "evidenceAsOfDate": "2026-11-17",
         "reason": "Known to the price catalog but not qualified by the authoritative routing policy. Claude Code lists low/medium/high/max; xhigh removed 2026-09-29 (TE-59) because Claude Code runs it as high.",
         "workflowRoles": [],
         "routes": [],
@@ -5087,8 +6085,8 @@
       "releaseDate": "2025-09-29",
       "releaseDateSource": "https://platform.claude.com/docs/en/release-notes/overview#september-29-2025",
       "policy": {
-        "version": "2026-11-01",
-        "evidenceAsOfDate": "2026-11-01",
+        "version": "2026-11-17",
+        "evidenceAsOfDate": "2026-11-17",
         "reason": "Known to the price catalog but not qualified by the authoritative routing policy.",
         "workflowRoles": [],
         "routes": [],
@@ -5152,8 +6150,8 @@
       "releaseDate": "2025-10-15",
       "releaseDateSource": "https://platform.claude.com/docs/en/models/haiku-4-5/overview",
       "policy": {
-        "version": "2026-11-01",
-        "evidenceAsOfDate": "2026-11-01",
+        "version": "2026-11-17",
+        "evidenceAsOfDate": "2026-11-17",
         "reason": "Retained Anthropic vendor override for explicit operator pins, subject to task correctness floors. No automatic equivalence to Sol/xhigh is established. Claude Code and the Claude API do not support effort on Haiku 4.5 (extended thinking only), so the low/medium levels are nominal labels that do not change the request (verified 2026-09-29, TE-59). Retirement not sooner than 2026-10-15.",
         "workflowRoles": [
           "coreTask"
@@ -5216,8 +6214,8 @@
       "releaseDate": "2026-04-23",
       "releaseDateSource": "https://openai.com/index/introducing-gpt-5-5/",
       "policy": {
-        "version": "2026-11-01",
-        "evidenceAsOfDate": "2026-11-01",
+        "version": "2026-11-17",
+        "evidenceAsOfDate": "2026-11-17",
         "reason": "Known to the CLI/price catalog but not a route in policy version 2026-07-24. Retires from ChatGPT, ChatGPT Work and Codex with ChatGPT sign-in on 2026-10-14 (API unaffected). Ladder refreshed 2026-09-29 (TE-59): the Codex CLI lists low through xhigh; minimal failed on the runner because Codex's web_search tool is incompatible with it.",
         "workflowRoles": [],
         "routes": [],
@@ -5280,8 +6278,8 @@
       "releaseDate": "2026-04-23",
       "releaseDateSource": "https://openai.com/index/introducing-gpt-5-5/",
       "policy": {
-        "version": "2026-11-01",
-        "evidenceAsOfDate": "2026-11-01",
+        "version": "2026-11-17",
+        "evidenceAsOfDate": "2026-11-17",
         "reason": "Known to the API/price catalog but not a route in policy version 2026-07-24.",
         "workflowRoles": [],
         "routes": [],
@@ -5343,8 +6341,8 @@
       "releaseDate": "2026-05-07",
       "releaseDateSource": "https://openai.com/index/gpt-5-5-with-trusted-access-for-cyber/",
       "policy": {
-        "version": "2026-11-01",
-        "evidenceAsOfDate": "2026-11-01",
+        "version": "2026-11-17",
+        "evidenceAsOfDate": "2026-11-17",
         "reason": "Limited-preview model for separately approved defenders; catalog coverage does not make it a selectable route in policy version 2026-07-24.",
         "workflowRoles": [],
         "routes": [],
@@ -5408,8 +6406,8 @@
       "releaseDate": "2025-08-07",
       "releaseDateSource": "https://openai.com/index/introducing-gpt-5/",
       "policy": {
-        "version": "2026-11-01",
-        "evidenceAsOfDate": "2026-11-01",
+        "version": "2026-11-17",
+        "evidenceAsOfDate": "2026-11-17",
         "reason": "Known to the CLI/price catalog but not a route in policy version 2026-07-24.",
         "workflowRoles": [],
         "routes": [],
@@ -5473,8 +6471,8 @@
       "releaseDate": "2025-09-15",
       "releaseDateSource": "https://openai.com/index/introducing-upgrades-to-codex/",
       "policy": {
-        "version": "2026-11-01",
-        "evidenceAsOfDate": "2026-11-01",
+        "version": "2026-11-17",
+        "evidenceAsOfDate": "2026-11-17",
         "reason": "Known to the CLI/price catalog but not a route in policy version 2026-07-24.",
         "workflowRoles": [],
         "routes": [],
@@ -5536,9 +6534,9 @@
       "releaseDate": "2026-10-26",
       "releaseDateSource": "https://openai.com/index/introducing-gpt-6-1-terra/",
       "policy": {
-        "version": "2026-11-01",
-        "evidenceAsOfDate": "2026-11-01",
-        "reason": "Explicit evaluation or operator pin only; 0.166.0 Pro operator probe executed on 2026-11-01, 0.155.0 refused. API reasoning none/low/medium/high/xhigh/max; Codex none is not a confirmed CLI effort. No default tier, prior, fallback or correctness equivalence. Compare identical coding cases against GPT-5.6 Terra before changing the 21\u201350 tier.",
+        "version": "2026-11-17",
+        "evidenceAsOfDate": "2026-11-17",
+        "reason": "Explicit evaluation or operator pin only; 0.166.0 Pro operator probe executed on 2026-11-01, 0.155.0 refused. API reasoning none/low/medium/high/xhigh/max; Codex none is not a confirmed CLI effort. No default tier, prior, fallback or correctness equivalence. Compare identical coding cases against GPT-5.6 Terra before changing the 21\u201350 tier. TE-82: balanced coding tier; TB4.1 53.33 between Luna 15.15 and Sol 60.91. Vendor CLI minimum 0.159.0; retain fleet-tested floor 0.166.0. https://learn.chatgpt.com/docs/models retrieved 2026-11-17.",
         "workflowRoles": [
           "coreTask"
         ],
@@ -5546,7 +6544,42 @@
         "fallbacks": []
       },
       "evidence": {
-        "external": [],
+        "external": [
+          {
+            "id": "te82-tb41-gpt-6.1-terra-max",
+            "benchmarkId": "terminal-bench-v4.1-official-native-agents",
+            "name": "Terminal-Bench 4.1 / official native-agent leaderboard",
+            "version": "4.1",
+            "unit": "% resolved",
+            "maximumScore": 100,
+            "effort": "max",
+            "score": 53.33,
+            "publishedAt": "2026-11-17",
+            "sourceUrl": "https://www.tbench.ai/leaderboard",
+            "confidence": "publisherReported",
+            "evidenceStatus": "unknown",
+            "sampleContext": null,
+            "secondaryMetrics": {
+              "costPerTaskUsd": 2.649818182
+            },
+            "context": {
+              "sourceKind": "officialLeaderboard",
+              "sourcePublisher": "Terminal-Bench",
+              "dateBasis": "firstObservedPublicSnapshot",
+              "observedAt": "2026-11-17",
+              "sourceCreatedAt": "2026-11-13T01:23:25.185537+00:00",
+              "sourceUpdatedAt": "2026-11-13T01:23:25.185537+00:00",
+              "harness": "Codex",
+              "trialCount": 330,
+              "confidenceIntervalHalfWidth": 3.09,
+              "confidenceIntervalLevel": 0.95,
+              "totalCostUsd": 874.44,
+              "costBasis": "Published run total, not token-price recomputation.",
+              "sampleNotes": "Run execution date not published. metadata.date=2026-10-26 is model release date. Total output tokens=33045407."
+            },
+            "evidenceExcerpt": "[M] {\"id\":\"6e108bc6-c946-4ff1-a8ac-edb3f9c68f2e\",\"leaderboard_id\":\"947c0b13-1d0f-43e0-bd7b-7e5d8c16187a\",\"rank\":18,\"metadata\":{\"date\":\"2026-10-26\",\"agent_org\":{\"url\":\"https://openai.com\",\"label\":\"OpenAI\"},\"model_org\":{\"url\":\"https://openai.com\",\"label\":\"OpenAI\"},\"display_date\":\"Oct 26, 2026\",\"agent_display\":{\"url\":\"https://openai.com/codex/\",\"label\":\"Codex\"},\"model_display\":{\"url\":\"https://developers.openai.com/api/docs/models/gpt-6.1-terra\",\"label\":\"GPT-6.1 Terra\"},\"reasoning_effort\":\"max\"},\"metrics\":{\"accuracy\":53.33,\"n_trials\":330,\"pass_at_2\":0.6152,\"pass_at_3\":0.6485,\"pass_at_4\":0.6636,\"pass_at_5\":0.6667,\"successes\":176,\"display_cost\":\"$$874.44\",\"total_tokens\":8481798574,\"output_tokens\":33045407,\"total_cost_usd\":874.44,\"display_accuracy\":\"**53.3%** \\u00b1 3.1%\",\"cached_input_tokens\":8378980279,\"display_total_tokens\":\"8.5B\",\"uncached_input_tokens\":8448753167,\"avg_trial_duration_sec\":123.1,\"display_total_cost_usd\":\"$$874.44\",\"accuracy_ci95_half_width\":3.09},\"status\":\"display\",\"created_at\":\"2026-11-13T01:23:25.185537+00:00\",\"updated_at\":\"2026-11-13T01:23:25.185537+00:00\",\"n_trials\":330}"
+          }
+        ],
         "taskStudies": [],
         "assessment": null,
         "taskStudiesAsOfDate": "2026-09-25"
@@ -5554,7 +6587,7 @@
       "modelId": "gpt-6.1-terra",
       "vendor": "openai",
       "cli": "codex",
-      "tier": "frontier",
+      "tier": "balanced",
       "costClass": "economy",
       "price": {
         "status": "resolved",
@@ -5583,18 +6616,18 @@
         "max"
       ],
       "suitability": {
-        "heavyDesign": "ideal",
-        "planning": "ideal",
-        "decisionMaking": "ideal",
-        "feature": "capable",
-        "mechanicalChore": "overkill",
-        "docEdit": "overkill",
-        "research": "capable",
+        "heavyDesign": "capable",
+        "planning": "underpowered",
+        "decisionMaking": "underpowered",
+        "feature": "ideal",
+        "mechanicalChore": "capable",
+        "docEdit": "capable",
+        "research": "ideal",
         "review": null,
-        "htmlUiImplementation": "ideal",
-        "sourceCodeReview": "overkill",
-        "securityAssessment": "ideal",
-        "redundancyDetection": "ideal",
+        "htmlUiImplementation": "capable",
+        "sourceCodeReview": "ideal",
+        "securityAssessment": "underpowered",
+        "redundancyDetection": "capable",
         "graphicalQualityJudgment": null,
         "consistencyChecking": null
       },
@@ -5611,15 +6644,131 @@
       "releaseDate": "2026-10-28",
       "releaseDateSource": "https://blog.google/innovation-and-ai/models-and-research/gemini-models/introducing-gemini-4-carbon/",
       "policy": {
-        "version": "2026-11-01",
-        "evidenceAsOfDate": "2026-11-01",
-        "reason": "Announcement-only internal reference. No public Gemini API model ID or tariff. Restricted; never selectable.",
+        "version": "2026-11-17",
+        "evidenceAsOfDate": "2026-11-17",
+        "reason": "Restricted and unpriced by TE-82 scope. [V] Google API changelog now claims GA on 2026-11-10 and pricing lists a tariff; this conflicts with the no-API lead and prior catalogue. Record the conflict without enabling fleet access or pricing. Retrieved 2026-11-17: https://ai.google.dev/gemini-api/docs/changelog; https://ai.google.dev/gemini-api/docs/pricing",
         "workflowRoles": [],
         "routes": [],
         "fallbacks": []
       },
       "evidence": {
-        "external": [],
+        "external": [
+          {
+            "id": "te82-tb41-gemini-4-carbon-high",
+            "benchmarkId": "terminal-bench-v4.1-official-native-agents",
+            "name": "Terminal-Bench 4.1 / official native-agent leaderboard",
+            "version": "4.1",
+            "unit": "% resolved",
+            "maximumScore": 100,
+            "effort": "high",
+            "score": 64.55,
+            "publishedAt": "2026-11-17",
+            "sourceUrl": "https://www.tbench.ai/leaderboard",
+            "confidence": "publisherReported",
+            "evidenceStatus": "unknown",
+            "sampleContext": null,
+            "secondaryMetrics": {
+              "costPerTaskUsd": 4.115909091
+            },
+            "context": {
+              "sourceKind": "officialLeaderboard",
+              "sourcePublisher": "Terminal-Bench",
+              "dateBasis": "firstObservedPublicSnapshot",
+              "observedAt": "2026-11-17",
+              "sourceCreatedAt": "2026-11-14T06:10:26.015148+00:00",
+              "sourceUpdatedAt": "2026-11-14T06:10:26.015148+00:00",
+              "harness": "Antigravity CLI",
+              "trialCount": 330,
+              "confidenceIntervalHalfWidth": 3.23,
+              "confidenceIntervalLevel": 0.95,
+              "totalCostUsd": 1358.25,
+              "costBasis": "Published run total, not token-price recomputation.",
+              "sampleNotes": "Run execution date not published. metadata.date=2026-10-28 is model release date. Total output tokens=54806980."
+            },
+            "evidenceExcerpt": "[M] {\"id\":\"11495d14-273c-40d1-a450-d735939f9d17\",\"leaderboard_id\":\"947c0b13-1d0f-43e0-bd7b-7e5d8c16187a\",\"rank\":4,\"metadata\":{\"date\":\"2026-10-28\",\"agent_org\":{\"url\":\"https://about.google/\",\"label\":\"Google\"},\"model_org\":{\"url\":\"https://about.google/\",\"label\":\"Google\"},\"display_date\":\"Oct 28, 2026\",\"agent_display\":{\"url\":\"https://antigravity.google/docs/overview?tab=cli\",\"label\":\"Antigravity CLI\"},\"model_display\":{\"url\":\"https://blog.google/innovation-and-ai/models-and-research/gemini-models/introducing-gemini-4-carbon/\",\"label\":\"Gemini 4 Carbon\"},\"reasoning_effort\":\"high\"},\"metrics\":{\"accuracy\":64.55,\"n_trials\":330,\"pass_at_2\":0.7348,\"pass_at_3\":0.7682,\"pass_at_4\":0.7818,\"pass_at_5\":0.7879,\"successes\":213,\"display_cost\":\"$$1.4k\",\"total_tokens\":3781194078,\"output_tokens\":54806980,\"total_cost_usd\":1358.25,\"display_accuracy\":\"**64.5%** \\u00b1 3.2%\",\"cached_input_tokens\":3496099815,\"display_total_tokens\":\"3.8B\",\"uncached_input_tokens\":3726387098,\"avg_trial_duration_sec\":3495.8,\"display_total_cost_usd\":\"$$1,358.25\",\"accuracy_ci95_half_width\":3.23},\"status\":\"display\",\"created_at\":\"2026-11-14T06:10:26.015148+00:00\",\"updated_at\":\"2026-11-14T06:10:26.015148+00:00\",\"n_trials\":330}"
+          },
+          {
+            "id": "te82-arc2-gemini-4-carbon-medium",
+            "benchmarkId": "arc-agi-2-v2-semi-private-2026-11-17",
+            "name": "ARC-AGI-2 Semi-Private",
+            "version": "v2_Semi_Private / 2026-11-17 snapshot",
+            "unit": "% solved",
+            "maximumScore": 100,
+            "effort": "medium",
+            "score": 94.16666666666667,
+            "publishedAt": "2026-11-17",
+            "sourceUrl": "https://arcprize.org/media/data/evaluations.json",
+            "confidence": "publisherReported",
+            "evidenceStatus": "unknown",
+            "sampleContext": null,
+            "secondaryMetrics": {
+              "costPerTaskUsd": 0.37522218333333357
+            },
+            "context": {
+              "sourceKind": "benchmarkOwner",
+              "sourcePublisher": "ARC Prize",
+              "dateBasis": "firstObservedPublicSnapshot",
+              "observedAt": "2026-11-17",
+              "harness": "ARC Prize v2_Semi_Private",
+              "sampleNotes": "Reasoning effort-ladder shape only. Execution/publication date unknown in raw evaluations.json. Carbon result page dated 2026-11-10 separately; not a raw row date."
+            },
+            "evidenceExcerpt": "[M] {\"datasetId\":\"v2_Semi_Private\",\"modelId\":\"google-gemini-4-carbon-medium\",\"score\":0.9416666666666667,\"costPerTask\":0.37522218333333357,\"resultsUrl\":\"/results/google-gemini-4-carbon\",\"display\":true}"
+          },
+          {
+            "id": "te82-arc2-gemini-4-carbon-low",
+            "benchmarkId": "arc-agi-2-v2-semi-private-2026-11-17",
+            "name": "ARC-AGI-2 Semi-Private",
+            "version": "v2_Semi_Private / 2026-11-17 snapshot",
+            "unit": "% solved",
+            "maximumScore": 100,
+            "effort": "low",
+            "score": 49.583333333333336,
+            "publishedAt": "2026-11-17",
+            "sourceUrl": "https://arcprize.org/media/data/evaluations.json",
+            "confidence": "publisherReported",
+            "evidenceStatus": "unknown",
+            "sampleContext": null,
+            "secondaryMetrics": {
+              "costPerTaskUsd": 0.09848504999999998
+            },
+            "context": {
+              "sourceKind": "benchmarkOwner",
+              "sourcePublisher": "ARC Prize",
+              "dateBasis": "firstObservedPublicSnapshot",
+              "observedAt": "2026-11-17",
+              "harness": "ARC Prize v2_Semi_Private",
+              "sampleNotes": "Reasoning effort-ladder shape only. Execution/publication date unknown in raw evaluations.json. Carbon result page dated 2026-11-10 separately; not a raw row date."
+            },
+            "evidenceExcerpt": "[M] {\"datasetId\":\"v2_Semi_Private\",\"modelId\":\"google-gemini-4-carbon-low\",\"score\":0.49583333333333335,\"costPerTask\":0.09848504999999998,\"resultsUrl\":\"/results/google-gemini-4-carbon\",\"display\":true}"
+          },
+          {
+            "id": "te82-arc2-gemini-4-carbon-high",
+            "benchmarkId": "arc-agi-2-v2-semi-private-2026-11-17",
+            "name": "ARC-AGI-2 Semi-Private",
+            "version": "v2_Semi_Private / 2026-11-17 snapshot",
+            "unit": "% solved",
+            "maximumScore": 100,
+            "effort": "high",
+            "score": 92.08333333333333,
+            "publishedAt": "2026-11-17",
+            "sourceUrl": "https://arcprize.org/media/data/evaluations.json",
+            "confidence": "publisherReported",
+            "evidenceStatus": "unknown",
+            "sampleContext": null,
+            "secondaryMetrics": {
+              "costPerTaskUsd": 0.6838793166666667
+            },
+            "context": {
+              "sourceKind": "benchmarkOwner",
+              "sourcePublisher": "ARC Prize",
+              "dateBasis": "firstObservedPublicSnapshot",
+              "observedAt": "2026-11-17",
+              "harness": "ARC Prize v2_Semi_Private",
+              "sampleNotes": "Reasoning effort-ladder shape only. Execution/publication date unknown in raw evaluations.json. Carbon result page dated 2026-11-10 separately; not a raw row date."
+            },
+            "evidenceExcerpt": "[M] {\"datasetId\":\"v2_Semi_Private\",\"modelId\":\"google-gemini-4-carbon-high\",\"score\":0.9208333333333333,\"costPerTask\":0.6838793166666667,\"resultsUrl\":\"/results/google-gemini-4-carbon\",\"display\":true}"
+          }
+        ],
         "taskStudies": [],
         "assessment": null,
         "taskStudiesAsOfDate": "2026-09-25"
@@ -5666,8 +6815,8 @@
       "releaseDate": "2026-10-30",
       "releaseDateSource": "https://developers.openai.com/api/docs/changelog",
       "policy": {
-        "version": "2026-11-01",
-        "evidenceAsOfDate": "2026-11-01",
+        "version": "2026-11-17",
+        "evidenceAsOfDate": "2026-11-17",
         "reason": "Provider approval or organization verification required; excluded from every recommendation and automatic route.",
         "workflowRoles": [],
         "routes": [],
@@ -5725,8 +6874,8 @@
       "releaseDate": "2026-08-10",
       "releaseDateSource": "https://openai.com/index/expanding-daybreak-as-the-cyber-defense-window-narrows/",
       "policy": {
-        "version": "2026-11-01",
-        "evidenceAsOfDate": "2026-11-01",
+        "version": "2026-11-17",
+        "evidenceAsOfDate": "2026-11-17",
         "reason": "Provider approval or organization verification required; excluded from every recommendation and automatic route.",
         "workflowRoles": [],
         "routes": [],
@@ -5792,8 +6941,8 @@
       "releaseDate": "2026-04-16",
       "releaseDateSource": "https://openai.com/index/introducing-gpt-rosalind/",
       "policy": {
-        "version": "2026-11-01",
-        "evidenceAsOfDate": "2026-11-01",
+        "version": "2026-11-17",
+        "evidenceAsOfDate": "2026-11-17",
         "reason": "Provider approval or organization verification required; excluded from every recommendation and automatic route.",
         "workflowRoles": [],
         "routes": [],
@@ -5851,8 +7000,8 @@
       "releaseDate": "2026-04-16",
       "releaseDateSource": "https://openai.com/index/introducing-gpt-rosalind/",
       "policy": {
-        "version": "2026-11-01",
-        "evidenceAsOfDate": "2026-11-01",
+        "version": "2026-11-17",
+        "evidenceAsOfDate": "2026-11-17",
         "reason": "Provider approval or organization verification required; excluded from every recommendation and automatic route.",
         "workflowRoles": [],
         "routes": [],
@@ -5910,8 +7059,8 @@
       "releaseDate": "2026-09-01",
       "releaseDateSource": "https://platform.claude.com/docs/en/models/mythos-5-1/overview",
       "policy": {
-        "version": "2026-11-01",
-        "evidenceAsOfDate": "2026-11-01",
+        "version": "2026-11-17",
+        "evidenceAsOfDate": "2026-11-17",
         "reason": "Provider approval or organization verification required; excluded from every recommendation and automatic route.",
         "workflowRoles": [],
         "routes": [],
@@ -5969,8 +7118,8 @@
       "releaseDate": "2026-06-09",
       "releaseDateSource": "https://platform.claude.com/docs/en/models/mythos-5/overview",
       "policy": {
-        "version": "2026-11-01",
-        "evidenceAsOfDate": "2026-11-01",
+        "version": "2026-11-17",
+        "evidenceAsOfDate": "2026-11-17",
         "reason": "Provider approval or organization verification required; excluded from every recommendation and automatic route.",
         "workflowRoles": [],
         "routes": [],
@@ -6012,6 +7161,880 @@
         "sourceCodeReview": "overkill",
         "securityAssessment": "ideal",
         "redundancyDetection": "ideal",
+        "graphicalQualityJudgment": null,
+        "consistencyChecking": null
+      },
+      "restricted": true,
+      "deprecated": false,
+      "costUnconfirmed": false,
+      "selectionStatus": "restricted",
+      "evidenceStatus": "unknown",
+      "provisional": false,
+      "testOnly": true
+    },
+    {
+      "displayName": "Claude Fable 5.2",
+      "releaseDate": "2026-11-09",
+      "releaseDateSource": "https://platform.claude.com/docs/en/release-notes/overview",
+      "policy": {
+        "version": "2026-11-17",
+        "evidenceAsOfDate": "2026-11-17",
+        "reason": "TE-82 inventory only. General vendor availability does not establish fleet CLI execution; retain restricted policy until compatibility evaluation. [V] 1M context, 128K output, always-on adaptive thinking. Active; retirement not sooner than 2027-11-09. Editing system/tools/earlier messages and resending a later thinking block returns HTTP 400 for every account. ",
+        "workflowRoles": [],
+        "routes": [],
+        "fallbacks": []
+      },
+      "evidence": {
+        "external": [
+          {
+            "id": "te82-tb41-claude-fable-5-2-max",
+            "benchmarkId": "terminal-bench-v4.1-official-native-agents",
+            "name": "Terminal-Bench 4.1 / official native-agent leaderboard",
+            "version": "4.1",
+            "unit": "% resolved",
+            "maximumScore": 100,
+            "effort": "max",
+            "score": 65.76,
+            "publishedAt": "2026-11-17",
+            "sourceUrl": "https://www.tbench.ai/leaderboard",
+            "confidence": "publisherReported",
+            "evidenceStatus": "unknown",
+            "sampleContext": null,
+            "secondaryMetrics": {
+              "costPerTaskUsd": 49.978060606
+            },
+            "context": {
+              "sourceKind": "officialLeaderboard",
+              "sourcePublisher": "Terminal-Bench",
+              "dateBasis": "firstObservedPublicSnapshot",
+              "observedAt": "2026-11-17",
+              "sourceCreatedAt": "2026-11-13T01:22:52.478025+00:00",
+              "sourceUpdatedAt": "2026-11-13T01:22:52.478025+00:00",
+              "harness": "Claude Code",
+              "trialCount": 330,
+              "confidenceIntervalHalfWidth": 2.85,
+              "confidenceIntervalLevel": 0.95,
+              "totalCostUsd": 16492.76,
+              "costBasis": "Published run total, not token-price recomputation.",
+              "sampleNotes": "Run execution date not published. metadata.date=2026-11-09 is model release date. Total output tokens=162146230."
+            },
+            "evidenceExcerpt": "[M] {\"id\":\"a8c62ada-1715-4553-bd4b-87cbf2527290\",\"leaderboard_id\":\"947c0b13-1d0f-43e0-bd7b-7e5d8c16187a\",\"rank\":2,\"metadata\":{\"date\":\"2026-11-09\",\"agent_org\":{\"url\":\"https://www.anthropic.com\",\"label\":\"Anthropic\"},\"model_org\":{\"url\":\"https://www.anthropic.com\",\"label\":\"Anthropic\"},\"display_date\":\"Nov 9, 2026\",\"agent_display\":{\"url\":\"https://claude.com/product/claude-code\",\"label\":\"Claude Code\"},\"model_display\":{\"url\":\"https://www.anthropic.com/claude-fable-and-mythos-5-2\",\"label\":\"Fable 5.2\"},\"reasoning_effort\":\"max\"},\"metrics\":{\"accuracy\":65.76,\"n_trials\":330,\"pass_at_2\":0.7273,\"pass_at_3\":0.7545,\"pass_at_4\":0.7727,\"pass_at_5\":0.7879,\"successes\":217,\"display_cost\":\"$$16.5k\",\"total_tokens\":15726404102,\"output_tokens\":162146230,\"total_cost_usd\":16492.76,\"display_accuracy\":\"**65.8%** \\u00b1 2.8%\",\"cached_input_tokens\":14858870781,\"display_total_tokens\":\"15.7B\",\"uncached_input_tokens\":15564257872,\"avg_trial_duration_sec\":7333,\"display_total_cost_usd\":\"$$16,492.76\",\"accuracy_ci95_half_width\":2.85},\"status\":\"display\",\"created_at\":\"2026-11-13T01:22:52.478025+00:00\",\"updated_at\":\"2026-11-13T01:22:52.478025+00:00\",\"n_trials\":330}"
+          },
+          {
+            "id": "te82-arc2-claude-fable-5-2-xhigh",
+            "benchmarkId": "arc-agi-2-v2-semi-private-2026-11-17",
+            "name": "ARC-AGI-2 Semi-Private",
+            "version": "v2_Semi_Private / 2026-11-17 snapshot",
+            "unit": "% solved",
+            "maximumScore": 100,
+            "effort": "xHigh",
+            "score": 93.75,
+            "publishedAt": "2026-11-17",
+            "sourceUrl": "https://arcprize.org/media/data/evaluations.json",
+            "confidence": "publisherReported",
+            "evidenceStatus": "unknown",
+            "sampleContext": null,
+            "secondaryMetrics": {
+              "costPerTaskUsd": 0.9832189333333337
+            },
+            "context": {
+              "sourceKind": "benchmarkOwner",
+              "sourcePublisher": "ARC Prize",
+              "dateBasis": "firstObservedPublicSnapshot",
+              "observedAt": "2026-11-17",
+              "harness": "ARC Prize v2_Semi_Private",
+              "sampleNotes": "Reasoning effort-ladder shape only. Execution/publication date unknown in raw evaluations.json. Carbon result page dated 2026-11-10 separately; not a raw row date."
+            },
+            "evidenceExcerpt": "[M] {\"datasetId\":\"v2_Semi_Private\",\"modelId\":\"anthropic-claude-fable-5-2-xhigh\",\"score\":0.9375,\"costPerTask\":0.9832189333333337,\"resultsUrl\":\"/results/anthropic-claude-fable-5-2\",\"display\":true}"
+          },
+          {
+            "id": "te82-arc2-claude-fable-5-2-medium",
+            "benchmarkId": "arc-agi-2-v2-semi-private-2026-11-17",
+            "name": "ARC-AGI-2 Semi-Private",
+            "version": "v2_Semi_Private / 2026-11-17 snapshot",
+            "unit": "% solved",
+            "maximumScore": 100,
+            "effort": "medium",
+            "score": 89.58333333333334,
+            "publishedAt": "2026-11-17",
+            "sourceUrl": "https://arcprize.org/media/data/evaluations.json",
+            "confidence": "publisherReported",
+            "evidenceStatus": "unknown",
+            "sampleContext": null,
+            "secondaryMetrics": {
+              "costPerTaskUsd": 0.6268079333333333
+            },
+            "context": {
+              "sourceKind": "benchmarkOwner",
+              "sourcePublisher": "ARC Prize",
+              "dateBasis": "firstObservedPublicSnapshot",
+              "observedAt": "2026-11-17",
+              "harness": "ARC Prize v2_Semi_Private",
+              "sampleNotes": "Reasoning effort-ladder shape only. Execution/publication date unknown in raw evaluations.json. Carbon result page dated 2026-11-10 separately; not a raw row date."
+            },
+            "evidenceExcerpt": "[M] {\"datasetId\":\"v2_Semi_Private\",\"modelId\":\"anthropic-claude-fable-5-2-medium\",\"score\":0.8958333333333334,\"costPerTask\":0.6268079333333333,\"resultsUrl\":\"/results/anthropic-claude-fable-5-2\",\"display\":true}"
+          },
+          {
+            "id": "te82-arc2-claude-fable-5-2-max",
+            "benchmarkId": "arc-agi-2-v2-semi-private-2026-11-17",
+            "name": "ARC-AGI-2 Semi-Private",
+            "version": "v2_Semi_Private / 2026-11-17 snapshot",
+            "unit": "% solved",
+            "maximumScore": 100,
+            "effort": "max",
+            "score": 92.5,
+            "publishedAt": "2026-11-17",
+            "sourceUrl": "https://arcprize.org/media/data/evaluations.json",
+            "confidence": "publisherReported",
+            "evidenceStatus": "unknown",
+            "sampleContext": null,
+            "secondaryMetrics": {
+              "costPerTaskUsd": 2.8135210000000006
+            },
+            "context": {
+              "sourceKind": "benchmarkOwner",
+              "sourcePublisher": "ARC Prize",
+              "dateBasis": "firstObservedPublicSnapshot",
+              "observedAt": "2026-11-17",
+              "harness": "ARC Prize v2_Semi_Private",
+              "sampleNotes": "Reasoning effort-ladder shape only. Execution/publication date unknown in raw evaluations.json. Carbon result page dated 2026-11-10 separately; not a raw row date."
+            },
+            "evidenceExcerpt": "[M] {\"datasetId\":\"v2_Semi_Private\",\"modelId\":\"anthropic-claude-fable-5-2-max\",\"score\":0.925,\"costPerTask\":2.8135210000000006,\"resultsUrl\":\"/results/anthropic-claude-fable-5-2\",\"display\":true}"
+          },
+          {
+            "id": "te82-arc2-claude-fable-5-2-low",
+            "benchmarkId": "arc-agi-2-v2-semi-private-2026-11-17",
+            "name": "ARC-AGI-2 Semi-Private",
+            "version": "v2_Semi_Private / 2026-11-17 snapshot",
+            "unit": "% solved",
+            "maximumScore": 100,
+            "effort": "low",
+            "score": 86.66666666666667,
+            "publishedAt": "2026-11-17",
+            "sourceUrl": "https://arcprize.org/media/data/evaluations.json",
+            "confidence": "publisherReported",
+            "evidenceStatus": "unknown",
+            "sampleContext": null,
+            "secondaryMetrics": {
+              "costPerTaskUsd": 0.5158499333333332
+            },
+            "context": {
+              "sourceKind": "benchmarkOwner",
+              "sourcePublisher": "ARC Prize",
+              "dateBasis": "firstObservedPublicSnapshot",
+              "observedAt": "2026-11-17",
+              "harness": "ARC Prize v2_Semi_Private",
+              "sampleNotes": "Reasoning effort-ladder shape only. Execution/publication date unknown in raw evaluations.json. Carbon result page dated 2026-11-10 separately; not a raw row date."
+            },
+            "evidenceExcerpt": "[M] {\"datasetId\":\"v2_Semi_Private\",\"modelId\":\"anthropic-claude-fable-5-2-low\",\"score\":0.8666666666666667,\"costPerTask\":0.5158499333333332,\"resultsUrl\":\"/results/anthropic-claude-fable-5-2\",\"display\":true}"
+          },
+          {
+            "id": "te82-arc2-claude-fable-5-2-high",
+            "benchmarkId": "arc-agi-2-v2-semi-private-2026-11-17",
+            "name": "ARC-AGI-2 Semi-Private",
+            "version": "v2_Semi_Private / 2026-11-17 snapshot",
+            "unit": "% solved",
+            "maximumScore": 100,
+            "effort": "high",
+            "score": 90.41666666666667,
+            "publishedAt": "2026-11-17",
+            "sourceUrl": "https://arcprize.org/media/data/evaluations.json",
+            "confidence": "publisherReported",
+            "evidenceStatus": "unknown",
+            "sampleContext": null,
+            "secondaryMetrics": {
+              "costPerTaskUsd": 0.9076362666666669
+            },
+            "context": {
+              "sourceKind": "benchmarkOwner",
+              "sourcePublisher": "ARC Prize",
+              "dateBasis": "firstObservedPublicSnapshot",
+              "observedAt": "2026-11-17",
+              "harness": "ARC Prize v2_Semi_Private",
+              "sampleNotes": "Reasoning effort-ladder shape only. Execution/publication date unknown in raw evaluations.json. Carbon result page dated 2026-11-10 separately; not a raw row date."
+            },
+            "evidenceExcerpt": "[M] {\"datasetId\":\"v2_Semi_Private\",\"modelId\":\"anthropic-claude-fable-5-2-high\",\"score\":0.9041666666666667,\"costPerTask\":0.9076362666666669,\"resultsUrl\":\"/results/anthropic-claude-fable-5-2\",\"display\":true}"
+          }
+        ],
+        "taskStudies": [],
+        "assessment": null,
+        "taskStudiesAsOfDate": "2026-09-25"
+      },
+      "modelId": "claude-fable-5-2",
+      "vendor": "anthropic",
+      "cli": "claude",
+      "tier": "frontier",
+      "costClass": "premium",
+      "price": {
+        "status": "resolved",
+        "currency": "USD",
+        "inputPerMTok": 8,
+        "outputPerMTok": 40,
+        "cachedInputPerMTok": 0.2,
+        "cachedInputUsesInputFallback": false,
+        "validFromUtc": "2026-11-09T00:00:00Z",
+        "promptSizeTiers": [],
+        "unconfirmed": false
+      },
+      "effortLevels": [
+        "low",
+        "medium",
+        "high",
+        "xHigh",
+        "max"
+      ],
+      "suitability": {
+        "heavyDesign": "ideal",
+        "planning": "ideal",
+        "decisionMaking": "ideal",
+        "feature": "capable",
+        "mechanicalChore": "overkill",
+        "docEdit": "overkill",
+        "research": "capable",
+        "review": null,
+        "htmlUiImplementation": "ideal",
+        "sourceCodeReview": "overkill",
+        "securityAssessment": "ideal",
+        "redundancyDetection": "ideal",
+        "graphicalQualityJudgment": null,
+        "consistencyChecking": null
+      },
+      "restricted": true,
+      "deprecated": false,
+      "costUnconfirmed": false,
+      "selectionStatus": "restricted",
+      "evidenceStatus": "unknown",
+      "provisional": false,
+      "testOnly": true
+    },
+    {
+      "displayName": "Claude Mythos 5.2",
+      "releaseDate": "2026-11-09",
+      "releaseDateSource": "https://platform.claude.com/docs/en/release-notes/overview",
+      "policy": {
+        "version": "2026-11-17",
+        "evidenceAsOfDate": "2026-11-17",
+        "reason": "TE-82 inventory only. Provider requires verified organization access. [V] 1M context, 128K output, always-on adaptive thinking. Active; retirement not sooner than 2027-11-09. Editing system/tools/earlier messages and resending a later thinking block returns HTTP 400 for every account. Organization verification required.",
+        "workflowRoles": [],
+        "routes": [],
+        "fallbacks": []
+      },
+      "evidence": {
+        "external": [],
+        "taskStudies": [],
+        "assessment": null,
+        "taskStudiesAsOfDate": "2026-09-25"
+      },
+      "modelId": "claude-mythos-5-2",
+      "vendor": "anthropic",
+      "cli": "claude",
+      "tier": "frontier",
+      "costClass": "premium",
+      "price": {
+        "status": "resolved",
+        "currency": "USD",
+        "inputPerMTok": 8,
+        "outputPerMTok": 40,
+        "cachedInputPerMTok": 0.2,
+        "cachedInputUsesInputFallback": false,
+        "validFromUtc": "2026-11-09T00:00:00Z",
+        "promptSizeTiers": [],
+        "unconfirmed": false
+      },
+      "effortLevels": [
+        "low",
+        "medium",
+        "high",
+        "xHigh",
+        "max"
+      ],
+      "suitability": {
+        "heavyDesign": "ideal",
+        "planning": "ideal",
+        "decisionMaking": "ideal",
+        "feature": "capable",
+        "mechanicalChore": "overkill",
+        "docEdit": "overkill",
+        "research": "capable",
+        "review": null,
+        "htmlUiImplementation": "ideal",
+        "sourceCodeReview": "overkill",
+        "securityAssessment": "ideal",
+        "redundancyDetection": "ideal",
+        "graphicalQualityJudgment": null,
+        "consistencyChecking": null
+      },
+      "restricted": true,
+      "deprecated": false,
+      "costUnconfirmed": false,
+      "selectionStatus": "restricted",
+      "evidenceStatus": "unknown",
+      "provisional": false,
+      "testOnly": true
+    },
+    {
+      "displayName": "GPT-6.2 Sol",
+      "releaseDate": "2026-11-17",
+      "releaseDateSource": "https://developers.openai.com/api/docs/changelog",
+      "policy": {
+        "version": "2026-11-17",
+        "evidenceAsOfDate": "2026-11-17",
+        "reason": "TE-82 inventory only. General vendor availability does not establish fleet CLI execution; retain restricted policy until compatibility evaluation. [V] Codex and API available; 1,050,000 context, 128,000 max output. API rejects none effort. Official Standard Astra cached input is $0.40; $0.80 belongs to long-context Standard or short-context Fast, not the same tariff.",
+        "workflowRoles": [],
+        "routes": [],
+        "fallbacks": []
+      },
+      "evidence": {
+        "external": [
+          {
+            "id": "te82-arc2-gpt-6.2-sol-xhigh",
+            "benchmarkId": "arc-agi-2-v2-semi-private-2026-11-17",
+            "name": "ARC-AGI-2 Semi-Private",
+            "version": "v2_Semi_Private / 2026-11-17 snapshot",
+            "unit": "% solved",
+            "maximumScore": 100,
+            "effort": "xHigh",
+            "score": 85.83333333333333,
+            "publishedAt": "2026-11-17",
+            "sourceUrl": "https://arcprize.org/media/data/evaluations.json",
+            "confidence": "publisherReported",
+            "evidenceStatus": "unknown",
+            "sampleContext": null,
+            "secondaryMetrics": {
+              "costPerTaskUsd": 0.17421611666666667
+            },
+            "context": {
+              "sourceKind": "benchmarkOwner",
+              "sourcePublisher": "ARC Prize",
+              "dateBasis": "firstObservedPublicSnapshot",
+              "observedAt": "2026-11-17",
+              "harness": "ARC Prize v2_Semi_Private",
+              "sampleNotes": "Reasoning effort-ladder shape only. Execution/publication date unknown in raw evaluations.json. Carbon result page dated 2026-11-10 separately; not a raw row date."
+            },
+            "evidenceExcerpt": "[M] {\"datasetId\":\"v2_Semi_Private\",\"modelId\":\"openai-gpt-6-2-sol-xhigh\",\"score\":0.8583333333333333,\"costPerTask\":0.17421611666666667,\"resultsUrl\":\"/results/openai-gpt-6-2-sol\",\"display\":true}"
+          },
+          {
+            "id": "te82-arc2-gpt-6.2-sol-medium",
+            "benchmarkId": "arc-agi-2-v2-semi-private-2026-11-17",
+            "name": "ARC-AGI-2 Semi-Private",
+            "version": "v2_Semi_Private / 2026-11-17 snapshot",
+            "unit": "% solved",
+            "maximumScore": 100,
+            "effort": "medium",
+            "score": 82.91666666666667,
+            "publishedAt": "2026-11-17",
+            "sourceUrl": "https://arcprize.org/media/data/evaluations.json",
+            "confidence": "publisherReported",
+            "evidenceStatus": "unknown",
+            "sampleContext": null,
+            "secondaryMetrics": {
+              "costPerTaskUsd": 0.10316451666666669
+            },
+            "context": {
+              "sourceKind": "benchmarkOwner",
+              "sourcePublisher": "ARC Prize",
+              "dateBasis": "firstObservedPublicSnapshot",
+              "observedAt": "2026-11-17",
+              "harness": "ARC Prize v2_Semi_Private",
+              "sampleNotes": "Reasoning effort-ladder shape only. Execution/publication date unknown in raw evaluations.json. Carbon result page dated 2026-11-10 separately; not a raw row date."
+            },
+            "evidenceExcerpt": "[M] {\"datasetId\":\"v2_Semi_Private\",\"modelId\":\"openai-gpt-6-2-sol-medium\",\"score\":0.8291666666666667,\"costPerTask\":0.10316451666666669,\"resultsUrl\":\"/results/openai-gpt-6-2-sol\",\"display\":true}"
+          },
+          {
+            "id": "te82-arc2-gpt-6.2-sol-max",
+            "benchmarkId": "arc-agi-2-v2-semi-private-2026-11-17",
+            "name": "ARC-AGI-2 Semi-Private",
+            "version": "v2_Semi_Private / 2026-11-17 snapshot",
+            "unit": "% solved",
+            "maximumScore": 100,
+            "effort": "max",
+            "score": 85.83333333333333,
+            "publishedAt": "2026-11-17",
+            "sourceUrl": "https://arcprize.org/media/data/evaluations.json",
+            "confidence": "publisherReported",
+            "evidenceStatus": "unknown",
+            "sampleContext": null,
+            "secondaryMetrics": {
+              "costPerTaskUsd": 0.2610862833333335
+            },
+            "context": {
+              "sourceKind": "benchmarkOwner",
+              "sourcePublisher": "ARC Prize",
+              "dateBasis": "firstObservedPublicSnapshot",
+              "observedAt": "2026-11-17",
+              "harness": "ARC Prize v2_Semi_Private",
+              "sampleNotes": "Reasoning effort-ladder shape only. Execution/publication date unknown in raw evaluations.json. Carbon result page dated 2026-11-10 separately; not a raw row date."
+            },
+            "evidenceExcerpt": "[M] {\"datasetId\":\"v2_Semi_Private\",\"modelId\":\"openai-gpt-6-2-sol-max\",\"score\":0.8583333333333333,\"costPerTask\":0.2610862833333335,\"resultsUrl\":\"/results/openai-gpt-6-2-sol\",\"display\":true}"
+          },
+          {
+            "id": "te82-arc2-gpt-6.2-sol-low",
+            "benchmarkId": "arc-agi-2-v2-semi-private-2026-11-17",
+            "name": "ARC-AGI-2 Semi-Private",
+            "version": "v2_Semi_Private / 2026-11-17 snapshot",
+            "unit": "% solved",
+            "maximumScore": 100,
+            "effort": "low",
+            "score": 57.91666666666667,
+            "publishedAt": "2026-11-17",
+            "sourceUrl": "https://arcprize.org/media/data/evaluations.json",
+            "confidence": "publisherReported",
+            "evidenceStatus": "unknown",
+            "sampleContext": null,
+            "secondaryMetrics": {
+              "costPerTaskUsd": 0.07575844999999996
+            },
+            "context": {
+              "sourceKind": "benchmarkOwner",
+              "sourcePublisher": "ARC Prize",
+              "dateBasis": "firstObservedPublicSnapshot",
+              "observedAt": "2026-11-17",
+              "harness": "ARC Prize v2_Semi_Private",
+              "sampleNotes": "Reasoning effort-ladder shape only. Execution/publication date unknown in raw evaluations.json. Carbon result page dated 2026-11-10 separately; not a raw row date."
+            },
+            "evidenceExcerpt": "[M] {\"datasetId\":\"v2_Semi_Private\",\"modelId\":\"openai-gpt-6-2-sol-low\",\"score\":0.5791666666666667,\"costPerTask\":0.07575844999999996,\"resultsUrl\":\"/results/openai-gpt-6-2-sol\",\"display\":true}"
+          },
+          {
+            "id": "te82-arc2-gpt-6.2-sol-high",
+            "benchmarkId": "arc-agi-2-v2-semi-private-2026-11-17",
+            "name": "ARC-AGI-2 Semi-Private",
+            "version": "v2_Semi_Private / 2026-11-17 snapshot",
+            "unit": "% solved",
+            "maximumScore": 100,
+            "effort": "high",
+            "score": 85.83333333333333,
+            "publishedAt": "2026-11-17",
+            "sourceUrl": "https://arcprize.org/media/data/evaluations.json",
+            "confidence": "publisherReported",
+            "evidenceStatus": "unknown",
+            "sampleContext": null,
+            "secondaryMetrics": {
+              "costPerTaskUsd": 0.13255319999999998
+            },
+            "context": {
+              "sourceKind": "benchmarkOwner",
+              "sourcePublisher": "ARC Prize",
+              "dateBasis": "firstObservedPublicSnapshot",
+              "observedAt": "2026-11-17",
+              "harness": "ARC Prize v2_Semi_Private",
+              "sampleNotes": "Reasoning effort-ladder shape only. Execution/publication date unknown in raw evaluations.json. Carbon result page dated 2026-11-10 separately; not a raw row date."
+            },
+            "evidenceExcerpt": "[M] {\"datasetId\":\"v2_Semi_Private\",\"modelId\":\"openai-gpt-6-2-sol-high\",\"score\":0.8583333333333333,\"costPerTask\":0.13255319999999998,\"resultsUrl\":\"/results/openai-gpt-6-2-sol\",\"display\":true}"
+          }
+        ],
+        "taskStudies": [],
+        "assessment": null,
+        "taskStudiesAsOfDate": "2026-09-25"
+      },
+      "modelId": "gpt-6.2-sol",
+      "vendor": "openai",
+      "cli": "codex",
+      "tier": "frontier",
+      "costClass": "standard",
+      "price": {
+        "status": "resolved",
+        "currency": "USD",
+        "inputPerMTok": 2,
+        "outputPerMTok": 10,
+        "cachedInputPerMTok": 0.1,
+        "cachedInputUsesInputFallback": false,
+        "validFromUtc": "2026-11-17T00:00:00Z",
+        "promptSizeTiers": [
+          {
+            "minPromptTokens": 272001,
+            "inputPerMTok": 4,
+            "cacheReadPerMTok": 0.2,
+            "cacheWritePerMTok": 5.0,
+            "outputPerMTok": 15.0
+          }
+        ],
+        "unconfirmed": false
+      },
+      "effortLevels": [
+        "low",
+        "medium",
+        "high",
+        "xHigh",
+        "max"
+      ],
+      "suitability": {
+        "heavyDesign": "ideal",
+        "planning": "ideal",
+        "decisionMaking": "ideal",
+        "feature": "capable",
+        "mechanicalChore": "overkill",
+        "docEdit": "overkill",
+        "research": "capable",
+        "review": null,
+        "htmlUiImplementation": "ideal",
+        "sourceCodeReview": "overkill",
+        "securityAssessment": "ideal",
+        "redundancyDetection": "ideal",
+        "graphicalQualityJudgment": null,
+        "consistencyChecking": null
+      },
+      "restricted": true,
+      "deprecated": false,
+      "costUnconfirmed": false,
+      "selectionStatus": "restricted",
+      "evidenceStatus": "unknown",
+      "provisional": false,
+      "testOnly": true
+    },
+    {
+      "displayName": "GPT-6.2 Astra",
+      "releaseDate": "2026-11-17",
+      "releaseDateSource": "https://developers.openai.com/api/docs/changelog",
+      "policy": {
+        "version": "2026-11-17",
+        "evidenceAsOfDate": "2026-11-17",
+        "reason": "TE-82 inventory only. General vendor availability does not establish fleet CLI execution; retain restricted policy until compatibility evaluation. [V] Codex and API available; 1,050,000 context, 128,000 max output. API rejects none effort. Official Standard Astra cached input is $0.40; $0.80 belongs to long-context Standard or short-context Fast, not the same tariff.",
+        "workflowRoles": [],
+        "routes": [],
+        "fallbacks": []
+      },
+      "evidence": {
+        "external": [
+          {
+            "id": "te82-arc2-gpt-6.2-astra-xhigh",
+            "benchmarkId": "arc-agi-2-v2-semi-private-2026-11-17",
+            "name": "ARC-AGI-2 Semi-Private",
+            "version": "v2_Semi_Private / 2026-11-17 snapshot",
+            "unit": "% solved",
+            "maximumScore": 100,
+            "effort": "xHigh",
+            "score": 95.83333333333334,
+            "publishedAt": "2026-11-17",
+            "sourceUrl": "https://arcprize.org/media/data/evaluations.json",
+            "confidence": "publisherReported",
+            "evidenceStatus": "unknown",
+            "sampleContext": null,
+            "secondaryMetrics": {
+              "costPerTaskUsd": 0.4996228
+            },
+            "context": {
+              "sourceKind": "benchmarkOwner",
+              "sourcePublisher": "ARC Prize",
+              "dateBasis": "firstObservedPublicSnapshot",
+              "observedAt": "2026-11-17",
+              "harness": "ARC Prize v2_Semi_Private",
+              "sampleNotes": "Reasoning effort-ladder shape only. Execution/publication date unknown in raw evaluations.json. Carbon result page dated 2026-11-10 separately; not a raw row date."
+            },
+            "evidenceExcerpt": "[M] {\"datasetId\":\"v2_Semi_Private\",\"modelId\":\"openai-gpt-6-2-astra-xhigh\",\"score\":0.9583333333333334,\"costPerTask\":0.4996228,\"resultsUrl\":\"/results/openai-gpt-6-2-astra\",\"display\":true}"
+          },
+          {
+            "id": "te82-arc2-gpt-6.2-astra-medium",
+            "benchmarkId": "arc-agi-2-v2-semi-private-2026-11-17",
+            "name": "ARC-AGI-2 Semi-Private",
+            "version": "v2_Semi_Private / 2026-11-17 snapshot",
+            "unit": "% solved",
+            "maximumScore": 100,
+            "effort": "medium",
+            "score": 93.33333333333333,
+            "publishedAt": "2026-11-17",
+            "sourceUrl": "https://arcprize.org/media/data/evaluations.json",
+            "confidence": "publisherReported",
+            "evidenceStatus": "unknown",
+            "sampleContext": null,
+            "secondaryMetrics": {
+              "costPerTaskUsd": 0.3088501333333334
+            },
+            "context": {
+              "sourceKind": "benchmarkOwner",
+              "sourcePublisher": "ARC Prize",
+              "dateBasis": "firstObservedPublicSnapshot",
+              "observedAt": "2026-11-17",
+              "harness": "ARC Prize v2_Semi_Private",
+              "sampleNotes": "Reasoning effort-ladder shape only. Execution/publication date unknown in raw evaluations.json. Carbon result page dated 2026-11-10 separately; not a raw row date."
+            },
+            "evidenceExcerpt": "[M] {\"datasetId\":\"v2_Semi_Private\",\"modelId\":\"openai-gpt-6-2-astra-medium\",\"score\":0.9333333333333333,\"costPerTask\":0.3088501333333334,\"resultsUrl\":\"/results/openai-gpt-6-2-astra\",\"display\":true}"
+          },
+          {
+            "id": "te82-arc2-gpt-6.2-astra-max",
+            "benchmarkId": "arc-agi-2-v2-semi-private-2026-11-17",
+            "name": "ARC-AGI-2 Semi-Private",
+            "version": "v2_Semi_Private / 2026-11-17 snapshot",
+            "unit": "% solved",
+            "maximumScore": 100,
+            "effort": "max",
+            "score": 95.83333333333334,
+            "publishedAt": "2026-11-17",
+            "sourceUrl": "https://arcprize.org/media/data/evaluations.json",
+            "confidence": "publisherReported",
+            "evidenceStatus": "unknown",
+            "sampleContext": null,
+            "secondaryMetrics": {
+              "costPerTaskUsd": 0.9695151333333333
+            },
+            "context": {
+              "sourceKind": "benchmarkOwner",
+              "sourcePublisher": "ARC Prize",
+              "dateBasis": "firstObservedPublicSnapshot",
+              "observedAt": "2026-11-17",
+              "harness": "ARC Prize v2_Semi_Private",
+              "sampleNotes": "Reasoning effort-ladder shape only. Execution/publication date unknown in raw evaluations.json. Carbon result page dated 2026-11-10 separately; not a raw row date."
+            },
+            "evidenceExcerpt": "[M] {\"datasetId\":\"v2_Semi_Private\",\"modelId\":\"openai-gpt-6-2-astra-max\",\"score\":0.9583333333333334,\"costPerTask\":0.9695151333333333,\"resultsUrl\":\"/results/openai-gpt-6-2-astra\",\"display\":true}"
+          },
+          {
+            "id": "te82-arc2-gpt-6.2-astra-low",
+            "benchmarkId": "arc-agi-2-v2-semi-private-2026-11-17",
+            "name": "ARC-AGI-2 Semi-Private",
+            "version": "v2_Semi_Private / 2026-11-17 snapshot",
+            "unit": "% solved",
+            "maximumScore": 100,
+            "effort": "low",
+            "score": 91.66666666666666,
+            "publishedAt": "2026-11-17",
+            "sourceUrl": "https://arcprize.org/media/data/evaluations.json",
+            "confidence": "publisherReported",
+            "evidenceStatus": "unknown",
+            "sampleContext": null,
+            "secondaryMetrics": {
+              "costPerTaskUsd": 0.27486446666666675
+            },
+            "context": {
+              "sourceKind": "benchmarkOwner",
+              "sourcePublisher": "ARC Prize",
+              "dateBasis": "firstObservedPublicSnapshot",
+              "observedAt": "2026-11-17",
+              "harness": "ARC Prize v2_Semi_Private",
+              "sampleNotes": "Reasoning effort-ladder shape only. Execution/publication date unknown in raw evaluations.json. Carbon result page dated 2026-11-10 separately; not a raw row date."
+            },
+            "evidenceExcerpt": "[M] {\"datasetId\":\"v2_Semi_Private\",\"modelId\":\"openai-gpt-6-2-astra-low\",\"score\":0.9166666666666666,\"costPerTask\":0.27486446666666675,\"resultsUrl\":\"/results/openai-gpt-6-2-astra\",\"display\":true}"
+          },
+          {
+            "id": "te82-arc2-gpt-6.2-astra-high",
+            "benchmarkId": "arc-agi-2-v2-semi-private-2026-11-17",
+            "name": "ARC-AGI-2 Semi-Private",
+            "version": "v2_Semi_Private / 2026-11-17 snapshot",
+            "unit": "% solved",
+            "maximumScore": 100,
+            "effort": "high",
+            "score": 94.58333333333333,
+            "publishedAt": "2026-11-17",
+            "sourceUrl": "https://arcprize.org/media/data/evaluations.json",
+            "confidence": "publisherReported",
+            "evidenceStatus": "unknown",
+            "sampleContext": null,
+            "secondaryMetrics": {
+              "costPerTaskUsd": 0.4082521333333332
+            },
+            "context": {
+              "sourceKind": "benchmarkOwner",
+              "sourcePublisher": "ARC Prize",
+              "dateBasis": "firstObservedPublicSnapshot",
+              "observedAt": "2026-11-17",
+              "harness": "ARC Prize v2_Semi_Private",
+              "sampleNotes": "Reasoning effort-ladder shape only. Execution/publication date unknown in raw evaluations.json. Carbon result page dated 2026-11-10 separately; not a raw row date."
+            },
+            "evidenceExcerpt": "[M] {\"datasetId\":\"v2_Semi_Private\",\"modelId\":\"openai-gpt-6-2-astra-high\",\"score\":0.9458333333333333,\"costPerTask\":0.4082521333333332,\"resultsUrl\":\"/results/openai-gpt-6-2-astra\",\"display\":true}"
+          }
+        ],
+        "taskStudies": [],
+        "assessment": null,
+        "taskStudiesAsOfDate": "2026-09-25"
+      },
+      "modelId": "gpt-6.2-astra",
+      "vendor": "openai",
+      "cli": "codex",
+      "tier": "frontier",
+      "costClass": "premium",
+      "price": {
+        "status": "resolved",
+        "currency": "USD",
+        "inputPerMTok": 8,
+        "outputPerMTok": 40,
+        "cachedInputPerMTok": 0.4,
+        "cachedInputUsesInputFallback": false,
+        "validFromUtc": "2026-11-17T00:00:00Z",
+        "promptSizeTiers": [
+          {
+            "minPromptTokens": 272001,
+            "inputPerMTok": 16,
+            "cacheReadPerMTok": 0.8,
+            "cacheWritePerMTok": 20.0,
+            "outputPerMTok": 60.0
+          }
+        ],
+        "unconfirmed": false
+      },
+      "effortLevels": [
+        "low",
+        "medium",
+        "high",
+        "xHigh",
+        "max"
+      ],
+      "suitability": {
+        "heavyDesign": "ideal",
+        "planning": "ideal",
+        "decisionMaking": "ideal",
+        "feature": "capable",
+        "mechanicalChore": "overkill",
+        "docEdit": "overkill",
+        "research": "capable",
+        "review": null,
+        "htmlUiImplementation": "ideal",
+        "sourceCodeReview": "overkill",
+        "securityAssessment": "ideal",
+        "redundancyDetection": "ideal",
+        "graphicalQualityJudgment": null,
+        "consistencyChecking": null
+      },
+      "restricted": true,
+      "deprecated": false,
+      "costUnconfirmed": false,
+      "selectionStatus": "restricted",
+      "evidenceStatus": "unknown",
+      "provisional": false,
+      "testOnly": true
+    },
+    {
+      "displayName": "GPT-6 Cyber",
+      "releaseDate": "2026-11-05",
+      "releaseDateSource": "https://developers.openai.com/api/docs/changelog",
+      "policy": {
+        "version": "2026-11-17",
+        "evidenceAsOfDate": "2026-11-17",
+        "reason": "TE-82 inventory only. Provider requires verified organization access. [V] Restricted Daybreak model; no general routing. Long-context cache-write costs are unsupported by the published tariff.",
+        "workflowRoles": [],
+        "routes": [],
+        "fallbacks": []
+      },
+      "evidence": {
+        "external": [],
+        "taskStudies": [],
+        "assessment": null,
+        "taskStudiesAsOfDate": "2026-09-25"
+      },
+      "modelId": "gpt-6-cyber",
+      "vendor": "openai",
+      "cli": "codex",
+      "tier": "frontier",
+      "costClass": "unknown",
+      "price": {
+        "status": "noPriceInCatalog"
+      },
+      "effortLevels": [
+        "low",
+        "medium",
+        "high",
+        "xHigh",
+        "max"
+      ],
+      "suitability": {
+        "heavyDesign": "ideal",
+        "planning": "ideal",
+        "decisionMaking": "ideal",
+        "feature": "capable",
+        "mechanicalChore": "overkill",
+        "docEdit": "overkill",
+        "research": "capable",
+        "review": null,
+        "htmlUiImplementation": "ideal",
+        "sourceCodeReview": "overkill",
+        "securityAssessment": "ideal",
+        "redundancyDetection": "ideal",
+        "graphicalQualityJudgment": null,
+        "consistencyChecking": null
+      },
+      "restricted": true,
+      "deprecated": false,
+      "costUnconfirmed": false,
+      "selectionStatus": "restricted",
+      "evidenceStatus": "unknown",
+      "provisional": false,
+      "testOnly": true
+    },
+    {
+      "displayName": "Gemini 4 Hydrogen",
+      "releaseDate": "2026-11-12",
+      "releaseDateSource": "https://ai.google.dev/gemini-api/docs/changelog",
+      "policy": {
+        "version": "2026-11-17",
+        "evidenceAsOfDate": "2026-11-17",
+        "reason": "TE-82 inventory only. General vendor availability does not establish fleet CLI execution; retain restricted policy until compatibility evaluation. [V] API GA 2026-11-12. low/medium/high/xhigh; high default. No local coding cohort.",
+        "workflowRoles": [],
+        "routes": [],
+        "fallbacks": []
+      },
+      "evidence": {
+        "external": [
+          {
+            "id": "te82-tb41-gemini-4-hydrogen-high",
+            "benchmarkId": "terminal-bench-v4.1-official-native-agents",
+            "name": "Terminal-Bench 4.1 / official native-agent leaderboard",
+            "version": "4.1",
+            "unit": "% resolved",
+            "maximumScore": 100,
+            "effort": "high",
+            "score": 56.36,
+            "publishedAt": "2026-11-17",
+            "sourceUrl": "https://www.tbench.ai/leaderboard",
+            "confidence": "publisherReported",
+            "evidenceStatus": "unknown",
+            "sampleContext": null,
+            "secondaryMetrics": {
+              "costPerTaskUsd": 2.376484848
+            },
+            "context": {
+              "sourceKind": "officialLeaderboard",
+              "sourcePublisher": "Terminal-Bench",
+              "dateBasis": "firstObservedPublicSnapshot",
+              "observedAt": "2026-11-17",
+              "sourceCreatedAt": "2026-11-13T20:52:04.742372+00:00",
+              "sourceUpdatedAt": "2026-11-13T20:52:04.742372+00:00",
+              "harness": "Antigravity CLI",
+              "trialCount": 330,
+              "confidenceIntervalHalfWidth": 2.97,
+              "confidenceIntervalLevel": 0.95,
+              "totalCostUsd": 784.24,
+              "costBasis": "Published run total, not token-price recomputation.",
+              "sampleNotes": "Run execution date not published. metadata.date=2026-11-12 is model release date. Total output tokens=39428967."
+            },
+            "evidenceExcerpt": "[M] {\"id\":\"5492a962-55e8-43fa-925a-2aa93a682547\",\"leaderboard_id\":\"947c0b13-1d0f-43e0-bd7b-7e5d8c16187a\",\"rank\":13,\"metadata\":{\"date\":\"2026-11-12\",\"agent_org\":{\"url\":\"https://about.google/\",\"label\":\"Google\"},\"model_org\":{\"url\":\"https://about.google/\",\"label\":\"Google\"},\"display_date\":\"Nov 12, 2026\",\"agent_display\":{\"url\":\"https://antigravity.google/docs/overview?tab=cli\",\"label\":\"Antigravity CLI\"},\"model_display\":{\"url\":\"https://blog.google/innovation-and-ai/models-and-research/gemini-models/introducing-gemini-4-hydrogen/\",\"label\":\"Gemini 4 Hydrogen\"},\"reasoning_effort\":\"high\"},\"metrics\":{\"accuracy\":56.36,\"n_trials\":330,\"pass_at_2\":0.6394,\"pass_at_3\":0.6712,\"pass_at_4\":0.6879,\"pass_at_5\":0.697,\"successes\":186,\"display_cost\":\"$$784.24\",\"total_tokens\":3586959926,\"output_tokens\":39428967,\"total_cost_usd\":784.24,\"display_accuracy\":\"**56.4%** \\u00b1 3.0%\",\"cached_input_tokens\":3391418166,\"display_total_tokens\":\"3.6B\",\"uncached_input_tokens\":3547530959,\"avg_trial_duration_sec\":1926.2,\"display_total_cost_usd\":\"$$784.24\",\"accuracy_ci95_half_width\":2.97},\"status\":\"display\",\"created_at\":\"2026-11-13T20:52:04.742372+00:00\",\"updated_at\":\"2026-11-13T20:52:04.742372+00:00\",\"n_trials\":330}"
+          }
+        ],
+        "taskStudies": [],
+        "assessment": null,
+        "taskStudiesAsOfDate": "2026-09-25"
+      },
+      "modelId": "gemini-4-hydrogen",
+      "vendor": "google",
+      "cli": "antigravity",
+      "tier": "balanced",
+      "costClass": "economy",
+      "price": {
+        "status": "resolved",
+        "currency": "USD",
+        "inputPerMTok": 1.5,
+        "outputPerMTok": 7.5,
+        "cachedInputPerMTok": 0.075,
+        "cachedInputUsesInputFallback": false,
+        "validFromUtc": "2026-11-12T00:00:00Z",
+        "promptSizeTiers": [],
+        "unconfirmed": false
+      },
+      "effortLevels": [
+        "low",
+        "medium",
+        "high",
+        "xHigh"
+      ],
+      "suitability": {
+        "heavyDesign": "capable",
+        "planning": "underpowered",
+        "decisionMaking": "underpowered",
+        "feature": "ideal",
+        "mechanicalChore": "capable",
+        "docEdit": "capable",
+        "research": "ideal",
+        "review": null,
+        "htmlUiImplementation": "capable",
+        "sourceCodeReview": "ideal",
+        "securityAssessment": "underpowered",
+        "redundancyDetection": "capable",
         "graphicalQualityJudgment": null,
         "consistencyChecking": null
       },

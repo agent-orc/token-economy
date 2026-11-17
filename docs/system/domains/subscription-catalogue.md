@@ -54,3 +54,32 @@ All plan rows include CLI IDs, billing basis, per-window pool and unit, source I
 The [subscription observation log](../../../src/TokenEconomy/catalog/subscription-observations.json) records dated model probes, quota resets, burn rates and the Claude five-hour/weekly ratio, each with its method. The [token-per-percentage-point log](../../../src/TokenEconomy/catalog/quota-token-observations.json) has separate uncached input, cached input, output and reasoning fields, plus completeness and method. Its output field includes reasoning when reported that way; `reasoningTokensApprox: null` means it was not separately measured. The October 20 total is incomplete while runs were in flight. These measurements do not change the published plan limits.
 
 Eligible ChatGPT Pro and Business subscriptions can [claim API credits](https://developers.openai.com/api/docs/guides/chatgpt-api-credits) through a linked API organization (announced 2026-10-28). Pro tiers grant $100, $200 or $500 monthly; Business grants $20 per paid Standard seat or $100 per paid Premium seat, pooled up to $500 monthly per workspace. Eligibility and activation are account-specific. These API credits do not raise signed-in Codex limits and are not subtracted from catalogue list prices.
+
+## Model accounting evidence, retrieved 2026-11-17
+
+These are [V] vendor statements. No vendor publishes a per-model weight for the Claude weekly limit. API list prices, Codex credit rates and measured benchmark spending do not establish those weights.
+
+| Source (retrieved 2026-11-17) | Short quotation | Accounting meaning |
+| --- | --- | --- |
+| [Claude support 11647753](https://support.claude.com/en/articles/11647753) | “Weekly limits apply across all models” | Model, effort, context and features affect usage; Claude product surfaces share allowances. |
+| [Claude support 11145838](https://support.claude.com/en/articles/11145838) | “separate weekly limit for Fable” | Max and Ultra have a Fable cap alongside the shared weekly pool, across Claude and Claude Code. |
+| [Claude support 15424964](https://support.claude.com/en/articles/15424964) | “up to 50% of your weekly usage limits” | Fable is included for Max/Ultra and eligible premium seats. Pro and standard seats use usage credits. The older Fable 5-only promotion ended July 19, 2026; it never included Fable 5.1/5.2. The current half-pool allowance is a separate statement. |
+| [Claude support 14552983](https://support.claude.com/en/articles/14552983) | “Opus costs several times more per turn than Sonnet, and Sonnet more than Haiku” | Qualitative per-turn guidance, not a published numeric weekly weight. |
+| [Claude Code errors](https://code.claude.com/docs/en/errors) | “The Opus and Sonnet limits each apply only to requests to that model family” | A family cap can be avoided by switching families; an exhausted shared session/weekly limit still blocks requests. |
+| [OpenAI pricing](https://learn.chatgpt.com/docs/pricing) | “Usage depends on the model”; “Pro plans currently have no five-hour limit” | The live page continues the first quotation with task dependence. Context, effort, tool use and caching also matter. Included usage is distinct from purchased credits. |
+
+The [machine subscription evidence](../../../src/TokenEconomy/catalog/subscription-observations.json) records the following Standard credit rate cards and local-message estimates. These are subscription evidence, **not USD prices**. [OpenAI pricing](https://learn.chatgpt.com/docs/pricing), retrieved 2026-11-17:
+
+| Model | Input credits/MTok | Cached credits/MTok | Output credits/MTok | Plus estimated messages / 5h |
+| --- | ---: | ---: | ---: | --- |
+| 6.2 Astra | 200 | 10 | 1000 | 6–50 |
+| 6.2 Sol | 50 | 2.5 | 250 | 17–180 |
+| 6 Astra | 250 | 25 | 1250 | 5–45 |
+| 6.1 Sol | 50 | 2.5 | 250 | 15–160 |
+| 6.1 Terra | 25 | 1.25 | 125 | 35–285 |
+| 6 Sol | 50 | 5 | 250 | 15–150 |
+| 6 Luna | 2.5 | 0.25 | 12.5 | 350–3000 |
+
+[V] Standard Business has the same local-message estimates; cloud work shares the allowance and may consume more. Weekly limits may apply. These ranges are estimates, not fixed entitlements. Codex credit billing has no separate cache-write charge. [L] The published credit amounts equal the matching Standard short-context API list price multiplied by 25; that numerical relationship is not an included-usage multiplier.
+
+[V] GPT-6.2 Astra and Sol **Ultrafast** eligible overages paid with purchased credits and eligible Enterprise pay-as-you-go cost 3x Standard through 2027-02-28 and 6x from 2027-03-01 (Pacific time). Included Ultrafast usage remains 6x throughout. The dates and 3x promotion must not be applied to all overages or to the included pool. Source: [OpenAI pricing](https://learn.chatgpt.com/docs/pricing), retrieved 2026-11-17.

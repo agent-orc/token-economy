@@ -13,7 +13,7 @@ public sealed class SubscriptionCatalogueTests
     public void Catalogue_covers_required_providers_plans_and_cli_quota_shapes()
     {
         var catalogue = SubscriptionCatalogue.Default;
-        Assert.Equal(new DateOnly(2026, 11, 2), catalogue.AsOfDate);
+        Assert.Equal(new DateOnly(2026, 11, 17), catalogue.AsOfDate);
         Assert.Equal(new[] { "anthropic", "github", "google", "openai" },
             catalogue.Plans.Select(p => p.Provider).Distinct().Order());
         foreach (var id in new[] { "anthropic-pro", "anthropic-max-5x", "anthropic-max-20x",

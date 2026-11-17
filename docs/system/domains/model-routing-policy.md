@@ -1,6 +1,6 @@
 # Model Routing Policy
 
-Version: 2026-11-01
+Version: 2026-11-17
 
 Status: GPT-6 operator baseline, effective 2026-09-25; local completion evidence remains provisional
 
@@ -418,3 +418,9 @@ price earns a measured benefit. Revisit Opus 5.5 equivalence using identical
 cases and current CLI identity checks before promoting its migration.
 
 Restricted GPT-6 Rosalind, GPT-5.6 Cyber, Rosalind Research/Discovery and Claude Mythos 5/5.1 are priced for approved API access but have `restricted` routing status and no recommendation paths. Gemini 4 Carbon remains an announcement-only reference with no public Gemini API id or tariff.
+
+## Catalogue correction, 2026-11-17 (TE-82)
+
+`gpt-6.1-terra` has a balanced coding capability label: Terminal-Bench 4.1 measures 53.33%, between Luna (15.15%) and 6.1 Sol (60.91%). These are native-agent results, not a local correctness cohort. Default routes, priors and fallbacks remain unchanged. New Fable/Mythos 5.2, GPT-6.2 Sol/Astra, GPT-6 Cyber and Hydrogen inventory stays restricted pending fleet compatibility. Carbon remains restricted by this card despite a newly published vendor GA claim. See [dated refresh](../../model-catalogue-refresh-2026-11-17.md).
+
+[Codex models](https://learn.chatgpt.com/docs/models), retrieved 2026-11-17, documents Terra minimum 0.159.0. The resolver retains the proven fleet floor 0.166.0; operator hosts have run that version since November 17. [Codex changelog](https://developers.openai.com/codex/changelog) lists 0.168.0/0.169.0 on November 13. These are vendor versus fleet versions, not contradictory minimum claims.

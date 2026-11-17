@@ -1,14 +1,14 @@
 {
   "$schema": "model-routing-policy.schema.json",
   "schemaVersion": 1,
-  "policyVersion": "2026-11-01",
-  "evidenceAsOfDate": "2026-11-01",
+  "policyVersion": "2026-11-17",
+  "evidenceAsOfDate": "2026-11-17",
   "authority": {
     "repositoryPath": "docs/system/domains/model-routing-policy.md",
     "upstreamRepository": "agent-orc/agent-studio",
     "upstreamPath": "docs/system/domains/model-routing-policy.md",
-    "contentSha256": "c1721ebf68f73c0b3ba27a566348999ff14af7177235600c5039799960dfcd0e",
-    "synchronization": "TE-74 provider refresh, 2026-11-01. 6.1 Terra is selectable as a provisional explicit pin. Specialized access-gated models are restricted. Routes, task-class priors, hard floors and fallbacks remain unchanged; this repository does not claim an upstream Agent Studio policy update."
+    "contentSha256": "38ccd437874d22216c78d452852497729ddfcafe9539aca5c110d95adc28cf9b",
+    "synchronization": "TE-82 catalogue evidence refresh. Terra coding tier corrected to balanced. New models are inventory-only restricted entries; routes, priors, floors and fallbacks remain unchanged."
   },
   "providers": [
     {
@@ -808,11 +808,11 @@
       "routingStatus": "selectable",
       "evidenceStatus": "provisional",
       "provisional": true,
-      "capabilityTier": "frontier",
+      "capabilityTier": "balanced",
       "workflowRoles": [
         "coreTask"
       ],
-      "note": "Explicit evaluation or operator pin only; 0.166.0 Pro operator probe executed on 2026-11-01, 0.155.0 refused. API reasoning none/low/medium/high/xhigh/max; Codex none is not a confirmed CLI effort. No default tier, prior, fallback or correctness equivalence. Compare identical coding cases against GPT-5.6 Terra before changing the 21\u201350 tier.",
+      "note": "Explicit evaluation or operator pin only; 0.166.0 Pro operator probe executed on 2026-11-01, 0.155.0 refused. API reasoning none/low/medium/high/xhigh/max; Codex none is not a confirmed CLI effort. No default tier, prior, fallback or correctness equivalence. Compare identical coding cases against GPT-5.6 Terra before changing the 21\u201350 tier. TE-82: balanced coding tier; TB4.1 53.33 between Luna 15.15 and Sol 60.91. Vendor CLI minimum 0.159.0; retain fleet-tested floor 0.166.0. https://learn.chatgpt.com/docs/models retrieved 2026-11-17.",
       "minimumCliVersion": "0.166.0"
     },
     {
@@ -833,7 +833,7 @@
       "provisional": false,
       "capabilityTier": "frontier",
       "workflowRoles": [],
-      "note": "Announcement-only internal reference. No public Gemini API model ID or tariff. Restricted; never selectable.",
+      "note": "Restricted and unpriced by TE-82 scope. [V] Google API changelog now claims GA on 2026-11-10 and pricing lists a tariff; this conflicts with the no-API lead and prior catalogue. Record the conflict without enabling fleet access or pricing. Retrieved 2026-11-17: https://ai.google.dev/gemini-api/docs/changelog; https://ai.google.dev/gemini-api/docs/pricing",
       "testOnly": true
     },
     {
@@ -936,6 +936,143 @@
       "capabilityTier": "frontier",
       "workflowRoles": [],
       "note": "Provider approval or organization verification required; excluded from every recommendation and automatic route.",
+      "testOnly": true
+    },
+    {
+      "canonicalId": "claude-fable-5-2",
+      "aliases": [],
+      "providerId": "anthropic",
+      "cliId": "claude-code",
+      "priceCatalogId": "claude-fable-5-2",
+      "mediaCatalogModelId": "*",
+      "trustModelId": "claude-fable-5-2",
+      "supportedThinkingLevels": [
+        "low",
+        "medium",
+        "high",
+        "xhigh",
+        "max"
+      ],
+      "routingStatus": "restricted",
+      "evidenceStatus": "unknown",
+      "provisional": false,
+      "capabilityTier": "frontier",
+      "workflowRoles": [],
+      "note": "TE-82 inventory only. General vendor availability does not establish fleet CLI execution; retain restricted policy until compatibility evaluation. [V] 1M context, 128K output, always-on adaptive thinking. Active; retirement not sooner than 2027-11-09. Editing system/tools/earlier messages and resending a later thinking block returns HTTP 400 for every account. ",
+      "testOnly": true
+    },
+    {
+      "canonicalId": "claude-mythos-5-2",
+      "aliases": [],
+      "providerId": "anthropic",
+      "cliId": "claude-code",
+      "priceCatalogId": "claude-mythos-5-2",
+      "mediaCatalogModelId": "*",
+      "trustModelId": "claude-mythos-5-2",
+      "supportedThinkingLevels": [
+        "low",
+        "medium",
+        "high",
+        "xhigh",
+        "max"
+      ],
+      "routingStatus": "restricted",
+      "evidenceStatus": "unknown",
+      "provisional": false,
+      "capabilityTier": "frontier",
+      "workflowRoles": [],
+      "note": "TE-82 inventory only. Provider requires verified organization access. [V] 1M context, 128K output, always-on adaptive thinking. Active; retirement not sooner than 2027-11-09. Editing system/tools/earlier messages and resending a later thinking block returns HTTP 400 for every account. Organization verification required.",
+      "testOnly": true
+    },
+    {
+      "canonicalId": "gpt-6.2-sol",
+      "aliases": [],
+      "providerId": "openai",
+      "cliId": "codex",
+      "priceCatalogId": "gpt-6.2-sol",
+      "mediaCatalogModelId": "*",
+      "trustModelId": "gpt-6.2-sol",
+      "supportedThinkingLevels": [
+        "low",
+        "medium",
+        "high",
+        "xhigh",
+        "max"
+      ],
+      "routingStatus": "restricted",
+      "evidenceStatus": "unknown",
+      "provisional": false,
+      "capabilityTier": "frontier",
+      "workflowRoles": [],
+      "note": "TE-82 inventory only. General vendor availability does not establish fleet CLI execution; retain restricted policy until compatibility evaluation. [V] Codex and API available; 1,050,000 context, 128,000 max output. API rejects none effort. Official Standard Astra cached input is $0.40; $0.80 belongs to long-context Standard or short-context Fast, not the same tariff.",
+      "testOnly": true
+    },
+    {
+      "canonicalId": "gpt-6.2-astra",
+      "aliases": [],
+      "providerId": "openai",
+      "cliId": "codex",
+      "priceCatalogId": "gpt-6.2-astra",
+      "mediaCatalogModelId": "*",
+      "trustModelId": "gpt-6.2-astra",
+      "supportedThinkingLevels": [
+        "low",
+        "medium",
+        "high",
+        "xhigh",
+        "max"
+      ],
+      "routingStatus": "restricted",
+      "evidenceStatus": "unknown",
+      "provisional": false,
+      "capabilityTier": "frontier",
+      "workflowRoles": [],
+      "note": "TE-82 inventory only. General vendor availability does not establish fleet CLI execution; retain restricted policy until compatibility evaluation. [V] Codex and API available; 1,050,000 context, 128,000 max output. API rejects none effort. Official Standard Astra cached input is $0.40; $0.80 belongs to long-context Standard or short-context Fast, not the same tariff.",
+      "testOnly": true
+    },
+    {
+      "canonicalId": "gpt-6-cyber",
+      "aliases": [],
+      "providerId": "openai",
+      "cliId": "codex",
+      "priceCatalogId": "gpt-6-cyber",
+      "mediaCatalogModelId": "*",
+      "trustModelId": "gpt-6-cyber",
+      "supportedThinkingLevels": [
+        "low",
+        "medium",
+        "high",
+        "xhigh",
+        "max"
+      ],
+      "routingStatus": "restricted",
+      "evidenceStatus": "unknown",
+      "provisional": false,
+      "capabilityTier": "frontier",
+      "workflowRoles": [],
+      "note": "TE-82 inventory only. Provider requires verified organization access. [V] Restricted Daybreak model; no general routing. Long-context cache-write costs are unsupported by the published tariff.",
+      "testOnly": true
+    },
+    {
+      "canonicalId": "gemini-4-hydrogen",
+      "aliases": [],
+      "providerId": "google",
+      "cliId": "antigravity",
+      "priceCatalogId": "gemini-4-hydrogen",
+      "mediaCatalogModelId": "*",
+      "trustModelId": "gemini-4-hydrogen",
+      "supportedThinkingLevels": [
+        "low",
+        "medium",
+        "high",
+        "xhigh"
+      ],
+      "routingStatus": "restricted",
+      "evidenceStatus": "unknown",
+      "provisional": false,
+      "capabilityTier": "balanced",
+      "workflowRoles": [],
+      "note": "TE-82 inventory only. General vendor availability does not establish fleet CLI execution; retain restricted policy until compatibility evaluation. [V] API GA 2026-11-12. low/medium/high/xhigh; high default. No local coding cohort.",
       "testOnly": true
     }
   ],

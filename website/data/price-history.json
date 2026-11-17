@@ -1,15 +1,15 @@
 {
   "schemaVersion": 1,
-  "generatedAtUtc": "2026-11-02T05:53:56.163170+00:00",
-  "asOfUtc": "2026-11-02T00:00:00Z",
+  "generatedAtUtc": "2026-11-17T21:32:13.849987+00:00",
+  "asOfUtc": "2026-11-17T00:00:00Z",
   "currency": "USD",
   "unit": "per-million-tokens",
   "source": "src/TokenEconomy/catalog/model-prices.json",
   "scope": "Direct-provider standard text-token rates, including catalogued prompt-size tiers and provider-default cache writes. Alternate cache retention is separately priced; restricted announcement-only models may be unpriced.",
   "coverage": {
-    "catalogModels": 38,
-    "pricedModels": 37,
-    "pricePeriods": 50
+    "catalogModels": 44,
+    "pricedModels": 42,
+    "pricePeriods": 55
   },
   "models": [
     {
@@ -348,7 +348,7 @@
       "vendor": "anthropic",
       "releaseDate": "2026-05-28",
       "releaseDateSource": "https://platform.claude.com/docs/en/release-notes/overview#may-28-2026",
-      "note": null,
+      "note": " [V] Model stays active; fast mode removed 2026-11-30, after which speed:fast returns an error. Verified 2026-11-17: https://platform.claude.com/docs/en/release-notes/overview",
       "selectionStatus": "unsupported",
       "testOnly": false,
       "deprecated": false,
@@ -445,7 +445,7 @@
       "vendor": "anthropic",
       "releaseDate": "2025-11-24",
       "releaseDateSource": "https://platform.claude.com/docs/en/models/opus-4-5/overview",
-      "note": "Standard Claude API rates are officially confirmed; earlier provisional pricing flags were corrected on 2026-09-12.",
+      "note": "Standard Claude API rates are officially confirmed; earlier provisional pricing flags were corrected on 2026-09-12. [V] Active; retirement not sooner than 2026-11-24, not an announced shutdown. Verified 2026-11-17: https://platform.claude.com/docs/en/about-claude/model-deprecations",
       "selectionStatus": "unsupported",
       "testOnly": false,
       "deprecated": false,
@@ -545,7 +545,7 @@
       "vendor": "anthropic",
       "releaseDate": "2025-09-29",
       "releaseDateSource": "https://platform.claude.com/docs/en/release-notes/overview#september-29-2025",
-      "note": "Standard Claude API rates are officially confirmed; earlier provisional pricing flags were corrected on 2026-09-12.",
+      "note": "Standard Claude API rates are officially confirmed; earlier provisional pricing flags were corrected on 2026-09-12. [V] Deprecated; retirement 2026-11-30. Verified 2026-11-17: https://platform.claude.com/docs/en/about-claude/model-deprecations",
       "selectionStatus": "unsupported",
       "testOnly": false,
       "deprecated": false,
@@ -578,7 +578,7 @@
       "vendor": "anthropic",
       "releaseDate": "2025-10-15",
       "releaseDateSource": "https://platform.claude.com/docs/en/models/haiku-4-5/overview",
-      "note": "Active; Anthropic commits to retirement not sooner than 2026-10-15 and has announced no deprecation (retrieved 2026-09-29).",
+      "note": "Active; Anthropic commits to retirement not sooner than 2026-10-15 and has announced no deprecation (retrieved 2026-09-29). [V] Still active; not-sooner-than 2026-10-15 is a passed minimum guarantee, not retirement. Verified 2026-11-17: https://platform.claude.com/docs/en/about-claude/model-deprecations",
       "selectionStatus": "selectable",
       "testOnly": false,
       "deprecated": false,
@@ -973,7 +973,7 @@
       "vendor": "openai",
       "releaseDate": "2026-06-26",
       "releaseDateSource": "https://openai.com/index/previewing-gpt-5-6-sol/",
-      "note": "GPT-5.6 Sol; gpt-5.6 remains a compatibility alias. The current promotion began 2026-08-21 and is available at least through 2026-11-21; no reversion date or future rate is announced. Promotional price guaranteed at least through 2026-11-21.",
+      "note": "GPT-5.6 Sol; gpt-5.6 remains a compatibility alias. The current promotion began 2026-08-21 and is available at least through 2026-11-21; no reversion date or future rate is announced. Promotional price guaranteed at least through 2026-11-21. [V] Source conflict retrieved 2026-11-17: API pricing says promotion until 2026-11-30; https://learn.chatgpt.com/docs/pricing says at least through 2026-11-21 for Codex. Preserve both surface-specific statements; no future rate invented.",
       "selectionStatus": "selectable",
       "testOnly": false,
       "deprecated": false,
@@ -1231,7 +1231,7 @@
       "vendor": "openai",
       "releaseDate": "2026-10-26",
       "releaseDateSource": "https://openai.com/index/introducing-gpt-6-1-terra/",
-      "note": "1.05M context, 128K max output, June 1 2026 knowledge cutoff. API efforts none/low/medium/high/xhigh/max. Selectable Codex pin, provisional; no measured coding cohort.",
+      "note": "1.05M context, 128K max output, June 1 2026 knowledge cutoff. API efforts none/low/medium/high/xhigh/max. Selectable Codex pin, provisional; no measured coding cohort. [V] https://learn.chatgpt.com/docs/models documents CLI minimum 0.159.0 (retrieved 2026-11-17). Fleet floor remains observed 0.166.0; hosts on that version since 2026-11-17 per operator.",
       "selectionStatus": "selectable",
       "testOnly": false,
       "deprecated": false,
@@ -1272,7 +1272,7 @@
       "vendor": "google",
       "releaseDate": "2026-10-28",
       "releaseDateSource": "https://blog.google/innovation-and-ai/models-and-research/gemini-models/introducing-gemini-4-carbon/",
-      "note": "Announcement-only internal reference; Google has published neither a Gemini API model ID nor a public API tariff. Not billable or selectable.",
+      "note": "Restricted and unpriced by TE-82 scope. [V] Google API changelog now claims GA on 2026-11-10 and pricing lists a public API tariff; this conflicts with the no-API lead and prior catalogue. Record the conflict without enabling fleet access or pricing. Retrieved 2026-11-17: https://ai.google.dev/gemini-api/docs/changelog; https://ai.google.dev/gemini-api/docs/pricing",
       "selectionStatus": "restricted",
       "testOnly": true,
       "deprecated": false,
@@ -1498,6 +1498,194 @@
           "unconfirmed": false,
           "cacheWritePerMTok": 12.5,
           "cacheWriteOneHourPerMTok": 20
+        }
+      ]
+    },
+    {
+      "modelId": "claude-fable-5-2",
+      "displayName": "Claude Fable 5.2",
+      "vendor": "anthropic",
+      "releaseDate": "2026-11-09",
+      "releaseDateSource": "https://platform.claude.com/docs/en/release-notes/overview",
+      "note": "[V] 1M context, 128K output, always-on adaptive thinking. Active; retirement not sooner than 2027-11-09. Editing system/tools/earlier messages and resending a later thinking block returns HTTP 400 for every account. ",
+      "selectionStatus": "restricted",
+      "testOnly": true,
+      "deprecated": false,
+      "history": [
+        {
+          "validFrom": "2026-11-09T00:00:00Z",
+          "inputPerMTok": 8,
+          "cacheReadPerMTok": 0.2,
+          "cacheWritePerMTok": 10,
+          "cacheWriteOneHourPerMTok": 16,
+          "outputPerMTok": 40,
+          "currency": "USD",
+          "source": "[V] Anthropic pricing, release notes and model overview; retrieved 2026-11-17.",
+          "sourceUrls": [
+            "https://platform.claude.com/docs/en/about-claude/pricing",
+            "https://platform.claude.com/docs/en/release-notes/overview",
+            "https://platform.claude.com/docs/en/models/fable-5-2/overview"
+          ],
+          "verifiedOn": "2026-11-17",
+          "validFromBasis": "provider-announced-date",
+          "unconfirmed": false,
+          "note": "Standard global API across 1M context. Fast mode $16 input/$80 output per MTok is a separate processing mode. Midnight UTC is a calendar-date convention."
+        }
+      ]
+    },
+    {
+      "modelId": "claude-mythos-5-2",
+      "displayName": "Claude Mythos 5.2",
+      "vendor": "anthropic",
+      "releaseDate": "2026-11-09",
+      "releaseDateSource": "https://platform.claude.com/docs/en/release-notes/overview",
+      "note": "[V] 1M context, 128K output, always-on adaptive thinking. Active; retirement not sooner than 2027-11-09. Editing system/tools/earlier messages and resending a later thinking block returns HTTP 400 for every account. Organization verification required.",
+      "selectionStatus": "restricted",
+      "testOnly": true,
+      "deprecated": false,
+      "history": [
+        {
+          "validFrom": "2026-11-09T00:00:00Z",
+          "inputPerMTok": 8,
+          "cacheReadPerMTok": 0.2,
+          "cacheWritePerMTok": 10,
+          "cacheWriteOneHourPerMTok": 16,
+          "outputPerMTok": 40,
+          "currency": "USD",
+          "source": "[V] Anthropic pricing, release notes and model overview; retrieved 2026-11-17.",
+          "sourceUrls": [
+            "https://platform.claude.com/docs/en/about-claude/pricing",
+            "https://platform.claude.com/docs/en/release-notes/overview",
+            "https://platform.claude.com/docs/en/models/fable-5-2/overview"
+          ],
+          "verifiedOn": "2026-11-17",
+          "validFromBasis": "provider-announced-date",
+          "unconfirmed": false,
+          "note": "Standard global API across 1M context. Fast mode $16 input/$80 output per MTok is a separate processing mode. Midnight UTC is a calendar-date convention."
+        }
+      ]
+    },
+    {
+      "modelId": "gpt-6.2-sol",
+      "displayName": "GPT-6.2 Sol",
+      "vendor": "openai",
+      "releaseDate": "2026-11-17",
+      "releaseDateSource": "https://developers.openai.com/api/docs/changelog",
+      "note": "[V] Codex and API available; 1,050,000 context, 128,000 max output. API rejects none effort. Official Standard Astra cached input is $0.40; $0.80 belongs to long-context Standard or short-context Fast, not the same tariff. [P] Implicator 2026-11-17 reports AA Coding Agent Index -3 points vs 6.1 Sol and SWE-Atlas-QnA-AA -14 points; raw evaluator data not pulled, no routing score. https://www.implicator.ai/openai-gpt-6-2-astra-sol-cost-per-task/",
+      "selectionStatus": "restricted",
+      "testOnly": true,
+      "deprecated": false,
+      "history": [
+        {
+          "validFrom": "2026-11-17T00:00:00Z",
+          "inputPerMTok": 2,
+          "cacheReadPerMTok": 0.1,
+          "cacheWritePerMTok": 2.5,
+          "outputPerMTok": 10,
+          "currency": "USD",
+          "source": "[V] Official OpenAI API pricing and model page; retrieved 2026-11-17.",
+          "sourceUrls": [
+            "https://developers.openai.com/api/docs/pricing",
+            "https://developers.openai.com/api/docs/models/gpt-6.2-sol",
+            "https://developers.openai.com/api/docs/changelog"
+          ],
+          "verifiedOn": "2026-11-17",
+          "validFromBasis": "provider-announced-date",
+          "note": "Standard short context <=272K input tokens. Above 272K the whole request uses 2x input/cache and 1.5x output. API none effort is rejected. Fast 2x; Ultrafast 3x through 2027-02-28, 6x from 2027-03-01 Pacific time. Midnight UTC is a calendar-date convention.",
+          "unconfirmed": false,
+          "promptSizeTiers": [
+            {
+              "minPromptTokens": 272001,
+              "inputPerMTok": 4,
+              "cacheReadPerMTok": 0.2,
+              "cacheWritePerMTok": 5.0,
+              "outputPerMTok": 15.0
+            }
+          ],
+          "cacheWriteTwelveHourPerMTok": 5.0
+        }
+      ]
+    },
+    {
+      "modelId": "gpt-6.2-astra",
+      "displayName": "GPT-6.2 Astra",
+      "vendor": "openai",
+      "releaseDate": "2026-11-17",
+      "releaseDateSource": "https://developers.openai.com/api/docs/changelog",
+      "note": "[V] Codex and API available; 1,050,000 context, 128,000 max output. API rejects none effort. Official Standard Astra cached input is $0.40; $0.80 belongs to long-context Standard or short-context Fast, not the same tariff. [P] Implicator 2026-11-17 attributes blocker-deception omission rates 22.28% vs 11.09% for 6 Astra to a system card; card not independently pulled here. Safety observation, not coding score. https://www.implicator.ai/openai-gpt-6-2-astra-sol-cost-per-task/",
+      "selectionStatus": "restricted",
+      "testOnly": true,
+      "deprecated": false,
+      "history": [
+        {
+          "validFrom": "2026-11-17T00:00:00Z",
+          "inputPerMTok": 8,
+          "cacheReadPerMTok": 0.4,
+          "cacheWritePerMTok": 10.0,
+          "outputPerMTok": 40,
+          "currency": "USD",
+          "source": "[V] Official OpenAI API pricing and model page; retrieved 2026-11-17.",
+          "sourceUrls": [
+            "https://developers.openai.com/api/docs/pricing",
+            "https://developers.openai.com/api/docs/models/gpt-6.2-astra",
+            "https://developers.openai.com/api/docs/changelog"
+          ],
+          "verifiedOn": "2026-11-17",
+          "validFromBasis": "provider-announced-date",
+          "note": "Standard short context <=272K input tokens. Above 272K the whole request uses 2x input/cache and 1.5x output. API none effort is rejected. Fast 2x; Ultrafast 3x through 2027-02-28, 6x from 2027-03-01 Pacific time. Midnight UTC is a calendar-date convention.",
+          "unconfirmed": false,
+          "promptSizeTiers": [
+            {
+              "minPromptTokens": 272001,
+              "inputPerMTok": 16,
+              "cacheReadPerMTok": 0.8,
+              "cacheWritePerMTok": 20.0,
+              "outputPerMTok": 60.0
+            }
+          ],
+          "cacheWriteTwelveHourPerMTok": 20.0
+        }
+      ]
+    },
+    {
+      "modelId": "gpt-6-cyber",
+      "displayName": "GPT-6 Cyber",
+      "vendor": "openai",
+      "releaseDate": "2026-11-05",
+      "releaseDateSource": "https://developers.openai.com/api/docs/changelog",
+      "note": "[V] Restricted Daybreak model; no general routing. Long-context cache-write costs are unsupported by the published tariff.",
+      "selectionStatus": "restricted",
+      "testOnly": true,
+      "deprecated": false,
+      "history": []
+    },
+    {
+      "modelId": "gemini-4-hydrogen",
+      "displayName": "Gemini 4 Hydrogen",
+      "vendor": "google",
+      "releaseDate": "2026-11-12",
+      "releaseDateSource": "https://ai.google.dev/gemini-api/docs/changelog",
+      "note": "[V] API GA 2026-11-12. low/medium/high/xhigh; high default. No local coding cohort.",
+      "selectionStatus": "restricted",
+      "testOnly": true,
+      "deprecated": false,
+      "history": [
+        {
+          "validFrom": "2026-11-12T00:00:00Z",
+          "inputPerMTok": 1.5,
+          "cacheReadPerMTok": 0.075,
+          "outputPerMTok": 7.5,
+          "cacheWriteSupported": false,
+          "currency": "USD",
+          "verifiedOn": "2026-11-17",
+          "validFromBasis": "provider-announced-date",
+          "unconfirmed": false,
+          "source": "[V] Google Gemini API pricing and November 12 changelog; retrieved 2026-11-17.",
+          "sourceUrls": [
+            "https://ai.google.dev/gemini-api/docs/pricing",
+            "https://ai.google.dev/gemini-api/docs/changelog"
+          ],
+          "note": "Flat Standard paid tariff across 1M context. Implicit caching only; explicit cache writes unsupported. Output includes thinking. Earlier press lead is superseded by vendor pricing."
         }
       ]
     }

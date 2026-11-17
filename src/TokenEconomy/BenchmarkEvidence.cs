@@ -116,6 +116,8 @@ public sealed record BenchmarkEvidenceContext
 /// <summary>One append-only, sourced model/effort measurement.</summary>
 public sealed record BenchmarkResult
 {
+    /// <summary>M: pulled third-party measurement; V: vendor; L: list-price derivation; P: unverified press.</summary>
+    public string? EvidenceClass { get; init; }
     /// <summary>Local routing maturity, independent of the external publisher's measurement.</summary>
     public PolicyEvidenceStatus EvidenceStatus { get; init; } = PolicyEvidenceStatus.Unknown;
     public required string Id { get; init; }
@@ -156,6 +158,7 @@ internal sealed record BenchmarkResultDocument
 
 internal sealed record BenchmarkResultJson
 {
+    public string? EvidenceClass { get; init; }
     public PolicyEvidenceStatus EvidenceStatus { get; init; } = PolicyEvidenceStatus.Unknown;
     public required string Id { get; init; }
     public required string BenchmarkTypeId { get; init; }
@@ -266,6 +269,7 @@ public sealed class BenchmarkEvidenceCatalog
             types.Records,
             results.Records.Select(result => new BenchmarkResult
             {
+                EvidenceClass = result.EvidenceClass,
                 Id = result.Id,
                 BenchmarkTypeId = result.BenchmarkTypeId,
                 ModelId = ModelId.Of(result.ModelId),
@@ -315,6 +319,8 @@ public sealed class BenchmarkEvidenceCatalog
     private static void Validate(BenchmarkResult result)
     {
         ArgumentNullException.ThrowIfNull(result);
+        if (result.EvidenceClass is not (null or "M" or "V" or "L" or "P"))
+            throw new ArgumentException("Unknown benchmark evidence class.", nameof(result));
         Require(result.Id, nameof(result.Id));
         Require(result.BenchmarkTypeId, nameof(result.BenchmarkTypeId));
         Require(result.ModelId.Value, nameof(result.ModelId));

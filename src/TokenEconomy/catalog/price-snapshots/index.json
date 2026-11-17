@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "description": "Immutable, dated copies of the price catalog. The newest entry is byte-identical to ../model-prices.json, which the library embeds; older entries are never edited. firstShippedIn is recorded after a snapshot ships in a release.",
-  "current": "2026-11-02",
+  "current": "2026-11-17",
   "snapshots": [
     {
       "id": "2026-09-24",
@@ -87,6 +87,18 @@
       "summary": "TE-74 verified provider refresh: correct Sonnet 5.5 cache reads, price 6.1 Terra and restricted specialized models, add alternate cache writes, remove unverified Carbon tariff.",
       "sources": [
         "docs/model-catalogue-refresh-2026-11-01.md"
+      ]
+    },
+    {
+      "id": "2026-11-17",
+      "retrievedOn": "2026-11-17",
+      "firstShippedIn": "unreleased",
+      "path": "model-prices.2026-11-17.json",
+      "sha256": "4070ae464d6e101f388634dcd9df82d8ba1b5929d34bb592f1ad5676e2b7d963",
+      "listings": 44,
+      "summary": "TE-82: Fable/Mythos 5.2, GPT-6.2 Sol/Astra, Hydrogen vendor tariffs; restricted Cyber inventory and dated lifecycle/source conflicts.",
+      "sources": [
+        "docs/model-catalogue-refresh-2026-11-17.md"
       ]
     }
   ]

@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "asOfDate": "2026-11-02",
+  "asOfDate": "2026-11-17",
   "plans": [
     {
       "id": "anthropic-pro",
@@ -428,7 +428,9 @@
           "gpt-6-astra",
           "gpt-5.6-sol",
           "gpt-5.6-terra",
-          "gpt-5.6-luna"
+          "gpt-5.6-luna",
+          "gpt-6.2-sol",
+          "gpt-6.2-astra"
         ]
       },
       "limits": [
@@ -485,7 +487,9 @@
           "gpt-6-astra",
           "gpt-5.6-sol",
           "gpt-5.6-terra",
-          "gpt-5.6-luna"
+          "gpt-5.6-luna",
+          "gpt-6.2-sol",
+          "gpt-6.2-astra"
         ]
       },
       "limits": [
@@ -536,7 +540,9 @@
           "gpt-6-astra",
           "gpt-5.6-sol",
           "gpt-5.6-terra",
-          "gpt-5.6-luna"
+          "gpt-5.6-luna",
+          "gpt-6.2-sol",
+          "gpt-6.2-astra"
         ]
       },
       "limits": [
@@ -593,7 +599,9 @@
           "gpt-6-astra",
           "gpt-5.6-sol",
           "gpt-5.6-terra",
-          "gpt-5.6-luna"
+          "gpt-5.6-luna",
+          "gpt-6.2-sol",
+          "gpt-6.2-astra"
         ]
       },
       "limits": [

@@ -56,6 +56,16 @@ public sealed record SubscriptionPlan
 
 public sealed record SubscriptionObservation
 {
+    public string? EvidenceClass { get; init; }
+    public string? SourceUrl { get; init; }
+    public DateOnly? RetrievedAt { get; init; }
+    public string? ModelId { get; init; }
+    public string? Quote { get; init; }
+    public decimal? InputCreditsPerMTok { get; init; }
+    public decimal? CacheReadCreditsPerMTok { get; init; }
+    public decimal? OutputCreditsPerMTok { get; init; }
+    public int? MinimumMessages { get; init; }
+    public int? MaximumMessages { get; init; }
     public required string Id { get; init; }
     public required string Provider { get; init; }
     public string? PlanId { get; init; }

@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAtUtc": "2026-11-02T05:53:55.898575+00:00",
+  "generatedAtUtc": "2026-11-17T21:32:13.614263+00:00",
   "asOfUtc": "2026-10-04T00:00:00Z",
   "defaultBenchmarkTypeId": "artificial-analysis-intelligence-index-v4.3.2",
   "source": {
@@ -18,17 +18,17 @@
   "provenanceFacts": [
     {
       "label": "Price catalog snapshot",
-      "date": "2026-11-01",
+      "date": "2026-11-17",
       "path": "src/TokenEconomy/catalog/model-prices.json"
     },
     {
       "label": "Benchmark definitions captured through",
-      "date": "2026-09-25",
+      "date": "2026-11-17",
       "path": "src/TokenEconomy/catalog/benchmark-types.json"
     },
     {
       "label": "Benchmark results retrieved through",
-      "date": "2026-09-25",
+      "date": "2026-11-17",
       "path": "src/TokenEconomy/catalog/benchmark-results.json"
     }
   ],
@@ -5928,6 +5928,44 @@
           ]
         }
       ],
+      "candidates": []
+    },
+    {
+      "id": "terminal-bench-v4.1-official-native-agents",
+      "version": "4.1",
+      "name": "Terminal-Bench 4.1 / official native-agent leaderboard",
+      "publisher": "Terminal-Bench",
+      "capabilityClass": "codingAgent",
+      "unit": "% resolved",
+      "minimumScore": 0,
+      "maximumScore": 100,
+      "direction": "higherIsBetter",
+      "methodologyUrl": "https://www.tbench.ai/",
+      "citationNote": "[M] Raw leaderboard data pulled 2026-11-17. Model plus native harness; execution date unknown. Metadata date is model release date. Mean cost is reported total_cost_usd divided by n_trials, not API repricing.",
+      "validFrom": "2026-11-17",
+      "capturedAt": "2026-11-17",
+      "retrievedAt": "2026-11-17",
+      "reference": null,
+      "cells": [],
+      "candidates": []
+    },
+    {
+      "id": "arc-agi-2-v2-semi-private-2026-11-17",
+      "version": "v2_Semi_Private / 2026-11-17 snapshot",
+      "name": "ARC-AGI-2 Semi-Private",
+      "publisher": "Mixed reporters",
+      "capabilityClass": "reasoning",
+      "unit": "% solved",
+      "minimumScore": 0,
+      "maximumScore": 100,
+      "direction": "higherIsBetter",
+      "methodologyUrl": "https://arcprize.org/arc-agi/2",
+      "citationNote": "[M] Raw ARC Prize evaluations.json v2_Semi_Private. Reasoning effort-ladder shape only; never coding routing quality. Dates are first-observed snapshot dates unless separately sourced.",
+      "validFrom": "2026-11-17",
+      "capturedAt": "2026-11-17",
+      "retrievedAt": "2026-11-17",
+      "reference": null,
+      "cells": [],
       "candidates": []
     }
   ]

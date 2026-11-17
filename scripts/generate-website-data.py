@@ -59,7 +59,7 @@ PRICING_OUTPUT = ROOT / "website" / "data" / "price-history.json"
 REVIEW_OUTPUT = ROOT / "website" / "data" / "code-review.json"
 REVIEW_STUDIES = ROOT / "docs" / "analyses" / "code-review-studies-2026-09-12.json"
 REVIEW_OPERATIONAL = ROOT / "results" / "routing-evidence" / "review" / "v1" / "review-evidence.json"
-MATRIX_AS_OF_UTC = "2026-11-01T00:00:00Z"
+MATRIX_AS_OF_UTC = "2026-11-17T00:00:00Z"
 BENCHMARK_AS_OF_UTC = "2026-10-04T00:00:00Z"
 
 PRICE_CATALOG = ROOT / "src" / "TokenEconomy" / "catalog" / "model-prices.json"

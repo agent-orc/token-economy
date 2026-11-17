@@ -4861,7 +4861,7 @@
     }
   },
   "restricted": {
-    "carbon": "Restricted announcement; no public Gemini API model ID or tariff."
+    "carbon": "Restricted fleet policy retained by TE-82; current vendor GA claim requires a separate access decision."
   },
   "releases": [
     {

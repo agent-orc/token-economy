@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAtUtc": "2026-11-02T05:53:56.177619+00:00",
+  "generatedAtUtc": "2026-11-17T21:32:13.857195+00:00",
   "asOfUtc": "2026-10-04T00:00:00Z",
   "source": {
     "benchmarkTypes": "src/TokenEconomy/catalog/benchmark-types.json",
@@ -1091,6 +1091,30 @@
     {
       "modelId": "claude-mythos-5",
       "displayName": "Claude Mythos 5"
+    },
+    {
+      "modelId": "claude-fable-5-2",
+      "displayName": "Claude Fable 5.2"
+    },
+    {
+      "modelId": "claude-mythos-5-2",
+      "displayName": "Claude Mythos 5.2"
+    },
+    {
+      "modelId": "gpt-6.2-sol",
+      "displayName": "GPT-6.2 Sol"
+    },
+    {
+      "modelId": "gpt-6.2-astra",
+      "displayName": "GPT-6.2 Astra"
+    },
+    {
+      "modelId": "gpt-6-cyber",
+      "displayName": "GPT-6 Cyber"
+    },
+    {
+      "modelId": "gemini-4-hydrogen",
+      "displayName": "Gemini 4 Hydrogen"
     }
   ],
   "operational": {

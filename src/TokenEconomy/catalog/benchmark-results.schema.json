@@ -68,10 +68,26 @@
         "score": {
           "type": "number"
         },
-        "costSource": { "enum": ["measured", "chartRead", "estimated", "unavailable"] },
-        "settingLabel": { "type": "string", "minLength": 1 },
-        "scoreOnlyLabel": { "type": "string", "minLength": 1 },
-        "costDerivation": { "type": "string", "minLength": 1 },
+        "costSource": {
+          "enum": [
+            "measured",
+            "chartRead",
+            "estimated",
+            "unavailable"
+          ]
+        },
+        "settingLabel": {
+          "type": "string",
+          "minLength": 1
+        },
+        "scoreOnlyLabel": {
+          "type": "string",
+          "minLength": 1
+        },
+        "costDerivation": {
+          "type": "string",
+          "minLength": 1
+        },
         "secondaryMetrics": {
           "type": "object",
           "additionalProperties": false,
@@ -138,6 +154,15 @@
             "correctnessFloor"
           ],
           "description": "Local routing evidence maturity, separate from external measurement confidence; omission retains unknown."
+        },
+        "evidenceClass": {
+          "enum": [
+            "M",
+            "V",
+            "L",
+            "P"
+          ],
+          "description": "M: third-party raw measurement pulled; V: vendor claim; L: list-price derivation; P: unverified press. Cost derivations may have a different class, stated separately."
         }
       }
     },
