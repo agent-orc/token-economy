@@ -6411,6 +6411,76 @@
       }
     },
     {
+      "id": "te82-tb41-gpt-6.2-astra-max",
+      "benchmarkTypeId": "terminal-bench-v4.1-official-native-agents",
+      "modelId": "gpt-6.2-astra",
+      "reasoningEffort": "max",
+      "score": 62.12,
+      "evidenceClass": "M",
+      "costSource": "measured",
+      "settingLabel": "max",
+      "secondaryMetrics": {
+        "costPerTaskUsd": 4.270121212
+      },
+      "costDerivation": "Arithmetic: reported total_cost_usd / n_trials; average per trial, not cost of a successful task or subscription use.",
+      "publishedAt": "2026-11-20",
+      "retrievedAt": "2026-11-20",
+      "sourceUrl": "https://www.tbench.ai/leaderboard",
+      "retrievalMethod": "publishedData",
+      "evidenceExcerpt": "[M] {\"id\":\"2ee86a5a-01da-47d9-8d54-4e2a6829915a\",\"leaderboard_id\":\"947c0b13-1d0f-43e0-bd7b-7e5d8c16187a\",\"rank\":6,\"metadata\":{\"date\":\"2026-11-17\",\"agent_org\":{\"url\":\"https://openai.com\",\"label\":\"OpenAI\"},\"model_org\":{\"url\":\"https://openai.com\",\"label\":\"OpenAI\"},\"display_date\":\"Nov 17, 2026\",\"agent_display\":{\"url\":\"https://openai.com/codex/\",\"label\":\"Codex\"},\"model_display\":{\"url\":\"https://developers.openai.com/api/docs/models/gpt-6.2-astra\",\"label\":\"GPT-6.2 Astra\"},\"reasoning_effort\":\"max\"},\"metrics\":{\"accuracy\":62.12,\"n_trials\":330,\"pass_at_2\":0.6667,\"pass_at_3\":0.6924,\"pass_at_4\":0.7121,\"pass_at_5\":0.7273,\"successes\":205,\"display_cost\":\"$$1.4k\",\"total_tokens\":1115258588,\"output_tokens\":16465076,\"total_cost_usd\":1409.14,\"display_accuracy\":\"**62.1%** \\u00b1 2.3%\",\"cached_input_tokens\":1066174201,\"display_total_tokens\":\"1.1B\",\"uncached_input_tokens\":1098793512,\"avg_trial_duration_sec\":1349.5,\"display_total_cost_usd\":\"$$1,409.14\",\"accuracy_ci95_half_width\":2.3},\"status\":\"display\",\"created_at\":\"2026-11-18T02:01:04.392897+00:00\",\"updated_at\":\"2026-11-18T02:01:04.392897+00:00\",\"n_trials\":330}",
+      "confidence": "publisherReported",
+      "context": {
+        "sourceKind": "officialLeaderboard",
+        "sourcePublisher": "Terminal-Bench",
+        "dateBasis": "firstObservedPublicSnapshot",
+        "observedAt": "2026-11-20",
+        "sourceCreatedAt": "2026-11-18T02:01:04.392897+00:00",
+        "sourceUpdatedAt": "2026-11-18T02:01:04.392897+00:00",
+        "harness": "Codex",
+        "trialCount": 330,
+        "confidenceIntervalHalfWidth": 2.3,
+        "confidenceIntervalLevel": 0.95,
+        "totalCostUsd": 1409.14,
+        "costBasis": "Published run total, not token-price recomputation.",
+        "sampleNotes": "Run execution date not published. metadata.date=2026-11-17 is model release date. Entry absent on 2026-11-17, created 2026-11-18; first observed 2026-11-20. Total output tokens=16465076."
+      }
+    },
+    {
+      "id": "te82-tb41-gpt-6.2-sol-max",
+      "benchmarkTypeId": "terminal-bench-v4.1-official-native-agents",
+      "modelId": "gpt-6.2-sol",
+      "reasoningEffort": "max",
+      "score": 61.52,
+      "evidenceClass": "M",
+      "costSource": "measured",
+      "settingLabel": "max",
+      "secondaryMetrics": {
+        "costPerTaskUsd": 1.058060606
+      },
+      "costDerivation": "Arithmetic: reported total_cost_usd / n_trials; average per trial, not cost of a successful task or subscription use.",
+      "publishedAt": "2026-11-20",
+      "retrievedAt": "2026-11-20",
+      "sourceUrl": "https://www.tbench.ai/leaderboard",
+      "retrievalMethod": "publishedData",
+      "evidenceExcerpt": "[M] {\"id\":\"ecdbb97b-0d45-46b9-846c-59abf8d902a5\",\"leaderboard_id\":\"947c0b13-1d0f-43e0-bd7b-7e5d8c16187a\",\"rank\":7,\"metadata\":{\"date\":\"2026-11-17\",\"agent_org\":{\"url\":\"https://openai.com\",\"label\":\"OpenAI\"},\"model_org\":{\"url\":\"https://openai.com\",\"label\":\"OpenAI\"},\"display_date\":\"Nov 17, 2026\",\"agent_display\":{\"url\":\"https://openai.com/codex/\",\"label\":\"Codex\"},\"model_display\":{\"url\":\"https://developers.openai.com/api/docs/models/gpt-6.2-sol\",\"label\":\"GPT-6.2 Sol\"},\"reasoning_effort\":\"max\"},\"metrics\":{\"accuracy\":61.52,\"n_trials\":330,\"pass_at_2\":0.6803,\"pass_at_3\":0.7061,\"pass_at_4\":0.7182,\"pass_at_5\":0.7273,\"successes\":203,\"display_cost\":\"$$349.16\",\"total_tokens\":1085250438,\"output_tokens\":16025289,\"total_cost_usd\":349.16,\"display_accuracy\":\"**61.5%** \\u00b1 2.8%\",\"cached_input_tokens\":1034590540,\"display_total_tokens\":\"1.1B\",\"uncached_input_tokens\":1069225149,\"avg_trial_duration_sec\":1214.3,\"display_total_cost_usd\":\"$$349.16\",\"accuracy_ci95_half_width\":2.75},\"status\":\"display\",\"created_at\":\"2026-11-18T02:00:46.444836+00:00\",\"updated_at\":\"2026-11-18T02:00:46.444836+00:00\",\"n_trials\":330}",
+      "confidence": "publisherReported",
+      "context": {
+        "sourceKind": "officialLeaderboard",
+        "sourcePublisher": "Terminal-Bench",
+        "dateBasis": "firstObservedPublicSnapshot",
+        "observedAt": "2026-11-20",
+        "sourceCreatedAt": "2026-11-18T02:00:46.444836+00:00",
+        "sourceUpdatedAt": "2026-11-18T02:00:46.444836+00:00",
+        "harness": "Codex",
+        "trialCount": 330,
+        "confidenceIntervalHalfWidth": 2.75,
+        "confidenceIntervalLevel": 0.95,
+        "totalCostUsd": 349.16,
+        "costBasis": "Published run total, not token-price recomputation.",
+        "sampleNotes": "Run execution date not published. metadata.date=2026-11-17 is model release date. Entry absent on 2026-11-17, created 2026-11-18; first observed 2026-11-20. Total output tokens=16025289."
+      }
+    },
+    {
       "id": "te82-tb41-gpt-6.1-terra-max",
       "benchmarkTypeId": "terminal-bench-v4.1-official-native-agents",
       "modelId": "gpt-6.1-terra",

@@ -48,7 +48,7 @@ public sealed class November17CatalogueRefreshTests
     {
         var catalogue = BenchmarkEvidenceCatalog.Default;
         var rows = catalogue.Results.Where(row => row.Id.StartsWith("te82-tb41-", StringComparison.Ordinal)).ToArray();
-        Assert.Equal(11, rows.Length);
+        Assert.Equal(13, rows.Length);
         foreach (var row in rows)
         {
             using var raw = JsonDocument.Parse(row.EvidenceExcerpt[4..]);
@@ -64,6 +64,10 @@ public sealed class November17CatalogueRefreshTests
         Assert.Contains(catalogue.Results, row => row.ModelId.Value == "claude-sonnet-5-5"
             && row.Score == 61.82m && row.PublishedAt == new DateOnly(2026, 11, 1));
         Assert.Contains(rows, row => row.ModelId.Value == "claude-sonnet-5-5" && row.Score == 63.94m);
+        Assert.Contains(rows, row => row.ModelId.Value == "gpt-6.2-sol" && row.Score == 61.52m
+            && row.Context!.TotalCostUsd == 349.16m && row.RetrievedAt == new DateOnly(2026, 11, 20));
+        Assert.Contains(rows, row => row.ModelId.Value == "gpt-6.2-astra" && row.Score == 62.12m
+            && row.Context!.TotalCostUsd == 1409.14m && row.RetrievedAt == new DateOnly(2026, 11, 20));
     }
 
     [Fact]

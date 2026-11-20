@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAtUtc": "2026-11-17T21:32:13.614263+00:00",
+  "generatedAtUtc": "2026-11-20T16:02:20.023371+00:00",
   "asOfUtc": "2026-10-04T00:00:00Z",
   "defaultBenchmarkTypeId": "artificial-analysis-intelligence-index-v4.3.2",
   "source": {
@@ -28,7 +28,7 @@
     },
     {
       "label": "Benchmark results retrieved through",
-      "date": "2026-11-17",
+      "date": "2026-11-20",
       "path": "src/TokenEconomy/catalog/benchmark-results.json"
     }
   ],

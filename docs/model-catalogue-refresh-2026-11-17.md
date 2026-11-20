@@ -47,6 +47,8 @@ Terminal-Bench **4.1**, [official leaderboard](https://www.tbench.ai/leaderboard
 | 6 Astra | max | 60.30 | 3267.18 | 9.90 | Codex |
 | Hydrogen | high | 56.36 | 784.24 | 2.38 | Antigravity CLI |
 | Carbon | high | 64.55 | 1358.25 | 4.12 | Antigravity CLI |
+| 6.2 Sol | max | 61.52 | 349.16 | 1.06 | Codex (observed 2026-11-20) |
+| 6.2 Astra | max | 62.12 | 1409.14 | 4.27 | Codex (observed 2026-11-20) |
 
 Costs per trial are the measured run total divided by trial count, with full precision retained to nine decimals in catalogue rows and rounded here. They are not recomputed from API list prices and do not establish subscription burn. The source `metadata.date` is the model release date, not execution date. Rows preserve source creation/update timestamps; actual run dates remain unknown. Their November 17 availability dates explicitly mean first-observed snapshots.
 
@@ -65,6 +67,16 @@ The [subscription catalogue](system/domains/subscription-catalogue.md) quotes th
 [V] [Codex changelog](https://developers.openai.com/codex/changelog) lists 0.168.0 and 0.169.0 on November 13. [Codex models](https://learn.chatgpt.com/docs/models) explicitly documents Terra minimum 0.159.0. **Implemented the fleet floor option:** retain 0.166.0 as the proven working resolver minimum, distinct from the vendor minimum; the operator reports fleet hosts on 0.166.0 since November 17. No upgrade or earliest-version execution probe is implied.
 
 [V] Promotion conflict: [API pricing](https://developers.openai.com/api/docs/pricing) says GPT-5.6 Sol promotion until November 30, while [Codex pricing](https://learn.chatgpt.com/docs/pricing) promises at least through November 21. Both are recorded with their surfaces and retrieval date. No unpublished subsequent tariff or artificial price-history end date is invented.
+
+## Re-verification, 20 November 2026
+
+Follow-up round. Rows that relied on press leads on 17 November were checked against official sources again on **2026-11-20**:
+
+- [V] GPT-6.2 Sol and Astra on [OpenAI API pricing](https://developers.openai.com/api/docs/pricing) are unchanged: Sol 2 / 0.10 / 10 (long context 4 / 0.20 / 15), Astra 8 / 0.40 / 40 (long context 16 / 0.80 / 60), with 30m writes 2.50 / 10 and 12h writes 5 / 20. Ultrafast is still 3x through 2027-02-28 and 6x from 2027-03-01. The same page still gives 2026-11-30 as the end of the GPT-5.6 Sol promotion.
+- [V] Gemini 4 Hydrogen is unchanged at 1.50 / 0.075 / 7.50 Standard paid tier, implicit caching only, with no context-length tier. `ai.google.dev/gemini-api/docs/pricing` now redirects (301) to [aistudio.google.com/docs/pricing](https://aistudio.google.com/docs/pricing).
+- [M] Terminal-Bench 4.1 now lists GPT-6.2 Sol and Astra (Codex harness, max effort, 330 trials; entries created 2026-11-18, absent on 17 November). They are added as `te82-tb41-gpt-6.2-sol-max` and `te82-tb41-gpt-6.2-astra-max`, dated by first observation on 20 November, with the raw record kept as the excerpt. On this benchmark 6.2 Sol scores 61.52 against 6.1 Sol's 60.91 (overlapping 95% intervals) at 1.06 against 1.92 USD per trial. That does not confirm or refute the press-reported Coding Agent Index decline, which is a different benchmark and stays [P].
+
+Price evidence classes and validity dates did not change, so the price rows and the `model-prices.2026-11-17.json` snapshot are left as delivered. The embedded catalogue must stay byte-identical to that snapshot, and creating a new snapshot only to move `verifiedOn` would add no price information. This dated section is the record of the 20 November re-check.
 
 ## Verification
 
