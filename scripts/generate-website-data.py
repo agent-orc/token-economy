@@ -1141,30 +1141,48 @@ def project_language_payload(document: dict, recommendations: dict) -> dict:
     }
 
 
-def select_frontier_rows(meta: dict, results: list[dict]) -> dict:
-    """Check the metadata-to-evidence join once, then return every selected row."""
-    frontier_rows = [row for row in results if row["benchmarkTypeId"].startswith("cost-frontier-")]
-    rows_by_id = {row["id"]: row for row in frontier_rows}
+def select_frontier_rows(meta: dict, results: list[dict], current_ids: set[str]) -> dict:
+    """Check the metadata-to-evidence join once, then return every selected row.
+
+    Rows stay in the append-only catalogue when their model is superseded; they are simply not selected.
+    Every row of a current model must be selected exactly once, except on a parked benchmark. A benchmark
+    may read another catalogue type through ``sourceTypeId`` (for example Terminal-Bench 4.1); then every
+    row of that type whose model is a current frontier model must be selected.
+    """
+    by_id = {row["id"]: row for row in results}
+    parked = meta.get("parkedBenchmarks", {})
+    if set(parked) & set(meta["benchmarks"]):
+        raise ValueError("A parked frontier benchmark cannot also be displayed")
     selected_ids = []
     selection = {}
     for short, definition in meta["benchmarks"].items():
+        type_id = definition.get("sourceTypeId", "cost-frontier-" + short)
         priced_ids = definition["displayRowIds"]
         score_only_ids = definition["displayScoreOnlyIds"]
         selected_ids.extend(priced_ids + score_only_ids)
-        if any(row_id not in rows_by_id or rows_by_id[row_id]["benchmarkTypeId"] != "cost-frontier-" + short
+        if any(row_id not in by_id or by_id[row_id]["benchmarkTypeId"] != type_id
                for row_id in priced_ids + score_only_ids):
             raise ValueError(f"Invalid frontier row selection: {short}")
-        priced = [rows_by_id[row_id] for row_id in priced_ids]
-        score_only = [rows_by_id[row_id] for row_id in score_only_ids]
+        priced = [by_id[row_id] for row_id in priced_ids]
+        score_only = [by_id[row_id] for row_id in score_only_ids]
         cost_sources = {row["costSource"] for row in priced}
         if (len(cost_sources) != 1 or "unavailable" in cost_sources
                 or any(row["costSource"] != "unavailable" for row in score_only)):
             raise ValueError(f"Frontier cost selection disagrees with evidence: {short}")
+        if "sourceTypeId" in definition:
+            expected = {row["id"] for row in results
+                        if row["benchmarkTypeId"] == type_id and row["modelId"] in current_ids}
+            if expected != set(priced_ids + score_only_ids):
+                raise ValueError(f"Frontier benchmark must select every current-model row of {type_id}: {short}")
         selection[short] = (priced, score_only, cost_sources.pop())
-    if (len(frontier_rows) != len(rows_by_id)
-            or len(selected_ids) != len(set(selected_ids))
-            or set(selected_ids) != rows_by_id.keys()):
-        raise ValueError("Frontier catalog rows must each be selected exactly once")
+    if len(selected_ids) != len(set(selected_ids)):
+        raise ValueError("Frontier catalog rows must each be selected at most once")
+    frontier_rows = [row for row in results if row["benchmarkTypeId"].startswith("cost-frontier-")]
+    required = {row["id"] for row in frontier_rows
+                if row["modelId"] in current_ids
+                and row["benchmarkTypeId"].removeprefix("cost-frontier-") not in parked}
+    if not required <= set(selected_ids):
+        raise ValueError(f"Current-model frontier rows must be selected: {sorted(required - set(selected_ids))[:5]}")
     return selection
 
 
@@ -1174,8 +1192,11 @@ def create_cost_frontier_payload() -> dict:
     prices = load_price_index()
     results = load(BENCHMARK_RESULTS)["records"]
     as_of = parse_utc(meta["asOf"] + "T00:00:00Z")
-    selection = select_frontier_rows(meta, results)
     model_ids = meta["modelIds"]
+    current_ids = {model_id for short, model_id in model_ids.items()
+                   if (prices.get(normalize_model_key(model_id)) or meta.get("externalModels", {}).get(short) or {})
+                   .get("lifecycleStatus") == "current"}
+    selection = select_frontier_rows(meta, results, current_ids)
     short_by_model = {model_id: short for short, model_id in model_ids.items()}
     if len(short_by_model) != len(model_ids):
         raise ValueError("Frontier model IDs must be unique")
@@ -1212,7 +1233,7 @@ def create_cost_frontier_payload() -> dict:
     for short, definition in meta["benchmarks"].items():
         priced_rows, score_only_rows, cost_source = selection[short]
         projected = {key: value for key, value in definition.items()
-                     if key not in ("displayRowIds", "displayScoreOnlyIds", "minimumPricedModels")}
+                     if key not in ("displayRowIds", "displayScoreOnlyIds", "minimumPricedModels", "sourceTypeId")}
         projected["rows"] = []
         projected["evidence"] = []
         projected["noCost"] = []
@@ -1265,7 +1286,7 @@ def create_cost_frontier_payload() -> dict:
                          "approx": post["approximate"], "t": post["title"],
                          "u": post["url"], "c": post["claim"]})
     return {**{key: value for key, value in meta.items() if key not in
-               ("modelIds", "benchmarks", "releaseOrder", "externalModels", "externalPriceClaims")},
+               ("modelIds", "benchmarks", "releaseOrder", "externalModels", "externalPriceClaims", "parkedBenchmarks")},
             "models": models, "benchmarks": benches, "restricted": restricted,
             "releases": releases,
             "current": sorted(current),

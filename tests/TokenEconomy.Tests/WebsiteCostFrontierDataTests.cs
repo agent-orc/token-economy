@@ -159,7 +159,10 @@ public class WebsiteCostFrontierDataTests
             RepositoryRoot(), "website", "data", "cost-frontier.json")));
         var benchmark = document.RootElement.GetProperty("benchmarks").GetProperty("aacode");
         Assert.Contains(benchmark.GetProperty("noCost").EnumerateArray(),
-            row => row[0].GetString() == "Claude Fable 5.1" && row[1].GetDecimal() == 58m);
+            row => row[0].GetString() == "GPT-6.1 Terra" && row[1].GetDecimal() == 48m);
+        // Fable 5.1 is superseded: its score-only row stays in the catalogue and leaves the page.
+        Assert.DoesNotContain(benchmark.GetProperty("noCost").EnumerateArray(),
+            row => row[0].GetString()!.Contains("Fable 5.1", StringComparison.Ordinal));
         Assert.All(benchmark.GetProperty("scoreOnlyEvidence").EnumerateArray(),
             row => Assert.Equal("unavailable", row.GetProperty("costSource").GetString()));
         Assert.DoesNotContain(document.RootElement.GetProperty("benchmarks").GetProperty("osw2")
@@ -183,8 +186,8 @@ public class WebsiteCostFrontierDataTests
         Assert.Equal(10, root.GetProperty("missions").GetArrayLength());
         Assert.Equal(2, root.GetProperty("missions").EnumerateArray()
             .Count(item => item.TryGetProperty("check", out var check) && check.GetBoolean()));
-        Assert.Equal(18, root.GetProperty("releases").GetArrayLength());
-        Assert.Equal(17, root.GetProperty("benchmarks").EnumerateObject()
+        Assert.Equal(19, root.GetProperty("releases").GetArrayLength());
+        Assert.Equal(15, root.GetProperty("benchmarks").EnumerateObject()
             .Sum(item => item.Value.GetProperty("noCost").GetArrayLength()));
         Assert.True(root.GetProperty("restricted").TryGetProperty("carbon", out _));
         Assert.Contains(root.GetProperty("benchmarks").GetProperty("arena").GetProperty("noCost").EnumerateArray(),
@@ -226,7 +229,8 @@ public class WebsiteCostFrontierDataTests
                 estimatedWithCatalogPrice++;
             }
         }
-        Assert.True(estimatedWithCatalogPrice > 20);
+        // Superseded Fable 5.1 and GPT-6 Astra rows left the page on 27 Nov 2026, so fewer estimated rows remain.
+        Assert.True(estimatedWithCatalogPrice >= 15);
         AssertSpot(root, "aa5", "opus-5.5", "max", 58m, 10.04m);
         AssertSpot(root, "aa5", "sol-6.1", "max", 55m, 1.27m);
         AssertSpot(root, "deepswe", "flash-3.8", "high", 74m, 2.36m);
@@ -234,6 +238,8 @@ public class WebsiteCostFrontierDataTests
         AssertSpot(root, "tb4", "opus-5.5", "max", 64.85m, 14.30m);
         AssertSpot(root, "arc2", "sol-6.1", "max", 94.2m, 0.2537m);
         AssertSpot(root, "aacode", "opus-5.5", "max", 62m, 11.42m);
+        AssertSpot(root, "tb41", "fable-5.2", "max", 65.76m, 49.978060606m);
+        AssertSpot(root, "tb41", "sol-6.2", "max", 61.52m, 1.058060606m);
     }
 
     [Fact]
@@ -285,6 +291,10 @@ public class WebsiteCostFrontierDataTests
         Assert.DoesNotContain("sol-6", models);
         Assert.DoesNotContain("sonnet-5", models);
         Assert.DoesNotContain("grok-4.6", models);
+        Assert.DoesNotContain("fable-5.1", models);
+        Assert.DoesNotContain("astra", models);
+        Assert.Contains("fable-5.2", models);
+        Assert.Contains("astra-6.2", models);
         Assert.True(used.Count >= 15);
     }
 

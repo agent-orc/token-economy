@@ -46,7 +46,8 @@ p { margin: 0; }
 .hero p { max-width: 96ch; color: var(--hero-soft); }
 
 /* Tabs and HUD */
-.bar { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 20; background: var(--bg); border-bottom: 1px solid var(--border); }
+/* The site header is sticky too; navigation.js publishes its height plus 16px as --site-header-offset. */
+.bar { position: sticky; top: max(env(safe-area-inset-top, 0px), calc(var(--site-header-offset, 16px) - 16px)); z-index: 20; background: var(--bg); border-bottom: 1px solid var(--border); }
 .bar .wrap { display: flex; flex-wrap: wrap; align-items: center; gap: .5rem 1rem; padding-block: .55rem; }
 .tabs { display: flex; flex-wrap: wrap; gap: .3rem; }
 .tab { border: 1px solid transparent; background: none; padding: .38rem .8rem; border-radius: var(--pill); font-weight: 650; color: var(--muted); }
@@ -247,3 +248,12 @@ td.r, th.r { text-align: right; }
 
 body { overflow-x: clip; }
 #main-content { padding-block: 1.1rem 3rem; }
+
+/* Phones: the site header already sticks, so the tab bar scrolls away and its tabs sit in one swipeable row. */
+@media (max-width: 40rem) {
+  .bar { position: static; }
+  .tabs { flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; max-width: 100%; mask-image: linear-gradient(to right, #000 82%, transparent); padding-right: 2rem; }
+  .tabs::-webkit-scrollbar { display: none; }
+  .tab { flex: none; }
+  .hud { margin-left: 0; }
+}

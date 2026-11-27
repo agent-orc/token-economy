@@ -193,9 +193,14 @@ catalog, generated data, and page. External models retain their lab-specific
 vendor codes in metadata; the chart groups those labs under “Other labs.”
 The catalog's `lifecycleStatus` selects current models before generation. The
 generator checks that every Cost Frontier row is selected once, rejects superseded rows, and
-requires each current model on a chart or in a documented gap list. Eight
-categories, 16 insights, ten missions, the Quality dial, and current release
-posts are included. Refresh live boards monthly and after model or board
+requires each current model on a chart or in a documented gap list. Rows of
+superseded models stay in the catalogue but never reach the page. Eight
+categories, 16 insights, ten missions and current release posts are included.
+The Quality dial and Effort ladders tabs (`dial.js`, `dial.css`) read
+`data/effort-dial.json`, written by `tools/EffortDialSiteData` from the
+library's `EffortDial`; see [docs/effort-dial.md](../docs/effort-dial.md#on-the-website-te-84).
+Run `JOB_RESULTS_DIR=/absolute/results node scripts/test-cost-frontier-dial.mjs`
+for the browser check and desktop and phone screenshots. Refresh live boards monthly and after model or board
 releases using the source-specific methods in `docs/benchmarks-research.md`.
 Run `python3 scripts/generate-website-data.py` after a catalog change and
 `python3 scripts/generate-website-data.py --check` before publishing. The

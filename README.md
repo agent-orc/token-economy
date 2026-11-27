@@ -135,7 +135,8 @@ selection rubric, and a standalone `ai-patterns` handoff.
   routing-restricted models, and returns an expected list-price cost range per
   accepted card (Codex also in credits; Claude list price as a flagged proxy).
   `PicksAt` gives the inverse view for every class. See the
-  [dial contract](docs/effort-dial.md).
+  [dial contract](docs/effort-dial.md). The Cost Frontier page shows the dial,
+  its evidence and the effort ladders (Quality dial and Effort ladders tabs).
 
 - **Controlled A/B benchmarks** — versioned repository definitions execute the
   same task against model/effort variants in isolated workspaces, retain raw

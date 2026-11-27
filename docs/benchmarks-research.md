@@ -157,7 +157,10 @@ TE-74 rechecked the price sources on 2026-11-02. GPT-6.1 Terra is current with a
 The Cost Frontier projects only models whose catalog `lifecycleStatus` is
 `current`. Each current model must appear in a displayed chart or score-only
 strip, or in an explicit gap list; generation rejects an omitted current model,
-any selected superseded row, and orphaned Cost Frontier rows. TE-73 removed 73
+any selected superseded row, and an unselected row of a current model. Since
+TE-84, rows of superseded models stay in the catalogue unselected, a benchmark
+may read another catalogue type through `sourceTypeId` (Terminal-Bench 4.1),
+and `parkedBenchmarks` names benchmarks left out for lack of current rows. TE-73 removed 73
 unselected rows, including duplicate or boilerplate observations, and five
 empty benchmark definitions. The selected row IDs in
 `cost-frontier-metadata.json` pin every remaining Cost Frontier result. The page keeps eight

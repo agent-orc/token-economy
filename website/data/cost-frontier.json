@@ -226,6 +226,20 @@
         "Evaluation post",
         "https://www.coderabbit.ai/blog/gpt-6-astra-code-review-evaluation"
       ]
+    ],
+    "tb41": [
+      [
+        "Benchmark",
+        "https://www.tbench.ai/"
+      ],
+      [
+        "Paper",
+        "https://openreview.net/forum?id=a7Qa4CcHak"
+      ],
+      [
+        "Code",
+        "https://github.com/harbor-framework/terminal-bench-1"
+      ]
     ]
   },
   "nameLinks": [
@@ -302,7 +316,8 @@
     "FrontierCode v1.1": "https://cognition.com/blog/frontier-code-1.1",
     "FrontierCode": "https://cognition.com/blog/frontier-code-1.1",
     "SWE-Atlas-QnA-AA": "https://huggingface.co/datasets/ArtificialAnalysis/SWE-Atlas-QnA-AA",
-    "SWE-Atlas-QnA": "https://labs.scale.com/leaderboard/sweatlas-qna"
+    "SWE-Atlas-QnA": "https://labs.scale.com/leaderboard/sweatlas-qna",
+    "Terminal-Bench 4.1": "https://www.tbench.ai/leaderboard"
   },
   "categories": [
     {
@@ -318,6 +333,7 @@
       "name": "Code",
       "benches": [
         "aacode",
+        "tb41",
         "tb4",
         "deepswe"
       ]
@@ -333,7 +349,6 @@
       "id": "security",
       "name": "Security",
       "benches": [
-        "exploit",
         "cybergym"
       ]
     },
@@ -365,8 +380,7 @@
       "id": "vision",
       "name": "Vision",
       "benches": [
-        "chart",
-        "mmmu"
+        "chart"
       ]
     }
   ],
@@ -422,15 +436,15 @@
     {
       "id": "more-effort",
       "t": "More effort, worse score",
-      "hint": "In Reasoning, follow the top rung of a premium model.",
+      "hint": "In Reasoning, on ARC-AGI-2, follow Opus 5.5 to its top rung.",
       "cat": "reasoning",
-      "b": "aa5",
+      "b": "arc2",
       "on": {
-        "b": "aa5",
-        "m": "fable-5.1",
+        "b": "arc2",
+        "m": "opus-5.5",
         "e": "max"
       },
-      "x": "Fable 5.1 drops from 50 at xhigh ($10.85) to 49 at max ($12.99). ARC-AGI-2 shows the same for Opus 5.5: 93.3% at high for 41 cents, 91.7% at max for $1.85. The top rung is not always the top score."
+      "x": "On ARC-AGI-2, Opus 5.5 solves 93.3% at high for 41 cents and 91.7% at max for $1.85. The top rung is not always the top score."
     },
     {
       "id": "same-score",
@@ -472,15 +486,15 @@
     },
     {
       "id": "twin",
-      "t": "The same score at a fifth of the price",
-      "hint": "In Code, on Terminal-Bench 4.0, look for two rows at exactly the same score.",
+      "t": "The same score for under a third of the price",
+      "hint": "In Code, on Terminal-Bench 4.1, look for two rows at exactly the same score.",
       "cat": "code",
-      "b": "tb4",
+      "b": "tb41",
       "on": {
-        "b": "tb4",
-        "m": "sol-6.1"
+        "b": "tb41",
+        "m": "opus-5.5"
       },
-      "x": "GPT-6.1 Sol and GPT-6 Astra both resolve 58.18% on Terminal-Bench 4.0 at max effort. Astra costs $9.90 per task and Sol $1.92."
+      "x": "Claude Fable 5.2 and Opus 5.5 both resolve 65.76% on Terminal-Bench 4.1 at max effort. Fable costs $49.98 per trial and Opus $14.30."
     },
     {
       "id": "vendor-gap",
@@ -506,15 +520,16 @@
       "x": "Low-cost models top CyberGym at 88 to 95%, and Anthropic retired it from its system card \"due to saturation\". When everyone is near the ceiling, a benchmark stops separating models."
     },
     {
-      "id": "safeguards",
-      "t": "Safeguards off",
-      "hint": "In Security, read the ExploitBench notes.",
-      "cat": "security",
-      "b": "exploit",
+      "id": "terra-volume",
+      "t": "Half the list price, a higher bill",
+      "hint": "In Code, on Terminal-Bench 4.1, compare GPT-6.1 Terra with GPT-6.1 Sol.",
+      "cat": "code",
+      "b": "tb41",
       "on": {
-        "b": "exploit"
+        "b": "tb41",
+        "m": "terra-6.1"
       },
-      "x": "Cyber scores are usually taken with production safeguards off. What you buy may refuse or hand off the same work. Opus 5.5 blocks vulnerability discovery in compiled binaries, for example."
+      "x": "GPT-6.1 Terra lists at half of GPT-6.1 Sol, yet costs $2.65 per Terminal-Bench 4.1 trial against Sol's $1.92, and resolves 53.33% against 60.91%. The Quality dial uses this ratio as Terra's upper cost bound."
     },
     {
       "id": "human",
@@ -572,7 +587,7 @@
         "m": "opus-5.5",
         "e": "rung 5"
       },
-      "x": "On Chartography, Opus 5.5 goes from about $0.025 for 59% to about $0.49 for 64%. That is twenty times the cost for five points. Fable 5.1 even falls at its top rung."
+      "x": "On Chartography, Opus 5.5 goes from about $0.025 for 59% to about $0.49 for 64%. That is twenty times the cost for five points."
     }
   ],
   "missions": [
@@ -612,7 +627,7 @@
       "brief": "Long repository tasks with verifier-checked results. $3 per attempt.",
       "opts": [
         [
-          "astra",
+          "qwen-3.8",
           "xhigh"
         ],
         [
@@ -632,7 +647,7 @@
           "max"
         ]
       ],
-      "lesson": "Gemini 3.8 Flash ties GPT-6 Astra at 74% on DeepSWE for $2.36, yet it resolves only 19% on Terminal-Bench 4.0 for $5.54. One benchmark does not settle a model's value, even within coding."
+      "lesson": "Gemini 3.8 Flash leads the rows inside the budget at 74% on DeepSWE for $2.36, yet it resolves only 19% on Terminal-Bench 4.0 for $5.54. One benchmark does not settle a model's value, even within coding."
     },
     {
       "t": "The bulk classifier",
@@ -664,35 +679,35 @@
       "lesson": "Haiku 5.5 low and Luna medium land almost level at 4 cents. Terra low has more points but breaks the budget at 7 cents. At this end, the effort setting moves the bill as much as the model does."
     },
     {
-      "t": "Check the evidence: security",
+      "t": "Check the evidence: a new release",
       "check": true,
-      "bench": "exploit",
-      "brief": "One vendor reports 100% on ExploitBench for GPT-6 Astra. Another reports 91% for Claude Opus 5.5. What can you conclude?",
+      "bench": "tb41",
+      "brief": "On Terminal-Bench 4.1, GPT-6.2 Sol resolves 61.52% for $1.06 per trial and GPT-6.1 Sol 60.91% for $1.92. A press report says 6.2 Sol lost three points on another coding index. What can you conclude?",
       "choices": [
         [
-          "Astra is 9 points stronger at exploitation.",
+          "6.2 Sol is the stronger coding model.",
           false
         ],
         [
-          "Neither score tells you what the API will do: both were taken with safeguards off, by each vendor on its own setup.",
+          "On this board the two are level within the \u00b13-point margin, and 6.2 Sol costs about half as much per trial. The press figure is a different benchmark and was not verified at its source.",
           true
         ],
         [
-          "Opus 5.5 is safer, because its score is lower.",
+          "6.1 Sol is cheaper to run.",
           false
         ],
         [
-          "Both models would refuse this work in production, so the scores mean nothing.",
+          "The press report proves the board wrong.",
           false
         ]
       ],
-      "lesson": "Each vendor ran its own setup, and Anthropic states that its figures may not compare with public entries. A deployed model may also block the task, so test your own security workload with safeguards on."
+      "lesson": "A gap inside the margin is a tie. The cost difference is real, and it is measured. The press figure stays a lead until its raw data is pulled. Our fleet still runs 6.1 Sol until 6.2 Sol is cleared there."
     },
     {
       "t": "The desktop agent",
       "bench": "osw2",
       "budget": 5,
-      "brief": "Long workflows across real apps. Each run may cost up to $5. Effort levels are shown as rungs: rung 1 is the cheapest.",
+      "brief": "Long workflows across real apps. Each run may cost up to $5. Only Opus 5.5 has published costs here, so choose its effort rung: rung 1 is the cheapest.",
       "opts": [
         [
           "opus-5.5",
@@ -707,15 +722,15 @@
           "rung 5"
         ],
         [
-          "fable-5.1",
+          "opus-5.5",
           "rung 1"
         ],
         [
-          "fable-5.1",
+          "opus-5.5",
           "rung 2"
         ]
       ],
-      "lesson": "Opus 5.5 at rung 4 reaches 80.8% for about $4.25. The top rung adds a single point for twice the money, and Fable 5.1 cannot compete at this budget even though it lists at more than twice the price."
+      "lesson": "Opus 5.5 at rung 4 reaches 80.8% for about $4.25. The top rung adds a single point for twice the money, and rung 2 already reaches 74% for $1.91."
     },
     {
       "t": "The invoice pipeline",
@@ -724,7 +739,7 @@
       "brief": "Every wrong value means manual rework, so only perfect documents count. You can spend 25 cents per page.",
       "opts": [
         [
-          "astra",
+          "luna-6",
           "Codex"
         ],
         [
@@ -750,7 +765,7 @@
       "t": "The chart reader",
       "bench": "chart",
       "budget": 0.1,
-      "brief": "Reading charts from reports, without tools. 10 cents per task.",
+      "brief": "Reading charts from reports, without tools. 10 cents per task. Only Opus 5.5 has published costs, so choose its effort rung.",
       "opts": [
         [
           "opus-5.5",
@@ -761,19 +776,19 @@
           "rung 1"
         ],
         [
-          "fable-5.1",
+          "opus-5.5",
+          "rung 5"
+        ],
+        [
+          "opus-5.5",
           "rung 3"
         ],
         [
-          "fable-5.1",
+          "opus-5.5",
           "rung 2"
-        ],
-        [
-          "fable-5.1",
-          "rung 1"
         ]
       ],
-      "lesson": "Opus 5.5 at rung 4 fits the budget and leads by 16 points. Its cheapest rung, at 2 cents, already beats every Fable 5.1 setting. Check the low rungs before paying for more effort."
+      "lesson": "Opus 5.5 at rung 4 fits the budget at 62.4%. Its cheapest rung, at 2 cents, already reaches 57%, and the top rung adds two points for six times the money. Check the low rungs before paying for more effort."
     },
     {
       "t": "Check the evidence: language",
@@ -802,32 +817,32 @@
     },
     {
       "t": "The terminal agent",
-      "bench": "tb4",
+      "bench": "tb41",
       "budget": 8,
-      "brief": "Command-line tasks checked by test suites. Each task may cost $8 in its native agent.",
+      "brief": "Command-line tasks checked by test suites. Each trial may cost $8 in its native agent.",
       "opts": [
         [
           "opus-5.5",
           "max"
         ],
         [
-          "astra",
-          "high"
-        ],
-        [
-          "astra",
-          "low"
+          "fable-5.2",
+          "max"
         ],
         [
           "sol-6.1",
           "max"
         ],
         [
-          "flash-3.8",
-          "high"
+          "sol-6.2",
+          "max"
+        ],
+        [
+          "haiku-5.5",
+          "max"
         ]
       ],
-      "lesson": "GPT-6.1 Sol reaches 58.18% for $1.92, as much as GPT-6 Astra at max for $9.90. Opus 5.5 leads overall at 64.85%, for $14.30 per task. Whether those 6.7 points are worth seven times the cost depends on the job."
+      "lesson": "GPT-6.2 Sol reaches 61.52% for $1.06 per trial, level with GPT-6.1 Sol at about half the cost. Opus 5.5 and Fable 5.2 lead at 65.76%, for $14.30 and $49.98. Whether four points are worth thirteen times the cost depends on the job."
     },
     {
       "t": "The puzzle solver",
@@ -859,33 +874,6 @@
       "lesson": "GPT-6.1 Sol at max solves 94.2% for 25 cents. Opus 5.5 at medium costs more and solves 87.5%. Its best setting is high, at 41 cents and 93.3%, and raising effort to max lowers the score."
     }
   ],
-  "loads": [
-    {
-      "b": "aa5",
-      "label": "General assistant tasks",
-      "v": 20000
-    },
-    {
-      "b": "aacode",
-      "label": "Coding tasks",
-      "v": 1500
-    },
-    {
-      "b": "osw2",
-      "label": "Computer-use runs",
-      "v": 300
-    },
-    {
-      "b": "xpro",
-      "label": "Document pages",
-      "v": 40000
-    },
-    {
-      "b": "chart",
-      "label": "Charts to read",
-      "v": 10000
-    }
-  ],
   "models": {
     "opus-5.5": [
       "Claude Opus 5.5",
@@ -904,18 +892,6 @@
       "anthropic",
       0.1,
       0.5
-    ],
-    "fable-5.1": [
-      "Claude Fable 5.1",
-      "anthropic",
-      10,
-      50
-    ],
-    "astra": [
-      "GPT-6 Astra",
-      "openai",
-      10,
-      50
     ],
     "sol-6.1": [
       "GPT-6.1 Sol",
@@ -996,6 +972,22 @@
     "mistral-4": [
       "Mistral Large 4",
       "other"
+    ],
+    "fable-5.2": [
+      "Claude Fable 5.2",
+      "anthropic"
+    ],
+    "sol-6.2": [
+      "GPT-6.2 Sol",
+      "openai"
+    ],
+    "astra-6.2": [
+      "GPT-6.2 Astra",
+      "openai"
+    ],
+    "hydrogen": [
+      "Gemini 4 Hydrogen",
+      "google"
     ]
   },
   "benchmarks": {
@@ -1121,66 +1113,6 @@
           "max",
           36,
           0.41
-        ],
-        [
-          "fable-5.1",
-          "low",
-          38,
-          4.47
-        ],
-        [
-          "fable-5.1",
-          "medium",
-          43,
-          5.56
-        ],
-        [
-          "fable-5.1",
-          "high",
-          47,
-          7.54
-        ],
-        [
-          "fable-5.1",
-          "xhigh",
-          50,
-          10.85
-        ],
-        [
-          "fable-5.1",
-          "max",
-          49,
-          12.99
-        ],
-        [
-          "astra",
-          "low",
-          43,
-          1.42
-        ],
-        [
-          "astra",
-          "medium",
-          51,
-          2.73
-        ],
-        [
-          "astra",
-          "high",
-          55,
-          3.24
-        ],
-        [
-          "astra",
-          "xhigh",
-          55,
-          3.66
-        ],
-        [
-          "astra",
-          "max",
-          57,
-          6.24
         ],
         [
           "sol-6.1",
@@ -1498,106 +1430,6 @@
           "publishedAt": "2026-10-28",
           "retrievedAt": "2026-11-01",
           "evidenceExcerpt": "Claude Haiku 5.5 (max) 1M Anthropic 36 $0.41 235 341.05 343.18 Model Providers",
-          "confidence": "thirdParty",
-          "costSource": "measured",
-          "stale": false
-        },
-        {
-          "id": "cf-aa5-016",
-          "sourceUrl": "https://artificialanalysis.ai/leaderboards/models",
-          "publishedAt": "2026-10-28",
-          "retrievedAt": "2026-11-01",
-          "evidenceExcerpt": "Claude Fable 5.1 (low with fallback) 1M Anthropic 38 $4.47 55 2.27 11.39 Model Providers",
-          "confidence": "thirdParty",
-          "costSource": "measured",
-          "stale": false
-        },
-        {
-          "id": "cf-aa5-017",
-          "sourceUrl": "https://artificialanalysis.ai/leaderboards/models",
-          "publishedAt": "2026-10-28",
-          "retrievedAt": "2026-11-01",
-          "evidenceExcerpt": "Claude Fable 5.1 (medium with fallback) 1M Anthropic 43 $5.56 55 3.25 12.38 Model Providers",
-          "confidence": "thirdParty",
-          "costSource": "measured",
-          "stale": false
-        },
-        {
-          "id": "cf-aa5-018",
-          "sourceUrl": "https://artificialanalysis.ai/leaderboards/models",
-          "publishedAt": "2026-10-28",
-          "retrievedAt": "2026-11-01",
-          "evidenceExcerpt": "Claude Fable 5.1 (high with fallback) 1M Anthropic 47 $7.54 57 14.62 23.37 Model Providers",
-          "confidence": "thirdParty",
-          "costSource": "measured",
-          "stale": false
-        },
-        {
-          "id": "cf-aa5-019",
-          "sourceUrl": "https://artificialanalysis.ai/leaderboards/models",
-          "publishedAt": "2026-10-28",
-          "retrievedAt": "2026-11-01",
-          "evidenceExcerpt": "Claude Fable 5.1 (xhigh with fallback) 1M Anthropic 50 $10.85 62 73.47 81.51 Model Providers",
-          "confidence": "thirdParty",
-          "costSource": "measured",
-          "stale": false
-        },
-        {
-          "id": "cf-aa5-020",
-          "sourceUrl": "https://artificialanalysis.ai/leaderboards/models",
-          "publishedAt": "2026-10-28",
-          "retrievedAt": "2026-11-01",
-          "evidenceExcerpt": "Claude Fable 5.1 (max with fallback) 1M Anthropic 49 $12.99 69 238.66 245.94 Model Providers",
-          "confidence": "thirdParty",
-          "costSource": "measured",
-          "stale": false
-        },
-        {
-          "id": "cf-aa5-021",
-          "sourceUrl": "https://artificialanalysis.ai/leaderboards/models",
-          "publishedAt": "2026-10-28",
-          "retrievedAt": "2026-11-01",
-          "evidenceExcerpt": "GPT-6 Astra (low) 1M OpenAI 43 $1.42 58 2.02 10.71 Model Providers",
-          "confidence": "thirdParty",
-          "costSource": "measured",
-          "stale": false
-        },
-        {
-          "id": "cf-aa5-022",
-          "sourceUrl": "https://artificialanalysis.ai/leaderboards/models",
-          "publishedAt": "2026-10-28",
-          "retrievedAt": "2026-11-01",
-          "evidenceExcerpt": "GPT-6 Astra (medium) 1M OpenAI 51 $2.73 57 5.07 13.86 Model Providers",
-          "confidence": "thirdParty",
-          "costSource": "measured",
-          "stale": false
-        },
-        {
-          "id": "cf-aa5-023",
-          "sourceUrl": "https://artificialanalysis.ai/leaderboards/models",
-          "publishedAt": "2026-10-28",
-          "retrievedAt": "2026-11-01",
-          "evidenceExcerpt": "GPT-6 Astra (high) 1M OpenAI 55 $3.24 63 48.12 56.08 Model Providers",
-          "confidence": "thirdParty",
-          "costSource": "measured",
-          "stale": false
-        },
-        {
-          "id": "cf-aa5-024",
-          "sourceUrl": "https://artificialanalysis.ai/leaderboards/models",
-          "publishedAt": "2026-10-28",
-          "retrievedAt": "2026-11-01",
-          "evidenceExcerpt": "GPT-6 Astra (xhigh) 1M OpenAI 55 $3.66 66 149.41 156.99 Model Providers",
-          "confidence": "thirdParty",
-          "costSource": "measured",
-          "stale": false
-        },
-        {
-          "id": "cf-aa5-025",
-          "sourceUrl": "https://artificialanalysis.ai/leaderboards/models",
-          "publishedAt": "2026-10-28",
-          "retrievedAt": "2026-11-01",
-          "evidenceExcerpt": "GPT-6 Astra (max) 1M OpenAI 57 $6.24 78 270.03 276.42 Model Providers",
           "confidence": "thirdParty",
           "costSource": "measured",
           "stale": false
@@ -1993,66 +1825,6 @@
           0.085
         ],
         [
-          "fable-5.1",
-          "low",
-          78.3,
-          0.9523
-        ],
-        [
-          "fable-5.1",
-          "medium",
-          86.2,
-          1.2239
-        ],
-        [
-          "fable-5.1",
-          "high",
-          88.8,
-          1.6673
-        ],
-        [
-          "fable-5.1",
-          "xhigh",
-          90.0,
-          3.1202
-        ],
-        [
-          "fable-5.1",
-          "max",
-          90.0,
-          4.4923
-        ],
-        [
-          "astra",
-          "low",
-          85.4,
-          0.4162
-        ],
-        [
-          "astra",
-          "medium",
-          92.1,
-          0.4801
-        ],
-        [
-          "astra",
-          "high",
-          92.1,
-          0.6681
-        ],
-        [
-          "astra",
-          "xhigh",
-          93.3,
-          0.8287
-        ],
-        [
-          "astra",
-          "max",
-          95.0,
-          1.1195
-        ],
-        [
           "sol-6.1",
           "low",
           76.7,
@@ -2336,106 +2108,6 @@
           "publishedAt": "2026-11-01",
           "retrievedAt": "2026-11-01",
           "evidenceExcerpt": "{\n  \"datasetId\": \"v2_Semi_Private\",\n  \"modelId\": \"anthropic-claude-haiku-5-5-xhigh\",\n  \"score\": 0.6125,\n  \"costPerTask\": 0.08498917333333329,\n  \"resultsUrl\": \"/results/anthropic-claude-haiku-5-5\",\n  \"display\": true\n}",
-          "confidence": "publisherReported",
-          "costSource": "measured",
-          "stale": false
-        },
-        {
-          "id": "cf-arc2-refresh-014",
-          "sourceUrl": "https://arcprize.org/media/data/evaluations.json",
-          "publishedAt": "2026-11-01",
-          "retrievedAt": "2026-11-01",
-          "evidenceExcerpt": "{\n  \"datasetId\": \"v2_Semi_Private\",\n  \"modelId\": \"anthropic-claude-fable-5-1-low\",\n  \"score\": 0.7833333333333333,\n  \"costPerTask\": 0.9523265833333336,\n  \"resultsUrl\": \"/results/anthropic-claude-fable-5-1\",\n  \"display\": true\n}",
-          "confidence": "publisherReported",
-          "costSource": "measured",
-          "stale": false
-        },
-        {
-          "id": "cf-arc2-refresh-015",
-          "sourceUrl": "https://arcprize.org/media/data/evaluations.json",
-          "publishedAt": "2026-11-01",
-          "retrievedAt": "2026-11-01",
-          "evidenceExcerpt": "{\n  \"datasetId\": \"v2_Semi_Private\",\n  \"modelId\": \"anthropic-claude-fable-5-1-medium\",\n  \"score\": 0.8625,\n  \"costPerTask\": 1.2239411666666673,\n  \"resultsUrl\": \"/results/anthropic-claude-fable-5-1\",\n  \"display\": true\n}",
-          "confidence": "publisherReported",
-          "costSource": "measured",
-          "stale": false
-        },
-        {
-          "id": "cf-arc2-refresh-016",
-          "sourceUrl": "https://arcprize.org/media/data/evaluations.json",
-          "publishedAt": "2026-11-01",
-          "retrievedAt": "2026-11-01",
-          "evidenceExcerpt": "{\n  \"datasetId\": \"v2_Semi_Private\",\n  \"modelId\": \"anthropic-claude-fable-5-1-high\",\n  \"score\": 0.8875,\n  \"costPerTask\": 1.6673061666666666,\n  \"resultsUrl\": \"/results/anthropic-claude-fable-5-1\",\n  \"display\": true\n}",
-          "confidence": "publisherReported",
-          "costSource": "measured",
-          "stale": false
-        },
-        {
-          "id": "cf-arc2-refresh-017",
-          "sourceUrl": "https://arcprize.org/media/data/evaluations.json",
-          "publishedAt": "2026-11-01",
-          "retrievedAt": "2026-11-01",
-          "evidenceExcerpt": "{\n  \"datasetId\": \"v2_Semi_Private\",\n  \"modelId\": \"anthropic-claude-fable-5-1-xhigh\",\n  \"score\": 0.9,\n  \"costPerTask\": 3.120216916666669,\n  \"resultsUrl\": \"/results/anthropic-claude-fable-5-1\",\n  \"display\": true\n}",
-          "confidence": "publisherReported",
-          "costSource": "measured",
-          "stale": false
-        },
-        {
-          "id": "cf-arc2-refresh-018",
-          "sourceUrl": "https://arcprize.org/media/data/evaluations.json",
-          "publishedAt": "2026-11-01",
-          "retrievedAt": "2026-11-01",
-          "evidenceExcerpt": "{\n  \"datasetId\": \"v2_Semi_Private\",\n  \"modelId\": \"anthropic-claude-fable-5-1-max\",\n  \"score\": 0.9,\n  \"costPerTask\": 4.492348833333334,\n  \"resultsUrl\": \"/results/anthropic-claude-fable-5-1\",\n  \"display\": true\n}",
-          "confidence": "publisherReported",
-          "costSource": "measured",
-          "stale": false
-        },
-        {
-          "id": "cf-arc2-refresh-019",
-          "sourceUrl": "https://arcprize.org/media/data/evaluations.json",
-          "publishedAt": "2026-11-01",
-          "retrievedAt": "2026-11-01",
-          "evidenceExcerpt": "{\n  \"datasetId\": \"v2_Semi_Private\",\n  \"modelId\": \"openai-gpt-6-astra-low\",\n  \"score\": 0.8541666666666666,\n  \"costPerTask\": 0.4162418333333334,\n  \"resultsUrl\": \"/results/openai-gpt-6-astra\",\n  \"display\": true\n}",
-          "confidence": "publisherReported",
-          "costSource": "measured",
-          "stale": false
-        },
-        {
-          "id": "cf-arc2-refresh-020",
-          "sourceUrl": "https://arcprize.org/media/data/evaluations.json",
-          "publishedAt": "2026-11-01",
-          "retrievedAt": "2026-11-01",
-          "evidenceExcerpt": "{\n  \"datasetId\": \"v2_Semi_Private\",\n  \"modelId\": \"openai-gpt-6-astra-medium\",\n  \"score\": 0.9208333333333333,\n  \"costPerTask\": 0.4800926666666667,\n  \"resultsUrl\": \"/results/openai-gpt-6-astra\",\n  \"display\": true\n}",
-          "confidence": "publisherReported",
-          "costSource": "measured",
-          "stale": false
-        },
-        {
-          "id": "cf-arc2-refresh-021",
-          "sourceUrl": "https://arcprize.org/media/data/evaluations.json",
-          "publishedAt": "2026-11-01",
-          "retrievedAt": "2026-11-01",
-          "evidenceExcerpt": "{\n  \"datasetId\": \"v2_Semi_Private\",\n  \"modelId\": \"openai-gpt-6-astra-high\",\n  \"score\": 0.9208333333333333,\n  \"costPerTask\": 0.6680793333333332,\n  \"resultsUrl\": \"/results/openai-gpt-6-astra\",\n  \"display\": true\n}",
-          "confidence": "publisherReported",
-          "costSource": "measured",
-          "stale": false
-        },
-        {
-          "id": "cf-arc2-refresh-022",
-          "sourceUrl": "https://arcprize.org/media/data/evaluations.json",
-          "publishedAt": "2026-11-01",
-          "retrievedAt": "2026-11-01",
-          "evidenceExcerpt": "{\n  \"datasetId\": \"v2_Semi_Private\",\n  \"modelId\": \"openai-gpt-6-astra-xhigh\",\n  \"score\": 0.9333333333333333,\n  \"costPerTask\": 0.8286855833333331,\n  \"resultsUrl\": \"/results/openai-gpt-6-astra\",\n  \"display\": true\n}",
-          "confidence": "publisherReported",
-          "costSource": "measured",
-          "stale": false
-        },
-        {
-          "id": "cf-arc2-refresh-023",
-          "sourceUrl": "https://arcprize.org/media/data/evaluations.json",
-          "publishedAt": "2026-11-01",
-          "retrievedAt": "2026-11-01",
-          "evidenceExcerpt": "{\n  \"datasetId\": \"v2_Semi_Private\",\n  \"modelId\": \"openai-gpt-6-astra-max\",\n  \"score\": 0.95,\n  \"costPerTask\": 1.1194680833333335,\n  \"resultsUrl\": \"/results/openai-gpt-6-astra\",\n  \"display\": true\n}",
           "confidence": "publisherReported",
           "costSource": "measured",
           "stale": false
@@ -2741,12 +2413,6 @@
           13.3
         ],
         [
-          "astra",
-          "max",
-          55,
-          7.04
-        ],
-        [
           "sol-6.1",
           "max",
           54,
@@ -2797,16 +2463,6 @@
           "stale": false
         },
         {
-          "id": "cf-aacode-refresh-004",
-          "sourceUrl": "https://artificialanalysis.ai/agents/coding-agents",
-          "publishedAt": "2026-11-01",
-          "retrievedAt": "2026-11-01",
-          "evidenceExcerpt": "\"indexScore\":0.546635690561529,\"mean\":{\"reward\":0.546635690561529,\"costUsd\":7.03615822479963",
-          "confidence": "publisherReported",
-          "costSource": "measured",
-          "stale": false
-        },
-        {
           "id": "cf-aacode-refresh-005",
           "sourceUrl": "https://artificialanalysis.ai/agents/coding-agents",
           "publishedAt": "2026-11-01",
@@ -2839,10 +2495,6 @@
       ],
       "noCost": [
         [
-          "Claude Fable 5.1",
-          58
-        ],
-        [
           "Gemini 4 Argon",
           53
         ],
@@ -2860,16 +2512,6 @@
         ]
       ],
       "scoreOnlyEvidence": [
-        {
-          "id": "cf-aacode-gap-001",
-          "sourceUrl": "https://artificialanalysis.ai/agents/coding-agents",
-          "publishedAt": "2026-11-01",
-          "retrievedAt": "2026-11-01",
-          "evidenceExcerpt": "\"indexScore\":0.576200245682633",
-          "confidence": "publisherReported",
-          "costSource": "unavailable",
-          "stale": false
-        },
         {
           "id": "cf-aacode-gap-002",
           "sourceUrl": "https://artificialanalysis.ai/agents/coding-agents",
@@ -2933,7 +2575,7 @@
       "what": "Agents complete 66 command-line tasks in a sandbox, checked by test suites, over 330 trials. Each row runs in its vendor's native agent.",
       "notes": [
         "Cost per task is the published total run cost divided by the 330 trials.",
-        "Margins are about \u00b13 points, so GPT-6.1 Sol, GPT-6 Astra and Fable 5.1 near 58% are a tie.",
+        "Margins are about \u00b13 points, so rows within 3 points of each other are a tie.",
         "Vendor figures can differ from the board: Anthropic reports 70.6% for Sonnet 5.5 and 66.4% for Opus 5.5."
       ],
       "costMethod": "Derived from published total_cost_usd / n_trials; not a separately published per-task value.",
@@ -2951,70 +2593,10 @@
           22.22
         ],
         [
-          "astra",
-          "low",
-          50.61,
-          4.72
-        ],
-        [
-          "astra",
-          "medium",
-          54.24,
-          5.8
-        ],
-        [
-          "astra",
-          "high",
-          57.88,
-          6.88
-        ],
-        [
-          "astra",
-          "xhigh",
-          57.88,
-          7.12
-        ],
-        [
-          "astra",
-          "max",
-          58.18,
-          9.9
-        ],
-        [
           "sol-6.1",
           "max",
           58.18,
           1.92
-        ],
-        [
-          "fable-5.1",
-          "low",
-          43.33,
-          7.15
-        ],
-        [
-          "fable-5.1",
-          "medium",
-          53.94,
-          8.58
-        ],
-        [
-          "fable-5.1",
-          "high",
-          54.55,
-          12.08
-        ],
-        [
-          "fable-5.1",
-          "xhigh",
-          57.88,
-          14.76
-        ],
-        [
-          "fable-5.1",
-          "max",
-          57.88,
-          18.92
         ],
         [
           "glm-5.3",
@@ -3075,112 +2657,12 @@
           "stale": false
         },
         {
-          "id": "cf-tb4-001",
-          "sourceUrl": "https://www.tbench.ai/",
-          "publishedAt": "2026-09-12",
-          "retrievedAt": "2026-11-01",
-          "evidenceExcerpt": "\"accuracy\":50.61,\"n_trials\":330,\"pass_at_2\":0.5712,\"pass_at_3\":0.6015,\"pass_at_4\":0.6212,\"pass_at_5\":0.6364,\"successes\":167,\"display_cost\":\"$$1.6k\",\"total_tokens\":889780710,\"output_tokens\":7988337,\"total_cost_usd\":1557.3",
-          "confidence": "thirdParty",
-          "costSource": "measured",
-          "stale": false
-        },
-        {
-          "id": "cf-tb4-002",
-          "sourceUrl": "https://www.tbench.ai/",
-          "publishedAt": "2026-09-12",
-          "retrievedAt": "2026-11-01",
-          "evidenceExcerpt": "\"accuracy\":54.24,\"n_trials\":330,\"pass_at_2\":0.603,\"pass_at_3\":0.6318,\"pass_at_4\":0.6515,\"pass_at_5\":0.6667,\"successes\":179,\"display_cost\":\"$$1.9k\",\"total_tokens\":1051885207,\"output_tokens\":10770605,\"total_cost_usd\":1914.8",
-          "confidence": "thirdParty",
-          "costSource": "measured",
-          "stale": false
-        },
-        {
-          "id": "cf-tb4-003",
-          "sourceUrl": "https://www.tbench.ai/",
-          "publishedAt": "2026-09-12",
-          "retrievedAt": "2026-11-01",
-          "evidenceExcerpt": "\"accuracy\":57.88,\"n_trials\":330,\"pass_at_2\":0.6545,\"pass_at_3\":0.6864,\"pass_at_4\":0.703,\"pass_at_5\":0.7121,\"successes\":191,\"display_cost\":\"$$2.3k\",\"total_tokens\":1208224034,\"output_tokens\":13703943,\"total_cost_usd\":2269.42",
-          "confidence": "thirdParty",
-          "costSource": "measured",
-          "stale": false
-        },
-        {
-          "id": "cf-tb4-004",
-          "sourceUrl": "https://www.tbench.ai/",
-          "publishedAt": "2026-09-12",
-          "retrievedAt": "2026-11-01",
-          "evidenceExcerpt": "\"accuracy\":57.88,\"n_trials\":330,\"pass_at_2\":0.6424,\"pass_at_3\":0.6697,\"pass_at_4\":0.6848,\"pass_at_5\":0.697,\"successes\":191,\"display_cost\":\"$$2.4k\",\"total_tokens\":1201907334,\"output_tokens\":14950287,\"total_cost_usd\":2350.51",
-          "confidence": "thirdParty",
-          "costSource": "measured",
-          "stale": false
-        },
-        {
-          "id": "cf-tb4-005",
-          "sourceUrl": "https://www.tbench.ai/",
-          "publishedAt": "2026-09-12",
-          "retrievedAt": "2026-11-01",
-          "evidenceExcerpt": "\"accuracy\":58.18,\"n_trials\":330,\"pass_at_2\":0.6485,\"pass_at_3\":0.6788,\"pass_at_4\":0.697,\"pass_at_5\":0.7121,\"successes\":192,\"display_cost\":\"$$3.3k\",\"total_tokens\":1529778322,\"output_tokens\":23988992,\"total_cost_usd\":3267.18",
-          "confidence": "thirdParty",
-          "costSource": "measured",
-          "stale": false
-        },
-        {
           "id": "cf-tb4-refresh-003",
           "sourceUrl": "https://www.tbench.ai/",
           "publishedAt": "2026-11-01",
           "retrievedAt": "2026-11-01",
           "evidenceExcerpt": "\"accuracy\":58.18,\"n_trials\":330,\"pass_at_2\":0.6652,\"pass_at_3\":0.7015,\"pass_at_4\":0.7242,\"pass_at_5\":0.7424,\"successes\":192,\"display_cost\":\"$$634.24\",\"total_tokens\":1459936514,\"output_tokens\":31314516,\"total_cost_usd\":634.24",
           "confidence": "publisherReported",
-          "costSource": "measured",
-          "stale": false
-        },
-        {
-          "id": "cf-tb4-refresh-004",
-          "sourceUrl": "https://www.tbench.ai/",
-          "publishedAt": "2026-11-01",
-          "retrievedAt": "2026-11-01",
-          "evidenceExcerpt": "\"accuracy\":43.33,\"n_trials\":330,\"pass_at_2\":0.5455,\"pass_at_3\":0.6,\"pass_at_4\":0.6303,\"pass_at_5\":0.6515,\"successes\":143,\"display_cost\":\"$$2.4k\",\"total_tokens\":1334012516,\"output_tokens\":19935011,\"total_cost_usd\":2358.72",
-          "confidence": "publisherReported",
-          "costSource": "measured",
-          "stale": false
-        },
-        {
-          "id": "cf-tb4-live-001",
-          "sourceUrl": "https://www.tbench.ai/",
-          "publishedAt": "2026-11-01",
-          "retrievedAt": "2026-11-01",
-          "evidenceExcerpt": "\"accuracy\":53.94,\"n_trials\":330,\"pass_at_2\":0.6379,\"pass_at_3\":0.6788,\"pass_at_4\":0.7,\"pass_at_5\":0.7121,\"successes\":178,\"display_cost\":\"$$2.8k\",\"total_tokens\":1620460859,\"output_tokens\":25991800,\"total_cost_usd\":2832.9",
-          "confidence": "publisherReported",
-          "costSource": "measured",
-          "stale": false
-        },
-        {
-          "id": "cf-tb4-refresh-006",
-          "sourceUrl": "https://www.tbench.ai/",
-          "publishedAt": "2026-11-01",
-          "retrievedAt": "2026-11-01",
-          "evidenceExcerpt": "\"accuracy\":54.55,\"n_trials\":330,\"pass_at_2\":0.647,\"pass_at_3\":0.697,\"pass_at_4\":0.7303,\"pass_at_5\":0.7576,\"successes\":180,\"display_cost\":\"$$4.0k\",\"total_tokens\":2233621484,\"output_tokens\":37429044,\"total_cost_usd\":3985.38",
-          "confidence": "publisherReported",
-          "costSource": "measured",
-          "stale": false
-        },
-        {
-          "id": "cf-tb4-refresh-007",
-          "sourceUrl": "https://www.tbench.ai/",
-          "publishedAt": "2026-11-01",
-          "retrievedAt": "2026-11-01",
-          "evidenceExcerpt": "\"accuracy\":57.88,\"n_trials\":330,\"pass_at_2\":0.6758,\"pass_at_3\":0.7152,\"pass_at_4\":0.7394,\"pass_at_5\":0.7576,\"successes\":191,\"display_cost\":\"$$4.9k\",\"total_tokens\":2343414000,\"output_tokens\":50426931,\"total_cost_usd\":4872.04",
-          "confidence": "publisherReported",
-          "costSource": "measured",
-          "stale": false
-        },
-        {
-          "id": "cf-tb4-006",
-          "sourceUrl": "https://www.tbench.ai/",
-          "publishedAt": "2026-09-12",
-          "retrievedAt": "2026-11-01",
-          "evidenceExcerpt": "\"accuracy\":57.88,\"n_trials\":330,\"pass_at_2\":0.7,\"pass_at_3\":0.747,\"pass_at_4\":0.7727,\"pass_at_5\":0.7879,\"successes\":191,\"display_cost\":\"$$6.2k\",\"total_tokens\":2746221560,\"output_tokens\":63121568,\"total_cost_usd\":6243.5",
-          "confidence": "thirdParty",
           "costSource": "measured",
           "stale": false
         },
@@ -3292,16 +2774,10 @@
       "what": "Long-horizon software tasks written from scratch across 91 repositories, scored by hand-written verifiers. The same mini agent harness runs every model.",
       "notes": [
         "The board was last updated on 22 Sept. Claude 5.5, GPT-6.1 and Gemini 4 are not on it yet.",
-        "Margins are \u00b11 to \u00b16 points, so GPT-6 Astra and Gemini 3.8 Flash at 74% are a tie.",
+        "Margins are \u00b11 to \u00b16 points, so rows within a few points of Gemini 3.8 Flash at 74% may tie.",
         "Artificial Analysis replaced DeepSWE with FrontierCode in its Coding Agent Index v2.0."
       ],
       "rows": [
-        [
-          "astra",
-          "xhigh",
-          74,
-          4.43
-        ],
         [
           "flash-3.8",
           "high",
@@ -3334,16 +2810,6 @@
         ]
       ],
       "evidence": [
-        {
-          "id": "cf-deepswe-001",
-          "sourceUrl": "https://deepswe.datacurve.ai/",
-          "publishedAt": "2026-09-22",
-          "retrievedAt": "2026-11-01",
-          "evidenceExcerpt": "gpt-6-astra [ xhigh ] 74 % \u00b1 3 % Avg cost $4.43 Out tok 30k Steps 29",
-          "confidence": "thirdParty",
-          "costSource": "measured",
-          "stale": false
-        },
         {
           "id": "cf-deepswe-002",
           "sourceUrl": "https://deepswe.datacurve.ai/",
@@ -3475,36 +2941,6 @@
           "rung 5",
           81.8,
           8.48
-        ],
-        [
-          "fable-5.1",
-          "rung 1",
-          66.7,
-          4.25
-        ],
-        [
-          "fable-5.1",
-          "rung 2",
-          74,
-          5.52
-        ],
-        [
-          "fable-5.1",
-          "rung 3",
-          76.1,
-          6.99
-        ],
-        [
-          "fable-5.1",
-          "rung 4",
-          78.6,
-          9.1
-        ],
-        [
-          "fable-5.1",
-          "rung 5",
-          80.7,
-          12.4
         ]
       ],
       "evidence": [
@@ -3557,79 +2993,15 @@
           "confidence": "publisherReported",
           "costSource": "chartRead",
           "stale": false
-        },
-        {
-          "id": "cf-osw2-006",
-          "sourceUrl": "https://www-cdn.anthropic.com/fc1b44717c85dc068bc6ba5024219938094694bd/Claude%20Opus%205.5%20System%20Card.pdf",
-          "publishedAt": "2026-09-22",
-          "retrievedAt": "2026-11-01",
-          "evidenceExcerpt": "Manual read of Figure 8.13.3.B: claude-fable-5-1, rung 1; score 66.7%, cost approximately $4.25 per task.",
-          "confidence": "publisherReported",
-          "costSource": "chartRead",
-          "stale": false
-        },
-        {
-          "id": "cf-osw2-007",
-          "sourceUrl": "https://www-cdn.anthropic.com/fc1b44717c85dc068bc6ba5024219938094694bd/Claude%20Opus%205.5%20System%20Card.pdf",
-          "publishedAt": "2026-09-22",
-          "retrievedAt": "2026-11-01",
-          "evidenceExcerpt": "Manual read of Figure 8.13.3.B: claude-fable-5-1, rung 2; score 74%, cost approximately $5.52 per task.",
-          "confidence": "publisherReported",
-          "costSource": "chartRead",
-          "stale": false
-        },
-        {
-          "id": "cf-osw2-008",
-          "sourceUrl": "https://www-cdn.anthropic.com/fc1b44717c85dc068bc6ba5024219938094694bd/Claude%20Opus%205.5%20System%20Card.pdf",
-          "publishedAt": "2026-09-22",
-          "retrievedAt": "2026-11-01",
-          "evidenceExcerpt": "Manual read of Figure 8.13.3.B: claude-fable-5-1, rung 3; score 76.1%, cost approximately $6.99 per task.",
-          "confidence": "publisherReported",
-          "costSource": "chartRead",
-          "stale": false
-        },
-        {
-          "id": "cf-osw2-009",
-          "sourceUrl": "https://www-cdn.anthropic.com/fc1b44717c85dc068bc6ba5024219938094694bd/Claude%20Opus%205.5%20System%20Card.pdf",
-          "publishedAt": "2026-09-22",
-          "retrievedAt": "2026-11-01",
-          "evidenceExcerpt": "Manual read of Figure 8.13.3.B: claude-fable-5-1, rung 4; score 78.6%, cost approximately $9.1 per task.",
-          "confidence": "publisherReported",
-          "costSource": "chartRead",
-          "stale": false
-        },
-        {
-          "id": "cf-osw2-010",
-          "sourceUrl": "https://www-cdn.anthropic.com/fc1b44717c85dc068bc6ba5024219938094694bd/Claude%20Opus%205.5%20System%20Card.pdf",
-          "publishedAt": "2026-09-22",
-          "retrievedAt": "2026-11-01",
-          "evidenceExcerpt": "Manual read of Figure 8.13.3.B: claude-fable-5-1, rung 5; score 80.7%, cost approximately $12.4 per task.",
-          "confidence": "publisherReported",
-          "costSource": "chartRead",
-          "stale": false
         }
       ],
       "noCost": [
-        [
-          "GPT-6 Astra (vendor, subset)",
-          72.6
-        ],
         [
           "GPT-6.1 Sol (vendor)",
           71.4
         ]
       ],
       "scoreOnlyEvidence": [
-        {
-          "id": "cf-osw2-gap-001",
-          "sourceUrl": "https://presenc.ai/research/osworld-computer-use-leaderboard-2026",
-          "publishedAt": "2026-09-22",
-          "retrievedAt": "2026-11-01",
-          "evidenceExcerpt": "GPT-6 Astra | 72.6% | Offline subset, release not stated | OpenAI, per launch coverage, September 3, 2026",
-          "confidence": "thirdParty",
-          "costSource": "unavailable",
-          "stale": false
-        },
         {
           "id": "cf-scoreonly-osw2-002",
           "sourceUrl": "https://openai.com/index/introducing-gpt-6-1-sol/",
@@ -3642,75 +3014,6 @@
         }
       ],
       "cost": "chartRead",
-      "stale": false
-    },
-    "exploit": {
-      "name": "ExploitBench (V8)",
-      "short": "ExploitBench",
-      "unit": "% capability flags",
-      "yLabel": "Capability flags (%)",
-      "per": "task",
-      "rep": "vendor",
-      "date": "2026-09-22",
-      "url": "https://www-cdn.anthropic.com/fc1b44717c85dc068bc6ba5024219938094694bd/Claude%20Opus%205.5%20System%20Card.pdf",
-      "urls": [
-        [
-          "https://www.csoonline.com/article/4218679/openai-launches-gpt-6-astra-its-first-model-to-cross-a-critical-cybersecurity-threshold.html",
-          "Astra coverage, CSO"
-        ],
-        [
-          "https://arxiv.org/abs/2605.14153",
-          "ExploitBench paper"
-        ],
-        [
-          "https://benchlm.ai/benchmarks/exploitbench",
-          "BenchLM rows"
-        ]
-      ],
-      "what": "Can an agent turn patched V8 bugs into stronger exploit capability, from reaching the code to full control, across 16 flags.",
-      "notes": [
-        "Both scores were taken with cyber safeguards off. With safeguards on, a deployed model can block or hand off the work: Opus 5.5 blocks vulnerability discovery in compiled binaries.",
-        "Anthropic and OpenAI ran their own setups. Anthropic states its numbers may not compare with public entries.",
-        "On CyScenarioBench, Anthropic reports 67.6% for Opus 5.5 and 61.7% for Mythos 5.1. No other current model has a public row.",
-        "No cost is published, so cost is an estimate from list prices."
-      ],
-      "rows": [
-        [
-          "astra",
-          "default",
-          100
-        ],
-        [
-          "opus-5.5",
-          "default",
-          91
-        ]
-      ],
-      "evidence": [
-        {
-          "id": "cf-exploit-001",
-          "sourceUrl": "https://openai.com/index/gpt-6-astra/",
-          "publishedAt": "2026-09-03",
-          "retrievedAt": "2026-11-01",
-          "evidenceExcerpt": "OpenAI reports GPT-6 Astra scored 100% on ExploitBench, compared with 78.5% for GPT-5.6 Sol.",
-          "confidence": "publisherReported",
-          "costSource": "estimated",
-          "stale": false
-        },
-        {
-          "id": "cf-exploit-002",
-          "sourceUrl": "https://www-cdn.anthropic.com/fc1b44717c85dc068bc6ba5024219938094694bd/Claude%20Opus%205.5%20System%20Card.pdf",
-          "publishedAt": "2026-09-22",
-          "retrievedAt": "2026-11-01",
-          "evidenceExcerpt": "for a Cap% of 91% across ExploitBench\u2019s 41 V8 environments in the plain arm. In the AutoNudge arm, it averaged 14.15 fl ags, for a Cap% of 91%. Across the plain and auto-nudge runs, Claude Opus 5.5 achieved full arbitrary co",
-          "confidence": "publisherReported",
-          "costSource": "estimated",
-          "stale": false
-        }
-      ],
-      "noCost": [],
-      "scoreOnlyEvidence": [],
-      "cost": "estimated",
       "stale": false
     },
     "cybergym": {
@@ -3834,11 +3137,6 @@
           1509
         ],
         [
-          "fable-5.1",
-          "max",
-          1504
-        ],
-        [
           "flash-3.8",
           "high",
           1496
@@ -3857,11 +3155,6 @@
           "sonnet-5.5",
           "xhigh",
           1477
-        ],
-        [
-          "astra",
-          "max",
-          1476
         ],
         [
           "ds-4.1f",
@@ -3906,16 +3199,6 @@
           "stale": false
         },
         {
-          "id": "cf-arena-004",
-          "sourceUrl": "https://arena.ai/leaderboard/chat/text",
-          "publishedAt": "2026-10-27",
-          "retrievedAt": "2026-11-01",
-          "evidenceExcerpt": "Claude Fable 5.1 (Max) Anthropic \u00b7 Proprietary 1504\u00b16",
-          "confidence": "thirdParty",
-          "costSource": "estimated",
-          "stale": false
-        },
-        {
           "id": "cf-arena-005",
           "sourceUrl": "https://arena.ai/leaderboard/chat/text",
           "publishedAt": "2026-10-27",
@@ -3951,16 +3234,6 @@
           "publishedAt": "2026-10-27",
           "retrievedAt": "2026-11-01",
           "evidenceExcerpt": "Claude Sonnet 5.5 (xHigh) Anthropic \u00b7 Proprietary 1477\u00b17",
-          "confidence": "thirdParty",
-          "costSource": "estimated",
-          "stale": false
-        },
-        {
-          "id": "cf-arena-010",
-          "sourceUrl": "https://arena.ai/leaderboard/chat/text",
-          "publishedAt": "2026-10-27",
-          "retrievedAt": "2026-11-01",
-          "evidenceExcerpt": "GPT-6 Astra (Max) OpenAI \u00b7 Proprietary 1476\u00b16",
           "confidence": "thirdParty",
           "costSource": "estimated",
           "stale": false
@@ -4050,12 +3323,6 @@
       ],
       "rows": [
         [
-          "astra",
-          "Codex",
-          58,
-          0.952
-        ],
-        [
           "opus-5.5",
           "Claude Code",
           51,
@@ -4099,16 +3366,6 @@
         ]
       ],
       "evidence": [
-        {
-          "id": "cf-xpro-001",
-          "sourceUrl": "https://github.com/run-llama/ExtractBench/blob/21535d9efe80b95fc5d5fbf8edfca7e4a40d39d9/leaderboard-pro.csv",
-          "publishedAt": "2026-10-28",
-          "retrievedAt": "2026-11-01",
-          "evidenceExcerpt": "Codex GPT-6 Astra,Coding Agents,all,100,81,58.00,94.53,70.97,79.10,0.952000,58.00,95.53,72.19,80.34",
-          "confidence": "publisherReported",
-          "costSource": "measured",
-          "stale": false
-        },
         {
           "id": "cf-xpro-002",
           "sourceUrl": "https://github.com/run-llama/ExtractBench/blob/21535d9efe80b95fc5d5fbf8edfca7e4a40d39d9/leaderboard-pro.csv",
@@ -4201,12 +3458,6 @@
       ],
       "rows": [
         [
-          "astra",
-          "Codex",
-          94.53,
-          0.952
-        ],
-        [
           "opus-5.5",
           "Claude Code",
           74.87,
@@ -4250,16 +3501,6 @@
         ]
       ],
       "evidence": [
-        {
-          "id": "cf-xf1-001",
-          "sourceUrl": "https://github.com/run-llama/ExtractBench/blob/21535d9efe80b95fc5d5fbf8edfca7e4a40d39d9/leaderboard-pro.csv",
-          "publishedAt": "2026-10-28",
-          "retrievedAt": "2026-11-01",
-          "evidenceExcerpt": "Codex GPT-6 Astra,Coding Agents,all,100,81,58.00,94.53,70.97,79.10,0.952000,58.00,95.53,72.19,80.34",
-          "confidence": "publisherReported",
-          "costSource": "measured",
-          "stale": false
-        },
         {
           "id": "cf-xf1-002",
           "sourceUrl": "https://github.com/run-llama/ExtractBench/blob/21535d9efe80b95fc5d5fbf8edfca7e4a40d39d9/leaderboard-pro.csv",
@@ -4370,11 +3611,6 @@
           1838
         ],
         [
-          "fable-5.1",
-          "max",
-          1763
-        ],
-        [
           "ds-4.1f",
           "max",
           1746
@@ -4403,11 +3639,6 @@
           "sol-6.1",
           "max",
           1609
-        ],
-        [
-          "astra",
-          "max",
-          1584
         ],
         [
           "terra-6.1",
@@ -4442,16 +3673,6 @@
           "publishedAt": "2026-10-28",
           "retrievedAt": "2026-11-01",
           "evidenceExcerpt": "4 Anthropic Claude Sonnet 5.5 (Max, Default Fallback) 1838 -23 / +23 Sep 2026",
-          "confidence": "thirdParty",
-          "costSource": "estimated",
-          "stale": false
-        },
-        {
-          "id": "cf-gdpval-003",
-          "sourceUrl": "https://artificialanalysis.ai/evaluations/gdpval-aa",
-          "publishedAt": "2026-10-28",
-          "retrievedAt": "2026-11-01",
-          "evidenceExcerpt": "7 Anthropic Claude Fable 5.1 (Max, Default Fallback) 1763 -19 / +19 Sep 2026",
           "confidence": "thirdParty",
           "costSource": "estimated",
           "stale": false
@@ -4512,16 +3733,6 @@
           "publishedAt": "2026-10-28",
           "retrievedAt": "2026-11-01",
           "evidenceExcerpt": "37 OpenAI GPT-6.1 Sol (Max) 1609 -22 / +22 Sep 2026",
-          "confidence": "thirdParty",
-          "costSource": "estimated",
-          "stale": false
-        },
-        {
-          "id": "cf-gdpval-012",
-          "sourceUrl": "https://artificialanalysis.ai/evaluations/gdpval-aa",
-          "publishedAt": "2026-10-28",
-          "retrievedAt": "2026-11-01",
-          "evidenceExcerpt": "43 OpenAI GPT-6 Astra (Max) 1584 -19 / +19 Sep 2026",
           "confidence": "thirdParty",
           "costSource": "estimated",
           "stale": false
@@ -4636,36 +3847,6 @@
           "rung 5",
           64.4,
           0.493
-        ],
-        [
-          "fable-5.1",
-          "rung 1",
-          36.6,
-          0.0254
-        ],
-        [
-          "fable-5.1",
-          "rung 2",
-          42.2,
-          0.0497
-        ],
-        [
-          "fable-5.1",
-          "rung 3",
-          46,
-          0.083
-        ],
-        [
-          "fable-5.1",
-          "rung 4",
-          47,
-          0.384
-        ],
-        [
-          "fable-5.1",
-          "rung 5",
-          44.8,
-          0.867
         ]
       ],
       "evidence": [
@@ -4718,56 +3899,6 @@
           "confidence": "publisherReported",
           "costSource": "chartRead",
           "stale": false
-        },
-        {
-          "id": "cf-chart-006",
-          "sourceUrl": "https://www-cdn.anthropic.com/fc1b44717c85dc068bc6ba5024219938094694bd/Claude%20Opus%205.5%20System%20Card.pdf",
-          "publishedAt": "2026-09-22",
-          "retrievedAt": "2026-11-01",
-          "evidenceExcerpt": "Manual read of Figure 8.13.1.B: claude-fable-5-1, rung 1; score 36.6%, cost approximately $0.0254 per task.",
-          "confidence": "publisherReported",
-          "costSource": "chartRead",
-          "stale": false
-        },
-        {
-          "id": "cf-chart-007",
-          "sourceUrl": "https://www-cdn.anthropic.com/fc1b44717c85dc068bc6ba5024219938094694bd/Claude%20Opus%205.5%20System%20Card.pdf",
-          "publishedAt": "2026-09-22",
-          "retrievedAt": "2026-11-01",
-          "evidenceExcerpt": "Manual read of Figure 8.13.1.B: claude-fable-5-1, rung 2; score 42.2%, cost approximately $0.0497 per task.",
-          "confidence": "publisherReported",
-          "costSource": "chartRead",
-          "stale": false
-        },
-        {
-          "id": "cf-chart-008",
-          "sourceUrl": "https://www-cdn.anthropic.com/fc1b44717c85dc068bc6ba5024219938094694bd/Claude%20Opus%205.5%20System%20Card.pdf",
-          "publishedAt": "2026-09-22",
-          "retrievedAt": "2026-11-01",
-          "evidenceExcerpt": "Manual read of Figure 8.13.1.B: claude-fable-5-1, rung 3; score 46%, cost approximately $0.083 per task.",
-          "confidence": "publisherReported",
-          "costSource": "chartRead",
-          "stale": false
-        },
-        {
-          "id": "cf-chart-009",
-          "sourceUrl": "https://www-cdn.anthropic.com/fc1b44717c85dc068bc6ba5024219938094694bd/Claude%20Opus%205.5%20System%20Card.pdf",
-          "publishedAt": "2026-09-22",
-          "retrievedAt": "2026-11-01",
-          "evidenceExcerpt": "Manual read of Figure 8.13.1.B: claude-fable-5-1, rung 4; score 47%, cost approximately $0.384 per task.",
-          "confidence": "publisherReported",
-          "costSource": "chartRead",
-          "stale": false
-        },
-        {
-          "id": "cf-chart-010",
-          "sourceUrl": "https://www-cdn.anthropic.com/fc1b44717c85dc068bc6ba5024219938094694bd/Claude%20Opus%205.5%20System%20Card.pdf",
-          "publishedAt": "2026-09-22",
-          "retrievedAt": "2026-11-01",
-          "evidenceExcerpt": "Manual read of Figure 8.13.1.B: claude-fable-5-1, rung 5; score 44.8%, cost approximately $0.867 per task.",
-          "confidence": "publisherReported",
-          "costSource": "chartRead",
-          "stale": false
         }
       ],
       "noCost": [
@@ -4805,65 +3936,247 @@
       "cost": "chartRead",
       "stale": false
     },
-    "mmmu": {
-      "name": "MMMU (Vals AI)",
-      "short": "MMMU",
-      "unit": "% correct",
-      "yLabel": "Correct (%)",
-      "per": "task",
+    "tb41": {
+      "name": "Terminal-Bench 4.1, native agents",
+      "short": "Terminal-Bench 4.1",
+      "unit": "% resolved",
+      "yLabel": "Resolved (%)",
+      "per": "trial",
       "rep": "owner",
-      "date": "2026-09-01",
-      "url": "https://www.vals.ai/benchmarks/mmmu",
-      "what": "Multiple-choice questions over images across many academic disciplines.",
+      "date": "2026-11-17",
+      "url": "https://www.tbench.ai/leaderboard",
+      "what": "The 4.1 board of the same command-line benchmark: 330 trials per row, each in the vendor's native agent. Rows are read from the raw leaderboard records.",
       "notes": [
-        "Vals AI last updated this board on 1 Sept. Only two current models are on it.",
-        "The top rows sit inside about one point, and the benchmark looks close to saturated.",
-        "Vals publishes tokens per question but not cost per task, so cost is an estimate from list prices."
+        "Cost per trial is the published run total divided by the 330 trials. It is not repriced from list prices.",
+        "Margins are about \u00b13 points. Fable 5.2 and Opus 5.5 tie at 65.76%, and GPT-6.2 Sol and GPT-6.1 Sol are level.",
+        "Every Claude and OpenAI row runs at max. No lower reasoning level is on this board, so it shows model cost, not effort ladders.",
+        "GPT-6.2 Sol and Astra rows appeared on 20 Nov. Gemini rows run at high in the Antigravity CLI."
       ],
+      "costMethod": "Derived from published total_cost_usd / n_trials; not a separately published per-trial value.",
       "rows": [
         [
-          "fable-5.1",
-          "default",
-          90.64
+          "opus-5.5",
+          "max",
+          65.76,
+          14.298939394
         ],
         [
-          "flash-3.8",
+          "fable-5.2",
+          "max",
+          65.76,
+          49.978060606
+        ],
+        [
+          "carbon",
           "high",
-          89.08
+          64.55,
+          4.115909091
+        ],
+        [
+          "sonnet-5.5",
+          "max",
+          63.94,
+          22.223151515
+        ],
+        [
+          "astra-6.2",
+          "max",
+          62.12,
+          4.270121212
+        ],
+        [
+          "sol-6.2",
+          "max",
+          61.52,
+          1.058060606
+        ],
+        [
+          "sol-6.1",
+          "max",
+          60.91,
+          1.921939394
+        ],
+        [
+          "hydrogen",
+          "high",
+          56.36,
+          2.376484848
+        ],
+        [
+          "terra-6.1",
+          "max",
+          53.33,
+          2.649818182
+        ],
+        [
+          "haiku-5.5",
+          "max",
+          40,
+          2.886272727
+        ],
+        [
+          "luna-6",
+          "max",
+          15.15,
+          0.218606061
         ]
       ],
       "evidence": [
         {
-          "id": "cf-mmmu-refresh-001",
-          "sourceUrl": "https://www.vals.ai/benchmarks/mmmu",
-          "publishedAt": "2026-09-01",
-          "retrievedAt": "2026-11-01",
-          "evidenceExcerpt": "Claude Fable 5.1 ranks first on MMMU Pro with 90.64%",
+          "id": "te82-tb41-claude-opus-5-5-max",
+          "sourceUrl": "https://www.tbench.ai/leaderboard",
+          "publishedAt": "2026-11-17",
+          "retrievedAt": "2026-11-17",
+          "evidenceExcerpt": "[M] {\"id\":\"24f711aa-b0cc-4f09-8627-b5f70a27b73b\",\"leaderboard_id\":\"947c0b13-1d0f-43e0-bd7b-7e5d8c16187a\",\"rank\":2,\"metadata\":{\"date\":\"2026-09-22\",\"agent_org\":{\"url\":\"https://www.anthropic.com\",\"label\":\"Anthropic\"},\"model_org\":{\"url\":\"https://www.anthropic.com\",\"label\":\"Anthropic\"},\"display_date\":\"Sep 22, 2026\",\"agent_display\":{\"url\":\"https://claude.com/product/claude-code\",\"label\":\"Claude Code\"},\"model_display\":{\"url\":\"https://www.anthropic.com/claude-opus-5-5\",\"label\":\"Opus 5.5\"},\"reasoning_effort\":\"max\"},\"metrics\":{\"accuracy\":65.76,\"n_trials\":330,\"pass_at_2\":0.7409,\"pass_at_3\":0.7758,\"pass_at_4\":0.7909,\"pass_at_5\":0.803,\"successes\":217,\"display_cost\":\"$$4.7k\",\"total_tokens\":8034082467,\"output_tokens\":88814607,\"total_cost_usd\":4718.65,\"display_accuracy\":\"**65.8%** \\u00b1 3.1%\",\"cached_input_tokens\":7699681320,\"display_total_tokens\":\"8.0B\",\"uncached_input_tokens\":7945267860,\"avg_trial_duration_sec\":4790.4,\"display_total_cost_usd\":\"$$4,718.65\",\"accuracy_ci95_half_width\":3.11},\"status\":\"display\",\"created_at\":\"2026-11-03T17:38:16.27766+00:00\",\"updated_at\":\"2026-11-09T08:01:23.6311+00:00\",\"n_trials\":330}",
           "confidence": "publisherReported",
-          "costSource": "estimated",
+          "costSource": "measured",
           "stale": false
         },
         {
-          "id": "cf-mmmu-003",
-          "sourceUrl": "https://www.benchlm.ai/benchmarks/valsMmmu",
-          "publishedAt": "2026-09-01",
-          "retrievedAt": "2026-11-01",
-          "evidenceExcerpt": "ed Closed 4 Gemini 3.8 Flash Google 89.08% high reasoningOriginal result Not reported Closed 5 Gemini 3.7 Flash Google 88.96% high reasoningOriginal result Not reported Closed 6 GPT-5.6 Sol Op",
-          "confidence": "thirdParty",
-          "costSource": "estimated",
+          "id": "te82-tb41-claude-fable-5-2-max",
+          "sourceUrl": "https://www.tbench.ai/leaderboard",
+          "publishedAt": "2026-11-17",
+          "retrievedAt": "2026-11-17",
+          "evidenceExcerpt": "[M] {\"id\":\"a8c62ada-1715-4553-bd4b-87cbf2527290\",\"leaderboard_id\":\"947c0b13-1d0f-43e0-bd7b-7e5d8c16187a\",\"rank\":2,\"metadata\":{\"date\":\"2026-11-09\",\"agent_org\":{\"url\":\"https://www.anthropic.com\",\"label\":\"Anthropic\"},\"model_org\":{\"url\":\"https://www.anthropic.com\",\"label\":\"Anthropic\"},\"display_date\":\"Nov 9, 2026\",\"agent_display\":{\"url\":\"https://claude.com/product/claude-code\",\"label\":\"Claude Code\"},\"model_display\":{\"url\":\"https://www.anthropic.com/claude-fable-and-mythos-5-2\",\"label\":\"Fable 5.2\"},\"reasoning_effort\":\"max\"},\"metrics\":{\"accuracy\":65.76,\"n_trials\":330,\"pass_at_2\":0.7273,\"pass_at_3\":0.7545,\"pass_at_4\":0.7727,\"pass_at_5\":0.7879,\"successes\":217,\"display_cost\":\"$$16.5k\",\"total_tokens\":15726404102,\"output_tokens\":162146230,\"total_cost_usd\":16492.76,\"display_accuracy\":\"**65.8%** \\u00b1 2.8%\",\"cached_input_tokens\":14858870781,\"display_total_tokens\":\"15.7B\",\"uncached_input_tokens\":15564257872,\"avg_trial_duration_sec\":7333,\"display_total_cost_usd\":\"$$16,492.76\",\"accuracy_ci95_half_width\":2.85},\"status\":\"display\",\"created_at\":\"2026-11-13T01:22:52.478025+00:00\",\"updated_at\":\"2026-11-13T01:22:52.478025+00:00\",\"n_trials\":330}",
+          "confidence": "publisherReported",
+          "costSource": "measured",
+          "stale": false
+        },
+        {
+          "id": "te82-tb41-gemini-4-carbon-high",
+          "sourceUrl": "https://www.tbench.ai/leaderboard",
+          "publishedAt": "2026-11-17",
+          "retrievedAt": "2026-11-17",
+          "evidenceExcerpt": "[M] {\"id\":\"11495d14-273c-40d1-a450-d735939f9d17\",\"leaderboard_id\":\"947c0b13-1d0f-43e0-bd7b-7e5d8c16187a\",\"rank\":4,\"metadata\":{\"date\":\"2026-10-28\",\"agent_org\":{\"url\":\"https://about.google/\",\"label\":\"Google\"},\"model_org\":{\"url\":\"https://about.google/\",\"label\":\"Google\"},\"display_date\":\"Oct 28, 2026\",\"agent_display\":{\"url\":\"https://antigravity.google/docs/overview?tab=cli\",\"label\":\"Antigravity CLI\"},\"model_display\":{\"url\":\"https://blog.google/innovation-and-ai/models-and-research/gemini-models/introducing-gemini-4-carbon/\",\"label\":\"Gemini 4 Carbon\"},\"reasoning_effort\":\"high\"},\"metrics\":{\"accuracy\":64.55,\"n_trials\":330,\"pass_at_2\":0.7348,\"pass_at_3\":0.7682,\"pass_at_4\":0.7818,\"pass_at_5\":0.7879,\"successes\":213,\"display_cost\":\"$$1.4k\",\"total_tokens\":3781194078,\"output_tokens\":54806980,\"total_cost_usd\":1358.25,\"display_accuracy\":\"**64.5%** \\u00b1 3.2%\",\"cached_input_tokens\":3496099815,\"display_total_tokens\":\"3.8B\",\"uncached_input_tokens\":3726387098,\"avg_trial_duration_sec\":3495.8,\"display_total_cost_usd\":\"$$1,358.25\",\"accuracy_ci95_half_width\":3.23},\"status\":\"display\",\"created_at\":\"2026-11-14T06:10:26.015148+00:00\",\"updated_at\":\"2026-11-14T06:10:26.015148+00:00\",\"n_trials\":330}",
+          "confidence": "publisherReported",
+          "costSource": "measured",
+          "stale": false
+        },
+        {
+          "id": "te82-tb41-claude-sonnet-5-5-max",
+          "sourceUrl": "https://www.tbench.ai/leaderboard",
+          "publishedAt": "2026-11-17",
+          "retrievedAt": "2026-11-17",
+          "evidenceExcerpt": "[M] {\"id\":\"cf669033-4634-484b-ba50-b6b09963231e\",\"leaderboard_id\":\"947c0b13-1d0f-43e0-bd7b-7e5d8c16187a\",\"rank\":5,\"metadata\":{\"date\":\"2026-09-28\",\"agent_org\":{\"url\":\"https://www.anthropic.com\",\"label\":\"Anthropic\"},\"model_org\":{\"url\":\"https://www.anthropic.com\",\"label\":\"Anthropic\"},\"display_date\":\"Sep 28, 2026\",\"agent_display\":{\"url\":\"https://claude.com/product/claude-code\",\"label\":\"Claude Code\"},\"model_display\":{\"url\":\"https://www.anthropic.com/claude-sonnet-5-5\",\"label\":\"Sonnet 5.5\"},\"reasoning_effort\":\"max\"},\"metrics\":{\"accuracy\":63.94,\"n_trials\":330,\"pass_at_2\":0.7167,\"pass_at_3\":0.7621,\"pass_at_4\":0.7879,\"pass_at_5\":0.803,\"successes\":211,\"display_cost\":\"$$7.3k\",\"total_tokens\":19413047384,\"output_tokens\":186577885,\"total_cost_usd\":7333.64,\"display_accuracy\":\"**63.9%** \\u00b1 3.0%\",\"cached_input_tokens\":18580542667,\"display_total_tokens\":\"19.4B\",\"uncached_input_tokens\":19226469499,\"avg_trial_duration_sec\":7431.6,\"display_total_cost_usd\":\"$$7,333.64\",\"accuracy_ci95_half_width\":3},\"status\":\"display\",\"created_at\":\"2026-11-03T17:38:16.27766+00:00\",\"updated_at\":\"2026-11-09T08:05:17.513503+00:00\",\"n_trials\":330}",
+          "confidence": "publisherReported",
+          "costSource": "measured",
+          "stale": false
+        },
+        {
+          "id": "te82-tb41-gpt-6.2-astra-max",
+          "sourceUrl": "https://www.tbench.ai/leaderboard",
+          "publishedAt": "2026-11-20",
+          "retrievedAt": "2026-11-20",
+          "evidenceExcerpt": "[M] {\"id\":\"2ee86a5a-01da-47d9-8d54-4e2a6829915a\",\"leaderboard_id\":\"947c0b13-1d0f-43e0-bd7b-7e5d8c16187a\",\"rank\":6,\"metadata\":{\"date\":\"2026-11-17\",\"agent_org\":{\"url\":\"https://openai.com\",\"label\":\"OpenAI\"},\"model_org\":{\"url\":\"https://openai.com\",\"label\":\"OpenAI\"},\"display_date\":\"Nov 17, 2026\",\"agent_display\":{\"url\":\"https://openai.com/codex/\",\"label\":\"Codex\"},\"model_display\":{\"url\":\"https://developers.openai.com/api/docs/models/gpt-6.2-astra\",\"label\":\"GPT-6.2 Astra\"},\"reasoning_effort\":\"max\"},\"metrics\":{\"accuracy\":62.12,\"n_trials\":330,\"pass_at_2\":0.6667,\"pass_at_3\":0.6924,\"pass_at_4\":0.7121,\"pass_at_5\":0.7273,\"successes\":205,\"display_cost\":\"$$1.4k\",\"total_tokens\":1115258588,\"output_tokens\":16465076,\"total_cost_usd\":1409.14,\"display_accuracy\":\"**62.1%** \\u00b1 2.3%\",\"cached_input_tokens\":1066174201,\"display_total_tokens\":\"1.1B\",\"uncached_input_tokens\":1098793512,\"avg_trial_duration_sec\":1349.5,\"display_total_cost_usd\":\"$$1,409.14\",\"accuracy_ci95_half_width\":2.3},\"status\":\"display\",\"created_at\":\"2026-11-18T02:01:04.392897+00:00\",\"updated_at\":\"2026-11-18T02:01:04.392897+00:00\",\"n_trials\":330}",
+          "confidence": "publisherReported",
+          "costSource": "measured",
+          "stale": false
+        },
+        {
+          "id": "te82-tb41-gpt-6.2-sol-max",
+          "sourceUrl": "https://www.tbench.ai/leaderboard",
+          "publishedAt": "2026-11-20",
+          "retrievedAt": "2026-11-20",
+          "evidenceExcerpt": "[M] {\"id\":\"ecdbb97b-0d45-46b9-846c-59abf8d902a5\",\"leaderboard_id\":\"947c0b13-1d0f-43e0-bd7b-7e5d8c16187a\",\"rank\":7,\"metadata\":{\"date\":\"2026-11-17\",\"agent_org\":{\"url\":\"https://openai.com\",\"label\":\"OpenAI\"},\"model_org\":{\"url\":\"https://openai.com\",\"label\":\"OpenAI\"},\"display_date\":\"Nov 17, 2026\",\"agent_display\":{\"url\":\"https://openai.com/codex/\",\"label\":\"Codex\"},\"model_display\":{\"url\":\"https://developers.openai.com/api/docs/models/gpt-6.2-sol\",\"label\":\"GPT-6.2 Sol\"},\"reasoning_effort\":\"max\"},\"metrics\":{\"accuracy\":61.52,\"n_trials\":330,\"pass_at_2\":0.6803,\"pass_at_3\":0.7061,\"pass_at_4\":0.7182,\"pass_at_5\":0.7273,\"successes\":203,\"display_cost\":\"$$349.16\",\"total_tokens\":1085250438,\"output_tokens\":16025289,\"total_cost_usd\":349.16,\"display_accuracy\":\"**61.5%** \\u00b1 2.8%\",\"cached_input_tokens\":1034590540,\"display_total_tokens\":\"1.1B\",\"uncached_input_tokens\":1069225149,\"avg_trial_duration_sec\":1214.3,\"display_total_cost_usd\":\"$$349.16\",\"accuracy_ci95_half_width\":2.75},\"status\":\"display\",\"created_at\":\"2026-11-18T02:00:46.444836+00:00\",\"updated_at\":\"2026-11-18T02:00:46.444836+00:00\",\"n_trials\":330}",
+          "confidence": "publisherReported",
+          "costSource": "measured",
+          "stale": false
+        },
+        {
+          "id": "te82-tb41-gpt-6.1-sol-max",
+          "sourceUrl": "https://www.tbench.ai/leaderboard",
+          "publishedAt": "2026-11-17",
+          "retrievedAt": "2026-11-17",
+          "evidenceExcerpt": "[M] {\"id\":\"bc484c38-72d1-4b66-b85f-f7353d0d374c\",\"leaderboard_id\":\"947c0b13-1d0f-43e0-bd7b-7e5d8c16187a\",\"rank\":6,\"metadata\":{\"date\":\"2026-09-29\",\"agent_org\":{\"url\":\"https://openai.com\",\"label\":\"OpenAI\"},\"model_org\":{\"url\":\"https://openai.com\",\"label\":\"OpenAI\"},\"display_date\":\"Sep 29, 2026\",\"agent_display\":{\"url\":\"https://openai.com/codex/\",\"label\":\"Codex\"},\"model_display\":{\"url\":\"https://developers.openai.com/api/docs/models/gpt-6.1-sol\",\"label\":\"GPT-6.1 Sol\"},\"reasoning_effort\":\"max\"},\"metrics\":{\"accuracy\":60.91,\"n_trials\":330,\"pass_at_2\":0.6848,\"pass_at_3\":0.7136,\"pass_at_4\":0.7303,\"pass_at_5\":0.7424,\"successes\":201,\"display_cost\":\"$$634.24\",\"total_tokens\":1459936514,\"output_tokens\":31314516,\"total_cost_usd\":634.24,\"display_accuracy\":\"**60.9%** \\u00b1 3.0%\",\"cached_input_tokens\":1354187811,\"display_total_tokens\":\"1.5B\",\"uncached_input_tokens\":1428621998,\"avg_trial_duration_sec\":3176.7,\"display_total_cost_usd\":\"$$634.24\",\"accuracy_ci95_half_width\":2.97},\"status\":\"display\",\"created_at\":\"2026-11-03T17:38:16.27766+00:00\",\"updated_at\":\"2026-11-09T08:04:58.126207+00:00\",\"n_trials\":330}",
+          "confidence": "publisherReported",
+          "costSource": "measured",
+          "stale": false
+        },
+        {
+          "id": "te82-tb41-gemini-4-hydrogen-high",
+          "sourceUrl": "https://www.tbench.ai/leaderboard",
+          "publishedAt": "2026-11-17",
+          "retrievedAt": "2026-11-17",
+          "evidenceExcerpt": "[M] {\"id\":\"5492a962-55e8-43fa-925a-2aa93a682547\",\"leaderboard_id\":\"947c0b13-1d0f-43e0-bd7b-7e5d8c16187a\",\"rank\":13,\"metadata\":{\"date\":\"2026-11-12\",\"agent_org\":{\"url\":\"https://about.google/\",\"label\":\"Google\"},\"model_org\":{\"url\":\"https://about.google/\",\"label\":\"Google\"},\"display_date\":\"Nov 12, 2026\",\"agent_display\":{\"url\":\"https://antigravity.google/docs/overview?tab=cli\",\"label\":\"Antigravity CLI\"},\"model_display\":{\"url\":\"https://blog.google/innovation-and-ai/models-and-research/gemini-models/introducing-gemini-4-hydrogen/\",\"label\":\"Gemini 4 Hydrogen\"},\"reasoning_effort\":\"high\"},\"metrics\":{\"accuracy\":56.36,\"n_trials\":330,\"pass_at_2\":0.6394,\"pass_at_3\":0.6712,\"pass_at_4\":0.6879,\"pass_at_5\":0.697,\"successes\":186,\"display_cost\":\"$$784.24\",\"total_tokens\":3586959926,\"output_tokens\":39428967,\"total_cost_usd\":784.24,\"display_accuracy\":\"**56.4%** \\u00b1 3.0%\",\"cached_input_tokens\":3391418166,\"display_total_tokens\":\"3.6B\",\"uncached_input_tokens\":3547530959,\"avg_trial_duration_sec\":1926.2,\"display_total_cost_usd\":\"$$784.24\",\"accuracy_ci95_half_width\":2.97},\"status\":\"display\",\"created_at\":\"2026-11-13T20:52:04.742372+00:00\",\"updated_at\":\"2026-11-13T20:52:04.742372+00:00\",\"n_trials\":330}",
+          "confidence": "publisherReported",
+          "costSource": "measured",
+          "stale": false
+        },
+        {
+          "id": "te82-tb41-gpt-6.1-terra-max",
+          "sourceUrl": "https://www.tbench.ai/leaderboard",
+          "publishedAt": "2026-11-17",
+          "retrievedAt": "2026-11-17",
+          "evidenceExcerpt": "[M] {\"id\":\"6e108bc6-c946-4ff1-a8ac-edb3f9c68f2e\",\"leaderboard_id\":\"947c0b13-1d0f-43e0-bd7b-7e5d8c16187a\",\"rank\":18,\"metadata\":{\"date\":\"2026-10-26\",\"agent_org\":{\"url\":\"https://openai.com\",\"label\":\"OpenAI\"},\"model_org\":{\"url\":\"https://openai.com\",\"label\":\"OpenAI\"},\"display_date\":\"Oct 26, 2026\",\"agent_display\":{\"url\":\"https://openai.com/codex/\",\"label\":\"Codex\"},\"model_display\":{\"url\":\"https://developers.openai.com/api/docs/models/gpt-6.1-terra\",\"label\":\"GPT-6.1 Terra\"},\"reasoning_effort\":\"max\"},\"metrics\":{\"accuracy\":53.33,\"n_trials\":330,\"pass_at_2\":0.6152,\"pass_at_3\":0.6485,\"pass_at_4\":0.6636,\"pass_at_5\":0.6667,\"successes\":176,\"display_cost\":\"$$874.44\",\"total_tokens\":8481798574,\"output_tokens\":33045407,\"total_cost_usd\":874.44,\"display_accuracy\":\"**53.3%** \\u00b1 3.1%\",\"cached_input_tokens\":8378980279,\"display_total_tokens\":\"8.5B\",\"uncached_input_tokens\":8448753167,\"avg_trial_duration_sec\":123.1,\"display_total_cost_usd\":\"$$874.44\",\"accuracy_ci95_half_width\":3.09},\"status\":\"display\",\"created_at\":\"2026-11-13T01:23:25.185537+00:00\",\"updated_at\":\"2026-11-13T01:23:25.185537+00:00\",\"n_trials\":330}",
+          "confidence": "publisherReported",
+          "costSource": "measured",
+          "stale": false
+        },
+        {
+          "id": "te82-tb41-claude-haiku-5-5-max",
+          "sourceUrl": "https://www.tbench.ai/leaderboard",
+          "publishedAt": "2026-11-17",
+          "retrievedAt": "2026-11-17",
+          "evidenceExcerpt": "[M] {\"id\":\"968da0aa-608d-4cc2-87f3-d33607641b27\",\"leaderboard_id\":\"947c0b13-1d0f-43e0-bd7b-7e5d8c16187a\",\"rank\":29,\"metadata\":{\"date\":\"2026-10-07\",\"agent_org\":{\"url\":\"https://www.anthropic.com\",\"label\":\"Anthropic\"},\"model_org\":{\"url\":\"https://www.anthropic.com\",\"label\":\"Anthropic\"},\"display_date\":\"Oct 7, 2026\",\"agent_display\":{\"url\":\"https://claude.com/product/claude-code\",\"label\":\"Claude Code\"},\"model_display\":{\"url\":\"https://www.anthropic.com/claude-haiku-5-5\",\"label\":\"Haiku 5.5\"},\"reasoning_effort\":\"max\"},\"metrics\":{\"accuracy\":40,\"n_trials\":330,\"pass_at_2\":0.5121,\"pass_at_3\":0.5636,\"pass_at_4\":0.5909,\"pass_at_5\":0.6061,\"successes\":132,\"display_cost\":\"$$952.47\",\"total_tokens\":12076550775,\"output_tokens\":127539294,\"total_cost_usd\":952.47,\"display_accuracy\":\"**40.0%** \\u00b1 3.6%\",\"cached_input_tokens\":11727685473,\"display_total_tokens\":\"12.1B\",\"uncached_input_tokens\":11949011481,\"avg_trial_duration_sec\":140.5,\"display_total_cost_usd\":\"$$952.47\",\"accuracy_ci95_half_width\":3.61},\"status\":\"display\",\"created_at\":\"2026-11-13T01:23:45.107919+00:00\",\"updated_at\":\"2026-11-13T01:23:45.107919+00:00\",\"n_trials\":330}",
+          "confidence": "publisherReported",
+          "costSource": "measured",
+          "stale": false
+        },
+        {
+          "id": "te82-tb41-gpt-6-luna-max",
+          "sourceUrl": "https://www.tbench.ai/leaderboard",
+          "publishedAt": "2026-11-17",
+          "retrievedAt": "2026-11-17",
+          "evidenceExcerpt": "[M] {\"id\":\"d717d657-6675-44a3-bda8-13e0bae434d2\",\"leaderboard_id\":\"947c0b13-1d0f-43e0-bd7b-7e5d8c16187a\",\"rank\":50,\"metadata\":{\"date\":\"2026-09-22\",\"agent_org\":{\"url\":\"https://openai.com\",\"label\":\"OpenAI\"},\"model_org\":{\"url\":\"https://openai.com\",\"label\":\"OpenAI\"},\"display_date\":\"Sep 22, 2026\",\"agent_display\":{\"url\":\"https://openai.com/codex/\",\"label\":\"Codex\"},\"model_display\":{\"url\":\"https://developers.openai.com/api/docs/models/gpt-6-luna\",\"label\":\"GPT-6 Luna\"},\"reasoning_effort\":\"max\"},\"metrics\":{\"accuracy\":15.15,\"n_trials\":330,\"pass_at_2\":0.2121,\"pass_at_3\":0.247,\"pass_at_4\":0.2697,\"pass_at_5\":0.2879,\"successes\":50,\"display_cost\":\"$$72.14\",\"total_tokens\":3909124893,\"output_tokens\":45490894,\"total_cost_usd\":72.14,\"display_accuracy\":\"**15.2%** \\u00b1 2.7%\",\"cached_input_tokens\":3778954219,\"display_total_tokens\":\"3.9B\",\"uncached_input_tokens\":3863633999,\"avg_trial_duration_sec\":2284.1,\"display_total_cost_usd\":\"$$72.14\",\"accuracy_ci95_half_width\":2.66},\"status\":\"display\",\"created_at\":\"2026-11-03T17:38:16.27766+00:00\",\"updated_at\":\"2026-11-11T02:51:25.977111+00:00\",\"n_trials\":330}",
+          "confidence": "publisherReported",
+          "costSource": "measured",
           "stale": false
         }
       ],
       "noCost": [],
       "scoreOnlyEvidence": [],
-      "cost": "estimated",
+      "cost": "measured",
       "stale": false
     }
   },
   "restricted": {
-    "carbon": "Restricted fleet policy retained by TE-82; current vendor GA claim requires a separate access decision."
+    "carbon": "Our fleet policy keeps Carbon restricted; Google's current general-availability claim needs a separate access decision."
   },
   "releases": [
+    {
+      "ms": [
+        "sol-6.2",
+        "astra-6.2"
+      ],
+      "l": "openai",
+      "d": "2026-11-17",
+      "approx": false,
+      "t": "OpenAI API changelog: GPT-6.2 Sol and GPT-6.2 Astra",
+      "u": "https://developers.openai.com/api/docs/changelog",
+      "c": "OpenAI adds GPT-6.2 Sol at $2 / $10 and GPT-6.2 Astra at $8 / $40 per million tokens, both with a 1.05M-token context and available in Codex."
+    },
+    {
+      "ms": [
+        "fable-5.2"
+      ],
+      "l": "anthropic",
+      "d": "2026-11-09",
+      "approx": false,
+      "t": "Claude Platform release notes: November 9, 2026",
+      "u": "https://platform.claude.com/docs/en/release-notes/overview",
+      "c": "Fable 5.2 and Mythos 5.2 launch with shared capabilities and prices; Mythos requires verification."
+    },
+    {
+      "ms": [
+        "hydrogen"
+      ],
+      "l": "google",
+      "d": "2026-11-12",
+      "approx": false,
+      "t": "Gemini API changelog: Gemini 4 Hydrogen",
+      "u": "https://ai.google.dev/gemini-api/docs/changelog",
+      "c": "Google makes Gemini 4 Hydrogen generally available in the Gemini API at $1.50 / $7.50 per million tokens, with implicit caching only."
+    },
     {
       "ms": [
         "carbon"
@@ -4999,17 +4312,6 @@
     },
     {
       "ms": [
-        "astra"
-      ],
-      "l": "openai",
-      "d": "2026-09-03",
-      "approx": false,
-      "t": "GPT-6 Astra: A new generation of intelligence",
-      "u": "https://openai.com/index/gpt-6-astra/",
-      "c": "OpenAI calls it the most intelligent and aligned model and rates it Critical for cybersecurity. Reports 72.6% on OSWorld 2.0."
-    },
-    {
-      "ms": [
         "flash-3.8"
       ],
       "l": "google",
@@ -5018,17 +4320,6 @@
       "t": "Introducing Gemini 3.8 Flash and 3.8 Flash Cyber",
       "u": "https://blog.google/innovation-and-ai/models-and-research/gemini-models/3-8-flash-and-3-8-flash-cyber/",
       "c": "Google's strongest reasoning and coding model at 3.7 Flash speed and cost. Reports 54.9% on HLE-Verified."
-    },
-    {
-      "ms": [
-        "fable-5.1"
-      ],
-      "l": "anthropic",
-      "d": "2026-09-01",
-      "approx": false,
-      "t": "Introducing Claude Fable 5.1 and Claude Mythos 5.1",
-      "u": "https://www.anthropic.com/claude-fable-and-mythos-5-1",
-      "c": "Anthropic's leading model for coding and knowledge work at release. Reports 55.8% on Terminal-Bench 4.0."
     },
     {
       "ms": [
@@ -5066,16 +4357,17 @@
   ],
   "current": [
     "argon",
-    "astra",
+    "astra-6.2",
     "carbon",
     "ds-4.1f",
     "ds-4p",
-    "fable-5.1",
+    "fable-5.2",
     "flash-3.8",
     "glm-5.3",
     "glm-5.3f",
     "grok-4.7",
     "haiku-5.5",
+    "hydrogen",
     "kimi-3.1",
     "luna-6",
     "mimo-f",
@@ -5084,6 +4376,7 @@
     "opus-5.5",
     "qwen-3.8",
     "sol-6.1",
+    "sol-6.2",
     "sonnet-5.5",
     "terra-6.1"
   ],

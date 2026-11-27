@@ -4,12 +4,13 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Cost Frontier — Token Economy</title>
-<meta name="description" content="Explore benchmark scores, task costs, effort ladders, quality budgets and release evidence by capability.">
+<meta name="description" content="Find the cheapest model and reasoning level that is still good enough: benchmark scores, task costs, effort ladders, a frugal-to-strong quality dial per kind of work, and release evidence.">
 <link rel="canonical" href="https://agent-orchestrator.dev/token-economy/cost-frontier/">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%232f6df0'/%3E%3Ctext x='32' y='44' text-anchor='middle' font-size='42' fill='white'%3E%C2%A2%3C/text%3E%3C/svg%3E">
 <link rel="stylesheet" href="/token-economy/navigation.css">
 <link rel="stylesheet" href="/token-economy/family-navigation.css?v=3">
 <link rel="stylesheet" href="/token-economy/cost-frontier/frontier.css">
+<link rel="stylesheet" href="/token-economy/cost-frontier/dial.css">
 <script src="/token-economy/navigation.js" defer></script>
 </head>
 <body>
@@ -76,7 +77,7 @@
   <div class="wrap">
     <div class="brand">Token Economy</div>
     <h1>What does one point of capability cost?</h1>
-    <p>Published benchmarks and real per-task bills, category by category. Move the budget line, play the effort ladder, find what the list price hides, then test yourself against the data. Every benchmark and lab announcement is linked.</p>
+    <p>Published benchmarks, real per-task bills and our own fleet, looking for the cheapest token that is still good enough. Move the Quality dial from frugal to strong to see what would run for each kind of work and what an accepted task costs. Play the effort ladders, find what the list price hides, then test yourself against the data. Every number links its source.</p>
   </div>
 </section>
 
@@ -86,6 +87,7 @@
       <button class="tab" role="tab" data-view="atlas" id="tab-atlas">Atlas</button>
       <button class="tab" role="tab" data-view="missions" id="tab-missions">Missions</button>
       <button class="tab" role="tab" data-view="mix" id="tab-mix">Quality dial</button>
+      <button class="tab" role="tab" data-view="ladders" id="tab-ladders">Effort ladders</button>
       <button class="tab" role="tab" data-view="releases" id="tab-releases">Releases</button>
       <button class="tab" role="tab" data-view="sources" id="tab-sources">Sources</button>
     </div>
@@ -100,12 +102,14 @@
   <section class="view" id="view-atlas"></section>
   <section class="view" id="view-missions" hidden></section>
   <section class="view" id="view-mix" hidden></section>
+  <section class="view" id="view-ladders" hidden></section>
   <section class="view" id="view-releases" hidden></section>
   <section class="view" id="view-sources" hidden></section>
 </main>
 <div id="toast-host" aria-live="polite"></div>
 
 
+<script src="/token-economy/cost-frontier/dial.js" defer></script>
 <script src="/token-economy/cost-frontier/frontier.js" defer></script>
 </body>
 </html>

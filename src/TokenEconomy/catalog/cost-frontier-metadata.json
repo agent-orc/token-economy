@@ -226,6 +226,20 @@
         "Evaluation post",
         "https://www.coderabbit.ai/blog/gpt-6-astra-code-review-evaluation"
       ]
+    ],
+    "tb41": [
+      [
+        "Benchmark",
+        "https://www.tbench.ai/"
+      ],
+      [
+        "Paper",
+        "https://openreview.net/forum?id=a7Qa4CcHak"
+      ],
+      [
+        "Code",
+        "https://github.com/harbor-framework/terminal-bench-1"
+      ]
     ]
   },
   "nameLinks": [
@@ -302,7 +316,8 @@
     "FrontierCode v1.1": "https://cognition.com/blog/frontier-code-1.1",
     "FrontierCode": "https://cognition.com/blog/frontier-code-1.1",
     "SWE-Atlas-QnA-AA": "https://huggingface.co/datasets/ArtificialAnalysis/SWE-Atlas-QnA-AA",
-    "SWE-Atlas-QnA": "https://labs.scale.com/leaderboard/sweatlas-qna"
+    "SWE-Atlas-QnA": "https://labs.scale.com/leaderboard/sweatlas-qna",
+    "Terminal-Bench 4.1": "https://www.tbench.ai/leaderboard"
   },
   "categories": [
     {
@@ -318,6 +333,7 @@
       "name": "Code",
       "benches": [
         "aacode",
+        "tb41",
         "tb4",
         "deepswe"
       ]
@@ -333,7 +349,6 @@
       "id": "security",
       "name": "Security",
       "benches": [
-        "exploit",
         "cybergym"
       ]
     },
@@ -365,8 +380,7 @@
       "id": "vision",
       "name": "Vision",
       "benches": [
-        "chart",
-        "mmmu"
+        "chart"
       ]
     }
   ],
@@ -422,15 +436,15 @@
     {
       "id": "more-effort",
       "t": "More effort, worse score",
-      "hint": "In Reasoning, follow the top rung of a premium model.",
+      "hint": "In Reasoning, on ARC-AGI-2, follow Opus 5.5 to its top rung.",
       "cat": "reasoning",
-      "b": "aa5",
+      "b": "arc2",
       "on": {
-        "b": "aa5",
-        "m": "fable-5.1",
+        "b": "arc2",
+        "m": "opus-5.5",
         "e": "max"
       },
-      "x": "Fable 5.1 drops from 50 at xhigh ($10.85) to 49 at max ($12.99). ARC-AGI-2 shows the same for Opus 5.5: 93.3% at high for 41 cents, 91.7% at max for $1.85. The top rung is not always the top score."
+      "x": "On ARC-AGI-2, Opus 5.5 solves 93.3% at high for 41 cents and 91.7% at max for $1.85. The top rung is not always the top score."
     },
     {
       "id": "same-score",
@@ -472,15 +486,15 @@
     },
     {
       "id": "twin",
-      "t": "The same score at a fifth of the price",
-      "hint": "In Code, on Terminal-Bench 4.0, look for two rows at exactly the same score.",
+      "t": "The same score for under a third of the price",
+      "hint": "In Code, on Terminal-Bench 4.1, look for two rows at exactly the same score.",
       "cat": "code",
-      "b": "tb4",
+      "b": "tb41",
       "on": {
-        "b": "tb4",
-        "m": "sol-6.1"
+        "b": "tb41",
+        "m": "opus-5.5"
       },
-      "x": "GPT-6.1 Sol and GPT-6 Astra both resolve 58.18% on Terminal-Bench 4.0 at max effort. Astra costs $9.90 per task and Sol $1.92."
+      "x": "Claude Fable 5.2 and Opus 5.5 both resolve 65.76% on Terminal-Bench 4.1 at max effort. Fable costs $49.98 per trial and Opus $14.30."
     },
     {
       "id": "vendor-gap",
@@ -506,15 +520,16 @@
       "x": "Low-cost models top CyberGym at 88 to 95%, and Anthropic retired it from its system card \"due to saturation\". When everyone is near the ceiling, a benchmark stops separating models."
     },
     {
-      "id": "safeguards",
-      "t": "Safeguards off",
-      "hint": "In Security, read the ExploitBench notes.",
-      "cat": "security",
-      "b": "exploit",
+      "id": "terra-volume",
+      "t": "Half the list price, a higher bill",
+      "hint": "In Code, on Terminal-Bench 4.1, compare GPT-6.1 Terra with GPT-6.1 Sol.",
+      "cat": "code",
+      "b": "tb41",
       "on": {
-        "b": "exploit"
+        "b": "tb41",
+        "m": "terra-6.1"
       },
-      "x": "Cyber scores are usually taken with production safeguards off. What you buy may refuse or hand off the same work. Opus 5.5 blocks vulnerability discovery in compiled binaries, for example."
+      "x": "GPT-6.1 Terra lists at half of GPT-6.1 Sol, yet costs $2.65 per Terminal-Bench 4.1 trial against Sol's $1.92, and resolves 53.33% against 60.91%. The Quality dial uses this ratio as Terra's upper cost bound."
     },
     {
       "id": "human",
@@ -572,7 +587,7 @@
         "m": "opus-5.5",
         "e": "rung 5"
       },
-      "x": "On Chartography, Opus 5.5 goes from about $0.025 for 59% to about $0.49 for 64%. That is twenty times the cost for five points. Fable 5.1 even falls at its top rung."
+      "x": "On Chartography, Opus 5.5 goes from about $0.025 for 59% to about $0.49 for 64%. That is twenty times the cost for five points."
     }
   ],
   "missions": [
@@ -612,7 +627,7 @@
       "brief": "Long repository tasks with verifier-checked results. $3 per attempt.",
       "opts": [
         [
-          "astra",
+          "qwen-3.8",
           "xhigh"
         ],
         [
@@ -632,7 +647,7 @@
           "max"
         ]
       ],
-      "lesson": "Gemini 3.8 Flash ties GPT-6 Astra at 74% on DeepSWE for $2.36, yet it resolves only 19% on Terminal-Bench 4.0 for $5.54. One benchmark does not settle a model's value, even within coding."
+      "lesson": "Gemini 3.8 Flash leads the rows inside the budget at 74% on DeepSWE for $2.36, yet it resolves only 19% on Terminal-Bench 4.0 for $5.54. One benchmark does not settle a model's value, even within coding."
     },
     {
       "t": "The bulk classifier",
@@ -664,35 +679,35 @@
       "lesson": "Haiku 5.5 low and Luna medium land almost level at 4 cents. Terra low has more points but breaks the budget at 7 cents. At this end, the effort setting moves the bill as much as the model does."
     },
     {
-      "t": "Check the evidence: security",
+      "t": "Check the evidence: a new release",
       "check": true,
-      "bench": "exploit",
-      "brief": "One vendor reports 100% on ExploitBench for GPT-6 Astra. Another reports 91% for Claude Opus 5.5. What can you conclude?",
+      "bench": "tb41",
+      "brief": "On Terminal-Bench 4.1, GPT-6.2 Sol resolves 61.52% for $1.06 per trial and GPT-6.1 Sol 60.91% for $1.92. A press report says 6.2 Sol lost three points on another coding index. What can you conclude?",
       "choices": [
         [
-          "Astra is 9 points stronger at exploitation.",
+          "6.2 Sol is the stronger coding model.",
           false
         ],
         [
-          "Neither score tells you what the API will do: both were taken with safeguards off, by each vendor on its own setup.",
+          "On this board the two are level within the ±3-point margin, and 6.2 Sol costs about half as much per trial. The press figure is a different benchmark and was not verified at its source.",
           true
         ],
         [
-          "Opus 5.5 is safer, because its score is lower.",
+          "6.1 Sol is cheaper to run.",
           false
         ],
         [
-          "Both models would refuse this work in production, so the scores mean nothing.",
+          "The press report proves the board wrong.",
           false
         ]
       ],
-      "lesson": "Each vendor ran its own setup, and Anthropic states that its figures may not compare with public entries. A deployed model may also block the task, so test your own security workload with safeguards on."
+      "lesson": "A gap inside the margin is a tie. The cost difference is real, and it is measured. The press figure stays a lead until its raw data is pulled. Our fleet still runs 6.1 Sol until 6.2 Sol is cleared there."
     },
     {
       "t": "The desktop agent",
       "bench": "osw2",
       "budget": 5,
-      "brief": "Long workflows across real apps. Each run may cost up to $5. Effort levels are shown as rungs: rung 1 is the cheapest.",
+      "brief": "Long workflows across real apps. Each run may cost up to $5. Only Opus 5.5 has published costs here, so choose its effort rung: rung 1 is the cheapest.",
       "opts": [
         [
           "opus-5.5",
@@ -707,15 +722,15 @@
           "rung 5"
         ],
         [
-          "fable-5.1",
+          "opus-5.5",
           "rung 1"
         ],
         [
-          "fable-5.1",
+          "opus-5.5",
           "rung 2"
         ]
       ],
-      "lesson": "Opus 5.5 at rung 4 reaches 80.8% for about $4.25. The top rung adds a single point for twice the money, and Fable 5.1 cannot compete at this budget even though it lists at more than twice the price."
+      "lesson": "Opus 5.5 at rung 4 reaches 80.8% for about $4.25. The top rung adds a single point for twice the money, and rung 2 already reaches 74% for $1.91."
     },
     {
       "t": "The invoice pipeline",
@@ -724,7 +739,7 @@
       "brief": "Every wrong value means manual rework, so only perfect documents count. You can spend 25 cents per page.",
       "opts": [
         [
-          "astra",
+          "luna-6",
           "Codex"
         ],
         [
@@ -750,7 +765,7 @@
       "t": "The chart reader",
       "bench": "chart",
       "budget": 0.1,
-      "brief": "Reading charts from reports, without tools. 10 cents per task.",
+      "brief": "Reading charts from reports, without tools. 10 cents per task. Only Opus 5.5 has published costs, so choose its effort rung.",
       "opts": [
         [
           "opus-5.5",
@@ -761,19 +776,19 @@
           "rung 1"
         ],
         [
-          "fable-5.1",
+          "opus-5.5",
+          "rung 5"
+        ],
+        [
+          "opus-5.5",
           "rung 3"
         ],
         [
-          "fable-5.1",
+          "opus-5.5",
           "rung 2"
-        ],
-        [
-          "fable-5.1",
-          "rung 1"
         ]
       ],
-      "lesson": "Opus 5.5 at rung 4 fits the budget and leads by 16 points. Its cheapest rung, at 2 cents, already beats every Fable 5.1 setting. Check the low rungs before paying for more effort."
+      "lesson": "Opus 5.5 at rung 4 fits the budget at 62.4%. Its cheapest rung, at 2 cents, already reaches 57%, and the top rung adds two points for six times the money. Check the low rungs before paying for more effort."
     },
     {
       "t": "Check the evidence: language",
@@ -802,32 +817,32 @@
     },
     {
       "t": "The terminal agent",
-      "bench": "tb4",
+      "bench": "tb41",
       "budget": 8,
-      "brief": "Command-line tasks checked by test suites. Each task may cost $8 in its native agent.",
+      "brief": "Command-line tasks checked by test suites. Each trial may cost $8 in its native agent.",
       "opts": [
         [
           "opus-5.5",
           "max"
         ],
         [
-          "astra",
-          "high"
-        ],
-        [
-          "astra",
-          "low"
+          "fable-5.2",
+          "max"
         ],
         [
           "sol-6.1",
           "max"
         ],
         [
-          "flash-3.8",
-          "high"
+          "sol-6.2",
+          "max"
+        ],
+        [
+          "haiku-5.5",
+          "max"
         ]
       ],
-      "lesson": "GPT-6.1 Sol reaches 58.18% for $1.92, as much as GPT-6 Astra at max for $9.90. Opus 5.5 leads overall at 64.85%, for $14.30 per task. Whether those 6.7 points are worth seven times the cost depends on the job."
+      "lesson": "GPT-6.2 Sol reaches 61.52% for $1.06 per trial, level with GPT-6.1 Sol at about half the cost. Opus 5.5 and Fable 5.2 lead at 65.76%, for $14.30 and $49.98. Whether four points are worth thirteen times the cost depends on the job."
     },
     {
       "t": "The puzzle solver",
@@ -857,33 +872,6 @@
         ]
       ],
       "lesson": "GPT-6.1 Sol at max solves 94.2% for 25 cents. Opus 5.5 at medium costs more and solves 87.5%. Its best setting is high, at 41 cents and 93.3%, and raising effort to max lowers the score."
-    }
-  ],
-  "loads": [
-    {
-      "b": "aa5",
-      "label": "General assistant tasks",
-      "v": 20000
-    },
-    {
-      "b": "aacode",
-      "label": "Coding tasks",
-      "v": 1500
-    },
-    {
-      "b": "osw2",
-      "label": "Computer-use runs",
-      "v": 300
-    },
-    {
-      "b": "xpro",
-      "label": "Document pages",
-      "v": 40000
-    },
-    {
-      "b": "chart",
-      "label": "Charts to read",
-      "v": 10000
     }
   ],
   "modelIds": {
@@ -919,7 +907,11 @@
     "mimo-p": "mimo-v2.6-pro",
     "mimo-f": "mimo-v2.6-flash",
     "glm-5.3f": "glm-5.3-flash",
-    "mistral-4": "mistral-large-4"
+    "mistral-4": "mistral-large-4",
+    "fable-5.2": "claude-fable-5-2",
+    "sol-6.2": "gpt-6.2-sol",
+    "astra-6.2": "gpt-6.2-astra",
+    "hydrogen": "gemini-4-hydrogen"
   },
   "benchmarks": {
     "aa5": {
@@ -970,16 +962,6 @@
         "cf-aa5-013",
         "cf-aa5-014",
         "cf-aa5-015",
-        "cf-aa5-016",
-        "cf-aa5-017",
-        "cf-aa5-018",
-        "cf-aa5-019",
-        "cf-aa5-020",
-        "cf-aa5-021",
-        "cf-aa5-022",
-        "cf-aa5-023",
-        "cf-aa5-024",
-        "cf-aa5-025",
         "cf-aa5-026",
         "cf-aa5-027",
         "cf-aa5-028",
@@ -1050,16 +1032,6 @@
         "cf-arc2-refresh-011",
         "cf-arc2-refresh-012",
         "cf-arc2-refresh-013",
-        "cf-arc2-refresh-014",
-        "cf-arc2-refresh-015",
-        "cf-arc2-refresh-016",
-        "cf-arc2-refresh-017",
-        "cf-arc2-refresh-018",
-        "cf-arc2-refresh-019",
-        "cf-arc2-refresh-020",
-        "cf-arc2-refresh-021",
-        "cf-arc2-refresh-022",
-        "cf-arc2-refresh-023",
         "cf-arc2-refresh-024",
         "cf-arc2-refresh-025",
         "cf-arc2-refresh-026",
@@ -1108,13 +1080,11 @@
         "cf-aacode-refresh-001",
         "cf-aacode-refresh-002",
         "cf-aacode-refresh-003",
-        "cf-aacode-refresh-004",
         "cf-aacode-refresh-005",
         "cf-aacode-refresh-006",
         "cf-aacode-refresh-007"
       ],
       "displayScoreOnlyIds": [
-        "cf-aacode-gap-001",
         "cf-aacode-gap-002",
         "cf-aacode-gap-003",
         "cf-aacode-gap-004",
@@ -1140,23 +1110,13 @@
       "what": "Agents complete 66 command-line tasks in a sandbox, checked by test suites, over 330 trials. Each row runs in its vendor's native agent.",
       "notes": [
         "Cost per task is the published total run cost divided by the 330 trials.",
-        "Margins are about ±3 points, so GPT-6.1 Sol, GPT-6 Astra and Fable 5.1 near 58% are a tie.",
+        "Margins are about ±3 points, so rows within 3 points of each other are a tie.",
         "Vendor figures can differ from the board: Anthropic reports 70.6% for Sonnet 5.5 and 66.4% for Opus 5.5."
       ],
       "displayRowIds": [
         "cf-tb4-refresh-001",
         "cf-tb4-refresh-002",
-        "cf-tb4-001",
-        "cf-tb4-002",
-        "cf-tb4-003",
-        "cf-tb4-004",
-        "cf-tb4-005",
         "cf-tb4-refresh-003",
-        "cf-tb4-refresh-004",
-        "cf-tb4-live-001",
-        "cf-tb4-refresh-006",
-        "cf-tb4-refresh-007",
-        "cf-tb4-006",
         "cf-tb4-refresh-008",
         "cf-tb4-refresh-009",
         "cf-tb4-refresh-010",
@@ -1182,11 +1142,10 @@
       "what": "Long-horizon software tasks written from scratch across 91 repositories, scored by hand-written verifiers. The same mini agent harness runs every model.",
       "notes": [
         "The board was last updated on 22 Sept. Claude 5.5, GPT-6.1 and Gemini 4 are not on it yet.",
-        "Margins are ±1 to ±6 points, so GPT-6 Astra and Gemini 3.8 Flash at 74% are a tie.",
+        "Margins are ±1 to ±6 points, so rows within a few points of Gemini 3.8 Flash at 74% may tie.",
         "Artificial Analysis replaced DeepSWE with FrontierCode in its Coding Agent Index v2.0."
       ],
       "displayRowIds": [
-        "cf-deepswe-001",
         "cf-deepswe-002",
         "cf-deepswe-refresh-001",
         "cf-deepswe-refresh-002",
@@ -1231,53 +1190,12 @@
         "cf-osw2-002",
         "cf-osw2-003",
         "cf-osw2-004",
-        "cf-osw2-005",
-        "cf-osw2-006",
-        "cf-osw2-007",
-        "cf-osw2-008",
-        "cf-osw2-009",
-        "cf-osw2-010"
+        "cf-osw2-005"
       ],
       "displayScoreOnlyIds": [
-        "cf-osw2-gap-001",
         "cf-scoreonly-osw2-002"
-      ]
-    },
-    "exploit": {
-      "name": "ExploitBench (V8)",
-      "short": "ExploitBench",
-      "unit": "% capability flags",
-      "yLabel": "Capability flags (%)",
-      "per": "task",
-      "rep": "vendor",
-      "date": "2026-09-22",
-      "url": "https://www-cdn.anthropic.com/fc1b44717c85dc068bc6ba5024219938094694bd/Claude%20Opus%205.5%20System%20Card.pdf",
-      "urls": [
-        [
-          "https://www.csoonline.com/article/4218679/openai-launches-gpt-6-astra-its-first-model-to-cross-a-critical-cybersecurity-threshold.html",
-          "Astra coverage, CSO"
-        ],
-        [
-          "https://arxiv.org/abs/2605.14153",
-          "ExploitBench paper"
-        ],
-        [
-          "https://benchlm.ai/benchmarks/exploitbench",
-          "BenchLM rows"
-        ]
       ],
-      "what": "Can an agent turn patched V8 bugs into stronger exploit capability, from reaching the code to full control, across 16 flags.",
-      "notes": [
-        "Both scores were taken with cyber safeguards off. With safeguards on, a deployed model can block or hand off the work: Opus 5.5 blocks vulnerability discovery in compiled binaries.",
-        "Anthropic and OpenAI ran their own setups. Anthropic states its numbers may not compare with public entries.",
-        "On CyScenarioBench, Anthropic reports 67.6% for Opus 5.5 and 61.7% for Mythos 5.1. No other current model has a public row.",
-        "No cost is published, so cost is an estimate from list prices."
-      ],
-      "displayRowIds": [
-        "cf-exploit-001",
-        "cf-exploit-002"
-      ],
-      "displayScoreOnlyIds": []
+      "minimumPricedModels": 1
     },
     "cybergym": {
       "name": "CyberGym",
@@ -1333,12 +1251,10 @@
       "displayRowIds": [
         "cf-arena-002",
         "cf-arena-003",
-        "cf-arena-004",
         "cf-arena-005",
         "cf-arena-007",
         "cf-arena-008",
         "cf-arena-009",
-        "cf-arena-010",
         "cf-arena-011",
         "cf-arena-013",
         "cf-arena-014",
@@ -1370,7 +1286,6 @@
         "The source CSV distinguishes GPT-6.1 Terra Medium and Low; both configurations are displayed with their published labels."
       ],
       "displayRowIds": [
-        "cf-xpro-001",
         "cf-xpro-002",
         "cf-xpro-003",
         "cf-xpro-004",
@@ -1396,7 +1311,6 @@
         "The source CSV distinguishes GPT-6.1 Terra Medium and Low; both configurations share the runs used by the perfect-document chart."
       ],
       "displayRowIds": [
-        "cf-xf1-001",
         "cf-xf1-002",
         "cf-xf1-003",
         "cf-xf1-004",
@@ -1432,14 +1346,12 @@
       "displayRowIds": [
         "cf-gdpval-001",
         "cf-gdpval-002",
-        "cf-gdpval-003",
         "cf-gdpval-004",
         "cf-gdpval-007",
         "cf-gdpval-008",
         "cf-gdpval-009",
         "cf-gdpval-010",
         "cf-gdpval-011",
-        "cf-gdpval-012",
         "cf-gdpval-refresh-001",
         "cf-gdpval-013",
         "cf-gdpval-014"
@@ -1481,41 +1393,56 @@
         "cf-chart-002",
         "cf-chart-003",
         "cf-chart-004",
-        "cf-chart-005",
-        "cf-chart-006",
-        "cf-chart-007",
-        "cf-chart-008",
-        "cf-chart-009",
-        "cf-chart-010"
+        "cf-chart-005"
       ],
       "displayScoreOnlyIds": [
         "cf-scoreonly-chart-001",
         "cf-scoreonly-chart-002"
-      ]
-    },
-    "mmmu": {
-      "name": "MMMU (Vals AI)",
-      "short": "MMMU",
-      "unit": "% correct",
-      "yLabel": "Correct (%)",
-      "per": "task",
-      "rep": "owner",
-      "date": "2026-09-01",
-      "url": "https://www.vals.ai/benchmarks/mmmu",
-      "what": "Multiple-choice questions over images across many academic disciplines.",
-      "notes": [
-        "Vals AI last updated this board on 1 Sept. Only two current models are on it.",
-        "The top rows sit inside about one point, and the benchmark looks close to saturated.",
-        "Vals publishes tokens per question but not cost per task, so cost is an estimate from list prices."
       ],
+      "minimumPricedModels": 1
+    },
+    "tb41": {
+      "name": "Terminal-Bench 4.1, native agents",
+      "short": "Terminal-Bench 4.1",
+      "unit": "% resolved",
+      "yLabel": "Resolved (%)",
+      "per": "trial",
+      "rep": "owner",
+      "date": "2026-11-17",
+      "url": "https://www.tbench.ai/leaderboard",
+      "what": "The 4.1 board of the same command-line benchmark: 330 trials per row, each in the vendor's native agent. Rows are read from the raw leaderboard records.",
+      "notes": [
+        "Cost per trial is the published run total divided by the 330 trials. It is not repriced from list prices.",
+        "Margins are about ±3 points. Fable 5.2 and Opus 5.5 tie at 65.76%, and GPT-6.2 Sol and GPT-6.1 Sol are level.",
+        "Every Claude and OpenAI row runs at max. No lower reasoning level is on this board, so it shows model cost, not effort ladders.",
+        "GPT-6.2 Sol and Astra rows appeared on 20 Nov. Gemini rows run at high in the Antigravity CLI."
+      ],
+      "costMethod": "Derived from published total_cost_usd / n_trials; not a separately published per-trial value.",
+      "sourceTypeId": "terminal-bench-v4.1-official-native-agents",
       "displayRowIds": [
-        "cf-mmmu-refresh-001",
-        "cf-mmmu-003"
+        "te82-tb41-claude-opus-5-5-max",
+        "te82-tb41-claude-fable-5-2-max",
+        "te82-tb41-gemini-4-carbon-high",
+        "te82-tb41-claude-sonnet-5-5-max",
+        "te82-tb41-gpt-6.2-astra-max",
+        "te82-tb41-gpt-6.2-sol-max",
+        "te82-tb41-gpt-6.1-sol-max",
+        "te82-tb41-gemini-4-hydrogen-high",
+        "te82-tb41-gpt-6.1-terra-max",
+        "te82-tb41-claude-haiku-5-5-max",
+        "te82-tb41-gpt-6-luna-max"
       ],
       "displayScoreOnlyIds": []
     }
   },
+  "parkedBenchmarks": {
+    "exploit": "Only Claude Opus 5.5 has a current row; GPT-6.2 Astra has none yet.",
+    "mmmu": "Only Gemini 3.8 Flash has a current row; Claude Fable 5.2 has none yet."
+  },
   "releaseOrder": [
+    "sol-6.2",
+    "fable-5.2",
+    "hydrogen",
     "carbon",
     "terra-6.1",
     "kimi-3.1",
@@ -1528,9 +1455,7 @@
     "mimo-p",
     "grok-4.7",
     "ds-4.1f",
-    "astra",
     "flash-3.8",
-    "fable-5.1",
     "glm-5.3",
     "ds-4p",
     "qwen-3.8"

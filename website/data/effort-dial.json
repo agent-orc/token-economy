@@ -1,0 +1,5567 @@
+{
+  "schemaVersion": 1,
+  "asOf": "2026-11-27",
+  "decidedOn": "2026-11-17",
+  "positions": {
+    "min": 0,
+    "max": 100,
+    "default": 50
+  },
+  "docs": {
+    "dial": "https://github.com/agent-orc/token-economy/blob/main/docs/effort-dial.md",
+    "creative": "https://github.com/agent-orc/token-economy/blob/main/docs/creative-benchmarks-2026-11-27.md"
+  },
+  "evidenceClasses": [
+    {
+      "id": "M",
+      "label": "Third-party measurement",
+      "description": "Raw measurement pulled from a third-party publisher."
+    },
+    {
+      "id": "V",
+      "label": "Vendor statement",
+      "description": "Published by the model or plan vendor."
+    },
+    {
+      "id": "L",
+      "label": "List-price derivation",
+      "description": "Derived arithmetically from published list prices or rate cards."
+    },
+    {
+      "id": "P",
+      "label": "Press or unverified",
+      "description": "Press or operator lead not verified at the source."
+    },
+    {
+      "id": "F",
+      "label": "Measured in our fleet",
+      "description": "Measured on our fleet's runs. Anonymised: no task keys or project names. A window and a case count are required."
+    }
+  ],
+  "rubric": [
+    {
+      "id": "originality",
+      "label": "Originality",
+      "question": "Does the result have an interesting idea or mechanic?",
+      "example": "Does the game have an interesting idea or mechanic?"
+    },
+    {
+      "id": "design",
+      "label": "Design",
+      "question": "Do colours, lighting, shapes, animations and user interface fit together?",
+      "example": "Do colours, lighting, shapes, animations and user interface fit together?"
+    },
+    {
+      "id": "gameFeel",
+      "label": "Game feel",
+      "question": "Are controls, camera, pace and feedback pleasant?",
+      "example": "Are controls, camera, pace and feedback pleasant?"
+    },
+    {
+      "id": "technicalExecution",
+      "label": "Technical execution",
+      "question": "Do collisions, game states, restart and performance work?",
+      "example": "Do collisions, game states, restart and performance work?"
+    }
+  ],
+  "classes": [
+    {
+      "id": "mechanical",
+      "letter": "a",
+      "label": "Mechanical rounds",
+      "description": "Merge and rebase steering, docs moves, configuration edits.",
+      "basis": "coding",
+      "confidence": "medium",
+      "floors": [
+        {
+          "cli": "claude",
+          "condition": "code-change",
+          "rung": "mechanical.claude.opus-5-5-low",
+          "reason": "Haiku 5.5 is for pure docs/config rounds only; any code change starts at Opus 5.5 low."
+        }
+      ],
+      "gaps": [
+        "No fleet cohort for Haiku 5.5, Sonnet 5.5 or GPT-6.1 Terra on mechanical rounds."
+      ],
+      "ladders": {
+        "claude": {
+          "rungs": [
+            {
+              "id": "mechanical.claude.haiku-5-5-medium",
+              "model": "claude-haiku-5-5",
+              "effort": "medium",
+              "from": 0,
+              "to": 19,
+              "escalationOnly": false,
+              "selectable": true,
+              "confidence": "low",
+              "evidence": [
+                "arc-agi-2-effort-shape",
+                "tb41-cost-per-trial"
+              ],
+              "cost": {
+                "status": "estimated",
+                "unit": "acceptedCard",
+                "low": 0.0981,
+                "high": 0.3189,
+                "creditsLow": null,
+                "creditsHigh": null,
+                "basis": "claudeListPriceProxy",
+                "derivation": [
+                  "Anchor fleet-opus-5-5-low: 1.58 USD median list price per accepted task (16 of 16 accepted) [F]",
+                  "x 0.0621 to 0.2019: Haiku against Opus cost per task: ARC-AGI-2 (medium vs low) as lower and Terminal-Bench 4.1 (max vs max) as upper bound.",
+                  "Claude weekly-limit weight: list price used as a flagged proxy; no vendor publishes a per-model weight."
+                ],
+                "unknownReason": null
+              },
+              "restriction": "Pure docs/config rounds only (no code change)."
+            },
+            {
+              "id": "mechanical.claude.opus-5-5-low",
+              "model": "claude-opus-5-5",
+              "effort": "low",
+              "from": 20,
+              "to": 74,
+              "escalationOnly": false,
+              "selectable": true,
+              "confidence": "high",
+              "evidence": [
+                "fleet-2026-11-17"
+              ],
+              "cost": {
+                "status": "estimated",
+                "unit": "acceptedCard",
+                "low": 1.58,
+                "high": 1.58,
+                "creditsLow": null,
+                "creditsHigh": null,
+                "basis": "claudeListPriceProxy",
+                "derivation": [
+                  "Anchor fleet-opus-5-5-low: 1.58 USD median list price per accepted task (16 of 16 accepted) [F]",
+                  "Claude weekly-limit weight: list price used as a flagged proxy; no vendor publishes a per-model weight."
+                ],
+                "unknownReason": null
+              },
+              "note": "Fleet: 16 of 16 accepted, 16 of 16 first reviews passed, 1.58 USD median."
+            },
+            {
+              "id": "mechanical.claude.opus-5-5-medium",
+              "model": "claude-opus-5-5",
+              "effort": "medium",
+              "from": 75,
+              "to": 100,
+              "escalationOnly": false,
+              "selectable": true,
+              "confidence": "high",
+              "evidence": [
+                "fleet-2026-11-17"
+              ],
+              "cost": {
+                "status": "estimated",
+                "unit": "acceptedCard",
+                "low": 4.57,
+                "high": 4.57,
+                "creditsLow": null,
+                "creditsHigh": null,
+                "basis": "claudeListPriceProxy",
+                "derivation": [
+                  "Anchor fleet-opus-5-5-medium: 4.57 USD median list price per accepted task (42 of 51 accepted) [F]",
+                  "Claude weekly-limit weight: list price used as a flagged proxy; no vendor publishes a per-model weight."
+                ],
+                "unknownReason": null
+              }
+            }
+          ],
+          "picks": [
+            {
+              "from": 0,
+              "to": 19,
+              "rung": "mechanical.claude.haiku-5-5-medium",
+              "skipped": []
+            },
+            {
+              "from": 20,
+              "to": 74,
+              "rung": "mechanical.claude.opus-5-5-low",
+              "skipped": []
+            },
+            {
+              "from": 75,
+              "to": 100,
+              "rung": "mechanical.claude.opus-5-5-medium",
+              "skipped": []
+            }
+          ],
+          "candidates": [
+            {
+              "model": "claude-sonnet-5-5",
+              "effort": "medium",
+              "evidence": [
+                "tb41-cost-per-trial",
+                "arc-agi-2-effort-shape"
+              ],
+              "reason": "The research lead placed Sonnet 5.5 medium between Haiku and Opus. Coding cost evidence conflicts (Terminal-Bench 4.1 puts Sonnet above Opus per trial, ARC-AGI-2 below) and Opus 5.5 low is already measured at 1.58 USD with 16/16 accepted, so Sonnet stays a candidate until a fleet cohort exists."
+            }
+          ]
+        },
+        "codex": {
+          "rungs": [
+            {
+              "id": "mechanical.codex.gpt-6.1-terra-low",
+              "model": "gpt-6.1-terra",
+              "effort": "low",
+              "from": 0,
+              "to": 19,
+              "escalationOnly": false,
+              "selectable": true,
+              "confidence": "low",
+              "evidence": [
+                "tb41-cost-per-trial",
+                "arc-agi-2-effort-shape",
+                "codex-credit-rate-cards"
+              ],
+              "cost": {
+                "status": "estimated",
+                "unit": "acceptedCard",
+                "low": 0.8200,
+                "high": 4.2359,
+                "creditsLow": 20.50,
+                "creditsHigh": 105.90,
+                "basis": "codexCredits",
+                "derivation": [
+                  "Anchor fleet-gpt-6-sol-medium: 8.25 USD median list price per accepted task (67 of 92 accepted) [F]",
+                  "x 0.2875 to 0.6025: Lower bound: same tokens at Terra's prices; upper bound: Terminal-Bench 4.1 total cost ratio, which includes Terra's higher token volume.",
+                  "x 0.3457 to 0.8522: Low against medium effort step: fleet Opus low/medium and ARC-AGI-2 6.1 Sol low/medium.",
+                  "Codex credits = list USD x 25 (Standard credit rate card) [V]"
+                ],
+                "unknownReason": null
+              }
+            },
+            {
+              "id": "mechanical.codex.gpt-6.1-terra-medium",
+              "model": "gpt-6.1-terra",
+              "effort": "medium",
+              "from": 20,
+              "to": 39,
+              "escalationOnly": false,
+              "selectable": true,
+              "confidence": "low",
+              "evidence": [
+                "tb41-cost-per-trial",
+                "codex-credit-rate-cards"
+              ],
+              "cost": {
+                "status": "estimated",
+                "unit": "acceptedCard",
+                "low": 2.3719,
+                "high": 4.9707,
+                "creditsLow": 59.30,
+                "creditsHigh": 124.27,
+                "basis": "codexCredits",
+                "derivation": [
+                  "Anchor fleet-gpt-6-sol-medium: 8.25 USD median list price per accepted task (67 of 92 accepted) [F]",
+                  "x 0.2875 to 0.6025: Same bounds as the Terra low rung without the effort step.",
+                  "Codex credits = list USD x 25 (Standard credit rate card) [V]"
+                ],
+                "unknownReason": null
+              }
+            },
+            {
+              "id": "mechanical.codex.gpt-6.1-sol-low",
+              "model": "gpt-6.1-sol",
+              "effort": "low",
+              "from": 40,
+              "to": 74,
+              "escalationOnly": false,
+              "selectable": true,
+              "confidence": "medium",
+              "evidence": [
+                "fleet-2026-11-17",
+                "arc-agi-2-effort-shape",
+                "codex-credit-rate-cards"
+              ],
+              "cost": {
+                "status": "estimated",
+                "unit": "acceptedCard",
+                "low": 1.6401,
+                "high": 4.7455,
+                "creditsLow": 41.00,
+                "creditsHigh": 118.64,
+                "basis": "codexCredits",
+                "derivation": [
+                  "Anchor fleet-gpt-6-sol-medium: 8.25 USD median list price per accepted task (67 of 92 accepted) [F]",
+                  "x 0.575 to 0.675: Cache-read share assumed between 65% and 85% around the measured 74% at high effort.",
+                  "x 0.3457 to 0.8522: Low against medium effort step.",
+                  "Codex credits = list USD x 25 (Standard credit rate card) [V]"
+                ],
+                "unknownReason": null
+              }
+            },
+            {
+              "id": "mechanical.codex.gpt-6.1-sol-medium",
+              "model": "gpt-6.1-sol",
+              "effort": "medium",
+              "from": 75,
+              "to": 100,
+              "escalationOnly": false,
+              "selectable": true,
+              "confidence": "medium",
+              "evidence": [
+                "fleet-2026-11-17",
+                "codex-credit-rate-cards"
+              ],
+              "cost": {
+                "status": "estimated",
+                "unit": "acceptedCard",
+                "low": 4.7438,
+                "high": 5.5688,
+                "creditsLow": 118.59,
+                "creditsHigh": 139.22,
+                "basis": "codexCredits",
+                "derivation": [
+                  "Anchor fleet-gpt-6-sol-medium: 8.25 USD median list price per accepted task (67 of 92 accepted) [F]",
+                  "x 0.575 to 0.675: Cache-read share assumed between 65% and 85% around the measured 74% at high effort.",
+                  "Codex credits = list USD x 25 (Standard credit rate card) [V]"
+                ],
+                "unknownReason": null
+              }
+            }
+          ],
+          "picks": [
+            {
+              "from": 0,
+              "to": 19,
+              "rung": "mechanical.codex.gpt-6.1-terra-low",
+              "skipped": []
+            },
+            {
+              "from": 20,
+              "to": 39,
+              "rung": "mechanical.codex.gpt-6.1-terra-medium",
+              "skipped": []
+            },
+            {
+              "from": 40,
+              "to": 74,
+              "rung": "mechanical.codex.gpt-6.1-sol-low",
+              "skipped": []
+            },
+            {
+              "from": 75,
+              "to": 100,
+              "rung": "mechanical.codex.gpt-6.1-sol-medium",
+              "skipped": []
+            }
+          ],
+          "candidates": []
+        }
+      }
+    },
+    {
+      "id": "feature-logic",
+      "letter": "b1",
+      "label": "Standard feature logic",
+      "description": "Normal feature and bug-fix tasks whose acceptance criterion is behaviour, not visual quality.",
+      "basis": "coding",
+      "confidence": "high",
+      "floors": [
+        {
+          "cli": "claude",
+          "condition": "correctness-critical",
+          "rung": "feature-logic.claude.opus-5-5-high",
+          "reason": "Correctness-critical feature work never runs below Opus 5.5 high."
+        },
+        {
+          "cli": "codex",
+          "condition": "correctness-critical",
+          "rung": "feature-logic.codex.gpt-6.1-sol-high",
+          "reason": "Correctness-critical feature work never runs below GPT-6.1 Sol high."
+        }
+      ],
+      "gaps": [
+        "No fleet cohort for GPT-6.1 Sol yet; its cost is repriced from the gpt-6-sol cohort."
+      ],
+      "ladders": {
+        "claude": {
+          "rungs": [
+            {
+              "id": "feature-logic.claude.opus-5-5-medium",
+              "model": "claude-opus-5-5",
+              "effort": "medium",
+              "from": 0,
+              "to": 74,
+              "escalationOnly": false,
+              "selectable": true,
+              "confidence": "high",
+              "evidence": [
+                "fleet-2026-11-17"
+              ],
+              "cost": {
+                "status": "estimated",
+                "unit": "acceptedCard",
+                "low": 4.57,
+                "high": 4.57,
+                "creditsLow": null,
+                "creditsHigh": null,
+                "basis": "claudeListPriceProxy",
+                "derivation": [
+                  "Anchor fleet-opus-5-5-medium: 4.57 USD median list price per accepted task (42 of 51 accepted) [F]",
+                  "Claude weekly-limit weight: list price used as a flagged proxy; no vendor publishes a per-model weight."
+                ],
+                "unknownReason": null
+              },
+              "note": "Best measured value in the fleet: 4.57 USD median, 50 of 51 first reviews passed."
+            },
+            {
+              "id": "feature-logic.claude.opus-5-5-high",
+              "model": "claude-opus-5-5",
+              "effort": "high",
+              "from": 75,
+              "to": 100,
+              "escalationOnly": false,
+              "selectable": true,
+              "confidence": "high",
+              "evidence": [
+                "fleet-2026-11-17"
+              ],
+              "cost": {
+                "status": "estimated",
+                "unit": "acceptedCard",
+                "low": 9.65,
+                "high": 9.65,
+                "creditsLow": null,
+                "creditsHigh": null,
+                "basis": "claudeListPriceProxy",
+                "derivation": [
+                  "Anchor fleet-opus-5-5-high: 9.65 USD median list price per accepted task (75 of 77 accepted) [F]",
+                  "Claude weekly-limit weight: list price used as a flagged proxy; no vendor publishes a per-model weight."
+                ],
+                "unknownReason": null
+              }
+            }
+          ],
+          "picks": [
+            {
+              "from": 0,
+              "to": 74,
+              "rung": "feature-logic.claude.opus-5-5-medium",
+              "skipped": []
+            },
+            {
+              "from": 75,
+              "to": 100,
+              "rung": "feature-logic.claude.opus-5-5-high",
+              "skipped": []
+            }
+          ],
+          "candidates": [
+            {
+              "model": "claude-sonnet-5-5",
+              "effort": "high",
+              "evidence": [
+                "tb41-cost-per-trial"
+              ],
+              "reason": "Candidate only: on coding work Sonnet's token volume offsets its discount (Terminal-Bench 4.1 22.22 USD per trial against Opus 14.30)."
+            }
+          ]
+        },
+        "codex": {
+          "rungs": [
+            {
+              "id": "feature-logic.codex.gpt-6.1-sol-medium",
+              "model": "gpt-6.1-sol",
+              "effort": "medium",
+              "from": 0,
+              "to": 74,
+              "escalationOnly": false,
+              "selectable": true,
+              "confidence": "medium",
+              "evidence": [
+                "fleet-2026-11-17",
+                "codex-credit-rate-cards"
+              ],
+              "cost": {
+                "status": "estimated",
+                "unit": "acceptedCard",
+                "low": 4.7438,
+                "high": 5.5688,
+                "creditsLow": 118.59,
+                "creditsHigh": 139.22,
+                "basis": "codexCredits",
+                "derivation": [
+                  "Anchor fleet-gpt-6-sol-medium: 8.25 USD median list price per accepted task (67 of 92 accepted) [F]",
+                  "x 0.575 to 0.675: Cache-read share assumed between 65% and 85% around the measured 74% at high effort.",
+                  "Codex credits = list USD x 25 (Standard credit rate card) [V]"
+                ],
+                "unknownReason": null
+              }
+            },
+            {
+              "id": "feature-logic.codex.gpt-6.1-sol-high",
+              "model": "gpt-6.1-sol",
+              "effort": "high",
+              "from": 75,
+              "to": 100,
+              "escalationOnly": false,
+              "selectable": true,
+              "confidence": "medium",
+              "evidence": [
+                "fleet-2026-11-17",
+                "codex-credit-rate-cards"
+              ],
+              "cost": {
+                "status": "estimated",
+                "unit": "acceptedCard",
+                "low": 6.8040,
+                "high": 6.8040,
+                "creditsLow": 170.10,
+                "creditsHigh": 170.10,
+                "basis": "codexCredits",
+                "derivation": [
+                  "Anchor fleet-gpt-6-sol-high: 10.80 USD median list price per accepted task (199 of 219 accepted) [F]",
+                  "x 0.63 to 0.63: Measured 74% cache-read share; same token profile at GPT-6.1 Sol prices.",
+                  "Codex credits = list USD x 25 (Standard credit rate card) [V]"
+                ],
+                "unknownReason": null
+              }
+            }
+          ],
+          "picks": [
+            {
+              "from": 0,
+              "to": 74,
+              "rung": "feature-logic.codex.gpt-6.1-sol-medium",
+              "skipped": []
+            },
+            {
+              "from": 75,
+              "to": 100,
+              "rung": "feature-logic.codex.gpt-6.1-sol-high",
+              "skipped": []
+            }
+          ],
+          "candidates": []
+        }
+      }
+    },
+    {
+      "id": "ui-visual",
+      "letter": "b2",
+      "label": "UI work judged on visual quality",
+      "description": "Interface tasks whose acceptance criterion is visual quality (layout, polish, aesthetics), split out of standard feature work.",
+      "basis": "uiVisual",
+      "confidence": "medium",
+      "floors": [],
+      "gaps": [
+        "WebDev Arena has no Opus 5.5 row below max and no GPT-6.1 Sol row below max, so the default rungs rest on fleet coding value, not on visual-quality evidence at that effort.",
+        "No fleet cohort of UI tasks with a visual acceptance verdict."
+      ],
+      "ladders": {
+        "claude": {
+          "rungs": [
+            {
+              "id": "ui-visual.claude.opus-5-5-medium",
+              "model": "claude-opus-5-5",
+              "effort": "medium",
+              "from": 0,
+              "to": 59,
+              "escalationOnly": false,
+              "selectable": true,
+              "confidence": "medium",
+              "evidence": [
+                "fleet-2026-11-17"
+              ],
+              "cost": {
+                "status": "estimated",
+                "unit": "acceptedCard",
+                "low": 4.57,
+                "high": 4.57,
+                "creditsLow": null,
+                "creditsHigh": null,
+                "basis": "claudeListPriceProxy",
+                "derivation": [
+                  "Anchor fleet-opus-5-5-medium: 4.57 USD median list price per accepted task (42 of 51 accepted) [F]",
+                  "Claude weekly-limit weight: list price used as a flagged proxy; no vendor publishes a per-model weight."
+                ],
+                "unknownReason": null
+              },
+              "note": "Standard medium; visual quality at this effort is not measured by any arena."
+            },
+            {
+              "id": "ui-visual.claude.opus-5-5-high",
+              "model": "claude-opus-5-5",
+              "effort": "high",
+              "from": 60,
+              "to": 84,
+              "escalationOnly": false,
+              "selectable": true,
+              "confidence": "medium",
+              "evidence": [
+                "fleet-2026-11-17",
+                "designarena-web"
+              ],
+              "cost": {
+                "status": "estimated",
+                "unit": "acceptedCard",
+                "low": 9.65,
+                "high": 9.65,
+                "creditsLow": null,
+                "creditsHigh": null,
+                "basis": "claudeListPriceProxy",
+                "derivation": [
+                  "Anchor fleet-opus-5-5-high: 9.65 USD median list price per accepted task (75 of 77 accepted) [F]",
+                  "Claude weekly-limit weight: list price used as a flagged proxy; no vendor publishes a per-model weight."
+                ],
+                "unknownReason": null
+              }
+            },
+            {
+              "id": "ui-visual.claude.opus-5-5-max",
+              "model": "claude-opus-5-5",
+              "effort": "max",
+              "from": 85,
+              "to": 100,
+              "escalationOnly": false,
+              "selectable": true,
+              "confidence": "medium",
+              "evidence": [
+                "arena-webdev",
+                "designarena-web"
+              ],
+              "cost": {
+                "status": "estimated",
+                "unit": "acceptedCard",
+                "low": 12.9828,
+                "high": 43.8084,
+                "creditsLow": null,
+                "creditsHigh": null,
+                "basis": "claudeListPriceProxy",
+                "derivation": [
+                  "Anchor fleet-opus-5-5-high: 9.65 USD median list price per accepted task (75 of 77 accepted) [F]",
+                  "x 1.3454 to 4.5397: Max against high: at least the fleet xhigh/high step, at most the ARC-AGI-2 Opus max/high cost ratio.",
+                  "Claude weekly-limit weight: list price used as a flagged proxy; no vendor publishes a per-model weight."
+                ],
+                "unknownReason": null
+              },
+              "note": "WebDev Arena 1820 (23 Nov), level with Fable 5.2 xhigh 1822 and ahead of every Sonnet configuration."
+            }
+          ],
+          "picks": [
+            {
+              "from": 0,
+              "to": 59,
+              "rung": "ui-visual.claude.opus-5-5-medium",
+              "skipped": []
+            },
+            {
+              "from": 60,
+              "to": 84,
+              "rung": "ui-visual.claude.opus-5-5-high",
+              "skipped": []
+            },
+            {
+              "from": 85,
+              "to": 100,
+              "rung": "ui-visual.claude.opus-5-5-max",
+              "skipped": []
+            }
+          ],
+          "candidates": [
+            {
+              "model": "claude-sonnet-5-5",
+              "effort": "xhigh",
+              "evidence": [
+                "arena-webdev",
+                "designarena-web"
+              ],
+              "reason": "WebDev 1773, about 48 below Opus max but cheaper per build on Design Arena web apps; needs a fleet UI cohort before it can replace an Opus rung."
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "effort": "high",
+              "evidence": [
+                "arena-webdev"
+              ],
+              "reason": "WebDev 1715, about 105 below Opus max; no Opus medium/high WebDev row to compare against."
+            },
+            {
+              "model": "claude-fable-5-2",
+              "effort": "xhigh",
+              "evidence": [
+                "arena-webdev"
+              ],
+              "reason": "WebDev 1822, level with Opus max; not yet cleared for our fleet until fleet compatibility is observed."
+            }
+          ]
+        },
+        "codex": {
+          "rungs": [
+            {
+              "id": "ui-visual.codex.gpt-6.1-sol-medium",
+              "model": "gpt-6.1-sol",
+              "effort": "medium",
+              "from": 0,
+              "to": 59,
+              "escalationOnly": false,
+              "selectable": true,
+              "confidence": "low",
+              "evidence": [
+                "fleet-2026-11-17",
+                "codex-credit-rate-cards"
+              ],
+              "cost": {
+                "status": "estimated",
+                "unit": "acceptedCard",
+                "low": 4.7438,
+                "high": 5.5688,
+                "creditsLow": 118.59,
+                "creditsHigh": 139.22,
+                "basis": "codexCredits",
+                "derivation": [
+                  "Anchor fleet-gpt-6-sol-medium: 8.25 USD median list price per accepted task (67 of 92 accepted) [F]",
+                  "x 0.575 to 0.675: Cache-read share assumed between 65% and 85%.",
+                  "Codex credits = list USD x 25 (Standard credit rate card) [V]"
+                ],
+                "unknownReason": null
+              }
+            },
+            {
+              "id": "ui-visual.codex.gpt-6.1-sol-high",
+              "model": "gpt-6.1-sol",
+              "effort": "high",
+              "from": 60,
+              "to": 84,
+              "escalationOnly": false,
+              "selectable": true,
+              "confidence": "low",
+              "evidence": [
+                "fleet-2026-11-17",
+                "codex-credit-rate-cards"
+              ],
+              "cost": {
+                "status": "estimated",
+                "unit": "acceptedCard",
+                "low": 6.8040,
+                "high": 6.8040,
+                "creditsLow": 170.10,
+                "creditsHigh": 170.10,
+                "basis": "codexCredits",
+                "derivation": [
+                  "Anchor fleet-gpt-6-sol-high: 10.80 USD median list price per accepted task (199 of 219 accepted) [F]",
+                  "x 0.63 to 0.63: Measured 74% cache-read share.",
+                  "Codex credits = list USD x 25 (Standard credit rate card) [V]"
+                ],
+                "unknownReason": null
+              }
+            },
+            {
+              "id": "ui-visual.codex.gpt-6.1-sol-max",
+              "model": "gpt-6.1-sol",
+              "effort": "max",
+              "from": 85,
+              "to": 100,
+              "escalationOnly": false,
+              "selectable": true,
+              "confidence": "medium",
+              "evidence": [
+                "arena-webdev",
+                "designarena-web",
+                "codex-credit-rate-cards"
+              ],
+              "cost": {
+                "status": "estimated",
+                "unit": "acceptedCard",
+                "low": 11.9042,
+                "high": 27.0700,
+                "creditsLow": 297.61,
+                "creditsHigh": 676.75,
+                "basis": "codexCredits",
+                "derivation": [
+                  "Anchor fleet-gpt-6-sol-xhigh: 14.53 USD median list price per accepted task (16 of 16 accepted) [F]",
+                  "x 0.575 to 0.675: Cache-read share assumed between 65% and 85%.",
+                  "x 1.4248 to 2.7601: Max against xhigh effort step from ARC-AGI-2 cost shapes.",
+                  "Codex credits = list USD x 25 (Standard credit rate card) [V]"
+                ],
+                "unknownReason": null
+              },
+              "note": "WebDev Arena 1745 (23 Nov)."
+            }
+          ],
+          "picks": [
+            {
+              "from": 0,
+              "to": 59,
+              "rung": "ui-visual.codex.gpt-6.1-sol-medium",
+              "skipped": []
+            },
+            {
+              "from": 60,
+              "to": 84,
+              "rung": "ui-visual.codex.gpt-6.1-sol-high",
+              "skipped": []
+            },
+            {
+              "from": 85,
+              "to": 100,
+              "rung": "ui-visual.codex.gpt-6.1-sol-max",
+              "skipped": []
+            }
+          ],
+          "candidates": [
+            {
+              "model": "gpt-6.2-sol",
+              "effort": "max",
+              "evidence": [
+                "arena-webdev"
+              ],
+              "reason": "WebDev 1755 and first on the HTML sub-board (1851); not yet cleared for our fleet until fleet compatibility is observed."
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "hard",
+      "letter": "c",
+      "label": "Hard bugs, concurrency and architecture",
+      "description": "Unclear bugs, concurrency, architecture and other correctness-critical tasks that need high reasoning.",
+      "basis": "coding",
+      "confidence": "medium",
+      "floors": [
+        {
+          "cli": "claude",
+          "condition": null,
+          "rung": "hard.claude.opus-5-5-high",
+          "reason": "Hard tasks never run below high reasoning."
+        },
+        {
+          "cli": "codex",
+          "condition": null,
+          "rung": "hard.codex.gpt-6.1-sol-high",
+          "reason": "Hard tasks never run below high reasoning."
+        }
+      ],
+      "gaps": [
+        "No fleet cohort for Opus 5.5 xhigh; its cost is bounded from effort-step ratios."
+      ],
+      "ladders": {
+        "claude": {
+          "rungs": [
+            {
+              "id": "hard.claude.opus-5-5-high",
+              "model": "claude-opus-5-5",
+              "effort": "high",
+              "from": 0,
+              "to": 59,
+              "escalationOnly": false,
+              "selectable": true,
+              "confidence": "high",
+              "evidence": [
+                "fleet-2026-11-17",
+                "tb41-cost-per-trial"
+              ],
+              "cost": {
+                "status": "estimated",
+                "unit": "acceptedCard",
+                "low": 9.65,
+                "high": 9.65,
+                "creditsLow": null,
+                "creditsHigh": null,
+                "basis": "claudeListPriceProxy",
+                "derivation": [
+                  "Anchor fleet-opus-5-5-high: 9.65 USD median list price per accepted task (75 of 77 accepted) [F]",
+                  "Claude weekly-limit weight: list price used as a flagged proxy; no vendor publishes a per-model weight."
+                ],
+                "unknownReason": null
+              }
+            },
+            {
+              "id": "hard.claude.opus-5-5-xhigh",
+              "model": "claude-opus-5-5",
+              "effort": "xhigh",
+              "from": 60,
+              "to": 100,
+              "escalationOnly": false,
+              "selectable": true,
+              "confidence": "medium",
+              "evidence": [
+                "arc-agi-2-effort-shape",
+                "tb41-cost-per-trial"
+              ],
+              "cost": {
+                "status": "estimated",
+                "unit": "acceptedCard",
+                "low": 12.9828,
+                "high": 15.8723,
+                "creditsLow": null,
+                "creditsHigh": null,
+                "basis": "claudeListPriceProxy",
+                "derivation": [
+                  "Anchor fleet-opus-5-5-high: 9.65 USD median list price per accepted task (75 of 77 accepted) [F]",
+                  "x 1.3454 to 1.6448: Xhigh against high: fleet gpt-6-sol step as lower, ARC-AGI-2 Opus step as upper bound.",
+                  "Claude weekly-limit weight: list price used as a flagged proxy; no vendor publishes a per-model weight."
+                ],
+                "unknownReason": null
+              }
+            },
+            {
+              "id": "hard.claude.fable-5-2-high",
+              "model": "claude-fable-5-2",
+              "effort": "high",
+              "from": null,
+              "to": null,
+              "escalationOnly": true,
+              "selectable": false,
+              "confidence": "low",
+              "evidence": [
+                "tb41-cost-per-trial",
+                "arc-agi-2-effort-shape"
+              ],
+              "cost": {
+                "status": "estimated",
+                "unit": "acceptedCard",
+                "low": 21.4728,
+                "high": 33.7290,
+                "creditsLow": null,
+                "creditsHigh": null,
+                "basis": "claudeListPriceProxy",
+                "derivation": [
+                  "Anchor fleet-opus-5-5-high: 9.65 USD median list price per accepted task (75 of 77 accepted) [F]",
+                  "x 2.2252 to 3.4952: Fable against Opus: ARC-AGI-2 at high as lower, Terminal-Bench 4.1 at max (about 3.5x per trial at equal accuracy) as upper bound.",
+                  "Claude weekly-limit weight: list price used as a flagged proxy; no vendor publishes a per-model weight."
+                ],
+                "unknownReason": null
+              },
+              "note": "Escalation only, after Opus has failed the task; never picked by slider position."
+            }
+          ],
+          "picks": [
+            {
+              "from": 0,
+              "to": 59,
+              "rung": "hard.claude.opus-5-5-high",
+              "skipped": []
+            },
+            {
+              "from": 60,
+              "to": 100,
+              "rung": "hard.claude.opus-5-5-xhigh",
+              "skipped": []
+            }
+          ],
+          "candidates": []
+        },
+        "codex": {
+          "rungs": [
+            {
+              "id": "hard.codex.gpt-6.1-sol-high",
+              "model": "gpt-6.1-sol",
+              "effort": "high",
+              "from": 0,
+              "to": 59,
+              "escalationOnly": false,
+              "selectable": true,
+              "confidence": "medium",
+              "evidence": [
+                "fleet-2026-11-17",
+                "codex-credit-rate-cards"
+              ],
+              "cost": {
+                "status": "estimated",
+                "unit": "acceptedCard",
+                "low": 6.8040,
+                "high": 6.8040,
+                "creditsLow": 170.10,
+                "creditsHigh": 170.10,
+                "basis": "codexCredits",
+                "derivation": [
+                  "Anchor fleet-gpt-6-sol-high: 10.80 USD median list price per accepted task (199 of 219 accepted) [F]",
+                  "x 0.63 to 0.63: Measured 74% cache-read share.",
+                  "Codex credits = list USD x 25 (Standard credit rate card) [V]"
+                ],
+                "unknownReason": null
+              }
+            },
+            {
+              "id": "hard.codex.gpt-6.1-sol-xhigh",
+              "model": "gpt-6.1-sol",
+              "effort": "xhigh",
+              "from": 60,
+              "to": 100,
+              "escalationOnly": false,
+              "selectable": true,
+              "confidence": "medium",
+              "evidence": [
+                "fleet-2026-11-17",
+                "codex-credit-rate-cards"
+              ],
+              "cost": {
+                "status": "estimated",
+                "unit": "acceptedCard",
+                "low": 8.3548,
+                "high": 9.8078,
+                "creditsLow": 208.87,
+                "creditsHigh": 245.19,
+                "basis": "codexCredits",
+                "derivation": [
+                  "Anchor fleet-gpt-6-sol-xhigh: 14.53 USD median list price per accepted task (16 of 16 accepted) [F]",
+                  "x 0.575 to 0.675: Cache-read share assumed between 65% and 85%.",
+                  "Codex credits = list USD x 25 (Standard credit rate card) [V]"
+                ],
+                "unknownReason": null
+              }
+            },
+            {
+              "id": "hard.codex.gpt-6.2-astra-high",
+              "model": "gpt-6.2-astra",
+              "effort": "high",
+              "from": null,
+              "to": null,
+              "escalationOnly": true,
+              "selectable": false,
+              "confidence": "low",
+              "evidence": [
+                "tb41-cost-per-trial",
+                "arc-agi-2-effort-shape",
+                "codex-credit-rate-cards"
+              ],
+              "cost": {
+                "status": "estimated",
+                "unit": "acceptedCard",
+                "low": 10.4861,
+                "high": 27.2160,
+                "creditsLow": 262.15,
+                "creditsHigh": 680.40,
+                "basis": "codexCredits",
+                "derivation": [
+                  "Anchor fleet-gpt-6-sol-high: 10.80 USD median list price per accepted task (199 of 219 accepted) [F]",
+                  "x 0.9709 to 2.52: Lower bound: Terminal-Bench 4.1 total cost ratio at max; upper bound: same tokens at GPT-6.2 Astra prices.",
+                  "Codex credits = list USD x 25 (Standard credit rate card) [V]"
+                ],
+                "unknownReason": null
+              },
+              "note": "Escalation only, after GPT-6.1 Sol has failed the task."
+            }
+          ],
+          "picks": [
+            {
+              "from": 0,
+              "to": 59,
+              "rung": "hard.codex.gpt-6.1-sol-high",
+              "skipped": []
+            },
+            {
+              "from": 60,
+              "to": 100,
+              "rung": "hard.codex.gpt-6.1-sol-xhigh",
+              "skipped": []
+            }
+          ],
+          "candidates": []
+        }
+      }
+    },
+    {
+      "id": "review-aspect",
+      "letter": "d",
+      "label": "Review aspects",
+      "description": "One review aspect of a delivered diff (for example correctness, tests, security).",
+      "basis": "review",
+      "confidence": "low",
+      "floors": [
+        {
+          "cli": "claude",
+          "condition": "security-relevant",
+          "rung": "review-aspect.claude.opus-5-5-medium",
+          "reason": "Review of a security-relevant diff never runs below Opus 5.5 medium."
+        },
+        {
+          "cli": "codex",
+          "condition": "security-relevant",
+          "rung": "review-aspect.codex.gpt-6.1-sol-medium",
+          "reason": "Review of a security-relevant diff never runs below GPT-6.1 Sol medium."
+        }
+      ],
+      "gaps": [
+        "No model-level code-review benchmark exists for these models; cost anchors are coding tasks, so review costs are overstated."
+      ],
+      "ladders": {
+        "claude": {
+          "rungs": [
+            {
+              "id": "review-aspect.claude.opus-5-5-low",
+              "model": "claude-opus-5-5",
+              "effort": "low",
+              "from": 0,
+              "to": 89,
+              "escalationOnly": false,
+              "selectable": true,
+              "confidence": "low",
+              "evidence": [
+                "fleet-2026-11-17"
+              ],
+              "cost": {
+                "status": "estimated",
+                "unit": "acceptedCard",
+                "low": 1.58,
+                "high": 1.58,
+                "creditsLow": null,
+                "creditsHigh": null,
+                "basis": "claudeListPriceProxy",
+                "derivation": [
+                  "Anchor fleet-opus-5-5-low: 1.58 USD median list price per accepted task (16 of 16 accepted) [F]",
+                  "Claude weekly-limit weight: list price used as a flagged proxy; no vendor publishes a per-model weight."
+                ],
+                "unknownReason": null
+              },
+              "note": "Kept by owner decision of 2026-11-17."
+            },
+            {
+              "id": "review-aspect.claude.opus-5-5-medium",
+              "model": "claude-opus-5-5",
+              "effort": "medium",
+              "from": 90,
+              "to": 100,
+              "escalationOnly": false,
+              "selectable": true,
+              "confidence": "low",
+              "evidence": [
+                "fleet-2026-11-17"
+              ],
+              "cost": {
+                "status": "estimated",
+                "unit": "acceptedCard",
+                "low": 4.57,
+                "high": 4.57,
+                "creditsLow": null,
+                "creditsHigh": null,
+                "basis": "claudeListPriceProxy",
+                "derivation": [
+                  "Anchor fleet-opus-5-5-medium: 4.57 USD median list price per accepted task (42 of 51 accepted) [F]",
+                  "Claude weekly-limit weight: list price used as a flagged proxy; no vendor publishes a per-model weight."
+                ],
+                "unknownReason": null
+              }
+            }
+          ],
+          "picks": [
+            {
+              "from": 0,
+              "to": 89,
+              "rung": "review-aspect.claude.opus-5-5-low",
+              "skipped": []
+            },
+            {
+              "from": 90,
+              "to": 100,
+              "rung": "review-aspect.claude.opus-5-5-medium",
+              "skipped": []
+            }
+          ],
+          "candidates": []
+        },
+        "codex": {
+          "rungs": [
+            {
+              "id": "review-aspect.codex.gpt-6.1-sol-low",
+              "model": "gpt-6.1-sol",
+              "effort": "low",
+              "from": 0,
+              "to": 89,
+              "escalationOnly": false,
+              "selectable": true,
+              "confidence": "low",
+              "evidence": [
+                "fleet-2026-11-17",
+                "codex-credit-rate-cards"
+              ],
+              "cost": {
+                "status": "estimated",
+                "unit": "acceptedCard",
+                "low": 1.6401,
+                "high": 4.7455,
+                "creditsLow": 41.00,
+                "creditsHigh": 118.64,
+                "basis": "codexCredits",
+                "derivation": [
+                  "Anchor fleet-gpt-6-sol-medium: 8.25 USD median list price per accepted task (67 of 92 accepted) [F]",
+                  "x 0.575 to 0.675: Cache-read share assumed between 65% and 85%.",
+                  "x 0.3457 to 0.8522: Low against medium effort step.",
+                  "Codex credits = list USD x 25 (Standard credit rate card) [V]"
+                ],
+                "unknownReason": null
+              }
+            },
+            {
+              "id": "review-aspect.codex.gpt-6.1-sol-medium",
+              "model": "gpt-6.1-sol",
+              "effort": "medium",
+              "from": 90,
+              "to": 100,
+              "escalationOnly": false,
+              "selectable": true,
+              "confidence": "low",
+              "evidence": [
+                "fleet-2026-11-17",
+                "codex-credit-rate-cards"
+              ],
+              "cost": {
+                "status": "estimated",
+                "unit": "acceptedCard",
+                "low": 4.7438,
+                "high": 5.5688,
+                "creditsLow": 118.59,
+                "creditsHigh": 139.22,
+                "basis": "codexCredits",
+                "derivation": [
+                  "Anchor fleet-gpt-6-sol-medium: 8.25 USD median list price per accepted task (67 of 92 accepted) [F]",
+                  "x 0.575 to 0.675: Cache-read share assumed between 65% and 85%.",
+                  "Codex credits = list USD x 25 (Standard credit rate card) [V]"
+                ],
+                "unknownReason": null
+              }
+            }
+          ],
+          "picks": [
+            {
+              "from": 0,
+              "to": 89,
+              "rung": "review-aspect.codex.gpt-6.1-sol-low",
+              "skipped": []
+            },
+            {
+              "from": 90,
+              "to": 100,
+              "rung": "review-aspect.codex.gpt-6.1-sol-medium",
+              "skipped": []
+            }
+          ],
+          "candidates": []
+        }
+      }
+    },
+    {
+      "id": "review-decision",
+      "letter": "e",
+      "label": "Review grade and decision",
+      "description": "Aggregating review aspects into a grade and an accept or rework decision.",
+      "basis": "review",
+      "confidence": "low",
+      "floors": [
+        {
+          "cli": "claude",
+          "condition": "security-relevant",
+          "rung": "review-decision.claude.opus-5-5-medium",
+          "reason": "Decisions on security-relevant diffs never run below Opus 5.5 medium."
+        },
+        {
+          "cli": "codex",
+          "condition": "security-relevant",
+          "rung": "review-decision.codex.gpt-6.1-sol-medium",
+          "reason": "Decisions on security-relevant diffs never run below GPT-6.1 Sol medium."
+        }
+      ],
+      "gaps": [
+        "No benchmark or fleet cohort for review decisions; all rungs low confidence."
+      ],
+      "ladders": {
+        "claude": {
+          "rungs": [
+            {
+              "id": "review-decision.claude.opus-5-5-low",
+              "model": "claude-opus-5-5",
+              "effort": "low",
+              "from": 0,
+              "to": 74,
+              "escalationOnly": false,
+              "selectable": true,
+              "confidence": "low",
+              "evidence": [
+                "fleet-2026-11-17"
+              ],
+              "cost": {
+                "status": "estimated",
+                "unit": "acceptedCard",
+                "low": 1.58,
+                "high": 1.58,
+                "creditsLow": null,
+                "creditsHigh": null,
+                "basis": "claudeListPriceProxy",
+                "derivation": [
+                  "Anchor fleet-opus-5-5-low: 1.58 USD median list price per accepted task (16 of 16 accepted) [F]",
+                  "Claude weekly-limit weight: list price used as a flagged proxy; no vendor publishes a per-model weight."
+                ],
+                "unknownReason": null
+              }
+            },
+            {
+              "id": "review-decision.claude.opus-5-5-medium",
+              "model": "claude-opus-5-5",
+              "effort": "medium",
+              "from": 75,
+              "to": 100,
+              "escalationOnly": false,
+              "selectable": true,
+              "confidence": "low",
+              "evidence": [
+                "fleet-2026-11-17"
+              ],
+              "cost": {
+                "status": "estimated",
+                "unit": "acceptedCard",
+                "low": 4.57,
+                "high": 4.57,
+                "creditsLow": null,
+                "creditsHigh": null,
+                "basis": "claudeListPriceProxy",
+                "derivation": [
+                  "Anchor fleet-opus-5-5-medium: 4.57 USD median list price per accepted task (42 of 51 accepted) [F]",
+                  "Claude weekly-limit weight: list price used as a flagged proxy; no vendor publishes a per-model weight."
+                ],
+                "unknownReason": null
+              }
+            }
+          ],
+          "picks": [
+            {
+              "from": 0,
+              "to": 74,
+              "rung": "review-decision.claude.opus-5-5-low",
+              "skipped": []
+            },
+            {
+              "from": 75,
+              "to": 100,
+              "rung": "review-decision.claude.opus-5-5-medium",
+              "skipped": []
+            }
+          ],
+          "candidates": [
+            {
+              "model": "claude-sonnet-5-5",
+              "effort": "medium",
+              "evidence": [
+                "arc-agi-2-effort-shape"
+              ],
+              "reason": "Research lead, low confidence: no review-decision evidence for any model."
+            }
+          ]
+        },
+        "codex": {
+          "rungs": [
+            {
+              "id": "review-decision.codex.gpt-6.1-sol-low",
+              "model": "gpt-6.1-sol",
+              "effort": "low",
+              "from": 0,
+              "to": 74,
+              "escalationOnly": false,
+              "selectable": true,
+              "confidence": "low",
+              "evidence": [
+                "fleet-2026-11-17",
+                "codex-credit-rate-cards"
+              ],
+              "cost": {
+                "status": "estimated",
+                "unit": "acceptedCard",
+                "low": 1.6401,
+                "high": 4.7455,
+                "creditsLow": 41.00,
+                "creditsHigh": 118.64,
+                "basis": "codexCredits",
+                "derivation": [
+                  "Anchor fleet-gpt-6-sol-medium: 8.25 USD median list price per accepted task (67 of 92 accepted) [F]",
+                  "x 0.575 to 0.675: Cache-read share assumed between 65% and 85%.",
+                  "x 0.3457 to 0.8522: Low against medium effort step.",
+                  "Codex credits = list USD x 25 (Standard credit rate card) [V]"
+                ],
+                "unknownReason": null
+              }
+            },
+            {
+              "id": "review-decision.codex.gpt-6.1-sol-medium",
+              "model": "gpt-6.1-sol",
+              "effort": "medium",
+              "from": 75,
+              "to": 100,
+              "escalationOnly": false,
+              "selectable": true,
+              "confidence": "low",
+              "evidence": [
+                "fleet-2026-11-17",
+                "codex-credit-rate-cards"
+              ],
+              "cost": {
+                "status": "estimated",
+                "unit": "acceptedCard",
+                "low": 4.7438,
+                "high": 5.5688,
+                "creditsLow": 118.59,
+                "creditsHigh": 139.22,
+                "basis": "codexCredits",
+                "derivation": [
+                  "Anchor fleet-gpt-6-sol-medium: 8.25 USD median list price per accepted task (67 of 92 accepted) [F]",
+                  "x 0.575 to 0.675: Cache-read share assumed between 65% and 85%.",
+                  "Codex credits = list USD x 25 (Standard credit rate card) [V]"
+                ],
+                "unknownReason": null
+              }
+            }
+          ],
+          "picks": [
+            {
+              "from": 0,
+              "to": 74,
+              "rung": "review-decision.codex.gpt-6.1-sol-low",
+              "skipped": []
+            },
+            {
+              "from": 75,
+              "to": 100,
+              "rung": "review-decision.codex.gpt-6.1-sol-medium",
+              "skipped": []
+            }
+          ],
+          "candidates": [
+            {
+              "model": "gpt-6.1-terra",
+              "effort": "low",
+              "evidence": [
+                "tb41-cost-per-trial"
+              ],
+              "reason": "Research lead, low confidence."
+            },
+            {
+              "model": "gpt-6.1-terra",
+              "effort": "medium",
+              "evidence": [
+                "tb41-cost-per-trial"
+              ],
+              "reason": "Research lead, low confidence."
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "research",
+      "letter": "f",
+      "label": "Research and reports",
+      "description": "Reading sources and code to produce a report or findings.",
+      "basis": "textAgentic",
+      "confidence": "medium",
+      "floors": [],
+      "gaps": [
+        "Cost anchors are coding tasks; research tasks were not measured separately."
+      ],
+      "ladders": {
+        "claude": {
+          "rungs": [
+            {
+              "id": "research.claude.opus-5-5-medium",
+              "model": "claude-opus-5-5",
+              "effort": "medium",
+              "from": 0,
+              "to": 74,
+              "escalationOnly": false,
+              "selectable": true,
+              "confidence": "medium",
+              "evidence": [
+                "fleet-2026-11-17"
+              ],
+              "cost": {
+                "status": "estimated",
+                "unit": "acceptedCard",
+                "low": 4.57,
+                "high": 4.57,
+                "creditsLow": null,
+                "creditsHigh": null,
+                "basis": "claudeListPriceProxy",
+                "derivation": [
+                  "Anchor fleet-opus-5-5-medium: 4.57 USD median list price per accepted task (42 of 51 accepted) [F]",
+                  "Claude weekly-limit weight: list price used as a flagged proxy; no vendor publishes a per-model weight."
+                ],
+                "unknownReason": null
+              }
+            },
+            {
+              "id": "research.claude.opus-5-5-high",
+              "model": "claude-opus-5-5",
+              "effort": "high",
+              "from": 75,
+              "to": 100,
+              "escalationOnly": false,
+              "selectable": true,
+              "confidence": "medium",
+              "evidence": [
+                "fleet-2026-11-17"
+              ],
+              "cost": {
+                "status": "estimated",
+                "unit": "acceptedCard",
+                "low": 9.65,
+                "high": 9.65,
+                "creditsLow": null,
+                "creditsHigh": null,
+                "basis": "claudeListPriceProxy",
+                "derivation": [
+                  "Anchor fleet-opus-5-5-high: 9.65 USD median list price per accepted task (75 of 77 accepted) [F]",
+                  "Claude weekly-limit weight: list price used as a flagged proxy; no vendor publishes a per-model weight."
+                ],
+                "unknownReason": null
+              }
+            }
+          ],
+          "picks": [
+            {
+              "from": 0,
+              "to": 74,
+              "rung": "research.claude.opus-5-5-medium",
+              "skipped": []
+            },
+            {
+              "from": 75,
+              "to": 100,
+              "rung": "research.claude.opus-5-5-high",
+              "skipped": []
+            }
+          ],
+          "candidates": []
+        },
+        "codex": {
+          "rungs": [
+            {
+              "id": "research.codex.gpt-6.1-sol-medium",
+              "model": "gpt-6.1-sol",
+              "effort": "medium",
+              "from": 0,
+              "to": 74,
+              "escalationOnly": false,
+              "selectable": true,
+              "confidence": "medium",
+              "evidence": [
+                "fleet-2026-11-17",
+                "codex-credit-rate-cards"
+              ],
+              "cost": {
+                "status": "estimated",
+                "unit": "acceptedCard",
+                "low": 4.7438,
+                "high": 5.5688,
+                "creditsLow": 118.59,
+                "creditsHigh": 139.22,
+                "basis": "codexCredits",
+                "derivation": [
+                  "Anchor fleet-gpt-6-sol-medium: 8.25 USD median list price per accepted task (67 of 92 accepted) [F]",
+                  "x 0.575 to 0.675: Cache-read share assumed between 65% and 85%.",
+                  "Codex credits = list USD x 25 (Standard credit rate card) [V]"
+                ],
+                "unknownReason": null
+              }
+            },
+            {
+              "id": "research.codex.gpt-6.1-sol-high",
+              "model": "gpt-6.1-sol",
+              "effort": "high",
+              "from": 75,
+              "to": 100,
+              "escalationOnly": false,
+              "selectable": true,
+              "confidence": "medium",
+              "evidence": [
+                "fleet-2026-11-17",
+                "codex-credit-rate-cards"
+              ],
+              "cost": {
+                "status": "estimated",
+                "unit": "acceptedCard",
+                "low": 6.8040,
+                "high": 6.8040,
+                "creditsLow": 170.10,
+                "creditsHigh": 170.10,
+                "basis": "codexCredits",
+                "derivation": [
+                  "Anchor fleet-gpt-6-sol-high: 10.80 USD median list price per accepted task (199 of 219 accepted) [F]",
+                  "x 0.63 to 0.63: Measured 74% cache-read share.",
+                  "Codex credits = list USD x 25 (Standard credit rate card) [V]"
+                ],
+                "unknownReason": null
+              }
+            }
+          ],
+          "picks": [
+            {
+              "from": 0,
+              "to": 74,
+              "rung": "research.codex.gpt-6.1-sol-medium",
+              "skipped": []
+            },
+            {
+              "from": 75,
+              "to": 100,
+              "rung": "research.codex.gpt-6.1-sol-high",
+              "skipped": []
+            }
+          ],
+          "candidates": []
+        }
+      }
+    },
+    {
+      "id": "summary",
+      "letter": "g",
+      "label": "Summaries, metadata and classification",
+      "description": "Bounded, repeatable text tasks with a known good result: summaries, metadata, tagging, classification.",
+      "basis": "textAgentic",
+      "confidence": "medium",
+      "floors": [],
+      "gaps": [
+        "No fleet cohort and no task-cost anchor for summary work; expected cost is unknown, not zero."
+      ],
+      "ladders": {
+        "claude": {
+          "rungs": [
+            {
+              "id": "summary.claude.haiku-5-5-low",
+              "model": "claude-haiku-5-5",
+              "effort": "low",
+              "from": 0,
+              "to": 39,
+              "escalationOnly": false,
+              "selectable": true,
+              "confidence": "low",
+              "evidence": [
+                "arc-agi-2-effort-shape"
+              ],
+              "cost": {
+                "status": "unknown",
+                "unit": null,
+                "low": null,
+                "high": null,
+                "creditsLow": null,
+                "creditsHigh": null,
+                "basis": "claudeListPriceProxy",
+                "derivation": [],
+                "unknownReason": "No fleet or task-cost anchor for summary work."
+              }
+            },
+            {
+              "id": "summary.claude.haiku-5-5-medium",
+              "model": "claude-haiku-5-5",
+              "effort": "medium",
+              "from": 40,
+              "to": 100,
+              "escalationOnly": false,
+              "selectable": true,
+              "confidence": "low",
+              "evidence": [
+                "arc-agi-2-effort-shape"
+              ],
+              "cost": {
+                "status": "unknown",
+                "unit": null,
+                "low": null,
+                "high": null,
+                "creditsLow": null,
+                "creditsHigh": null,
+                "basis": "claudeListPriceProxy",
+                "derivation": [],
+                "unknownReason": "No fleet or task-cost anchor for summary work."
+              }
+            }
+          ],
+          "picks": [
+            {
+              "from": 0,
+              "to": 39,
+              "rung": "summary.claude.haiku-5-5-low",
+              "skipped": []
+            },
+            {
+              "from": 40,
+              "to": 100,
+              "rung": "summary.claude.haiku-5-5-medium",
+              "skipped": []
+            }
+          ],
+          "candidates": []
+        },
+        "codex": {
+          "rungs": [
+            {
+              "id": "summary.codex.gpt-6-luna-high",
+              "model": "gpt-6-luna",
+              "effort": "high",
+              "from": 0,
+              "to": 100,
+              "escalationOnly": false,
+              "selectable": true,
+              "confidence": "medium",
+              "evidence": [
+                "openai-luna-guidance",
+                "arc-agi-2-effort-shape",
+                "codex-credit-rate-cards"
+              ],
+              "cost": {
+                "status": "unknown",
+                "unit": null,
+                "low": null,
+                "high": null,
+                "creditsLow": null,
+                "creditsHigh": null,
+                "basis": "codexCredits",
+                "derivation": [],
+                "unknownReason": "No fleet or task-cost anchor for summary work."
+              },
+              "note": "OpenAI recommends Luna for extraction, classification, transformation and structured summaries."
+            }
+          ],
+          "picks": [
+            {
+              "from": 0,
+              "to": 100,
+              "rung": "summary.codex.gpt-6-luna-high",
+              "skipped": []
+            }
+          ],
+          "candidates": []
+        }
+      }
+    },
+    {
+      "id": "orchestrator-chat",
+      "letter": "h",
+      "label": "Orchestrator chat",
+      "description": "Interactive orchestrator conversation with the operator.",
+      "basis": "textAgentic",
+      "confidence": "low",
+      "floors": [],
+      "gaps": [
+        "No benchmark or fleet cohort for orchestrator chat; chat sessions are not tasks, so no cost per accepted task exists."
+      ],
+      "ladders": {
+        "claude": {
+          "rungs": [
+            {
+              "id": "orchestrator-chat.claude.opus-5-5-medium",
+              "model": "claude-opus-5-5",
+              "effort": "medium",
+              "from": 0,
+              "to": 100,
+              "escalationOnly": false,
+              "selectable": true,
+              "confidence": "low",
+              "evidence": [
+                "fleet-2026-11-17"
+              ],
+              "cost": {
+                "status": "unknown",
+                "unit": null,
+                "low": null,
+                "high": null,
+                "creditsLow": null,
+                "creditsHigh": null,
+                "basis": "claudeListPriceProxy",
+                "derivation": [],
+                "unknownReason": "Chat sessions are not tasks; no cost per accepted task."
+              }
+            }
+          ],
+          "picks": [
+            {
+              "from": 0,
+              "to": 100,
+              "rung": "orchestrator-chat.claude.opus-5-5-medium",
+              "skipped": []
+            }
+          ],
+          "candidates": [
+            {
+              "model": "claude-sonnet-5-5",
+              "effort": "high",
+              "evidence": [
+                "tb41-cost-per-trial"
+              ],
+              "reason": "Research lead, low confidence; the coding token-volume finding is only provisional for chat."
+            }
+          ]
+        },
+        "codex": {
+          "rungs": [
+            {
+              "id": "orchestrator-chat.codex.gpt-6.1-sol-low",
+              "model": "gpt-6.1-sol",
+              "effort": "low",
+              "from": 0,
+              "to": 39,
+              "escalationOnly": false,
+              "selectable": true,
+              "confidence": "low",
+              "evidence": [
+                "fleet-2026-11-17"
+              ],
+              "cost": {
+                "status": "unknown",
+                "unit": null,
+                "low": null,
+                "high": null,
+                "creditsLow": null,
+                "creditsHigh": null,
+                "basis": "codexCredits",
+                "derivation": [],
+                "unknownReason": "Chat sessions are not tasks; no cost per accepted task."
+              }
+            },
+            {
+              "id": "orchestrator-chat.codex.gpt-6.1-sol-medium",
+              "model": "gpt-6.1-sol",
+              "effort": "medium",
+              "from": 40,
+              "to": 100,
+              "escalationOnly": false,
+              "selectable": true,
+              "confidence": "low",
+              "evidence": [
+                "fleet-2026-11-17"
+              ],
+              "cost": {
+                "status": "unknown",
+                "unit": null,
+                "low": null,
+                "high": null,
+                "creditsLow": null,
+                "creditsHigh": null,
+                "basis": "codexCredits",
+                "derivation": [],
+                "unknownReason": "Chat sessions are not tasks; no cost per accepted task."
+              }
+            }
+          ],
+          "picks": [
+            {
+              "from": 0,
+              "to": 39,
+              "rung": "orchestrator-chat.codex.gpt-6.1-sol-low",
+              "skipped": []
+            },
+            {
+              "from": 40,
+              "to": 100,
+              "rung": "orchestrator-chat.codex.gpt-6.1-sol-medium",
+              "skipped": []
+            }
+          ],
+          "candidates": []
+        }
+      }
+    },
+    {
+      "id": "creative",
+      "letter": "i",
+      "label": "Creative work: visual design, UI aesthetics, interactive 3D scenes and games",
+      "description": "Tasks whose result is judged on originality, design, feel and technical execution rather than on tests alone. Coding benchmarks are not used as quality evidence here.",
+      "basis": "creative",
+      "confidence": "low",
+      "floors": [],
+      "gaps": [
+        "No fleet cohort of creative tasks; expected cost is per benchmark task (AA-3D, 3 h agent build), not per accepted task.",
+        "No source ranks Sonnet 5.5 high against Opus 5.5 low (thin evidence); AA-3D has max rows only.",
+        "No published playable rate for any model; technical execution must be measured on our own creative tasks."
+      ],
+      "ladders": {
+        "claude": {
+          "rungs": [
+            {
+              "id": "creative.claude.sonnet-5-5-high",
+              "model": "claude-sonnet-5-5",
+              "effort": "high",
+              "from": 0,
+              "to": 54,
+              "escalationOnly": false,
+              "selectable": true,
+              "confidence": "low",
+              "evidence": [
+                "arena-3d",
+                "arena-webdev"
+              ],
+              "cost": {
+                "status": "estimated",
+                "unit": "benchmarkTask",
+                "low": 2.3706,
+                "high": 12.9131,
+                "creditsLow": null,
+                "creditsHigh": null,
+                "basis": "claudeListPriceProxy",
+                "derivation": [
+                  "Anchor te83-aa3d-claude-sonnet-5-5-max: 12.91 USD per benchmark task [M, cost derived]",
+                  "x 0.1836 to 1: Cost shape only (ARC-AGI-2 effort steps), not quality evidence.",
+                  "Claude weekly-limit weight: list price used as a flagged proxy; no vendor publishes a per-model weight."
+                ],
+                "unknownReason": null
+              },
+              "note": "Cheapest configuration with direct creative evidence. Thin evidence against Opus 5.5 at low or medium (no rows).",
+              "dimensions": {
+                "originality": {
+                  "status": "partial",
+                  "text": "Arena 3D mixes originality into preference; no separate measure.",
+                  "evidence": [
+                    "arena-3d"
+                  ]
+                },
+                "design": {
+                  "status": "evidence",
+                  "text": "Arena 3D 1817 +/- 16: clearly above what its overall Code Arena level predicts, strongest on games and simulations; 98 below Opus max.",
+                  "evidence": [
+                    "arena-3d"
+                  ]
+                },
+                "gameFeel": {
+                  "status": "partial",
+                  "text": "Arena 3D games are won mostly on UI, HUD and onboarding; no direct game-feel score at this effort.",
+                  "evidence": [
+                    "arena-3d"
+                  ]
+                },
+                "technicalExecution": {
+                  "status": "none",
+                  "text": "No playable rate published at this effort.",
+                  "evidence": []
+                }
+              }
+            },
+            {
+              "id": "creative.claude.sonnet-5-5-xhigh",
+              "model": "claude-sonnet-5-5",
+              "effort": "xhigh",
+              "from": 55,
+              "to": 74,
+              "escalationOnly": false,
+              "selectable": true,
+              "confidence": "low",
+              "evidence": [
+                "arena-3d",
+                "arena-webdev"
+              ],
+              "cost": {
+                "status": "estimated",
+                "unit": "benchmarkTask",
+                "low": 4.6786,
+                "high": 12.9131,
+                "creditsLow": null,
+                "creditsHigh": null,
+                "basis": "claudeListPriceProxy",
+                "derivation": [
+                  "Anchor te83-aa3d-claude-sonnet-5-5-max: 12.91 USD per benchmark task [M, cost derived]",
+                  "x 0.3623 to 1: Cost shape only (ARC-AGI-2 Opus xhigh/max), not quality evidence.",
+                  "Claude weekly-limit weight: list price used as a flagged proxy; no vendor publishes a per-model weight."
+                ],
+                "unknownReason": null
+              },
+              "dimensions": {
+                "originality": {
+                  "status": "partial",
+                  "text": "Mixed into Arena preference.",
+                  "evidence": [
+                    "arena-3d"
+                  ]
+                },
+                "design": {
+                  "status": "evidence",
+                  "text": "Arena 3D 1868 +/- 21, WebDev 1773; 47 below Opus max on 3D.",
+                  "evidence": [
+                    "arena-3d",
+                    "arena-webdev"
+                  ]
+                },
+                "gameFeel": {
+                  "status": "partial",
+                  "text": "Only through Arena 3D preference.",
+                  "evidence": [
+                    "arena-3d"
+                  ]
+                },
+                "technicalExecution": {
+                  "status": "none",
+                  "text": "No playable rate published at this effort.",
+                  "evidence": []
+                }
+              }
+            },
+            {
+              "id": "creative.claude.sonnet-5-5-max",
+              "model": "claude-sonnet-5-5",
+              "effort": "max",
+              "from": 75,
+              "to": 89,
+              "escalationOnly": false,
+              "selectable": true,
+              "confidence": "medium",
+              "evidence": [
+                "aa-3d",
+                "designarena-creative"
+              ],
+              "cost": {
+                "status": "estimated",
+                "unit": "benchmarkTask",
+                "low": 12.9131,
+                "high": 12.9131,
+                "creditsLow": null,
+                "creditsHigh": null,
+                "basis": "claudeListPriceProxy",
+                "derivation": [
+                  "Anchor te83-aa3d-claude-sonnet-5-5-max: 12.91 USD per benchmark task [M, cost derived]",
+                  "Claude weekly-limit weight: list price used as a flagged proxy; no vendor publishes a per-model weight."
+                ],
+                "unknownReason": null
+              },
+              "note": "Same AA-3D quality as Opus 5.5 max at about two thirds of the derived cost per task.",
+              "dimensions": {
+                "originality": {
+                  "status": "partial",
+                  "text": "AA-3D panel preference includes the idea of the scene; no separate score.",
+                  "evidence": [
+                    "aa-3d"
+                  ]
+                },
+                "design": {
+                  "status": "evidence",
+                  "text": "AA-3D 1204 (1176-1232), level with Opus 5.5 max; Design Arena game dev (default effort) level with Opus.",
+                  "evidence": [
+                    "aa-3d",
+                    "designarena-creative"
+                  ]
+                },
+                "gameFeel": {
+                  "status": "evidence",
+                  "text": "AA-3D panelists interact with each scene for at least 30 s before voting.",
+                  "evidence": [
+                    "aa-3d"
+                  ]
+                },
+                "technicalExecution": {
+                  "status": "partial",
+                  "text": "46 of 54 AA-3D Explorer tasks have a Sonnet scene in voting (after AA's run check), the lowest of the Claude 5.5 models; not a playable rate.",
+                  "evidence": [
+                    "aa-3d"
+                  ]
+                }
+              }
+            },
+            {
+              "id": "creative.claude.opus-5-5-max",
+              "model": "claude-opus-5-5",
+              "effort": "max",
+              "from": 90,
+              "to": 100,
+              "escalationOnly": false,
+              "selectable": true,
+              "confidence": "medium",
+              "evidence": [
+                "aa-3d",
+                "arena-3d",
+                "arena-webdev",
+                "designarena-creative"
+              ],
+              "cost": {
+                "status": "estimated",
+                "unit": "benchmarkTask",
+                "low": 19.2293,
+                "high": 19.2293,
+                "creditsLow": null,
+                "creditsHigh": null,
+                "basis": "claudeListPriceProxy",
+                "derivation": [
+                  "Anchor te83-aa3d-claude-opus-5-5-max: 19.23 USD per benchmark task [M, cost derived]",
+                  "Claude weekly-limit weight: list price used as a flagged proxy; no vendor publishes a per-model weight."
+                ],
+                "unknownReason": null
+              },
+              "dimensions": {
+                "originality": {
+                  "status": "partial",
+                  "text": "Mixed into AA-3D and Arena preference.",
+                  "evidence": [
+                    "aa-3d",
+                    "arena-3d"
+                  ]
+                },
+                "design": {
+                  "status": "evidence",
+                  "text": "AA-3D 1202 (level with Sonnet max); Arena 3D 1915 +/- 28 and WebDev 1820, ahead of every Sonnet configuration; Design Arena 3D 1449 vs Sonnet 1395.",
+                  "evidence": [
+                    "aa-3d",
+                    "arena-3d",
+                    "arena-webdev",
+                    "designarena-creative"
+                  ]
+                },
+                "gameFeel": {
+                  "status": "evidence",
+                  "text": "AA-3D interactive judging; Design Arena agentic Three.js game dev rank 1 at high effort.",
+                  "evidence": [
+                    "aa-3d",
+                    "designarena-creative"
+                  ]
+                },
+                "technicalExecution": {
+                  "status": "partial",
+                  "text": "49 of 54 AA-3D Explorer tasks have an Opus scene in voting; not a playable rate.",
+                  "evidence": [
+                    "aa-3d"
+                  ]
+                }
+              }
+            },
+            {
+              "id": "creative.claude.fable-5-2-max",
+              "model": "claude-fable-5-2",
+              "effort": "max",
+              "from": null,
+              "to": null,
+              "escalationOnly": true,
+              "selectable": false,
+              "confidence": "medium",
+              "evidence": [
+                "aa-3d",
+                "arena-3d",
+                "arena-webdev"
+              ],
+              "cost": {
+                "status": "estimated",
+                "unit": "benchmarkTask",
+                "low": 25.4098,
+                "high": 25.4098,
+                "creditsLow": null,
+                "creditsHigh": null,
+                "basis": "claudeListPriceProxy",
+                "derivation": [
+                  "Anchor te83-aa3d-claude-fable-5-2-max: 25.41 USD per benchmark task [M, cost derived]",
+                  "Claude weekly-limit weight: list price used as a flagged proxy; no vendor publishes a per-model weight."
+                ],
+                "unknownReason": null
+              },
+              "note": "Escalation only and not yet cleared for our fleet until fleet compatibility is observed.",
+              "dimensions": {
+                "originality": {
+                  "status": "partial",
+                  "text": "Mixed into preference.",
+                  "evidence": [
+                    "aa-3d"
+                  ]
+                },
+                "design": {
+                  "status": "evidence",
+                  "text": "AA-3D 1271 (1246-1297), ahead of Sonnet and Opus max; Arena 3D 1933 +/- 37 (xhigh).",
+                  "evidence": [
+                    "aa-3d",
+                    "arena-3d"
+                  ]
+                },
+                "gameFeel": {
+                  "status": "evidence",
+                  "text": "AA-3D interactive judging.",
+                  "evidence": [
+                    "aa-3d"
+                  ]
+                },
+                "technicalExecution": {
+                  "status": "partial",
+                  "text": "54 of 54 AA-3D Explorer tasks have a Fable scene in voting; not a playable rate.",
+                  "evidence": [
+                    "aa-3d"
+                  ]
+                }
+              }
+            }
+          ],
+          "picks": [
+            {
+              "from": 0,
+              "to": 54,
+              "rung": "creative.claude.sonnet-5-5-high",
+              "skipped": []
+            },
+            {
+              "from": 55,
+              "to": 74,
+              "rung": "creative.claude.sonnet-5-5-xhigh",
+              "skipped": []
+            },
+            {
+              "from": 75,
+              "to": 89,
+              "rung": "creative.claude.sonnet-5-5-max",
+              "skipped": []
+            },
+            {
+              "from": 90,
+              "to": 100,
+              "rung": "creative.claude.opus-5-5-max",
+              "skipped": []
+            }
+          ],
+          "candidates": [
+            {
+              "model": "claude-opus-5-5",
+              "effort": "low",
+              "evidence": [],
+              "reason": "No creative source has an Opus 5.5 row below max (Design Arena's one effort-named row is high); Sonnet high against Opus low is thin evidence and must not be inferred."
+            },
+            {
+              "model": "claude-haiku-5-5",
+              "effort": "high",
+              "evidence": [
+                "arena-3d"
+              ],
+              "reason": "Arena 3D 1635: does relatively best on games but far below Sonnet; light tier is not allowed in this class."
+            }
+          ]
+        },
+        "codex": {
+          "rungs": [
+            {
+              "id": "creative.codex.gpt-6.1-sol-max",
+              "model": "gpt-6.1-sol",
+              "effort": "max",
+              "from": 0,
+              "to": 100,
+              "escalationOnly": false,
+              "selectable": true,
+              "confidence": "low",
+              "evidence": [
+                "aa-3d",
+                "arena-3d",
+                "arena-webdev",
+                "designarena-creative"
+              ],
+              "cost": {
+                "status": "estimated",
+                "unit": "benchmarkTask",
+                "low": 3.2465,
+                "high": 3.2465,
+                "creditsLow": 81.16,
+                "creditsHigh": 81.16,
+                "basis": "codexCredits",
+                "derivation": [
+                  "Anchor te83-aa3d-gpt-6.1-sol-max: 3.25 USD per benchmark task [M, cost derived]",
+                  "Codex credits = list USD x 25 (Standard credit rate card) [V]"
+                ],
+                "unknownReason": null
+              },
+              "note": "The only selectable OpenAI configuration with creative evidence; no row below max.",
+              "dimensions": {
+                "originality": {
+                  "status": "partial",
+                  "text": "Mixed into preference.",
+                  "evidence": [
+                    "aa-3d"
+                  ]
+                },
+                "design": {
+                  "status": "evidence",
+                  "text": "AA-3D 1121 (about 80 below Sonnet and Opus max); Arena 3D 1802 +/- 18; WebDev 1745.",
+                  "evidence": [
+                    "aa-3d",
+                    "arena-3d",
+                    "arena-webdev"
+                  ]
+                },
+                "gameFeel": {
+                  "status": "evidence",
+                  "text": "AA-3D interactive judging; Design Arena agentic Three.js game dev 1237 against Opus high 1408.",
+                  "evidence": [
+                    "aa-3d",
+                    "designarena-creative"
+                  ]
+                },
+                "technicalExecution": {
+                  "status": "partial",
+                  "text": "52 of 54 AA-3D Explorer tasks have a scene in voting; not a playable rate.",
+                  "evidence": [
+                    "aa-3d"
+                  ]
+                }
+              }
+            },
+            {
+              "id": "creative.codex.gpt-6.2-sol-max",
+              "model": "gpt-6.2-sol",
+              "effort": "max",
+              "from": null,
+              "to": null,
+              "escalationOnly": true,
+              "selectable": false,
+              "confidence": "low",
+              "evidence": [
+                "aa-3d",
+                "arena-3d",
+                "arena-webdev"
+              ],
+              "cost": {
+                "status": "estimated",
+                "unit": "benchmarkTask",
+                "low": 3.4298,
+                "high": 3.4298,
+                "creditsLow": 85.74,
+                "creditsHigh": 85.74,
+                "basis": "codexCredits",
+                "derivation": [
+                  "Anchor te83-aa3d-gpt-6.2-sol-max: 3.43 USD per benchmark task [M, cost derived]",
+                  "Codex credits = list USD x 25 (Standard credit rate card) [V]"
+                ],
+                "unknownReason": null
+              },
+              "note": "Not yet cleared for our fleet until fleet compatibility is observed; at about the same derived cost per task as GPT-6.1 Sol it is the first promotion candidate for this class.",
+              "dimensions": {
+                "originality": {
+                  "status": "partial",
+                  "text": "Mixed into preference.",
+                  "evidence": [
+                    "aa-3d"
+                  ]
+                },
+                "design": {
+                  "status": "evidence",
+                  "text": "AA-3D 1259 (1231-1288), above Sonnet and Opus max; Arena 3D 1869 +/- 29.",
+                  "evidence": [
+                    "aa-3d",
+                    "arena-3d"
+                  ]
+                },
+                "gameFeel": {
+                  "status": "evidence",
+                  "text": "AA-3D interactive judging.",
+                  "evidence": [
+                    "aa-3d"
+                  ]
+                },
+                "technicalExecution": {
+                  "status": "partial",
+                  "text": "54 of 54 AA-3D Explorer tasks have a scene in voting; not a playable rate.",
+                  "evidence": [
+                    "aa-3d"
+                  ]
+                }
+              }
+            },
+            {
+              "id": "creative.codex.gpt-6.2-astra-max",
+              "model": "gpt-6.2-astra",
+              "effort": "max",
+              "from": null,
+              "to": null,
+              "escalationOnly": true,
+              "selectable": false,
+              "confidence": "low",
+              "evidence": [
+                "aa-3d",
+                "arena-3d"
+              ],
+              "cost": {
+                "status": "estimated",
+                "unit": "benchmarkTask",
+                "low": 13.9065,
+                "high": 13.9065,
+                "creditsLow": 347.66,
+                "creditsHigh": 347.66,
+                "basis": "codexCredits",
+                "derivation": [
+                  "Anchor te83-aa3d-gpt-6.2-astra-max: 13.91 USD per benchmark task [M, cost derived]",
+                  "Codex credits = list USD x 25 (Standard credit rate card) [V]"
+                ],
+                "unknownReason": null
+              },
+              "note": "Not yet cleared for our fleet until fleet compatibility is observed.",
+              "dimensions": {
+                "originality": {
+                  "status": "partial",
+                  "text": "Mixed into preference.",
+                  "evidence": [
+                    "aa-3d"
+                  ]
+                },
+                "design": {
+                  "status": "evidence",
+                  "text": "AA-3D 1318, first on the board; Arena 3D 1818 +/- 30.",
+                  "evidence": [
+                    "aa-3d",
+                    "arena-3d"
+                  ]
+                },
+                "gameFeel": {
+                  "status": "evidence",
+                  "text": "AA-3D interactive judging.",
+                  "evidence": [
+                    "aa-3d"
+                  ]
+                },
+                "technicalExecution": {
+                  "status": "none",
+                  "text": "AA-3D coverage counted but not a playable rate; no other source.",
+                  "evidence": []
+                }
+              }
+            }
+          ],
+          "picks": [
+            {
+              "from": 0,
+              "to": 100,
+              "rung": "creative.codex.gpt-6.1-sol-max",
+              "skipped": []
+            }
+          ],
+          "candidates": []
+        }
+      }
+    }
+  ],
+  "conclusions": [
+    {
+      "id": "sonnet-not-cheap-opus-on-coding",
+      "statement": "On coding benchmarks Sonnet 5.5 is not a cheap Opus 5.5: its token volume offsets its 50% token discount (Terminal-Bench 4.1: 22.22 USD per trial against 14.30, about twice the output tokens).",
+      "appliesTo": [
+        "mechanical",
+        "feature-logic",
+        "hard"
+      ],
+      "provisionalFor": [
+        "review-aspect",
+        "review-decision",
+        "research",
+        "orchestrator-chat"
+      ],
+      "doesNotApplyTo": [
+        "ui-visual",
+        "creative"
+      ],
+      "evidence": [
+        "tb41-cost-per-trial"
+      ]
+    },
+    {
+      "id": "sonnet-level-with-opus-on-3d-at-max",
+      "statement": "On interactive 3D scenes Sonnet 5.5 and Opus 5.5 at max are level within the 95% interval (AA-3D 1204 vs 1202), and Sonnet's derived cost per AA-3D task is about two thirds of Opus's. Fable 5.2 is ahead (1271).",
+      "appliesTo": [
+        "creative"
+      ],
+      "provisionalFor": [],
+      "doesNotApplyTo": [
+        "mechanical",
+        "feature-logic",
+        "ui-visual",
+        "hard",
+        "review-aspect",
+        "review-decision",
+        "research",
+        "summary",
+        "orchestrator-chat"
+      ],
+      "evidence": [
+        "aa-3d"
+      ]
+    },
+    {
+      "id": "opus-ahead-on-webdev",
+      "statement": "On WebDev Arena (23 Nov) Opus 5.5 max is about 48 points above Sonnet 5.5 xhigh and about 105 above Sonnet 5.5 high, outside both intervals. The Arena 3D board shows the same order but a smaller gap for Sonnet high (Sonnet high does better on 3D than its overall level predicts).",
+      "appliesTo": [
+        "ui-visual"
+      ],
+      "provisionalFor": [
+        "creative"
+      ],
+      "doesNotApplyTo": [
+        "mechanical",
+        "feature-logic",
+        "hard",
+        "review-aspect",
+        "review-decision",
+        "research",
+        "summary",
+        "orchestrator-chat"
+      ],
+      "evidence": [
+        "arena-webdev",
+        "arena-3d"
+      ]
+    },
+    {
+      "id": "cache-read-price-is-the-lever",
+      "statement": "Fleet agent runs are dominated by cached-input re-reads (gpt-6-sol high: 17.7 B cached-read tokens, about 74% of its list-price cost), so the per-token cache price is the main cost lever: gpt-6.1-sol (cached 0.10) dominates gpt-6-sol (cached 0.20) at the same input and output price.",
+      "appliesTo": [
+        "mechanical",
+        "feature-logic",
+        "ui-visual",
+        "hard",
+        "review-aspect",
+        "review-decision",
+        "research"
+      ],
+      "provisionalFor": [
+        "orchestrator-chat",
+        "summary"
+      ],
+      "doesNotApplyTo": [
+        "creative"
+      ],
+      "evidence": [
+        "fleet-2026-11-17"
+      ]
+    },
+    {
+      "id": "light-models-collapse-on-hard-work",
+      "statement": "Haiku 5.5 and Luna collapse at low and medium effort on hard reasoning (ARC-AGI-2: Haiku 2.8% / 9.4%, Luna 4.6% / 18.1%). They appear only in the mechanical (pure docs/config) and summary classes; the catalogue loader rejects a light-tier rung anywhere else.",
+      "appliesTo": [
+        "mechanical",
+        "feature-logic",
+        "ui-visual",
+        "hard",
+        "review-aspect",
+        "review-decision",
+        "research",
+        "summary",
+        "orchestrator-chat",
+        "creative"
+      ],
+      "provisionalFor": [],
+      "doesNotApplyTo": [],
+      "evidence": [
+        "arc-agi-2-effort-shape"
+      ]
+    },
+    {
+      "id": "preference-arenas-do-not-measure-playability",
+      "statement": "AA-3D excludes scenes that do not run before the vote, so its Elo is preference among valid results and says nothing about how reliably a model produces something playable. Arena counts 'both bad' votes but publishes no per-model failure rate. Technical execution has to be measured on our own creative tasks (playable rate).",
+      "appliesTo": [
+        "creative",
+        "ui-visual"
+      ],
+      "provisionalFor": [],
+      "doesNotApplyTo": [],
+      "evidence": [
+        "aa-3d",
+        "arena-3d"
+      ]
+    }
+  ],
+  "creativeBoards": [
+    {
+      "bench": "aa-3d-v1.0-2026-11-27",
+      "method": "humanPreference",
+      "judged": "Interactive three.js scenes and small games built by an agent from a written brief (55 tasks, 7 domains, 3 h / 250 turns, offline sandbox with Blender, Rapier, headless browser and a CC0 asset library).",
+      "coverage": "Max effort for Claude and OpenAI candidates; Gemini at high or xhigh. No Sonnet 5.5 high or Opus 5.5 low row.",
+      "dimensions": {
+        "originality": "partial",
+        "design": "measured",
+        "gameFeel": "measured",
+        "technicalExecution": "excluded"
+      },
+      "excludesBrokenBuilds": true,
+      "publishesNonRunningShare": false,
+      "publishesCost": "tokensPerTask",
+      "notes": "Panelists must view each scene at least 30 s and can interact with it; votes blind; Bradley-Terry with 95% sandwich intervals. Scenes must load within 60 s in a software-rendered headless browser, keep rendering, show a non-blank image and run offline, then pass a manual review. Cost per task is derived by us from AA's published token counts and prices (cache writes excluded).",
+      "gaps": [
+        "No published share of excluded (non-running) scenes per model. We counted scenes in blind voting from AA's per-task coverage data on 54 of the 55 tasks: Fable 5.2 54, Opus 5.5 49, Sonnet 5.5 46, Haiku 5.5 50, GPT-6.1 Sol 52, GPT-6.2 Sol 54. This proxies valid-scene rate after AA's check; it is not a playable rate.",
+        "No rows below max effort for Claude or OpenAI models, so no ranking for Sonnet 5.5 high against Opus 5.5 low."
+      ],
+      "rows": [
+        "te83-aa3d-gpt-6.2-astra-max",
+        "te83-aa3d-claude-fable-5-2-max",
+        "te83-aa3d-gpt-6.2-sol-max",
+        "te83-aa3d-claude-sonnet-5-5-max",
+        "te83-aa3d-claude-opus-5-5-max",
+        "te83-aa3d-gemini-4-carbon-high",
+        "te83-aa3d-gemini-4-hydrogen-xhigh",
+        "te83-aa3d-gemini-4-argon-high",
+        "te83-aa3d-gpt-6.1-sol-max",
+        "te83-aa3d-gpt-6-luna-max",
+        "te83-aa3d-claude-haiku-5-5-max",
+        "te83-aa3d-gemini-3.8-flash-high"
+      ],
+      "explorer": "https://artificialanalysis.ai/3d/explorer"
+    },
+    {
+      "bench": "arena-code-webdev-2026-11-23",
+      "method": "humanPreference",
+      "judged": "Web applications built from a user's own description; the user compares two anonymous builds and votes A, B, tie or both bad. Combines design, meeting the requirements and interactivity.",
+      "coverage": "Opus 5.5 max, Sonnet 5.5 xhigh and high, Haiku 5.5 high, Fable 5.2 xhigh, GPT-6.1 Sol max, GPT-6.1 Terra max, GPT-6.2 Sol and Astra max, Gemini 4 Carbon high, Hydrogen xhigh, Argon high. No Opus 5.5 below max and no GPT-6.1 Sol below max.",
+      "dimensions": {
+        "originality": "none",
+        "design": "measured",
+        "gameFeel": "partial",
+        "technicalExecution": "partial"
+      },
+      "excludesBrokenBuilds": false,
+      "publishesNonRunningShare": false,
+      "publishesCost": "none",
+      "notes": "Broken builds are not filtered before the vote; voters can pick 'both bad', which folds part of technical execution into the score. Requirement fit is judged by the requester.",
+      "gaps": [
+        "No per-model share of broken builds or 'both bad' votes.",
+        "No cost or tokens per battle."
+      ],
+      "rows": [
+        "te83-webdev-claude-fable-5-2-xhigh",
+        "te83-webdev-claude-opus-5-5-max",
+        "te83-webdev-claude-sonnet-5-5-xhigh",
+        "te83-webdev-gemini-4-carbon-high",
+        "te83-webdev-gpt-6.2-astra-max",
+        "te83-webdev-gpt-6.2-sol-max",
+        "te83-webdev-gpt-6.1-sol-max",
+        "te83-webdev-claude-sonnet-5-5-high",
+        "te83-webdev-gemini-4-hydrogen-xhigh",
+        "te83-webdev-gpt-6.1-terra-max",
+        "te83-webdev-gemini-4-argon-high",
+        "te83-webdev-claude-haiku-5-5-high",
+        "te83-webdev-gpt-6-luna-max"
+      ]
+    },
+    {
+      "bench": "arena-code-webdev-3d-2026-11-23",
+      "method": "humanPreference",
+      "judged": "Code Arena battles whose request explicitly asks for a 3D result (games, worlds, simulations, 3D web apps).",
+      "coverage": "Same configurations as WebDev, including Sonnet 5.5 high (1817 +/- 16) and xhigh (1868 +/- 21) against Opus 5.5 max (1915 +/- 28).",
+      "dimensions": {
+        "originality": "partial",
+        "design": "measured",
+        "gameFeel": "partial",
+        "technicalExecution": "partial"
+      },
+      "excludesBrokenBuilds": false,
+      "publishesNonRunningShare": false,
+      "publishesCost": "none",
+      "notes": "Arena's exploratory analysis says winning builds first have to run and move (a build that drew a 3D scene won 73% against one that did not), then win on visual fidelity and art direction; games are won mostly on UI, HUD and onboarding. Voters rejected both builds in 13% of 3D battles.",
+      "gaps": [
+        "Launch snapshot only; vote counts per model not in the post.",
+        "Gameplay depth and physics were not assessable in Arena's judge analysis."
+      ],
+      "rows": [
+        "te83-arena3d-claude-fable-5-2-xhigh",
+        "te83-arena3d-claude-opus-5-5-max",
+        "te83-arena3d-gpt-6.2-sol-max",
+        "te83-arena3d-claude-sonnet-5-5-xhigh",
+        "te83-arena3d-gemini-4-carbon-high",
+        "te83-arena3d-gpt-6.2-astra-max",
+        "te83-arena3d-claude-sonnet-5-5-high",
+        "te83-arena3d-gpt-6.1-sol-max",
+        "te83-arena3d-gemini-4-hydrogen-xhigh",
+        "te83-arena3d-gpt-6.1-terra-max",
+        "te83-arena3d-gemini-4-argon-high",
+        "te83-arena3d-claude-haiku-5-5-high",
+        "te83-arena3d-gpt-6-luna-max"
+      ]
+    },
+    {
+      "bench": "designarena-3d-design-2026-11-27",
+      "method": "humanPreference",
+      "judged": "Single-shot HTML 3D scenes from user prompts.",
+      "coverage": "Opus 5.5, Sonnet 5.5, Fable 5.2, Haiku 5.5, GPT-6.1 Sol, Terra, GPT-6.2 Sol at the provider default effort (not published).",
+      "dimensions": {
+        "originality": "partial",
+        "design": "measured",
+        "gameFeel": "none",
+        "technicalExecution": "none"
+      },
+      "excludesBrokenBuilds": null,
+      "publishesNonRunningShare": false,
+      "publishesCost": "costPerGeneration",
+      "notes": "Opus 5.5 1449 vs Sonnet 5.5 1395 (+/- one SE 7 and 9); Fable 5.2 1511.",
+      "gaps": [
+        "Effort level not published for unnamed rows.",
+        "No broken-build rule published."
+      ],
+      "rows": [
+        "te83-da-3d-design-claude-fable-5-2-unspecified",
+        "te83-da-3d-design-gpt-6.2-sol-unspecified",
+        "te83-da-3d-design-claude-opus-5-5-unspecified",
+        "te83-da-3d-design-gpt-6.2-astra-unspecified",
+        "te83-da-3d-design-gpt-6.1-sol-unspecified",
+        "te83-da-3d-design-claude-sonnet-5-5-unspecified",
+        "te83-da-3d-design-claude-haiku-5-5-unspecified",
+        "te83-da-3d-design-gpt-6.1-terra-unspecified",
+        "te83-da-3d-design-gpt-6-luna-unspecified"
+      ]
+    },
+    {
+      "bench": "designarena-game-dev-html-2026-11-27",
+      "method": "humanPreference",
+      "judged": "Single-shot playable browser games from user prompts.",
+      "coverage": "Same models at the provider default effort.",
+      "dimensions": {
+        "originality": "partial",
+        "design": "measured",
+        "gameFeel": "measured",
+        "technicalExecution": "partial"
+      },
+      "excludesBrokenBuilds": null,
+      "publishesNonRunningShare": false,
+      "publishesCost": "costPerGeneration",
+      "notes": "Opus 5.5 1438 vs Sonnet 5.5 1427 (one SE about 8): level. Sonnet cost per generation 0.58 USD vs Opus 0.76.",
+      "gaps": [
+        "Effort level not published for unnamed rows.",
+        "No broken-build rule published."
+      ],
+      "rows": [
+        "te83-da-game-dev-html-claude-fable-5-2-unspecified",
+        "te83-da-game-dev-html-gpt-6.2-astra-unspecified",
+        "te83-da-game-dev-html-gpt-6.2-sol-unspecified",
+        "te83-da-game-dev-html-claude-opus-5-5-unspecified",
+        "te83-da-game-dev-html-claude-sonnet-5-5-unspecified",
+        "te83-da-game-dev-html-gpt-6.1-sol-unspecified",
+        "te83-da-game-dev-html-gpt-6.1-terra-unspecified",
+        "te83-da-game-dev-html-claude-haiku-5-5-unspecified",
+        "te83-da-game-dev-html-gpt-6-luna-unspecified"
+      ]
+    },
+    {
+      "bench": "designarena-game-dev-agentic-2026-11-27",
+      "method": "humanPreference",
+      "judged": "Multi-file Three.js games built end to end by coding agents.",
+      "coverage": "Opus 5.5 high (1408, rank 1) and GPT-6.1 Sol max (1237); no Sonnet 5.5 row.",
+      "dimensions": {
+        "originality": "partial",
+        "design": "measured",
+        "gameFeel": "measured",
+        "technicalExecution": "partial"
+      },
+      "excludesBrokenBuilds": null,
+      "publishesNonRunningShare": false,
+      "publishesCost": "costPerGeneration",
+      "notes": "About 370 battles per model; Opus 5.5 high average cost 3.19 USD per build, GPT-6.1 Sol max 1.07.",
+      "gaps": [
+        "No interval published on this board.",
+        "No Sonnet 5.5 row."
+      ],
+      "rows": [
+        "te83-da-game-dev-agentic-claude-opus-5-5-high",
+        "te83-da-game-dev-agentic-gpt-6.1-sol-max"
+      ]
+    },
+    {
+      "bench": "designarena-website-html-2026-11-27",
+      "method": "humanPreference",
+      "judged": "Single-shot websites from user prompts.",
+      "coverage": "Default effort.",
+      "dimensions": {
+        "originality": "partial",
+        "design": "measured",
+        "gameFeel": "none",
+        "technicalExecution": "none"
+      },
+      "excludesBrokenBuilds": null,
+      "publishesNonRunningShare": false,
+      "publishesCost": "costPerGeneration",
+      "notes": "Opus 5.5 1323, GPT-6.1 Sol 1310, Sonnet 5.5 1308: close at default effort.",
+      "gaps": [
+        "No interval on this board."
+      ],
+      "rows": [
+        "te83-da-website-html-claude-fable-5-2-unspecified",
+        "te83-da-website-html-gpt-6.2-astra-unspecified",
+        "te83-da-website-html-claude-opus-5-5-unspecified",
+        "te83-da-website-html-gpt-6.1-sol-unspecified",
+        "te83-da-website-html-claude-sonnet-5-5-unspecified",
+        "te83-da-website-html-gpt-6.1-terra-unspecified",
+        "te83-da-website-html-gpt-6-luna-unspecified",
+        "te83-da-website-html-claude-haiku-5-5-unspecified"
+      ]
+    },
+    {
+      "bench": "designarena-webapps-agentic-2026-11-27",
+      "method": "humanPreference",
+      "judged": "Agent-built frontend web applications.",
+      "coverage": "Default effort.",
+      "dimensions": {
+        "originality": "none",
+        "design": "measured",
+        "gameFeel": "none",
+        "technicalExecution": "partial"
+      },
+      "excludesBrokenBuilds": null,
+      "publishesNonRunningShare": false,
+      "publishesCost": "costPerGeneration",
+      "notes": "Opus 5.5 1311 (3.53 USD per build), Sonnet 5.5 1285 (1.59), GPT-6.1 Sol 1254 (0.63).",
+      "gaps": [
+        "No interval on this board."
+      ],
+      "rows": [
+        "te83-da-webapps-agentic-claude-opus-5-5-unspecified",
+        "te83-da-webapps-agentic-claude-sonnet-5-5-unspecified",
+        "te83-da-webapps-agentic-gpt-6.1-sol-unspecified"
+      ]
+    }
+  ],
+  "ladders": [
+    {
+      "id": "tb41",
+      "bench": "terminal-bench-v4.1-official-native-agents",
+      "per": "trial",
+      "rows": [
+        "te82-tb41-claude-haiku-5-5-max",
+        "te82-tb41-claude-sonnet-5-5-max",
+        "te82-tb41-claude-opus-5-5-max",
+        "te82-tb41-gpt-6-luna-max",
+        "te82-tb41-gpt-6.1-terra-max",
+        "te82-tb41-gpt-6.1-sol-max"
+      ]
+    },
+    {
+      "id": "arc2",
+      "bench": "arc-agi-2-v2-semi-private-2026-11-17",
+      "per": "task",
+      "rows": [
+        "te82-arc2-claude-haiku-5-5-low",
+        "te82-arc2-claude-haiku-5-5-medium",
+        "te82-arc2-claude-haiku-5-5-high",
+        "te82-arc2-claude-haiku-5-5-xhigh",
+        "te82-arc2-claude-sonnet-5-5-low",
+        "te82-arc2-claude-sonnet-5-5-medium",
+        "te82-arc2-claude-sonnet-5-5-high",
+        "te82-arc2-claude-sonnet-5-5-xhigh",
+        "te82-arc2-claude-opus-5-5-low",
+        "te82-arc2-claude-opus-5-5-medium",
+        "te82-arc2-claude-opus-5-5-high",
+        "te82-arc2-claude-opus-5-5-xhigh",
+        "te82-arc2-claude-opus-5-5-max",
+        "te82-arc2-gpt-6-luna-low",
+        "te82-arc2-gpt-6-luna-medium",
+        "te82-arc2-gpt-6-luna-high",
+        "te82-arc2-gpt-6-luna-xhigh",
+        "te82-arc2-gpt-6-luna-max",
+        "te82-arc2-gpt-6.1-sol-low",
+        "te82-arc2-gpt-6.1-sol-medium",
+        "te82-arc2-gpt-6.1-sol-high",
+        "te82-arc2-gpt-6.1-sol-xhigh",
+        "te82-arc2-gpt-6.1-sol-max"
+      ]
+    },
+    {
+      "id": "aa5",
+      "bench": "cost-frontier-aa5",
+      "per": "task",
+      "rows": [
+        "cf-aa5-011",
+        "cf-aa5-012",
+        "cf-aa5-013",
+        "cf-aa5-014",
+        "cf-aa5-015",
+        "cf-aa5-006",
+        "cf-aa5-007",
+        "cf-aa5-008",
+        "cf-aa5-009",
+        "cf-aa5-010",
+        "cf-aa5-001",
+        "cf-aa5-002",
+        "cf-aa5-003",
+        "cf-aa5-004",
+        "cf-aa5-005",
+        "cf-aa5-036",
+        "cf-aa5-037",
+        "cf-aa5-038",
+        "cf-aa5-039",
+        "cf-aa5-040",
+        "cf-aa5-031",
+        "cf-aa5-032",
+        "cf-aa5-033",
+        "cf-aa5-034",
+        "cf-aa5-035",
+        "cf-aa5-026",
+        "cf-aa5-027",
+        "cf-aa5-028",
+        "cf-aa5-029",
+        "cf-aa5-030"
+      ]
+    }
+  ],
+  "fleet": {
+    "cls": "F",
+    "windowStart": "2026-10-20",
+    "windowEnd": "2026-11-17",
+    "days": 28,
+    "population": "Coding tasks whose cost is pure: one model and reasoning level carries at least 95% of the task's list-price cost.",
+    "priceBasis": "List price (USD) at execution time.",
+    "retryTax": 0.026,
+    "totalListUsd": 12500,
+    "codingShare": 0.98,
+    "caveats": [
+      "Levels were not assigned at random: harder tasks tended to get higher levels, so per-level medians mix model effect and task difficulty.",
+      "Medians per accepted task; spend totals are approximate (about 12,500 USD over 28 days, 98% coding runs).",
+      "Retry tax in the window was about 2.6% of spend and is included in the per-task medians.",
+      "First-review counts use the tasks that reached a first review, so their denominator can differ from the task count."
+    ],
+    "record": "https://github.com/agent-orc/token-economy/blob/main/docs/effort-dial.md#fleet-cohort-seeded-f",
+    "rows": [
+      {
+        "id": "fleet-opus-5-5-low",
+        "model": "claude-opus-5-5",
+        "effort": "low",
+        "cards": 16,
+        "accepted": 16,
+        "firstReviewPassed": 16,
+        "firstReviewed": 16,
+        "usdPerAccepted": 1.58,
+        "tokensPerAccepted": 3000000
+      },
+      {
+        "id": "fleet-opus-5-5-medium",
+        "model": "claude-opus-5-5",
+        "effort": "medium",
+        "cards": 51,
+        "accepted": 42,
+        "firstReviewPassed": 50,
+        "firstReviewed": 51,
+        "usdPerAccepted": 4.57,
+        "tokensPerAccepted": 11900000
+      },
+      {
+        "id": "fleet-opus-5-5-high",
+        "model": "claude-opus-5-5",
+        "effort": "high",
+        "cards": 77,
+        "accepted": 75,
+        "firstReviewPassed": 69,
+        "firstReviewed": 76,
+        "usdPerAccepted": 9.65,
+        "tokensPerAccepted": 25500000
+      },
+      {
+        "id": "fleet-gpt-6-sol-medium",
+        "model": "gpt-6-sol",
+        "effort": "medium",
+        "cards": 92,
+        "accepted": 67,
+        "firstReviewPassed": 74,
+        "firstReviewed": 75,
+        "usdPerAccepted": 8.25,
+        "tokensPerAccepted": 36600000
+      },
+      {
+        "id": "fleet-gpt-6-sol-high",
+        "model": "gpt-6-sol",
+        "effort": "high",
+        "cards": 219,
+        "accepted": 199,
+        "firstReviewPassed": 175,
+        "firstReviewed": 205,
+        "usdPerAccepted": 10.80,
+        "tokensPerAccepted": 44900000
+      },
+      {
+        "id": "fleet-gpt-6-sol-xhigh",
+        "model": "gpt-6-sol",
+        "effort": "xhigh",
+        "cards": 16,
+        "accepted": 16,
+        "firstReviewPassed": 12,
+        "firstReviewed": 16,
+        "usdPerAccepted": 14.53,
+        "tokensPerAccepted": 59600000
+      }
+    ],
+    "cacheReads": [
+      {
+        "model": "gpt-6-sol",
+        "effort": "high",
+        "tokens": 17700000000,
+        "share": 0.74,
+        "note": "Whole-window total: cached-input re-reads are about 74% of this model and level's list-price cost."
+      },
+      {
+        "model": "claude-opus-5-5",
+        "effort": "high",
+        "tokens": 7100000000,
+        "share": null,
+        "note": "Whole-window total; the cost share was not reported, so no Opus share is used in repricing."
+      }
+    ]
+  },
+  "costDrivers": {
+    "from": "gpt-6-sol",
+    "to": "gpt-6.1-sol",
+    "cacheShare": 0.74,
+    "cachedTokens": 17700000000,
+    "effort": "high",
+    "factor": 0.630,
+    "anchorUsd": 10.80,
+    "repricedUsd": 6.8040,
+    "aa3dShares": [
+      {
+        "row": "te83-aa3d-claude-fable-5-2-max",
+        "share": 0.257
+      },
+      {
+        "row": "te83-aa3d-gpt-6.2-astra-max",
+        "share": 0.406
+      },
+      {
+        "row": "te83-aa3d-gemini-4-carbon-high",
+        "share": 0.276
+      },
+      {
+        "row": "te83-aa3d-claude-opus-5-5-max",
+        "share": 0.481
+      },
+      {
+        "row": "te83-aa3d-gpt-6.2-sol-max",
+        "share": 0.391
+      },
+      {
+        "row": "te83-aa3d-claude-sonnet-5-5-max",
+        "share": 0.467
+      },
+      {
+        "row": "te83-aa3d-gpt-6.1-sol-max",
+        "share": 0.225
+      },
+      {
+        "row": "te83-aa3d-gemini-4-hydrogen-xhigh",
+        "share": 0.366
+      },
+      {
+        "row": "te83-aa3d-gemini-4-argon-high",
+        "share": 0.255
+      },
+      {
+        "row": "te83-aa3d-claude-haiku-5-5-max",
+        "share": 0.428
+      },
+      {
+        "row": "te83-aa3d-gemini-3.8-flash-high",
+        "share": 0.547
+      },
+      {
+        "row": "te83-aa3d-gpt-6-luna-max",
+        "share": 0.513
+      }
+    ],
+    "credits": [
+      {
+        "model": "gpt-6.2-astra",
+        "input": 200,
+        "cacheRead": 10,
+        "output": 1000,
+        "url": "https://learn.chatgpt.com/docs/pricing",
+        "retrieved": "2026-11-17",
+        "cls": "V"
+      },
+      {
+        "model": "gpt-6.2-sol",
+        "input": 50,
+        "cacheRead": 2.5,
+        "output": 250,
+        "url": "https://learn.chatgpt.com/docs/pricing",
+        "retrieved": "2026-11-17",
+        "cls": "V"
+      },
+      {
+        "model": "gpt-6.1-sol",
+        "input": 50,
+        "cacheRead": 2.5,
+        "output": 250,
+        "url": "https://learn.chatgpt.com/docs/pricing",
+        "retrieved": "2026-11-17",
+        "cls": "V"
+      },
+      {
+        "model": "gpt-6.1-terra",
+        "input": 25,
+        "cacheRead": 1.25,
+        "output": 125,
+        "url": "https://learn.chatgpt.com/docs/pricing",
+        "retrieved": "2026-11-17",
+        "cls": "V"
+      },
+      {
+        "model": "gpt-6-sol",
+        "input": 50,
+        "cacheRead": 5,
+        "output": 250,
+        "url": "https://learn.chatgpt.com/docs/pricing",
+        "retrieved": "2026-11-17",
+        "cls": "V"
+      },
+      {
+        "model": "gpt-6-luna",
+        "input": 2.5,
+        "cacheRead": 0.25,
+        "output": 12.5,
+        "url": "https://learn.chatgpt.com/docs/pricing",
+        "retrieved": "2026-11-17",
+        "cls": "V"
+      }
+    ]
+  },
+  "subscriptions": {
+    "statements": [
+      {
+        "lab": "anthropic",
+        "cli": "claude-code",
+        "quote": "Weekly limits apply across all models",
+        "meaning": "Model, effort and context affect shared usage across Claude surfaces. No vendor publishes a per-model weight for the Claude weekly limit.",
+        "url": "https://support.claude.com/en/articles/11647753",
+        "retrieved": "2026-11-17",
+        "cls": "V"
+      },
+      {
+        "lab": "anthropic",
+        "cli": "claude-code",
+        "quote": "separate weekly limit for Fable",
+        "meaning": "Max/Ultra have a separate weekly Fable cap; Claude and Claude Code share limits.",
+        "url": "https://support.claude.com/en/articles/11145838",
+        "retrieved": "2026-11-17",
+        "cls": "V"
+      },
+      {
+        "lab": "anthropic",
+        "cli": "claude-code",
+        "quote": "up to 50% of your weekly usage limits",
+        "meaning": "Max/Ultra and eligible premium seats may spend up to half the weekly allowance on Fable; Pro/standard seats use credits. Prior Fable 5-only promotion ended July 19 and did not include 5.1/5.2.",
+        "url": "https://support.claude.com/en/articles/15424964",
+        "retrieved": "2026-11-17",
+        "cls": "V"
+      },
+      {
+        "lab": "anthropic",
+        "cli": "claude-code",
+        "quote": "Opus costs several times more per turn than Sonnet, and Sonnet more than Haiku",
+        "meaning": "Qualitative per-turn statement, not a numeric quota weight; workload and token volume matter.",
+        "url": "https://support.claude.com/en/articles/14552983",
+        "retrieved": "2026-11-17",
+        "cls": "V"
+      },
+      {
+        "lab": "anthropic",
+        "cli": "claude-code",
+        "quote": "The Opus and Sonnet limits each apply only to requests to that model family",
+        "meaning": "Family caps are separate from shared session/weekly caps; switching families does not restore exhausted shared allowance.",
+        "url": "https://code.claude.com/docs/en/errors",
+        "retrieved": "2026-11-17",
+        "cls": "V"
+      },
+      {
+        "lab": "openai",
+        "cli": "codex",
+        "quote": "Pro plans currently have no five-hour limit",
+        "meaning": "Model choice, context, effort, tools and caching affect included usage. Ultrafast eligible 6.2 purchased-credit/Enterprise PAYG overages are 3x through 2027-02-28, then 6x from 2027-03-01 Pacific; included Ultrafast stays 6x.",
+        "url": "https://learn.chatgpt.com/docs/pricing",
+        "retrieved": "2026-11-17",
+        "cls": "V"
+      }
+    ],
+    "messages": [
+      {
+        "model": "gpt-6.2-astra",
+        "plan": "openai-plus",
+        "window": "five-hour",
+        "min": 6,
+        "max": 50,
+        "url": "https://learn.chatgpt.com/docs/pricing",
+        "retrieved": "2026-11-17",
+        "cls": "V"
+      },
+      {
+        "model": "gpt-6.2-sol",
+        "plan": "openai-plus",
+        "window": "five-hour",
+        "min": 17,
+        "max": 180,
+        "url": "https://learn.chatgpt.com/docs/pricing",
+        "retrieved": "2026-11-17",
+        "cls": "V"
+      },
+      {
+        "model": "gpt-6.1-sol",
+        "plan": "openai-plus",
+        "window": "five-hour",
+        "min": 15,
+        "max": 160,
+        "url": "https://learn.chatgpt.com/docs/pricing",
+        "retrieved": "2026-11-17",
+        "cls": "V"
+      },
+      {
+        "model": "gpt-6.1-terra",
+        "plan": "openai-plus",
+        "window": "five-hour",
+        "min": 35,
+        "max": 285,
+        "url": "https://learn.chatgpt.com/docs/pricing",
+        "retrieved": "2026-11-17",
+        "cls": "V"
+      },
+      {
+        "model": "gpt-6-luna",
+        "plan": "openai-plus",
+        "window": "five-hour",
+        "min": 350,
+        "max": 3000,
+        "url": "https://learn.chatgpt.com/docs/pricing",
+        "retrieved": "2026-11-17",
+        "cls": "V"
+      }
+    ]
+  },
+  "evidence": {
+    "fleet-2026-11-17": {
+      "cls": "F",
+      "scope": "fleet",
+      "title": "28-day pure-level coding cohort",
+      "date": "2026-11-17",
+      "note": "Best measured value per accepted task; see the cohort caveats.",
+      "links": [
+        {
+          "label": "Fleet cohort record",
+          "url": "https://github.com/agent-orc/token-economy/blob/main/docs/effort-dial.md#fleet-cohort-seeded-f"
+        }
+      ],
+      "rows": []
+    },
+    "tb41-cost-per-trial": {
+      "cls": "M",
+      "scope": "coding",
+      "title": "Terminal-Bench 4.1 accuracy and USD per trial",
+      "date": "2026-11-20",
+      "note": "Coding evidence. Sonnet 5.5 costs 22.22 USD per trial against Opus 5.5 14.30 at max; Fable 5.2 costs about 3.5x Opus per trial at equal accuracy.",
+      "links": [
+        {
+          "label": "Terminal-Bench 4.1 / official native-agent leaderboard",
+          "url": "https://www.tbench.ai/leaderboard"
+        }
+      ],
+      "rows": [
+        "te82-tb41-claude-fable-5-2-max",
+        "te82-tb41-claude-opus-5-5-max",
+        "te82-tb41-claude-sonnet-5-5-max",
+        "te82-tb41-claude-haiku-5-5-max",
+        "te82-tb41-gpt-6.1-sol-max",
+        "te82-tb41-gpt-6.1-terra-max",
+        "te82-tb41-gpt-6-luna-max",
+        "te82-tb41-gpt-6.2-astra-max"
+      ]
+    },
+    "arc-agi-2-effort-shape": {
+      "cls": "M",
+      "scope": "reasoningShape",
+      "title": "ARC-AGI-2 semi-private effort ladders",
+      "date": "2026-11-17",
+      "note": "Reasoning effort-ladder shape and cost per task only, never coding or creative quality. Haiku 5.5 low/medium 2.8% / 9.4%, Luna low/medium 4.6% / 18.1%.",
+      "links": [
+        {
+          "label": "ARC-AGI-2 Semi-Private",
+          "url": "https://arcprize.org/media/data/evaluations.json"
+        }
+      ],
+      "rows": [
+        "te82-arc2-claude-opus-5-5-low",
+        "te82-arc2-claude-opus-5-5-high",
+        "te82-arc2-claude-opus-5-5-xhigh",
+        "te82-arc2-claude-opus-5-5-max",
+        "te82-arc2-claude-sonnet-5-5-high",
+        "te82-arc2-claude-sonnet-5-5-xhigh",
+        "te82-arc2-claude-haiku-5-5-low",
+        "te82-arc2-claude-haiku-5-5-medium",
+        "te82-arc2-claude-fable-5-2-high",
+        "te82-arc2-gpt-6.1-sol-low",
+        "te82-arc2-gpt-6.1-sol-medium",
+        "te82-arc2-gpt-6.1-sol-xhigh",
+        "te82-arc2-gpt-6.1-sol-max",
+        "te82-arc2-gpt-6-luna-low",
+        "te82-arc2-gpt-6-luna-medium",
+        "te82-arc2-gpt-6.2-astra-high"
+      ]
+    },
+    "codex-credit-rate-cards": {
+      "cls": "V",
+      "scope": "credits",
+      "title": "Codex Standard credit rate cards, retrieved 2026-11-17",
+      "date": "2026-11-17",
+      "note": "Credits per MTok equal the API list price times 25 for every component.",
+      "links": [
+        {
+          "label": "OpenAI Codex pricing",
+          "url": "https://learn.chatgpt.com/docs/pricing"
+        }
+      ],
+      "rows": []
+    },
+    "openai-luna-guidance": {
+      "cls": "V",
+      "scope": "vendor",
+      "title": "OpenAI Codex model guide: Luna for clear, repeatable tasks",
+      "date": "2026-11-27",
+      "note": "Quote: 'Choose Luna for specific, high-volume tasks when you know what a good result looks like, such as extraction, classification, transformation, and structured summaries.'",
+      "links": [
+        {
+          "label": "OpenAI Codex model guide",
+          "url": "https://learn.chatgpt.com/docs/models"
+        }
+      ],
+      "rows": []
+    },
+    "aa-3d": {
+      "cls": "M",
+      "scope": "creative",
+      "title": "AA-3D v1.0 (Artificial Analysis), max-effort rows",
+      "date": "2026-11-27",
+      "note": "Human preference among scenes that passed a run check; no row below max for Claude or OpenAI candidates.",
+      "links": [
+        {
+          "label": "AA-3D: Interactive 3D Experience Benchmark",
+          "url": "https://artificialanalysis.ai/evaluations/aa-3d"
+        }
+      ],
+      "rows": [
+        "te83-aa3d-claude-fable-5-2-max",
+        "te83-aa3d-claude-sonnet-5-5-max",
+        "te83-aa3d-claude-opus-5-5-max",
+        "te83-aa3d-claude-haiku-5-5-max",
+        "te83-aa3d-gpt-6.1-sol-max",
+        "te83-aa3d-gpt-6.2-sol-max",
+        "te83-aa3d-gpt-6.2-astra-max",
+        "te83-aa3d-gpt-6-luna-max"
+      ]
+    },
+    "arena-webdev": {
+      "cls": "M",
+      "scope": "creative",
+      "title": "Arena Code Arena WebDev, 2026-11-23 snapshot",
+      "date": "2026-11-27",
+      "note": "Main source for UI work judged on visual quality; second source for creative work.",
+      "links": [
+        {
+          "label": "Arena Code Arena: WebDev (WebDev Arena)",
+          "url": "https://huggingface.co/datasets/lmarena-ai/leaderboard-dataset"
+        }
+      ],
+      "rows": [
+        "te83-webdev-claude-fable-5-2-xhigh",
+        "te83-webdev-claude-opus-5-5-max",
+        "te83-webdev-claude-sonnet-5-5-xhigh",
+        "te83-webdev-claude-sonnet-5-5-high",
+        "te83-webdev-claude-haiku-5-5-high",
+        "te83-webdev-gpt-6.1-sol-max",
+        "te83-webdev-gpt-6.1-terra-max",
+        "te83-webdev-gpt-6.2-sol-max"
+      ]
+    },
+    "arena-3d": {
+      "cls": "M",
+      "scope": "creative",
+      "title": "Arena 3D leaderboard launch snapshot, 2026-11-23",
+      "date": "2026-11-27",
+      "note": "The only source with a Sonnet 5.5 high row on 3D work.",
+      "links": [
+        {
+          "label": "Arena 3D leaderboard (Code Arena battles requesting a 3D result)",
+          "url": "https://arena.ai/blog/introducing-the-arena-3d-leaderboard"
+        }
+      ],
+      "rows": [
+        "te83-arena3d-claude-fable-5-2-xhigh",
+        "te83-arena3d-claude-opus-5-5-max",
+        "te83-arena3d-claude-sonnet-5-5-xhigh",
+        "te83-arena3d-claude-sonnet-5-5-high",
+        "te83-arena3d-claude-haiku-5-5-high",
+        "te83-arena3d-gpt-6.1-sol-max",
+        "te83-arena3d-gpt-6.1-terra-max",
+        "te83-arena3d-gpt-6.2-sol-max"
+      ]
+    },
+    "designarena-creative": {
+      "cls": "M",
+      "scope": "creative",
+      "title": "Design Arena 3D and game boards, updated 2026-11-27",
+      "date": "2026-11-27",
+      "note": "Rows mostly at the provider's unpublished default effort; publishes average cost per generation.",
+      "links": [
+        {
+          "label": "Design Arena: 3D Design (HTML, non-agentic)",
+          "url": "https://designarena.ai/leaderboard?section=3d&board=3d-design"
+        },
+        {
+          "label": "Design Arena: Game Dev (HTML, non-agentic)",
+          "url": "https://designarena.ai/leaderboard?section=game-dev&board=game-dev"
+        },
+        {
+          "label": "Design Arena: Agentic Game Dev (Three.js)",
+          "url": "https://designarena.ai/leaderboard?section=game-dev&board=agentic-game-dev"
+        }
+      ],
+      "rows": [
+        "te83-da-3d-design-claude-opus-5-5-unspecified",
+        "te83-da-3d-design-claude-sonnet-5-5-unspecified",
+        "te83-da-game-dev-html-claude-opus-5-5-unspecified",
+        "te83-da-game-dev-html-claude-sonnet-5-5-unspecified",
+        "te83-da-game-dev-agentic-claude-opus-5-5-high",
+        "te83-da-game-dev-agentic-gpt-6.1-sol-max",
+        "te83-da-3d-design-gpt-6.1-sol-unspecified",
+        "te83-da-game-dev-html-gpt-6.1-sol-unspecified"
+      ]
+    },
+    "designarena-web": {
+      "cls": "M",
+      "scope": "creative",
+      "title": "Design Arena website and agentic web-app boards, updated 2026-11-27",
+      "date": "2026-11-27",
+      "note": "Default effort; Opus ahead of Sonnet on agentic web apps (1311 vs 1285) at about 2.2x the cost per build.",
+      "links": [
+        {
+          "label": "Design Arena: Website (HTML, non-agentic)",
+          "url": "https://designarena.ai/leaderboard?section=website&board=website"
+        },
+        {
+          "label": "Design Arena: Agentic Web Apps (frontend)",
+          "url": "https://designarena.ai/leaderboard?section=website&board=webapps"
+        }
+      ],
+      "rows": [
+        "te83-da-website-html-claude-opus-5-5-unspecified",
+        "te83-da-website-html-claude-sonnet-5-5-unspecified",
+        "te83-da-webapps-agentic-claude-opus-5-5-unspecified",
+        "te83-da-webapps-agentic-claude-sonnet-5-5-unspecified",
+        "te83-da-webapps-agentic-gpt-6.1-sol-unspecified"
+      ]
+    }
+  },
+  "benchmarks": {
+    "aa-3d-v1.0-2026-11-27": {
+      "name": "AA-3D: Interactive 3D Experience Benchmark",
+      "version": "v1.0 / 2026-11-27 snapshot",
+      "publisher": "Artificial Analysis",
+      "unit": "Elo (Bradley-Terry, GPT-6 Luna Max anchored at 1000)",
+      "methodology": "https://artificialanalysis.ai/methodology/aa-3d",
+      "date": "2026-11-27"
+    },
+    "arc-agi-2-v2-semi-private-2026-11-17": {
+      "name": "ARC-AGI-2 Semi-Private",
+      "version": "v2_Semi_Private / 2026-11-17 snapshot",
+      "publisher": "Mixed reporters",
+      "unit": "% solved",
+      "methodology": "https://arcprize.org/arc-agi/2",
+      "date": "2026-11-17"
+    },
+    "arena-code-webdev-2026-11-23": {
+      "name": "Arena Code Arena: WebDev (WebDev Arena)",
+      "version": "Code Arena WebDev, leaderboard_publish_date 2026-11-23",
+      "publisher": "Arena (arena.ai)",
+      "unit": "Arena score (Bradley-Terry)",
+      "methodology": "https://arena.ai/blog/webdev-arena",
+      "date": "2026-11-23"
+    },
+    "arena-code-webdev-3d-2026-11-23": {
+      "name": "Arena 3D leaderboard (Code Arena battles requesting a 3D result)",
+      "version": "Arena 3D launch snapshot 2026-11-23",
+      "publisher": "Arena (arena.ai)",
+      "unit": "Arena score (Bradley-Terry)",
+      "methodology": "https://arena.ai/blog/introducing-the-arena-3d-leaderboard",
+      "date": "2026-11-24"
+    },
+    "cost-frontier-aa5": {
+      "name": "AA Intelligence Index v5",
+      "version": "AA Intelligence Index v5",
+      "publisher": "Benchmark owner",
+      "unit": "index points",
+      "methodology": "https://artificialanalysis.ai/methodology/intelligence-benchmarking",
+      "date": "2026-10-28"
+    },
+    "designarena-3d-design-2026-11-27": {
+      "name": "Design Arena: 3D Design (HTML, non-agentic)",
+      "version": "3D Design (HTML, non-agentic), updated 2026-11-27",
+      "publisher": "Intelligence (Design Arena)",
+      "unit": "Elo (Bradley-Terry, starts at 1200)",
+      "methodology": "https://designarena.ai/methodology",
+      "date": "2026-11-27"
+    },
+    "designarena-game-dev-agentic-2026-11-27": {
+      "name": "Design Arena: Agentic Game Dev (Three.js)",
+      "version": "Game Dev (Three.js, agentic), updated 2026-11-27",
+      "publisher": "Intelligence (Design Arena)",
+      "unit": "Elo (Bradley-Terry, starts at 1200)",
+      "methodology": "https://designarena.ai/methodology",
+      "date": "2026-11-27"
+    },
+    "designarena-game-dev-html-2026-11-27": {
+      "name": "Design Arena: Game Dev (HTML, non-agentic)",
+      "version": "Game Dev (HTML, non-agentic), updated 2026-11-27",
+      "publisher": "Intelligence (Design Arena)",
+      "unit": "Elo (Bradley-Terry, starts at 1200)",
+      "methodology": "https://designarena.ai/methodology",
+      "date": "2026-11-27"
+    },
+    "designarena-webapps-agentic-2026-11-27": {
+      "name": "Design Arena: Agentic Web Apps (frontend)",
+      "version": "Website (Frontend, agentic), updated 2026-11-27",
+      "publisher": "Intelligence (Design Arena)",
+      "unit": "Elo (Bradley-Terry, starts at 1200)",
+      "methodology": "https://designarena.ai/methodology",
+      "date": "2026-11-27"
+    },
+    "designarena-website-html-2026-11-27": {
+      "name": "Design Arena: Website (HTML, non-agentic)",
+      "version": "Website (HTML, non-agentic), updated 2026-11-27",
+      "publisher": "Intelligence (Design Arena)",
+      "unit": "Elo (Bradley-Terry, starts at 1200)",
+      "methodology": "https://designarena.ai/methodology",
+      "date": "2026-11-27"
+    },
+    "terminal-bench-v4.1-official-native-agents": {
+      "name": "Terminal-Bench 4.1 / official native-agent leaderboard",
+      "version": "4.1",
+      "publisher": "Terminal-Bench",
+      "unit": "% resolved",
+      "methodology": "https://www.tbench.ai/",
+      "date": "2026-11-17"
+    }
+  },
+  "rows": {
+    "cf-aa5-001": {
+      "bench": "cost-frontier-aa5",
+      "model": "claude-opus-5-5",
+      "effort": "low",
+      "score": 35,
+      "cls": "M",
+      "url": "https://artificialanalysis.ai/leaderboards/models",
+      "published": "2026-10-28",
+      "retrieved": "2026-11-01",
+      "cost": 0.98,
+      "costKind": "measured"
+    },
+    "cf-aa5-002": {
+      "bench": "cost-frontier-aa5",
+      "model": "claude-opus-5-5",
+      "effort": "medium",
+      "score": 48,
+      "cls": "M",
+      "url": "https://artificialanalysis.ai/leaderboards/models",
+      "published": "2026-10-28",
+      "retrieved": "2026-11-01",
+      "cost": 2.45,
+      "costKind": "measured"
+    },
+    "cf-aa5-003": {
+      "bench": "cost-frontier-aa5",
+      "model": "claude-opus-5-5",
+      "effort": "high",
+      "score": 52,
+      "cls": "M",
+      "url": "https://artificialanalysis.ai/leaderboards/models",
+      "published": "2026-10-28",
+      "retrieved": "2026-11-01",
+      "cost": 3.46,
+      "costKind": "measured"
+    },
+    "cf-aa5-004": {
+      "bench": "cost-frontier-aa5",
+      "model": "claude-opus-5-5",
+      "effort": "xhigh",
+      "score": 57,
+      "cls": "M",
+      "url": "https://artificialanalysis.ai/leaderboards/models",
+      "published": "2026-10-28",
+      "retrieved": "2026-11-01",
+      "cost": 6.05,
+      "costKind": "measured"
+    },
+    "cf-aa5-005": {
+      "bench": "cost-frontier-aa5",
+      "model": "claude-opus-5-5",
+      "effort": "max",
+      "score": 58,
+      "cls": "M",
+      "url": "https://artificialanalysis.ai/leaderboards/models",
+      "published": "2026-10-28",
+      "retrieved": "2026-11-01",
+      "cost": 10.04,
+      "costKind": "measured"
+    },
+    "cf-aa5-006": {
+      "bench": "cost-frontier-aa5",
+      "model": "claude-sonnet-5-5",
+      "effort": "low",
+      "score": 25,
+      "cls": "M",
+      "url": "https://artificialanalysis.ai/leaderboards/models",
+      "published": "2026-10-28",
+      "retrieved": "2026-11-01",
+      "cost": 0.51,
+      "costKind": "measured"
+    },
+    "cf-aa5-007": {
+      "bench": "cost-frontier-aa5",
+      "model": "claude-sonnet-5-5",
+      "effort": "medium",
+      "score": 30,
+      "cls": "M",
+      "url": "https://artificialanalysis.ai/leaderboards/models",
+      "published": "2026-10-28",
+      "retrieved": "2026-11-01",
+      "cost": 0.78,
+      "costKind": "measured"
+    },
+    "cf-aa5-008": {
+      "bench": "cost-frontier-aa5",
+      "model": "claude-sonnet-5-5",
+      "effort": "high",
+      "score": 41,
+      "cls": "M",
+      "url": "https://artificialanalysis.ai/leaderboards/models",
+      "published": "2026-10-28",
+      "retrieved": "2026-11-01",
+      "cost": 1.64,
+      "costKind": "measured"
+    },
+    "cf-aa5-009": {
+      "bench": "cost-frontier-aa5",
+      "model": "claude-sonnet-5-5",
+      "effort": "xhigh",
+      "score": 50,
+      "cls": "M",
+      "url": "https://artificialanalysis.ai/leaderboards/models",
+      "published": "2026-10-28",
+      "retrieved": "2026-11-01",
+      "cost": 4.09,
+      "costKind": "measured"
+    },
+    "cf-aa5-010": {
+      "bench": "cost-frontier-aa5",
+      "model": "claude-sonnet-5-5",
+      "effort": "max",
+      "score": 54,
+      "cls": "M",
+      "url": "https://artificialanalysis.ai/leaderboards/models",
+      "published": "2026-10-28",
+      "retrieved": "2026-11-01",
+      "cost": 10.02,
+      "costKind": "measured"
+    },
+    "cf-aa5-011": {
+      "bench": "cost-frontier-aa5",
+      "model": "claude-haiku-5-5",
+      "effort": "low",
+      "score": 19,
+      "cls": "M",
+      "url": "https://artificialanalysis.ai/leaderboards/models",
+      "published": "2026-10-28",
+      "retrieved": "2026-11-01",
+      "cost": 0.04,
+      "costKind": "measured"
+    },
+    "cf-aa5-012": {
+      "bench": "cost-frontier-aa5",
+      "model": "claude-haiku-5-5",
+      "effort": "medium",
+      "score": 25,
+      "cls": "M",
+      "url": "https://artificialanalysis.ai/leaderboards/models",
+      "published": "2026-10-28",
+      "retrieved": "2026-11-01",
+      "cost": 0.09,
+      "costKind": "measured"
+    },
+    "cf-aa5-013": {
+      "bench": "cost-frontier-aa5",
+      "model": "claude-haiku-5-5",
+      "effort": "high",
+      "score": 30,
+      "cls": "M",
+      "url": "https://artificialanalysis.ai/leaderboards/models",
+      "published": "2026-10-28",
+      "retrieved": "2026-11-01",
+      "cost": 0.16,
+      "costKind": "measured"
+    },
+    "cf-aa5-014": {
+      "bench": "cost-frontier-aa5",
+      "model": "claude-haiku-5-5",
+      "effort": "xhigh",
+      "score": 34,
+      "cls": "M",
+      "url": "https://artificialanalysis.ai/leaderboards/models",
+      "published": "2026-10-28",
+      "retrieved": "2026-11-01",
+      "cost": 0.25,
+      "costKind": "measured"
+    },
+    "cf-aa5-015": {
+      "bench": "cost-frontier-aa5",
+      "model": "claude-haiku-5-5",
+      "effort": "max",
+      "score": 36,
+      "cls": "M",
+      "url": "https://artificialanalysis.ai/leaderboards/models",
+      "published": "2026-10-28",
+      "retrieved": "2026-11-01",
+      "cost": 0.41,
+      "costKind": "measured"
+    },
+    "cf-aa5-026": {
+      "bench": "cost-frontier-aa5",
+      "model": "gpt-6.1-sol",
+      "effort": "low",
+      "score": 35,
+      "cls": "M",
+      "url": "https://artificialanalysis.ai/leaderboards/models",
+      "published": "2026-10-28",
+      "retrieved": "2026-11-01",
+      "cost": 0.16,
+      "costKind": "measured"
+    },
+    "cf-aa5-027": {
+      "bench": "cost-frontier-aa5",
+      "model": "gpt-6.1-sol",
+      "effort": "medium",
+      "score": 46,
+      "cls": "M",
+      "url": "https://artificialanalysis.ai/leaderboards/models",
+      "published": "2026-10-28",
+      "retrieved": "2026-11-01",
+      "cost": 0.36,
+      "costKind": "measured"
+    },
+    "cf-aa5-028": {
+      "bench": "cost-frontier-aa5",
+      "model": "gpt-6.1-sol",
+      "effort": "high",
+      "score": 50,
+      "cls": "M",
+      "url": "https://artificialanalysis.ai/leaderboards/models",
+      "published": "2026-10-28",
+      "retrieved": "2026-11-01",
+      "cost": 0.59,
+      "costKind": "measured"
+    },
+    "cf-aa5-029": {
+      "bench": "cost-frontier-aa5",
+      "model": "gpt-6.1-sol",
+      "effort": "xhigh",
+      "score": 52,
+      "cls": "M",
+      "url": "https://artificialanalysis.ai/leaderboards/models",
+      "published": "2026-10-28",
+      "retrieved": "2026-11-01",
+      "cost": 0.76,
+      "costKind": "measured"
+    },
+    "cf-aa5-030": {
+      "bench": "cost-frontier-aa5",
+      "model": "gpt-6.1-sol",
+      "effort": "max",
+      "score": 55,
+      "cls": "M",
+      "url": "https://artificialanalysis.ai/leaderboards/models",
+      "published": "2026-10-28",
+      "retrieved": "2026-11-01",
+      "cost": 1.27,
+      "costKind": "measured"
+    },
+    "cf-aa5-031": {
+      "bench": "cost-frontier-aa5",
+      "model": "gpt-6.1-terra",
+      "effort": "low",
+      "score": 29,
+      "cls": "M",
+      "url": "https://artificialanalysis.ai/leaderboards/models",
+      "published": "2026-10-28",
+      "retrieved": "2026-11-01",
+      "cost": 0.07,
+      "costKind": "measured"
+    },
+    "cf-aa5-032": {
+      "bench": "cost-frontier-aa5",
+      "model": "gpt-6.1-terra",
+      "effort": "medium",
+      "score": 38,
+      "cls": "M",
+      "url": "https://artificialanalysis.ai/leaderboards/models",
+      "published": "2026-10-28",
+      "retrieved": "2026-11-01",
+      "cost": 0.17,
+      "costKind": "measured"
+    },
+    "cf-aa5-033": {
+      "bench": "cost-frontier-aa5",
+      "model": "gpt-6.1-terra",
+      "effort": "high",
+      "score": 42,
+      "cls": "M",
+      "url": "https://artificialanalysis.ai/leaderboards/models",
+      "published": "2026-10-28",
+      "retrieved": "2026-11-01",
+      "cost": 0.26,
+      "costKind": "measured"
+    },
+    "cf-aa5-034": {
+      "bench": "cost-frontier-aa5",
+      "model": "gpt-6.1-terra",
+      "effort": "xhigh",
+      "score": 45,
+      "cls": "M",
+      "url": "https://artificialanalysis.ai/leaderboards/models",
+      "published": "2026-10-28",
+      "retrieved": "2026-11-01",
+      "cost": 0.4,
+      "costKind": "measured"
+    },
+    "cf-aa5-035": {
+      "bench": "cost-frontier-aa5",
+      "model": "gpt-6.1-terra",
+      "effort": "max",
+      "score": 51,
+      "cls": "M",
+      "url": "https://artificialanalysis.ai/leaderboards/models",
+      "published": "2026-10-28",
+      "retrieved": "2026-11-01",
+      "cost": 0.96,
+      "costKind": "measured"
+    },
+    "cf-aa5-036": {
+      "bench": "cost-frontier-aa5",
+      "model": "gpt-6-luna",
+      "effort": "low",
+      "score": 10,
+      "cls": "M",
+      "url": "https://artificialanalysis.ai/leaderboards/models",
+      "published": "2026-10-28",
+      "retrieved": "2026-11-01",
+      "cost": 0.01,
+      "costKind": "measured"
+    },
+    "cf-aa5-037": {
+      "bench": "cost-frontier-aa5",
+      "model": "gpt-6-luna",
+      "effort": "medium",
+      "score": 18,
+      "cls": "M",
+      "url": "https://artificialanalysis.ai/leaderboards/models",
+      "published": "2026-10-28",
+      "retrieved": "2026-11-01",
+      "cost": 0.04,
+      "costKind": "measured"
+    },
+    "cf-aa5-038": {
+      "bench": "cost-frontier-aa5",
+      "model": "gpt-6-luna",
+      "effort": "high",
+      "score": 21,
+      "cls": "M",
+      "url": "https://artificialanalysis.ai/leaderboards/models",
+      "published": "2026-10-28",
+      "retrieved": "2026-11-01",
+      "cost": 0.07,
+      "costKind": "measured"
+    },
+    "cf-aa5-039": {
+      "bench": "cost-frontier-aa5",
+      "model": "gpt-6-luna",
+      "effort": "xhigh",
+      "score": 23,
+      "cls": "M",
+      "url": "https://artificialanalysis.ai/leaderboards/models",
+      "published": "2026-10-28",
+      "retrieved": "2026-11-01",
+      "cost": 0.1,
+      "costKind": "measured"
+    },
+    "cf-aa5-040": {
+      "bench": "cost-frontier-aa5",
+      "model": "gpt-6-luna",
+      "effort": "max",
+      "score": 28,
+      "cls": "M",
+      "url": "https://artificialanalysis.ai/leaderboards/models",
+      "published": "2026-10-28",
+      "retrieved": "2026-11-01",
+      "cost": 0.15,
+      "costKind": "measured"
+    },
+    "te82-arc2-claude-fable-5-2-high": {
+      "bench": "arc-agi-2-v2-semi-private-2026-11-17",
+      "model": "claude-fable-5-2",
+      "effort": "high",
+      "score": 90.42,
+      "cls": "M",
+      "url": "https://arcprize.org/media/data/evaluations.json",
+      "published": "2026-11-17",
+      "retrieved": "2026-11-17",
+      "cost": 0.9076,
+      "costKind": "measured"
+    },
+    "te82-arc2-claude-haiku-5-5-high": {
+      "bench": "arc-agi-2-v2-semi-private-2026-11-17",
+      "model": "claude-haiku-5-5",
+      "effort": "high",
+      "score": 30.69,
+      "cls": "M",
+      "url": "https://arcprize.org/media/data/evaluations.json",
+      "published": "2026-11-17",
+      "retrieved": "2026-11-17",
+      "cost": 0.0467,
+      "costKind": "measured"
+    },
+    "te82-arc2-claude-haiku-5-5-low": {
+      "bench": "arc-agi-2-v2-semi-private-2026-11-17",
+      "model": "claude-haiku-5-5",
+      "effort": "low",
+      "score": 2.78,
+      "cls": "M",
+      "url": "https://arcprize.org/media/data/evaluations.json",
+      "published": "2026-11-17",
+      "retrieved": "2026-11-17",
+      "cost": 0.0080,
+      "costKind": "measured"
+    },
+    "te82-arc2-claude-haiku-5-5-medium": {
+      "bench": "arc-agi-2-v2-semi-private-2026-11-17",
+      "model": "claude-haiku-5-5",
+      "effort": "medium",
+      "score": 9.44,
+      "cls": "M",
+      "url": "https://arcprize.org/media/data/evaluations.json",
+      "published": "2026-11-17",
+      "retrieved": "2026-11-17",
+      "cost": 0.0150,
+      "costKind": "measured"
+    },
+    "te82-arc2-claude-haiku-5-5-xhigh": {
+      "bench": "arc-agi-2-v2-semi-private-2026-11-17",
+      "model": "claude-haiku-5-5",
+      "effort": "xhigh",
+      "score": 61.25,
+      "cls": "M",
+      "url": "https://arcprize.org/media/data/evaluations.json",
+      "published": "2026-11-17",
+      "retrieved": "2026-11-17",
+      "cost": 0.0850,
+      "costKind": "measured"
+    },
+    "te82-arc2-claude-opus-5-5-high": {
+      "bench": "arc-agi-2-v2-semi-private-2026-11-17",
+      "model": "claude-opus-5-5",
+      "effort": "high",
+      "score": 93.33,
+      "cls": "M",
+      "url": "https://arcprize.org/media/data/evaluations.json",
+      "published": "2026-11-17",
+      "retrieved": "2026-11-17",
+      "cost": 0.4079,
+      "costKind": "measured"
+    },
+    "te82-arc2-claude-opus-5-5-low": {
+      "bench": "arc-agi-2-v2-semi-private-2026-11-17",
+      "model": "claude-opus-5-5",
+      "effort": "low",
+      "score": 70.14,
+      "cls": "M",
+      "url": "https://arcprize.org/media/data/evaluations.json",
+      "published": "2026-11-17",
+      "retrieved": "2026-11-17",
+      "cost": 0.2413,
+      "costKind": "measured"
+    },
+    "te82-arc2-claude-opus-5-5-max": {
+      "bench": "arc-agi-2-v2-semi-private-2026-11-17",
+      "model": "claude-opus-5-5",
+      "effort": "max",
+      "score": 91.67,
+      "cls": "M",
+      "url": "https://arcprize.org/media/data/evaluations.json",
+      "published": "2026-11-17",
+      "retrieved": "2026-11-17",
+      "cost": 1.8517,
+      "costKind": "measured"
+    },
+    "te82-arc2-claude-opus-5-5-medium": {
+      "bench": "arc-agi-2-v2-semi-private-2026-11-17",
+      "model": "claude-opus-5-5",
+      "effort": "medium",
+      "score": 87.5,
+      "cls": "M",
+      "url": "https://arcprize.org/media/data/evaluations.json",
+      "published": "2026-11-17",
+      "retrieved": "2026-11-17",
+      "cost": 0.3369,
+      "costKind": "measured"
+    },
+    "te82-arc2-claude-opus-5-5-xhigh": {
+      "bench": "arc-agi-2-v2-semi-private-2026-11-17",
+      "model": "claude-opus-5-5",
+      "effort": "xhigh",
+      "score": 92.5,
+      "cls": "M",
+      "url": "https://arcprize.org/media/data/evaluations.json",
+      "published": "2026-11-17",
+      "retrieved": "2026-11-17",
+      "cost": 0.6709,
+      "costKind": "measured"
+    },
+    "te82-arc2-claude-sonnet-5-5-high": {
+      "bench": "arc-agi-2-v2-semi-private-2026-11-17",
+      "model": "claude-sonnet-5-5",
+      "effort": "high",
+      "score": 67.36,
+      "cls": "M",
+      "url": "https://arcprize.org/media/data/evaluations.json",
+      "published": "2026-11-17",
+      "retrieved": "2026-11-17",
+      "cost": 0.2768,
+      "costKind": "measured"
+    },
+    "te82-arc2-claude-sonnet-5-5-low": {
+      "bench": "arc-agi-2-v2-semi-private-2026-11-17",
+      "model": "claude-sonnet-5-5",
+      "effort": "low",
+      "score": 24.03,
+      "cls": "M",
+      "url": "https://arcprize.org/media/data/evaluations.json",
+      "published": "2026-11-17",
+      "retrieved": "2026-11-17",
+      "cost": 0.1092,
+      "costKind": "measured"
+    },
+    "te82-arc2-claude-sonnet-5-5-medium": {
+      "bench": "arc-agi-2-v2-semi-private-2026-11-17",
+      "model": "claude-sonnet-5-5",
+      "effort": "medium",
+      "score": 32.78,
+      "cls": "M",
+      "url": "https://arcprize.org/media/data/evaluations.json",
+      "published": "2026-11-17",
+      "retrieved": "2026-11-17",
+      "cost": 0.1554,
+      "costKind": "measured"
+    },
+    "te82-arc2-claude-sonnet-5-5-xhigh": {
+      "bench": "arc-agi-2-v2-semi-private-2026-11-17",
+      "model": "claude-sonnet-5-5",
+      "effort": "xhigh",
+      "score": 83.89,
+      "cls": "M",
+      "url": "https://arcprize.org/media/data/evaluations.json",
+      "published": "2026-11-17",
+      "retrieved": "2026-11-17",
+      "cost": 0.5462,
+      "costKind": "measured"
+    },
+    "te82-arc2-gpt-6-luna-high": {
+      "bench": "arc-agi-2-v2-semi-private-2026-11-17",
+      "model": "gpt-6-luna",
+      "effort": "high",
+      "score": 31.39,
+      "cls": "M",
+      "url": "https://arcprize.org/media/data/evaluations.json",
+      "published": "2026-11-17",
+      "retrieved": "2026-11-17",
+      "cost": 0.0234,
+      "costKind": "measured"
+    },
+    "te82-arc2-gpt-6-luna-low": {
+      "bench": "arc-agi-2-v2-semi-private-2026-11-17",
+      "model": "gpt-6-luna",
+      "effort": "low",
+      "score": 4.58,
+      "cls": "M",
+      "url": "https://arcprize.org/media/data/evaluations.json",
+      "published": "2026-11-17",
+      "retrieved": "2026-11-17",
+      "cost": 0.0053,
+      "costKind": "measured"
+    },
+    "te82-arc2-gpt-6-luna-max": {
+      "bench": "arc-agi-2-v2-semi-private-2026-11-17",
+      "model": "gpt-6-luna",
+      "effort": "max",
+      "score": 59.31,
+      "cls": "M",
+      "url": "https://arcprize.org/media/data/evaluations.json",
+      "published": "2026-11-17",
+      "retrieved": "2026-11-17",
+      "cost": 0.0618,
+      "costKind": "measured"
+    },
+    "te82-arc2-gpt-6-luna-medium": {
+      "bench": "arc-agi-2-v2-semi-private-2026-11-17",
+      "model": "gpt-6-luna",
+      "effort": "medium",
+      "score": 18.06,
+      "cls": "M",
+      "url": "https://arcprize.org/media/data/evaluations.json",
+      "published": "2026-11-17",
+      "retrieved": "2026-11-17",
+      "cost": 0.0122,
+      "costKind": "measured"
+    },
+    "te82-arc2-gpt-6-luna-xhigh": {
+      "bench": "arc-agi-2-v2-semi-private-2026-11-17",
+      "model": "gpt-6-luna",
+      "effort": "xhigh",
+      "score": 41.94,
+      "cls": "M",
+      "url": "https://arcprize.org/media/data/evaluations.json",
+      "published": "2026-11-17",
+      "retrieved": "2026-11-17",
+      "cost": 0.0323,
+      "costKind": "measured"
+    },
+    "te82-arc2-gpt-6.1-sol-high": {
+      "bench": "arc-agi-2-v2-semi-private-2026-11-17",
+      "model": "gpt-6.1-sol",
+      "effort": "high",
+      "score": 91.67,
+      "cls": "M",
+      "url": "https://arcprize.org/media/data/evaluations.json",
+      "published": "2026-11-17",
+      "retrieved": "2026-11-17",
+      "cost": 0.1347,
+      "costKind": "measured"
+    },
+    "te82-arc2-gpt-6.1-sol-low": {
+      "bench": "arc-agi-2-v2-semi-private-2026-11-17",
+      "model": "gpt-6.1-sol",
+      "effort": "low",
+      "score": 76.67,
+      "cls": "M",
+      "url": "https://arcprize.org/media/data/evaluations.json",
+      "published": "2026-11-17",
+      "retrieved": "2026-11-17",
+      "cost": 0.0855,
+      "costKind": "measured"
+    },
+    "te82-arc2-gpt-6.1-sol-max": {
+      "bench": "arc-agi-2-v2-semi-private-2026-11-17",
+      "model": "gpt-6.1-sol",
+      "effort": "max",
+      "score": 94.17,
+      "cls": "M",
+      "url": "https://arcprize.org/media/data/evaluations.json",
+      "published": "2026-11-17",
+      "retrieved": "2026-11-17",
+      "cost": 0.2537,
+      "costKind": "measured"
+    },
+    "te82-arc2-gpt-6.1-sol-medium": {
+      "bench": "arc-agi-2-v2-semi-private-2026-11-17",
+      "model": "gpt-6.1-sol",
+      "effort": "medium",
+      "score": 86.67,
+      "cls": "M",
+      "url": "https://arcprize.org/media/data/evaluations.json",
+      "published": "2026-11-17",
+      "retrieved": "2026-11-17",
+      "cost": 0.1004,
+      "costKind": "measured"
+    },
+    "te82-arc2-gpt-6.1-sol-xhigh": {
+      "bench": "arc-agi-2-v2-semi-private-2026-11-17",
+      "model": "gpt-6.1-sol",
+      "effort": "xhigh",
+      "score": 91.67,
+      "cls": "M",
+      "url": "https://arcprize.org/media/data/evaluations.json",
+      "published": "2026-11-17",
+      "retrieved": "2026-11-17",
+      "cost": 0.1781,
+      "costKind": "measured"
+    },
+    "te82-arc2-gpt-6.2-astra-high": {
+      "bench": "arc-agi-2-v2-semi-private-2026-11-17",
+      "model": "gpt-6.2-astra",
+      "effort": "high",
+      "score": 94.58,
+      "cls": "M",
+      "url": "https://arcprize.org/media/data/evaluations.json",
+      "published": "2026-11-17",
+      "retrieved": "2026-11-17",
+      "cost": 0.4083,
+      "costKind": "measured"
+    },
+    "te82-tb41-claude-fable-5-2-max": {
+      "bench": "terminal-bench-v4.1-official-native-agents",
+      "model": "claude-fable-5-2",
+      "effort": "max",
+      "score": 65.76,
+      "cls": "M",
+      "url": "https://www.tbench.ai/leaderboard",
+      "published": "2026-11-17",
+      "retrieved": "2026-11-17",
+      "ci": 2.9,
+      "cost": 49.9781,
+      "costKind": "measured",
+      "outputTokens": 162146230,
+      "cachedInputTokens": 14858870781,
+      "totalTokens": 15726404102,
+      "trials": 330
+    },
+    "te82-tb41-claude-haiku-5-5-max": {
+      "bench": "terminal-bench-v4.1-official-native-agents",
+      "model": "claude-haiku-5-5",
+      "effort": "max",
+      "score": 40,
+      "cls": "M",
+      "url": "https://www.tbench.ai/leaderboard",
+      "published": "2026-11-17",
+      "retrieved": "2026-11-17",
+      "ci": 3.6,
+      "cost": 2.8863,
+      "costKind": "measured",
+      "outputTokens": 127539294,
+      "cachedInputTokens": 11727685473,
+      "totalTokens": 12076550775,
+      "trials": 330
+    },
+    "te82-tb41-claude-opus-5-5-max": {
+      "bench": "terminal-bench-v4.1-official-native-agents",
+      "model": "claude-opus-5-5",
+      "effort": "max",
+      "score": 65.76,
+      "cls": "M",
+      "url": "https://www.tbench.ai/leaderboard",
+      "published": "2026-11-17",
+      "retrieved": "2026-11-17",
+      "ci": 3.1,
+      "cost": 14.2989,
+      "costKind": "measured",
+      "outputTokens": 88814607,
+      "cachedInputTokens": 7699681320,
+      "totalTokens": 8034082467,
+      "trials": 330
+    },
+    "te82-tb41-claude-sonnet-5-5-max": {
+      "bench": "terminal-bench-v4.1-official-native-agents",
+      "model": "claude-sonnet-5-5",
+      "effort": "max",
+      "score": 63.94,
+      "cls": "M",
+      "url": "https://www.tbench.ai/leaderboard",
+      "published": "2026-11-17",
+      "retrieved": "2026-11-17",
+      "ci": 3,
+      "cost": 22.2232,
+      "costKind": "measured",
+      "outputTokens": 186577885,
+      "cachedInputTokens": 18580542667,
+      "totalTokens": 19413047384,
+      "trials": 330
+    },
+    "te82-tb41-gpt-6-luna-max": {
+      "bench": "terminal-bench-v4.1-official-native-agents",
+      "model": "gpt-6-luna",
+      "effort": "max",
+      "score": 15.15,
+      "cls": "M",
+      "url": "https://www.tbench.ai/leaderboard",
+      "published": "2026-11-17",
+      "retrieved": "2026-11-17",
+      "ci": 2.7,
+      "cost": 0.2186,
+      "costKind": "measured",
+      "outputTokens": 45490894,
+      "cachedInputTokens": 3778954219,
+      "totalTokens": 3909124893,
+      "trials": 330
+    },
+    "te82-tb41-gpt-6.1-sol-max": {
+      "bench": "terminal-bench-v4.1-official-native-agents",
+      "model": "gpt-6.1-sol",
+      "effort": "max",
+      "score": 60.91,
+      "cls": "M",
+      "url": "https://www.tbench.ai/leaderboard",
+      "published": "2026-11-17",
+      "retrieved": "2026-11-17",
+      "ci": 3.0,
+      "cost": 1.9219,
+      "costKind": "measured",
+      "outputTokens": 31314516,
+      "cachedInputTokens": 1354187811,
+      "totalTokens": 1459936514,
+      "trials": 330
+    },
+    "te82-tb41-gpt-6.1-terra-max": {
+      "bench": "terminal-bench-v4.1-official-native-agents",
+      "model": "gpt-6.1-terra",
+      "effort": "max",
+      "score": 53.33,
+      "cls": "M",
+      "url": "https://www.tbench.ai/leaderboard",
+      "published": "2026-11-17",
+      "retrieved": "2026-11-17",
+      "ci": 3.1,
+      "cost": 2.6498,
+      "costKind": "measured",
+      "outputTokens": 33045407,
+      "cachedInputTokens": 8378980279,
+      "totalTokens": 8481798574,
+      "trials": 330
+    },
+    "te82-tb41-gpt-6.2-astra-max": {
+      "bench": "terminal-bench-v4.1-official-native-agents",
+      "model": "gpt-6.2-astra",
+      "effort": "max",
+      "score": 62.12,
+      "cls": "M",
+      "url": "https://www.tbench.ai/leaderboard",
+      "published": "2026-11-20",
+      "retrieved": "2026-11-20",
+      "ci": 2.3,
+      "cost": 4.2701,
+      "costKind": "measured",
+      "outputTokens": 16465076,
+      "cachedInputTokens": 1066174201,
+      "totalTokens": 1115258588,
+      "trials": 330
+    },
+    "te83-aa3d-claude-fable-5-2-max": {
+      "bench": "aa-3d-v1.0-2026-11-27",
+      "model": "claude-fable-5-2",
+      "effort": "max",
+      "score": 1271.42,
+      "cls": "M",
+      "url": "https://artificialanalysis.ai/evaluations/aa-3d",
+      "published": "2026-11-27",
+      "retrieved": "2026-11-27",
+      "ci": 25.0,
+      "cost": 25.4098,
+      "costKind": "derived",
+      "urls": [
+        "https://artificialanalysis.ai/methodology/aa-3d",
+        "https://artificialanalysis.ai/3d/explorer"
+      ],
+      "scenes": "54 of 54"
+    },
+    "te83-aa3d-claude-haiku-5-5-max": {
+      "bench": "aa-3d-v1.0-2026-11-27",
+      "model": "claude-haiku-5-5",
+      "effort": "max",
+      "score": 998.14,
+      "cls": "M",
+      "url": "https://artificialanalysis.ai/evaluations/aa-3d",
+      "published": "2026-11-27",
+      "retrieved": "2026-11-27",
+      "ci": 27.0,
+      "cost": 0.4552,
+      "costKind": "derived",
+      "urls": [
+        "https://artificialanalysis.ai/methodology/aa-3d",
+        "https://artificialanalysis.ai/3d/explorer"
+      ],
+      "scenes": "50 of 54"
+    },
+    "te83-aa3d-claude-opus-5-5-max": {
+      "bench": "aa-3d-v1.0-2026-11-27",
+      "model": "claude-opus-5-5",
+      "effort": "max",
+      "score": 1202.43,
+      "cls": "M",
+      "url": "https://artificialanalysis.ai/evaluations/aa-3d",
+      "published": "2026-11-27",
+      "retrieved": "2026-11-27",
+      "ci": 28.0,
+      "cost": 19.2293,
+      "costKind": "derived",
+      "urls": [
+        "https://artificialanalysis.ai/methodology/aa-3d",
+        "https://artificialanalysis.ai/3d/explorer"
+      ],
+      "scenes": "49 of 54"
+    },
+    "te83-aa3d-claude-sonnet-5-5-max": {
+      "bench": "aa-3d-v1.0-2026-11-27",
+      "model": "claude-sonnet-5-5",
+      "effort": "max",
+      "score": 1203.69,
+      "cls": "M",
+      "url": "https://artificialanalysis.ai/evaluations/aa-3d",
+      "published": "2026-11-27",
+      "retrieved": "2026-11-27",
+      "ci": 28.0,
+      "cost": 12.9131,
+      "costKind": "derived",
+      "urls": [
+        "https://artificialanalysis.ai/methodology/aa-3d",
+        "https://artificialanalysis.ai/3d/explorer"
+      ],
+      "scenes": "46 of 54"
+    },
+    "te83-aa3d-gemini-3.8-flash-high": {
+      "bench": "aa-3d-v1.0-2026-11-27",
+      "model": "gemini-3.8-flash",
+      "effort": "high",
+      "score": 974.11,
+      "cls": "M",
+      "url": "https://artificialanalysis.ai/evaluations/aa-3d",
+      "published": "2026-11-27",
+      "retrieved": "2026-11-27",
+      "ci": 27.0,
+      "cost": 1.9374,
+      "costKind": "derived",
+      "urls": [
+        "https://artificialanalysis.ai/methodology/aa-3d",
+        "https://artificialanalysis.ai/3d/explorer"
+      ],
+      "scenes": "52 of 54"
+    },
+    "te83-aa3d-gemini-4-argon-high": {
+      "bench": "aa-3d-v1.0-2026-11-27",
+      "model": "gemini-4-argon",
+      "effort": "high",
+      "score": 1146.69,
+      "cls": "M",
+      "url": "https://artificialanalysis.ai/evaluations/aa-3d",
+      "published": "2026-11-27",
+      "retrieved": "2026-11-27",
+      "ci": 30.0,
+      "cost": 4.9762,
+      "costKind": "derived",
+      "urls": [
+        "https://artificialanalysis.ai/methodology/aa-3d",
+        "https://artificialanalysis.ai/3d/explorer"
+      ],
+      "scenes": "52 of 54"
+    },
+    "te83-aa3d-gemini-4-carbon-high": {
+      "bench": "aa-3d-v1.0-2026-11-27",
+      "model": "gemini-4-carbon",
+      "effort": "high",
+      "score": 1200.30,
+      "cls": "M",
+      "url": "https://artificialanalysis.ai/evaluations/aa-3d",
+      "published": "2026-11-27",
+      "retrieved": "2026-11-27",
+      "ci": 23.0,
+      "cost": 6.2250,
+      "costKind": "derived",
+      "urls": [
+        "https://artificialanalysis.ai/methodology/aa-3d",
+        "https://artificialanalysis.ai/3d/explorer"
+      ],
+      "scenes": "54 of 54"
+    },
+    "te83-aa3d-gemini-4-hydrogen-xhigh": {
+      "bench": "aa-3d-v1.0-2026-11-27",
+      "model": "gemini-4-hydrogen",
+      "effort": "xhigh",
+      "score": 1196.01,
+      "cls": "M",
+      "url": "https://artificialanalysis.ai/evaluations/aa-3d",
+      "published": "2026-11-27",
+      "retrieved": "2026-11-27",
+      "ci": 29.0,
+      "cost": 3.2225,
+      "costKind": "derived",
+      "urls": [
+        "https://artificialanalysis.ai/methodology/aa-3d",
+        "https://artificialanalysis.ai/3d/explorer"
+      ],
+      "scenes": "52 of 54"
+    },
+    "te83-aa3d-gpt-6-luna-max": {
+      "bench": "aa-3d-v1.0-2026-11-27",
+      "model": "gpt-6-luna",
+      "effort": "max",
+      "score": 1000,
+      "cls": "M",
+      "url": "https://artificialanalysis.ai/evaluations/aa-3d",
+      "published": "2026-11-27",
+      "retrieved": "2026-11-27",
+      "cost": 0.1884,
+      "costKind": "derived",
+      "urls": [
+        "https://artificialanalysis.ai/methodology/aa-3d",
+        "https://artificialanalysis.ai/3d/explorer"
+      ],
+      "scenes": "53 of 54"
+    },
+    "te83-aa3d-gpt-6.1-sol-max": {
+      "bench": "aa-3d-v1.0-2026-11-27",
+      "model": "gpt-6.1-sol",
+      "effort": "max",
+      "score": 1121.08,
+      "cls": "M",
+      "url": "https://artificialanalysis.ai/evaluations/aa-3d",
+      "published": "2026-11-27",
+      "retrieved": "2026-11-27",
+      "ci": 28.0,
+      "cost": 3.2465,
+      "costKind": "derived",
+      "urls": [
+        "https://artificialanalysis.ai/methodology/aa-3d",
+        "https://artificialanalysis.ai/3d/explorer"
+      ],
+      "scenes": "52 of 54"
+    },
+    "te83-aa3d-gpt-6.2-astra-max": {
+      "bench": "aa-3d-v1.0-2026-11-27",
+      "model": "gpt-6.2-astra",
+      "effort": "max",
+      "score": 1317.62,
+      "cls": "M",
+      "url": "https://artificialanalysis.ai/evaluations/aa-3d",
+      "published": "2026-11-27",
+      "retrieved": "2026-11-27",
+      "ci": 31.0,
+      "cost": 13.9065,
+      "costKind": "derived",
+      "urls": [
+        "https://artificialanalysis.ai/methodology/aa-3d",
+        "https://artificialanalysis.ai/3d/explorer"
+      ],
+      "scenes": "54 of 54"
+    },
+    "te83-aa3d-gpt-6.2-sol-max": {
+      "bench": "aa-3d-v1.0-2026-11-27",
+      "model": "gpt-6.2-sol",
+      "effort": "max",
+      "score": 1259.28,
+      "cls": "M",
+      "url": "https://artificialanalysis.ai/evaluations/aa-3d",
+      "published": "2026-11-27",
+      "retrieved": "2026-11-27",
+      "ci": 28.0,
+      "cost": 3.4298,
+      "costKind": "derived",
+      "urls": [
+        "https://artificialanalysis.ai/methodology/aa-3d",
+        "https://artificialanalysis.ai/3d/explorer"
+      ],
+      "scenes": "54 of 54"
+    },
+    "te83-arena3d-claude-fable-5-2-xhigh": {
+      "bench": "arena-code-webdev-3d-2026-11-23",
+      "model": "claude-fable-5-2",
+      "effort": "xhigh",
+      "score": 1933,
+      "cls": "M",
+      "url": "https://arena.ai/blog/introducing-the-arena-3d-leaderboard",
+      "published": "2026-11-24",
+      "retrieved": "2026-11-27",
+      "ci": 37,
+      "urls": [
+        "https://arena.ai/leaderboard/code/webdev/3d",
+        "https://arena.ai/company/leaderboard-changelog"
+      ]
+    },
+    "te83-arena3d-claude-haiku-5-5-high": {
+      "bench": "arena-code-webdev-3d-2026-11-23",
+      "model": "claude-haiku-5-5",
+      "effort": "high",
+      "score": 1635,
+      "cls": "M",
+      "url": "https://arena.ai/blog/introducing-the-arena-3d-leaderboard",
+      "published": "2026-11-24",
+      "retrieved": "2026-11-27",
+      "ci": 15,
+      "urls": [
+        "https://arena.ai/leaderboard/code/webdev/3d",
+        "https://arena.ai/company/leaderboard-changelog"
+      ]
+    },
+    "te83-arena3d-claude-opus-5-5-max": {
+      "bench": "arena-code-webdev-3d-2026-11-23",
+      "model": "claude-opus-5-5",
+      "effort": "max",
+      "score": 1915,
+      "cls": "M",
+      "url": "https://arena.ai/blog/introducing-the-arena-3d-leaderboard",
+      "published": "2026-11-24",
+      "retrieved": "2026-11-27",
+      "ci": 28,
+      "urls": [
+        "https://arena.ai/leaderboard/code/webdev/3d",
+        "https://arena.ai/company/leaderboard-changelog"
+      ]
+    },
+    "te83-arena3d-claude-sonnet-5-5-high": {
+      "bench": "arena-code-webdev-3d-2026-11-23",
+      "model": "claude-sonnet-5-5",
+      "effort": "high",
+      "score": 1817,
+      "cls": "M",
+      "url": "https://arena.ai/blog/introducing-the-arena-3d-leaderboard",
+      "published": "2026-11-24",
+      "retrieved": "2026-11-27",
+      "ci": 16,
+      "urls": [
+        "https://arena.ai/leaderboard/code/webdev/3d",
+        "https://arena.ai/company/leaderboard-changelog"
+      ]
+    },
+    "te83-arena3d-claude-sonnet-5-5-xhigh": {
+      "bench": "arena-code-webdev-3d-2026-11-23",
+      "model": "claude-sonnet-5-5",
+      "effort": "xhigh",
+      "score": 1868,
+      "cls": "M",
+      "url": "https://arena.ai/blog/introducing-the-arena-3d-leaderboard",
+      "published": "2026-11-24",
+      "retrieved": "2026-11-27",
+      "ci": 21,
+      "urls": [
+        "https://arena.ai/leaderboard/code/webdev/3d",
+        "https://arena.ai/company/leaderboard-changelog"
+      ]
+    },
+    "te83-arena3d-gemini-4-argon-high": {
+      "bench": "arena-code-webdev-3d-2026-11-23",
+      "model": "gemini-4-argon",
+      "effort": "high",
+      "score": 1706,
+      "cls": "M",
+      "url": "https://arena.ai/blog/introducing-the-arena-3d-leaderboard",
+      "published": "2026-11-24",
+      "retrieved": "2026-11-27",
+      "ci": 17,
+      "urls": [
+        "https://arena.ai/leaderboard/code/webdev/3d",
+        "https://arena.ai/company/leaderboard-changelog"
+      ]
+    },
+    "te83-arena3d-gemini-4-carbon-high": {
+      "bench": "arena-code-webdev-3d-2026-11-23",
+      "model": "gemini-4-carbon",
+      "effort": "high",
+      "score": 1842,
+      "cls": "M",
+      "url": "https://arena.ai/blog/introducing-the-arena-3d-leaderboard",
+      "published": "2026-11-24",
+      "retrieved": "2026-11-27",
+      "ci": 31,
+      "urls": [
+        "https://arena.ai/leaderboard/code/webdev/3d",
+        "https://arena.ai/company/leaderboard-changelog"
+      ]
+    },
+    "te83-arena3d-gemini-4-hydrogen-xhigh": {
+      "bench": "arena-code-webdev-3d-2026-11-23",
+      "model": "gemini-4-hydrogen",
+      "effort": "xhigh",
+      "score": 1769,
+      "cls": "M",
+      "url": "https://arena.ai/blog/introducing-the-arena-3d-leaderboard",
+      "published": "2026-11-24",
+      "retrieved": "2026-11-27",
+      "ci": 28,
+      "urls": [
+        "https://arena.ai/leaderboard/code/webdev/3d",
+        "https://arena.ai/company/leaderboard-changelog"
+      ]
+    },
+    "te83-arena3d-gpt-6-luna-max": {
+      "bench": "arena-code-webdev-3d-2026-11-23",
+      "model": "gpt-6-luna",
+      "effort": "max",
+      "score": 1583,
+      "cls": "M",
+      "url": "https://arena.ai/blog/introducing-the-arena-3d-leaderboard",
+      "published": "2026-11-24",
+      "retrieved": "2026-11-27",
+      "ci": 8,
+      "urls": [
+        "https://arena.ai/leaderboard/code/webdev/3d",
+        "https://arena.ai/company/leaderboard-changelog"
+      ]
+    },
+    "te83-arena3d-gpt-6.1-sol-max": {
+      "bench": "arena-code-webdev-3d-2026-11-23",
+      "model": "gpt-6.1-sol",
+      "effort": "max",
+      "score": 1802,
+      "cls": "M",
+      "url": "https://arena.ai/blog/introducing-the-arena-3d-leaderboard",
+      "published": "2026-11-24",
+      "retrieved": "2026-11-27",
+      "ci": 18,
+      "urls": [
+        "https://arena.ai/leaderboard/code/webdev/3d",
+        "https://arena.ai/company/leaderboard-changelog"
+      ]
+    },
+    "te83-arena3d-gpt-6.1-terra-max": {
+      "bench": "arena-code-webdev-3d-2026-11-23",
+      "model": "gpt-6.1-terra",
+      "effort": "max",
+      "score": 1731,
+      "cls": "M",
+      "url": "https://arena.ai/blog/introducing-the-arena-3d-leaderboard",
+      "published": "2026-11-24",
+      "retrieved": "2026-11-27",
+      "ci": 18,
+      "urls": [
+        "https://arena.ai/leaderboard/code/webdev/3d",
+        "https://arena.ai/company/leaderboard-changelog"
+      ]
+    },
+    "te83-arena3d-gpt-6.2-astra-max": {
+      "bench": "arena-code-webdev-3d-2026-11-23",
+      "model": "gpt-6.2-astra",
+      "effort": "max",
+      "score": 1818,
+      "cls": "M",
+      "url": "https://arena.ai/blog/introducing-the-arena-3d-leaderboard",
+      "published": "2026-11-24",
+      "retrieved": "2026-11-27",
+      "ci": 30,
+      "urls": [
+        "https://arena.ai/leaderboard/code/webdev/3d",
+        "https://arena.ai/company/leaderboard-changelog"
+      ]
+    },
+    "te83-arena3d-gpt-6.2-sol-max": {
+      "bench": "arena-code-webdev-3d-2026-11-23",
+      "model": "gpt-6.2-sol",
+      "effort": "max",
+      "score": 1869,
+      "cls": "M",
+      "url": "https://arena.ai/blog/introducing-the-arena-3d-leaderboard",
+      "published": "2026-11-24",
+      "retrieved": "2026-11-27",
+      "ci": 29,
+      "urls": [
+        "https://arena.ai/leaderboard/code/webdev/3d",
+        "https://arena.ai/company/leaderboard-changelog"
+      ]
+    },
+    "te83-da-3d-design-claude-fable-5-2-unspecified": {
+      "bench": "designarena-3d-design-2026-11-27",
+      "model": "claude-fable-5-2",
+      "effort": "unspecified",
+      "score": 1511,
+      "cls": "M",
+      "url": "https://designarena.ai/leaderboard?section=3d&board=3d-design",
+      "published": "2026-11-27",
+      "retrieved": "2026-11-27",
+      "cost": 3.7422,
+      "costKind": "measured",
+      "urls": [
+        "https://designarena.ai/methodology"
+      ]
+    },
+    "te83-da-3d-design-claude-haiku-5-5-unspecified": {
+      "bench": "designarena-3d-design-2026-11-27",
+      "model": "claude-haiku-5-5",
+      "effort": "unspecified",
+      "score": 1304,
+      "cls": "M",
+      "url": "https://designarena.ai/leaderboard?section=3d&board=3d-design",
+      "published": "2026-11-27",
+      "retrieved": "2026-11-27",
+      "cost": 0.0189,
+      "costKind": "measured",
+      "urls": [
+        "https://designarena.ai/methodology"
+      ]
+    },
+    "te83-da-3d-design-claude-opus-5-5-unspecified": {
+      "bench": "designarena-3d-design-2026-11-27",
+      "model": "claude-opus-5-5",
+      "effort": "unspecified",
+      "score": 1449,
+      "cls": "M",
+      "url": "https://designarena.ai/leaderboard?section=3d&board=3d-design",
+      "published": "2026-11-27",
+      "retrieved": "2026-11-27",
+      "cost": 0.6151,
+      "costKind": "measured",
+      "urls": [
+        "https://designarena.ai/methodology"
+      ]
+    },
+    "te83-da-3d-design-claude-sonnet-5-5-unspecified": {
+      "bench": "designarena-3d-design-2026-11-27",
+      "model": "claude-sonnet-5-5",
+      "effort": "unspecified",
+      "score": 1395,
+      "cls": "M",
+      "url": "https://designarena.ai/leaderboard?section=3d&board=3d-design",
+      "published": "2026-11-27",
+      "retrieved": "2026-11-27",
+      "cost": 0.5603,
+      "costKind": "measured",
+      "urls": [
+        "https://designarena.ai/methodology"
+      ]
+    },
+    "te83-da-3d-design-gpt-6-luna-unspecified": {
+      "bench": "designarena-3d-design-2026-11-27",
+      "model": "gpt-6-luna",
+      "effort": "unspecified",
+      "score": 1174,
+      "cls": "M",
+      "url": "https://designarena.ai/leaderboard?section=3d&board=3d-design",
+      "published": "2026-11-27",
+      "retrieved": "2026-11-27",
+      "cost": 0.0052,
+      "costKind": "measured",
+      "urls": [
+        "https://designarena.ai/methodology"
+      ]
+    },
+    "te83-da-3d-design-gpt-6.1-sol-unspecified": {
+      "bench": "designarena-3d-design-2026-11-27",
+      "model": "gpt-6.1-sol",
+      "effort": "unspecified",
+      "score": 1418,
+      "cls": "M",
+      "url": "https://designarena.ai/leaderboard?section=3d&board=3d-design",
+      "published": "2026-11-27",
+      "retrieved": "2026-11-27",
+      "cost": 0.1066,
+      "costKind": "measured",
+      "urls": [
+        "https://designarena.ai/methodology"
+      ]
+    },
+    "te83-da-3d-design-gpt-6.1-terra-unspecified": {
+      "bench": "designarena-3d-design-2026-11-27",
+      "model": "gpt-6.1-terra",
+      "effort": "unspecified",
+      "score": 1284,
+      "cls": "M",
+      "url": "https://designarena.ai/leaderboard?section=3d&board=3d-design",
+      "published": "2026-11-27",
+      "retrieved": "2026-11-27",
+      "cost": 0.0464,
+      "costKind": "measured",
+      "urls": [
+        "https://designarena.ai/methodology"
+      ]
+    },
+    "te83-da-3d-design-gpt-6.2-astra-unspecified": {
+      "bench": "designarena-3d-design-2026-11-27",
+      "model": "gpt-6.2-astra",
+      "effort": "unspecified",
+      "score": 1426,
+      "cls": "M",
+      "url": "https://designarena.ai/leaderboard?section=3d&board=3d-design",
+      "published": "2026-11-27",
+      "retrieved": "2026-11-27",
+      "cost": 0.8092,
+      "costKind": "measured",
+      "urls": [
+        "https://designarena.ai/methodology"
+      ]
+    },
+    "te83-da-3d-design-gpt-6.2-sol-unspecified": {
+      "bench": "designarena-3d-design-2026-11-27",
+      "model": "gpt-6.2-sol",
+      "effort": "unspecified",
+      "score": 1466,
+      "cls": "M",
+      "url": "https://designarena.ai/leaderboard?section=3d&board=3d-design",
+      "published": "2026-11-27",
+      "retrieved": "2026-11-27",
+      "cost": 0.1773,
+      "costKind": "measured",
+      "urls": [
+        "https://designarena.ai/methodology"
+      ]
+    },
+    "te83-da-game-dev-agentic-claude-opus-5-5-high": {
+      "bench": "designarena-game-dev-agentic-2026-11-27",
+      "model": "claude-opus-5-5",
+      "effort": "high",
+      "score": 1408,
+      "cls": "M",
+      "url": "https://designarena.ai/leaderboard?section=game-dev&board=agentic-game-dev",
+      "published": "2026-11-27",
+      "retrieved": "2026-11-27",
+      "cost": 3.1883,
+      "costKind": "measured",
+      "urls": [
+        "https://designarena.ai/methodology"
+      ]
+    },
+    "te83-da-game-dev-agentic-gpt-6.1-sol-max": {
+      "bench": "designarena-game-dev-agentic-2026-11-27",
+      "model": "gpt-6.1-sol",
+      "effort": "max",
+      "score": 1237,
+      "cls": "M",
+      "url": "https://designarena.ai/leaderboard?section=game-dev&board=agentic-game-dev",
+      "published": "2026-11-27",
+      "retrieved": "2026-11-27",
+      "cost": 1.0703,
+      "costKind": "measured",
+      "urls": [
+        "https://designarena.ai/methodology"
+      ]
+    },
+    "te83-da-game-dev-html-claude-fable-5-2-unspecified": {
+      "bench": "designarena-game-dev-html-2026-11-27",
+      "model": "claude-fable-5-2",
+      "effort": "unspecified",
+      "score": 1538,
+      "cls": "M",
+      "url": "https://designarena.ai/leaderboard?section=game-dev&board=game-dev",
+      "published": "2026-11-27",
+      "retrieved": "2026-11-27",
+      "cost": 4.7129,
+      "costKind": "measured",
+      "urls": [
+        "https://designarena.ai/methodology"
+      ]
+    },
+    "te83-da-game-dev-html-claude-haiku-5-5-unspecified": {
+      "bench": "designarena-game-dev-html-2026-11-27",
+      "model": "claude-haiku-5-5",
+      "effort": "unspecified",
+      "score": 1313,
+      "cls": "M",
+      "url": "https://designarena.ai/leaderboard?section=game-dev&board=game-dev",
+      "published": "2026-11-27",
+      "retrieved": "2026-11-27",
+      "cost": 0.0265,
+      "costKind": "measured",
+      "urls": [
+        "https://designarena.ai/methodology"
+      ]
+    },
+    "te83-da-game-dev-html-claude-opus-5-5-unspecified": {
+      "bench": "designarena-game-dev-html-2026-11-27",
+      "model": "claude-opus-5-5",
+      "effort": "unspecified",
+      "score": 1438,
+      "cls": "M",
+      "url": "https://designarena.ai/leaderboard?section=game-dev&board=game-dev",
+      "published": "2026-11-27",
+      "retrieved": "2026-11-27",
+      "cost": 0.7641,
+      "costKind": "measured",
+      "urls": [
+        "https://designarena.ai/methodology"
+      ]
+    },
+    "te83-da-game-dev-html-claude-sonnet-5-5-unspecified": {
+      "bench": "designarena-game-dev-html-2026-11-27",
+      "model": "claude-sonnet-5-5",
+      "effort": "unspecified",
+      "score": 1427,
+      "cls": "M",
+      "url": "https://designarena.ai/leaderboard?section=game-dev&board=game-dev",
+      "published": "2026-11-27",
+      "retrieved": "2026-11-27",
+      "cost": 0.5770,
+      "costKind": "measured",
+      "urls": [
+        "https://designarena.ai/methodology"
+      ]
+    },
+    "te83-da-game-dev-html-gpt-6-luna-unspecified": {
+      "bench": "designarena-game-dev-html-2026-11-27",
+      "model": "gpt-6-luna",
+      "effort": "unspecified",
+      "score": 1233,
+      "cls": "M",
+      "url": "https://designarena.ai/leaderboard?section=game-dev&board=game-dev",
+      "published": "2026-11-27",
+      "retrieved": "2026-11-27",
+      "cost": 0.0058,
+      "costKind": "measured",
+      "urls": [
+        "https://designarena.ai/methodology"
+      ]
+    },
+    "te83-da-game-dev-html-gpt-6.1-sol-unspecified": {
+      "bench": "designarena-game-dev-html-2026-11-27",
+      "model": "gpt-6.1-sol",
+      "effort": "unspecified",
+      "score": 1386,
+      "cls": "M",
+      "url": "https://designarena.ai/leaderboard?section=game-dev&board=game-dev",
+      "published": "2026-11-27",
+      "retrieved": "2026-11-27",
+      "cost": 0.1593,
+      "costKind": "measured",
+      "urls": [
+        "https://designarena.ai/methodology"
+      ]
+    },
+    "te83-da-game-dev-html-gpt-6.1-terra-unspecified": {
+      "bench": "designarena-game-dev-html-2026-11-27",
+      "model": "gpt-6.1-terra",
+      "effort": "unspecified",
+      "score": 1314,
+      "cls": "M",
+      "url": "https://designarena.ai/leaderboard?section=game-dev&board=game-dev",
+      "published": "2026-11-27",
+      "retrieved": "2026-11-27",
+      "cost": 0.0565,
+      "costKind": "measured",
+      "urls": [
+        "https://designarena.ai/methodology"
+      ]
+    },
+    "te83-da-game-dev-html-gpt-6.2-astra-unspecified": {
+      "bench": "designarena-game-dev-html-2026-11-27",
+      "model": "gpt-6.2-astra",
+      "effort": "unspecified",
+      "score": 1501,
+      "cls": "M",
+      "url": "https://designarena.ai/leaderboard?section=game-dev&board=game-dev",
+      "published": "2026-11-27",
+      "retrieved": "2026-11-27",
+      "cost": 0.9958,
+      "costKind": "measured",
+      "urls": [
+        "https://designarena.ai/methodology"
+      ]
+    },
+    "te83-da-game-dev-html-gpt-6.2-sol-unspecified": {
+      "bench": "designarena-game-dev-html-2026-11-27",
+      "model": "gpt-6.2-sol",
+      "effort": "unspecified",
+      "score": 1442,
+      "cls": "M",
+      "url": "https://designarena.ai/leaderboard?section=game-dev&board=game-dev",
+      "published": "2026-11-27",
+      "retrieved": "2026-11-27",
+      "cost": 0.2302,
+      "costKind": "measured",
+      "urls": [
+        "https://designarena.ai/methodology"
+      ]
+    },
+    "te83-da-webapps-agentic-claude-opus-5-5-unspecified": {
+      "bench": "designarena-webapps-agentic-2026-11-27",
+      "model": "claude-opus-5-5",
+      "effort": "unspecified",
+      "score": 1311,
+      "cls": "M",
+      "url": "https://designarena.ai/leaderboard?section=website&board=webapps",
+      "published": "2026-11-27",
+      "retrieved": "2026-11-27",
+      "cost": 3.5311,
+      "costKind": "measured",
+      "urls": [
+        "https://designarena.ai/methodology"
+      ]
+    },
+    "te83-da-webapps-agentic-claude-sonnet-5-5-unspecified": {
+      "bench": "designarena-webapps-agentic-2026-11-27",
+      "model": "claude-sonnet-5-5",
+      "effort": "unspecified",
+      "score": 1285,
+      "cls": "M",
+      "url": "https://designarena.ai/leaderboard?section=website&board=webapps",
+      "published": "2026-11-27",
+      "retrieved": "2026-11-27",
+      "cost": 1.5904,
+      "costKind": "measured",
+      "urls": [
+        "https://designarena.ai/methodology"
+      ]
+    },
+    "te83-da-webapps-agentic-gpt-6.1-sol-unspecified": {
+      "bench": "designarena-webapps-agentic-2026-11-27",
+      "model": "gpt-6.1-sol",
+      "effort": "unspecified",
+      "score": 1254,
+      "cls": "M",
+      "url": "https://designarena.ai/leaderboard?section=website&board=webapps",
+      "published": "2026-11-27",
+      "retrieved": "2026-11-27",
+      "cost": 0.6333,
+      "costKind": "measured",
+      "urls": [
+        "https://designarena.ai/methodology"
+      ]
+    },
+    "te83-da-website-html-claude-fable-5-2-unspecified": {
+      "bench": "designarena-website-html-2026-11-27",
+      "model": "claude-fable-5-2",
+      "effort": "unspecified",
+      "score": 1351,
+      "cls": "M",
+      "url": "https://designarena.ai/leaderboard?section=website&board=website",
+      "published": "2026-11-27",
+      "retrieved": "2026-11-27",
+      "cost": 3.0347,
+      "costKind": "measured",
+      "urls": [
+        "https://designarena.ai/methodology"
+      ]
+    },
+    "te83-da-website-html-claude-haiku-5-5-unspecified": {
+      "bench": "designarena-website-html-2026-11-27",
+      "model": "claude-haiku-5-5",
+      "effort": "unspecified",
+      "score": 1247,
+      "cls": "M",
+      "url": "https://designarena.ai/leaderboard?section=website&board=website",
+      "published": "2026-11-27",
+      "retrieved": "2026-11-27",
+      "cost": 0.019,
+      "costKind": "measured",
+      "urls": [
+        "https://designarena.ai/methodology"
+      ]
+    },
+    "te83-da-website-html-claude-opus-5-5-unspecified": {
+      "bench": "designarena-website-html-2026-11-27",
+      "model": "claude-opus-5-5",
+      "effort": "unspecified",
+      "score": 1323,
+      "cls": "M",
+      "url": "https://designarena.ai/leaderboard?section=website&board=website",
+      "published": "2026-11-27",
+      "retrieved": "2026-11-27",
+      "cost": 0.6698,
+      "costKind": "measured",
+      "urls": [
+        "https://designarena.ai/methodology"
+      ]
+    },
+    "te83-da-website-html-claude-sonnet-5-5-unspecified": {
+      "bench": "designarena-website-html-2026-11-27",
+      "model": "claude-sonnet-5-5",
+      "effort": "unspecified",
+      "score": 1308,
+      "cls": "M",
+      "url": "https://designarena.ai/leaderboard?section=website&board=website",
+      "published": "2026-11-27",
+      "retrieved": "2026-11-27",
+      "cost": 0.3974,
+      "costKind": "measured",
+      "urls": [
+        "https://designarena.ai/methodology"
+      ]
+    },
+    "te83-da-website-html-gpt-6-luna-unspecified": {
+      "bench": "designarena-website-html-2026-11-27",
+      "model": "gpt-6-luna",
+      "effort": "unspecified",
+      "score": 1261,
+      "cls": "M",
+      "url": "https://designarena.ai/leaderboard?section=website&board=website",
+      "published": "2026-11-27",
+      "retrieved": "2026-11-27",
+      "cost": 0.0070,
+      "costKind": "measured",
+      "urls": [
+        "https://designarena.ai/methodology"
+      ]
+    },
+    "te83-da-website-html-gpt-6.1-sol-unspecified": {
+      "bench": "designarena-website-html-2026-11-27",
+      "model": "gpt-6.1-sol",
+      "effort": "unspecified",
+      "score": 1310,
+      "cls": "M",
+      "url": "https://designarena.ai/leaderboard?section=website&board=website",
+      "published": "2026-11-27",
+      "retrieved": "2026-11-27",
+      "cost": 0.1591,
+      "costKind": "measured",
+      "urls": [
+        "https://designarena.ai/methodology"
+      ]
+    },
+    "te83-da-website-html-gpt-6.1-terra-unspecified": {
+      "bench": "designarena-website-html-2026-11-27",
+      "model": "gpt-6.1-terra",
+      "effort": "unspecified",
+      "score": 1287,
+      "cls": "M",
+      "url": "https://designarena.ai/leaderboard?section=website&board=website",
+      "published": "2026-11-27",
+      "retrieved": "2026-11-27",
+      "cost": 0.0592,
+      "costKind": "measured",
+      "urls": [
+        "https://designarena.ai/methodology"
+      ]
+    },
+    "te83-da-website-html-gpt-6.2-astra-unspecified": {
+      "bench": "designarena-website-html-2026-11-27",
+      "model": "gpt-6.2-astra",
+      "effort": "unspecified",
+      "score": 1333,
+      "cls": "M",
+      "url": "https://designarena.ai/leaderboard?section=website&board=website",
+      "published": "2026-11-27",
+      "retrieved": "2026-11-27",
+      "cost": 0.9162,
+      "costKind": "measured",
+      "urls": [
+        "https://designarena.ai/methodology"
+      ]
+    },
+    "te83-webdev-claude-fable-5-2-xhigh": {
+      "bench": "arena-code-webdev-2026-11-23",
+      "model": "claude-fable-5-2",
+      "effort": "xhigh",
+      "score": 1821.65,
+      "cls": "M",
+      "url": "https://huggingface.co/datasets/lmarena-ai/leaderboard-dataset",
+      "published": "2026-11-23",
+      "retrieved": "2026-11-27",
+      "ci": 15.3,
+      "urls": [
+        "https://arena.ai/leaderboard/code/webdev",
+        "https://arena.ai/blog/webdev-arena"
+      ],
+      "votes": 2159
+    },
+    "te83-webdev-claude-haiku-5-5-high": {
+      "bench": "arena-code-webdev-2026-11-23",
+      "model": "claude-haiku-5-5",
+      "effort": "high",
+      "score": 1594.69,
+      "cls": "M",
+      "url": "https://huggingface.co/datasets/lmarena-ai/leaderboard-dataset",
+      "published": "2026-11-23",
+      "retrieved": "2026-11-27",
+      "ci": 7.7,
+      "urls": [
+        "https://arena.ai/leaderboard/code/webdev",
+        "https://arena.ai/blog/webdev-arena"
+      ],
+      "votes": 8776
+    },
+    "te83-webdev-claude-opus-5-5-max": {
+      "bench": "arena-code-webdev-2026-11-23",
+      "model": "claude-opus-5-5",
+      "effort": "max",
+      "score": 1820.35,
+      "cls": "M",
+      "url": "https://huggingface.co/datasets/lmarena-ai/leaderboard-dataset",
+      "published": "2026-11-23",
+      "retrieved": "2026-11-27",
+      "ci": 10.7,
+      "urls": [
+        "https://arena.ai/leaderboard/code/webdev",
+        "https://arena.ai/blog/webdev-arena"
+      ],
+      "votes": 5121
+    },
+    "te83-webdev-claude-sonnet-5-5-high": {
+      "bench": "arena-code-webdev-2026-11-23",
+      "model": "claude-sonnet-5-5",
+      "effort": "high",
+      "score": 1715.42,
+      "cls": "M",
+      "url": "https://huggingface.co/datasets/lmarena-ai/leaderboard-dataset",
+      "published": "2026-11-23",
+      "retrieved": "2026-11-27",
+      "ci": 7.9,
+      "urls": [
+        "https://arena.ai/leaderboard/code/webdev",
+        "https://arena.ai/blog/webdev-arena"
+      ],
+      "votes": 9129
+    },
+    "te83-webdev-claude-sonnet-5-5-xhigh": {
+      "bench": "arena-code-webdev-2026-11-23",
+      "model": "claude-sonnet-5-5",
+      "effort": "xhigh",
+      "score": 1772.64,
+      "cls": "M",
+      "url": "https://huggingface.co/datasets/lmarena-ai/leaderboard-dataset",
+      "published": "2026-11-23",
+      "retrieved": "2026-11-27",
+      "ci": 9.1,
+      "urls": [
+        "https://arena.ai/leaderboard/code/webdev",
+        "https://arena.ai/blog/webdev-arena"
+      ],
+      "votes": 6973
+    },
+    "te83-webdev-gemini-4-argon-high": {
+      "bench": "arena-code-webdev-2026-11-23",
+      "model": "gemini-4-argon",
+      "effort": "high",
+      "score": 1682.06,
+      "cls": "M",
+      "url": "https://huggingface.co/datasets/lmarena-ai/leaderboard-dataset",
+      "published": "2026-11-23",
+      "retrieved": "2026-11-27",
+      "ci": 8.8,
+      "urls": [
+        "https://arena.ai/leaderboard/code/webdev",
+        "https://arena.ai/blog/webdev-arena"
+      ],
+      "votes": 6227
+    },
+    "te83-webdev-gemini-4-carbon-high": {
+      "bench": "arena-code-webdev-2026-11-23",
+      "model": "gemini-4-carbon",
+      "effort": "high",
+      "score": 1768.98,
+      "cls": "M",
+      "url": "https://huggingface.co/datasets/lmarena-ai/leaderboard-dataset",
+      "published": "2026-11-23",
+      "retrieved": "2026-11-27",
+      "ci": 15.4,
+      "urls": [
+        "https://arena.ai/leaderboard/code/webdev",
+        "https://arena.ai/blog/webdev-arena"
+      ],
+      "votes": 2091
+    },
+    "te83-webdev-gemini-4-hydrogen-xhigh": {
+      "bench": "arena-code-webdev-2026-11-23",
+      "model": "gemini-4-hydrogen",
+      "effort": "xhigh",
+      "score": 1701.42,
+      "cls": "M",
+      "url": "https://huggingface.co/datasets/lmarena-ai/leaderboard-dataset",
+      "published": "2026-11-23",
+      "retrieved": "2026-11-27",
+      "ci": 14.3,
+      "urls": [
+        "https://arena.ai/leaderboard/code/webdev",
+        "https://arena.ai/blog/webdev-arena"
+      ],
+      "votes": 2012
+    },
+    "te83-webdev-gpt-6-luna-max": {
+      "bench": "arena-code-webdev-2026-11-23",
+      "model": "gpt-6-luna",
+      "effort": "max",
+      "score": 1578.70,
+      "cls": "M",
+      "url": "https://huggingface.co/datasets/lmarena-ai/leaderboard-dataset",
+      "published": "2026-11-23",
+      "retrieved": "2026-11-27",
+      "ci": 5.8,
+      "urls": [
+        "https://arena.ai/leaderboard/code/webdev",
+        "https://arena.ai/blog/webdev-arena"
+      ],
+      "votes": 32623
+    },
+    "te83-webdev-gpt-6.1-sol-max": {
+      "bench": "arena-code-webdev-2026-11-23",
+      "model": "gpt-6.1-sol",
+      "effort": "max",
+      "score": 1744.73,
+      "cls": "M",
+      "url": "https://huggingface.co/datasets/lmarena-ai/leaderboard-dataset",
+      "published": "2026-11-23",
+      "retrieved": "2026-11-27",
+      "ci": 9.0,
+      "urls": [
+        "https://arena.ai/leaderboard/code/webdev",
+        "https://arena.ai/blog/webdev-arena"
+      ],
+      "votes": 6737
+    },
+    "te83-webdev-gpt-6.1-terra-max": {
+      "bench": "arena-code-webdev-2026-11-23",
+      "model": "gpt-6.1-terra",
+      "effort": "max",
+      "score": 1686.26,
+      "cls": "M",
+      "url": "https://huggingface.co/datasets/lmarena-ai/leaderboard-dataset",
+      "published": "2026-11-23",
+      "retrieved": "2026-11-27",
+      "ci": 9.3,
+      "urls": [
+        "https://arena.ai/leaderboard/code/webdev",
+        "https://arena.ai/blog/webdev-arena"
+      ],
+      "votes": 5462
+    },
+    "te83-webdev-gpt-6.2-astra-max": {
+      "bench": "arena-code-webdev-2026-11-23",
+      "model": "gpt-6.2-astra",
+      "effort": "max",
+      "score": 1760.67,
+      "cls": "M",
+      "url": "https://huggingface.co/datasets/lmarena-ai/leaderboard-dataset",
+      "published": "2026-11-23",
+      "retrieved": "2026-11-27",
+      "ci": 14.4,
+      "urls": [
+        "https://arena.ai/leaderboard/code/webdev",
+        "https://arena.ai/blog/webdev-arena"
+      ],
+      "votes": 2170
+    },
+    "te83-webdev-gpt-6.2-sol-max": {
+      "bench": "arena-code-webdev-2026-11-23",
+      "model": "gpt-6.2-sol",
+      "effort": "max",
+      "score": 1754.82,
+      "cls": "M",
+      "url": "https://huggingface.co/datasets/lmarena-ai/leaderboard-dataset",
+      "published": "2026-11-23",
+      "retrieved": "2026-11-27",
+      "ci": 13.8,
+      "urls": [
+        "https://arena.ai/leaderboard/code/webdev",
+        "https://arena.ai/blog/webdev-arena"
+      ],
+      "votes": 2336
+    }
+  },
+  "models": {
+    "claude-fable-5-2": {
+      "name": "Claude Fable 5.2",
+      "lab": "anthropic",
+      "current": true,
+      "selectable": false,
+      "input": 8,
+      "cacheRead": 0.2,
+      "output": 40,
+      "priceDate": "2026-11-17",
+      "priceUrl": "https://platform.claude.com/docs/en/about-claude/pricing",
+      "availability": "general"
+    },
+    "claude-haiku-5-5": {
+      "name": "Claude Haiku 5.5",
+      "lab": "anthropic",
+      "current": true,
+      "selectable": true,
+      "input": 0.1,
+      "cacheRead": 0.01,
+      "output": 0.5,
+      "priceDate": "2026-10-27",
+      "priceUrl": "https://platform.claude.com/docs/en/about-claude/pricing",
+      "availability": "general"
+    },
+    "claude-opus-5-5": {
+      "name": "Claude Opus 5.5",
+      "lab": "anthropic",
+      "current": true,
+      "selectable": true,
+      "input": 4,
+      "cacheRead": 0.2,
+      "output": 20,
+      "priceDate": "2026-09-29",
+      "priceUrl": "https://platform.claude.com/docs/en/about-claude/pricing",
+      "availability": "general"
+    },
+    "claude-sonnet-5-5": {
+      "name": "Claude Sonnet 5.5",
+      "lab": "anthropic",
+      "current": true,
+      "selectable": true,
+      "input": 2,
+      "cacheRead": 0.1,
+      "output": 10,
+      "priceDate": "2026-11-02",
+      "priceUrl": "https://platform.claude.com/docs/en/about-claude/pricing",
+      "availability": "general"
+    },
+    "gemini-3.8-flash": {
+      "name": "Gemini 3.8 Flash",
+      "lab": "google",
+      "current": true,
+      "selectable": true,
+      "input": 0.75,
+      "cacheRead": 0.075,
+      "output": 3.75,
+      "priceDate": "2026-10-27",
+      "priceUrl": "https://ai.google.dev/gemini-api/docs/pricing",
+      "availability": "general"
+    },
+    "gemini-4-argon": {
+      "name": "Gemini 4 Argon",
+      "lab": "google",
+      "current": true,
+      "selectable": true,
+      "input": 2,
+      "cacheRead": 0.1,
+      "output": 10,
+      "priceDate": "2026-10-27",
+      "priceUrl": "https://ai.google.dev/gemini-api/docs/pricing",
+      "availability": "general"
+    },
+    "gemini-4-carbon": {
+      "name": "Gemini 4 Carbon",
+      "lab": "google",
+      "current": true,
+      "selectable": false,
+      "input": null,
+      "cacheRead": null,
+      "output": null,
+      "priceDate": null,
+      "priceUrl": "https://blog.google/innovation-and-ai/models-and-research/gemini-models/introducing-gemini-4-carbon/",
+      "availability": "restricted"
+    },
+    "gemini-4-hydrogen": {
+      "name": "Gemini 4 Hydrogen",
+      "lab": "google",
+      "current": true,
+      "selectable": false,
+      "input": 1.5,
+      "cacheRead": 0.075,
+      "output": 7.5,
+      "priceDate": "2026-11-17",
+      "priceUrl": "https://ai.google.dev/gemini-api/docs/pricing",
+      "availability": "general"
+    },
+    "gpt-6-luna": {
+      "name": "GPT-6 Luna",
+      "lab": "openai",
+      "current": true,
+      "selectable": true,
+      "input": 0.1,
+      "cacheRead": 0.01,
+      "output": 0.5,
+      "priceDate": "2026-11-02",
+      "priceUrl": "https://developers.openai.com/api/docs/pricing",
+      "availability": "general"
+    },
+    "gpt-6-sol": {
+      "name": "GPT-6 Sol",
+      "lab": "openai",
+      "current": false,
+      "selectable": true,
+      "input": 2,
+      "cacheRead": 0.2,
+      "output": 10,
+      "priceDate": "2026-11-02",
+      "priceUrl": "https://developers.openai.com/api/docs/pricing",
+      "availability": "general"
+    },
+    "gpt-6.1-sol": {
+      "name": "GPT-6.1 Sol",
+      "lab": "openai",
+      "current": true,
+      "selectable": true,
+      "input": 2,
+      "cacheRead": 0.1,
+      "output": 10,
+      "priceDate": "2026-11-02",
+      "priceUrl": "https://developers.openai.com/api/docs/pricing",
+      "availability": "general"
+    },
+    "gpt-6.1-terra": {
+      "name": "GPT-6.1 Terra",
+      "lab": "openai",
+      "current": true,
+      "selectable": true,
+      "input": 1,
+      "cacheRead": 0.05,
+      "output": 5,
+      "priceDate": "2026-11-02",
+      "priceUrl": "https://developers.openai.com/api/docs/pricing",
+      "availability": "general"
+    },
+    "gpt-6.2-astra": {
+      "name": "GPT-6.2 Astra",
+      "lab": "openai",
+      "current": true,
+      "selectable": false,
+      "input": 8,
+      "cacheRead": 0.4,
+      "output": 40,
+      "priceDate": "2026-11-17",
+      "priceUrl": "https://developers.openai.com/api/docs/pricing",
+      "availability": "general"
+    },
+    "gpt-6.2-sol": {
+      "name": "GPT-6.2 Sol",
+      "lab": "openai",
+      "current": true,
+      "selectable": false,
+      "input": 2,
+      "cacheRead": 0.1,
+      "output": 10,
+      "priceDate": "2026-11-17",
+      "priceUrl": "https://developers.openai.com/api/docs/pricing",
+      "availability": "general"
+    }
+  }
+}

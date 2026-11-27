@@ -35,6 +35,7 @@ const commands = [
   ['python3', 'scripts/check-website-links.py'],
   [process.execPath, 'scripts/test-context-cost.mjs'],
   [process.execPath, 'scripts/test-language-page.mjs'],
+  [process.execPath, 'scripts/test-cost-frontier-dial.mjs'],
 ];
 for (const [command, ...args] of commands) {
   console.log(`$ ${[command, ...args].join(' ')}`);

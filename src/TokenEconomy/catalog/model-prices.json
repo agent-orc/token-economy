@@ -283,7 +283,8 @@
       "availability": "general"
     },
     "availability": "general",
-    "lifecycleStatus": "current"
+    "lifecycleStatus": "superseded",
+    "note": "Superseded on the Cost Frontier by Claude Fable 5.2 (same tier, released 2026-11-09); remains an active API model."
   },
   {
     "modelId": "claude-fable-5",
@@ -723,7 +724,8 @@
       "availability": "general"
     },
     "availability": "general",
-    "lifecycleStatus": "current"
+    "lifecycleStatus": "superseded",
+    "note": "Superseded on the Cost Frontier by GPT-6.2 Astra (same tier, released 2026-11-17); remains an active API model."
   },
   {
     "modelId": "gpt-6.1-sol",
@@ -1413,7 +1415,7 @@
     "releaseDate": "2026-10-28",
     "releaseDateSource": "https://blog.google/innovation-and-ai/models-and-research/gemini-models/introducing-gemini-4-carbon/",
     "availability": "restricted",
-    "availabilityNote": "Restricted fleet policy retained by TE-82; current vendor GA claim requires a separate access decision.",
+    "availabilityNote": "Our fleet policy keeps Carbon restricted; Google's current general-availability claim needs a separate access decision.",
     "priceClaims": [],
     "lifecycleStatus": "current",
     "note": "Restricted and unpriced by TE-82 scope. [V] Google API changelog now claims GA on 2026-11-10 and pricing lists a public API tariff; this conflicts with the no-API lead and prior catalogue. Record the conflict without enabling fleet access or pricing. Retrieved 2026-11-17: https://ai.google.dev/gemini-api/docs/changelog; https://ai.google.dev/gemini-api/docs/pricing"
@@ -1757,7 +1759,15 @@
     ],
     "availability": "general",
     "lifecycleStatus": "current",
-    "note": "[V] Codex and API available; 1,050,000 context, 128,000 max output. API rejects none effort. Official Standard Astra cached input is $0.40; $0.80 belongs to long-context Standard or short-context Fast, not the same tariff. [P] Implicator 2026-11-17 reports AA Coding Agent Index -3 points vs 6.1 Sol and SWE-Atlas-QnA-AA -14 points; raw evaluator data not pulled, no routing score. https://www.implicator.ai/openai-gpt-6-2-astra-sol-cost-per-task/"
+    "note": "[V] Codex and API available; 1,050,000 context, 128,000 max output. API rejects none effort. Official Standard Astra cached input is $0.40; $0.80 belongs to long-context Standard or short-context Fast, not the same tariff. [P] Implicator 2026-11-17 reports AA Coding Agent Index -3 points vs 6.1 Sol and SWE-Atlas-QnA-AA -14 points; raw evaluator data not pulled, no routing score. https://www.implicator.ai/openai-gpt-6-2-astra-sol-cost-per-task/",
+    "releasePost": {
+      "title": "OpenAI API changelog: GPT-6.2 Sol and GPT-6.2 Astra",
+      "url": "https://developers.openai.com/api/docs/changelog",
+      "date": "2026-11-17",
+      "approximate": false,
+      "claim": "OpenAI adds GPT-6.2 Sol at $2 / $10 and GPT-6.2 Astra at $8 / $40 per million tokens, both with a 1.05M-token context and available in Codex.",
+      "availability": "general"
+    }
   },
   {
     "modelId": "gpt-6.2-astra",
@@ -1797,7 +1807,15 @@
     ],
     "availability": "general",
     "lifecycleStatus": "current",
-    "note": "[V] Codex and API available; 1,050,000 context, 128,000 max output. API rejects none effort. Official Standard Astra cached input is $0.40; $0.80 belongs to long-context Standard or short-context Fast, not the same tariff. [P] Implicator 2026-11-17 attributes blocker-deception omission rates 22.28% vs 11.09% for 6 Astra to a system card; card not independently pulled here. Safety observation, not coding score. https://www.implicator.ai/openai-gpt-6-2-astra-sol-cost-per-task/"
+    "note": "[V] Codex and API available; 1,050,000 context, 128,000 max output. API rejects none effort. Official Standard Astra cached input is $0.40; $0.80 belongs to long-context Standard or short-context Fast, not the same tariff. [P] Implicator 2026-11-17 attributes blocker-deception omission rates 22.28% vs 11.09% for 6 Astra to a system card; card not independently pulled here. Safety observation, not coding score. https://www.implicator.ai/openai-gpt-6-2-astra-sol-cost-per-task/",
+    "releasePost": {
+      "title": "OpenAI API changelog: GPT-6.2 Sol and GPT-6.2 Astra",
+      "url": "https://developers.openai.com/api/docs/changelog",
+      "date": "2026-11-17",
+      "approximate": false,
+      "claim": "OpenAI adds GPT-6.2 Sol at $2 / $10 and GPT-6.2 Astra at $8 / $40 per million tokens, both with a 1.05M-token context and available in Codex.",
+      "availability": "general"
+    }
   },
   {
     "modelId": "gpt-6-cyber",
@@ -1855,6 +1873,14 @@
     ],
     "availability": "general",
     "lifecycleStatus": "current",
-    "note": "[V] API GA 2026-11-12. low/medium/high/xhigh; high default. No local coding cohort."
+    "note": "[V] API GA 2026-11-12. low/medium/high/xhigh; high default. No local coding cohort.",
+    "releasePost": {
+      "title": "Gemini API changelog: Gemini 4 Hydrogen",
+      "url": "https://ai.google.dev/gemini-api/docs/changelog",
+      "date": "2026-11-12",
+      "approximate": false,
+      "claim": "Google makes Gemini 4 Hydrogen generally available in the Gemini API at $1.50 / $7.50 per million tokens, with implicit caching only.",
+      "availability": "general"
+    }
   }
 ]

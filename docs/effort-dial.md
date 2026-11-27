@@ -23,7 +23,7 @@ What is new in the library:
 - A new evidence class, **F (measured in our fleet)**.
 - A creative benchmark catalogue in the TE-82 schemas, [`creative-benchmark-types.json`](../src/TokenEconomy/catalog/creative-benchmark-types.json) and [`creative-benchmark-results.json`](../src/TokenEconomy/catalog/creative-benchmark-results.json). How it was researched is recorded in [creative-benchmarks-2026-11-27.md](creative-benchmarks-2026-11-27.md).
 
-No website page changed in this card. The creative rows live in their own catalogue files, so the generated website projections stay identical (`generate-website-data.py --check` passes).
+No website page changed in TE-83. The creative rows live in their own catalogue files, so the generated website projections stayed identical. TE-84 then brought the dial onto the Cost Frontier page; see [On the website](#on-the-website-te-84).
 
 ## API
 
@@ -326,6 +326,16 @@ Conclusions are data (`conclusions`), each with `appliesTo`, `provisionalFor` an
 | The cache-read price is the main cost lever (6.1 Sol dominates 6 Sol) | a, b1, b2, c, d, e, f | h, g | i |
 | Haiku and Luna collapse at low and medium on hard reasoning | all (enforced by the loader) | – | – |
 | Preference arenas do not measure playability | i, b2 | – | – |
+
+## On the website (TE-84)
+
+The Cost Frontier page shows the dial in its **Quality dial** tab and the effort ladders in an **Effort ladders** tab. TE-84 implemented the brief's working decision: the dial *replaces* the earlier "percent of the best score" slider on that tab, so the page has one control from frugal to strong, not two.
+
+- **Data.** `tools/EffortDialSiteData` writes `website/data/effort-dial.json` from `EffortDial.Default`: the pick at every position 0..100 per class and CLI (as from/to segments), every rung's cost, the resolved evidence with class, date and links, the creative boards, the ladder rows, the fleet cohort, the cost-driver derivation and the subscription statements. Run `dotnet run --project tools/EffortDialSiteData -- website/data/effort-dial.json` after a catalogue change. `WebsiteEffortDialDataTests` fails when the committed file differs from the library.
+- **Page rules, enforced.** Only models whose price-catalogue lifecycle is `current` are offered. GPT-6 Sol appears only as the fleet's measured model and as the starting point of the cache-lever derivation. Public text never says route or routing and carries no task keys; `EffortDialSiteData.Clean` rewrites catalogue wording ("card" becomes "task", "restricted in routing" becomes "not yet cleared for our fleet") and throws on anything it cannot publish.
+- **Current models.** Newest per tier per lab. The one exception is GPT-6.1 Sol, which stays because it is what the dial runs on Codex while GPT-6.2 Sol is not yet cleared for the fleet. Claude Fable 5.1 and GPT-6 Astra are superseded (lifecycle-only price snapshot 2026-11-27); their Atlas rows stay in the catalogue and leave the page.
+- **Effort ladders.** Opus, Sonnet and Haiku 5.5, GPT-6.1 Sol, GPT-6.1 Terra and GPT-6 Luna on Terminal-Bench 4.1 (max only, so a model comparison with Sonnet's output-token volume), ARC-AGI-2 (17 Nov snapshot) and the Intelligence Index v5. For every stronger row at a lower level the page shows the cheapest higher-level row of the cheaper model of the same lab that reaches its score, or that model's best row when none does.
+- **Browser check.** `node scripts/test-cost-frontier-dial.mjs` (part of `scripts/check-website.mjs` and CI) drives the slider and CLI switch, checks the creative and subscription text, the fleet anonymisation and the page rules in every tab, and writes desktop (1440 px) and phone (390 px) screenshots.
 
 ## For the Studio card
 

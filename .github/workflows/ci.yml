@@ -48,3 +48,4 @@ jobs:
           python3 scripts/check-website-links.py
           node scripts/test-context-cost.mjs
           node scripts/test-language-page.mjs
+          node scripts/test-cost-frontier-dial.mjs
