@@ -129,6 +129,13 @@ selection rubric, and a standalone `ai-patterns` handoff.
 - **Completed-card economics:** compare model/reasoning pairs using local retries,
   dated token costs, review evidence, organisation refusals, and subscription
   quota share through the [decision API and CLI](docs/card-economics.md).
+- **Effort dial** — `EffortDial.Default.Pick(position, workClass, cli)` maps one
+  'frugal to strong' slider position (0..100) to a model and reasoning level per
+  work class from evidence-referenced ladders, applies declared floors, skips
+  routing-restricted models, and returns an expected list-price cost range per
+  accepted card (Codex also in credits; Claude list price as a flagged proxy).
+  `PicksAt` gives the inverse view for every class. See the
+  [dial contract](docs/effort-dial.md).
 
 - **Controlled A/B benchmarks** — versioned repository definitions execute the
   same task against model/effort variants in isolated workspaces, retain raw

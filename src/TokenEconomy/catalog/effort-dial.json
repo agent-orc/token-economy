@@ -1,0 +1,703 @@
+{
+  "$schema": "effort-dial.schema.json",
+  "schemaVersion": 1,
+  "asOfDate": "2026-11-27",
+  "decision": {
+    "decidedOn": "2026-11-17",
+    "semantics": "frugalToStrong",
+    "summary": "One slider steers cost and usage. The position directly picks model and reasoning level per work class from these ladders; usage follows from the picks. There is no weekly-budget target. Token Economy owns ladders, evidence and mapping; Agent Studio shows the slider and applies the picks.",
+    "standardEffort": "medium",
+    "hardWorkEffort": "high",
+    "xHighPolicy": "Targeted only: xhigh appears only above the default position in the hard and creative classes.",
+    "reviewAspectPolicy": "Review aspects stay on Opus 5.5 low (claude) at the default position."
+  },
+  "positions": {
+    "minimum": 0,
+    "maximum": 100,
+    "default": 50
+  },
+  "evidenceClasses": [
+    { "id": "M", "label": "Third-party measurement", "description": "Raw measurement pulled from a third-party publisher." },
+    { "id": "V", "label": "Vendor statement", "description": "Published by the model or plan vendor." },
+    { "id": "L", "label": "List-price derivation", "description": "Derived arithmetically from published list prices or rate cards." },
+    { "id": "P", "label": "Press or unverified", "description": "Press or operator lead not verified at the source." },
+    { "id": "F", "label": "Measured in our fleet", "description": "Measured on Agent Studio runs. Anonymised: no card keys or project names. A window and a case count are required." }
+  ],
+  "fleetCohorts": [
+    {
+      "id": "fleet-2026-11-17",
+      "evidenceClass": "F",
+      "windowStart": "2026-10-20",
+      "windowEnd": "2026-11-17",
+      "population": "Agent Studio coding cards whose cost is pure: one model and reasoning level carries at least 95% of the card's list-price cost.",
+      "pureCostShareThreshold": 0.95,
+      "priceBasis": "List price (USD) at execution time.",
+      "retryTaxShareOfSpend": 0.026,
+      "totalListSpendUsd": 12500,
+      "codingShareOfSpend": 0.98,
+      "caveats": [
+        "Levels were not assigned at random: harder cards tended to get higher levels, so per-level medians mix model effect and card difficulty.",
+        "Medians per accepted card; spend totals are approximate (about 12,500 USD over 28 days, 98% coding runs).",
+        "Retry tax in the window was about 2.6% of spend and is included in the per-card medians.",
+        "First-review counts use the cards that reached a first review, so their denominator can differ from the card count."
+      ],
+      "rows": [
+        { "id": "fleet-opus-5-5-low", "modelId": "claude-opus-5-5", "effort": "low", "cards": 16, "accepted": 16, "firstReviewPassed": 16, "firstReviewed": 16, "medianListUsdPerAcceptedCard": 1.58, "medianTokensPerAcceptedCard": 3000000 },
+        { "id": "fleet-opus-5-5-medium", "modelId": "claude-opus-5-5", "effort": "medium", "cards": 51, "accepted": 42, "firstReviewPassed": 50, "firstReviewed": 51, "medianListUsdPerAcceptedCard": 4.57, "medianTokensPerAcceptedCard": 11900000 },
+        { "id": "fleet-opus-5-5-high", "modelId": "claude-opus-5-5", "effort": "high", "cards": 77, "accepted": 75, "firstReviewPassed": 69, "firstReviewed": 76, "medianListUsdPerAcceptedCard": 9.65, "medianTokensPerAcceptedCard": 25500000 },
+        { "id": "fleet-gpt-6-sol-medium", "modelId": "gpt-6-sol", "effort": "medium", "cards": 92, "accepted": 67, "firstReviewPassed": 74, "firstReviewed": 75, "medianListUsdPerAcceptedCard": 8.25, "medianTokensPerAcceptedCard": 36600000 },
+        { "id": "fleet-gpt-6-sol-high", "modelId": "gpt-6-sol", "effort": "high", "cards": 219, "accepted": 199, "firstReviewPassed": 175, "firstReviewed": 205, "medianListUsdPerAcceptedCard": 10.80, "medianTokensPerAcceptedCard": 44900000 },
+        { "id": "fleet-gpt-6-sol-xhigh", "modelId": "gpt-6-sol", "effort": "xHigh", "cards": 16, "accepted": 16, "firstReviewPassed": 12, "firstReviewed": 16, "medianListUsdPerAcceptedCard": 14.53, "medianTokensPerAcceptedCard": 59600000 }
+      ],
+      "cacheReadObservations": [
+        { "id": "fleet-cache-gpt-6-sol-high", "modelId": "gpt-6-sol", "effort": "high", "cachedReadTokens": 17700000000, "cacheReadShareOfListCost": 0.74, "note": "Whole-window total: cached-input re-reads are about 74% of this model and level's list-price cost." },
+        { "id": "fleet-cache-opus-5-5-high", "modelId": "claude-opus-5-5", "effort": "high", "cachedReadTokens": 7100000000, "note": "Whole-window total; the cost share was not reported, so no Opus share is used in repricing." }
+      ]
+    }
+  ],
+  "evidence": [
+    { "id": "fleet-2026-11-17", "evidenceClass": "F", "scope": "fleet", "title": "Agent Studio 28-day pure-level coding cohort", "fleetRowIds": ["fleet-opus-5-5-low", "fleet-opus-5-5-medium", "fleet-opus-5-5-high", "fleet-gpt-6-sol-medium", "fleet-gpt-6-sol-high", "fleet-gpt-6-sol-xhigh"], "note": "Best measured value per accepted card; see the cohort caveats." },
+    { "id": "tb41-cost-per-trial", "evidenceClass": "M", "scope": "coding", "title": "Terminal-Bench 4.1 accuracy and USD per trial (TE-82)", "benchmarkResultIds": ["te82-tb41-claude-fable-5-2-max", "te82-tb41-claude-opus-5-5-max", "te82-tb41-claude-sonnet-5-5-max", "te82-tb41-claude-haiku-5-5-max", "te82-tb41-gpt-6.1-sol-max", "te82-tb41-gpt-6.1-terra-max", "te82-tb41-gpt-6-sol-max", "te82-tb41-gpt-6-luna-max", "te82-tb41-gpt-6.2-astra-max"], "note": "Coding evidence. Sonnet 5.5 costs 22.22 USD per trial against Opus 5.5 14.30 at max; Fable 5.2 costs about 3.5x Opus per trial at equal accuracy." },
+    { "id": "arc-agi-2-effort-shape", "evidenceClass": "M", "scope": "reasoningShape", "title": "ARC-AGI-2 semi-private effort ladders (TE-82)", "benchmarkResultIds": ["te82-arc2-claude-opus-5-5-low", "te82-arc2-claude-opus-5-5-high", "te82-arc2-claude-opus-5-5-xhigh", "te82-arc2-claude-opus-5-5-max", "te82-arc2-claude-sonnet-5-5-high", "te82-arc2-claude-sonnet-5-5-xhigh", "te82-arc2-claude-haiku-5-5-low", "te82-arc2-claude-haiku-5-5-medium", "te82-arc2-claude-fable-5-2-high", "te82-arc2-gpt-6.1-sol-low", "te82-arc2-gpt-6.1-sol-medium", "te82-arc2-gpt-6.1-sol-xhigh", "te82-arc2-gpt-6.1-sol-max", "te82-arc2-gpt-6-luna-low", "te82-arc2-gpt-6-luna-medium", "te82-arc2-gpt-6-sol-high", "te82-arc2-gpt-6.2-astra-high"], "note": "Reasoning effort-ladder shape and cost per task only, never coding or creative quality. Haiku 5.5 low/medium 2.8% / 9.4%, Luna low/medium 4.6% / 18.1%." },
+    { "id": "codex-credit-rate-cards", "evidenceClass": "V", "scope": "credits", "title": "Codex Standard credit rate cards, retrieved 2026-11-17 (TE-82)", "subscriptionObservationIds": ["te82-credits-gpt-6.1-sol", "te82-credits-gpt-6.1-terra", "te82-credits-gpt-6-sol", "te82-credits-gpt-6-luna", "te82-credits-gpt-6.2-sol", "te82-credits-gpt-6.2-astra"], "note": "Credits per MTok equal the API list price times 25 for every component." },
+    { "id": "openai-luna-guidance", "evidenceClass": "V", "scope": "vendor", "title": "OpenAI Codex model guide: Luna for clear, repeatable tasks", "sourceUrls": ["https://learn.chatgpt.com/docs/models"], "retrievedAt": "2026-11-27", "note": "Quote: 'Choose Luna for specific, high-volume tasks when you know what a good result looks like, such as extraction, classification, transformation, and structured summaries.'" },
+    { "id": "aa-3d", "evidenceClass": "M", "scope": "creative", "title": "AA-3D v1.0 (Artificial Analysis), max-effort rows", "benchmarkResultIds": ["te83-aa3d-claude-fable-5-2-max", "te83-aa3d-claude-sonnet-5-5-max", "te83-aa3d-claude-opus-5-5-max", "te83-aa3d-claude-haiku-5-5-max", "te83-aa3d-gpt-6.1-sol-max", "te83-aa3d-gpt-6.2-sol-max", "te83-aa3d-gpt-6.2-astra-max", "te83-aa3d-gpt-6-sol-max", "te83-aa3d-gpt-6-luna-max"], "note": "Human preference among scenes that passed a run check; no row below max for Claude or OpenAI candidates." },
+    { "id": "arena-webdev", "evidenceClass": "M", "scope": "creative", "title": "Arena Code Arena WebDev, 2026-11-23 snapshot", "benchmarkResultIds": ["te83-webdev-claude-fable-5-2-xhigh", "te83-webdev-claude-opus-5-5-max", "te83-webdev-claude-sonnet-5-5-xhigh", "te83-webdev-claude-sonnet-5-5-high", "te83-webdev-claude-haiku-5-5-high", "te83-webdev-gpt-6.1-sol-max", "te83-webdev-gpt-6.1-terra-max", "te83-webdev-gpt-6.2-sol-max"], "note": "Main source for UI work judged on visual quality; second source for creative work." },
+    { "id": "arena-3d", "evidenceClass": "M", "scope": "creative", "title": "Arena 3D leaderboard launch snapshot, 2026-11-23", "benchmarkResultIds": ["te83-arena3d-claude-fable-5-2-xhigh", "te83-arena3d-claude-opus-5-5-max", "te83-arena3d-claude-sonnet-5-5-xhigh", "te83-arena3d-claude-sonnet-5-5-high", "te83-arena3d-claude-haiku-5-5-high", "te83-arena3d-gpt-6.1-sol-max", "te83-arena3d-gpt-6.1-terra-max", "te83-arena3d-gpt-6.2-sol-max"], "note": "The only source with a Sonnet 5.5 high row on 3D work." },
+    { "id": "designarena-creative", "evidenceClass": "M", "scope": "creative", "title": "Design Arena 3D and game boards, updated 2026-11-27", "benchmarkResultIds": ["te83-da-3d-design-claude-opus-5-5-unspecified", "te83-da-3d-design-claude-sonnet-5-5-unspecified", "te83-da-game-dev-html-claude-opus-5-5-unspecified", "te83-da-game-dev-html-claude-sonnet-5-5-unspecified", "te83-da-game-dev-agentic-claude-opus-5-5-high", "te83-da-game-dev-agentic-gpt-6.1-sol-max", "te83-da-3d-design-gpt-6.1-sol-unspecified", "te83-da-game-dev-html-gpt-6.1-sol-unspecified"], "note": "Rows mostly at the provider's unpublished default effort; publishes average cost per generation." },
+    { "id": "designarena-web", "evidenceClass": "M", "scope": "creative", "title": "Design Arena website and agentic web-app boards, updated 2026-11-27", "benchmarkResultIds": ["te83-da-website-html-claude-opus-5-5-unspecified", "te83-da-website-html-claude-sonnet-5-5-unspecified", "te83-da-webapps-agentic-claude-opus-5-5-unspecified", "te83-da-webapps-agentic-claude-sonnet-5-5-unspecified", "te83-da-webapps-agentic-gpt-6.1-sol-unspecified"], "note": "Default effort; Opus ahead of Sonnet on agentic web apps (1311 vs 1285) at about 2.2x the cost per build." }
+  ],
+  "conclusions": [
+    {
+      "id": "sonnet-not-cheap-opus-on-coding",
+      "statement": "On coding benchmarks Sonnet 5.5 is not a cheap Opus 5.5: its token volume offsets its 50% token discount (Terminal-Bench 4.1: 22.22 USD per trial against 14.30, about twice the output tokens).",
+      "appliesTo": ["mechanical", "feature-logic", "hard"],
+      "provisionalFor": ["review-aspect", "review-decision", "research", "orchestrator-chat"],
+      "doesNotApplyTo": ["ui-visual", "creative"],
+      "evidenceIds": ["tb41-cost-per-trial"]
+    },
+    {
+      "id": "sonnet-level-with-opus-on-3d-at-max",
+      "statement": "On interactive 3D scenes Sonnet 5.5 and Opus 5.5 at max are level within the 95% interval (AA-3D 1204 vs 1202), and Sonnet's derived cost per AA-3D task is about two thirds of Opus's. Fable 5.2 is ahead (1271).",
+      "appliesTo": ["creative"],
+      "provisionalFor": [],
+      "doesNotApplyTo": ["mechanical", "feature-logic", "ui-visual", "hard", "review-aspect", "review-decision", "research", "summary", "orchestrator-chat"],
+      "evidenceIds": ["aa-3d"]
+    },
+    {
+      "id": "opus-ahead-on-webdev",
+      "statement": "On WebDev Arena (23 Nov) Opus 5.5 max is about 48 points above Sonnet 5.5 xhigh and about 105 above Sonnet 5.5 high, outside both intervals. The Arena 3D board shows the same order but a smaller gap for Sonnet high (Sonnet high does better on 3D than its overall level predicts).",
+      "appliesTo": ["ui-visual"],
+      "provisionalFor": ["creative"],
+      "doesNotApplyTo": ["mechanical", "feature-logic", "hard", "review-aspect", "review-decision", "research", "summary", "orchestrator-chat"],
+      "evidenceIds": ["arena-webdev", "arena-3d"]
+    },
+    {
+      "id": "cache-read-price-is-the-lever",
+      "statement": "Fleet agent runs are dominated by cached-input re-reads (gpt-6-sol high: 17.7 B cached-read tokens, about 74% of its list-price cost), so the per-token cache price is the main cost lever: gpt-6.1-sol (cached 0.10) dominates gpt-6-sol (cached 0.20) at the same input and output price.",
+      "appliesTo": ["mechanical", "feature-logic", "ui-visual", "hard", "review-aspect", "review-decision", "research"],
+      "provisionalFor": ["orchestrator-chat", "summary"],
+      "doesNotApplyTo": ["creative"],
+      "evidenceIds": ["fleet-2026-11-17"]
+    },
+    {
+      "id": "light-models-collapse-on-hard-work",
+      "statement": "Haiku 5.5 and Luna collapse at low and medium effort on hard reasoning (ARC-AGI-2: Haiku 2.8% / 9.4%, Luna 4.6% / 18.1%). They appear only in the mechanical (pure docs/config) and summary classes; the catalogue loader rejects a light-tier rung anywhere else.",
+      "appliesTo": ["mechanical", "feature-logic", "ui-visual", "hard", "review-aspect", "review-decision", "research", "summary", "orchestrator-chat", "creative"],
+      "provisionalFor": [],
+      "doesNotApplyTo": [],
+      "evidenceIds": ["arc-agi-2-effort-shape"]
+    },
+    {
+      "id": "preference-arenas-do-not-measure-playability",
+      "statement": "AA-3D excludes scenes that do not run before the vote, so its Elo is preference among valid results and says nothing about how reliably a model produces something playable. Arena counts 'both bad' votes but publishes no per-model failure rate. Technical execution has to be measured on our own creative cards (playable rate).",
+      "appliesTo": ["creative", "ui-visual"],
+      "provisionalFor": [],
+      "doesNotApplyTo": [],
+      "evidenceIds": ["aa-3d", "arena-3d"]
+    }
+  ],
+  "creativeRubric": {
+    "dimensions": [
+      { "id": "originality", "label": "Originality", "question": "Does the result have an interesting idea or mechanic?", "gameExample": "Does the game have an interesting idea or mechanic?" },
+      { "id": "design", "label": "Design", "question": "Do colours, lighting, shapes, animations and user interface fit together?", "gameExample": "Do colours, lighting, shapes, animations and user interface fit together?" },
+      { "id": "gameFeel", "label": "Game feel", "question": "Are controls, camera, pace and feedback pleasant?", "gameExample": "Are controls, camera, pace and feedback pleasant?" },
+      { "id": "technicalExecution", "label": "Technical execution", "question": "Do collisions, game states, restart and performance work?", "gameExample": "Do collisions, game states, restart and performance work?" }
+    ],
+    "benchmarks": [
+      {
+        "benchmarkTypeId": "aa-3d-v1.0-2026-11-27",
+        "method": "humanPreference",
+        "judged": "Interactive three.js scenes and small games built by an agent from a written brief (55 tasks, 7 domains, 3 h / 250 turns, offline sandbox with Blender, Rapier, headless browser and a CC0 asset library).",
+        "coverage": "Max effort for Claude and OpenAI candidates; Gemini at high or xhigh. No Sonnet 5.5 high or Opus 5.5 low row.",
+        "dimensions": { "originality": "partial", "design": "measured", "gameFeel": "measured", "technicalExecution": "excluded" },
+        "excludesBrokenBuildsBeforeVote": true,
+        "publishesNonRunningShare": false,
+        "publishesCost": "tokensPerTask",
+        "notes": "Panelists must view each scene at least 30 s and can interact with it; votes blind; Bradley-Terry with 95% sandwich intervals. Scenes must load within 60 s in a software-rendered headless browser, keep rendering, show a non-blank image and run offline, then pass a manual review. Cost per task is derived by TE-83 from AA's published token counts and prices (cache writes excluded).",
+        "gaps": [
+          "No published share of excluded (non-running) scenes per model. TE-83 counted scenes in blind voting from AA's per-task coverage data on 54 of the 55 tasks: Fable 5.2 54, Opus 5.5 49, Sonnet 5.5 46, Haiku 5.5 50, GPT-6.1 Sol 52, GPT-6.2 Sol 54. This proxies valid-scene rate after AA's check; it is not a playable rate.",
+          "No rows below max effort for Claude or OpenAI models, so no ranking for Sonnet 5.5 high against Opus 5.5 low."
+        ]
+      },
+      {
+        "benchmarkTypeId": "arena-code-webdev-2026-11-23",
+        "method": "humanPreference",
+        "judged": "Web applications built from a user's own description; the user compares two anonymous builds and votes A, B, tie or both bad. Combines design, meeting the requirements and interactivity.",
+        "coverage": "Opus 5.5 max, Sonnet 5.5 xhigh and high, Haiku 5.5 high, Fable 5.2 xhigh, GPT-6.1 Sol max, GPT-6.1 Terra max, GPT-6.2 Sol and Astra max, Gemini 4 Carbon high, Hydrogen xhigh, Argon high. No Opus 5.5 below max and no GPT-6.1 Sol below max.",
+        "dimensions": { "originality": "none", "design": "measured", "gameFeel": "partial", "technicalExecution": "partial" },
+        "excludesBrokenBuildsBeforeVote": false,
+        "publishesNonRunningShare": false,
+        "publishesCost": "none",
+        "notes": "Broken builds are not filtered before the vote; voters can pick 'both bad', which folds part of technical execution into the score. Requirement fit is judged by the requester.",
+        "gaps": [
+          "No per-model share of broken builds or 'both bad' votes.",
+          "No cost or tokens per battle."
+        ]
+      },
+      {
+        "benchmarkTypeId": "arena-code-webdev-3d-2026-11-23",
+        "method": "humanPreference",
+        "judged": "Code Arena battles whose request explicitly asks for a 3D result (games, worlds, simulations, 3D web apps).",
+        "coverage": "Same configurations as WebDev, including Sonnet 5.5 high (1817 +/- 16) and xhigh (1868 +/- 21) against Opus 5.5 max (1915 +/- 28).",
+        "dimensions": { "originality": "partial", "design": "measured", "gameFeel": "partial", "technicalExecution": "partial" },
+        "excludesBrokenBuildsBeforeVote": false,
+        "publishesNonRunningShare": false,
+        "publishesCost": "none",
+        "notes": "Arena's exploratory analysis says winning builds first have to run and move (a build that drew a 3D scene won 73% against one that did not), then win on visual fidelity and art direction; games are won mostly on UI, HUD and onboarding. Voters rejected both builds in 13% of 3D battles.",
+        "gaps": [
+          "Launch snapshot only; vote counts per model not in the post.",
+          "Gameplay depth and physics were not assessable in Arena's judge analysis."
+        ]
+      },
+      {
+        "benchmarkTypeId": "designarena-3d-design-2026-11-27",
+        "method": "humanPreference",
+        "judged": "Single-shot HTML 3D scenes from user prompts.",
+        "coverage": "Opus 5.5, Sonnet 5.5, Fable 5.2, Haiku 5.5, GPT-6.1 Sol, Terra, GPT-6.2 Sol at the provider default effort (not published).",
+        "dimensions": { "originality": "partial", "design": "measured", "gameFeel": "none", "technicalExecution": "none" },
+        "excludesBrokenBuildsBeforeVote": null,
+        "publishesNonRunningShare": false,
+        "publishesCost": "costPerGeneration",
+        "notes": "Opus 5.5 1449 vs Sonnet 5.5 1395 (+/- one SE 7 and 9); Fable 5.2 1511.",
+        "gaps": ["Effort level not published for unnamed rows.", "No broken-build rule published."]
+      },
+      {
+        "benchmarkTypeId": "designarena-game-dev-html-2026-11-27",
+        "method": "humanPreference",
+        "judged": "Single-shot playable browser games from user prompts.",
+        "coverage": "Same models at the provider default effort.",
+        "dimensions": { "originality": "partial", "design": "measured", "gameFeel": "measured", "technicalExecution": "partial" },
+        "excludesBrokenBuildsBeforeVote": null,
+        "publishesNonRunningShare": false,
+        "publishesCost": "costPerGeneration",
+        "notes": "Opus 5.5 1438 vs Sonnet 5.5 1427 (one SE about 8): level. Sonnet cost per generation 0.58 USD vs Opus 0.76.",
+        "gaps": ["Effort level not published for unnamed rows.", "No broken-build rule published."]
+      },
+      {
+        "benchmarkTypeId": "designarena-game-dev-agentic-2026-11-27",
+        "method": "humanPreference",
+        "judged": "Multi-file Three.js games built end to end by coding agents.",
+        "coverage": "Opus 5.5 high (1408, rank 1) and GPT-6.1 Sol max (1237); no Sonnet 5.5 row.",
+        "dimensions": { "originality": "partial", "design": "measured", "gameFeel": "measured", "technicalExecution": "partial" },
+        "excludesBrokenBuildsBeforeVote": null,
+        "publishesNonRunningShare": false,
+        "publishesCost": "costPerGeneration",
+        "notes": "About 370 battles per model; Opus 5.5 high average cost 3.19 USD per build, GPT-6.1 Sol max 1.07.",
+        "gaps": ["No interval published on this board.", "No Sonnet 5.5 row."]
+      },
+      {
+        "benchmarkTypeId": "designarena-website-html-2026-11-27",
+        "method": "humanPreference",
+        "judged": "Single-shot websites from user prompts.",
+        "coverage": "Default effort.",
+        "dimensions": { "originality": "partial", "design": "measured", "gameFeel": "none", "technicalExecution": "none" },
+        "excludesBrokenBuildsBeforeVote": null,
+        "publishesNonRunningShare": false,
+        "publishesCost": "costPerGeneration",
+        "notes": "Opus 5.5 1323, GPT-6.1 Sol 1310, Sonnet 5.5 1308: close at default effort.",
+        "gaps": ["No interval on this board."]
+      },
+      {
+        "benchmarkTypeId": "designarena-webapps-agentic-2026-11-27",
+        "method": "humanPreference",
+        "judged": "Agent-built frontend web applications.",
+        "coverage": "Default effort.",
+        "dimensions": { "originality": "none", "design": "measured", "gameFeel": "none", "technicalExecution": "partial" },
+        "excludesBrokenBuildsBeforeVote": null,
+        "publishesNonRunningShare": false,
+        "publishesCost": "costPerGeneration",
+        "notes": "Opus 5.5 1311 (3.53 USD per build), Sonnet 5.5 1285 (1.59), GPT-6.1 Sol 1254 (0.63).",
+        "gaps": ["No interval on this board."]
+      }
+    ]
+  },
+  "workClasses": [
+    {
+      "id": "mechanical",
+      "letter": "a",
+      "label": "Mechanical rounds",
+      "description": "Merge and rebase steering, docs moves, configuration edits.",
+      "evidenceBasis": "coding",
+      "allowLightTier": true,
+      "confidence": "medium",
+      "floors": [
+        { "cli": "claude", "condition": "code-change", "rungId": "mechanical.claude.opus-5-5-low", "reason": "Haiku 5.5 is for pure docs/config rounds only; any code change starts at Opus 5.5 low." }
+      ],
+      "evidenceGaps": ["No fleet cohort for Haiku 5.5, Sonnet 5.5 or GPT-6.1 Terra on mechanical rounds."],
+      "ladders": {
+        "claude": {
+          "rungs": [
+            {
+              "id": "mechanical.claude.haiku-5-5-medium", "modelId": "claude-haiku-5-5", "effort": "medium", "fromPosition": 0, "confidence": "low",
+              "restriction": "Pure docs/config rounds only (no code change).", "evidenceIds": ["arc-agi-2-effort-shape", "tb41-cost-per-trial"],
+              "expectedCost": { "anchor": { "fleetRowId": "fleet-opus-5-5-low" }, "factors": [
+                { "low": [{ "benchmarkRatio": ["te82-arc2-claude-haiku-5-5-medium", "te82-arc2-claude-opus-5-5-low"] }], "high": [{ "benchmarkRatio": ["te82-tb41-claude-haiku-5-5-max", "te82-tb41-claude-opus-5-5-max"] }], "note": "Haiku against Opus cost per task: ARC-AGI-2 (medium vs low) as lower and Terminal-Bench 4.1 (max vs max) as upper bound." } ] },
+              "measuredQuotaWeight": null
+            },
+            {
+              "id": "mechanical.claude.opus-5-5-low", "modelId": "claude-opus-5-5", "effort": "low", "fromPosition": 20, "confidence": "high",
+              "evidenceIds": ["fleet-2026-11-17"], "expectedCost": { "anchor": { "fleetRowId": "fleet-opus-5-5-low" }, "factors": [] }, "measuredQuotaWeight": null,
+              "note": "Fleet: 16 of 16 accepted, 16 of 16 first reviews passed, 1.58 USD median."
+            },
+            {
+              "id": "mechanical.claude.opus-5-5-medium", "modelId": "claude-opus-5-5", "effort": "medium", "fromPosition": 75, "confidence": "high",
+              "evidenceIds": ["fleet-2026-11-17"], "expectedCost": { "anchor": { "fleetRowId": "fleet-opus-5-5-medium" }, "factors": [] }, "measuredQuotaWeight": null
+            }
+          ],
+          "candidates": [
+            { "modelId": "claude-sonnet-5-5", "effort": "medium", "evidenceIds": ["tb41-cost-per-trial", "arc-agi-2-effort-shape"], "reason": "The research lead placed Sonnet 5.5 medium between Haiku and Opus. Coding cost evidence conflicts (Terminal-Bench 4.1 puts Sonnet above Opus per trial, ARC-AGI-2 below) and Opus 5.5 low is already measured at 1.58 USD with 16/16 accepted, so Sonnet stays a candidate until a fleet cohort exists." }
+          ]
+        },
+        "codex": {
+          "rungs": [
+            {
+              "id": "mechanical.codex.gpt-6.1-terra-low", "modelId": "gpt-6.1-terra", "effort": "low", "fromPosition": 0, "confidence": "low",
+              "evidenceIds": ["tb41-cost-per-trial", "arc-agi-2-effort-shape", "codex-credit-rate-cards"],
+              "expectedCost": { "anchor": { "fleetRowId": "fleet-gpt-6-sol-medium" }, "factors": [
+                { "low": [{ "reprice": { "fromModelId": "gpt-6-sol", "toModelId": "gpt-6.1-terra", "cacheReadShare": 0.85 } }], "high": [{ "benchmarkRatio": ["te82-tb41-gpt-6.1-terra-max", "te82-tb41-gpt-6-sol-max"] }], "note": "Lower bound: same tokens at Terra's prices; upper bound: Terminal-Bench 4.1 total cost ratio, which includes Terra's higher token volume." },
+                { "low": [{ "fleetRatio": ["fleet-opus-5-5-low", "fleet-opus-5-5-medium"] }], "high": [{ "benchmarkRatio": ["te82-arc2-gpt-6.1-sol-low", "te82-arc2-gpt-6.1-sol-medium"] }], "note": "Low against medium effort step: fleet Opus low/medium and ARC-AGI-2 6.1 Sol low/medium." } ] },
+              "measuredQuotaWeight": null
+            },
+            {
+              "id": "mechanical.codex.gpt-6.1-terra-medium", "modelId": "gpt-6.1-terra", "effort": "medium", "fromPosition": 20, "confidence": "low",
+              "evidenceIds": ["tb41-cost-per-trial", "codex-credit-rate-cards"],
+              "expectedCost": { "anchor": { "fleetRowId": "fleet-gpt-6-sol-medium" }, "factors": [
+                { "low": [{ "reprice": { "fromModelId": "gpt-6-sol", "toModelId": "gpt-6.1-terra", "cacheReadShare": 0.85 } }], "high": [{ "benchmarkRatio": ["te82-tb41-gpt-6.1-terra-max", "te82-tb41-gpt-6-sol-max"] }], "note": "Same bounds as the Terra low rung without the effort step." } ] },
+              "measuredQuotaWeight": null
+            },
+            {
+              "id": "mechanical.codex.gpt-6.1-sol-low", "modelId": "gpt-6.1-sol", "effort": "low", "fromPosition": 40, "confidence": "medium",
+              "evidenceIds": ["fleet-2026-11-17", "arc-agi-2-effort-shape", "codex-credit-rate-cards"],
+              "expectedCost": { "anchor": { "fleetRowId": "fleet-gpt-6-sol-medium" }, "factors": [
+                { "low": [{ "reprice": { "fromModelId": "gpt-6-sol", "toModelId": "gpt-6.1-sol", "cacheReadShare": 0.85 } }], "high": [{ "reprice": { "fromModelId": "gpt-6-sol", "toModelId": "gpt-6.1-sol", "cacheReadShare": 0.65 } }], "note": "Cache-read share assumed between 65% and 85% around the measured 74% at high effort." },
+                { "low": [{ "fleetRatio": ["fleet-opus-5-5-low", "fleet-opus-5-5-medium"] }], "high": [{ "benchmarkRatio": ["te82-arc2-gpt-6.1-sol-low", "te82-arc2-gpt-6.1-sol-medium"] }], "note": "Low against medium effort step." } ] },
+              "measuredQuotaWeight": null
+            },
+            {
+              "id": "mechanical.codex.gpt-6.1-sol-medium", "modelId": "gpt-6.1-sol", "effort": "medium", "fromPosition": 75, "confidence": "medium",
+              "evidenceIds": ["fleet-2026-11-17", "codex-credit-rate-cards"],
+              "expectedCost": { "anchor": { "fleetRowId": "fleet-gpt-6-sol-medium" }, "factors": [
+                { "low": [{ "reprice": { "fromModelId": "gpt-6-sol", "toModelId": "gpt-6.1-sol", "cacheReadShare": 0.85 } }], "high": [{ "reprice": { "fromModelId": "gpt-6-sol", "toModelId": "gpt-6.1-sol", "cacheReadShare": 0.65 } }], "note": "Cache-read share assumed between 65% and 85% around the measured 74% at high effort." } ] },
+              "measuredQuotaWeight": null
+            }
+          ],
+          "candidates": []
+        }
+      }
+    },
+    {
+      "id": "feature-logic",
+      "letter": "b1",
+      "label": "Standard feature logic",
+      "description": "Normal feature and bug-fix cards whose acceptance criterion is behaviour, not visual quality.",
+      "evidenceBasis": "coding",
+      "allowLightTier": false,
+      "confidence": "high",
+      "floors": [
+        { "cli": "claude", "condition": "correctness-critical", "rungId": "feature-logic.claude.opus-5-5-high", "reason": "Correctness-critical feature work never runs below Opus 5.5 high." },
+        { "cli": "codex", "condition": "correctness-critical", "rungId": "feature-logic.codex.gpt-6.1-sol-high", "reason": "Correctness-critical feature work never runs below GPT-6.1 Sol high." }
+      ],
+      "evidenceGaps": ["No fleet cohort for GPT-6.1 Sol yet; its cost is repriced from the gpt-6-sol cohort."],
+      "ladders": {
+        "claude": {
+          "rungs": [
+            { "id": "feature-logic.claude.opus-5-5-medium", "modelId": "claude-opus-5-5", "effort": "medium", "fromPosition": 0, "confidence": "high", "evidenceIds": ["fleet-2026-11-17"], "expectedCost": { "anchor": { "fleetRowId": "fleet-opus-5-5-medium" }, "factors": [] }, "measuredQuotaWeight": null, "note": "Best measured value in the fleet: 4.57 USD median, 50 of 51 first reviews passed." },
+            { "id": "feature-logic.claude.opus-5-5-high", "modelId": "claude-opus-5-5", "effort": "high", "fromPosition": 75, "confidence": "high", "evidenceIds": ["fleet-2026-11-17"], "expectedCost": { "anchor": { "fleetRowId": "fleet-opus-5-5-high" }, "factors": [] }, "measuredQuotaWeight": null }
+          ],
+          "candidates": [
+            { "modelId": "claude-sonnet-5-5", "effort": "high", "evidenceIds": ["tb41-cost-per-trial"], "reason": "Candidate only: on coding work Sonnet's token volume offsets its discount (Terminal-Bench 4.1 22.22 USD per trial against Opus 14.30)." }
+          ]
+        },
+        "codex": {
+          "rungs": [
+            { "id": "feature-logic.codex.gpt-6.1-sol-medium", "modelId": "gpt-6.1-sol", "effort": "medium", "fromPosition": 0, "confidence": "medium", "evidenceIds": ["fleet-2026-11-17", "codex-credit-rate-cards"],
+              "expectedCost": { "anchor": { "fleetRowId": "fleet-gpt-6-sol-medium" }, "factors": [
+                { "low": [{ "reprice": { "fromModelId": "gpt-6-sol", "toModelId": "gpt-6.1-sol", "cacheReadShare": 0.85 } }], "high": [{ "reprice": { "fromModelId": "gpt-6-sol", "toModelId": "gpt-6.1-sol", "cacheReadShare": 0.65 } }], "note": "Cache-read share assumed between 65% and 85% around the measured 74% at high effort." } ] }, "measuredQuotaWeight": null },
+            { "id": "feature-logic.codex.gpt-6.1-sol-high", "modelId": "gpt-6.1-sol", "effort": "high", "fromPosition": 75, "confidence": "medium", "evidenceIds": ["fleet-2026-11-17", "codex-credit-rate-cards"],
+              "expectedCost": { "anchor": { "fleetRowId": "fleet-gpt-6-sol-high" }, "factors": [
+                { "low": [{ "reprice": { "fromModelId": "gpt-6-sol", "toModelId": "gpt-6.1-sol", "cacheReadObservationId": "fleet-cache-gpt-6-sol-high" } }], "high": [{ "reprice": { "fromModelId": "gpt-6-sol", "toModelId": "gpt-6.1-sol", "cacheReadObservationId": "fleet-cache-gpt-6-sol-high" } }], "note": "Measured 74% cache-read share; same token profile at GPT-6.1 Sol prices." } ] }, "measuredQuotaWeight": null }
+          ],
+          "candidates": []
+        }
+      }
+    },
+    {
+      "id": "ui-visual",
+      "letter": "b2",
+      "label": "UI work judged on visual quality",
+      "description": "Interface cards whose acceptance criterion is visual quality (layout, polish, aesthetics), split out of standard feature work.",
+      "evidenceBasis": "uiVisual",
+      "allowLightTier": false,
+      "confidence": "medium",
+      "floors": [],
+      "evidenceGaps": [
+        "WebDev Arena has no Opus 5.5 row below max and no GPT-6.1 Sol row below max, so the default rungs rest on fleet coding value, not on visual-quality evidence at that effort.",
+        "No fleet cohort of UI cards with a visual acceptance verdict."
+      ],
+      "ladders": {
+        "claude": {
+          "rungs": [
+            { "id": "ui-visual.claude.opus-5-5-medium", "modelId": "claude-opus-5-5", "effort": "medium", "fromPosition": 0, "confidence": "medium", "evidenceIds": ["fleet-2026-11-17"], "expectedCost": { "anchor": { "fleetRowId": "fleet-opus-5-5-medium" }, "factors": [] }, "measuredQuotaWeight": null, "note": "Standard medium; visual quality at this effort is not measured by any arena." },
+            { "id": "ui-visual.claude.opus-5-5-high", "modelId": "claude-opus-5-5", "effort": "high", "fromPosition": 60, "confidence": "medium", "evidenceIds": ["fleet-2026-11-17", "designarena-web"], "expectedCost": { "anchor": { "fleetRowId": "fleet-opus-5-5-high" }, "factors": [] }, "measuredQuotaWeight": null },
+            { "id": "ui-visual.claude.opus-5-5-max", "modelId": "claude-opus-5-5", "effort": "max", "fromPosition": 85, "confidence": "medium", "evidenceIds": ["arena-webdev", "designarena-web"],
+              "expectedCost": { "anchor": { "fleetRowId": "fleet-opus-5-5-high" }, "factors": [
+                { "low": [{ "fleetRatio": ["fleet-gpt-6-sol-xhigh", "fleet-gpt-6-sol-high"] }], "high": [{ "benchmarkRatio": ["te82-arc2-claude-opus-5-5-max", "te82-arc2-claude-opus-5-5-high"] }], "note": "Max against high: at least the fleet xhigh/high step, at most the ARC-AGI-2 Opus max/high cost ratio." } ] },
+              "measuredQuotaWeight": null, "note": "WebDev Arena 1820 (23 Nov), level with Fable 5.2 xhigh 1822 and ahead of every Sonnet configuration." }
+          ],
+          "candidates": [
+            { "modelId": "claude-sonnet-5-5", "effort": "xHigh", "evidenceIds": ["arena-webdev", "designarena-web"], "reason": "WebDev 1773, about 48 below Opus max but cheaper per build on Design Arena web apps; needs a fleet UI cohort before it can replace an Opus rung." },
+            { "modelId": "claude-sonnet-5-5", "effort": "high", "evidenceIds": ["arena-webdev"], "reason": "WebDev 1715, about 105 below Opus max; no Opus medium/high WebDev row to compare against." },
+            { "modelId": "claude-fable-5-2", "effort": "xHigh", "evidenceIds": ["arena-webdev"], "reason": "WebDev 1822, level with Opus max; restricted in routing until fleet compatibility is observed." }
+          ]
+        },
+        "codex": {
+          "rungs": [
+            { "id": "ui-visual.codex.gpt-6.1-sol-medium", "modelId": "gpt-6.1-sol", "effort": "medium", "fromPosition": 0, "confidence": "low", "evidenceIds": ["fleet-2026-11-17", "codex-credit-rate-cards"],
+              "expectedCost": { "anchor": { "fleetRowId": "fleet-gpt-6-sol-medium" }, "factors": [
+                { "low": [{ "reprice": { "fromModelId": "gpt-6-sol", "toModelId": "gpt-6.1-sol", "cacheReadShare": 0.85 } }], "high": [{ "reprice": { "fromModelId": "gpt-6-sol", "toModelId": "gpt-6.1-sol", "cacheReadShare": 0.65 } }], "note": "Cache-read share assumed between 65% and 85%." } ] }, "measuredQuotaWeight": null },
+            { "id": "ui-visual.codex.gpt-6.1-sol-high", "modelId": "gpt-6.1-sol", "effort": "high", "fromPosition": 60, "confidence": "low", "evidenceIds": ["fleet-2026-11-17", "codex-credit-rate-cards"],
+              "expectedCost": { "anchor": { "fleetRowId": "fleet-gpt-6-sol-high" }, "factors": [
+                { "low": [{ "reprice": { "fromModelId": "gpt-6-sol", "toModelId": "gpt-6.1-sol", "cacheReadObservationId": "fleet-cache-gpt-6-sol-high" } }], "high": [{ "reprice": { "fromModelId": "gpt-6-sol", "toModelId": "gpt-6.1-sol", "cacheReadObservationId": "fleet-cache-gpt-6-sol-high" } }], "note": "Measured 74% cache-read share." } ] }, "measuredQuotaWeight": null },
+            { "id": "ui-visual.codex.gpt-6.1-sol-max", "modelId": "gpt-6.1-sol", "effort": "max", "fromPosition": 85, "confidence": "medium", "evidenceIds": ["arena-webdev", "designarena-web", "codex-credit-rate-cards"],
+              "expectedCost": { "anchor": { "fleetRowId": "fleet-gpt-6-sol-xhigh" }, "factors": [
+                { "low": [{ "reprice": { "fromModelId": "gpt-6-sol", "toModelId": "gpt-6.1-sol", "cacheReadShare": 0.85 } }], "high": [{ "reprice": { "fromModelId": "gpt-6-sol", "toModelId": "gpt-6.1-sol", "cacheReadShare": 0.65 } }], "note": "Cache-read share assumed between 65% and 85%." },
+                { "low": [{ "benchmarkRatio": ["te82-arc2-gpt-6.1-sol-max", "te82-arc2-gpt-6.1-sol-xhigh"] }], "high": [{ "benchmarkRatio": ["te82-arc2-claude-opus-5-5-max", "te82-arc2-claude-opus-5-5-xhigh"] }], "note": "Max against xhigh effort step from ARC-AGI-2 cost shapes." } ] },
+              "measuredQuotaWeight": null, "note": "WebDev Arena 1745 (23 Nov)." }
+          ],
+          "candidates": [
+            { "modelId": "gpt-6.2-sol", "effort": "max", "evidenceIds": ["arena-webdev"], "reason": "WebDev 1755 and first on the HTML sub-board (1851); restricted in routing until fleet compatibility is observed." }
+          ]
+        }
+      }
+    },
+    {
+      "id": "hard",
+      "letter": "c",
+      "label": "Hard bugs, concurrency and architecture",
+      "description": "Unclear bugs, concurrency, architecture and other correctness-critical cards that need high reasoning.",
+      "evidenceBasis": "coding",
+      "allowLightTier": false,
+      "confidence": "medium",
+      "floors": [
+        { "cli": "claude", "condition": null, "rungId": "hard.claude.opus-5-5-high", "reason": "Hard cards never run below high reasoning." },
+        { "cli": "codex", "condition": null, "rungId": "hard.codex.gpt-6.1-sol-high", "reason": "Hard cards never run below high reasoning." }
+      ],
+      "evidenceGaps": ["No fleet cohort for Opus 5.5 xhigh; its cost is bounded from effort-step ratios."],
+      "ladders": {
+        "claude": {
+          "rungs": [
+            { "id": "hard.claude.opus-5-5-high", "modelId": "claude-opus-5-5", "effort": "high", "fromPosition": 0, "confidence": "high", "evidenceIds": ["fleet-2026-11-17", "tb41-cost-per-trial"], "expectedCost": { "anchor": { "fleetRowId": "fleet-opus-5-5-high" }, "factors": [] }, "measuredQuotaWeight": null },
+            { "id": "hard.claude.opus-5-5-xhigh", "modelId": "claude-opus-5-5", "effort": "xHigh", "fromPosition": 60, "confidence": "medium", "evidenceIds": ["arc-agi-2-effort-shape", "tb41-cost-per-trial"],
+              "expectedCost": { "anchor": { "fleetRowId": "fleet-opus-5-5-high" }, "factors": [
+                { "low": [{ "fleetRatio": ["fleet-gpt-6-sol-xhigh", "fleet-gpt-6-sol-high"] }], "high": [{ "benchmarkRatio": ["te82-arc2-claude-opus-5-5-xhigh", "te82-arc2-claude-opus-5-5-high"] }], "note": "Xhigh against high: fleet gpt-6-sol step as lower, ARC-AGI-2 Opus step as upper bound." } ] }, "measuredQuotaWeight": null },
+            { "id": "hard.claude.fable-5-2-high", "modelId": "claude-fable-5-2", "effort": "high", "escalationOnly": true, "confidence": "low", "evidenceIds": ["tb41-cost-per-trial", "arc-agi-2-effort-shape"],
+              "expectedCost": { "anchor": { "fleetRowId": "fleet-opus-5-5-high" }, "factors": [
+                { "low": [{ "benchmarkRatio": ["te82-arc2-claude-fable-5-2-high", "te82-arc2-claude-opus-5-5-high"] }], "high": [{ "benchmarkRatio": ["te82-tb41-claude-fable-5-2-max", "te82-tb41-claude-opus-5-5-max"] }], "note": "Fable against Opus: ARC-AGI-2 at high as lower, Terminal-Bench 4.1 at max (about 3.5x per trial at equal accuracy) as upper bound." } ] },
+              "measuredQuotaWeight": null, "note": "Escalation only, after Opus has failed the card; never picked by slider position." }
+          ],
+          "candidates": []
+        },
+        "codex": {
+          "rungs": [
+            { "id": "hard.codex.gpt-6.1-sol-high", "modelId": "gpt-6.1-sol", "effort": "high", "fromPosition": 0, "confidence": "medium", "evidenceIds": ["fleet-2026-11-17", "codex-credit-rate-cards"],
+              "expectedCost": { "anchor": { "fleetRowId": "fleet-gpt-6-sol-high" }, "factors": [
+                { "low": [{ "reprice": { "fromModelId": "gpt-6-sol", "toModelId": "gpt-6.1-sol", "cacheReadObservationId": "fleet-cache-gpt-6-sol-high" } }], "high": [{ "reprice": { "fromModelId": "gpt-6-sol", "toModelId": "gpt-6.1-sol", "cacheReadObservationId": "fleet-cache-gpt-6-sol-high" } }], "note": "Measured 74% cache-read share." } ] }, "measuredQuotaWeight": null },
+            { "id": "hard.codex.gpt-6.1-sol-xhigh", "modelId": "gpt-6.1-sol", "effort": "xHigh", "fromPosition": 60, "confidence": "medium", "evidenceIds": ["fleet-2026-11-17", "codex-credit-rate-cards"],
+              "expectedCost": { "anchor": { "fleetRowId": "fleet-gpt-6-sol-xhigh" }, "factors": [
+                { "low": [{ "reprice": { "fromModelId": "gpt-6-sol", "toModelId": "gpt-6.1-sol", "cacheReadShare": 0.85 } }], "high": [{ "reprice": { "fromModelId": "gpt-6-sol", "toModelId": "gpt-6.1-sol", "cacheReadShare": 0.65 } }], "note": "Cache-read share assumed between 65% and 85%." } ] }, "measuredQuotaWeight": null },
+            { "id": "hard.codex.gpt-6.2-astra-high", "modelId": "gpt-6.2-astra", "effort": "high", "escalationOnly": true, "confidence": "low", "evidenceIds": ["tb41-cost-per-trial", "arc-agi-2-effort-shape", "codex-credit-rate-cards"],
+              "expectedCost": { "anchor": { "fleetRowId": "fleet-gpt-6-sol-high" }, "factors": [
+                { "low": [{ "benchmarkRatio": ["te82-tb41-gpt-6.2-astra-max", "te82-tb41-gpt-6-sol-max"] }], "high": [{ "reprice": { "fromModelId": "gpt-6-sol", "toModelId": "gpt-6.2-astra", "cacheReadObservationId": "fleet-cache-gpt-6-sol-high" } }], "note": "Lower bound: Terminal-Bench 4.1 total cost ratio at max; upper bound: same tokens at GPT-6.2 Astra prices." } ] },
+              "measuredQuotaWeight": null, "note": "Escalation only, after GPT-6.1 Sol has failed the card." }
+          ],
+          "candidates": []
+        }
+      }
+    },
+    {
+      "id": "review-aspect",
+      "letter": "d",
+      "label": "Review aspects",
+      "description": "One review aspect of a delivered diff (for example correctness, tests, security).",
+      "evidenceBasis": "review",
+      "allowLightTier": false,
+      "confidence": "low",
+      "floors": [
+        { "cli": "claude", "condition": "security-relevant", "rungId": "review-aspect.claude.opus-5-5-medium", "reason": "Review of a security-relevant diff never runs below Opus 5.5 medium." },
+        { "cli": "codex", "condition": "security-relevant", "rungId": "review-aspect.codex.gpt-6.1-sol-medium", "reason": "Review of a security-relevant diff never runs below GPT-6.1 Sol medium." }
+      ],
+      "evidenceGaps": ["No model-level code-review benchmark exists for these models; cost anchors are coding cards, so review costs are overstated."],
+      "ladders": {
+        "claude": {
+          "rungs": [
+            { "id": "review-aspect.claude.opus-5-5-low", "modelId": "claude-opus-5-5", "effort": "low", "fromPosition": 0, "confidence": "low", "evidenceIds": ["fleet-2026-11-17"], "expectedCost": { "anchor": { "fleetRowId": "fleet-opus-5-5-low" }, "factors": [] }, "measuredQuotaWeight": null, "note": "Kept by owner decision of 2026-11-17." },
+            { "id": "review-aspect.claude.opus-5-5-medium", "modelId": "claude-opus-5-5", "effort": "medium", "fromPosition": 90, "confidence": "low", "evidenceIds": ["fleet-2026-11-17"], "expectedCost": { "anchor": { "fleetRowId": "fleet-opus-5-5-medium" }, "factors": [] }, "measuredQuotaWeight": null }
+          ],
+          "candidates": []
+        },
+        "codex": {
+          "rungs": [
+            { "id": "review-aspect.codex.gpt-6.1-sol-low", "modelId": "gpt-6.1-sol", "effort": "low", "fromPosition": 0, "confidence": "low", "evidenceIds": ["fleet-2026-11-17", "codex-credit-rate-cards"],
+              "expectedCost": { "anchor": { "fleetRowId": "fleet-gpt-6-sol-medium" }, "factors": [
+                { "low": [{ "reprice": { "fromModelId": "gpt-6-sol", "toModelId": "gpt-6.1-sol", "cacheReadShare": 0.85 } }], "high": [{ "reprice": { "fromModelId": "gpt-6-sol", "toModelId": "gpt-6.1-sol", "cacheReadShare": 0.65 } }], "note": "Cache-read share assumed between 65% and 85%." },
+                { "low": [{ "fleetRatio": ["fleet-opus-5-5-low", "fleet-opus-5-5-medium"] }], "high": [{ "benchmarkRatio": ["te82-arc2-gpt-6.1-sol-low", "te82-arc2-gpt-6.1-sol-medium"] }], "note": "Low against medium effort step." } ] }, "measuredQuotaWeight": null },
+            { "id": "review-aspect.codex.gpt-6.1-sol-medium", "modelId": "gpt-6.1-sol", "effort": "medium", "fromPosition": 90, "confidence": "low", "evidenceIds": ["fleet-2026-11-17", "codex-credit-rate-cards"],
+              "expectedCost": { "anchor": { "fleetRowId": "fleet-gpt-6-sol-medium" }, "factors": [
+                { "low": [{ "reprice": { "fromModelId": "gpt-6-sol", "toModelId": "gpt-6.1-sol", "cacheReadShare": 0.85 } }], "high": [{ "reprice": { "fromModelId": "gpt-6-sol", "toModelId": "gpt-6.1-sol", "cacheReadShare": 0.65 } }], "note": "Cache-read share assumed between 65% and 85%." } ] }, "measuredQuotaWeight": null }
+          ],
+          "candidates": []
+        }
+      }
+    },
+    {
+      "id": "review-decision",
+      "letter": "e",
+      "label": "Review grade and decision",
+      "description": "Aggregating review aspects into a grade and an accept or rework decision.",
+      "evidenceBasis": "review",
+      "allowLightTier": false,
+      "confidence": "low",
+      "floors": [
+        { "cli": "claude", "condition": "security-relevant", "rungId": "review-decision.claude.opus-5-5-medium", "reason": "Decisions on security-relevant diffs never run below Opus 5.5 medium." },
+        { "cli": "codex", "condition": "security-relevant", "rungId": "review-decision.codex.gpt-6.1-sol-medium", "reason": "Decisions on security-relevant diffs never run below GPT-6.1 Sol medium." }
+      ],
+      "evidenceGaps": ["No benchmark or fleet cohort for review decisions; all rungs low confidence."],
+      "ladders": {
+        "claude": {
+          "rungs": [
+            { "id": "review-decision.claude.opus-5-5-low", "modelId": "claude-opus-5-5", "effort": "low", "fromPosition": 0, "confidence": "low", "evidenceIds": ["fleet-2026-11-17"], "expectedCost": { "anchor": { "fleetRowId": "fleet-opus-5-5-low" }, "factors": [] }, "measuredQuotaWeight": null },
+            { "id": "review-decision.claude.opus-5-5-medium", "modelId": "claude-opus-5-5", "effort": "medium", "fromPosition": 75, "confidence": "low", "evidenceIds": ["fleet-2026-11-17"], "expectedCost": { "anchor": { "fleetRowId": "fleet-opus-5-5-medium" }, "factors": [] }, "measuredQuotaWeight": null }
+          ],
+          "candidates": [
+            { "modelId": "claude-sonnet-5-5", "effort": "medium", "evidenceIds": ["arc-agi-2-effort-shape"], "reason": "Research lead, low confidence: no review-decision evidence for any model." }
+          ]
+        },
+        "codex": {
+          "rungs": [
+            { "id": "review-decision.codex.gpt-6.1-sol-low", "modelId": "gpt-6.1-sol", "effort": "low", "fromPosition": 0, "confidence": "low", "evidenceIds": ["fleet-2026-11-17", "codex-credit-rate-cards"],
+              "expectedCost": { "anchor": { "fleetRowId": "fleet-gpt-6-sol-medium" }, "factors": [
+                { "low": [{ "reprice": { "fromModelId": "gpt-6-sol", "toModelId": "gpt-6.1-sol", "cacheReadShare": 0.85 } }], "high": [{ "reprice": { "fromModelId": "gpt-6-sol", "toModelId": "gpt-6.1-sol", "cacheReadShare": 0.65 } }], "note": "Cache-read share assumed between 65% and 85%." },
+                { "low": [{ "fleetRatio": ["fleet-opus-5-5-low", "fleet-opus-5-5-medium"] }], "high": [{ "benchmarkRatio": ["te82-arc2-gpt-6.1-sol-low", "te82-arc2-gpt-6.1-sol-medium"] }], "note": "Low against medium effort step." } ] }, "measuredQuotaWeight": null },
+            { "id": "review-decision.codex.gpt-6.1-sol-medium", "modelId": "gpt-6.1-sol", "effort": "medium", "fromPosition": 75, "confidence": "low", "evidenceIds": ["fleet-2026-11-17", "codex-credit-rate-cards"],
+              "expectedCost": { "anchor": { "fleetRowId": "fleet-gpt-6-sol-medium" }, "factors": [
+                { "low": [{ "reprice": { "fromModelId": "gpt-6-sol", "toModelId": "gpt-6.1-sol", "cacheReadShare": 0.85 } }], "high": [{ "reprice": { "fromModelId": "gpt-6-sol", "toModelId": "gpt-6.1-sol", "cacheReadShare": 0.65 } }], "note": "Cache-read share assumed between 65% and 85%." } ] }, "measuredQuotaWeight": null }
+          ],
+          "candidates": [
+            { "modelId": "gpt-6.1-terra", "effort": "low", "evidenceIds": ["tb41-cost-per-trial"], "reason": "Research lead, low confidence." },
+            { "modelId": "gpt-6.1-terra", "effort": "medium", "evidenceIds": ["tb41-cost-per-trial"], "reason": "Research lead, low confidence." }
+          ]
+        }
+      }
+    },
+    {
+      "id": "research",
+      "letter": "f",
+      "label": "Research and reports",
+      "description": "Reading sources and code to produce a report or findings.",
+      "evidenceBasis": "textAgentic",
+      "allowLightTier": false,
+      "confidence": "medium",
+      "floors": [],
+      "evidenceGaps": ["Cost anchors are coding cards; research cards were not measured separately."],
+      "ladders": {
+        "claude": {
+          "rungs": [
+            { "id": "research.claude.opus-5-5-medium", "modelId": "claude-opus-5-5", "effort": "medium", "fromPosition": 0, "confidence": "medium", "evidenceIds": ["fleet-2026-11-17"], "expectedCost": { "anchor": { "fleetRowId": "fleet-opus-5-5-medium" }, "factors": [] }, "measuredQuotaWeight": null },
+            { "id": "research.claude.opus-5-5-high", "modelId": "claude-opus-5-5", "effort": "high", "fromPosition": 75, "confidence": "medium", "evidenceIds": ["fleet-2026-11-17"], "expectedCost": { "anchor": { "fleetRowId": "fleet-opus-5-5-high" }, "factors": [] }, "measuredQuotaWeight": null }
+          ],
+          "candidates": []
+        },
+        "codex": {
+          "rungs": [
+            { "id": "research.codex.gpt-6.1-sol-medium", "modelId": "gpt-6.1-sol", "effort": "medium", "fromPosition": 0, "confidence": "medium", "evidenceIds": ["fleet-2026-11-17", "codex-credit-rate-cards"],
+              "expectedCost": { "anchor": { "fleetRowId": "fleet-gpt-6-sol-medium" }, "factors": [
+                { "low": [{ "reprice": { "fromModelId": "gpt-6-sol", "toModelId": "gpt-6.1-sol", "cacheReadShare": 0.85 } }], "high": [{ "reprice": { "fromModelId": "gpt-6-sol", "toModelId": "gpt-6.1-sol", "cacheReadShare": 0.65 } }], "note": "Cache-read share assumed between 65% and 85%." } ] }, "measuredQuotaWeight": null },
+            { "id": "research.codex.gpt-6.1-sol-high", "modelId": "gpt-6.1-sol", "effort": "high", "fromPosition": 75, "confidence": "medium", "evidenceIds": ["fleet-2026-11-17", "codex-credit-rate-cards"],
+              "expectedCost": { "anchor": { "fleetRowId": "fleet-gpt-6-sol-high" }, "factors": [
+                { "low": [{ "reprice": { "fromModelId": "gpt-6-sol", "toModelId": "gpt-6.1-sol", "cacheReadObservationId": "fleet-cache-gpt-6-sol-high" } }], "high": [{ "reprice": { "fromModelId": "gpt-6-sol", "toModelId": "gpt-6.1-sol", "cacheReadObservationId": "fleet-cache-gpt-6-sol-high" } }], "note": "Measured 74% cache-read share." } ] }, "measuredQuotaWeight": null }
+          ],
+          "candidates": []
+        }
+      }
+    },
+    {
+      "id": "summary",
+      "letter": "g",
+      "label": "Summaries, metadata and classification",
+      "description": "Bounded, repeatable text tasks with a known good result: summaries, metadata, tagging, classification.",
+      "evidenceBasis": "textAgentic",
+      "allowLightTier": true,
+      "confidence": "medium",
+      "floors": [],
+      "evidenceGaps": ["No fleet cohort and no task-cost anchor for summary work; expected cost is unknown, not zero."],
+      "ladders": {
+        "claude": {
+          "rungs": [
+            { "id": "summary.claude.haiku-5-5-low", "modelId": "claude-haiku-5-5", "effort": "low", "fromPosition": 0, "confidence": "low", "evidenceIds": ["arc-agi-2-effort-shape"], "expectedCost": null, "costUnknownReason": "No fleet or task-cost anchor for summary work.", "measuredQuotaWeight": null },
+            { "id": "summary.claude.haiku-5-5-medium", "modelId": "claude-haiku-5-5", "effort": "medium", "fromPosition": 40, "confidence": "low", "evidenceIds": ["arc-agi-2-effort-shape"], "expectedCost": null, "costUnknownReason": "No fleet or task-cost anchor for summary work.", "measuredQuotaWeight": null }
+          ],
+          "candidates": []
+        },
+        "codex": {
+          "rungs": [
+            { "id": "summary.codex.gpt-6-luna-high", "modelId": "gpt-6-luna", "effort": "high", "fromPosition": 0, "confidence": "medium", "evidenceIds": ["openai-luna-guidance", "arc-agi-2-effort-shape", "codex-credit-rate-cards"], "expectedCost": null, "costUnknownReason": "No fleet or task-cost anchor for summary work.", "measuredQuotaWeight": null, "note": "OpenAI recommends Luna for extraction, classification, transformation and structured summaries." }
+          ],
+          "candidates": []
+        }
+      }
+    },
+    {
+      "id": "orchestrator-chat",
+      "letter": "h",
+      "label": "Orchestrator chat",
+      "description": "Interactive orchestrator conversation with the operator.",
+      "evidenceBasis": "textAgentic",
+      "allowLightTier": false,
+      "confidence": "low",
+      "floors": [],
+      "evidenceGaps": ["No benchmark or fleet cohort for orchestrator chat; chat sessions are not cards, so no cost per accepted card exists."],
+      "ladders": {
+        "claude": {
+          "rungs": [
+            { "id": "orchestrator-chat.claude.opus-5-5-medium", "modelId": "claude-opus-5-5", "effort": "medium", "fromPosition": 0, "confidence": "low", "evidenceIds": ["fleet-2026-11-17"], "expectedCost": null, "costUnknownReason": "Chat sessions are not cards; no cost per accepted card.", "measuredQuotaWeight": null }
+          ],
+          "candidates": [
+            { "modelId": "claude-sonnet-5-5", "effort": "high", "evidenceIds": ["tb41-cost-per-trial"], "reason": "Research lead, low confidence; the coding token-volume finding is only provisional for chat." }
+          ]
+        },
+        "codex": {
+          "rungs": [
+            { "id": "orchestrator-chat.codex.gpt-6.1-sol-low", "modelId": "gpt-6.1-sol", "effort": "low", "fromPosition": 0, "confidence": "low", "evidenceIds": ["fleet-2026-11-17"], "expectedCost": null, "costUnknownReason": "Chat sessions are not cards; no cost per accepted card.", "measuredQuotaWeight": null },
+            { "id": "orchestrator-chat.codex.gpt-6.1-sol-medium", "modelId": "gpt-6.1-sol", "effort": "medium", "fromPosition": 40, "confidence": "low", "evidenceIds": ["fleet-2026-11-17"], "expectedCost": null, "costUnknownReason": "Chat sessions are not cards; no cost per accepted card.", "measuredQuotaWeight": null }
+          ],
+          "candidates": []
+        }
+      }
+    },
+    {
+      "id": "creative",
+      "letter": "i",
+      "label": "Creative work: visual design, UI aesthetics, interactive 3D scenes and games",
+      "description": "Cards whose result is judged on originality, design, feel and technical execution rather than on tests alone. Coding benchmarks are not used as quality evidence here.",
+      "evidenceBasis": "creative",
+      "allowLightTier": false,
+      "confidence": "low",
+      "floors": [],
+      "evidenceGaps": [
+        "No fleet cohort of creative cards; expected cost is per benchmark task (AA-3D, 3 h agent build), not per accepted card.",
+        "No source ranks Sonnet 5.5 high against Opus 5.5 low (thin evidence); AA-3D has max rows only.",
+        "No published playable rate for any model; technical execution must be measured on our own creative cards."
+      ],
+      "ladders": {
+        "claude": {
+          "rungs": [
+            { "id": "creative.claude.sonnet-5-5-high", "modelId": "claude-sonnet-5-5", "effort": "high", "fromPosition": 0, "confidence": "low", "evidenceIds": ["arena-3d", "arena-webdev"],
+              "expectedCost": { "anchor": { "benchmarkResultId": "te83-aa3d-claude-sonnet-5-5-max" }, "factors": [
+                { "low": [{ "benchmarkRatio": ["te82-arc2-claude-sonnet-5-5-high", "te82-arc2-claude-sonnet-5-5-xhigh"] }, { "benchmarkRatio": ["te82-arc2-claude-opus-5-5-xhigh", "te82-arc2-claude-opus-5-5-max"] }], "high": [{ "constant": 1.0, "reason": "High effort costs at most the max-effort measurement." }], "note": "Cost shape only (ARC-AGI-2 effort steps), not quality evidence." } ] },
+              "measuredQuotaWeight": null,
+              "dimensions": {
+                "originality": { "status": "partial", "text": "Arena 3D mixes originality into preference; no separate measure.", "evidenceIds": ["arena-3d"] },
+                "design": { "status": "evidence", "text": "Arena 3D 1817 +/- 16: clearly above what its overall Code Arena level predicts, strongest on games and simulations; 98 below Opus max.", "evidenceIds": ["arena-3d"] },
+                "gameFeel": { "status": "partial", "text": "Arena 3D games are won mostly on UI, HUD and onboarding; no direct game-feel score at this effort.", "evidenceIds": ["arena-3d"] },
+                "technicalExecution": { "status": "none", "text": "No playable rate published at this effort.", "evidenceIds": [] }
+              },
+              "note": "Cheapest configuration with direct creative evidence. Thin evidence against Opus 5.5 at low or medium (no rows)." },
+            { "id": "creative.claude.sonnet-5-5-xhigh", "modelId": "claude-sonnet-5-5", "effort": "xHigh", "fromPosition": 55, "confidence": "low", "evidenceIds": ["arena-3d", "arena-webdev"],
+              "expectedCost": { "anchor": { "benchmarkResultId": "te83-aa3d-claude-sonnet-5-5-max" }, "factors": [
+                { "low": [{ "benchmarkRatio": ["te82-arc2-claude-opus-5-5-xhigh", "te82-arc2-claude-opus-5-5-max"] }], "high": [{ "constant": 1.0, "reason": "Xhigh costs at most the max-effort measurement." }], "note": "Cost shape only (ARC-AGI-2 Opus xhigh/max), not quality evidence." } ] },
+              "measuredQuotaWeight": null,
+              "dimensions": {
+                "originality": { "status": "partial", "text": "Mixed into Arena preference.", "evidenceIds": ["arena-3d"] },
+                "design": { "status": "evidence", "text": "Arena 3D 1868 +/- 21, WebDev 1773; 47 below Opus max on 3D.", "evidenceIds": ["arena-3d", "arena-webdev"] },
+                "gameFeel": { "status": "partial", "text": "Only through Arena 3D preference.", "evidenceIds": ["arena-3d"] },
+                "technicalExecution": { "status": "none", "text": "No playable rate published at this effort.", "evidenceIds": [] }
+              } },
+            { "id": "creative.claude.sonnet-5-5-max", "modelId": "claude-sonnet-5-5", "effort": "max", "fromPosition": 75, "confidence": "medium", "evidenceIds": ["aa-3d", "designarena-creative"],
+              "expectedCost": { "anchor": { "benchmarkResultId": "te83-aa3d-claude-sonnet-5-5-max" }, "factors": [] }, "measuredQuotaWeight": null,
+              "dimensions": {
+                "originality": { "status": "partial", "text": "AA-3D panel preference includes the idea of the scene; no separate score.", "evidenceIds": ["aa-3d"] },
+                "design": { "status": "evidence", "text": "AA-3D 1204 (1176-1232), level with Opus 5.5 max; Design Arena game dev (default effort) level with Opus.", "evidenceIds": ["aa-3d", "designarena-creative"] },
+                "gameFeel": { "status": "evidence", "text": "AA-3D panelists interact with each scene for at least 30 s before voting.", "evidenceIds": ["aa-3d"] },
+                "technicalExecution": { "status": "partial", "text": "46 of 54 AA-3D Explorer tasks have a Sonnet scene in voting (after AA's run check), the lowest of the Claude 5.5 models; not a playable rate.", "evidenceIds": ["aa-3d"] }
+              },
+              "note": "Same AA-3D quality as Opus 5.5 max at about two thirds of the derived cost per task." },
+            { "id": "creative.claude.opus-5-5-max", "modelId": "claude-opus-5-5", "effort": "max", "fromPosition": 90, "confidence": "medium", "evidenceIds": ["aa-3d", "arena-3d", "arena-webdev", "designarena-creative"],
+              "expectedCost": { "anchor": { "benchmarkResultId": "te83-aa3d-claude-opus-5-5-max" }, "factors": [] }, "measuredQuotaWeight": null,
+              "dimensions": {
+                "originality": { "status": "partial", "text": "Mixed into AA-3D and Arena preference.", "evidenceIds": ["aa-3d", "arena-3d"] },
+                "design": { "status": "evidence", "text": "AA-3D 1202 (level with Sonnet max); Arena 3D 1915 +/- 28 and WebDev 1820, ahead of every Sonnet configuration; Design Arena 3D 1449 vs Sonnet 1395.", "evidenceIds": ["aa-3d", "arena-3d", "arena-webdev", "designarena-creative"] },
+                "gameFeel": { "status": "evidence", "text": "AA-3D interactive judging; Design Arena agentic Three.js game dev rank 1 at high effort.", "evidenceIds": ["aa-3d", "designarena-creative"] },
+                "technicalExecution": { "status": "partial", "text": "49 of 54 AA-3D Explorer tasks have an Opus scene in voting; not a playable rate.", "evidenceIds": ["aa-3d"] }
+              } },
+            { "id": "creative.claude.fable-5-2-max", "modelId": "claude-fable-5-2", "effort": "max", "escalationOnly": true, "confidence": "medium", "evidenceIds": ["aa-3d", "arena-3d", "arena-webdev"],
+              "expectedCost": { "anchor": { "benchmarkResultId": "te83-aa3d-claude-fable-5-2-max" }, "factors": [] }, "measuredQuotaWeight": null,
+              "dimensions": {
+                "originality": { "status": "partial", "text": "Mixed into preference.", "evidenceIds": ["aa-3d"] },
+                "design": { "status": "evidence", "text": "AA-3D 1271 (1246-1297), ahead of Sonnet and Opus max; Arena 3D 1933 +/- 37 (xhigh).", "evidenceIds": ["aa-3d", "arena-3d"] },
+                "gameFeel": { "status": "evidence", "text": "AA-3D interactive judging.", "evidenceIds": ["aa-3d"] },
+                "technicalExecution": { "status": "partial", "text": "54 of 54 AA-3D Explorer tasks have a Fable scene in voting; not a playable rate.", "evidenceIds": ["aa-3d"] }
+              },
+              "note": "Escalation only and restricted in routing until fleet compatibility is observed." }
+          ],
+          "candidates": [
+            { "modelId": "claude-opus-5-5", "effort": "low", "evidenceIds": [], "reason": "No creative source has an Opus 5.5 row below max (Design Arena's one effort-named row is high); Sonnet high against Opus low is thin evidence and must not be inferred." },
+            { "modelId": "claude-haiku-5-5", "effort": "high", "evidenceIds": ["arena-3d"], "reason": "Arena 3D 1635: does relatively best on games but far below Sonnet; light tier is not allowed in this class." }
+          ]
+        },
+        "codex": {
+          "rungs": [
+            { "id": "creative.codex.gpt-6.1-sol-max", "modelId": "gpt-6.1-sol", "effort": "max", "fromPosition": 0, "confidence": "low", "evidenceIds": ["aa-3d", "arena-3d", "arena-webdev", "designarena-creative"],
+              "expectedCost": { "anchor": { "benchmarkResultId": "te83-aa3d-gpt-6.1-sol-max" }, "factors": [] }, "measuredQuotaWeight": null,
+              "dimensions": {
+                "originality": { "status": "partial", "text": "Mixed into preference.", "evidenceIds": ["aa-3d"] },
+                "design": { "status": "evidence", "text": "AA-3D 1121 (about 80 below Sonnet and Opus max); Arena 3D 1802 +/- 18; WebDev 1745.", "evidenceIds": ["aa-3d", "arena-3d", "arena-webdev"] },
+                "gameFeel": { "status": "evidence", "text": "AA-3D interactive judging; Design Arena agentic Three.js game dev 1237 against Opus high 1408.", "evidenceIds": ["aa-3d", "designarena-creative"] },
+                "technicalExecution": { "status": "partial", "text": "52 of 54 AA-3D Explorer tasks have a scene in voting; not a playable rate.", "evidenceIds": ["aa-3d"] }
+              },
+              "note": "The only selectable OpenAI configuration with creative evidence; no row below max." },
+            { "id": "creative.codex.gpt-6.2-sol-max", "modelId": "gpt-6.2-sol", "effort": "max", "escalationOnly": true, "confidence": "low", "evidenceIds": ["aa-3d", "arena-3d", "arena-webdev"],
+              "expectedCost": { "anchor": { "benchmarkResultId": "te83-aa3d-gpt-6.2-sol-max" }, "factors": [] }, "measuredQuotaWeight": null,
+              "dimensions": {
+                "originality": { "status": "partial", "text": "Mixed into preference.", "evidenceIds": ["aa-3d"] },
+                "design": { "status": "evidence", "text": "AA-3D 1259 (1231-1288), above Sonnet and Opus max; Arena 3D 1869 +/- 29.", "evidenceIds": ["aa-3d", "arena-3d"] },
+                "gameFeel": { "status": "evidence", "text": "AA-3D interactive judging.", "evidenceIds": ["aa-3d"] },
+                "technicalExecution": { "status": "partial", "text": "54 of 54 AA-3D Explorer tasks have a scene in voting; not a playable rate.", "evidenceIds": ["aa-3d"] }
+              },
+              "note": "Restricted in routing until fleet compatibility is observed; at about the same derived cost per task as GPT-6.1 Sol it is the first promotion candidate for this class." },
+            { "id": "creative.codex.gpt-6.2-astra-max", "modelId": "gpt-6.2-astra", "effort": "max", "escalationOnly": true, "confidence": "low", "evidenceIds": ["aa-3d", "arena-3d"],
+              "expectedCost": { "anchor": { "benchmarkResultId": "te83-aa3d-gpt-6.2-astra-max" }, "factors": [] }, "measuredQuotaWeight": null,
+              "dimensions": {
+                "originality": { "status": "partial", "text": "Mixed into preference.", "evidenceIds": ["aa-3d"] },
+                "design": { "status": "evidence", "text": "AA-3D 1318, first on the board; Arena 3D 1818 +/- 30.", "evidenceIds": ["aa-3d", "arena-3d"] },
+                "gameFeel": { "status": "evidence", "text": "AA-3D interactive judging.", "evidenceIds": ["aa-3d"] },
+                "technicalExecution": { "status": "none", "text": "AA-3D coverage counted but not a playable rate; no other source.", "evidenceIds": [] }
+              },
+              "note": "Restricted in routing until fleet compatibility is observed." }
+          ],
+          "candidates": []
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,2499 @@
+{
+  "$schema": "benchmark-results.schema.json",
+  "schemaVersion": 1,
+  "records": [
+    {
+      "evidenceClass": "M",
+      "id": "te83-aa3d-claude-fable-5-2-max",
+      "benchmarkTypeId": "aa-3d-v1.0-2026-11-27",
+      "modelId": "claude-fable-5-2",
+      "reasoningEffort": "max",
+      "score": 1271.4151,
+      "costSource": "estimated",
+      "costDerivation": "[L] Derived from AA-published aa3d canonical token counts over 55 tasks times AA's listed prices (identical to the catalogue list prices): uncached input, cache hits and output (answer + reasoning). Cache writes are not published per model and are excluded, so this is a lower bound (AA's own published lowest three, e.g. Haiku 5.5 $0.49, run about 6-14% above this derivation). Cache-read share of the derived cost: 25.7%.",
+      "secondaryMetrics": {
+        "inputTokensPerTask": 33110762,
+        "outputTokensPerTask": 372185,
+        "costPerTaskUsd": 25.409794
+      },
+      "context": {
+        "sourceKind": "independentEvaluator",
+        "sourcePublisher": "Artificial Analysis",
+        "dateBasis": "firstObservedPublicSnapshot",
+        "observedAt": "2026-11-27",
+        "harness": "Stirrup (offline sandbox; three.js 0.186.0, Rapier, Blender, headless Chromium)",
+        "taskCount": 55,
+        "trialCount": 55,
+        "attemptsPerTask": 1,
+        "confidenceIntervalLevel": 0.95,
+        "sampleNotes": "54 of 54 AA-3D Explorer tasks have a scene of this model in blind voting (TE-83 count from AA's per-task coverage data; AA states the benchmark has 55 tasks and publishes no excluded share). Panel votes behind the board: 23K+.",
+        "additionalSourceUrls": [
+          "https://artificialanalysis.ai/methodology/aa-3d",
+          "https://artificialanalysis.ai/3d/explorer"
+        ],
+        "confidenceIntervalHalfWidth": 25.0
+      },
+      "publishedAt": "2026-11-27",
+      "retrievedAt": "2026-11-27",
+      "sourceUrl": "https://artificialanalysis.ai/evaluations/aa-3d",
+      "retrievalMethod": "publishedData",
+      "evidenceExcerpt": "Claude Fable 5.2 (Max, Default Fallback): Elo 1271.4151 on AA-3D (Elo from blind pairwise votes, 95% interval shown on the leaderboard).",
+      "confidence": "thirdParty",
+      "evidenceStatus": "observational"
+    },
+    {
+      "evidenceClass": "M",
+      "id": "te83-aa3d-gpt-6.2-astra-max",
+      "benchmarkTypeId": "aa-3d-v1.0-2026-11-27",
+      "modelId": "gpt-6.2-astra",
+      "reasoningEffort": "max",
+      "score": 1317.6168,
+      "costSource": "estimated",
+      "costDerivation": "[L] Derived from AA-published aa3d canonical token counts over 55 tasks times AA's listed prices (identical to the catalogue list prices): uncached input, cache hits and output (answer + reasoning). Cache writes are not published per model and are excluded, so this is a lower bound (AA's own published lowest three, e.g. Haiku 5.5 $0.49, run about 6-14% above this derivation). Cache-read share of the derived cost: 40.6%.",
+      "secondaryMetrics": {
+        "inputTokensPerTask": 14357353,
+        "outputTokensPerTask": 158191,
+        "costPerTaskUsd": 13.906487
+      },
+      "context": {
+        "sourceKind": "independentEvaluator",
+        "sourcePublisher": "Artificial Analysis",
+        "dateBasis": "firstObservedPublicSnapshot",
+        "observedAt": "2026-11-27",
+        "harness": "Stirrup (offline sandbox; three.js 0.186.0, Rapier, Blender, headless Chromium)",
+        "taskCount": 55,
+        "trialCount": 55,
+        "attemptsPerTask": 1,
+        "confidenceIntervalLevel": 0.95,
+        "sampleNotes": "54 of 54 AA-3D Explorer tasks have a scene of this model in blind voting (TE-83 count from AA's per-task coverage data; AA states the benchmark has 55 tasks and publishes no excluded share). Panel votes behind the board: 23K+.",
+        "additionalSourceUrls": [
+          "https://artificialanalysis.ai/methodology/aa-3d",
+          "https://artificialanalysis.ai/3d/explorer"
+        ],
+        "confidenceIntervalHalfWidth": 31.0
+      },
+      "publishedAt": "2026-11-27",
+      "retrievedAt": "2026-11-27",
+      "sourceUrl": "https://artificialanalysis.ai/evaluations/aa-3d",
+      "retrievalMethod": "publishedData",
+      "evidenceExcerpt": "GPT-6.2 Astra (Max): Elo 1317.6168 on AA-3D (Elo from blind pairwise votes, 95% interval shown on the leaderboard).",
+      "confidence": "thirdParty",
+      "evidenceStatus": "observational"
+    },
+    {
+      "evidenceClass": "M",
+      "id": "te83-aa3d-gemini-4-carbon-high",
+      "benchmarkTypeId": "aa-3d-v1.0-2026-11-27",
+      "modelId": "gemini-4-carbon",
+      "reasoningEffort": "high",
+      "score": 1200.2982,
+      "costSource": "estimated",
+      "costDerivation": "[L] Derived from AA-published aa3d canonical token counts over 55 tasks times AA's listed prices (identical to the catalogue list prices): uncached input, cache hits and output (answer + reasoning). Cache writes are not published per model and are excluded, so this is a lower bound (AA's own published lowest three, e.g. Haiku 5.5 $0.49, run about 6-14% above this derivation). Cache-read share of the derived cost: 27.6%.",
+      "secondaryMetrics": {
+        "inputTokensPerTask": 8853955,
+        "outputTokensPerTask": 173931,
+        "costPerTaskUsd": 6.225025
+      },
+      "context": {
+        "sourceKind": "independentEvaluator",
+        "sourcePublisher": "Artificial Analysis",
+        "dateBasis": "firstObservedPublicSnapshot",
+        "observedAt": "2026-11-27",
+        "harness": "Stirrup (offline sandbox; three.js 0.186.0, Rapier, Blender, headless Chromium)",
+        "taskCount": 55,
+        "trialCount": 55,
+        "attemptsPerTask": 1,
+        "confidenceIntervalLevel": 0.95,
+        "sampleNotes": "54 of 54 AA-3D Explorer tasks have a scene of this model in blind voting (TE-83 count from AA's per-task coverage data; AA states the benchmark has 55 tasks and publishes no excluded share). Panel votes behind the board: 23K+.",
+        "additionalSourceUrls": [
+          "https://artificialanalysis.ai/methodology/aa-3d",
+          "https://artificialanalysis.ai/3d/explorer"
+        ],
+        "confidenceIntervalHalfWidth": 23.0
+      },
+      "publishedAt": "2026-11-27",
+      "retrievedAt": "2026-11-27",
+      "sourceUrl": "https://artificialanalysis.ai/evaluations/aa-3d",
+      "retrievalMethod": "publishedData",
+      "evidenceExcerpt": "Gemini 4 Carbon (High): Elo 1200.2982 on AA-3D (Elo from blind pairwise votes, 95% interval shown on the leaderboard).",
+      "confidence": "thirdParty",
+      "evidenceStatus": "observational"
+    },
+    {
+      "evidenceClass": "M",
+      "id": "te83-aa3d-claude-opus-5-5-max",
+      "benchmarkTypeId": "aa-3d-v1.0-2026-11-27",
+      "modelId": "claude-opus-5-5",
+      "reasoningEffort": "max",
+      "score": 1202.4312,
+      "costSource": "estimated",
+      "costDerivation": "[L] Derived from AA-published aa3d canonical token counts over 55 tasks times AA's listed prices (identical to the catalogue list prices): uncached input, cache hits and output (answer + reasoning). Cache writes are not published per model and are excluded, so this is a lower bound (AA's own published lowest three, e.g. Haiku 5.5 $0.49, run about 6-14% above this derivation). Cache-read share of the derived cost: 48.1%.",
+      "secondaryMetrics": {
+        "inputTokensPerTask": 46769741,
+        "outputTokensPerTask": 393285,
+        "costPerTaskUsd": 19.229285
+      },
+      "context": {
+        "sourceKind": "independentEvaluator",
+        "sourcePublisher": "Artificial Analysis",
+        "dateBasis": "firstObservedPublicSnapshot",
+        "observedAt": "2026-11-27",
+        "harness": "Stirrup (offline sandbox; three.js 0.186.0, Rapier, Blender, headless Chromium)",
+        "taskCount": 55,
+        "trialCount": 55,
+        "attemptsPerTask": 1,
+        "confidenceIntervalLevel": 0.95,
+        "sampleNotes": "49 of 54 AA-3D Explorer tasks have a scene of this model in blind voting (TE-83 count from AA's per-task coverage data; AA states the benchmark has 55 tasks and publishes no excluded share). Panel votes behind the board: 23K+.",
+        "additionalSourceUrls": [
+          "https://artificialanalysis.ai/methodology/aa-3d",
+          "https://artificialanalysis.ai/3d/explorer"
+        ],
+        "confidenceIntervalHalfWidth": 28.0
+      },
+      "publishedAt": "2026-11-27",
+      "retrievedAt": "2026-11-27",
+      "sourceUrl": "https://artificialanalysis.ai/evaluations/aa-3d",
+      "retrievalMethod": "publishedData",
+      "evidenceExcerpt": "Claude Opus 5.5 (Max, Default Fallback): Elo 1202.4312 on AA-3D (Elo from blind pairwise votes, 95% interval shown on the leaderboard).",
+      "confidence": "thirdParty",
+      "evidenceStatus": "observational"
+    },
+    {
+      "evidenceClass": "M",
+      "id": "te83-aa3d-gpt-6.2-sol-max",
+      "benchmarkTypeId": "aa-3d-v1.0-2026-11-27",
+      "modelId": "gpt-6.2-sol",
+      "reasoningEffort": "max",
+      "score": 1259.2763,
+      "costSource": "estimated",
+      "costDerivation": "[L] Derived from AA-published aa3d canonical token counts over 55 tasks times AA's listed prices (identical to the catalogue list prices): uncached input, cache hits and output (answer + reasoning). Cache writes are not published per model and are excluded, so this is a lower bound (AA's own published lowest three, e.g. Haiku 5.5 $0.49, run about 6-14% above this derivation). Cache-read share of the derived cost: 39.1%.",
+      "secondaryMetrics": {
+        "inputTokensPerTask": 13663071,
+        "outputTokensPerTask": 158491,
+        "costPerTaskUsd": 3.429785
+      },
+      "context": {
+        "sourceKind": "independentEvaluator",
+        "sourcePublisher": "Artificial Analysis",
+        "dateBasis": "firstObservedPublicSnapshot",
+        "observedAt": "2026-11-27",
+        "harness": "Stirrup (offline sandbox; three.js 0.186.0, Rapier, Blender, headless Chromium)",
+        "taskCount": 55,
+        "trialCount": 55,
+        "attemptsPerTask": 1,
+        "confidenceIntervalLevel": 0.95,
+        "sampleNotes": "54 of 54 AA-3D Explorer tasks have a scene of this model in blind voting (TE-83 count from AA's per-task coverage data; AA states the benchmark has 55 tasks and publishes no excluded share). Panel votes behind the board: 23K+.",
+        "additionalSourceUrls": [
+          "https://artificialanalysis.ai/methodology/aa-3d",
+          "https://artificialanalysis.ai/3d/explorer"
+        ],
+        "confidenceIntervalHalfWidth": 28.0
+      },
+      "publishedAt": "2026-11-27",
+      "retrievedAt": "2026-11-27",
+      "sourceUrl": "https://artificialanalysis.ai/evaluations/aa-3d",
+      "retrievalMethod": "publishedData",
+      "evidenceExcerpt": "GPT-6.2 Sol (Max): Elo 1259.2763 on AA-3D (Elo from blind pairwise votes, 95% interval shown on the leaderboard).",
+      "confidence": "thirdParty",
+      "evidenceStatus": "observational"
+    },
+    {
+      "evidenceClass": "M",
+      "id": "te83-aa3d-gpt-6-astra-max",
+      "benchmarkTypeId": "aa-3d-v1.0-2026-11-27",
+      "modelId": "gpt-6-astra",
+      "reasoningEffort": "max",
+      "score": 1168.398,
+      "costSource": "estimated",
+      "costDerivation": "[L] Derived from AA-published aa3d canonical token counts over 55 tasks times AA's listed prices (identical to the catalogue list prices): uncached input, cache hits and output (answer + reasoning). Cache writes are not published per model and are excluded, so this is a lower bound (AA's own published lowest three, e.g. Haiku 5.5 $0.49, run about 6-14% above this derivation). Cache-read share of the derived cost: 41.2%.",
+      "secondaryMetrics": {
+        "inputTokensPerTask": 7228630,
+        "outputTokensPerTask": 153373,
+        "costPerTaskUsd": 16.996785
+      },
+      "context": {
+        "sourceKind": "independentEvaluator",
+        "sourcePublisher": "Artificial Analysis",
+        "dateBasis": "firstObservedPublicSnapshot",
+        "observedAt": "2026-11-27",
+        "harness": "Stirrup (offline sandbox; three.js 0.186.0, Rapier, Blender, headless Chromium)",
+        "taskCount": 55,
+        "trialCount": 55,
+        "attemptsPerTask": 1,
+        "confidenceIntervalLevel": 0.95,
+        "sampleNotes": "53 of 54 AA-3D Explorer tasks have a scene of this model in blind voting (TE-83 count from AA's per-task coverage data; AA states the benchmark has 55 tasks and publishes no excluded share). Panel votes behind the board: 23K+.",
+        "additionalSourceUrls": [
+          "https://artificialanalysis.ai/methodology/aa-3d",
+          "https://artificialanalysis.ai/3d/explorer"
+        ],
+        "confidenceIntervalHalfWidth": 28.0
+      },
+      "publishedAt": "2026-11-27",
+      "retrievedAt": "2026-11-27",
+      "sourceUrl": "https://artificialanalysis.ai/evaluations/aa-3d",
+      "retrievalMethod": "publishedData",
+      "evidenceExcerpt": "GPT-6 Astra (Max): Elo 1168.3980 on AA-3D (Elo from blind pairwise votes, 95% interval shown on the leaderboard).",
+      "confidence": "thirdParty",
+      "evidenceStatus": "observational"
+    },
+    {
+      "evidenceClass": "M",
+      "id": "te83-aa3d-claude-sonnet-5-5-max",
+      "benchmarkTypeId": "aa-3d-v1.0-2026-11-27",
+      "modelId": "claude-sonnet-5-5",
+      "reasoningEffort": "max",
+      "score": 1203.6913,
+      "costSource": "estimated",
+      "costDerivation": "[L] Derived from AA-published aa3d canonical token counts over 55 tasks times AA's listed prices (identical to the catalogue list prices): uncached input, cache hits and output (answer + reasoning). Cache writes are not published per model and are excluded, so this is a lower bound (AA's own published lowest three, e.g. Haiku 5.5 $0.49, run about 6-14% above this derivation). Cache-read share of the derived cost: 46.7%.",
+      "secondaryMetrics": {
+        "inputTokensPerTask": 60961603,
+        "outputTokensPerTask": 548554,
+        "costPerTaskUsd": 12.913127
+      },
+      "context": {
+        "sourceKind": "independentEvaluator",
+        "sourcePublisher": "Artificial Analysis",
+        "dateBasis": "firstObservedPublicSnapshot",
+        "observedAt": "2026-11-27",
+        "harness": "Stirrup (offline sandbox; three.js 0.186.0, Rapier, Blender, headless Chromium)",
+        "taskCount": 55,
+        "trialCount": 55,
+        "attemptsPerTask": 1,
+        "confidenceIntervalLevel": 0.95,
+        "sampleNotes": "46 of 54 AA-3D Explorer tasks have a scene of this model in blind voting (TE-83 count from AA's per-task coverage data; AA states the benchmark has 55 tasks and publishes no excluded share). Panel votes behind the board: 23K+.",
+        "additionalSourceUrls": [
+          "https://artificialanalysis.ai/methodology/aa-3d",
+          "https://artificialanalysis.ai/3d/explorer"
+        ],
+        "confidenceIntervalHalfWidth": 28.0
+      },
+      "publishedAt": "2026-11-27",
+      "retrievedAt": "2026-11-27",
+      "sourceUrl": "https://artificialanalysis.ai/evaluations/aa-3d",
+      "retrievalMethod": "publishedData",
+      "evidenceExcerpt": "Claude Sonnet 5.5 (Max, Default Fallback): Elo 1203.6913 on AA-3D (Elo from blind pairwise votes, 95% interval shown on the leaderboard).",
+      "confidence": "thirdParty",
+      "evidenceStatus": "observational"
+    },
+    {
+      "evidenceClass": "M",
+      "id": "te83-aa3d-gpt-6.1-sol-max",
+      "benchmarkTypeId": "aa-3d-v1.0-2026-11-27",
+      "modelId": "gpt-6.1-sol",
+      "reasoningEffort": "max",
+      "score": 1121.0821,
+      "costSource": "estimated",
+      "costDerivation": "[L] Derived from AA-published aa3d canonical token counts over 55 tasks times AA's listed prices (identical to the catalogue list prices): uncached input, cache hits and output (answer + reasoning). Cache writes are not published per model and are excluded, so this is a lower bound (AA's own published lowest three, e.g. Haiku 5.5 $0.49, run about 6-14% above this derivation). Cache-read share of the derived cost: 22.5%.",
+      "secondaryMetrics": {
+        "inputTokensPerTask": 7584053,
+        "outputTokensPerTask": 194522,
+        "costPerTaskUsd": 3.246534
+      },
+      "context": {
+        "sourceKind": "independentEvaluator",
+        "sourcePublisher": "Artificial Analysis",
+        "dateBasis": "firstObservedPublicSnapshot",
+        "observedAt": "2026-11-27",
+        "harness": "Stirrup (offline sandbox; three.js 0.186.0, Rapier, Blender, headless Chromium)",
+        "taskCount": 55,
+        "trialCount": 55,
+        "attemptsPerTask": 1,
+        "confidenceIntervalLevel": 0.95,
+        "sampleNotes": "52 of 54 AA-3D Explorer tasks have a scene of this model in blind voting (TE-83 count from AA's per-task coverage data; AA states the benchmark has 55 tasks and publishes no excluded share). Panel votes behind the board: 23K+.",
+        "additionalSourceUrls": [
+          "https://artificialanalysis.ai/methodology/aa-3d",
+          "https://artificialanalysis.ai/3d/explorer"
+        ],
+        "confidenceIntervalHalfWidth": 28.0
+      },
+      "publishedAt": "2026-11-27",
+      "retrievedAt": "2026-11-27",
+      "sourceUrl": "https://artificialanalysis.ai/evaluations/aa-3d",
+      "retrievalMethod": "publishedData",
+      "evidenceExcerpt": "GPT-6.1 Sol (Max): Elo 1121.0821 on AA-3D (Elo from blind pairwise votes, 95% interval shown on the leaderboard).",
+      "confidence": "thirdParty",
+      "evidenceStatus": "observational"
+    },
+    {
+      "evidenceClass": "M",
+      "id": "te83-aa3d-gemini-4-hydrogen-xhigh",
+      "benchmarkTypeId": "aa-3d-v1.0-2026-11-27",
+      "modelId": "gemini-4-hydrogen",
+      "reasoningEffort": "xHigh",
+      "score": 1196.0114,
+      "costSource": "estimated",
+      "costDerivation": "[L] Derived from AA-published aa3d canonical token counts over 55 tasks times AA's listed prices (identical to the catalogue list prices): uncached input, cache hits and output (answer + reasoning). Cache writes are not published per model and are excluded, so this is a lower bound (AA's own published lowest three, e.g. Haiku 5.5 $0.49, run about 6-14% above this derivation). Cache-read share of the derived cost: 36.6%.",
+      "secondaryMetrics": {
+        "inputTokensPerTask": 16085015,
+        "outputTokensPerTask": 202863,
+        "costPerTaskUsd": 3.222531
+      },
+      "context": {
+        "sourceKind": "independentEvaluator",
+        "sourcePublisher": "Artificial Analysis",
+        "dateBasis": "firstObservedPublicSnapshot",
+        "observedAt": "2026-11-27",
+        "harness": "Stirrup (offline sandbox; three.js 0.186.0, Rapier, Blender, headless Chromium)",
+        "taskCount": 55,
+        "trialCount": 55,
+        "attemptsPerTask": 1,
+        "confidenceIntervalLevel": 0.95,
+        "sampleNotes": "52 of 54 AA-3D Explorer tasks have a scene of this model in blind voting (TE-83 count from AA's per-task coverage data; AA states the benchmark has 55 tasks and publishes no excluded share). Panel votes behind the board: 23K+.",
+        "additionalSourceUrls": [
+          "https://artificialanalysis.ai/methodology/aa-3d",
+          "https://artificialanalysis.ai/3d/explorer"
+        ],
+        "confidenceIntervalHalfWidth": 29.0
+      },
+      "publishedAt": "2026-11-27",
+      "retrievedAt": "2026-11-27",
+      "sourceUrl": "https://artificialanalysis.ai/evaluations/aa-3d",
+      "retrievalMethod": "publishedData",
+      "evidenceExcerpt": "Gemini 4 Hydrogen (Xhigh): Elo 1196.0114 on AA-3D (Elo from blind pairwise votes, 95% interval shown on the leaderboard).",
+      "confidence": "thirdParty",
+      "evidenceStatus": "observational"
+    },
+    {
+      "evidenceClass": "M",
+      "id": "te83-aa3d-gemini-4-argon-high",
+      "benchmarkTypeId": "aa-3d-v1.0-2026-11-27",
+      "modelId": "gemini-4-argon",
+      "reasoningEffort": "high",
+      "score": 1146.6893,
+      "costSource": "estimated",
+      "costDerivation": "[L] Derived from AA-published aa3d canonical token counts over 55 tasks times AA's listed prices (identical to the catalogue list prices): uncached input, cache hits and output (answer + reasoning). Cache writes are not published per model and are excluded, so this is a lower bound (AA's own published lowest three, e.g. Haiku 5.5 $0.49, run about 6-14% above this derivation). Cache-read share of the derived cost: 25.5%.",
+      "secondaryMetrics": {
+        "inputTokensPerTask": 6569011,
+        "outputTokensPerTask": 141783,
+        "costPerTaskUsd": 4.976165
+      },
+      "context": {
+        "sourceKind": "independentEvaluator",
+        "sourcePublisher": "Artificial Analysis",
+        "dateBasis": "firstObservedPublicSnapshot",
+        "observedAt": "2026-11-27",
+        "harness": "Stirrup (offline sandbox; three.js 0.186.0, Rapier, Blender, headless Chromium)",
+        "taskCount": 55,
+        "trialCount": 55,
+        "attemptsPerTask": 1,
+        "confidenceIntervalLevel": 0.95,
+        "sampleNotes": "52 of 54 AA-3D Explorer tasks have a scene of this model in blind voting (TE-83 count from AA's per-task coverage data; AA states the benchmark has 55 tasks and publishes no excluded share). Panel votes behind the board: 23K+.",
+        "additionalSourceUrls": [
+          "https://artificialanalysis.ai/methodology/aa-3d",
+          "https://artificialanalysis.ai/3d/explorer"
+        ],
+        "confidenceIntervalHalfWidth": 30.0
+      },
+      "publishedAt": "2026-11-27",
+      "retrievedAt": "2026-11-27",
+      "sourceUrl": "https://artificialanalysis.ai/evaluations/aa-3d",
+      "retrievalMethod": "publishedData",
+      "evidenceExcerpt": "Gemini 4 Argon (High): Elo 1146.6893 on AA-3D (Elo from blind pairwise votes, 95% interval shown on the leaderboard).",
+      "confidence": "thirdParty",
+      "evidenceStatus": "observational"
+    },
+    {
+      "evidenceClass": "M",
+      "id": "te83-aa3d-claude-fable-5-1-max",
+      "benchmarkTypeId": "aa-3d-v1.0-2026-11-27",
+      "modelId": "claude-fable-5-1",
+      "reasoningEffort": "max",
+      "score": 1139.1004,
+      "costSource": "estimated",
+      "costDerivation": "[L] Derived from AA-published aa3d canonical token counts over 55 tasks times AA's listed prices (identical to the catalogue list prices): uncached input, cache hits and output (answer + reasoning). Cache writes are not published per model and are excluded, so this is a lower bound (AA's own published lowest three, e.g. Haiku 5.5 $0.49, run about 6-14% above this derivation). Cache-read share of the derived cost: 32.7%.",
+      "secondaryMetrics": {
+        "inputTokensPerTask": 37045037,
+        "outputTokensPerTask": 292958,
+        "costPerTaskUsd": 27.996797
+      },
+      "context": {
+        "sourceKind": "independentEvaluator",
+        "sourcePublisher": "Artificial Analysis",
+        "dateBasis": "firstObservedPublicSnapshot",
+        "observedAt": "2026-11-27",
+        "harness": "Stirrup (offline sandbox; three.js 0.186.0, Rapier, Blender, headless Chromium)",
+        "taskCount": 55,
+        "trialCount": 55,
+        "attemptsPerTask": 1,
+        "confidenceIntervalLevel": 0.95,
+        "sampleNotes": "50 of 54 AA-3D Explorer tasks have a scene of this model in blind voting (TE-83 count from AA's per-task coverage data; AA states the benchmark has 55 tasks and publishes no excluded share). Panel votes behind the board: 23K+.",
+        "additionalSourceUrls": [
+          "https://artificialanalysis.ai/methodology/aa-3d",
+          "https://artificialanalysis.ai/3d/explorer"
+        ],
+        "confidenceIntervalHalfWidth": 28.0
+      },
+      "publishedAt": "2026-11-27",
+      "retrievedAt": "2026-11-27",
+      "sourceUrl": "https://artificialanalysis.ai/evaluations/aa-3d",
+      "retrievalMethod": "publishedData",
+      "evidenceExcerpt": "Claude Fable 5.1 (Max, Default Fallback): Elo 1139.1004 on AA-3D (Elo from blind pairwise votes, 95% interval shown on the leaderboard).",
+      "confidence": "thirdParty",
+      "evidenceStatus": "observational"
+    },
+    {
+      "evidenceClass": "M",
+      "id": "te83-aa3d-gpt-6-sol-max",
+      "benchmarkTypeId": "aa-3d-v1.0-2026-11-27",
+      "modelId": "gpt-6-sol",
+      "reasoningEffort": "max",
+      "score": 1131.3375,
+      "costSource": "estimated",
+      "costDerivation": "[L] Derived from AA-published aa3d canonical token counts over 55 tasks times AA's listed prices (identical to the catalogue list prices): uncached input, cache hits and output (answer + reasoning). Cache writes are not published per model and are excluded, so this is a lower bound (AA's own published lowest three, e.g. Haiku 5.5 $0.49, run about 6-14% above this derivation). Cache-read share of the derived cost: 55.4%.",
+      "secondaryMetrics": {
+        "inputTokensPerTask": 9143411,
+        "outputTokensPerTask": 109063,
+        "costPerTaskUsd": 3.239317
+      },
+      "context": {
+        "sourceKind": "independentEvaluator",
+        "sourcePublisher": "Artificial Analysis",
+        "dateBasis": "firstObservedPublicSnapshot",
+        "observedAt": "2026-11-27",
+        "harness": "Stirrup (offline sandbox; three.js 0.186.0, Rapier, Blender, headless Chromium)",
+        "taskCount": 55,
+        "trialCount": 55,
+        "attemptsPerTask": 1,
+        "confidenceIntervalLevel": 0.95,
+        "sampleNotes": "54 of 54 AA-3D Explorer tasks have a scene of this model in blind voting (TE-83 count from AA's per-task coverage data; AA states the benchmark has 55 tasks and publishes no excluded share). Panel votes behind the board: 23K+.",
+        "additionalSourceUrls": [
+          "https://artificialanalysis.ai/methodology/aa-3d",
+          "https://artificialanalysis.ai/3d/explorer"
+        ],
+        "confidenceIntervalHalfWidth": 27.0
+      },
+      "publishedAt": "2026-11-27",
+      "retrievedAt": "2026-11-27",
+      "sourceUrl": "https://artificialanalysis.ai/evaluations/aa-3d",
+      "retrievalMethod": "publishedData",
+      "evidenceExcerpt": "GPT-6 Sol (Max): Elo 1131.3375 on AA-3D (Elo from blind pairwise votes, 95% interval shown on the leaderboard).",
+      "confidence": "thirdParty",
+      "evidenceStatus": "observational"
+    },
+    {
+      "evidenceClass": "M",
+      "id": "te83-aa3d-claude-haiku-5-5-max",
+      "benchmarkTypeId": "aa-3d-v1.0-2026-11-27",
+      "modelId": "claude-haiku-5-5",
+      "reasoningEffort": "max",
+      "score": 998.1405,
+      "costSource": "estimated",
+      "costDerivation": "[L] Derived from AA-published aa3d canonical token counts over 55 tasks times AA's listed prices (identical to the catalogue list prices): uncached input, cache hits and output (answer + reasoning). Cache writes are not published per model and are excluded, so this is a lower bound (AA's own published lowest three, e.g. Haiku 5.5 $0.49, run about 6-14% above this derivation). Cache-read share of the derived cost: 42.8%.",
+      "secondaryMetrics": {
+        "inputTokensPerTask": 19967994,
+        "outputTokensPerTask": 423074,
+        "costPerTaskUsd": 0.455199
+      },
+      "context": {
+        "sourceKind": "independentEvaluator",
+        "sourcePublisher": "Artificial Analysis",
+        "dateBasis": "firstObservedPublicSnapshot",
+        "observedAt": "2026-11-27",
+        "harness": "Stirrup (offline sandbox; three.js 0.186.0, Rapier, Blender, headless Chromium)",
+        "taskCount": 55,
+        "trialCount": 55,
+        "attemptsPerTask": 1,
+        "confidenceIntervalLevel": 0.95,
+        "sampleNotes": "50 of 54 AA-3D Explorer tasks have a scene of this model in blind voting (TE-83 count from AA's per-task coverage data; AA states the benchmark has 55 tasks and publishes no excluded share). Panel votes behind the board: 23K+.",
+        "additionalSourceUrls": [
+          "https://artificialanalysis.ai/methodology/aa-3d",
+          "https://artificialanalysis.ai/3d/explorer"
+        ],
+        "confidenceIntervalHalfWidth": 27.0
+      },
+      "publishedAt": "2026-11-27",
+      "retrievedAt": "2026-11-27",
+      "sourceUrl": "https://artificialanalysis.ai/evaluations/aa-3d",
+      "retrievalMethod": "publishedData",
+      "evidenceExcerpt": "Claude Haiku 5.5 (Max): Elo 998.1405 on AA-3D (Elo from blind pairwise votes, 95% interval shown on the leaderboard).",
+      "confidence": "thirdParty",
+      "evidenceStatus": "observational"
+    },
+    {
+      "evidenceClass": "M",
+      "id": "te83-aa3d-gemini-3.8-flash-high",
+      "benchmarkTypeId": "aa-3d-v1.0-2026-11-27",
+      "modelId": "gemini-3.8-flash",
+      "reasoningEffort": "high",
+      "score": 974.1137,
+      "costSource": "estimated",
+      "costDerivation": "[L] Derived from AA-published aa3d canonical token counts over 55 tasks times AA's listed prices (identical to the catalogue list prices): uncached input, cache hits and output (answer + reasoning). Cache writes are not published per model and are excluded, so this is a lower bound (AA's own published lowest three, e.g. Haiku 5.5 $0.49, run about 6-14% above this derivation). Cache-read share of the derived cost: 54.7%.",
+      "secondaryMetrics": {
+        "inputTokensPerTask": 14375394,
+        "outputTokensPerTask": 182684,
+        "costPerTaskUsd": 1.93735
+      },
+      "context": {
+        "sourceKind": "independentEvaluator",
+        "sourcePublisher": "Artificial Analysis",
+        "dateBasis": "firstObservedPublicSnapshot",
+        "observedAt": "2026-11-27",
+        "harness": "Stirrup (offline sandbox; three.js 0.186.0, Rapier, Blender, headless Chromium)",
+        "taskCount": 55,
+        "trialCount": 55,
+        "attemptsPerTask": 1,
+        "confidenceIntervalLevel": 0.95,
+        "sampleNotes": "52 of 54 AA-3D Explorer tasks have a scene of this model in blind voting (TE-83 count from AA's per-task coverage data; AA states the benchmark has 55 tasks and publishes no excluded share). Panel votes behind the board: 23K+.",
+        "additionalSourceUrls": [
+          "https://artificialanalysis.ai/methodology/aa-3d",
+          "https://artificialanalysis.ai/3d/explorer"
+        ],
+        "confidenceIntervalHalfWidth": 27.0
+      },
+      "publishedAt": "2026-11-27",
+      "retrievedAt": "2026-11-27",
+      "sourceUrl": "https://artificialanalysis.ai/evaluations/aa-3d",
+      "retrievalMethod": "publishedData",
+      "evidenceExcerpt": "Gemini 3.8 Flash (High): Elo 974.1137 on AA-3D (Elo from blind pairwise votes, 95% interval shown on the leaderboard).",
+      "confidence": "thirdParty",
+      "evidenceStatus": "observational"
+    },
+    {
+      "evidenceClass": "M",
+      "id": "te83-aa3d-gpt-6-luna-max",
+      "benchmarkTypeId": "aa-3d-v1.0-2026-11-27",
+      "modelId": "gpt-6-luna",
+      "reasoningEffort": "max",
+      "score": 1000,
+      "costSource": "estimated",
+      "costDerivation": "[L] Derived from AA-published aa3d canonical token counts over 55 tasks times AA's listed prices (identical to the catalogue list prices): uncached input, cache hits and output (answer + reasoning). Cache writes are not published per model and are excluded, so this is a lower bound (AA's own published lowest three, e.g. Haiku 5.5 $0.49, run about 6-14% above this derivation). Cache-read share of the derived cost: 51.3%.",
+      "secondaryMetrics": {
+        "inputTokensPerTask": 9861633,
+        "outputTokensPerTask": 144181,
+        "costPerTaskUsd": 0.188409
+      },
+      "context": {
+        "sourceKind": "independentEvaluator",
+        "sourcePublisher": "Artificial Analysis",
+        "dateBasis": "firstObservedPublicSnapshot",
+        "observedAt": "2026-11-27",
+        "harness": "Stirrup (offline sandbox; three.js 0.186.0, Rapier, Blender, headless Chromium)",
+        "taskCount": 55,
+        "trialCount": 55,
+        "attemptsPerTask": 1,
+        "confidenceIntervalLevel": 0.95,
+        "sampleNotes": "53 of 54 AA-3D Explorer tasks have a scene of this model in blind voting (TE-83 count from AA's per-task coverage data; AA states the benchmark has 55 tasks and publishes no excluded share). Panel votes behind the board: 23K+.",
+        "additionalSourceUrls": [
+          "https://artificialanalysis.ai/methodology/aa-3d",
+          "https://artificialanalysis.ai/3d/explorer"
+        ]
+      },
+      "publishedAt": "2026-11-27",
+      "retrievedAt": "2026-11-27",
+      "sourceUrl": "https://artificialanalysis.ai/evaluations/aa-3d",
+      "retrievalMethod": "publishedData",
+      "evidenceExcerpt": "GPT-6 Luna (Max): Elo 1000.0000 on AA-3D (Elo from blind pairwise votes, 95% interval shown on the leaderboard).",
+      "confidence": "thirdParty",
+      "evidenceStatus": "observational"
+    },
+    {
+      "evidenceClass": "M",
+      "id": "te83-webdev-claude-fable-5-2-xhigh",
+      "benchmarkTypeId": "arena-code-webdev-2026-11-23",
+      "modelId": "claude-fable-5-2",
+      "reasoningEffort": "xHigh",
+      "score": 1821.6543,
+      "costSource": "unavailable",
+      "scoreOnlyLabel": "Arena publishes no cost or tokens per battle.",
+      "context": {
+        "sourceKind": "officialLeaderboard",
+        "sourcePublisher": "Arena",
+        "dateBasis": "publishedDate",
+        "observedAt": "2026-11-23",
+        "harness": "Code Arena WebDev (Arena-run build environment, user prompts)",
+        "confidenceIntervalHalfWidth": 15.3473,
+        "confidenceIntervalLevel": 0.95,
+        "sampleNotes": "2159 votes; rank 1 in category webdev; rating_lower 1806.31, rating_upper 1837.00.",
+        "additionalSourceUrls": [
+          "https://arena.ai/leaderboard/code/webdev",
+          "https://arena.ai/blog/webdev-arena"
+        ]
+      },
+      "publishedAt": "2026-11-23",
+      "retrievedAt": "2026-11-27",
+      "sourceUrl": "https://huggingface.co/datasets/lmarena-ai/leaderboard-dataset",
+      "retrievalMethod": "api",
+      "evidenceExcerpt": "leaderboard-dataset config webdev, split latest, category webdev, leaderboard_publish_date 2026-11-23: Claude Fable 5.2 (xHigh) rating 1821.6543 [1806.3071, 1837.0016], 2159 votes.",
+      "confidence": "thirdParty",
+      "evidenceStatus": "observational"
+    },
+    {
+      "evidenceClass": "M",
+      "id": "te83-webdev-claude-opus-5-5-max",
+      "benchmarkTypeId": "arena-code-webdev-2026-11-23",
+      "modelId": "claude-opus-5-5",
+      "reasoningEffort": "max",
+      "score": 1820.3521,
+      "costSource": "unavailable",
+      "scoreOnlyLabel": "Arena publishes no cost or tokens per battle.",
+      "context": {
+        "sourceKind": "officialLeaderboard",
+        "sourcePublisher": "Arena",
+        "dateBasis": "publishedDate",
+        "observedAt": "2026-11-23",
+        "harness": "Code Arena WebDev (Arena-run build environment, user prompts)",
+        "confidenceIntervalHalfWidth": 10.7335,
+        "confidenceIntervalLevel": 0.95,
+        "sampleNotes": "5121 votes; rank 2 in category webdev; rating_lower 1809.62, rating_upper 1831.09.",
+        "additionalSourceUrls": [
+          "https://arena.ai/leaderboard/code/webdev",
+          "https://arena.ai/blog/webdev-arena"
+        ]
+      },
+      "publishedAt": "2026-11-23",
+      "retrievedAt": "2026-11-27",
+      "sourceUrl": "https://huggingface.co/datasets/lmarena-ai/leaderboard-dataset",
+      "retrievalMethod": "api",
+      "evidenceExcerpt": "leaderboard-dataset config webdev, split latest, category webdev, leaderboard_publish_date 2026-11-23: Claude Opus 5.5 (Max) rating 1820.3521 [1809.6186, 1831.0857], 5121 votes.",
+      "confidence": "thirdParty",
+      "evidenceStatus": "observational"
+    },
+    {
+      "evidenceClass": "M",
+      "id": "te83-webdev-claude-sonnet-5-5-xhigh",
+      "benchmarkTypeId": "arena-code-webdev-2026-11-23",
+      "modelId": "claude-sonnet-5-5",
+      "reasoningEffort": "xHigh",
+      "score": 1772.6448,
+      "costSource": "unavailable",
+      "scoreOnlyLabel": "Arena publishes no cost or tokens per battle.",
+      "context": {
+        "sourceKind": "officialLeaderboard",
+        "sourcePublisher": "Arena",
+        "dateBasis": "publishedDate",
+        "observedAt": "2026-11-23",
+        "harness": "Code Arena WebDev (Arena-run build environment, user prompts)",
+        "confidenceIntervalHalfWidth": 9.1284,
+        "confidenceIntervalLevel": 0.95,
+        "sampleNotes": "6973 votes; rank 3 in category webdev; rating_lower 1763.52, rating_upper 1781.77.",
+        "additionalSourceUrls": [
+          "https://arena.ai/leaderboard/code/webdev",
+          "https://arena.ai/blog/webdev-arena"
+        ]
+      },
+      "publishedAt": "2026-11-23",
+      "retrievedAt": "2026-11-27",
+      "sourceUrl": "https://huggingface.co/datasets/lmarena-ai/leaderboard-dataset",
+      "retrievalMethod": "api",
+      "evidenceExcerpt": "leaderboard-dataset config webdev, split latest, category webdev, leaderboard_publish_date 2026-11-23: Claude Sonnet 5.5 (xHigh) rating 1772.6448 [1763.5164, 1781.7731], 6973 votes.",
+      "confidence": "thirdParty",
+      "evidenceStatus": "observational"
+    },
+    {
+      "evidenceClass": "M",
+      "id": "te83-webdev-gemini-4-carbon-high",
+      "benchmarkTypeId": "arena-code-webdev-2026-11-23",
+      "modelId": "gemini-4-carbon",
+      "reasoningEffort": "high",
+      "score": 1768.9773,
+      "costSource": "unavailable",
+      "scoreOnlyLabel": "Arena publishes no cost or tokens per battle.",
+      "context": {
+        "sourceKind": "officialLeaderboard",
+        "sourcePublisher": "Arena",
+        "dateBasis": "publishedDate",
+        "observedAt": "2026-11-23",
+        "harness": "Code Arena WebDev (Arena-run build environment, user prompts)",
+        "confidenceIntervalHalfWidth": 15.41,
+        "confidenceIntervalLevel": 0.95,
+        "sampleNotes": "2091 votes; rank 4 in category webdev; rating_lower 1753.57, rating_upper 1784.39.",
+        "additionalSourceUrls": [
+          "https://arena.ai/leaderboard/code/webdev",
+          "https://arena.ai/blog/webdev-arena"
+        ]
+      },
+      "publishedAt": "2026-11-23",
+      "retrievedAt": "2026-11-27",
+      "sourceUrl": "https://huggingface.co/datasets/lmarena-ai/leaderboard-dataset",
+      "retrievalMethod": "api",
+      "evidenceExcerpt": "leaderboard-dataset config webdev, split latest, category webdev, leaderboard_publish_date 2026-11-23: Gemini 4 Carbon (High) rating 1768.9773 [1753.5673, 1784.3873], 2091 votes.",
+      "confidence": "thirdParty",
+      "evidenceStatus": "observational"
+    },
+    {
+      "evidenceClass": "M",
+      "id": "te83-webdev-gpt-6-astra-max",
+      "benchmarkTypeId": "arena-code-webdev-2026-11-23",
+      "modelId": "gpt-6-astra",
+      "reasoningEffort": "max",
+      "score": 1763.6447,
+      "costSource": "unavailable",
+      "scoreOnlyLabel": "Arena publishes no cost or tokens per battle.",
+      "context": {
+        "sourceKind": "officialLeaderboard",
+        "sourcePublisher": "Arena",
+        "dateBasis": "publishedDate",
+        "observedAt": "2026-11-23",
+        "harness": "Code Arena WebDev (Arena-run build environment, user prompts)",
+        "confidenceIntervalHalfWidth": 8.0568,
+        "confidenceIntervalLevel": 0.95,
+        "sampleNotes": "9541 votes; rank 6 in category webdev; rating_lower 1755.59, rating_upper 1771.70.",
+        "additionalSourceUrls": [
+          "https://arena.ai/leaderboard/code/webdev",
+          "https://arena.ai/blog/webdev-arena"
+        ]
+      },
+      "publishedAt": "2026-11-23",
+      "retrievedAt": "2026-11-27",
+      "sourceUrl": "https://huggingface.co/datasets/lmarena-ai/leaderboard-dataset",
+      "retrievalMethod": "api",
+      "evidenceExcerpt": "leaderboard-dataset config webdev, split latest, category webdev, leaderboard_publish_date 2026-11-23: GPT-6 Astra (Max) rating 1763.6447 [1755.5879, 1771.7015], 9541 votes.",
+      "confidence": "thirdParty",
+      "evidenceStatus": "observational"
+    },
+    {
+      "evidenceClass": "M",
+      "id": "te83-webdev-gpt-6.2-astra-max",
+      "benchmarkTypeId": "arena-code-webdev-2026-11-23",
+      "modelId": "gpt-6.2-astra",
+      "reasoningEffort": "max",
+      "score": 1760.6728,
+      "costSource": "unavailable",
+      "scoreOnlyLabel": "Arena publishes no cost or tokens per battle.",
+      "context": {
+        "sourceKind": "officialLeaderboard",
+        "sourcePublisher": "Arena",
+        "dateBasis": "publishedDate",
+        "observedAt": "2026-11-23",
+        "harness": "Code Arena WebDev (Arena-run build environment, user prompts)",
+        "confidenceIntervalHalfWidth": 14.3555,
+        "confidenceIntervalLevel": 0.95,
+        "sampleNotes": "2170 votes; rank 7 in category webdev; rating_lower 1746.32, rating_upper 1775.03.",
+        "additionalSourceUrls": [
+          "https://arena.ai/leaderboard/code/webdev",
+          "https://arena.ai/blog/webdev-arena"
+        ]
+      },
+      "publishedAt": "2026-11-23",
+      "retrievedAt": "2026-11-27",
+      "sourceUrl": "https://huggingface.co/datasets/lmarena-ai/leaderboard-dataset",
+      "retrievalMethod": "api",
+      "evidenceExcerpt": "leaderboard-dataset config webdev, split latest, category webdev, leaderboard_publish_date 2026-11-23: GPT-6.2 Astra (Max) rating 1760.6728 [1746.3172, 1775.0283], 2170 votes.",
+      "confidence": "thirdParty",
+      "evidenceStatus": "observational"
+    },
+    {
+      "evidenceClass": "M",
+      "id": "te83-webdev-gpt-6.2-sol-max",
+      "benchmarkTypeId": "arena-code-webdev-2026-11-23",
+      "modelId": "gpt-6.2-sol",
+      "reasoningEffort": "max",
+      "score": 1754.8233,
+      "costSource": "unavailable",
+      "scoreOnlyLabel": "Arena publishes no cost or tokens per battle.",
+      "context": {
+        "sourceKind": "officialLeaderboard",
+        "sourcePublisher": "Arena",
+        "dateBasis": "publishedDate",
+        "observedAt": "2026-11-23",
+        "harness": "Code Arena WebDev (Arena-run build environment, user prompts)",
+        "confidenceIntervalHalfWidth": 13.8493,
+        "confidenceIntervalLevel": 0.95,
+        "sampleNotes": "2336 votes; rank 8 in category webdev; rating_lower 1740.97, rating_upper 1768.67.",
+        "additionalSourceUrls": [
+          "https://arena.ai/leaderboard/code/webdev",
+          "https://arena.ai/blog/webdev-arena"
+        ]
+      },
+      "publishedAt": "2026-11-23",
+      "retrievedAt": "2026-11-27",
+      "sourceUrl": "https://huggingface.co/datasets/lmarena-ai/leaderboard-dataset",
+      "retrievalMethod": "api",
+      "evidenceExcerpt": "leaderboard-dataset config webdev, split latest, category webdev, leaderboard_publish_date 2026-11-23: GPT-6.2 Sol (Max) rating 1754.8233 [1740.9740, 1768.6726], 2336 votes.",
+      "confidence": "thirdParty",
+      "evidenceStatus": "observational"
+    },
+    {
+      "evidenceClass": "M",
+      "id": "te83-webdev-gpt-6.1-sol-max",
+      "benchmarkTypeId": "arena-code-webdev-2026-11-23",
+      "modelId": "gpt-6.1-sol",
+      "reasoningEffort": "max",
+      "score": 1744.7306,
+      "costSource": "unavailable",
+      "scoreOnlyLabel": "Arena publishes no cost or tokens per battle.",
+      "context": {
+        "sourceKind": "officialLeaderboard",
+        "sourcePublisher": "Arena",
+        "dateBasis": "publishedDate",
+        "observedAt": "2026-11-23",
+        "harness": "Code Arena WebDev (Arena-run build environment, user prompts)",
+        "confidenceIntervalHalfWidth": 8.9968,
+        "confidenceIntervalLevel": 0.95,
+        "sampleNotes": "6737 votes; rank 10 in category webdev; rating_lower 1735.73, rating_upper 1753.73.",
+        "additionalSourceUrls": [
+          "https://arena.ai/leaderboard/code/webdev",
+          "https://arena.ai/blog/webdev-arena"
+        ]
+      },
+      "publishedAt": "2026-11-23",
+      "retrievedAt": "2026-11-27",
+      "sourceUrl": "https://huggingface.co/datasets/lmarena-ai/leaderboard-dataset",
+      "retrievalMethod": "api",
+      "evidenceExcerpt": "leaderboard-dataset config webdev, split latest, category webdev, leaderboard_publish_date 2026-11-23: GPT-6.1 Sol (Max) rating 1744.7306 [1735.7337, 1753.7274], 6737 votes.",
+      "confidence": "thirdParty",
+      "evidenceStatus": "observational"
+    },
+    {
+      "evidenceClass": "M",
+      "id": "te83-webdev-claude-sonnet-5-5-high",
+      "benchmarkTypeId": "arena-code-webdev-2026-11-23",
+      "modelId": "claude-sonnet-5-5",
+      "reasoningEffort": "high",
+      "score": 1715.4181,
+      "costSource": "unavailable",
+      "scoreOnlyLabel": "Arena publishes no cost or tokens per battle.",
+      "context": {
+        "sourceKind": "officialLeaderboard",
+        "sourcePublisher": "Arena",
+        "dateBasis": "publishedDate",
+        "observedAt": "2026-11-23",
+        "harness": "Code Arena WebDev (Arena-run build environment, user prompts)",
+        "confidenceIntervalHalfWidth": 7.8525,
+        "confidenceIntervalLevel": 0.95,
+        "sampleNotes": "9129 votes; rank 13 in category webdev; rating_lower 1707.57, rating_upper 1723.27.",
+        "additionalSourceUrls": [
+          "https://arena.ai/leaderboard/code/webdev",
+          "https://arena.ai/blog/webdev-arena"
+        ]
+      },
+      "publishedAt": "2026-11-23",
+      "retrievedAt": "2026-11-27",
+      "sourceUrl": "https://huggingface.co/datasets/lmarena-ai/leaderboard-dataset",
+      "retrievalMethod": "api",
+      "evidenceExcerpt": "leaderboard-dataset config webdev, split latest, category webdev, leaderboard_publish_date 2026-11-23: Claude Sonnet 5.5 (High) rating 1715.4181 [1707.5656, 1723.2706], 9129 votes.",
+      "confidence": "thirdParty",
+      "evidenceStatus": "observational"
+    },
+    {
+      "evidenceClass": "M",
+      "id": "te83-webdev-gemini-4-hydrogen-xhigh",
+      "benchmarkTypeId": "arena-code-webdev-2026-11-23",
+      "modelId": "gemini-4-hydrogen",
+      "reasoningEffort": "xHigh",
+      "score": 1701.4196,
+      "costSource": "unavailable",
+      "scoreOnlyLabel": "Arena publishes no cost or tokens per battle.",
+      "context": {
+        "sourceKind": "officialLeaderboard",
+        "sourcePublisher": "Arena",
+        "dateBasis": "publishedDate",
+        "observedAt": "2026-11-23",
+        "harness": "Code Arena WebDev (Arena-run build environment, user prompts)",
+        "confidenceIntervalHalfWidth": 14.2733,
+        "confidenceIntervalLevel": 0.95,
+        "sampleNotes": "2012 votes; rank 14 in category webdev; rating_lower 1687.15, rating_upper 1715.69.",
+        "additionalSourceUrls": [
+          "https://arena.ai/leaderboard/code/webdev",
+          "https://arena.ai/blog/webdev-arena"
+        ]
+      },
+      "publishedAt": "2026-11-23",
+      "retrievedAt": "2026-11-27",
+      "sourceUrl": "https://huggingface.co/datasets/lmarena-ai/leaderboard-dataset",
+      "retrievalMethod": "api",
+      "evidenceExcerpt": "leaderboard-dataset config webdev, split latest, category webdev, leaderboard_publish_date 2026-11-23: Gemini 4 Hydrogen (xHigh) rating 1701.4196 [1687.1463, 1715.6930], 2012 votes.",
+      "confidence": "thirdParty",
+      "evidenceStatus": "observational"
+    },
+    {
+      "evidenceClass": "M",
+      "id": "te83-webdev-gpt-6.1-terra-max",
+      "benchmarkTypeId": "arena-code-webdev-2026-11-23",
+      "modelId": "gpt-6.1-terra",
+      "reasoningEffort": "max",
+      "score": 1686.2646,
+      "costSource": "unavailable",
+      "scoreOnlyLabel": "Arena publishes no cost or tokens per battle.",
+      "context": {
+        "sourceKind": "officialLeaderboard",
+        "sourcePublisher": "Arena",
+        "dateBasis": "publishedDate",
+        "observedAt": "2026-11-23",
+        "harness": "Code Arena WebDev (Arena-run build environment, user prompts)",
+        "confidenceIntervalHalfWidth": 9.325,
+        "confidenceIntervalLevel": 0.95,
+        "sampleNotes": "5462 votes; rank 16 in category webdev; rating_lower 1676.94, rating_upper 1695.59.",
+        "additionalSourceUrls": [
+          "https://arena.ai/leaderboard/code/webdev",
+          "https://arena.ai/blog/webdev-arena"
+        ]
+      },
+      "publishedAt": "2026-11-23",
+      "retrievedAt": "2026-11-27",
+      "sourceUrl": "https://huggingface.co/datasets/lmarena-ai/leaderboard-dataset",
+      "retrievalMethod": "api",
+      "evidenceExcerpt": "leaderboard-dataset config webdev, split latest, category webdev, leaderboard_publish_date 2026-11-23: GPT-6.1 Terra (Max) rating 1686.2646 [1676.9396, 1695.5896], 5462 votes.",
+      "confidence": "thirdParty",
+      "evidenceStatus": "observational"
+    },
+    {
+      "evidenceClass": "M",
+      "id": "te83-webdev-gemini-4-argon-high",
+      "benchmarkTypeId": "arena-code-webdev-2026-11-23",
+      "modelId": "gemini-4-argon",
+      "reasoningEffort": "high",
+      "score": 1682.0603,
+      "costSource": "unavailable",
+      "scoreOnlyLabel": "Arena publishes no cost or tokens per battle.",
+      "context": {
+        "sourceKind": "officialLeaderboard",
+        "sourcePublisher": "Arena",
+        "dateBasis": "publishedDate",
+        "observedAt": "2026-11-23",
+        "harness": "Code Arena WebDev (Arena-run build environment, user prompts)",
+        "confidenceIntervalHalfWidth": 8.8053,
+        "confidenceIntervalLevel": 0.95,
+        "sampleNotes": "6227 votes; rank 18 in category webdev; rating_lower 1673.25, rating_upper 1690.87.",
+        "additionalSourceUrls": [
+          "https://arena.ai/leaderboard/code/webdev",
+          "https://arena.ai/blog/webdev-arena"
+        ]
+      },
+      "publishedAt": "2026-11-23",
+      "retrievedAt": "2026-11-27",
+      "sourceUrl": "https://huggingface.co/datasets/lmarena-ai/leaderboard-dataset",
+      "retrievalMethod": "api",
+      "evidenceExcerpt": "leaderboard-dataset config webdev, split latest, category webdev, leaderboard_publish_date 2026-11-23: Gemini 4 Argon (High) rating 1682.0603 [1673.2550, 1690.8656], 6227 votes.",
+      "confidence": "thirdParty",
+      "evidenceStatus": "observational"
+    },
+    {
+      "evidenceClass": "M",
+      "id": "te83-webdev-gpt-6-sol-max",
+      "benchmarkTypeId": "arena-code-webdev-2026-11-23",
+      "modelId": "gpt-6-sol",
+      "reasoningEffort": "max",
+      "score": 1674.5323,
+      "costSource": "unavailable",
+      "scoreOnlyLabel": "Arena publishes no cost or tokens per battle.",
+      "context": {
+        "sourceKind": "officialLeaderboard",
+        "sourcePublisher": "Arena",
+        "dateBasis": "publishedDate",
+        "observedAt": "2026-11-23",
+        "harness": "Code Arena WebDev (Arena-run build environment, user prompts)",
+        "confidenceIntervalHalfWidth": 7.7715,
+        "confidenceIntervalLevel": 0.95,
+        "sampleNotes": "8574 votes; rank 19 in category webdev; rating_lower 1666.76, rating_upper 1682.30.",
+        "additionalSourceUrls": [
+          "https://arena.ai/leaderboard/code/webdev",
+          "https://arena.ai/blog/webdev-arena"
+        ]
+      },
+      "publishedAt": "2026-11-23",
+      "retrievedAt": "2026-11-27",
+      "sourceUrl": "https://huggingface.co/datasets/lmarena-ai/leaderboard-dataset",
+      "retrievalMethod": "api",
+      "evidenceExcerpt": "leaderboard-dataset config webdev, split latest, category webdev, leaderboard_publish_date 2026-11-23: GPT-6 Sol (Max) rating 1674.5323 [1666.7608, 1682.3038], 8574 votes.",
+      "confidence": "thirdParty",
+      "evidenceStatus": "observational"
+    },
+    {
+      "evidenceClass": "M",
+      "id": "te83-webdev-claude-haiku-5-5-high",
+      "benchmarkTypeId": "arena-code-webdev-2026-11-23",
+      "modelId": "claude-haiku-5-5",
+      "reasoningEffort": "high",
+      "score": 1594.6883,
+      "costSource": "unavailable",
+      "scoreOnlyLabel": "Arena publishes no cost or tokens per battle.",
+      "context": {
+        "sourceKind": "officialLeaderboard",
+        "sourcePublisher": "Arena",
+        "dateBasis": "publishedDate",
+        "observedAt": "2026-11-23",
+        "harness": "Code Arena WebDev (Arena-run build environment, user prompts)",
+        "confidenceIntervalHalfWidth": 7.663,
+        "confidenceIntervalLevel": 0.95,
+        "sampleNotes": "8776 votes; rank 44 in category webdev; rating_lower 1587.03, rating_upper 1602.35.",
+        "additionalSourceUrls": [
+          "https://arena.ai/leaderboard/code/webdev",
+          "https://arena.ai/blog/webdev-arena"
+        ]
+      },
+      "publishedAt": "2026-11-23",
+      "retrievedAt": "2026-11-27",
+      "sourceUrl": "https://huggingface.co/datasets/lmarena-ai/leaderboard-dataset",
+      "retrievalMethod": "api",
+      "evidenceExcerpt": "leaderboard-dataset config webdev, split latest, category webdev, leaderboard_publish_date 2026-11-23: Claude Haiku 5.5 (High) rating 1594.6883 [1587.0253, 1602.3513], 8776 votes.",
+      "confidence": "thirdParty",
+      "evidenceStatus": "observational"
+    },
+    {
+      "evidenceClass": "M",
+      "id": "te83-webdev-gpt-6-luna-max",
+      "benchmarkTypeId": "arena-code-webdev-2026-11-23",
+      "modelId": "gpt-6-luna",
+      "reasoningEffort": "max",
+      "score": 1578.6975,
+      "costSource": "unavailable",
+      "scoreOnlyLabel": "Arena publishes no cost or tokens per battle.",
+      "context": {
+        "sourceKind": "officialLeaderboard",
+        "sourcePublisher": "Arena",
+        "dateBasis": "publishedDate",
+        "observedAt": "2026-11-23",
+        "harness": "Code Arena WebDev (Arena-run build environment, user prompts)",
+        "confidenceIntervalHalfWidth": 5.8288,
+        "confidenceIntervalLevel": 0.95,
+        "sampleNotes": "32623 votes; rank 51 in category webdev; rating_lower 1572.87, rating_upper 1584.53.",
+        "additionalSourceUrls": [
+          "https://arena.ai/leaderboard/code/webdev",
+          "https://arena.ai/blog/webdev-arena"
+        ]
+      },
+      "publishedAt": "2026-11-23",
+      "retrievedAt": "2026-11-27",
+      "sourceUrl": "https://huggingface.co/datasets/lmarena-ai/leaderboard-dataset",
+      "retrievalMethod": "api",
+      "evidenceExcerpt": "leaderboard-dataset config webdev, split latest, category webdev, leaderboard_publish_date 2026-11-23: GPT-6 Luna (Max) rating 1578.6975 [1572.8687, 1584.5264], 32623 votes.",
+      "confidence": "thirdParty",
+      "evidenceStatus": "observational"
+    },
+    {
+      "evidenceClass": "M",
+      "id": "te83-arena3d-claude-fable-5-2-xhigh",
+      "benchmarkTypeId": "arena-code-webdev-3d-2026-11-23",
+      "modelId": "claude-fable-5-2",
+      "reasoningEffort": "xHigh",
+      "score": 1933,
+      "costSource": "unavailable",
+      "scoreOnlyLabel": "Arena publishes no cost or tokens per battle.",
+      "context": {
+        "sourceKind": "officialLeaderboard",
+        "sourcePublisher": "Arena",
+        "dateBasis": "publishedDate",
+        "observedAt": "2026-11-24",
+        "harness": "Code Arena (3D-labelled battles)",
+        "confidenceIntervalHalfWidth": 37,
+        "confidenceIntervalLevel": 0.95,
+        "sampleNotes": "Launch snapshot of 2026-11-23 from the post's slope-chart data; overall Code Arena score in the same data: 1822. Vote counts per model are not in the post.",
+        "additionalSourceUrls": [
+          "https://arena.ai/leaderboard/code/webdev/3d",
+          "https://arena.ai/company/leaderboard-changelog"
+        ]
+      },
+      "publishedAt": "2026-11-24",
+      "retrievedAt": "2026-11-27",
+      "sourceUrl": "https://arena.ai/blog/introducing-the-arena-3d-leaderboard",
+      "retrievalMethod": "publishedData",
+      "evidenceExcerpt": "Slope chart data: {\"n\": \"Claude Fable 5.2 (xHigh)\", \"w\": 1822, \"d\": 1933, \"ci\": 37} (d = 3D leaderboard score, ci = 95% half-width).",
+      "confidence": "thirdParty",
+      "evidenceStatus": "observational"
+    },
+    {
+      "evidenceClass": "M",
+      "id": "te83-arena3d-claude-opus-5-5-max",
+      "benchmarkTypeId": "arena-code-webdev-3d-2026-11-23",
+      "modelId": "claude-opus-5-5",
+      "reasoningEffort": "max",
+      "score": 1915,
+      "costSource": "unavailable",
+      "scoreOnlyLabel": "Arena publishes no cost or tokens per battle.",
+      "context": {
+        "sourceKind": "officialLeaderboard",
+        "sourcePublisher": "Arena",
+        "dateBasis": "publishedDate",
+        "observedAt": "2026-11-24",
+        "harness": "Code Arena (3D-labelled battles)",
+        "confidenceIntervalHalfWidth": 28,
+        "confidenceIntervalLevel": 0.95,
+        "sampleNotes": "Launch snapshot of 2026-11-23 from the post's slope-chart data; overall Code Arena score in the same data: 1820. Vote counts per model are not in the post.",
+        "additionalSourceUrls": [
+          "https://arena.ai/leaderboard/code/webdev/3d",
+          "https://arena.ai/company/leaderboard-changelog"
+        ]
+      },
+      "publishedAt": "2026-11-24",
+      "retrievedAt": "2026-11-27",
+      "sourceUrl": "https://arena.ai/blog/introducing-the-arena-3d-leaderboard",
+      "retrievalMethod": "publishedData",
+      "evidenceExcerpt": "Slope chart data: {\"n\": \"Claude Opus 5.5 (Max)\", \"w\": 1820, \"d\": 1915, \"ci\": 28} (d = 3D leaderboard score, ci = 95% half-width).",
+      "confidence": "thirdParty",
+      "evidenceStatus": "observational"
+    },
+    {
+      "evidenceClass": "M",
+      "id": "te83-arena3d-gpt-6.2-sol-max",
+      "benchmarkTypeId": "arena-code-webdev-3d-2026-11-23",
+      "modelId": "gpt-6.2-sol",
+      "reasoningEffort": "max",
+      "score": 1869,
+      "costSource": "unavailable",
+      "scoreOnlyLabel": "Arena publishes no cost or tokens per battle.",
+      "context": {
+        "sourceKind": "officialLeaderboard",
+        "sourcePublisher": "Arena",
+        "dateBasis": "publishedDate",
+        "observedAt": "2026-11-24",
+        "harness": "Code Arena (3D-labelled battles)",
+        "confidenceIntervalHalfWidth": 29,
+        "confidenceIntervalLevel": 0.95,
+        "sampleNotes": "Launch snapshot of 2026-11-23 from the post's slope-chart data; overall Code Arena score in the same data: 1755. Vote counts per model are not in the post.",
+        "additionalSourceUrls": [
+          "https://arena.ai/leaderboard/code/webdev/3d",
+          "https://arena.ai/company/leaderboard-changelog"
+        ]
+      },
+      "publishedAt": "2026-11-24",
+      "retrievedAt": "2026-11-27",
+      "sourceUrl": "https://arena.ai/blog/introducing-the-arena-3d-leaderboard",
+      "retrievalMethod": "publishedData",
+      "evidenceExcerpt": "Slope chart data: {\"n\": \"GPT-6.2 Sol (Max)\", \"w\": 1755, \"d\": 1869, \"ci\": 29} (d = 3D leaderboard score, ci = 95% half-width).",
+      "confidence": "thirdParty",
+      "evidenceStatus": "observational"
+    },
+    {
+      "evidenceClass": "M",
+      "id": "te83-arena3d-claude-sonnet-5-5-xhigh",
+      "benchmarkTypeId": "arena-code-webdev-3d-2026-11-23",
+      "modelId": "claude-sonnet-5-5",
+      "reasoningEffort": "xHigh",
+      "score": 1868,
+      "costSource": "unavailable",
+      "scoreOnlyLabel": "Arena publishes no cost or tokens per battle.",
+      "context": {
+        "sourceKind": "officialLeaderboard",
+        "sourcePublisher": "Arena",
+        "dateBasis": "publishedDate",
+        "observedAt": "2026-11-24",
+        "harness": "Code Arena (3D-labelled battles)",
+        "confidenceIntervalHalfWidth": 21,
+        "confidenceIntervalLevel": 0.95,
+        "sampleNotes": "Launch snapshot of 2026-11-23 from the post's slope-chart data; overall Code Arena score in the same data: 1773. Vote counts per model are not in the post.",
+        "additionalSourceUrls": [
+          "https://arena.ai/leaderboard/code/webdev/3d",
+          "https://arena.ai/company/leaderboard-changelog"
+        ]
+      },
+      "publishedAt": "2026-11-24",
+      "retrievedAt": "2026-11-27",
+      "sourceUrl": "https://arena.ai/blog/introducing-the-arena-3d-leaderboard",
+      "retrievalMethod": "publishedData",
+      "evidenceExcerpt": "Slope chart data: {\"n\": \"Claude Sonnet 5.5 (xHigh)\", \"w\": 1773, \"d\": 1868, \"ci\": 21} (d = 3D leaderboard score, ci = 95% half-width).",
+      "confidence": "thirdParty",
+      "evidenceStatus": "observational"
+    },
+    {
+      "evidenceClass": "M",
+      "id": "te83-arena3d-gemini-4-carbon-high",
+      "benchmarkTypeId": "arena-code-webdev-3d-2026-11-23",
+      "modelId": "gemini-4-carbon",
+      "reasoningEffort": "high",
+      "score": 1842,
+      "costSource": "unavailable",
+      "scoreOnlyLabel": "Arena publishes no cost or tokens per battle.",
+      "context": {
+        "sourceKind": "officialLeaderboard",
+        "sourcePublisher": "Arena",
+        "dateBasis": "publishedDate",
+        "observedAt": "2026-11-24",
+        "harness": "Code Arena (3D-labelled battles)",
+        "confidenceIntervalHalfWidth": 31,
+        "confidenceIntervalLevel": 0.95,
+        "sampleNotes": "Launch snapshot of 2026-11-23 from the post's slope-chart data; overall Code Arena score in the same data: 1769. Vote counts per model are not in the post.",
+        "additionalSourceUrls": [
+          "https://arena.ai/leaderboard/code/webdev/3d",
+          "https://arena.ai/company/leaderboard-changelog"
+        ]
+      },
+      "publishedAt": "2026-11-24",
+      "retrievedAt": "2026-11-27",
+      "sourceUrl": "https://arena.ai/blog/introducing-the-arena-3d-leaderboard",
+      "retrievalMethod": "publishedData",
+      "evidenceExcerpt": "Slope chart data: {\"n\": \"Gemini 4 Carbon (High)\", \"w\": 1769, \"d\": 1842, \"ci\": 31} (d = 3D leaderboard score, ci = 95% half-width).",
+      "confidence": "thirdParty",
+      "evidenceStatus": "observational"
+    },
+    {
+      "evidenceClass": "M",
+      "id": "te83-arena3d-gpt-6-astra-max",
+      "benchmarkTypeId": "arena-code-webdev-3d-2026-11-23",
+      "modelId": "gpt-6-astra",
+      "reasoningEffort": "max",
+      "score": 1835,
+      "costSource": "unavailable",
+      "scoreOnlyLabel": "Arena publishes no cost or tokens per battle.",
+      "context": {
+        "sourceKind": "officialLeaderboard",
+        "sourcePublisher": "Arena",
+        "dateBasis": "publishedDate",
+        "observedAt": "2026-11-24",
+        "harness": "Code Arena (3D-labelled battles)",
+        "confidenceIntervalHalfWidth": 17,
+        "confidenceIntervalLevel": 0.95,
+        "sampleNotes": "Launch snapshot of 2026-11-23 from the post's slope-chart data; overall Code Arena score in the same data: 1764. Vote counts per model are not in the post.",
+        "additionalSourceUrls": [
+          "https://arena.ai/leaderboard/code/webdev/3d",
+          "https://arena.ai/company/leaderboard-changelog"
+        ]
+      },
+      "publishedAt": "2026-11-24",
+      "retrievedAt": "2026-11-27",
+      "sourceUrl": "https://arena.ai/blog/introducing-the-arena-3d-leaderboard",
+      "retrievalMethod": "publishedData",
+      "evidenceExcerpt": "Slope chart data: {\"n\": \"GPT-6 Astra (Max)\", \"w\": 1764, \"d\": 1835, \"ci\": 17} (d = 3D leaderboard score, ci = 95% half-width).",
+      "confidence": "thirdParty",
+      "evidenceStatus": "observational"
+    },
+    {
+      "evidenceClass": "M",
+      "id": "te83-arena3d-gpt-6.2-astra-max",
+      "benchmarkTypeId": "arena-code-webdev-3d-2026-11-23",
+      "modelId": "gpt-6.2-astra",
+      "reasoningEffort": "max",
+      "score": 1818,
+      "costSource": "unavailable",
+      "scoreOnlyLabel": "Arena publishes no cost or tokens per battle.",
+      "context": {
+        "sourceKind": "officialLeaderboard",
+        "sourcePublisher": "Arena",
+        "dateBasis": "publishedDate",
+        "observedAt": "2026-11-24",
+        "harness": "Code Arena (3D-labelled battles)",
+        "confidenceIntervalHalfWidth": 30,
+        "confidenceIntervalLevel": 0.95,
+        "sampleNotes": "Launch snapshot of 2026-11-23 from the post's slope-chart data; overall Code Arena score in the same data: 1761. Vote counts per model are not in the post.",
+        "additionalSourceUrls": [
+          "https://arena.ai/leaderboard/code/webdev/3d",
+          "https://arena.ai/company/leaderboard-changelog"
+        ]
+      },
+      "publishedAt": "2026-11-24",
+      "retrievedAt": "2026-11-27",
+      "sourceUrl": "https://arena.ai/blog/introducing-the-arena-3d-leaderboard",
+      "retrievalMethod": "publishedData",
+      "evidenceExcerpt": "Slope chart data: {\"n\": \"GPT-6.2 Astra (Max)\", \"w\": 1761, \"d\": 1818, \"ci\": 30} (d = 3D leaderboard score, ci = 95% half-width).",
+      "confidence": "thirdParty",
+      "evidenceStatus": "observational"
+    },
+    {
+      "evidenceClass": "M",
+      "id": "te83-arena3d-claude-sonnet-5-5-high",
+      "benchmarkTypeId": "arena-code-webdev-3d-2026-11-23",
+      "modelId": "claude-sonnet-5-5",
+      "reasoningEffort": "high",
+      "score": 1817,
+      "costSource": "unavailable",
+      "scoreOnlyLabel": "Arena publishes no cost or tokens per battle.",
+      "context": {
+        "sourceKind": "officialLeaderboard",
+        "sourcePublisher": "Arena",
+        "dateBasis": "publishedDate",
+        "observedAt": "2026-11-24",
+        "harness": "Code Arena (3D-labelled battles)",
+        "confidenceIntervalHalfWidth": 16,
+        "confidenceIntervalLevel": 0.95,
+        "sampleNotes": "Launch snapshot of 2026-11-23 from the post's slope-chart data; overall Code Arena score in the same data: 1715. Vote counts per model are not in the post.",
+        "additionalSourceUrls": [
+          "https://arena.ai/leaderboard/code/webdev/3d",
+          "https://arena.ai/company/leaderboard-changelog"
+        ]
+      },
+      "publishedAt": "2026-11-24",
+      "retrievedAt": "2026-11-27",
+      "sourceUrl": "https://arena.ai/blog/introducing-the-arena-3d-leaderboard",
+      "retrievalMethod": "publishedData",
+      "evidenceExcerpt": "Slope chart data: {\"n\": \"Claude Sonnet 5.5 (High)\", \"w\": 1715, \"d\": 1817, \"ci\": 16} (d = 3D leaderboard score, ci = 95% half-width).",
+      "confidence": "thirdParty",
+      "evidenceStatus": "observational"
+    },
+    {
+      "evidenceClass": "M",
+      "id": "te83-arena3d-gpt-6.1-sol-max",
+      "benchmarkTypeId": "arena-code-webdev-3d-2026-11-23",
+      "modelId": "gpt-6.1-sol",
+      "reasoningEffort": "max",
+      "score": 1802,
+      "costSource": "unavailable",
+      "scoreOnlyLabel": "Arena publishes no cost or tokens per battle.",
+      "context": {
+        "sourceKind": "officialLeaderboard",
+        "sourcePublisher": "Arena",
+        "dateBasis": "publishedDate",
+        "observedAt": "2026-11-24",
+        "harness": "Code Arena (3D-labelled battles)",
+        "confidenceIntervalHalfWidth": 18,
+        "confidenceIntervalLevel": 0.95,
+        "sampleNotes": "Launch snapshot of 2026-11-23 from the post's slope-chart data; overall Code Arena score in the same data: 1745. Vote counts per model are not in the post.",
+        "additionalSourceUrls": [
+          "https://arena.ai/leaderboard/code/webdev/3d",
+          "https://arena.ai/company/leaderboard-changelog"
+        ]
+      },
+      "publishedAt": "2026-11-24",
+      "retrievedAt": "2026-11-27",
+      "sourceUrl": "https://arena.ai/blog/introducing-the-arena-3d-leaderboard",
+      "retrievalMethod": "publishedData",
+      "evidenceExcerpt": "Slope chart data: {\"n\": \"GPT-6.1 Sol (Max)\", \"w\": 1745, \"d\": 1802, \"ci\": 18} (d = 3D leaderboard score, ci = 95% half-width).",
+      "confidence": "thirdParty",
+      "evidenceStatus": "observational"
+    },
+    {
+      "evidenceClass": "M",
+      "id": "te83-arena3d-gemini-4-hydrogen-xhigh",
+      "benchmarkTypeId": "arena-code-webdev-3d-2026-11-23",
+      "modelId": "gemini-4-hydrogen",
+      "reasoningEffort": "xHigh",
+      "score": 1769,
+      "costSource": "unavailable",
+      "scoreOnlyLabel": "Arena publishes no cost or tokens per battle.",
+      "context": {
+        "sourceKind": "officialLeaderboard",
+        "sourcePublisher": "Arena",
+        "dateBasis": "publishedDate",
+        "observedAt": "2026-11-24",
+        "harness": "Code Arena (3D-labelled battles)",
+        "confidenceIntervalHalfWidth": 28,
+        "confidenceIntervalLevel": 0.95,
+        "sampleNotes": "Launch snapshot of 2026-11-23 from the post's slope-chart data; overall Code Arena score in the same data: 1701. Vote counts per model are not in the post.",
+        "additionalSourceUrls": [
+          "https://arena.ai/leaderboard/code/webdev/3d",
+          "https://arena.ai/company/leaderboard-changelog"
+        ]
+      },
+      "publishedAt": "2026-11-24",
+      "retrievedAt": "2026-11-27",
+      "sourceUrl": "https://arena.ai/blog/introducing-the-arena-3d-leaderboard",
+      "retrievalMethod": "publishedData",
+      "evidenceExcerpt": "Slope chart data: {\"n\": \"Gemini 4 Hydrogen (xHigh)\", \"w\": 1701, \"d\": 1769, \"ci\": 28} (d = 3D leaderboard score, ci = 95% half-width).",
+      "confidence": "thirdParty",
+      "evidenceStatus": "observational"
+    },
+    {
+      "evidenceClass": "M",
+      "id": "te83-arena3d-gpt-6.1-terra-max",
+      "benchmarkTypeId": "arena-code-webdev-3d-2026-11-23",
+      "modelId": "gpt-6.1-terra",
+      "reasoningEffort": "max",
+      "score": 1731,
+      "costSource": "unavailable",
+      "scoreOnlyLabel": "Arena publishes no cost or tokens per battle.",
+      "context": {
+        "sourceKind": "officialLeaderboard",
+        "sourcePublisher": "Arena",
+        "dateBasis": "publishedDate",
+        "observedAt": "2026-11-24",
+        "harness": "Code Arena (3D-labelled battles)",
+        "confidenceIntervalHalfWidth": 18,
+        "confidenceIntervalLevel": 0.95,
+        "sampleNotes": "Launch snapshot of 2026-11-23 from the post's slope-chart data; overall Code Arena score in the same data: 1686. Vote counts per model are not in the post.",
+        "additionalSourceUrls": [
+          "https://arena.ai/leaderboard/code/webdev/3d",
+          "https://arena.ai/company/leaderboard-changelog"
+        ]
+      },
+      "publishedAt": "2026-11-24",
+      "retrievedAt": "2026-11-27",
+      "sourceUrl": "https://arena.ai/blog/introducing-the-arena-3d-leaderboard",
+      "retrievalMethod": "publishedData",
+      "evidenceExcerpt": "Slope chart data: {\"n\": \"GPT-6.1 Terra (Max)\", \"w\": 1686, \"d\": 1731, \"ci\": 18} (d = 3D leaderboard score, ci = 95% half-width).",
+      "confidence": "thirdParty",
+      "evidenceStatus": "observational"
+    },
+    {
+      "evidenceClass": "M",
+      "id": "te83-arena3d-gpt-6-sol-max",
+      "benchmarkTypeId": "arena-code-webdev-3d-2026-11-23",
+      "modelId": "gpt-6-sol",
+      "reasoningEffort": "max",
+      "score": 1715,
+      "costSource": "unavailable",
+      "scoreOnlyLabel": "Arena publishes no cost or tokens per battle.",
+      "context": {
+        "sourceKind": "officialLeaderboard",
+        "sourcePublisher": "Arena",
+        "dateBasis": "publishedDate",
+        "observedAt": "2026-11-24",
+        "harness": "Code Arena (3D-labelled battles)",
+        "confidenceIntervalHalfWidth": 15,
+        "confidenceIntervalLevel": 0.95,
+        "sampleNotes": "Launch snapshot of 2026-11-23 from the post's slope-chart data; overall Code Arena score in the same data: 1675. Vote counts per model are not in the post.",
+        "additionalSourceUrls": [
+          "https://arena.ai/leaderboard/code/webdev/3d",
+          "https://arena.ai/company/leaderboard-changelog"
+        ]
+      },
+      "publishedAt": "2026-11-24",
+      "retrievedAt": "2026-11-27",
+      "sourceUrl": "https://arena.ai/blog/introducing-the-arena-3d-leaderboard",
+      "retrievalMethod": "publishedData",
+      "evidenceExcerpt": "Slope chart data: {\"n\": \"GPT-6 Sol (Max)\", \"w\": 1675, \"d\": 1715, \"ci\": 15} (d = 3D leaderboard score, ci = 95% half-width).",
+      "confidence": "thirdParty",
+      "evidenceStatus": "observational"
+    },
+    {
+      "evidenceClass": "M",
+      "id": "te83-arena3d-gemini-4-argon-high",
+      "benchmarkTypeId": "arena-code-webdev-3d-2026-11-23",
+      "modelId": "gemini-4-argon",
+      "reasoningEffort": "high",
+      "score": 1706,
+      "costSource": "unavailable",
+      "scoreOnlyLabel": "Arena publishes no cost or tokens per battle.",
+      "context": {
+        "sourceKind": "officialLeaderboard",
+        "sourcePublisher": "Arena",
+        "dateBasis": "publishedDate",
+        "observedAt": "2026-11-24",
+        "harness": "Code Arena (3D-labelled battles)",
+        "confidenceIntervalHalfWidth": 17,
+        "confidenceIntervalLevel": 0.95,
+        "sampleNotes": "Launch snapshot of 2026-11-23 from the post's slope-chart data; overall Code Arena score in the same data: 1682. Vote counts per model are not in the post.",
+        "additionalSourceUrls": [
+          "https://arena.ai/leaderboard/code/webdev/3d",
+          "https://arena.ai/company/leaderboard-changelog"
+        ]
+      },
+      "publishedAt": "2026-11-24",
+      "retrievedAt": "2026-11-27",
+      "sourceUrl": "https://arena.ai/blog/introducing-the-arena-3d-leaderboard",
+      "retrievalMethod": "publishedData",
+      "evidenceExcerpt": "Slope chart data: {\"n\": \"Gemini 4 Argon (High)\", \"w\": 1682, \"d\": 1706, \"ci\": 17} (d = 3D leaderboard score, ci = 95% half-width).",
+      "confidence": "thirdParty",
+      "evidenceStatus": "observational"
+    },
+    {
+      "evidenceClass": "M",
+      "id": "te83-arena3d-claude-haiku-5-5-high",
+      "benchmarkTypeId": "arena-code-webdev-3d-2026-11-23",
+      "modelId": "claude-haiku-5-5",
+      "reasoningEffort": "high",
+      "score": 1635,
+      "costSource": "unavailable",
+      "scoreOnlyLabel": "Arena publishes no cost or tokens per battle.",
+      "context": {
+        "sourceKind": "officialLeaderboard",
+        "sourcePublisher": "Arena",
+        "dateBasis": "publishedDate",
+        "observedAt": "2026-11-24",
+        "harness": "Code Arena (3D-labelled battles)",
+        "confidenceIntervalHalfWidth": 15,
+        "confidenceIntervalLevel": 0.95,
+        "sampleNotes": "Launch snapshot of 2026-11-23 from the post's slope-chart data; overall Code Arena score in the same data: 1595. Vote counts per model are not in the post.",
+        "additionalSourceUrls": [
+          "https://arena.ai/leaderboard/code/webdev/3d",
+          "https://arena.ai/company/leaderboard-changelog"
+        ]
+      },
+      "publishedAt": "2026-11-24",
+      "retrievedAt": "2026-11-27",
+      "sourceUrl": "https://arena.ai/blog/introducing-the-arena-3d-leaderboard",
+      "retrievalMethod": "publishedData",
+      "evidenceExcerpt": "Slope chart data: {\"n\": \"Claude Haiku 5.5 (High)\", \"w\": 1595, \"d\": 1635, \"ci\": 15} (d = 3D leaderboard score, ci = 95% half-width).",
+      "confidence": "thirdParty",
+      "evidenceStatus": "observational"
+    },
+    {
+      "evidenceClass": "M",
+      "id": "te83-arena3d-gpt-6-luna-max",
+      "benchmarkTypeId": "arena-code-webdev-3d-2026-11-23",
+      "modelId": "gpt-6-luna",
+      "reasoningEffort": "max",
+      "score": 1583,
+      "costSource": "unavailable",
+      "scoreOnlyLabel": "Arena publishes no cost or tokens per battle.",
+      "context": {
+        "sourceKind": "officialLeaderboard",
+        "sourcePublisher": "Arena",
+        "dateBasis": "publishedDate",
+        "observedAt": "2026-11-24",
+        "harness": "Code Arena (3D-labelled battles)",
+        "confidenceIntervalHalfWidth": 8,
+        "confidenceIntervalLevel": 0.95,
+        "sampleNotes": "Launch snapshot of 2026-11-23 from the post's slope-chart data; overall Code Arena score in the same data: 1579. Vote counts per model are not in the post.",
+        "additionalSourceUrls": [
+          "https://arena.ai/leaderboard/code/webdev/3d",
+          "https://arena.ai/company/leaderboard-changelog"
+        ]
+      },
+      "publishedAt": "2026-11-24",
+      "retrievedAt": "2026-11-27",
+      "sourceUrl": "https://arena.ai/blog/introducing-the-arena-3d-leaderboard",
+      "retrievalMethod": "publishedData",
+      "evidenceExcerpt": "Slope chart data: {\"n\": \"GPT-6 Luna (Max)\", \"w\": 1579, \"d\": 1583, \"ci\": 8} (d = 3D leaderboard score, ci = 95% half-width).",
+      "confidence": "thirdParty",
+      "evidenceStatus": "observational"
+    },
+    {
+      "evidenceClass": "M",
+      "id": "te83-da-3d-design-claude-fable-5-2-unspecified",
+      "benchmarkTypeId": "designarena-3d-design-2026-11-27",
+      "modelId": "claude-fable-5-2",
+      "reasoningEffort": "unspecified",
+      "score": 1511,
+      "context": {
+        "sourceKind": "officialLeaderboard",
+        "sourcePublisher": "Intelligence (Design Arena)",
+        "dateBasis": "publishedDate",
+        "observedAt": "2026-11-27",
+        "harness": "Design Arena models board '3d'",
+        "sampleNotes": "Rank 2; 450 battles (340 W / 110 L, win rate 75.6%); board updated 2026-11-27T18:04:48.468402+00:00, 325661 votes in total. Average cost from 152 costed generations. Error bar is +/- one Bradley-Terry standard error.",
+        "additionalSourceUrls": [
+          "https://designarena.ai/methodology"
+        ],
+        "reportedErrorHalfWidth": 19.9393
+      },
+      "publishedAt": "2026-11-27",
+      "retrievedAt": "2026-11-27",
+      "sourceUrl": "https://designarena.ai/leaderboard?section=3d&board=3d-design",
+      "retrievalMethod": "publishedData",
+      "evidenceExcerpt": "{\"modelId\":\"claude-fable-5-2\",\"battles\":450,\"winRate\":75.6,\"elo\":1511,\"btStdErr\":19.9393,\"avgCostUsd\":3.742184,\"costCount\":152}",
+      "confidence": "thirdParty",
+      "evidenceStatus": "observational",
+      "costSource": "measured",
+      "secondaryMetrics": {
+        "costPerTaskUsd": 3.742184
+      },
+      "costDerivation": "[M] Design Arena's published average cost per generation on this board (its own harness and token accounting)."
+    },
+    {
+      "evidenceClass": "M",
+      "id": "te83-da-3d-design-gpt-6.2-sol-unspecified",
+      "benchmarkTypeId": "designarena-3d-design-2026-11-27",
+      "modelId": "gpt-6.2-sol",
+      "reasoningEffort": "unspecified",
+      "score": 1466,
+      "context": {
+        "sourceKind": "officialLeaderboard",
+        "sourcePublisher": "Intelligence (Design Arena)",
+        "dateBasis": "publishedDate",
+        "observedAt": "2026-11-27",
+        "harness": "Design Arena models board '3d'",
+        "sampleNotes": "Rank 5; 340 battles (244 W / 96 L, win rate 71.8%); board updated 2026-11-27T18:04:48.468402+00:00, 325661 votes in total. Average cost from 340 costed generations. Error bar is +/- one Bradley-Terry standard error.",
+        "additionalSourceUrls": [
+          "https://designarena.ai/methodology"
+        ],
+        "reportedErrorHalfWidth": 22.0258
+      },
+      "publishedAt": "2026-11-27",
+      "retrievedAt": "2026-11-27",
+      "sourceUrl": "https://designarena.ai/leaderboard?section=3d&board=3d-design",
+      "retrievalMethod": "publishedData",
+      "evidenceExcerpt": "{\"modelId\":\"gpt-6.2-sol\",\"battles\":340,\"winRate\":71.8,\"elo\":1466,\"btStdErr\":22.0258,\"avgCostUsd\":0.1773,\"costCount\":340}",
+      "confidence": "thirdParty",
+      "evidenceStatus": "observational",
+      "costSource": "measured",
+      "secondaryMetrics": {
+        "costPerTaskUsd": 0.1773
+      },
+      "costDerivation": "[M] Design Arena's published average cost per generation on this board (its own harness and token accounting)."
+    },
+    {
+      "evidenceClass": "M",
+      "id": "te83-da-3d-design-claude-opus-5-5-unspecified",
+      "benchmarkTypeId": "designarena-3d-design-2026-11-27",
+      "modelId": "claude-opus-5-5",
+      "reasoningEffort": "unspecified",
+      "score": 1449,
+      "context": {
+        "sourceKind": "officialLeaderboard",
+        "sourcePublisher": "Intelligence (Design Arena)",
+        "dateBasis": "publishedDate",
+        "observedAt": "2026-11-27",
+        "harness": "Design Arena models board '3d'",
+        "sampleNotes": "Rank 7; 3038 battles (1983 W / 1055 L, win rate 65.3%); board updated 2026-11-27T18:04:48.468402+00:00, 325661 votes in total. Average cost from 1328 costed generations. Error bar is +/- one Bradley-Terry standard error.",
+        "additionalSourceUrls": [
+          "https://designarena.ai/methodology"
+        ],
+        "reportedErrorHalfWidth": 7.4056
+      },
+      "publishedAt": "2026-11-27",
+      "retrievedAt": "2026-11-27",
+      "sourceUrl": "https://designarena.ai/leaderboard?section=3d&board=3d-design",
+      "retrievalMethod": "publishedData",
+      "evidenceExcerpt": "{\"modelId\":\"claude-opus-5-5\",\"battles\":3038,\"winRate\":65.3,\"elo\":1449,\"btStdErr\":7.4056,\"avgCostUsd\":0.615127,\"costCount\":1328}",
+      "confidence": "thirdParty",
+      "evidenceStatus": "observational",
+      "costSource": "measured",
+      "secondaryMetrics": {
+        "costPerTaskUsd": 0.615127
+      },
+      "costDerivation": "[M] Design Arena's published average cost per generation on this board (its own harness and token accounting)."
+    },
+    {
+      "evidenceClass": "M",
+      "id": "te83-da-3d-design-gpt-6.2-astra-unspecified",
+      "benchmarkTypeId": "designarena-3d-design-2026-11-27",
+      "modelId": "gpt-6.2-astra",
+      "reasoningEffort": "unspecified",
+      "score": 1426,
+      "context": {
+        "sourceKind": "officialLeaderboard",
+        "sourcePublisher": "Intelligence (Design Arena)",
+        "dateBasis": "publishedDate",
+        "observedAt": "2026-11-27",
+        "harness": "Design Arena models board '3d'",
+        "sampleNotes": "Rank 10; 392 battles (267 W / 125 L, win rate 68.1%); board updated 2026-11-27T18:04:48.468402+00:00, 325661 votes in total. Average cost from 392 costed generations. Error bar is +/- one Bradley-Terry standard error.",
+        "additionalSourceUrls": [
+          "https://designarena.ai/methodology"
+        ],
+        "reportedErrorHalfWidth": 19.7872
+      },
+      "publishedAt": "2026-11-27",
+      "retrievedAt": "2026-11-27",
+      "sourceUrl": "https://designarena.ai/leaderboard?section=3d&board=3d-design",
+      "retrievalMethod": "publishedData",
+      "evidenceExcerpt": "{\"modelId\":\"gpt-6.2-astra\",\"battles\":392,\"winRate\":68.1,\"elo\":1426,\"btStdErr\":19.7872,\"avgCostUsd\":0.809173,\"costCount\":392}",
+      "confidence": "thirdParty",
+      "evidenceStatus": "observational",
+      "costSource": "measured",
+      "secondaryMetrics": {
+        "costPerTaskUsd": 0.809173
+      },
+      "costDerivation": "[M] Design Arena's published average cost per generation on this board (its own harness and token accounting)."
+    },
+    {
+      "evidenceClass": "M",
+      "id": "te83-da-3d-design-gpt-6.1-sol-unspecified",
+      "benchmarkTypeId": "designarena-3d-design-2026-11-27",
+      "modelId": "gpt-6.1-sol",
+      "reasoningEffort": "unspecified",
+      "score": 1418,
+      "context": {
+        "sourceKind": "officialLeaderboard",
+        "sourcePublisher": "Intelligence (Design Arena)",
+        "dateBasis": "publishedDate",
+        "observedAt": "2026-11-27",
+        "harness": "Design Arena models board '3d'",
+        "sampleNotes": "Rank 12; 2620 battles (1567 W / 1053 L, win rate 59.8%); board updated 2026-11-27T18:04:48.468402+00:00, 325661 votes in total. Average cost from 315 costed generations. Error bar is +/- one Bradley-Terry standard error.",
+        "additionalSourceUrls": [
+          "https://designarena.ai/methodology"
+        ],
+        "reportedErrorHalfWidth": 7.7557
+      },
+      "publishedAt": "2026-11-27",
+      "retrievedAt": "2026-11-27",
+      "sourceUrl": "https://designarena.ai/leaderboard?section=3d&board=3d-design",
+      "retrievalMethod": "publishedData",
+      "evidenceExcerpt": "{\"modelId\":\"gpt-6.1-sol\",\"battles\":2620,\"winRate\":59.8,\"elo\":1418,\"btStdErr\":7.7557,\"avgCostUsd\":0.106574,\"costCount\":315}",
+      "confidence": "thirdParty",
+      "evidenceStatus": "observational",
+      "costSource": "measured",
+      "secondaryMetrics": {
+        "costPerTaskUsd": 0.106574
+      },
+      "costDerivation": "[M] Design Arena's published average cost per generation on this board (its own harness and token accounting)."
+    },
+    {
+      "evidenceClass": "M",
+      "id": "te83-da-3d-design-claude-sonnet-5-5-unspecified",
+      "benchmarkTypeId": "designarena-3d-design-2026-11-27",
+      "modelId": "claude-sonnet-5-5",
+      "reasoningEffort": "unspecified",
+      "score": 1395,
+      "context": {
+        "sourceKind": "officialLeaderboard",
+        "sourcePublisher": "Intelligence (Design Arena)",
+        "dateBasis": "publishedDate",
+        "observedAt": "2026-11-27",
+        "harness": "Design Arena models board '3d'",
+        "sampleNotes": "Rank 15; 1615 battles (911 W / 704 L, win rate 56.4%); board updated 2026-11-27T18:04:48.468402+00:00, 325661 votes in total. Average cost from 562 costed generations. Error bar is +/- one Bradley-Terry standard error.",
+        "additionalSourceUrls": [
+          "https://designarena.ai/methodology"
+        ],
+        "reportedErrorHalfWidth": 9.4936
+      },
+      "publishedAt": "2026-11-27",
+      "retrievedAt": "2026-11-27",
+      "sourceUrl": "https://designarena.ai/leaderboard?section=3d&board=3d-design",
+      "retrievalMethod": "publishedData",
+      "evidenceExcerpt": "{\"modelId\":\"claude-sonnet-5-5\",\"battles\":1615,\"winRate\":56.4,\"elo\":1395,\"btStdErr\":9.4936,\"avgCostUsd\":0.560301,\"costCount\":562}",
+      "confidence": "thirdParty",
+      "evidenceStatus": "observational",
+      "costSource": "measured",
+      "secondaryMetrics": {
+        "costPerTaskUsd": 0.560301
+      },
+      "costDerivation": "[M] Design Arena's published average cost per generation on this board (its own harness and token accounting)."
+    },
+    {
+      "evidenceClass": "M",
+      "id": "te83-da-3d-design-claude-haiku-5-5-unspecified",
+      "benchmarkTypeId": "designarena-3d-design-2026-11-27",
+      "modelId": "claude-haiku-5-5",
+      "reasoningEffort": "unspecified",
+      "score": 1304,
+      "context": {
+        "sourceKind": "officialLeaderboard",
+        "sourcePublisher": "Intelligence (Design Arena)",
+        "dateBasis": "publishedDate",
+        "observedAt": "2026-11-27",
+        "harness": "Design Arena models board '3d'",
+        "sampleNotes": "Rank 27; 1565 battles (855 W / 710 L, win rate 54.6%); board updated 2026-11-27T18:04:48.468402+00:00, 325661 votes in total. Average cost from 1565 costed generations. Error bar is +/- one Bradley-Terry standard error.",
+        "additionalSourceUrls": [
+          "https://designarena.ai/methodology"
+        ],
+        "reportedErrorHalfWidth": 9.4678
+      },
+      "publishedAt": "2026-11-27",
+      "retrievedAt": "2026-11-27",
+      "sourceUrl": "https://designarena.ai/leaderboard?section=3d&board=3d-design",
+      "retrievalMethod": "publishedData",
+      "evidenceExcerpt": "{\"modelId\":\"claude-haiku-5-5\",\"battles\":1565,\"winRate\":54.6,\"elo\":1304,\"btStdErr\":9.4678,\"avgCostUsd\":0.018858,\"costCount\":1565}",
+      "confidence": "thirdParty",
+      "evidenceStatus": "observational",
+      "costSource": "measured",
+      "secondaryMetrics": {
+        "costPerTaskUsd": 0.018858
+      },
+      "costDerivation": "[M] Design Arena's published average cost per generation on this board (its own harness and token accounting)."
+    },
+    {
+      "evidenceClass": "M",
+      "id": "te83-da-3d-design-gpt-6.1-terra-unspecified",
+      "benchmarkTypeId": "designarena-3d-design-2026-11-27",
+      "modelId": "gpt-6.1-terra",
+      "reasoningEffort": "unspecified",
+      "score": 1284,
+      "context": {
+        "sourceKind": "officialLeaderboard",
+        "sourcePublisher": "Intelligence (Design Arena)",
+        "dateBasis": "publishedDate",
+        "observedAt": "2026-11-27",
+        "harness": "Design Arena models board '3d'",
+        "sampleNotes": "Rank 33; 627 battles (317 W / 310 L, win rate 50.6%); board updated 2026-11-27T18:04:48.468402+00:00, 325661 votes in total. Average cost from 264 costed generations. Error bar is +/- one Bradley-Terry standard error.",
+        "additionalSourceUrls": [
+          "https://designarena.ai/methodology"
+        ],
+        "reportedErrorHalfWidth": 14.7419
+      },
+      "publishedAt": "2026-11-27",
+      "retrievedAt": "2026-11-27",
+      "sourceUrl": "https://designarena.ai/leaderboard?section=3d&board=3d-design",
+      "retrievalMethod": "publishedData",
+      "evidenceExcerpt": "{\"modelId\":\"gpt-6.1-terra\",\"battles\":627,\"winRate\":50.6,\"elo\":1284,\"btStdErr\":14.7419,\"avgCostUsd\":0.046446,\"costCount\":264}",
+      "confidence": "thirdParty",
+      "evidenceStatus": "observational",
+      "costSource": "measured",
+      "secondaryMetrics": {
+        "costPerTaskUsd": 0.046446
+      },
+      "costDerivation": "[M] Design Arena's published average cost per generation on this board (its own harness and token accounting)."
+    },
+    {
+      "evidenceClass": "M",
+      "id": "te83-da-3d-design-gpt-6-luna-unspecified",
+      "benchmarkTypeId": "designarena-3d-design-2026-11-27",
+      "modelId": "gpt-6-luna",
+      "reasoningEffort": "unspecified",
+      "score": 1174,
+      "context": {
+        "sourceKind": "officialLeaderboard",
+        "sourcePublisher": "Intelligence (Design Arena)",
+        "dateBasis": "publishedDate",
+        "observedAt": "2026-11-27",
+        "harness": "Design Arena models board '3d'",
+        "sampleNotes": "Rank 80; 1356 battles (543 W / 813 L, win rate 40%); board updated 2026-11-27T18:04:48.468402+00:00, 325661 votes in total. Average cost from 1356 costed generations. Error bar is +/- one Bradley-Terry standard error.",
+        "additionalSourceUrls": [
+          "https://designarena.ai/methodology"
+        ],
+        "reportedErrorHalfWidth": 10.2329
+      },
+      "publishedAt": "2026-11-27",
+      "retrievedAt": "2026-11-27",
+      "sourceUrl": "https://designarena.ai/leaderboard?section=3d&board=3d-design",
+      "retrievalMethod": "publishedData",
+      "evidenceExcerpt": "{\"modelId\":\"gpt-6-luna\",\"battles\":1356,\"winRate\":40,\"elo\":1174,\"btStdErr\":10.2329,\"avgCostUsd\":0.005151,\"costCount\":1356}",
+      "confidence": "thirdParty",
+      "evidenceStatus": "observational",
+      "costSource": "measured",
+      "secondaryMetrics": {
+        "costPerTaskUsd": 0.005151
+      },
+      "costDerivation": "[M] Design Arena's published average cost per generation on this board (its own harness and token accounting)."
+    },
+    {
+      "evidenceClass": "M",
+      "id": "te83-da-game-dev-html-claude-fable-5-2-unspecified",
+      "benchmarkTypeId": "designarena-game-dev-html-2026-11-27",
+      "modelId": "claude-fable-5-2",
+      "reasoningEffort": "unspecified",
+      "score": 1538,
+      "context": {
+        "sourceKind": "officialLeaderboard",
+        "sourcePublisher": "Intelligence (Design Arena)",
+        "dateBasis": "publishedDate",
+        "observedAt": "2026-11-27",
+        "harness": "Design Arena models board 'gamedev'",
+        "sampleNotes": "Rank 1; 551 battles (437 W / 114 L, win rate 79.3%); board updated 2026-11-27T18:04:31.530411+00:00, 312636 votes in total. Average cost from 213 costed generations. Error bar is +/- one Bradley-Terry standard error.",
+        "additionalSourceUrls": [
+          "https://designarena.ai/methodology"
+        ],
+        "reportedErrorHalfWidth": 18.8253
+      },
+      "publishedAt": "2026-11-27",
+      "retrievedAt": "2026-11-27",
+      "sourceUrl": "https://designarena.ai/leaderboard?section=game-dev&board=game-dev",
+      "retrievalMethod": "publishedData",
+      "evidenceExcerpt": "{\"modelId\":\"claude-fable-5-2\",\"battles\":551,\"winRate\":79.3,\"elo\":1538,\"btStdErr\":18.8253,\"avgCostUsd\":4.712945,\"costCount\":213}",
+      "confidence": "thirdParty",
+      "evidenceStatus": "observational",
+      "costSource": "measured",
+      "secondaryMetrics": {
+        "costPerTaskUsd": 4.712945
+      },
+      "costDerivation": "[M] Design Arena's published average cost per generation on this board (its own harness and token accounting)."
+    },
+    {
+      "evidenceClass": "M",
+      "id": "te83-da-game-dev-html-gpt-6.2-astra-unspecified",
+      "benchmarkTypeId": "designarena-game-dev-html-2026-11-27",
+      "modelId": "gpt-6.2-astra",
+      "reasoningEffort": "unspecified",
+      "score": 1501,
+      "context": {
+        "sourceKind": "officialLeaderboard",
+        "sourcePublisher": "Intelligence (Design Arena)",
+        "dateBasis": "publishedDate",
+        "observedAt": "2026-11-27",
+        "harness": "Design Arena models board 'gamedev'",
+        "sampleNotes": "Rank 2; 768 battles (580 W / 188 L, win rate 75.5%); board updated 2026-11-27T18:04:31.530411+00:00, 312636 votes in total. Average cost from 768 costed generations. Error bar is +/- one Bradley-Terry standard error.",
+        "additionalSourceUrls": [
+          "https://designarena.ai/methodology"
+        ],
+        "reportedErrorHalfWidth": 15.2244
+      },
+      "publishedAt": "2026-11-27",
+      "retrievedAt": "2026-11-27",
+      "sourceUrl": "https://designarena.ai/leaderboard?section=game-dev&board=game-dev",
+      "retrievalMethod": "publishedData",
+      "evidenceExcerpt": "{\"modelId\":\"gpt-6.2-astra\",\"battles\":768,\"winRate\":75.5,\"elo\":1501,\"btStdErr\":15.2244,\"avgCostUsd\":0.995784,\"costCount\":768}",
+      "confidence": "thirdParty",
+      "evidenceStatus": "observational",
+      "costSource": "measured",
+      "secondaryMetrics": {
+        "costPerTaskUsd": 0.995784
+      },
+      "costDerivation": "[M] Design Arena's published average cost per generation on this board (its own harness and token accounting)."
+    },
+    {
+      "evidenceClass": "M",
+      "id": "te83-da-game-dev-html-gpt-6.2-sol-unspecified",
+      "benchmarkTypeId": "designarena-game-dev-html-2026-11-27",
+      "modelId": "gpt-6.2-sol",
+      "reasoningEffort": "unspecified",
+      "score": 1442,
+      "context": {
+        "sourceKind": "officialLeaderboard",
+        "sourcePublisher": "Intelligence (Design Arena)",
+        "dateBasis": "publishedDate",
+        "observedAt": "2026-11-27",
+        "harness": "Design Arena models board 'gamedev'",
+        "sampleNotes": "Rank 5; 777 battles (547 W / 230 L, win rate 70.4%); board updated 2026-11-27T18:04:31.530411+00:00, 312636 votes in total. Average cost from 777 costed generations. Error bar is +/- one Bradley-Terry standard error.",
+        "additionalSourceUrls": [
+          "https://designarena.ai/methodology"
+        ],
+        "reportedErrorHalfWidth": 14.3407
+      },
+      "publishedAt": "2026-11-27",
+      "retrievedAt": "2026-11-27",
+      "sourceUrl": "https://designarena.ai/leaderboard?section=game-dev&board=game-dev",
+      "retrievalMethod": "publishedData",
+      "evidenceExcerpt": "{\"modelId\":\"gpt-6.2-sol\",\"battles\":777,\"winRate\":70.4,\"elo\":1442,\"btStdErr\":14.3407,\"avgCostUsd\":0.230231,\"costCount\":777}",
+      "confidence": "thirdParty",
+      "evidenceStatus": "observational",
+      "costSource": "measured",
+      "secondaryMetrics": {
+        "costPerTaskUsd": 0.230231
+      },
+      "costDerivation": "[M] Design Arena's published average cost per generation on this board (its own harness and token accounting)."
+    },
+    {
+      "evidenceClass": "M",
+      "id": "te83-da-game-dev-html-claude-opus-5-5-unspecified",
+      "benchmarkTypeId": "designarena-game-dev-html-2026-11-27",
+      "modelId": "claude-opus-5-5",
+      "reasoningEffort": "unspecified",
+      "score": 1438,
+      "context": {
+        "sourceKind": "officialLeaderboard",
+        "sourcePublisher": "Intelligence (Design Arena)",
+        "dateBasis": "publishedDate",
+        "observedAt": "2026-11-27",
+        "harness": "Design Arena models board 'gamedev'",
+        "sampleNotes": "Rank 6; 2576 battles (1722 W / 854 L, win rate 66.8%); board updated 2026-11-27T18:04:31.530411+00:00, 312636 votes in total. Average cost from 1143 costed generations. Error bar is +/- one Bradley-Terry standard error.",
+        "additionalSourceUrls": [
+          "https://designarena.ai/methodology"
+        ],
+        "reportedErrorHalfWidth": 7.8609
+      },
+      "publishedAt": "2026-11-27",
+      "retrievedAt": "2026-11-27",
+      "sourceUrl": "https://designarena.ai/leaderboard?section=game-dev&board=game-dev",
+      "retrievalMethod": "publishedData",
+      "evidenceExcerpt": "{\"modelId\":\"claude-opus-5-5\",\"battles\":2576,\"winRate\":66.8,\"elo\":1438,\"btStdErr\":7.8609,\"avgCostUsd\":0.764057,\"costCount\":1143}",
+      "confidence": "thirdParty",
+      "evidenceStatus": "observational",
+      "costSource": "measured",
+      "secondaryMetrics": {
+        "costPerTaskUsd": 0.764057
+      },
+      "costDerivation": "[M] Design Arena's published average cost per generation on this board (its own harness and token accounting)."
+    },
+    {
+      "evidenceClass": "M",
+      "id": "te83-da-game-dev-html-claude-sonnet-5-5-unspecified",
+      "benchmarkTypeId": "designarena-game-dev-html-2026-11-27",
+      "modelId": "claude-sonnet-5-5",
+      "reasoningEffort": "unspecified",
+      "score": 1427,
+      "context": {
+        "sourceKind": "officialLeaderboard",
+        "sourcePublisher": "Intelligence (Design Arena)",
+        "dateBasis": "publishedDate",
+        "observedAt": "2026-11-27",
+        "harness": "Design Arena models board 'gamedev'",
+        "sampleNotes": "Rank 7; 2698 battles (1752 W / 946 L, win rate 64.9%); board updated 2026-11-27T18:04:31.530411+00:00, 312636 votes in total. Average cost from 1560 costed generations. Error bar is +/- one Bradley-Terry standard error.",
+        "additionalSourceUrls": [
+          "https://designarena.ai/methodology"
+        ],
+        "reportedErrorHalfWidth": 7.604
+      },
+      "publishedAt": "2026-11-27",
+      "retrievedAt": "2026-11-27",
+      "sourceUrl": "https://designarena.ai/leaderboard?section=game-dev&board=game-dev",
+      "retrievalMethod": "publishedData",
+      "evidenceExcerpt": "{\"modelId\":\"claude-sonnet-5-5\",\"battles\":2698,\"winRate\":64.9,\"elo\":1427,\"btStdErr\":7.604,\"avgCostUsd\":0.576999,\"costCount\":1560}",
+      "confidence": "thirdParty",
+      "evidenceStatus": "observational",
+      "costSource": "measured",
+      "secondaryMetrics": {
+        "costPerTaskUsd": 0.576999
+      },
+      "costDerivation": "[M] Design Arena's published average cost per generation on this board (its own harness and token accounting)."
+    },
+    {
+      "evidenceClass": "M",
+      "id": "te83-da-game-dev-html-gpt-6.1-sol-unspecified",
+      "benchmarkTypeId": "designarena-game-dev-html-2026-11-27",
+      "modelId": "gpt-6.1-sol",
+      "reasoningEffort": "unspecified",
+      "score": 1386,
+      "context": {
+        "sourceKind": "officialLeaderboard",
+        "sourcePublisher": "Intelligence (Design Arena)",
+        "dateBasis": "publishedDate",
+        "observedAt": "2026-11-27",
+        "harness": "Design Arena models board 'gamedev'",
+        "sampleNotes": "Rank 13; 3921 battles (2286 W / 1635 L, win rate 58.3%); board updated 2026-11-27T18:04:31.530411+00:00, 312636 votes in total. Average cost from 1433 costed generations. Error bar is +/- one Bradley-Terry standard error.",
+        "additionalSourceUrls": [
+          "https://designarena.ai/methodology"
+        ],
+        "reportedErrorHalfWidth": 6.3278
+      },
+      "publishedAt": "2026-11-27",
+      "retrievedAt": "2026-11-27",
+      "sourceUrl": "https://designarena.ai/leaderboard?section=game-dev&board=game-dev",
+      "retrievalMethod": "publishedData",
+      "evidenceExcerpt": "{\"modelId\":\"gpt-6.1-sol\",\"battles\":3921,\"winRate\":58.3,\"elo\":1386,\"btStdErr\":6.3278,\"avgCostUsd\":0.159332,\"costCount\":1433}",
+      "confidence": "thirdParty",
+      "evidenceStatus": "observational",
+      "costSource": "measured",
+      "secondaryMetrics": {
+        "costPerTaskUsd": 0.159332
+      },
+      "costDerivation": "[M] Design Arena's published average cost per generation on this board (its own harness and token accounting)."
+    },
+    {
+      "evidenceClass": "M",
+      "id": "te83-da-game-dev-html-gpt-6.1-terra-unspecified",
+      "benchmarkTypeId": "designarena-game-dev-html-2026-11-27",
+      "modelId": "gpt-6.1-terra",
+      "reasoningEffort": "unspecified",
+      "score": 1314,
+      "context": {
+        "sourceKind": "officialLeaderboard",
+        "sourcePublisher": "Intelligence (Design Arena)",
+        "dateBasis": "publishedDate",
+        "observedAt": "2026-11-27",
+        "harness": "Design Arena models board 'gamedev'",
+        "sampleNotes": "Rank 22; 3976 battles (2037 W / 1939 L, win rate 51.2%); board updated 2026-11-27T18:04:31.530411+00:00, 312636 votes in total. Average cost from 1516 costed generations. Error bar is +/- one Bradley-Terry standard error.",
+        "additionalSourceUrls": [
+          "https://designarena.ai/methodology"
+        ],
+        "reportedErrorHalfWidth": 6.1355
+      },
+      "publishedAt": "2026-11-27",
+      "retrievedAt": "2026-11-27",
+      "sourceUrl": "https://designarena.ai/leaderboard?section=game-dev&board=game-dev",
+      "retrievalMethod": "publishedData",
+      "evidenceExcerpt": "{\"modelId\":\"gpt-6.1-terra\",\"battles\":3976,\"winRate\":51.2,\"elo\":1314,\"btStdErr\":6.1355,\"avgCostUsd\":0.056542,\"costCount\":1516}",
+      "confidence": "thirdParty",
+      "evidenceStatus": "observational",
+      "costSource": "measured",
+      "secondaryMetrics": {
+        "costPerTaskUsd": 0.056542
+      },
+      "costDerivation": "[M] Design Arena's published average cost per generation on this board (its own harness and token accounting)."
+    },
+    {
+      "evidenceClass": "M",
+      "id": "te83-da-game-dev-html-claude-haiku-5-5-unspecified",
+      "benchmarkTypeId": "designarena-game-dev-html-2026-11-27",
+      "modelId": "claude-haiku-5-5",
+      "reasoningEffort": "unspecified",
+      "score": 1313,
+      "context": {
+        "sourceKind": "officialLeaderboard",
+        "sourcePublisher": "Intelligence (Design Arena)",
+        "dateBasis": "publishedDate",
+        "observedAt": "2026-11-27",
+        "harness": "Design Arena models board 'gamedev'",
+        "sampleNotes": "Rank 25; 4025 battles (2129 W / 1896 L, win rate 52.9%); board updated 2026-11-27T18:04:31.530411+00:00, 312636 votes in total. Average cost from 4025 costed generations. Error bar is +/- one Bradley-Terry standard error.",
+        "additionalSourceUrls": [
+          "https://designarena.ai/methodology"
+        ],
+        "reportedErrorHalfWidth": 6.0755
+      },
+      "publishedAt": "2026-11-27",
+      "retrievedAt": "2026-11-27",
+      "sourceUrl": "https://designarena.ai/leaderboard?section=game-dev&board=game-dev",
+      "retrievalMethod": "publishedData",
+      "evidenceExcerpt": "{\"modelId\":\"claude-haiku-5-5\",\"battles\":4025,\"winRate\":52.9,\"elo\":1313,\"btStdErr\":6.0755,\"avgCostUsd\":0.026514,\"costCount\":4025}",
+      "confidence": "thirdParty",
+      "evidenceStatus": "observational",
+      "costSource": "measured",
+      "secondaryMetrics": {
+        "costPerTaskUsd": 0.026514
+      },
+      "costDerivation": "[M] Design Arena's published average cost per generation on this board (its own harness and token accounting)."
+    },
+    {
+      "evidenceClass": "M",
+      "id": "te83-da-game-dev-html-gpt-6-luna-unspecified",
+      "benchmarkTypeId": "designarena-game-dev-html-2026-11-27",
+      "modelId": "gpt-6-luna",
+      "reasoningEffort": "unspecified",
+      "score": 1233,
+      "context": {
+        "sourceKind": "officialLeaderboard",
+        "sourcePublisher": "Intelligence (Design Arena)",
+        "dateBasis": "publishedDate",
+        "observedAt": "2026-11-27",
+        "harness": "Design Arena models board 'gamedev'",
+        "sampleNotes": "Rank 60; 2407 battles (1124 W / 1283 L, win rate 46.7%); board updated 2026-11-27T18:04:31.530411+00:00, 312636 votes in total. Average cost from 2407 costed generations. Error bar is +/- one Bradley-Terry standard error.",
+        "additionalSourceUrls": [
+          "https://designarena.ai/methodology"
+        ],
+        "reportedErrorHalfWidth": 7.5987
+      },
+      "publishedAt": "2026-11-27",
+      "retrievedAt": "2026-11-27",
+      "sourceUrl": "https://designarena.ai/leaderboard?section=game-dev&board=game-dev",
+      "retrievalMethod": "publishedData",
+      "evidenceExcerpt": "{\"modelId\":\"gpt-6-luna\",\"battles\":2407,\"winRate\":46.7,\"elo\":1233,\"btStdErr\":7.5987,\"avgCostUsd\":0.00582,\"costCount\":2407}",
+      "confidence": "thirdParty",
+      "evidenceStatus": "observational",
+      "costSource": "measured",
+      "secondaryMetrics": {
+        "costPerTaskUsd": 0.00582
+      },
+      "costDerivation": "[M] Design Arena's published average cost per generation on this board (its own harness and token accounting)."
+    },
+    {
+      "evidenceClass": "M",
+      "id": "te83-da-game-dev-agentic-claude-opus-5-5-high",
+      "benchmarkTypeId": "designarena-game-dev-agentic-2026-11-27",
+      "modelId": "claude-opus-5-5",
+      "reasoningEffort": "high",
+      "score": 1408,
+      "context": {
+        "sourceKind": "officialLeaderboard",
+        "sourcePublisher": "Intelligence (Design Arena)",
+        "dateBasis": "publishedDate",
+        "observedAt": "2026-11-27",
+        "harness": "Design Arena agents board 'agentic_gamedev'",
+        "sampleNotes": "Rank 1; 367 battles (265 W / 102 L, win rate 72.2%); board updated 2026-11-27T16:19:07.508455+00:00, 22847 votes in total. Average cost from 217 costed generations.",
+        "additionalSourceUrls": [
+          "https://designarena.ai/methodology"
+        ]
+      },
+      "publishedAt": "2026-11-27",
+      "retrievedAt": "2026-11-27",
+      "sourceUrl": "https://designarena.ai/leaderboard?section=game-dev&board=agentic-game-dev",
+      "retrievalMethod": "publishedData",
+      "evidenceExcerpt": "{\"modelId\":\"claude-opus-5-5-high\",\"battles\":367,\"winRate\":72.2,\"elo\":1408,\"btStdErr\":null,\"avgCostUsd\":3.188265,\"costCount\":217}",
+      "confidence": "thirdParty",
+      "evidenceStatus": "observational",
+      "costSource": "measured",
+      "secondaryMetrics": {
+        "costPerTaskUsd": 3.188265
+      },
+      "costDerivation": "[M] Design Arena's published average cost per generation on this board (its own harness and token accounting)."
+    },
+    {
+      "evidenceClass": "M",
+      "id": "te83-da-game-dev-agentic-gpt-6.1-sol-max",
+      "benchmarkTypeId": "designarena-game-dev-agentic-2026-11-27",
+      "modelId": "gpt-6.1-sol",
+      "reasoningEffort": "max",
+      "score": 1237,
+      "context": {
+        "sourceKind": "officialLeaderboard",
+        "sourcePublisher": "Intelligence (Design Arena)",
+        "dateBasis": "publishedDate",
+        "observedAt": "2026-11-27",
+        "harness": "Design Arena agents board 'agentic_gamedev'",
+        "sampleNotes": "Rank 3; 369 battles (113 W / 256 L, win rate 30.6%); board updated 2026-11-27T16:19:07.508455+00:00, 22847 votes in total. Average cost from 219 costed generations.",
+        "additionalSourceUrls": [
+          "https://designarena.ai/methodology"
+        ]
+      },
+      "publishedAt": "2026-11-27",
+      "retrievedAt": "2026-11-27",
+      "sourceUrl": "https://designarena.ai/leaderboard?section=game-dev&board=agentic-game-dev",
+      "retrievalMethod": "publishedData",
+      "evidenceExcerpt": "{\"modelId\":\"gpt-6.1-sol-max\",\"battles\":369,\"winRate\":30.6,\"elo\":1237,\"btStdErr\":null,\"avgCostUsd\":1.070286,\"costCount\":219}",
+      "confidence": "thirdParty",
+      "evidenceStatus": "observational",
+      "costSource": "measured",
+      "secondaryMetrics": {
+        "costPerTaskUsd": 1.070286
+      },
+      "costDerivation": "[M] Design Arena's published average cost per generation on this board (its own harness and token accounting)."
+    },
+    {
+      "evidenceClass": "M",
+      "id": "te83-da-website-html-claude-fable-5-2-unspecified",
+      "benchmarkTypeId": "designarena-website-html-2026-11-27",
+      "modelId": "claude-fable-5-2",
+      "reasoningEffort": "unspecified",
+      "score": 1351,
+      "context": {
+        "sourceKind": "officialLeaderboard",
+        "sourcePublisher": "Intelligence (Design Arena)",
+        "dateBasis": "publishedDate",
+        "observedAt": "2026-11-27",
+        "harness": "Design Arena models board 'website'",
+        "sampleNotes": "Rank 2; 2050 battles (1244 W / 806 L, win rate 60.7%); board updated 2026-11-27T16:17:37.347784+00:00, 1230983 votes in total. Average cost from 442 costed generations.",
+        "additionalSourceUrls": [
+          "https://designarena.ai/methodology"
+        ]
+      },
+      "publishedAt": "2026-11-27",
+      "retrievedAt": "2026-11-27",
+      "sourceUrl": "https://designarena.ai/leaderboard?section=website&board=website",
+      "retrievalMethod": "publishedData",
+      "evidenceExcerpt": "{\"modelId\":\"claude-fable-5-2\",\"battles\":2050,\"winRate\":60.7,\"elo\":1351,\"btStdErr\":null,\"avgCostUsd\":3.034729,\"costCount\":442}",
+      "confidence": "thirdParty",
+      "evidenceStatus": "observational",
+      "costSource": "measured",
+      "secondaryMetrics": {
+        "costPerTaskUsd": 3.034729
+      },
+      "costDerivation": "[M] Design Arena's published average cost per generation on this board (its own harness and token accounting)."
+    },
+    {
+      "evidenceClass": "M",
+      "id": "te83-da-website-html-gpt-6.2-astra-unspecified",
+      "benchmarkTypeId": "designarena-website-html-2026-11-27",
+      "modelId": "gpt-6.2-astra",
+      "reasoningEffort": "unspecified",
+      "score": 1333,
+      "context": {
+        "sourceKind": "officialLeaderboard",
+        "sourcePublisher": "Intelligence (Design Arena)",
+        "dateBasis": "publishedDate",
+        "observedAt": "2026-11-27",
+        "harness": "Design Arena models board 'website'",
+        "sampleNotes": "Rank 8; 1330 battles (777 W / 553 L, win rate 58.4%); board updated 2026-11-27T16:17:37.347784+00:00, 1230983 votes in total. Average cost from 1330 costed generations.",
+        "additionalSourceUrls": [
+          "https://designarena.ai/methodology"
+        ]
+      },
+      "publishedAt": "2026-11-27",
+      "retrievedAt": "2026-11-27",
+      "sourceUrl": "https://designarena.ai/leaderboard?section=website&board=website",
+      "retrievalMethod": "publishedData",
+      "evidenceExcerpt": "{\"modelId\":\"gpt-6.2-astra\",\"battles\":1330,\"winRate\":58.4,\"elo\":1333,\"btStdErr\":null,\"avgCostUsd\":0.916161,\"costCount\":1330}",
+      "confidence": "thirdParty",
+      "evidenceStatus": "observational",
+      "costSource": "measured",
+      "secondaryMetrics": {
+        "costPerTaskUsd": 0.916161
+      },
+      "costDerivation": "[M] Design Arena's published average cost per generation on this board (its own harness and token accounting)."
+    },
+    {
+      "evidenceClass": "M",
+      "id": "te83-da-website-html-claude-opus-5-5-unspecified",
+      "benchmarkTypeId": "designarena-website-html-2026-11-27",
+      "modelId": "claude-opus-5-5",
+      "reasoningEffort": "unspecified",
+      "score": 1323,
+      "context": {
+        "sourceKind": "officialLeaderboard",
+        "sourcePublisher": "Intelligence (Design Arena)",
+        "dateBasis": "publishedDate",
+        "observedAt": "2026-11-27",
+        "harness": "Design Arena models board 'website'",
+        "sampleNotes": "Rank 11; 4860 battles (2716 W / 2144 L, win rate 55.9%); board updated 2026-11-27T16:17:37.347784+00:00, 1230983 votes in total. Average cost from 2714 costed generations.",
+        "additionalSourceUrls": [
+          "https://designarena.ai/methodology"
+        ]
+      },
+      "publishedAt": "2026-11-27",
+      "retrievedAt": "2026-11-27",
+      "sourceUrl": "https://designarena.ai/leaderboard?section=website&board=website",
+      "retrievalMethod": "publishedData",
+      "evidenceExcerpt": "{\"modelId\":\"claude-opus-5-5\",\"battles\":4860,\"winRate\":55.9,\"elo\":1323,\"btStdErr\":null,\"avgCostUsd\":0.669843,\"costCount\":2714}",
+      "confidence": "thirdParty",
+      "evidenceStatus": "observational",
+      "costSource": "measured",
+      "secondaryMetrics": {
+        "costPerTaskUsd": 0.669843
+      },
+      "costDerivation": "[M] Design Arena's published average cost per generation on this board (its own harness and token accounting)."
+    },
+    {
+      "evidenceClass": "M",
+      "id": "te83-da-website-html-gpt-6.1-sol-unspecified",
+      "benchmarkTypeId": "designarena-website-html-2026-11-27",
+      "modelId": "gpt-6.1-sol",
+      "reasoningEffort": "unspecified",
+      "score": 1310,
+      "context": {
+        "sourceKind": "officialLeaderboard",
+        "sourcePublisher": "Intelligence (Design Arena)",
+        "dateBasis": "publishedDate",
+        "observedAt": "2026-11-27",
+        "harness": "Design Arena models board 'website'",
+        "sampleNotes": "Rank 16; 5010 battles (2705 W / 2305 L, win rate 54%); board updated 2026-11-27T16:17:37.347784+00:00, 1230983 votes in total. Average cost from 640 costed generations.",
+        "additionalSourceUrls": [
+          "https://designarena.ai/methodology"
+        ]
+      },
+      "publishedAt": "2026-11-27",
+      "retrievedAt": "2026-11-27",
+      "sourceUrl": "https://designarena.ai/leaderboard?section=website&board=website",
+      "retrievalMethod": "publishedData",
+      "evidenceExcerpt": "{\"modelId\":\"gpt-6.1-sol\",\"battles\":5010,\"winRate\":54,\"elo\":1310,\"btStdErr\":null,\"avgCostUsd\":0.159087,\"costCount\":640}",
+      "confidence": "thirdParty",
+      "evidenceStatus": "observational",
+      "costSource": "measured",
+      "secondaryMetrics": {
+        "costPerTaskUsd": 0.159087
+      },
+      "costDerivation": "[M] Design Arena's published average cost per generation on this board (its own harness and token accounting)."
+    },
+    {
+      "evidenceClass": "M",
+      "id": "te83-da-website-html-claude-sonnet-5-5-unspecified",
+      "benchmarkTypeId": "designarena-website-html-2026-11-27",
+      "modelId": "claude-sonnet-5-5",
+      "reasoningEffort": "unspecified",
+      "score": 1308,
+      "context": {
+        "sourceKind": "officialLeaderboard",
+        "sourcePublisher": "Intelligence (Design Arena)",
+        "dateBasis": "publishedDate",
+        "observedAt": "2026-11-27",
+        "harness": "Design Arena models board 'website'",
+        "sampleNotes": "Rank 17; 4163 battles (2253 W / 1910 L, win rate 54.1%); board updated 2026-11-27T16:17:37.347784+00:00, 1230983 votes in total. Average cost from 2358 costed generations.",
+        "additionalSourceUrls": [
+          "https://designarena.ai/methodology"
+        ]
+      },
+      "publishedAt": "2026-11-27",
+      "retrievedAt": "2026-11-27",
+      "sourceUrl": "https://designarena.ai/leaderboard?section=website&board=website",
+      "retrievalMethod": "publishedData",
+      "evidenceExcerpt": "{\"modelId\":\"claude-sonnet-5-5\",\"battles\":4163,\"winRate\":54.1,\"elo\":1308,\"btStdErr\":null,\"avgCostUsd\":0.39743,\"costCount\":2358}",
+      "confidence": "thirdParty",
+      "evidenceStatus": "observational",
+      "costSource": "measured",
+      "secondaryMetrics": {
+        "costPerTaskUsd": 0.39743
+      },
+      "costDerivation": "[M] Design Arena's published average cost per generation on this board (its own harness and token accounting)."
+    },
+    {
+      "evidenceClass": "M",
+      "id": "te83-da-website-html-gpt-6.1-terra-unspecified",
+      "benchmarkTypeId": "designarena-website-html-2026-11-27",
+      "modelId": "gpt-6.1-terra",
+      "reasoningEffort": "unspecified",
+      "score": 1287,
+      "context": {
+        "sourceKind": "officialLeaderboard",
+        "sourcePublisher": "Intelligence (Design Arena)",
+        "dateBasis": "publishedDate",
+        "observedAt": "2026-11-27",
+        "harness": "Design Arena models board 'website'",
+        "sampleNotes": "Rank 28; 4601 battles (2409 W / 2192 L, win rate 52.4%); board updated 2026-11-27T16:17:37.347784+00:00, 1230983 votes in total. Average cost from 611 costed generations.",
+        "additionalSourceUrls": [
+          "https://designarena.ai/methodology"
+        ]
+      },
+      "publishedAt": "2026-11-27",
+      "retrievedAt": "2026-11-27",
+      "sourceUrl": "https://designarena.ai/leaderboard?section=website&board=website",
+      "retrievalMethod": "publishedData",
+      "evidenceExcerpt": "{\"modelId\":\"gpt-6.1-terra\",\"battles\":4601,\"winRate\":52.4,\"elo\":1287,\"btStdErr\":null,\"avgCostUsd\":0.059224,\"costCount\":611}",
+      "confidence": "thirdParty",
+      "evidenceStatus": "observational",
+      "costSource": "measured",
+      "secondaryMetrics": {
+        "costPerTaskUsd": 0.059224
+      },
+      "costDerivation": "[M] Design Arena's published average cost per generation on this board (its own harness and token accounting)."
+    },
+    {
+      "evidenceClass": "M",
+      "id": "te83-da-website-html-gpt-6-luna-unspecified",
+      "benchmarkTypeId": "designarena-website-html-2026-11-27",
+      "modelId": "gpt-6-luna",
+      "reasoningEffort": "unspecified",
+      "score": 1261,
+      "context": {
+        "sourceKind": "officialLeaderboard",
+        "sourcePublisher": "Intelligence (Design Arena)",
+        "dateBasis": "publishedDate",
+        "observedAt": "2026-11-27",
+        "harness": "Design Arena models board 'website'",
+        "sampleNotes": "Rank 39; 7434 battles (3550 W / 3884 L, win rate 47.8%); board updated 2026-11-27T16:17:37.347784+00:00, 1230983 votes in total. Average cost from 7434 costed generations.",
+        "additionalSourceUrls": [
+          "https://designarena.ai/methodology"
+        ]
+      },
+      "publishedAt": "2026-11-27",
+      "retrievedAt": "2026-11-27",
+      "sourceUrl": "https://designarena.ai/leaderboard?section=website&board=website",
+      "retrievalMethod": "publishedData",
+      "evidenceExcerpt": "{\"modelId\":\"gpt-6-luna\",\"battles\":7434,\"winRate\":47.8,\"elo\":1261,\"btStdErr\":null,\"avgCostUsd\":0.007008,\"costCount\":7434}",
+      "confidence": "thirdParty",
+      "evidenceStatus": "observational",
+      "costSource": "measured",
+      "secondaryMetrics": {
+        "costPerTaskUsd": 0.007008
+      },
+      "costDerivation": "[M] Design Arena's published average cost per generation on this board (its own harness and token accounting)."
+    },
+    {
+      "evidenceClass": "M",
+      "id": "te83-da-website-html-claude-haiku-5-5-unspecified",
+      "benchmarkTypeId": "designarena-website-html-2026-11-27",
+      "modelId": "claude-haiku-5-5",
+      "reasoningEffort": "unspecified",
+      "score": 1247,
+      "context": {
+        "sourceKind": "officialLeaderboard",
+        "sourcePublisher": "Intelligence (Design Arena)",
+        "dateBasis": "publishedDate",
+        "observedAt": "2026-11-27",
+        "harness": "Design Arena models board 'website'",
+        "sampleNotes": "Rank 48; 7457 battles (3563 W / 3894 L, win rate 47.8%); board updated 2026-11-27T16:17:37.347784+00:00, 1230983 votes in total. Average cost from 7457 costed generations.",
+        "additionalSourceUrls": [
+          "https://designarena.ai/methodology"
+        ]
+      },
+      "publishedAt": "2026-11-27",
+      "retrievedAt": "2026-11-27",
+      "sourceUrl": "https://designarena.ai/leaderboard?section=website&board=website",
+      "retrievalMethod": "publishedData",
+      "evidenceExcerpt": "{\"modelId\":\"claude-haiku-5-5\",\"battles\":7457,\"winRate\":47.8,\"elo\":1247,\"btStdErr\":null,\"avgCostUsd\":0.019,\"costCount\":7457}",
+      "confidence": "thirdParty",
+      "evidenceStatus": "observational",
+      "costSource": "measured",
+      "secondaryMetrics": {
+        "costPerTaskUsd": 0.019
+      },
+      "costDerivation": "[M] Design Arena's published average cost per generation on this board (its own harness and token accounting)."
+    },
+    {
+      "evidenceClass": "M",
+      "id": "te83-da-webapps-agentic-claude-opus-5-5-unspecified",
+      "benchmarkTypeId": "designarena-webapps-agentic-2026-11-27",
+      "modelId": "claude-opus-5-5",
+      "reasoningEffort": "unspecified",
+      "score": 1311,
+      "context": {
+        "sourceKind": "officialLeaderboard",
+        "sourcePublisher": "Intelligence (Design Arena)",
+        "dateBasis": "publishedDate",
+        "observedAt": "2026-11-27",
+        "harness": "Design Arena agents board 'agon_webapps'",
+        "sampleNotes": "Rank 1; 1421 battles (873 W / 548 L, win rate 61.4%); board updated 2026-11-27T16:18:55.105383+00:00, 116847 votes in total. Average cost from 983 costed generations.",
+        "additionalSourceUrls": [
+          "https://designarena.ai/methodology"
+        ]
+      },
+      "publishedAt": "2026-11-27",
+      "retrievedAt": "2026-11-27",
+      "sourceUrl": "https://designarena.ai/leaderboard?section=website&board=webapps",
+      "retrievalMethod": "publishedData",
+      "evidenceExcerpt": "{\"modelId\":\"claude-opus-5-5\",\"battles\":1421,\"winRate\":61.4,\"elo\":1311,\"btStdErr\":null,\"avgCostUsd\":3.5311,\"costCount\":983}",
+      "confidence": "thirdParty",
+      "evidenceStatus": "observational",
+      "costSource": "measured",
+      "secondaryMetrics": {
+        "costPerTaskUsd": 3.5311
+      },
+      "costDerivation": "[M] Design Arena's published average cost per generation on this board (its own harness and token accounting)."
+    },
+    {
+      "evidenceClass": "M",
+      "id": "te83-da-webapps-agentic-claude-sonnet-5-5-unspecified",
+      "benchmarkTypeId": "designarena-webapps-agentic-2026-11-27",
+      "modelId": "claude-sonnet-5-5",
+      "reasoningEffort": "unspecified",
+      "score": 1285,
+      "context": {
+        "sourceKind": "officialLeaderboard",
+        "sourcePublisher": "Intelligence (Design Arena)",
+        "dateBasis": "publishedDate",
+        "observedAt": "2026-11-27",
+        "harness": "Design Arena agents board 'agon_webapps'",
+        "sampleNotes": "Rank 4; 1482 battles (848 W / 634 L, win rate 57.2%); board updated 2026-11-27T16:18:55.105383+00:00, 116847 votes in total. Average cost from 1144 costed generations.",
+        "additionalSourceUrls": [
+          "https://designarena.ai/methodology"
+        ]
+      },
+      "publishedAt": "2026-11-27",
+      "retrievedAt": "2026-11-27",
+      "sourceUrl": "https://designarena.ai/leaderboard?section=website&board=webapps",
+      "retrievalMethod": "publishedData",
+      "evidenceExcerpt": "{\"modelId\":\"claude-sonnet-5-5\",\"battles\":1482,\"winRate\":57.2,\"elo\":1285,\"btStdErr\":null,\"avgCostUsd\":1.59036,\"costCount\":1144}",
+      "confidence": "thirdParty",
+      "evidenceStatus": "observational",
+      "costSource": "measured",
+      "secondaryMetrics": {
+        "costPerTaskUsd": 1.59036
+      },
+      "costDerivation": "[M] Design Arena's published average cost per generation on this board (its own harness and token accounting)."
+    },
+    {
+      "evidenceClass": "M",
+      "id": "te83-da-webapps-agentic-gpt-6.1-sol-unspecified",
+      "benchmarkTypeId": "designarena-webapps-agentic-2026-11-27",
+      "modelId": "gpt-6.1-sol",
+      "reasoningEffort": "unspecified",
+      "score": 1254,
+      "context": {
+        "sourceKind": "officialLeaderboard",
+        "sourcePublisher": "Intelligence (Design Arena)",
+        "dateBasis": "publishedDate",
+        "observedAt": "2026-11-27",
+        "harness": "Design Arena agents board 'agon_webapps'",
+        "sampleNotes": "Rank 8; 1456 battles (768 W / 688 L, win rate 52.8%); board updated 2026-11-27T16:18:55.105383+00:00, 116847 votes in total. Average cost from 1122 costed generations.",
+        "additionalSourceUrls": [
+          "https://designarena.ai/methodology"
+        ]
+      },
+      "publishedAt": "2026-11-27",
+      "retrievedAt": "2026-11-27",
+      "sourceUrl": "https://designarena.ai/leaderboard?section=website&board=webapps",
+      "retrievalMethod": "publishedData",
+      "evidenceExcerpt": "{\"modelId\":\"gpt-6.1-sol\",\"battles\":1456,\"winRate\":52.8,\"elo\":1254,\"btStdErr\":null,\"avgCostUsd\":0.633307,\"costCount\":1122}",
+      "confidence": "thirdParty",
+      "evidenceStatus": "observational",
+      "costSource": "measured",
+      "secondaryMetrics": {
+        "costPerTaskUsd": 0.633307
+      },
+      "costDerivation": "[M] Design Arena's published average cost per generation on this board (its own harness and token accounting)."
+    }
+  ]
+}

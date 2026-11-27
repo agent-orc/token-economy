@@ -26,6 +26,9 @@
     <EmbeddedResource Include="catalog\model-prices.json" />
     <EmbeddedResource Include="catalog\benchmark-types.json" />
     <EmbeddedResource Include="catalog\benchmark-results.json" />
+    <EmbeddedResource Include="catalog\creative-benchmark-types.json" />
+    <EmbeddedResource Include="catalog\creative-benchmark-results.json" />
+    <EmbeddedResource Include="catalog\effort-dial.json" />
     <EmbeddedResource Include="catalog\subscription-plans.json" />
     <EmbeddedResource Include="catalog\subscription-observations.json" />
     <EmbeddedResource Include="catalog\quota-token-observations.json" />

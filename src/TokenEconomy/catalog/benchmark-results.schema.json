@@ -160,9 +160,10 @@
             "M",
             "V",
             "L",
-            "P"
+            "P",
+            "F"
           ],
-          "description": "M: third-party raw measurement pulled; V: vendor claim; L: list-price derivation; P: unverified press. Cost derivations may have a different class, stated separately."
+          "description": "M: third-party raw measurement pulled; V: vendor claim; L: list-price derivation; P: unverified press; F: measured in our fleet (anonymised; requires an ownRun context with taskCount and confidence ownRun). Cost derivations may have a different class, stated separately."
         }
       }
     },

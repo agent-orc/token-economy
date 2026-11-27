@@ -1,0 +1,371 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://agent-orchestrator.dev/token-economy/effort-dial.schema.json",
+  "title": "Token Economy effort dial: work classes, ladders, floors and fleet evidence",
+  "description": "One slider position (0..100) picks a model and reasoning level per work class and CLI. Semantic checks (references, ordering, floors, tiers) are enforced by EffortDial in the library.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["$schema", "schemaVersion", "asOfDate", "decision", "positions", "evidenceClasses", "fleetCohorts", "evidence", "conclusions", "creativeRubric", "workClasses"],
+  "properties": {
+    "$schema": { "const": "effort-dial.schema.json" },
+    "schemaVersion": { "const": 1 },
+    "asOfDate": { "type": "string", "format": "date" },
+    "decision": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["decidedOn", "semantics", "summary", "standardEffort", "hardWorkEffort", "xHighPolicy", "reviewAspectPolicy"],
+      "properties": {
+        "decidedOn": { "type": "string", "format": "date" },
+        "semantics": { "const": "frugalToStrong" },
+        "summary": { "$ref": "#/$defs/text" },
+        "standardEffort": { "$ref": "#/$defs/effort" },
+        "hardWorkEffort": { "$ref": "#/$defs/effort" },
+        "xHighPolicy": { "$ref": "#/$defs/text" },
+        "reviewAspectPolicy": { "$ref": "#/$defs/text" }
+      }
+    },
+    "positions": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["minimum", "maximum", "default"],
+      "properties": {
+        "minimum": { "const": 0 },
+        "maximum": { "const": 100 },
+        "default": { "type": "integer", "minimum": 0, "maximum": 100 }
+      }
+    },
+    "evidenceClasses": {
+      "type": "array",
+      "minItems": 5,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "label", "description"],
+        "properties": {
+          "id": { "$ref": "#/$defs/evidenceClass" },
+          "label": { "$ref": "#/$defs/text" },
+          "description": { "$ref": "#/$defs/text" }
+        }
+      }
+    },
+    "fleetCohorts": { "type": "array", "items": { "$ref": "#/$defs/fleetCohort" } },
+    "evidence": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/evidence" } },
+    "conclusions": { "type": "array", "items": { "$ref": "#/$defs/conclusion" } },
+    "creativeRubric": { "$ref": "#/$defs/creativeRubric" },
+    "workClasses": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/workClass" } }
+  },
+  "$defs": {
+    "id": { "type": "string", "pattern": "^[a-z0-9][a-z0-9.-]+$" },
+    "text": { "type": "string", "minLength": 1 },
+    "effort": { "enum": ["minimal", "low", "medium", "high", "xHigh", "ultra", "max"] },
+    "evidenceClass": { "enum": ["M", "V", "L", "P", "F"] },
+    "confidence": { "enum": ["low", "medium", "high"] },
+    "workClassId": { "enum": ["mechanical", "feature-logic", "ui-visual", "hard", "review-aspect", "review-decision", "research", "summary", "orchestrator-chat", "creative"] },
+    "fleetCohort": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "evidenceClass", "windowStart", "windowEnd", "population", "priceBasis", "caveats", "rows"],
+      "properties": {
+        "id": { "$ref": "#/$defs/id" },
+        "evidenceClass": { "const": "F" },
+        "windowStart": { "type": "string", "format": "date" },
+        "windowEnd": { "type": "string", "format": "date" },
+        "population": { "$ref": "#/$defs/text" },
+        "pureCostShareThreshold": { "type": "number", "exclusiveMinimum": 0, "maximum": 1 },
+        "priceBasis": { "$ref": "#/$defs/text" },
+        "retryTaxShareOfSpend": { "type": "number", "minimum": 0, "maximum": 1 },
+        "totalListSpendUsd": { "type": "number", "minimum": 0 },
+        "codingShareOfSpend": { "type": "number", "minimum": 0, "maximum": 1 },
+        "caveats": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/text" } },
+        "rows": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["id", "modelId", "effort", "cards", "accepted", "medianListUsdPerAcceptedCard"],
+            "properties": {
+              "id": { "$ref": "#/$defs/id" },
+              "modelId": { "$ref": "#/$defs/text" },
+              "effort": { "$ref": "#/$defs/effort" },
+              "cards": { "type": "integer", "minimum": 1, "description": "Case count; required for fleet evidence." },
+              "accepted": { "type": "integer", "minimum": 0 },
+              "firstReviewPassed": { "type": "integer", "minimum": 0 },
+              "firstReviewed": { "type": "integer", "minimum": 0 },
+              "medianListUsdPerAcceptedCard": { "type": "number", "exclusiveMinimum": 0 },
+              "medianTokensPerAcceptedCard": { "type": "integer", "minimum": 0 }
+            }
+          }
+        },
+        "cacheReadObservations": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["id", "modelId", "effort", "note"],
+            "properties": {
+              "id": { "$ref": "#/$defs/id" },
+              "modelId": { "$ref": "#/$defs/text" },
+              "effort": { "$ref": "#/$defs/effort" },
+              "cachedReadTokens": { "type": "integer", "minimum": 0 },
+              "cacheReadShareOfListCost": { "type": "number", "minimum": 0, "maximum": 1 },
+              "note": { "$ref": "#/$defs/text" }
+            }
+          }
+        }
+      }
+    },
+    "evidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "evidenceClass", "scope", "title", "note"],
+      "properties": {
+        "id": { "$ref": "#/$defs/id" },
+        "evidenceClass": { "$ref": "#/$defs/evidenceClass" },
+        "scope": { "enum": ["fleet", "coding", "reasoningShape", "credits", "vendor", "creative"] },
+        "title": { "$ref": "#/$defs/text" },
+        "benchmarkResultIds": { "type": "array", "uniqueItems": true, "items": { "$ref": "#/$defs/id" } },
+        "fleetRowIds": { "type": "array", "uniqueItems": true, "items": { "$ref": "#/$defs/id" } },
+        "subscriptionObservationIds": { "type": "array", "uniqueItems": true, "items": { "$ref": "#/$defs/id" } },
+        "sourceUrls": { "type": "array", "uniqueItems": true, "items": { "type": "string", "format": "uri" } },
+        "retrievedAt": { "type": "string", "format": "date" },
+        "note": { "$ref": "#/$defs/text" }
+      }
+    },
+    "conclusion": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "statement", "appliesTo", "provisionalFor", "doesNotApplyTo", "evidenceIds"],
+      "properties": {
+        "id": { "$ref": "#/$defs/id" },
+        "statement": { "$ref": "#/$defs/text" },
+        "appliesTo": { "type": "array", "uniqueItems": true, "items": { "$ref": "#/$defs/workClassId" } },
+        "provisionalFor": { "type": "array", "uniqueItems": true, "items": { "$ref": "#/$defs/workClassId" } },
+        "doesNotApplyTo": { "type": "array", "uniqueItems": true, "items": { "$ref": "#/$defs/workClassId" } },
+        "evidenceIds": { "type": "array", "minItems": 1, "uniqueItems": true, "items": { "$ref": "#/$defs/id" } }
+      }
+    },
+    "dimensionStatus": { "enum": ["measured", "partial", "excluded", "none"] },
+    "creativeRubric": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["dimensions", "benchmarks"],
+      "properties": {
+        "dimensions": {
+          "type": "array",
+          "minItems": 4,
+          "maxItems": 4,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["id", "label", "question", "gameExample"],
+            "properties": {
+              "id": { "enum": ["originality", "design", "gameFeel", "technicalExecution"] },
+              "label": { "$ref": "#/$defs/text" },
+              "question": { "$ref": "#/$defs/text" },
+              "gameExample": { "$ref": "#/$defs/text" }
+            }
+          }
+        },
+        "benchmarks": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["benchmarkTypeId", "method", "judged", "coverage", "dimensions", "excludesBrokenBuildsBeforeVote", "publishesNonRunningShare", "publishesCost", "notes", "gaps"],
+            "properties": {
+              "benchmarkTypeId": { "$ref": "#/$defs/id" },
+              "method": { "enum": ["humanPreference", "modelJudge", "automatedCheck"] },
+              "judged": { "$ref": "#/$defs/text" },
+              "coverage": { "$ref": "#/$defs/text" },
+              "dimensions": { "$ref": "#/$defs/benchmarkDimensions" },
+              "excludesBrokenBuildsBeforeVote": { "type": ["boolean", "null"], "description": "null: the publisher states no rule." },
+              "publishesNonRunningShare": { "type": "boolean" },
+              "publishesCost": { "enum": ["none", "tokensPerTask", "costPerGeneration", "costPerTask"] },
+              "notes": { "$ref": "#/$defs/text" },
+              "gaps": { "type": "array", "items": { "$ref": "#/$defs/text" } }
+            }
+          }
+        }
+      }
+    },
+    "benchmarkDimensions": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["originality", "design", "gameFeel", "technicalExecution"],
+      "properties": {
+        "originality": { "$ref": "#/$defs/dimensionStatus" },
+        "design": { "$ref": "#/$defs/dimensionStatus" },
+        "gameFeel": { "$ref": "#/$defs/dimensionStatus" },
+        "technicalExecution": { "$ref": "#/$defs/dimensionStatus" }
+      }
+    },
+    "rungDimension": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "text", "evidenceIds"],
+      "properties": {
+        "status": { "enum": ["evidence", "partial", "none"] },
+        "text": { "$ref": "#/$defs/text" },
+        "evidenceIds": { "type": "array", "uniqueItems": true, "items": { "$ref": "#/$defs/id" } }
+      }
+    },
+    "ratioRef": {
+      "type": "object",
+      "additionalProperties": false,
+      "minProperties": 1,
+      "maxProperties": 2,
+      "properties": {
+        "benchmarkRatio": { "type": "array", "minItems": 2, "maxItems": 2, "items": { "$ref": "#/$defs/id" } },
+        "fleetRatio": { "type": "array", "minItems": 2, "maxItems": 2, "items": { "$ref": "#/$defs/id" } },
+        "reprice": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["fromModelId", "toModelId"],
+          "properties": {
+            "fromModelId": { "$ref": "#/$defs/text" },
+            "toModelId": { "$ref": "#/$defs/text" },
+            "cacheReadShare": { "type": "number", "minimum": 0, "maximum": 1, "description": "Assumed share of list-price cost from cache reads." },
+            "cacheReadObservationId": { "$ref": "#/$defs/id", "description": "Measured share from a fleet cache-read observation." }
+          }
+        },
+        "constant": { "type": "number", "exclusiveMinimum": 0 },
+        "reason": { "$ref": "#/$defs/text" }
+      }
+    },
+    "costFactor": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["low", "high", "note"],
+      "properties": {
+        "low": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/ratioRef" } },
+        "high": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/ratioRef" } },
+        "note": { "$ref": "#/$defs/text" }
+      }
+    },
+    "expectedCost": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["anchor", "factors"],
+      "properties": {
+        "anchor": {
+          "type": "object",
+          "additionalProperties": false,
+          "minProperties": 1,
+          "maxProperties": 1,
+          "properties": {
+            "fleetRowId": { "$ref": "#/$defs/id" },
+            "benchmarkResultId": { "$ref": "#/$defs/id" }
+          }
+        },
+        "factors": { "type": "array", "items": { "$ref": "#/$defs/costFactor" } }
+      }
+    },
+    "rung": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "modelId", "effort", "confidence", "evidenceIds", "expectedCost", "measuredQuotaWeight"],
+      "properties": {
+        "id": { "$ref": "#/$defs/id" },
+        "modelId": { "$ref": "#/$defs/text" },
+        "effort": { "$ref": "#/$defs/effort" },
+        "fromPosition": { "type": "integer", "minimum": 0, "maximum": 100, "description": "Start of the slider band; omitted only for escalation-only rungs." },
+        "escalationOnly": { "type": "boolean" },
+        "restriction": { "$ref": "#/$defs/text" },
+        "confidence": { "$ref": "#/$defs/confidence" },
+        "evidenceIds": { "type": "array", "minItems": 1, "uniqueItems": true, "items": { "$ref": "#/$defs/id" } },
+        "expectedCost": { "oneOf": [{ "$ref": "#/$defs/expectedCost" }, { "type": "null" }] },
+        "costUnknownReason": { "$ref": "#/$defs/text" },
+        "measuredQuotaWeight": {
+          "description": "Slot for a measured Claude weekly-limit weight (quota percentage points per accepted card) reported by Agent Studio; null until measured.",
+          "oneOf": [
+            { "type": "null" },
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["percentagePointsPerAcceptedCard", "windowStart", "windowEnd", "caseCount", "planId"],
+              "properties": {
+                "percentagePointsPerAcceptedCard": { "type": "number", "exclusiveMinimum": 0 },
+                "windowStart": { "type": "string", "format": "date" },
+                "windowEnd": { "type": "string", "format": "date" },
+                "caseCount": { "type": "integer", "minimum": 1 },
+                "planId": { "$ref": "#/$defs/text" }
+              }
+            }
+          ]
+        },
+        "dimensions": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["originality", "design", "gameFeel", "technicalExecution"],
+          "properties": {
+            "originality": { "$ref": "#/$defs/rungDimension" },
+            "design": { "$ref": "#/$defs/rungDimension" },
+            "gameFeel": { "$ref": "#/$defs/rungDimension" },
+            "technicalExecution": { "$ref": "#/$defs/rungDimension" }
+          }
+        },
+        "note": { "$ref": "#/$defs/text" }
+      }
+    },
+    "candidate": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["modelId", "effort", "evidenceIds", "reason"],
+      "properties": {
+        "modelId": { "$ref": "#/$defs/text" },
+        "effort": { "$ref": "#/$defs/effort" },
+        "evidenceIds": { "type": "array", "uniqueItems": true, "items": { "$ref": "#/$defs/id" } },
+        "reason": { "$ref": "#/$defs/text" }
+      }
+    },
+    "ladder": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["rungs", "candidates"],
+      "properties": {
+        "rungs": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/rung" } },
+        "candidates": { "type": "array", "items": { "$ref": "#/$defs/candidate" } }
+      }
+    },
+    "workClass": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "letter", "label", "description", "evidenceBasis", "allowLightTier", "confidence", "floors", "evidenceGaps", "ladders"],
+      "properties": {
+        "id": { "$ref": "#/$defs/workClassId" },
+        "letter": { "type": "string", "pattern": "^[a-i][0-9]?$" },
+        "label": { "$ref": "#/$defs/text" },
+        "description": { "$ref": "#/$defs/text" },
+        "evidenceBasis": { "enum": ["coding", "uiVisual", "creative", "review", "textAgentic"] },
+        "allowLightTier": { "type": "boolean" },
+        "confidence": { "$ref": "#/$defs/confidence" },
+        "floors": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["cli", "condition", "rungId", "reason"],
+            "properties": {
+              "cli": { "enum": ["claude", "codex"] },
+              "condition": { "type": ["string", "null"], "pattern": "^[a-z][a-z-]+$", "description": "null: unconditional floor; otherwise applies only when the caller passes this condition." },
+              "rungId": { "$ref": "#/$defs/id" },
+              "reason": { "$ref": "#/$defs/text" }
+            }
+          }
+        },
+        "evidenceGaps": { "type": "array", "items": { "$ref": "#/$defs/text" } },
+        "ladders": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["claude", "codex"],
+          "properties": {
+            "claude": { "$ref": "#/$defs/ladder" },
+            "codex": { "$ref": "#/$defs/ladder" }
+          }
+        }
+      }
+    }
+  }
+}

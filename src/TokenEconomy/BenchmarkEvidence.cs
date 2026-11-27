@@ -22,6 +22,8 @@ public enum BenchmarkCapabilityClass
     Extraction,
     KnowledgeWork,
     Vision,
+    /// <summary>Judged visual, interactive or game builds (human-preference arenas); never coding routing quality.</summary>
+    CreativeBuild,
 }
 
 [JsonConverter(typeof(JsonStringEnumConverter<BenchmarkScoreDirection>))]
@@ -116,7 +118,10 @@ public sealed record BenchmarkEvidenceContext
 /// <summary>One append-only, sourced model/effort measurement.</summary>
 public sealed record BenchmarkResult
 {
-    /// <summary>M: pulled third-party measurement; V: vendor; L: list-price derivation; P: unverified press.</summary>
+    /// <summary>
+    /// M: pulled third-party measurement; V: vendor; L: list-price derivation; P: unverified press;
+    /// F: measured in our fleet (requires an own-run context with a case count). See <see cref="EvidenceClasses"/>.
+    /// </summary>
     public string? EvidenceClass { get; init; }
     /// <summary>Local routing maturity, independent of the external publisher's measurement.</summary>
     public PolicyEvidenceStatus EvidenceStatus { get; init; } = PolicyEvidenceStatus.Unknown;
@@ -187,6 +192,8 @@ public sealed class BenchmarkEvidenceCatalog
 {
     private const string TypesResource = "TokenEconomy.catalog.benchmark-types.json";
     private const string ResultsResource = "TokenEconomy.catalog.benchmark-results.json";
+    private const string CreativeTypesResource = "TokenEconomy.catalog.creative-benchmark-types.json";
+    private const string CreativeResultsResource = "TokenEconomy.catalog.creative-benchmark-results.json";
     private readonly IReadOnlyList<BenchmarkType> _types;
     private readonly IReadOnlyList<BenchmarkResult> _results;
     private readonly Dictionary<string, BenchmarkType> _typesById;
@@ -243,20 +250,30 @@ public sealed class BenchmarkEvidenceCatalog
     public int SchemaVersion { get; }
     public IReadOnlyList<BenchmarkType> Types => _types;
     public IReadOnlyList<BenchmarkResult> Results => _results;
-    public static BenchmarkEvidenceCatalog Default { get; } = LoadDefault();
+    public static BenchmarkEvidenceCatalog Default { get; } = Load(TypesResource, ResultsResource);
+
+    /// <summary>
+    /// Creative-build evidence (design, UI aesthetics, interactive 3D and games) in the same schemas. Kept in
+    /// separate catalogue files so coding projections never mix it in; see docs/creative-benchmarks-2026-11-27.md.
+    /// </summary>
+    public static BenchmarkEvidenceCatalog Creative { get; } = Load(CreativeTypesResource, CreativeResultsResource);
+
+    /// <summary>Find a result id; null when absent.</summary>
+    public BenchmarkResult? FindResult(string? id) =>
+        string.IsNullOrWhiteSpace(id) ? null : _results.FirstOrDefault(result => result.Id == id);
     public BenchmarkType? FindType(string? id) =>
         string.IsNullOrWhiteSpace(id) ? null : _typesById.GetValueOrDefault(id);
     public IReadOnlyList<BenchmarkResult> ResultsFor(string benchmarkTypeId) =>
         _results.Where(result => result.BenchmarkTypeId == benchmarkTypeId).ToArray();
 
-    private static BenchmarkEvidenceCatalog LoadDefault()
+    private static BenchmarkEvidenceCatalog Load(string typesResource, string resultsResource)
     {
         var options = new JsonSerializerOptions(JsonSerializerDefaults.Web)
         {
             Converters = { new JsonStringEnumConverter(JsonNamingPolicy.CamelCase) },
         };
-        using var typesStream = Resource(TypesResource);
-        using var resultsStream = Resource(ResultsResource);
+        using var typesStream = Resource(typesResource);
+        using var resultsStream = Resource(resultsResource);
         var types = JsonSerializer.Deserialize<BenchmarkTypeDocument>(typesStream, options)
             ?? throw new InvalidOperationException("Embedded benchmark type catalog contains no document.");
         var results = JsonSerializer.Deserialize<BenchmarkResultDocument>(resultsStream, options)
@@ -319,8 +336,11 @@ public sealed class BenchmarkEvidenceCatalog
     private static void Validate(BenchmarkResult result)
     {
         ArgumentNullException.ThrowIfNull(result);
-        if (result.EvidenceClass is not (null or "M" or "V" or "L" or "P"))
+        if (result.EvidenceClass is not null && !EvidenceClasses.IsKnown(result.EvidenceClass))
             throw new ArgumentException("Unknown benchmark evidence class.", nameof(result));
+        if (result.EvidenceClass == EvidenceClasses.Fleet
+            && (result.Context is not { SourceKind: "ownRun", TaskCount: not null } || result.Confidence != BenchmarkConfidence.OwnRun))
+            throw new ArgumentException("Fleet evidence requires an own-run context with a case count.", nameof(result));
         Require(result.Id, nameof(result.Id));
         Require(result.BenchmarkTypeId, nameof(result.BenchmarkTypeId));
         Require(result.ModelId.Value, nameof(result.ModelId));

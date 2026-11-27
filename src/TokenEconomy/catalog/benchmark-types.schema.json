@@ -28,7 +28,7 @@
         "version": { "type": "string", "minLength": 1 },
         "name": { "type": "string", "minLength": 1 },
         "publisher": { "type": "string", "minLength": 1 },
-        "capabilityClass": { "enum": ["codingAgent", "reasoning", "instructionFollowing", "longContext", "controlledSetup", "codeReview", "computerUse", "security", "language", "extraction", "knowledgeWork", "vision"] },
+        "capabilityClass": { "enum": ["codingAgent", "reasoning", "instructionFollowing", "longContext", "controlledSetup", "codeReview", "computerUse", "security", "language", "extraction", "knowledgeWork", "vision", "creativeBuild"] },
         "allowedUnpricedModelIds": {
           "type": "array",
           "uniqueItems": true,
